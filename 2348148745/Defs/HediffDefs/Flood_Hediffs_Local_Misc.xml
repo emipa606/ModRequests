@@ -1,0 +1,571 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<HediffDef Name="HiddenHediffBase" Abstract="True">
+		<!-- <defName>HiddenHediffBase</defName> -->
+		<!-- <label>HiddenHediffBase.label</label> -->
+		<!-- <description>hidden desc</description> -->
+
+		<initialSeverity>.001</initialSeverity>
+		<scenarioCanAdd>false</scenarioCanAdd>
+
+		<stages>
+			<li>
+				<label>minor</label>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	 <HediffDef ParentName="HiddenHediffBase">
+		<defName>DeathSpawnInfestForms</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+
+		<description>Something seems to be wrong here.</description>
+		<label>Extreme Pain</label>
+
+		<comps>
+			<li Class="MoharHediffs.HediffCompProperties_RandySpawnUponDeath">
+				<settings>
+					<things>
+						<li>
+							<pawnKindToSpawn>Infested_Form</pawnKindToSpawn>
+							<biologicalAgeRange>1</biologicalAgeRange>
+							<chronologicalAgeRange>1</chronologicalAgeRange>
+							<faction>
+								<li>
+                                    <inheritedFaction>true</inheritedFaction>
+									<weight>2</weight>
+								</li>
+							</faction>
+							<weight>2</weight>
+						</li>
+					</things>
+
+					<defaultSettings>
+						<stack>
+							<spawnCount>4~4</spawnCount>
+						</stack>
+						<filth>
+							<filthDef>Filth_Slime</filthDef>
+						</filth>
+					</defaultSettings>
+				</settings>
+
+				<iterationRange>1</iterationRange>
+				<excludeAlreadyPickedOptions>true</excludeAlreadyPickedOptions>
+
+				<redressParent>
+					<destroyCorpse>true</destroyCorpse>
+					<strip>false</strip>
+				</redressParent>
+
+				<spawnMaxAdjacent>1</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+
+				<debug>false</debug>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	 <HediffDef ParentName="HiddenHediffBase">
+		<defName>DeathSpawnCombatForms</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+
+		<description>Something seems to be wrong here.</description>
+		<label>Extreme Pain</label>
+
+		<comps>
+			<li Class="MoharHediffs.HediffCompProperties_RandySpawnUponDeath">
+				<settings>
+					<things>
+						<li>
+							<pawnKindToSpawn>CombatformG</pawnKindToSpawn>
+							<biologicalAgeRange>1</biologicalAgeRange>
+							<chronologicalAgeRange>1</chronologicalAgeRange>
+							<faction>
+								<li>
+									<forcedFaction>Flood</forcedFaction>
+									<weight>2</weight>
+								</li>
+							</faction>
+							<weight>2</weight>
+						</li>
+					</things>
+
+					<defaultSettings>
+						<stack>
+							<spawnCount>1~1</spawnCount>
+						</stack>
+						<filth>
+							<filthDef>Filth_Slime</filthDef>
+						</filth>
+					</defaultSettings>
+				</settings>
+
+				<iterationRange>1</iterationRange>
+				<excludeAlreadyPickedOptions>true</excludeAlreadyPickedOptions>
+
+				<redressParent>
+					<destroyCorpse>true</destroyCorpse>
+					<strip>true</strip>
+				</redressParent>
+
+				<spawnMaxAdjacent>1</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+
+				<debug>false</debug>
+			</li>
+		</comps>
+	</HediffDef>
+	
+     <HediffDef ParentName="ChronicDiseaseBase">
+    <defName>FloodInfection</defName>
+    <label>Flood Infection</label>
+    <labelNoun>infection</labelNoun>
+    <description>Basic Flood Infection</description>
+    <makesSickThought>false</makesSickThought>
+    <initialSeverity>0.01</initialSeverity>
+  <lethalSeverity>1</lethalSeverity>
+    <tendable>false</tendable>
+  <defaultLabelColor>(0.2, 1.0, 0.2)</defaultLabelColor>
+  <comps>
+     <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>1.2</severityPerDayNotImmune>
+      </li>
+    </comps>
+    <stages>
+      <li>
+    <minSeverity>0.01</minSeverity>
+        <label>Innate</label>
+      </li>
+      <li>
+        <minSeverity>0.80</minSeverity>
+        <label>Innate</label>
+      </li>    
+
+    </stages>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>FloodInfectionCarrier</defName>
+    <label>Flood Infection</label>
+    <description>Carrier Flood Infection</description>
+    <hediffClass>HediffWithComps</hediffClass>
+	<defaultLabelColor>(0.2, 1.0, 0.2)</defaultLabelColor>
+    <initialSeverity>1</initialSeverity>
+	 <stages>
+      <li>
+        <label>Innate</label>
+        <minSeverity>0.8</minSeverity>
+        <partEfficiencyOffset>-0.2</partEfficiencyOffset>
+		<hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>DeathSpawnInfestForms</hediff>
+            <allowOnLodgers>false</allowOnLodgers>
+            <allowOnQuestRewardPawns>false</allowOnQuestRewardPawns>
+            <mtbDays>0.001</mtbDays>
+            <partsToAffect>
+              <li>Torso</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="ChronicDiseaseBase">
+    <defName>FloodInfectionCombat</defName>
+    <label>Flood Infection</label>
+    <labelNoun>a moving growth</labelNoun>
+    <description>Combat Flood Infection</description>
+    <makesSickThought>true</makesSickThought>
+    <lethalSeverity>1</lethalSeverity>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_Discoverable">
+        <sendLetterWhenDiscovered>false</sendLetterWhenDiscovered>
+      </li>
+      <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>200</severityPerDayNotImmune>
+      </li>
+		</comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <painOffset>0.05</painOffset>
+		<hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>DeathSpawnCombatForms</hediff>
+            <allowOnLodgers>false</allowOnLodgers>
+            <allowOnQuestRewardPawns>false</allowOnQuestRewardPawns>
+            <mtbDays>0.000000001</mtbDays>
+            <partsToAffect>
+              <li>Torso</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li> 
+      <li>
+        <minSeverity>0.80</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>1</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>    
+    </stages>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>FloodBuildup</defName>
+    <label>flood buildup</label>
+    <description>Poison in the bloodstream.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+    <lethalSeverity>1</lethalSeverity>
+    <makesSickThought>true</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+      <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>1</severityPerDayNotImmune>
+      </li>
+    </comps>
+	 <stages>
+      <li>
+        <label>extreme</label>
+        <minSeverity>0.01</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.01</setMax>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>DeathSpawnCombatForms</hediff>
+            <mtbDays>0.000001</mtbDays>
+            <partsToAffect>
+              <li>Torso</li>
+            </partsToAffect>
+			</li>
+        </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+	<HediffDef ParentName="HiddenHediffBase">
+		<defName>Pod_creationbase</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+
+		<description>Pure forms turning into pods</description>
+		<label>Hediff_DeathSpawner_ScarabOrChunk</label>
+
+		<comps>
+			<li Class="MoharHediffs.HediffCompProperties_RandySpawnUponDeath">
+				<settings>
+					<things>
+						<li>
+							<thingToSpawn>Floodhive</thingToSpawn>
+							<weight>3</weight>
+						</li>
+						<li>
+							<faction>
+								<li>
+									<forcedFaction>Flood</forcedFaction>
+									<weight>1</weight>
+								</li>
+							</faction>
+
+							<weight>2</weight>
+						</li>
+						<li>
+							<thingToSpawn>Floodlargehive</thingToSpawn>
+							<weight>0.3</weight>
+						</li>
+						<li>
+							<faction>
+								<li>
+									<forcedFaction>Flood</forcedFaction>
+									<weight>1</weight>
+								</li>
+							</faction>
+
+							<weight>2</weight>
+						</li>
+					</things>
+
+					<defaultSettings>
+						<stack>
+							<spawnCount>1~1</spawnCount>
+						</stack>
+						<filth>
+							<filthDef>Filth_Slime</filthDef>
+						</filth>
+					</defaultSettings>
+				</settings>
+
+				<iterationRange>2~2</iterationRange>
+				<excludeAlreadyPickedOptions>true</excludeAlreadyPickedOptions>
+
+				<redressParent>
+					<destroyCorpse>true</destroyCorpse>
+					<strip>false</strip>
+				</redressParent>
+
+				<spawnMaxAdjacent>3</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+
+				<debug>true</debug>
+			</li>
+		</comps>
+	</HediffDef>
+	
+		<HediffDef ParentName="HiddenHediffBase">
+			<defName>Hediff_DUDOD</defName>
+			<hediffClass>HediffWithComps</hediffClass>
+		
+			<description>will destroy body, weapon and inventory upon death or downed</description>
+			<label>MoHar_DUDOD</label>
+		
+			<comps>
+				<li Class="DUDOD.HediffCompProperties_DestroyUponDeathOrDowned">
+				<debug>true</debug>
+				</li>
+			</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="ChronicDiseaseBase">
+    <defName>FloodInfectionPod</defName>
+    <label>Flood Infection</label>
+    <labelNoun>a moving growth</labelNoun>
+    <description>Combat Flood Infection</description>
+    <makesSickThought>true</makesSickThought>
+    <lethalSeverity>1</lethalSeverity>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_Discoverable">
+        <sendLetterWhenDiscovered>false</sendLetterWhenDiscovered>
+      </li>
+      <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>100</severityPerDayNotImmune>
+      </li>
+		</comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <painOffset>0</painOffset>
+      </li> 
+      <li>
+        <minSeverity>0.90</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>1</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>    
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="HiddenHediffBase">
+		<defName>Ranged_form</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+
+		<description>Stalkers turning into ranged forms</description>
+		<label>Hediff_DeathSpawner_ScarabOrChunk</label>
+
+		<comps>
+			<li Class="MoharHediffs.HediffCompProperties_RandySpawnUponDeath">
+				<settings>
+					<things>
+						<li>
+							<thingToSpawn>Rangedform</thingToSpawn>
+							<weight>3</weight>
+						</li>
+						<li>
+							<faction>
+								<li>
+									<forcedFaction>Flood</forcedFaction>
+									<weight>1</weight>
+								</li>
+							</faction>
+
+							<weight>2</weight>
+						</li>
+					</things>
+
+					<defaultSettings>
+						<stack>
+							<spawnCount>0~1</spawnCount>
+						</stack>
+						<filth>
+							<filthDef>Filth_Slime</filthDef>
+						</filth>
+					</defaultSettings>
+				</settings>
+
+				<iterationRange>2~2</iterationRange>
+				<excludeAlreadyPickedOptions>true</excludeAlreadyPickedOptions>
+
+				<redressParent>
+					<destroyCorpse>true</destroyCorpse>
+					<strip>false</strip>
+				</redressParent>
+
+				<spawnMaxAdjacent>3</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+
+				<debug>true</debug>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef ParentName="ChronicDiseaseBase">
+    <defName>Ranged_forminfection</defName>
+    <label>Flood Infection</label>
+    <labelNoun>a moving growth</labelNoun>
+    <description>Combat Flood Infection</description>
+    <makesSickThought>true</makesSickThought>
+    <lethalSeverity>1</lethalSeverity>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_Discoverable">
+        <sendLetterWhenDiscovered>false</sendLetterWhenDiscovered>
+      </li>
+      <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>70</severityPerDayNotImmune>
+      </li>
+		</comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <painOffset>0</painOffset>
+      </li> 
+      <li>
+        <minSeverity>0.90</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>1</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>    
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="ChronicDiseaseBase">
+    <defName>Forerunnerspawning</defName>
+    <label>Spawner</label>
+    <labelNoun>a moving growth</labelNoun>
+    <description>Combat Flood Infection</description>
+    <makesSickThought>true</makesSickThought>
+    <lethalSeverity>1</lethalSeverity>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_Discoverable">
+        <sendLetterWhenDiscovered>false</sendLetterWhenDiscovered>
+      </li>
+      <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>700</severityPerDayNotImmune>
+      </li>
+		</comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <painOffset>0</painOffset>
+      </li> 
+      <li>
+        <minSeverity>0.95</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>1</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>    
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="HiddenHediffBase">
+		<defName>Forerunner_Spawner</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+
+		<description>dropping a sentinel spawner</description>
+		<label>Hediff_DeathSpawner_ScarabOrChunk</label>
+
+		<comps>
+			<li Class="MoharHediffs.HediffCompProperties_RandySpawnUponDeath">
+				<settings>
+					<things>
+						<li>
+							<thingToSpawn>Sentinel_Factory</thingToSpawn>
+							<weight>3</weight>
+						</li>
+						<li>
+							<faction>
+								<li>
+									<forcedFaction>Forerunner</forcedFaction>
+									<weight>1</weight>
+								</li>
+							</faction>
+
+							<weight>2</weight>
+						</li>
+					</things>
+
+					<defaultSettings>
+						<stack>
+							<spawnCount>1~1</spawnCount>
+						</stack>
+						<filth>
+							
+						</filth>
+					</defaultSettings>
+				</settings>
+
+				<iterationRange>2~2</iterationRange>
+				<excludeAlreadyPickedOptions>true</excludeAlreadyPickedOptions>
+
+				<redressParent>
+					<destroyCorpse>true</destroyCorpse>
+					<strip>false</strip>
+				</redressParent>
+
+				<spawnMaxAdjacent>3</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+
+				<debug>true</debug>
+			</li>
+		</comps>
+	</HediffDef>
+</Defs>

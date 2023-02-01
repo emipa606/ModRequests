@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BasePawn" Name="BaseFlood" Abstract="True">
+    <statBases>
+      <ToxicSensitivity>0</ToxicSensitivity>
+      <ComfyTemperatureMax>60</ComfyTemperatureMax>
+    </statBases>
+    <receivesSignals>true</receivesSignals>
+    <race>
+      <bloodDef>FilthFlood</bloodDef>
+      <meatColor>(160,250,139)</meatColor>
+      <meatMarketValue>0.5</meatMarketValue>
+      <foodType>None</foodType>
+	  <hasGenders>false</hasGenders>
+	  <leatherDef>Flood_spore</leatherDef>
+    </race>
+  </ThingDef>
+  
+    <PawnKindDef Name="BaseFloodKind" Abstract="True">
+    <defaultFactionType>Flood</defaultFactionType>
+    <aiAvoidCover>true</aiAvoidCover>
+    <destroyGearOnDrop>true</destroyGearOnDrop>
+  </PawnKindDef>
+
+  <!-- ====================================================== -->
+
+  <ThingDef ParentName="BaseFlood">
+    <defName>InfestForm</defName>
+    <label>Infection Form</label>
+    <description>A bulb like tentacled mass, it seeks out flesh to transform into flood.</description>
+    <statBases>
+      <MoveSpeed>5.5</MoveSpeed>
+      <ArmorRating_Blunt>0.0000001</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.0000001</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>0</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>FloodMouth</label>
+        <capacities>
+		  <li>FloodBite</li>
+        </capacities>
+        <power>1</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+		<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <race>
+	  <intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>Flood</thinkTreeMain>
+      <body>Flood</body>
+      <baseBodySize>0.2</baseBodySize>
+      <baseHealthScale>0.00001</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>0.001</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.01</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+        <li>FloodStandard</li>
+		<li>Flood_Infection_form</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Infested_Form</defName>
+    <label>Infection Form</label>
+    <race>InfestForm</race>
+    <combatPower>20</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/inf_form</texPath>
+          <drawSize>0.8</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Infested_FormA</defName>
+    <label>Infection Form</label>
+    <race>InfestForm</race>
+    <combatPower>30</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/inf_form</texPath>
+          <drawSize>0.9</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Infested_FormB</defName>
+    <label>Infection Form</label>
+    <race>InfestForm</race>
+    <combatPower>15</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/inf_form</texPath>
+          <drawSize>0.7</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+<ThingDef ParentName="BaseFlood">
+    <defName>Combatform</defName>
+    <label>Combat Form</label>
+    <description>A combat form of the flood, this was once a person.</description>
+    <statBases>
+      <MoveSpeed>3.75</MoveSpeed>
+      <ArmorRating_Blunt>0.18</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.72</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>2</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>mandibles</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.1</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>FloodCombat</thinkTreeMain>
+      <body>BeetleLike</body>
+      <baseBodySize>1.0</baseBodySize>
+      <baseHealthScale>0.4</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>0.01</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.01</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+        <li>FloodStandard</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>CombatformG</defName>
+    <label>Combat Form</label>
+    <race>Combatform</race>
+    <combatPower>100</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/Naked_Male</texPath>
+          <drawSize>1.5</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+	<weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>MeleeWeaponflood</li>
+	  <li>Gun</li>
+    </weaponTags>
+  </PawnKindDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Combatform</defName>
+    <label>Combat Form</label>
+    <race>Combatform</race>
+    <combatPower>50</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/Naked_Male</texPath>
+          <drawSize>1.5</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+	<weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>MeleeWeaponflood</li>
+    </weaponTags>
+  </PawnKindDef>
+  
+  <ThingDef ParentName="BaseFlood">
+    <defName>Houndform</defName>
+    <label>Hound Form</label>
+    <description>An animal turned into a combat form of the flood</description>
+    <statBases>
+      <MoveSpeed>4.5</MoveSpeed>
+      <ArmorRating_Blunt>0.18</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.72</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>4</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>mandibles</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.1</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>FloodCombat</thinkTreeMain>
+      <body>BeetleLike</body>
+      <baseBodySize>1.0</baseBodySize>
+      <baseHealthScale>0.4</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>0.01</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.01</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+        <li>Flood_Infection_form</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Houndform</defName>
+    <label>Hound Form</label>
+    <race>Houndform</race>
+    <combatPower>50</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/flood_dog</texPath>
+          <drawSize>1.5</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+   <ThingDef ParentName="BaseFlood">
+    <defName>Tankform</defName>
+    <label>Tank Form</label>
+    <description>A large form of flood biomass</description>
+    <statBases>
+      <MoveSpeed>2.5</MoveSpeed>
+      <ArmorRating_Blunt>0.8</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.72</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>10</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>mandibles</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>50</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>80</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.1</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>FloodCombat</thinkTreeMain>
+      <body>BeetleLike</body>
+      <baseBodySize>2.0</baseBodySize>
+      <baseHealthScale>3</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>0.01</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.01</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+        <li>FloodStandard</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Tankform</defName>
+    <label>Tank Form</label>
+    <race>Tankform</race>
+    <combatPower>50</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/Tank</texPath>
+          <drawSize>4</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+   <ThingDef ParentName="BaseFlood">
+    <defName>FloodCarrier</defName>
+    <label>Carrier</label>
+    <description>A bloated corpse filled with Flood infection forms.</description>
+    <statBases>
+      <MoveSpeed>1</MoveSpeed>
+      <ArmorRating_Blunt>0.000001</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.000001</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>5</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>mandibles</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.1</chanceFactor>
+      </li>
+    </tools>
+    <race>
+	  <intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>FloodCombat</thinkTreeMain>
+      <body>BeetleLike</body>
+      <baseBodySize>2</baseBodySize>
+      <baseHealthScale>0.000001</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>0.01</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.001</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+        <li>FloodCarrier</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>FloodCarrier</defName>
+    <label>Flood Carrier</label>
+    <race>FloodCarrier</race>
+    <combatPower>30</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/Carrier</texPath>
+          <drawSize>2</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+<ThingDef ParentName="BaseFlood">
+    <defName>Pureform</defName>
+    <label>Pure Form</label>
+    <description>The purest form of flood biomass, can create spawning pods.</description>
+    <statBases>
+      <MoveSpeed>1</MoveSpeed>
+      <ArmorRating_Blunt>0.0000001</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.0000001</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>0</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>FloodMouth</label>
+        <capacities>
+		  <li>FloodBite</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+		<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <race>
+	<intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>FloodCombat</thinkTreeMain>
+      <body>Flood</body>
+      <baseBodySize>1</baseBodySize>
+      <baseHealthScale>0.01</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>1</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.4</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+		<li>FloodStandard</li>
+        <li>Pod_creation</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+	  <wildBiomes>
+				<BorealForest>0.1</BorealForest>
+				<Tundra>0.1</Tundra>
+				<ColdBog>0.1</ColdBog>
+				<TemperateForest>0.1</TemperateForest>
+				<TemperateSwamp>0.1</TemperateSwamp>
+				<TropicalRainforest>0.1</TropicalRainforest>
+				<TropicalSwamp>0.1</TropicalSwamp>
+				<AridShrubland>0.1</AridShrubland>
+				<Desert>0.1</Desert>
+				<ExtremeDesert>0.1</ExtremeDesert>      
+				<IceSheet>0.1</IceSheet>
+				<SeaIce>0.1</SeaIce>
+
+	 </wildBiomes>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Pureform</defName>
+    <label>Pure Form</label>
+    <race>Pureform</race>
+    <combatPower>200</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/pure_form</texPath>
+          <drawSize>0.5</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+  <ThingDef ParentName="BaseFlood">
+    <defName>Stalkerform</defName>
+    <label>Stalker form</label>
+    <description>Agile pure forms that can change into other types of flood</description>
+    <statBases>
+      <MoveSpeed>8</MoveSpeed>
+      <ArmorRating_Blunt>0.0000001</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.0000001</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>0</LeatherAmount>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+    <tools>
+      <li>
+        <label>FloodMouth</label>
+        <capacities>
+		  <li>FloodBite</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+		<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+      </li>
+    </tools>
+    <race>
+	<intelligence>ToolUser</intelligence>
+	  <thinkTreeMain>FloodCombat</thinkTreeMain>
+      <body>Flood</body>
+      <baseBodySize>2</baseBodySize>
+      <baseHealthScale>0.001</baseHealthScale>
+      <meatLabel>Rotted meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>1</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0.4</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+	  <hediffGiverSets>
+		<li>FloodStandard</li>
+        <li>Ranged_form</li>
+      </hediffGiverSets>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+	  <wildBiomes>
+				<BorealForest>0.1</BorealForest>
+				<Tundra>0.1</Tundra>
+				<ColdBog>0.1</ColdBog>
+				<TemperateForest>0.1</TemperateForest>
+				<TemperateSwamp>0.1</TemperateSwamp>
+				<TropicalRainforest>0.1</TropicalRainforest>
+				<TropicalSwamp>0.1</TropicalSwamp>
+				<AridShrubland>0.1</AridShrubland>
+				<Desert>0.1</Desert>
+				<ExtremeDesert>0.1</ExtremeDesert>      
+				<IceSheet>0.1</IceSheet>
+				<SeaIce>0.1</SeaIce>
+
+	 </wildBiomes>
+    </race>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+  
+  <PawnKindDef ParentName="BaseFloodKind">
+    <defName>Stalkerform</defName>
+    <label>Stalker form</label>
+    <race>Stalkerform</race>
+    <combatPower>30</combatPower>
+    <canArriveManhunter>true</canArriveManhunter>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Pawn/Flood/Body/Stalker</texPath>
+          <drawSize>2</drawSize>
+          <color>(255,255,255)</color>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  <!-- ====================================================== -->
+
+
+
+
+</Defs>
