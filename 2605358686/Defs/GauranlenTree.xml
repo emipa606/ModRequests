@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <PreceptDef>
+    <defName>TreeConnectionExpanded</defName>
+    <label>tree connection ritual</label>
+    <description>A connector will connect with a Gauranlen tree. The connector will touch the Gauranlen tree and speak to it, forming a permanent link. Others gather in a circle to watch and add force to the ritual.</description>
+    <issue>Ritual</issue>
+    <preceptClass>Precept_Ritual</preceptClass>
+    <ritualPatternBase>TreeConnectionExpanded</ritualPatternBase>
+    <classic>true</classic>
+    <visible>false</visible>
+    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+    <useRepeatPenalty>false</useRepeatPenalty>
+    <selectionWeight>1.0</selectionWeight>
+    <capitalizeAsTitle>false</capitalizeAsTitle>
+    <mergeRitualGizmosFromAllIdeos>true</mergeRitualGizmosFromAllIdeos>
+  </PreceptDef>
+
+  <RitualPatternDef>
+    <defName>TreeConnectionExpanded</defName>
+    <iconPathOverride>UI/Icons/Rituals/TreeConnection</iconPathOverride>
+    <alwaysStartAnytime>true</alwaysStartAnytime>
+    <ritualObligationTargetFilter>GauranlenTreeExpanded</ritualObligationTargetFilter>
+    <ritualBehavior>TreeConnectionExpanded</ritualBehavior>
+    <ritualOutcomeEffect>ConnectToTreeExpanded</ritualOutcomeEffect>
+    <ritualOnlyForIdeoMembers>false</ritualOnlyForIdeoMembers>
+    <tags>
+      <li>TreeConnection</li>
+    </tags>
+  </RitualPatternDef>
+
+  <RitualBehaviorDef>
+    <defName>TreeConnectionExpanded</defName>
+    <durationTicks>2000</durationTicks>
+    <useVisualEffectsFromRoleIdIdeo>connector</useVisualEffectsFromRoleIdIdeo>
+    <roles>
+      <li Class="GauranlenTreeExpanded.RitualRoleColonistConnectableExpanded">
+        <id>connector</id>
+        <label>connector</label>
+        <maxCount>1</maxCount>
+        <required>True</required>
+        <substitutable>true</substitutable>
+        <requiredWorkType>PlantCutting</requiredWorkType>
+        <defaultForSelectedColonist>true</defaultForSelectedColonist>
+        <countsAsParticipant>False</countsAsParticipant>
+      </li>
+    </roles>
+    <spectatorsLabel>Spectators</spectatorsLabel>
+    <spectatorGerund>spectate</spectatorGerund>
+    <stages>
+      <li>
+        <defaultDuty>SpectateCircle</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>1</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>connector</roleId>
+            <dutyDef>SpeakOnCell</dutyDef>
+            <speakerInteraction>Speech_TreeConnection</speakerInteraction>
+            <customPositions>
+              <li Class="RitualPosition_BesideTree" />
+            </customPositions>
+          </li>
+        </roleBehaviors>
+      </li>
+    </stages>
+  </RitualBehaviorDef>
+
+  <RitualOutcomeEffectDef>
+    <defName>ConnectToTreeExpanded</defName>
+    <description>The connector will connect to the tree.</description>
+    <workerClass>GauranlenTreeExpanded.RitualOutcomeEffectWorker_ConnectToTreeExpanded</workerClass>
+    <extraPredictedOutcomeDescriptions>
+      <li>The connector will start with 25-45% connection strength, depending on ritual quality.</li>
+      <li>Every 2% increase in quality will grow a patch of Gauranlen moss around the tree, beautifying the area.</li>
+    </extraPredictedOutcomeDescriptions>
+    <warnOnLowQuality>false</warnOnLowQuality>
+    <comps>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1,  0.1)</li>
+            <li>(4,  0.4)</li>
+            <li>(7,  0.7)</li>
+            <li>(10, 1)</li>
+          </points>
+        </curve>
+      </li>
+    </comps>
+  </RitualOutcomeEffectDef>
+
+  <RitualObligationTargetFilterDef>
+    <defName>GauranlenTreeExpanded</defName>
+    <workerClass>GauranlenTreeExpanded.RitualObligationTargetWorker_UnfilledGauranlenTree</workerClass>
+  </RitualObligationTargetFilterDef>
+
+  <JobDef>
+    <defName>PruneGauranlenTreeExpanded</defName>
+    <driverClass>GauranlenTreeExpanded.JobDriver_PruneGauranlenTreeExpanded</driverClass>
+    <reportString>pruning TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+  <JobDef>
+    <defName>CreateAndEnterCocoonExpanded</defName>
+    <driverClass>GauranlenTreeExpanded.JobDriver_CreateAndEnterCocoonExpanded</driverClass>
+    <reportString>creating cocoon.</reportString>
+  </JobDef>
+
+  <JobDef>
+    <defName>CreateAndEnterHealingPodExpanded</defName>
+    <driverClass>GauranlenTreeExpanded.JobDriver_CreateAndEnterHealingPodExpanded</driverClass>
+    <reportString>creating healing pod.</reportString>
+  </JobDef>
+
+  <JobDef>
+    <defName>ReturnToGauranlenTreeExpanded</defName>
+    <driverClass>GauranlenTreeExpanded.JobDriver_ReturnToGauranlenTreeExpanded</driverClass>
+    <reportString>returning to TargetA.</reportString>
+  </JobDef>
+
+  <JobDef>
+    <defName>MergeIntoGaumakerPodExpanded</defName>
+    <driverClass>GauranlenTreeExpanded.JobDriver_MergeIntoGaumakerPodExpanded</driverClass>
+    <reportString>merging into TargetB.</reportString>
+  </JobDef>
+
+</Defs>

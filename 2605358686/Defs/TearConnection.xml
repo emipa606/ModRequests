@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <PreceptDef>
+    <defName>GauranlenTreeExpanded_TearConnection</defName>
+    <label>tree disconnection process</label>
+    <description>Connected will tear connection with a Gauranlen tree. The disconnector will touch the Gauranlen tree and speak to it, ripping a link between tree.</description>
+    <issue>Ritual</issue>
+    <iconPath>UI/Icons/Slavery</iconPath>
+    <preceptClass>Precept_Ritual</preceptClass>
+    <ritualPatternBase>GauranlenTreeExpanded_TearConnection</ritualPatternBase>
+    <classic>true</classic>
+    <visible>false</visible>
+    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+    <useRepeatPenalty>false</useRepeatPenalty>
+    <selectionWeight>1.0</selectionWeight>
+    <capitalizeAsTitle>false</capitalizeAsTitle>
+    <mergeRitualGizmosFromAllIdeos>true</mergeRitualGizmosFromAllIdeos>
+  </PreceptDef>
+
+  <RitualPatternDef>
+    <defName>GauranlenTreeExpanded_TearConnection</defName>
+    <iconPathOverride>UI/Icons/Slavery</iconPathOverride>
+    <alwaysStartAnytime>true</alwaysStartAnytime>
+    <ritualObligationTargetFilter>GauranlenTreeExpanded_TearConnection</ritualObligationTargetFilter>
+    <ritualBehavior>GauranlenTreeExpanded_TearConnection</ritualBehavior>
+    <ritualOutcomeEffect>GauranlenTreeExpanded_TearConnection</ritualOutcomeEffect>
+    <ritualOnlyForIdeoMembers>false</ritualOnlyForIdeoMembers>
+  </RitualPatternDef>
+
+  <RitualObligationTargetFilterDef>
+    <defName>GauranlenTreeExpanded_TearConnection</defName>
+    <workerClass>GauranlenTreeExpanded.RitualObligationTargetWorker_ConnectedGauranlenTree</workerClass>
+  </RitualObligationTargetFilterDef>
+
+  <RitualBehaviorDef>
+    <defName>GauranlenTreeExpanded_TearConnection</defName>
+    <durationTicks>2000</durationTicks>
+    <useVisualEffectsFromRoleIdIdeo>connector</useVisualEffectsFromRoleIdIdeo>
+    <roles>
+      <li Class="GauranlenTreeExpanded.RitualRoleTearConnection">
+        <id>disconnector</id>
+        <label>connected</label>
+        <maxCount>1</maxCount>
+        <required>True</required>
+        <substitutable>false</substitutable>
+        <defaultForSelectedColonist>true</defaultForSelectedColonist>
+        <countsAsParticipant>False</countsAsParticipant>
+      </li>
+    </roles>
+    <stages>
+      <li>
+        <defaultDuty>SpectateCircle</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>1</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>disconnector</roleId>
+            <dutyDef>SpeakOnCell</dutyDef>
+            <speakerInteraction>Speech_TreeConnection</speakerInteraction>
+            <customPositions>
+              <li Class="RitualPosition_BesideTree" />
+            </customPositions>
+          </li>
+        </roleBehaviors>
+      </li>
+    </stages>
+  </RitualBehaviorDef>
+
+  <RitualOutcomeEffectDef>
+    <defName>GauranlenTreeExpanded_TearConnection</defName>
+    <description>Connected pawn will tear connection with the tree.</description>
+    <workerClass>GauranlenTreeExpanded.RitualOutcomeEffectWorker_TearConnection</workerClass>
+    <allowAttachableOutcome>false</allowAttachableOutcome>
+    <warnOnLowQuality>false</warnOnLowQuality>
+    <comps>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1, 1)</li>
+          </points>
+        </curve>
+      </li>
+    </comps>
+  </RitualOutcomeEffectDef>
+
+  <ThoughtDef>
+    <defName>TearedConnectionMemoryExpanded</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>disconnected from tree</label>
+        <description>I teared connection with Gauranlen Tree. I feel like part of me got lost.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

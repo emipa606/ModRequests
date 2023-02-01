@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/comps/li[@Class="CompProperties_TreeConnection"]</xpath>
+    <value>
+      <li Class="GauranlenTreeExpanded.CompProperties_TreeConnectionExpanded">
+        <pawnKind>Dryad_Basic</pawnKind>
+        <initialConnectionStrengthRange>0.25~0.45</initialConnectionStrengthRange>
+        <connectionStrengthLossPerDryadDeath>0.1</connectionStrengthLossPerDryadDeath>
+        <connectionStrengthGainPerHourPruningBase>0.01</connectionStrengthGainPerHourPruningBase>
+        <spawningPodOffset>(-0.15, 0, -0.55)</spawningPodOffset>
+        <spawningPodSizeRange>0.4~0.65</spawningPodSizeRange>
+        <maxDryadsWild>2</maxDryadsWild>
+        <maxDryadsPerConnectionStrengthCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.05, 1)</li>
+            <li>(0.25, 2)</li>
+            <li>(0.5, 3)</li>
+            <li>(0.75, 4)</li>
+          </points>
+        </maxDryadsPerConnectionStrengthCurve>
+        <connectionLossPerLevelCurve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.001, 0.02)</li>
+            <li>(0.33, 0.04)</li>
+            <li>(0.66, 0.06)</li>
+          </points>
+        </connectionLossPerLevelCurve>
+        <connectionLossDailyPerBuildingDistanceCurve>
+          <points>
+            <li>(0,0.07)</li>
+            <li>(7.9,0.01)</li>
+          </points>
+        </connectionLossDailyPerBuildingDistanceCurve>
+        <connectionStrengthGainPerPlantSkill>
+          <points>
+            <li>(0, 0.8)</li>
+            <li>(8, 1)</li>
+            <li>(20, 1.2)</li>
+          </points>
+        </connectionStrengthGainPerPlantSkill>
+      </li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/comps/li[@Class="CompProperties_SpawnSubplant"]</xpath>
+    <value>
+      <li Class="CompProperties_SpawnSubplant">
+        <compClass>GauranlenTreeExpanded.CompSpawnSubplantDurationExpanded</compClass>
+        <subplant>Plant_MossGauranlen</subplant>
+        <maxRadius>7.9</maxRadius>
+        <subplantSpawnDays>1</subplantSpawnDays>
+        <minGrowthForSpawn>0.6</minGrowthForSpawn>
+        <initialGrowthRange>0.2~0.8</initialGrowthRange>
+        <canSpawnOverPlayerSownPlants>false</canSpawnOverPlayerSownPlants>
+        <plantsToNotOverwrite>
+          <li>Plant_PodGauranlen</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Plant_GrassAnima</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Plant_TreeAnima</li>
+        </plantsToNotOverwrite>
+      </li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="Plant_MossGauranlen"]</xpath>
+    <value>
+      <comps>
+        <li Class="CompProperties">
+          <compClass>GauranlenTreeExpanded.GauranlenMossExpandedComp</compClass>
+        </li>
+      </comps>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="Plant_MossGauranlen"]</xpath>
+    <value>
+      <tickerType>Normal</tickerType>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/minifiedDef</xpath>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/placeWorkers/li[text()="PlaceWorker_ConnectionStrengthOffsetBuildingsNear"]</xpath>
+    <value>
+      <li>GauranlenTreeExpanded.PlaceWorker_ConnectionStrengthOffsetBuildingsNearExpanded</li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/WorkGiverDef[defName="ChangeTreeMode"]/giverClass</xpath>
+    <value>
+      <giverClass>GauranlenTreeExpanded.WorkGiver_ChangeTreeModeExpanded</giverClass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/JobDef[defName="ChangeTreeMode"]/driverClass</xpath>
+    <value>
+      <driverClass>GauranlenTreeExpanded.JobDriver_ChangeTreeModeExpanded</driverClass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/WorkGiverDef[defName="PruneGauranlenTree"]/giverClass</xpath>
+    <value>
+      <giverClass>GauranlenTreeExpanded.WorkGiver_PruneGauranlenTreeExpanded</giverClass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="DryadCocoon"]/comps</xpath>
+    <value>
+      <comps>
+        <li Class="CompProperties_DryadCocoon">
+          <compClass>GauranlenTreeExpanded.CompDryadCocoonExpanded</compClass>
+          <daysToComplete>5</daysToComplete>
+          <drawContents>true</drawContents>
+        </li>
+      </comps>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="DryadHealingPod"]/comps</xpath>
+    <value>
+      <comps>
+        <li Class="CompProperties_DryadCocoon">
+          <compClass>GauranlenTreeExpanded.CompDryadHealingPodExpanded</compClass>
+          <daysToComplete>3</daysToComplete>
+          <drawContents>true</drawContents>
+        </li>
+      </comps>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="GaumakerCocoon"]/comps</xpath>
+    <value>
+      <comps>
+        <li Class="CompProperties_DryadCocoon">
+          <compClass>GauranlenTreeExpanded.CompGaumakerPodExpanded</compClass>
+          <daysToComplete>4</daysToComplete>
+        </li>
+      </comps>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_MossGauranlen"]/plant/fertilityMin</xpath>
+    <value>
+      <fertilityMin>0</fertilityMin>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/plant/visualSizeRange</xpath>
+    <value>
+      <visualSizeRange>1.5~3.0</visualSizeRange>
+    </value>
+  </Operation>
+</Patch>
