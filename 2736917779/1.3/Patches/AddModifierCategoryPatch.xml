@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationAddModExtension">
+        <!-- defining category for item is the lowest one in category ierarchy that has pricemod and includes this item -->
+        <!-- ie BodyPartBionic 's defining category is BodyParts since the first one has no pricemod and bodyparts includes it -->
+        <!-- but meds, despite being manufactured, are processed separately from this category since there is a mod for medicine category -->
+
+        <xpath>Defs/ThingCategoryDef[defName="BuildingsJoy" or 
+            defName="BuildingsFurniture" or 
+            defName="Neurotrainers" or 
+            defName="Artifacts" or 
+            defName="BuildingsArt" or 
+            defName="Foods" or 
+            defName="FoodMeals" or 
+            defName="FoodRaw" or 
+            defName="MeatRaw" or 
+            defName="PlantFoodRaw" or 
+            defName="AnimalProductRaw" or 
+            defName="CorpsesAnimal" or 
+            defName="Medicine" or 
+            defName="Drugs" or 
+            defName="Animals" or 
+            defName="Apparel" or 
+            defName="ApparelArmor" 
+            or defName="ApparelUtility" 
+            or defName="MortarShells" 
+            or defName="Wools" or 
+            defName="Weapons" or 
+            defName="Leathers" or 
+            defName="Textiles" or 
+            defName="StoneBlocks" or
+            defName="BodyParts" or 
+            defName="BodyPartsNatural" or
+
+            defName="VBE_Books" or 
+
+            defName="VBE_Drinks" or
+            defName="VBE_DrinksNonAlcoholic" or
+            defName="VBE_Musts" or
+            
+            defName="VCE_Condiments" or
+            defName="VCE_Cheese"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
+                <category>Group</category>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/ThingCategoryDef[defName="Manufactured" or defName="ResourcesRaw" or defName="Items"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
+                <category>Standalone</category>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/ThingDef[defName="Gold" or defName="Silver" or defName="PsiCoin"]</xpath>       <!-- PsiCoin processing wont be taking mod into account, but anyway -->
+        <value>
+            <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
+                <category>Constant</category>
+            </li>
+        </value>
+    </Operation>
+
+    <!-- Penoxy should be separate from addictive drugs-->
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/ThingDef[defName="ThrumboHorn" or defName="ElephantTusk" or defName="AIPersonaCore" or defName="Luciferium" or defName="Penoxycyline"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
+                <category>Standalone</category>
+            </li>
+        </value>
+    </Operation>
+
+</Patch>
