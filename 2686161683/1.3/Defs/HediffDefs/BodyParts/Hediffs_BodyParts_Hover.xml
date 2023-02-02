@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+    <ThingDef Name="TRAHS_BodyPartHoverBase" ParentName="BodyPartBionicBase" Abstract="True">
+        <statBases>
+            <WorkToMake>36000</WorkToMake>
+        </statBases>
+        <recipeMaker>
+            <skillRequirements>
+                <Crafting>10</Crafting>
+                <Intellectual>10</Intellectual>
+            </skillRequirements>
+        </recipeMaker>
+    </ThingDef>
+
+    <HediffDef Name="TRAHS_HoverHediffBase" ParentName="AddedBodyPartBase" Abstract="True">
+        <defaultLabelColor>(0.6, 0.6, 1.0)</defaultLabelColor> <!-- Yes, I know this changes nothing. I don't care. -->
+    </HediffDef>
+
+    <MVCF.ModDef>
+      <defName>MVCF_EnableAll</defName>
+      <label>Enable all features</label>
+      <description>All features will be enabled if this def is included.</description>
+      <Features>
+        <IntegratedToggle>true</IntegratedToggle>
+        <HediffVerbs>true</HediffVerbs>
+      </Features>
+    </MVCF.ModDef>
+
+    <ThingDef>
+      <defName>TRAHS_HoverFist</defName>
+      <category>Projectile</category>
+      <tickerType>Normal</tickerType>
+      <altitudeLayer>Projectile</altitudeLayer>
+      <thingClass>Bullet</thingClass>
+      <label>hover fist</label>
+      <useHitPoints>False</useHitPoints>
+      <neverMultiSelect>True</neverMultiSelect>
+      <graphicData>
+        <texPath>TRAHS/Things/Projectile/HoverFist</texPath>
+        <graphicClass>Graphic_Single</graphicClass>
+      </graphicData>
+      <projectile>
+        <damageDef>Blunt</damageDef>
+        <damageAmountBase>15</damageAmountBase>
+        <speed>40</speed>
+      </projectile>
+    </ThingDef>
+
+  <!-- Hover arm -->
+
+  <HediffDef ParentName="TRAHS_HoverHediffBase">
+    <defName>TRAHS_HoverArmHediff</defName>
+    <label>hover arm</label>
+    <labelNoun>a hover arm</labelNoun>
+    <description>An installed hover arm.</description>
+    <descriptionHyperlinks><ThingDef>TRAHS_HoverArm</ThingDef></descriptionHyperlinks>
+    <comps>
+      <li Class="MVCF.Comps.HediffCompProperties_ExtendedVerbGiver">
+        <tools>
+          <li>
+            <label>fist</label>
+            <capacities>
+              <li>Blunt</li>
+            </capacities>
+            <power>13</power>
+            <cooldownTime>2</cooldownTime>
+            <soundMeleeHit>MeleeHit_Punch</soundMeleeHit>
+            <soundMeleeMiss>MeleeMiss_Punch</soundMeleeMiss>
+          </li>
+        </tools>
+        <verbs>
+          <li>
+            <verbClass>Verb_Shoot</verbClass>
+            <label>hover fist</label>
+            <hasStandardCommand>True</hasStandardCommand>
+            <defaultProjectile>TRAHS_HoverFist</defaultProjectile>
+            <forcedMissRadius>1</forcedMissRadius>
+            <burstShotCount>1</burstShotCount>
+            <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+            <warmupTime>2</warmupTime>
+            <range>9.9</range>
+            <soundCast>MeleeHit_Punch</soundCast>
+            <soundCastTail>MeleeMiss_Punch</soundCastTail>
+            <onlyManualCast>true</onlyManualCast>
+            <targetParams>
+              <canTargetLocations>true</canTargetLocations>
+            </targetParams>
+          </li>
+        </verbs>
+        <verbProps>
+          <li>
+            <label>hover fist</label>
+            <draw>false</draw>
+            <canBeToggled>true</canBeToggled>
+            <canFireIndependently>false</canFireIndependently>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <spawnThingOnRemoved>TRAHS_HoverArm</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.37</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+  </HediffDef>
+
+  <ThingDef ParentName="TRAHS_BodyPartHoverBase">
+    <defName>TRAHS_HoverArm</defName>
+    <label>hover arm</label>
+    <description>An advanced hover bionic, using tight electromagnetic levitation from the shoulder to the hand, allowing for further and more flexible reach.</description>
+    <descriptionHyperlinks><RecipeDef>TRAHS_InstallHoverArm</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>25</Plasteel>
+      <ComponentSpacer>6</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <statBases>
+      <Mass>5</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>TRAHS_InstallHoverArm</defName>
+    <label>install hover arm</label>
+    <description>Install a hover arm.</description>
+    <descriptionHyperlinks>
+      <ThingDef>TRAHS_HoverArm</ThingDef>
+      <HediffDef>TRAHS_HoverArmHediff</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing hover arm.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>TRAHS_HoverArm</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>TRAHS_HoverArm</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Shoulder</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>TRAHS_HoverArmHediff</addsHediff>
+  </RecipeDef>
+
+  <!-- Hover leg -->
+
+  <HediffDef ParentName="TRAHS_HoverHediffBase">
+    <defName>TRAHS_HoverLegHediff</defName>
+    <label>hover leg</label>
+    <labelNoun>a hover leg</labelNoun>
+    <description>An installed hover leg.</description>
+    <descriptionHyperlinks><ThingDef>TRAHS_HoverLeg</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>TRAHS_HoverLeg</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.37</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+  </HediffDef>
+
+  <ThingDef ParentName="TRAHS_BodyPartHoverBase">
+    <defName>TRAHS_HoverLeg</defName>
+    <label>hover leg</label>
+    <description>An advanced hover bionic, using an electromagnetic beam from the torso to the floor, allowing for a greater manipulation in user height and more freedom in movement.</description>
+    <descriptionHyperlinks><RecipeDef>TRAHS_InstallHoverLeg</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>25</Plasteel>
+      <ComponentSpacer>6</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <statBases>
+      <Mass>8</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>TRAHS_InstallHoverLeg</defName>
+    <label>install hover leg</label>
+    <description>Install a hover leg.</description>
+    <descriptionHyperlinks>
+      <ThingDef>TRAHS_HoverLeg</ThingDef>
+      <HediffDef>TRAHS_HoverLegHediff</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing hover leg.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>TRAHS_HoverLeg</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>TRAHS_HoverLeg</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Leg</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>TRAHS_HoverLegHediff</addsHediff>
+  </RecipeDef>
+
+</Defs>
