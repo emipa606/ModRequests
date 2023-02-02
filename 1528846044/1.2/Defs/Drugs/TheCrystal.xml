@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugPillBase">
+    <defName>TheCrystal</defName>
+    <label>a shadow of the Crystal</label>
+    <description>What have you done.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Crystal</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <Mass>0.01</Mass>
+    </statBases>
+    <techLevel>Archotech</techLevel>
+	<tradeability>None</tradeability>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>CrystalHigh</hediffDef>
+          <severity>1.00</severity>
+          <doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Crystal</chemical>
+        <addictiveness>1.00</addictiveness>
+        <needLevelOffset>1.00</needLevelOffset>
+        <listOrder>1010</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>CrystalHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>???</label>
+    <defaultLabelColor>(1,1,0.5)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+	<description>Touched by the Crystal</description>
+		<comps>
+			<li Class="HediffCompProperties_HealPermanentWounds" />
+		</comps>
+    <stages>
+      <li>
+        <painFactor>0.8</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>2</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>2</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>2</offset>
+					</li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <offset>2</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>2</offset>
+          </li>
+           <li>
+            <capacity>Metabolism</capacity>
+            <offset>2</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>2</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Luciferium addiction -->
+
+  <ChemicalDef>
+    <defName>Crystal</defName>
+    <label>???</label>
+    <addictionHediff>CrystalAddiction</addictionHediff>
+    <canBinge>false</canBinge>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_Crystal</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>???</label>
+    <description>Having tasted the mana of life, you are condemned to something beyond description.</description>
+    <listPriority>45</listPriority>
+    <fallPerDay>0.15</fallPerDay>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>CrystalAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>crystal need</label>
+    <causesNeed>Chemical_Crystal</causesNeed>
+    <everCurableByItem>false</everCurableByItem>
+	<description>Consumed by the Crystal</description>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>unmet</label>
+        <painOffset>2</painOffset>
+        <lifeThreatening>true</lifeThreatening>
+        <deathMtbDays>20</deathMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>2</setMax>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Sad</mentalState>
+            <mtbDays>15</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+</Defs>
