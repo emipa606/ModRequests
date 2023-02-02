@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Surgery Base for Installing implants without medicine.-->
+  <RecipeDef Name="SurgeryInstallArchotechImplantBase" ParentName="SurgeryFlesh" Abstract="True">
+    <workerClass>Recipe_InstallImplant</workerClass>
+    <workAmount>1200</workAmount>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <surgerySuccessChanceFactor>99999</surgerySuccessChanceFactor>
+    <anesthetize>false</anesthetize>
+  </RecipeDef>
+  <!-- Archotech Injectors Base-->
+  <ThingDef Name="ArchotechInjector" ParentName="BodyPartArchotechBase" Abstract="True">
+    <thingSetMakerTags>
+      <li>RewardStandardHighFreq</li>
+    </thingSetMakerTags>
+    <statBases>
+      <MarketValue>50000</MarketValue>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Item/Special/MechSerumHealer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(155,165,148)</color>
+    </graphicData>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+  </ThingDef>
+  <!-- Archotech Regenerator -->
+  <ThingDef ParentName="ArchotechInjector">
+    <defName>ArchotechRegenerator</defName>
+    <label>archotech regenerator</label>
+    <description>The regenerator is a nearly mythical creation of the archotechs. While it looks like a featureless sphereoid at first glace, this appearance hides an almost imcomprehensible maze of bioneural circuitry wrapped around vanometrically powered microfabricators. Once installed, it passively manufactures pico-scale mechanites that slowly restore the host's telomerase, restoring to them to their biological mid-20's and granting them seemingly eternal youth. An internal sub-routine AI also begins manufacturing healing mechanites to release directly into the host's bloodstream upon detecting damage, promoting the rapid healing of wounds. 
+      
+This implant may be self-installed without any concern to the user. When pressed into the sternum, the implant's mechanites disassemble the implant into a polychromatic fluid and pass throught the skin, where it is then integrated into the host. Once installed, it cannot be removed.
+      
+An installed regenerator may be upgraded with an additional implant. Upon upgrading, the embedded AI will become fully functional and begin releasing more complex healing mechanites into the bloodstream that will heal long-term damage. It can even regenerate missing or destroyed limbs or organs over time, though it cannot respond quickly enough to prevent fatal damage should it occur quickly.
+
+A third and final upgrade gives the implant a larger mechanite capacity, reducing the time needed to heal wounds. Should fatal damage be incurred, the implant will release a burst of mechanites that will attempt to bring the user back to life, though this often takes hours or even days.
+
+The materials and engineering behind this implant are far beyond normal human comprehension.
+    
+See the link below for In-Game Effects:</description>
+    <descriptionHyperlinks>
+      <HediffDef>ArchotechRegenerator</HediffDef>
+    </descriptionHyperlinks>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>Install archotech regenerator</useLabel>
+      </li>
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>ArchotechRegenerator</hediffDef>
+        <bodyPart>Sternum</bodyPart>
+        <canUpgrade>true</canUpgrade>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>ArchotechRegenerator</defName>
+    <hediffClass>Hediff_ImplantWithLevel</hediffClass>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechRegenerator</ThingDef>
+    </descriptionHyperlinks>
+    <label>archotech regenerator</label>
+    <labelNoun>an archotech regenerator</labelNoun>
+    <description>An installed archotech regenerator.
+      
+Effects
+      
+Level 1: +75% Healing Rate, Pawn will reverse-age 10 years per year to target age.
+      
+Level 2: All previous capabilties. The implant will generate charges and use them to regenerate parts or heal chronic conditions. Charges may be seen by hovering over the regenerator in the health menu. The number of charges and the charge rate may be set to your preference in the mod options.
+      
+Level 3: All previous capabilities. Additionally, the implant will generate a resurrection mist upon death if the implant is charged, which will attempt to resurrect the pawn after the time set in your mod-settings. The pawn must have a body with a head to be resurrected.</description>
+    <comps>
+      <li Class="ArchotechPlus.HediffCompProperties_Regeneration">
+      </li>
+    </comps>
+    <initialSeverity>1</initialSeverity>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>3</maxSeverity>
+    <stages>
+      <li>
+        <minSeverity>1</minSeverity>
+        <naturalHealingFactor>1.75</naturalHealingFactor>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <naturalHealingFactor>1.75</naturalHealingFactor>
+      </li>
+      <li>
+        <minSeverity>3</minSeverity>
+        <naturalHealingFactor>1.75</naturalHealingFactor>
+      </li>
+    </stages>
+  </HediffDef>
+  <RecipeDef ParentName="SurgeryInstallArchotechImplantBase">
+    <defName>InstallArchotechRegenerator</defName>
+    <label>install archotech regenerator</label>
+    <description>Install an archotech regenerator.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechRegenerator</ThingDef>
+    </descriptionHyperlinks>
+    <jobString>Installing an archotech regenerator.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechRegenerator</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechRegenerator</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Sternum</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>ArchotechRegenerator</addsHediff>
+  </RecipeDef>
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>UpgradeArchotechRegenerator</defName>
+    <label>upgrade archotech regenerator</label>
+    <description>Upgrade an archotech regenerator.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechRegenerator</ThingDef>
+    </descriptionHyperlinks>
+    <workerClass>Recipe_ChangeImplantLevel</workerClass>
+    <jobString>Upgrading an archotech regenerator.</jobString>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <workAmount>1200</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechRegenerator</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechRegenerator</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Sternum</li>
+    </appliedOnFixedBodyParts>
+    <changesHediffLevel>ArchotechRegenerator</changesHediffLevel>
+    <hediffLevelOffset>1</hediffLevelOffset>
+    <surgerySuccessChanceFactor>99999</surgerySuccessChanceFactor>
+    <anesthetize>false</anesthetize>
+  </RecipeDef>
+  <!--Archotech Subdermal Armor-->
+  <ThingDef ParentName="ArchotechInjector">
+    <defName>ArchotechSubdermalArmor</defName>
+    <label>archotech subdermal armor</label>
+    <descriptionHyperlinks>
+      <HediffDef>ArchotechSubdermalArmor</HediffDef>
+    </descriptionHyperlinks>
+    <description>A skin-armor system designed by an archotech. Subdermal armor is a layer of micron-thin plasteel lattice suspended in an unknown sheer-thickening fluid. When struck, the fluid stiffens and dampens the impact while the lattice helps disperse any thermal injuries. Embedded antihemorrhagic nanoparticles help reduce bleeding should the layer be punctured. 
+      
+This implant may be self-installed without any concern to the user. When pressed into the chest, the implant's mechanites disassemble the implant into a polychromatic fluid and pass through the skin, where it quickly integrates into the host. Due to the seamless and total integration into the user's epidermis, it cannot be removed once installed.
+
+Subdermal armor may be upgraded with an additional subdermal armor implant. Upon upgrading, a secondary layer is established beneath the first. This secondary layer effectively doubles the absorbive and coagulative properties of the first, giving the host protection comparable to advanced armorskin implants without any asthetic effects.
+      
+See the link below for In-Game Effects:</description>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>Install archotech subdermal armor</useLabel>
+      </li>
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>ArchotechSubdermalArmor</hediffDef>
+        <bodyPart>Torso</bodyPart>
+        <canUpgrade>true</canUpgrade>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>ArchotechSubdermalArmor</defName>
+    <hediffClass>Hediff_ImplantWithLevel</hediffClass>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechSubdermalArmor</ThingDef>
+    </descriptionHyperlinks>
+    <label>archotech subdermal armor</label>
+    <labelNoun>archotech subdermal armor</labelNoun>
+    <description>Installed archotech subdermal armor.
+      
+Effects
+
+Level 1: Improved armor rating for the pawn's skin, comparable to an additional leather layer. Reduced bleeding from injuries by 20%.
+
+Level 2: Improved armor rating for the pawn's skin, comparable to an additional synthread layer. Reduced bleeding from injuries by 40%. Damage recieved is reduced by 10%.
+      
+Level 3: Improved armor rating for the pawn's skin, comparable to an additional devilstrand layer. Reduced bleeding from injuries by 60%. Damage recieved is reduced by 25%.</description>
+    <initialSeverity>1</initialSeverity>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>3</maxSeverity>
+    <stages>
+      <li>
+        <minSeverity>1</minSeverity>
+        <statOffsets>
+          <ArmorRating_Sharp>0.2</ArmorRating_Sharp>
+          <ArmorRating_Blunt>0.2</ArmorRating_Blunt>
+          <ArmorRating_Heat>0.2</ArmorRating_Heat>
+        </statOffsets>
+        <totalBleedFactor>0.8</totalBleedFactor>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <statOffsets>
+          <ArmorRating_Sharp>0.30</ArmorRating_Sharp>
+          <ArmorRating_Blunt>0.30</ArmorRating_Blunt>
+          <ArmorRating_Heat>0.30</ArmorRating_Heat>
+        </statOffsets>
+        <totalBleedFactor>0.6</totalBleedFactor>
+        <statFactors>
+          <IncomingDamageFactor>0.9</IncomingDamageFactor>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>3</minSeverity>
+        <statOffsets>
+          <ArmorRating_Sharp>0.4</ArmorRating_Sharp>
+          <ArmorRating_Blunt>0.4</ArmorRating_Blunt>
+          <ArmorRating_Heat>0.4</ArmorRating_Heat>
+        </statOffsets>
+        <totalBleedFactor>0.4</totalBleedFactor>
+        <statFactors>
+          <IncomingDamageFactor>0.75</IncomingDamageFactor>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+  <RecipeDef ParentName="SurgeryInstallArchotechImplantBase">
+    <defName>InstallArchotechSubdermalArmor</defName>
+    <label>install archotech subdermal armor</label>
+    <description>Install archotech subdermal armor.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechSubdermalArmor</ThingDef>
+    </descriptionHyperlinks>
+    <jobString>Installing archotech subdermal armor.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechSubdermalArmor</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechSubdermalArmor</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>ArchotechSubdermalArmor</addsHediff>
+  </RecipeDef>
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>UpgradeArchotechSubdermalArmor</defName>
+    <label>upgrade archotech subdermal armor</label>
+    <description>Upgrade archotech subdermal armor.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechSubdermalArmor</ThingDef>
+    </descriptionHyperlinks>
+    <workerClass>Recipe_ChangeImplantLevel</workerClass>
+    <jobString>Upgrading archotech subdermal armor.</jobString>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <workAmount>1200</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechSubdermalArmor</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechSubdermalArmor</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <changesHediffLevel>ArchotechSubdermalArmor</changesHediffLevel>
+    <hediffLevelOffset>1</hediffLevelOffset>
+    <surgerySuccessChanceFactor>99999</surgerySuccessChanceFactor>
+    <anesthetize>false</anesthetize>
+  </RecipeDef>
+  <!--Archotech Cortex-->
+  <ThingDef ParentName="ArchotechInjector">
+    <defName>ArchotechCortex</defName>
+    <label>archotech cortex</label>
+    <descriptionHyperlinks>
+      <HediffDef>ArchotechCortex</HediffDef>
+    </descriptionHyperlinks>
+    <description>A cortex implant designed by an archotech. The exact way this implant works is beyond human understanding, or even the comprehension of a mind that utilizes it. It appears that the thin metallic mesh that sits on top of the brain allows for it to teleport eletrical signals to other distant areas of the brain, allowing for faster thought processes to take place and for problematic or troublesome thoughts such as pain or distress to be rapidly analyzed and accepted by the user. Interestingly, the implant loses effectiveness if the user ever examines any archotech technologies, leading to a prevailing theory that the archotech implants seen in the rim are intended for the servants of the archotechs and that the truly ascendant archotech is kept strictly amongst themselves.
+
+This implant may be self-installed without any concern to the user. When pressed into the forehead, the implant's mechanites disassemble the implant into a polychromatic fluid and pass throught the skin, where it integrates into the host's brain. Due to the seamless and total integration into the user's cortex, it cannot be removed once installed.
+
+An archotech cortex may be upgraded with an additional cortex implant. Upon upgrading, the metallic mesh fully envelopes the host's cortex and allows for significantly faster connections between regions of the brain as well as superior control of intrusive feelings or impulses such as pain or emotional distress. 
+
+The materials and physics used in this implant are far beyond our comprehension or ability to recreate.
+
+See the link below for In-Game Effects:</description>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>Install archotech cortex</useLabel>
+      </li>
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>ArchotechCortex</hediffDef>
+        <bodyPart>Brain</bodyPart>
+        <canUpgrade>true</canUpgrade>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>ArchotechCortex</defName>
+    <hediffClass>Hediff_ImplantWithLevel</hediffClass>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechCortex</ThingDef>
+    </descriptionHyperlinks>
+    <label>archotech cortex</label>
+    <labelNoun>an archotech cortex</labelNoun>
+    <description>An installed archotech cortex.
+      
+Effects
+
+Level 1: 25% faster learning, 25% faster research, +10% medical tend/surgery quality, -5% mental break threshold, 5% increased pain shock threshold.
+
+Level 2: 50% faster learning, 50% faster research, +20% medical tend/surgery quality, -10% mental break threshold, 10% increased pain shock threshold.</description>
+    <initialSeverity>1</initialSeverity>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>2</maxSeverity>
+    <stages>
+      <li>
+        <minSeverity>1</minSeverity>
+        <statOffsets>
+          <GlobalLearningFactor>0.25</GlobalLearningFactor>
+          <ResearchSpeed>0.25</ResearchSpeed>
+          <MedicalTendQuality>0.10</MedicalTendQuality>
+          <MedicalSurgerySuccessChance>0.10</MedicalSurgerySuccessChance>
+          <MentalBreakThreshold>-0.05</MentalBreakThreshold>
+          <PainShockThreshold>0.05</PainShockThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <statOffsets>
+          <GlobalLearningFactor>0.5</GlobalLearningFactor>
+          <ResearchSpeed>0.5</ResearchSpeed>
+          <MedicalTendQuality>0.20</MedicalTendQuality>
+          <MedicalSurgerySuccessChance>0.20</MedicalSurgerySuccessChance>
+          <MentalBreakThreshold>-0.1</MentalBreakThreshold>
+          <PainShockThreshold>0.1</PainShockThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  <RecipeDef ParentName="SurgeryInstallArchotechImplantBase">
+    <defName>InstallArchotechCortex</defName>
+    <label>install archotech cortex</label>
+    <description>Install an archotech cortex.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechCortex</ThingDef>
+    </descriptionHyperlinks>
+    <jobString>Installing an archotech cortex.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechCortex</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechCortex</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>ArchotechCortex</addsHediff>
+  </RecipeDef>
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>UpgradeArchotechCortex</defName>
+    <label>upgrade archotech cortex</label>
+    <description>Upgrade an archotech cortex.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechCortex</ThingDef>
+    </descriptionHyperlinks>
+    <workerClass>Recipe_ChangeImplantLevel</workerClass>
+    <jobString>Upgrading archotech cortex.</jobString>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <workAmount>1200</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechCortex</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechCortex</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <changesHediffLevel>ArchotechCortex</changesHediffLevel>
+    <hediffLevelOffset>1</hediffLevelOffset>
+    <surgerySuccessChanceFactor>99999</surgerySuccessChanceFactor>
+    <anesthetize>false</anesthetize>
+  </RecipeDef>
+  <!--Archotech Bioadapter-->
+  <ThingDef ParentName="ArchotechInjector">
+    <defName>ArchotechBioadapter</defName>
+    <label>archotech bioadapter</label>
+    <descriptionHyperlinks>
+      <HediffDef>ArchotechBioadapter</HediffDef>
+    </descriptionHyperlinks>
+    <description>The bioadapter is an archotech designed implant composed of nesting, golden-hued coils that wrap tightly around the host's liver. These coils serve as extremely efficient filters for the bloodstream, reducing the effects of toxic buildup on the host. Each coil is powered by a still unknown internal energy source that can cool or heat the blood, which allows the user to more comfortably inhabit extreme temperatures.
+
+This implant may be self-installed without any concern to the user. When pressed into the abdomen, the implant's mechanites disassemble the implant into a polychromatic fluid and pass throught the skin, where it quickly reconstitutes itself around the kidneys. Due to the seamless and total integration into the user's circulatory system, it cannot be removed once installed.
+
+An archotech bioadapter may be upgraded with an additional bioadapter. Upon upgrading, the implant's filtration is greatly enhanced, allowing for the host to operate in toxic fallout indefinitely. The heating and cooling capabilities of the implant are also enhanced, allowing the user to comfortably operate in extreme temperatures. 
+      
+The materials and physics used in this implant are far beyond our comprehension or ability to recreate.
+      
+See the link below for In-Game Effects:</description>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <compClass>CompUsableImplant</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>Install archotech bioadapter</useLabel>
+      </li>
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>ArchotechBioadapter</hediffDef>
+        <bodyPart>Liver</bodyPart>
+        <canUpgrade>true</canUpgrade>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>ArchotechBioadapter</defName>
+    <hediffClass>Hediff_ImplantWithLevel</hediffClass>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechBioadapter</ThingDef>
+    </descriptionHyperlinks>
+    <label>archotech bioadapter</label>
+    <labelNoun>an archotech bioadapter</labelNoun>
+    <description>An installed archotech bioadapter.
+      
+Effects
+
+Level 1: 15C (27F) wider comfortable temperature range, 10% faster immunity gain, 50% resistance to toxic fallout.
+
+Level 2: 25C (45F) wider comfortable temperature range, 20% faster immunity gain, 100% resistance to toxic fallout.</description>
+    <initialSeverity>1</initialSeverity>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>2</maxSeverity>
+    <stages>
+      <li>
+        <minSeverity>1</minSeverity>
+        <statOffsets>
+          <ComfyTemperatureMin>-15</ComfyTemperatureMin>
+          <ComfyTemperatureMax>15</ComfyTemperatureMax>
+          <ToxicSensitivity>-0.5</ToxicSensitivity>
+          <ImmunityGainSpeed>0.10</ImmunityGainSpeed>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <statOffsets>
+          <ComfyTemperatureMin>-25</ComfyTemperatureMin>
+          <ComfyTemperatureMax>25</ComfyTemperatureMax>
+          <ToxicSensitivity>-1</ToxicSensitivity>
+          <ImmunityGainSpeed>0.20</ImmunityGainSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  <RecipeDef ParentName="SurgeryInstallArchotechImplantBase">
+    <defName>InstallArchotechBioadapter</defName>
+    <label>install archotech bioadapter</label>
+    <description>Install an archotech bioadapter.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechBioadapter</ThingDef>
+    </descriptionHyperlinks>
+    <jobString>Installing an archotech bioadapter.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechBioadapter</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechBioadapter</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Liver</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>ArchotechBioadapter</addsHediff>
+  </RecipeDef>
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>UpgradeArchotechBioadapter</defName>
+    <label>upgrade archotech bioadapter</label>
+    <description>Upgrade an archotech bioadapter.</description>
+    <descriptionHyperlinks>
+      <ThingDef>ArchotechBioadapter</ThingDef>
+    </descriptionHyperlinks>
+    <workerClass>Recipe_ChangeImplantLevel</workerClass>
+    <jobString>Upgrading archotech bioadapter.</jobString>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <workAmount>1200</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ArchotechBioadapter</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ArchotechBioadapter</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Liver</li>
+    </appliedOnFixedBodyParts>
+    <changesHediffLevel>ArchotechBioadapter</changesHediffLevel>
+    <hediffLevelOffset>1</hediffLevelOffset>
+    <surgerySuccessChanceFactor>99999</surgerySuccessChanceFactor>
+    <anesthetize>false</anesthetize>
+  </RecipeDef>
+</Defs>
