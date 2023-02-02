@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <!-- Edits made by Pet Mudstone! -->
+
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+          <li>RT's Weapon Pack Reloaded (1.0)</li>
+        </mods>
+		
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+
+                <!-- general verb patching -->
+                <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Gun_USAS12_rt" or defName="Gun_M1014_rt" or defName="Gun_Winchester87_rt" or defName="Gun_SPAS12_rt" or defName="Gun_DP12_rt"]/verbs/li/verbClass</xpath>
+                    <value>
+                        <verbClass>ProperShotguns.Verb_ShootShotgun</verbClass>
+                    </value>
+                </li>
+				
+				<!-- Remove simultaneous DP-12 "burst" fire -->
+				<li Class="PatchOperationRemove">
+                    <xpath>*/ThingDef[defName="Gun_DP12_rt"]/verbs/li/burstShotCount</xpath>
+                </li>
+
+                <!-- projectile -->
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Bullet_USAS12_rt" or defName="Bullet_M1014_rt" or defName="Bullet_Winchester87_rt" or defName="Bullet_SPAS12_rt"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>6</pelletCount>
+                        </li>
+                    </value>
+				</li>
+				
+				<!-- Double DP-12 damage to account for removal of two simultaneous "bursts".-->
+				<li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_DP12_rt"]/projectile/damageAmountBase</xpath>
+						<value>
+							<damageAmountBase>36</damageAmountBase>
+						</value>
+                </li>
+				
+				<!-- Double the amount of pellets that the DP-12 fires to account for removal of two simultaneous "bursts". -->
+				<li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Bullet_DP12_rt"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>12</pelletCount>
+                        </li>
+                    </value>
+                </li>
+				
+				 <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_USAS12_rt" or defName="Bullet_M1014_rt" or defName="Bullet_Winchester87_rt" or defName="Bullet_SPAS12_rt" or defName="Bullet_DP12_rt"]/graphicData/texPath</xpath>
+                    <value>
+                        <texPath>Things/Projectile/Bullet_Small</texPath>
+                    </value>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+
+</Patch>

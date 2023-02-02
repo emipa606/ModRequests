@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <!-- Edits made by Pet Mudstone! -->
+
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+          <li>Project Fallout v1.8</li>
+        </mods>
+		
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+
+                <!-- general verb patching -->
+                <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Gun_PFCaravanShotgun" or defName="Gun_PFSCaravanShotgun" or defName="Gun_PFHuntingShotgun" or defName="Gun_PFDinnerBell" or defName="Gun_PFLeverActionShotgun" or defName="Gun_PFSawedOffShotgun" or defName="Gun_PFBigBoomer" or defName="Gun_PFSingleShotgun" or defName="Gun_PFRiotShotgun" or defName="PFTri-Beam_Laser_Rifle" or defName="PFMultiplas_Rifle" or defName="PFPlasmaScattergun"]/verbs/li/verbClass</xpath>
+                    <value>
+                        <verbClass>ProperShotguns.Verb_ShootShotgun</verbClass>
+                    </value>
+                 </li>
+                <li Class="PatchOperationRemove">
+                    <xpath>*/ThingDef[defName="Gun_PFSawedOffShotgun" or defName="Gun_PFBigBoomer" or defName="PFTri-Beam_Laser_Rifle" or defName="PFMultiplas_Rifle" or defName="PFPlasmaScattergun"]/verbs/li/burstShotCount</xpath>
+                </li>
+
+                <!-- Single-shot pellet counts. -->
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Bullet_PFCaravanShotgun" or defName="Bullet_PFSCaravanShotgun" or defName="Bullet_PFHuntingShotgun" or defName="Bullet_PFDinnerBell" or defName="Bullet_PFLeverActionShotgun" or defName="Bullet_PFSingleShotgun" or defName="Bullet_PFRiotShotgun"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>6</pelletCount>
+                        </li>
+                    </value>
+                </li>
+				
+				<!-- Double-barrel pellet counts. Pellet count doubled because of the two barrels firing at once. -->
+				<li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Gun_PFSawedOffShotgun" or defName="Bullet_PFBigBoomer"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>12</pelletCount>
+                        </li>
+                    </value>
+                </li>
+				
+				<!-- ===== Sawed-Off damage doubled. ===== -->
+				<li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_PFSawedOffShotgun"]/projectile/damageAmountBase</xpath>
+                    <value>
+                        <damageAmountBase>50</damageAmountBase>
+                    </value>
+                </li>
+				
+				<!-- ===== Big Boomer damage doubled. ===== -->
+               <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_PFBigBoomer"]/projectile/damageAmountBase</xpath>
+                    <value>
+                        <damageAmountBase>56</damageAmountBase>
+                    </value>
+                </li>
+				
+				<!-- Pellet Texture Change-->
+				<li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_PFCaravanShotgun" or defName="Bullet_PFSCaravanShotgun" or defName="Bullet_PFHuntingShotgun" or defName="Bullet_PFDinnerBell" or defName="Bullet_PFLeverActionShotgun" or defName="Gun_PFSawedOffShotgun" or defName="Bullet_PFBigBoomer" or defName="Bullet_PFSingleShotgun" or defName="Bullet_PFRiotShotgun"]/graphicData/texPath</xpath>
+                    <value>
+                        <texPath>Things/Projectile/Bullet_Small</texPath>
+                    </value>
+                </li>
+				
+				<!-- ===== Tri-Beam Laser Rifle ===== -->
+				<!-- projectile -->
+				<!-- Damage tripled. -->
+               <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_PFTBLaserRifle"]/projectile/damageAmountBase</xpath>
+                    <value>
+                        <damageAmountBase>54</damageAmountBase>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Bullet_PFTBLaserRifle"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>3</pelletCount>
+                        </li>
+                    </value>
+                </li>
+				
+				<!-- ===== Multiplas Rifle ===== -->
+                <!-- projectile -->
+				<!-- Damage tripled. -->
+                <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_PFMultiplasRifle"]/projectile/damageAmountBase</xpath>
+                    <value>
+                        <damageAmountBase>63</damageAmountBase>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Bullet_PFMultiplasRifle"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>3</pelletCount>
+                        </li>
+                    </value>
+                </li>
+				
+				<!-- ===== Plasma Scattergun ===== -->
+                <!-- projectile -->
+				<!-- Damage quadrupled. -->
+                <li Class="PatchOperationReplace">
+                    <xpath>*/ThingDef[defName="Bullet_PFPlasmaScattergun"]/projectile/damageAmountBase</xpath>
+                    <value>
+                        <damageAmountBase>72</damageAmountBase>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>*/ThingDef[defName="Bullet_PFPlasmaScattergun"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>4</pelletCount>
+                        </li>
+                    </value>
+                </li>
+
+            </operations>
+        </match>
+    </Operation>
+
+</Patch>
