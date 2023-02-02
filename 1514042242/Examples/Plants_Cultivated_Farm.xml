@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<!--
+		This file contains two example defs. The first behaves similarly to a
+		default plant, and contains an explanation of each default value which
+		can be edited. The second behaves wildly differently to default plants;
+		it contains an overall description of its behaviour, as well as
+		showing a new behaviour which can be defined for plants using this mod.
+	-->
+	
+	<ThingDef ParentName="PlantBase">
+		<defName>Plant_Rice_Cave_Test</defName>
+		<thingClass>ExpandablePlants.Plant</thingClass> <!-- This must be included to use any features of this mod. -->
+		<label>cave rice plant</label>
+		<description>A rice plant that has been genetically engineered for cave conditions. Dies if exposed to light.</description>
+		<statBases>
+			<MaxHitPoints>85</MaxHitPoints>
+			<Nutrition>0.18</Nutrition>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Plant/RicePlant</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<selectable>true</selectable>
+		<pathCost>10</pathCost>
+		<ingestible />
+		<plant>
+			<neverBlightable>true</neverBlightable>
+			<growMinGlow>0</growMinGlow>
+			<growOptimalGlow>0</growOptimalGlow>
+			<cavePlant>true</cavePlant>
+			<dieIfLeafless>true</dieIfLeafless>
+			<maxMeshCount>4</maxMeshCount>
+			<harvestTag>Standard</harvestTag>
+			<harvestedThingDef>RawRice</harvestedThingDef>
+			<harvestYield>6</harvestYield>
+			<sowTags>
+				<li>Ground</li>
+				<li>Hydroponic</li>
+			</sowTags>
+			<topWindExposure>0.1</topWindExposure>
+			<growDays>3</growDays>
+			<visualSizeRange>
+				<min>0.3</min>
+				<max>0.8</max>
+			</visualSizeRange>
+			<wildOrder>2</wildOrder>
+			<purpose>Food</purpose>
+		</plant>
+		<comps>
+			<li Class="ExpandablePlants.CompProperties_Plant"> <!-- Include this comp if you wish to modify any of the below properties. All values listed are default. This example will behave exactly like a regular plant. -->
+				<!-- <minLeaflessTemperature>-10</minLeaflessTemperature> Low end of range at which plant will become leafless. Plant will become leafless below this temperature. -->
+				<!-- <maxLeaflessTemperature>-2</maxLeaflessTemperature> High end of range at which plant will become leafless. Plant might become leafless below this temperature. -->
+				<!-- <minGrowthTemperature>0</minGrowthTemperature> Minimum temperature at which plant will grow. Also minimum temperature at which plant will be sown. -->
+				<!-- <minOptimalGrowthTemperature>6</minOptimalGrowthTemperature> Minimum temperature at which plant will grow at full rate. -->
+					<!-- The range between these two values is the temperature range at which the plant will grow optimally. -->
+				<!-- <maxOptimalGrowthTemperature>42</maxOptimalGrowthTemperature> Maximum temperature at which plant will grow at full rate. -->
+				<!-- <maxGrowthTemperature>58</maxGrowthTemperature> Maximum temperature at which plant will grow. Also maximum temperature at which plant will be sown. -->
+				<!-- <restBegins>0.8</restBegins> When the plant will start to rest, expressed as a percentage of the day from midnight. -->
+				<!-- <restEnds>0.25</restEnds> When the plant will stop resting, expressed as a percentage of the day from midnight. -->
+					<!-- If these two times are equal, the plant will not rest. -->
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="PlantBase">
+		<defName>Plant_Rice_Cryo_Test</defName>
+		<thingClass>ExpandablePlants.Plant</thingClass> <!-- This must be included to use any features of this mod. -->
+		<label>cryo rice plant</label>
+		<description>A rice plant that has been genetically engineered for extreme cold. Dies if exposed to light.</description>
+		<statBases>
+			<MaxHitPoints>85</MaxHitPoints>
+			<Nutrition>0.18</Nutrition>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Plant/RicePlant</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<selectable>true</selectable>
+		<pathCost>10</pathCost>
+		<ingestible />
+		<plant>
+			<neverBlightable>true</neverBlightable>
+			<growMinGlow>0</growMinGlow>
+			<growOptimalGlow>0</growOptimalGlow>
+			<cavePlant>true</cavePlant>
+			<dieIfLeafless>true</dieIfLeafless>
+			<maxMeshCount>4</maxMeshCount>
+			<harvestTag>Standard</harvestTag>
+			<harvestedThingDef>RawRice</harvestedThingDef>
+			<harvestYield>6</harvestYield>
+			<sowTags>
+				<li>Ground</li>
+				<li>Hydroponic</li>
+			</sowTags>
+			<topWindExposure>0.1</topWindExposure>
+			<growDays>3</growDays>
+			<visualSizeRange>
+				<min>0.3</min>
+				<max>0.8</max>
+			</visualSizeRange>
+			<wildOrder>2</wildOrder>
+			<purpose>Food</purpose>
+		</plant>
+		<comps>
+			<li Class="ExpandablePlants.CompProperties_Plant">
+				<!--
+					This example modifies the default values to create a plant
+					that thrives in cryogenic conditions.
+					
+					It will grow optimally between -42 and -10 degrees, and will
+					die if too much outside that range.
+					
+					It starts resting just after seven AM and until 6 PM.
+					
+				-->
+				<minLeaflessTemperature>-62</minLeaflessTemperature>
+				<maxLeaflessTemperature>-54</maxLeaflessTemperature>
+				<minGrowthTemperature>-52</minGrowthTemperature>
+				<minOptimalGrowthTemperature>-42</minOptimalGrowthTemperature>
+				<maxOptimalGrowthTemperature>-10</maxOptimalGrowthTemperature>
+				<maxGrowthTemperature>0</maxGrowthTemperature>
+				<restBegins>0.3</restBegins>
+				<restEnds>0.75</restEnds>
+				
+				<!--
+					The following tags define new behaviour: This plant will die
+					if the temperature exceeds 10 degrees, and may die if the
+					temperature exceeds 2 degrees.
+					
+					If canDieOfHeat is true, the other two properties must be
+					set; they have no default values.
+				-->
+				<canDieOfHeat>true</canDieOfHeat> <!-- Plant uses death-from-heat behaviour. If omitted, plant will not die from heat. -->
+				<minDieOfHeatTemperature>2</minDieOfHeatTemperature> <!-- The plant can die above this temperature. -->
+				<maxDieOfHeatTemperature>10</maxDieOfHeatTemperature> <!-- The plant will die above this temperature. -->
+			</li>
+		</comps>
+	</ThingDef>
+	
+</Defs>
