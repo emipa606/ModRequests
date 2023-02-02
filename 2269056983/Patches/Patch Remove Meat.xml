@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!-- Remove the useMeatFrom directive since we'll be replacing this with our own -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName]/race[
+					not(contains(body, "Kenshi")) and 
+					not(contains(body, "Beetle")) and 
+					not(contains(body, "Spider")) and 
+					not(contains(body, "Mechanical")) and 
+					not(contains(body, "Human"))]/useMeatFrom</xpath>
+			</li>
+			
+			<!-- Add useFromMeat for everything except insects and humanlikes. We have to base it on *some* animal, so we'll pick the KenshiGarru. -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName != "KenshiGarru" and defName]/race[
+					not(contains(body, "Kenshi")) and 
+					not(contains(body, "Beetle")) and 
+					not(contains(body, "Spider")) and 
+					not(contains(body, "Mechanical")) and 
+					not(contains(body, "Human")) and 
+					not(useMeatFrom)]</xpath>
+				<value>
+					<useMeatFrom>KenshiGarru</useMeatFrom>
+				</value>
+			</li>
+
+			<!-- Replace alien leather bu human leather(by changing of leatherDef) for every Alien Race. -->
+			<!-- <li Class="PatchOperationReplace">
+				<xpath>Defs/AlienRace.ThingDef_AlienRace/race[contains(thinkTreeMain, "Humanlike")]/leatherDef</xpath>
+				<value>
+					<leatherDef>Leather_Human</leatherDef>
+				</value>
+			</li> -->
+			
+			<!-- Relabel cow meat to make it more generic -->
+			<!--<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="Cow"]/race/meatLabel</xpath>
+				<value>
+					<meatLabel>old meat</meatLabel>
+				</value>
+			</li>-->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="Megaspider"]/race/meatLabel</xpath>
+				<value>
+					<meatLabel>foul meat</meatLabel>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="Cow"]/race/meatLabel</xpath>
+				<value>
+					<meatLabel>old meat</meatLabel>
+				</value>
+			</li>
+
+			<!-- Replace meat icon -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="ButcherCorpseFlesh"]/uiIconThing</xpath>
+				<value>
+					<uiIconThing>Meat_KenshiGarru</uiIconThing>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationAdd">
+				<xpath>Defs</xpath>
+				<value>
+					<ThingDef>
+						<defName>Meat_Squirrel</defName>
+						<label>squirrel meat</label>
+						<description>This is a dummy item that you should never see in-game but must remain in the database, because apparently squirrel meat acts as the glue keeping rimworld together.</description>
+						<thingClass>Thing</thingClass>
+						<resourceReadoutPriority>Middle</resourceReadoutPriority>
+						<statBases>
+							<MarketValue>0</MarketValue>
+						</statBases>
+						<menuHidden>true</menuHidden>
+						<tradeability>None</tradeability>
+					</ThingDef>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	
+	<!-- Animals that need special handling because of how they do abstract layers -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[
+					defName = "Hare" or
+					defName = "Cougar" or
+					defName = "Panther"][not(race)]
+				</xpath>
+				<value>
+					<race />
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[
+					defName = "Hare" or
+					defName = "Cougar" or
+					defName = "Panther"]/race[not(useMeatFrom)]
+				</xpath>
+				<value>
+					<useMeatFrom>KenshiGarru</useMeatFrom>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>		
