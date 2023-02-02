@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef Abstract="True" ParentName="BuildingBase" Name="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun_Base</defName>
+    <label>Field Gun</label>
+    <description>A large-bore cannon, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Submunition/Item/SM_Turret_FieldGun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.7, 2.7)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Submunition/Item/SM_Icon_FieldGun</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(2,2)</size>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>450</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>15000</WorkToBuild>
+      <Mass>100</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <Steel>400</Steel>
+      <Plasteel>60</Plasteel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>SM_adv_def</li>
+    </researchPrerequisites>
+    <uiIconScale>0.95</uiIconScale>
+    <designatorDropdown>SM_FieldGuns</designatorDropdown>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>1</turretBurstCooldownTime>
+      <turretTopDrawSize>3.5</turretTopDrawSize>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+    </building>
+  </ThingDef>
+
+  <ThingDef Abstract="True" ParentName="BaseWeaponTurret" Name="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun_Base</defName>
+    <label>field gun</label>
+    <description>A large-bore cannon calibrated to fire APDS shells. may explode when damaged.</description>
+    <ignoreConfigErrors>true</ignoreConfigErrors>
+    <graphicData>
+      <texPath>Submunition/Item/SM_Gun_FieldGun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <AccuracyTouch>0.10</AccuracyTouch>
+      <AccuracyShort>0.30</AccuracyShort>
+      <AccuracyMedium>.9</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+  </ThingDef>
+
+  <!-- APDS -->
+  <ThingDef ParentName="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun</defName>
+    <label>Field Gun (APDS)</label>
+    <description>A large-bore cannon calibrated to fire APDS shells, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shells</fuelLabel>
+        <fuelGizmoLabel>Shells</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>SM_Shell_Sabot</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>SM_Gun_FieldGun</turretGunDef>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun</defName>
+    <label>field gun (APDS)</label>
+    <description>A large-bore cannon calibrated to fire APDS shells. may explode when damaged.</description>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>SM_Bullet_FieldGun_sabot</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- HEAT -->
+  <ThingDef ParentName="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun_HEAT</defName>
+    <label>Field Gun (HEAT)</label>
+    <description>A large-bore cannon calibrated to fire HEAT shells, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shells</fuelLabel>
+        <fuelGizmoLabel>Shells</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>SM_Shell_HEAT</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>SM_Gun_FieldGun_HEAT</turretGunDef>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun_HEAT</defName>
+    <label>field gun (HEAT)</label>
+    <description>A large-bore cannon calibrated to fire HEAT shells. may explode when damaged.</description>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>SM_Bullet_FieldGun_HEAT</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- AB -->
+  <ThingDef ParentName="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun_AirBurst</defName>
+    <label>Field Gun (Air-burst)</label>
+    <description>A large-bore cannon calibrated to fire air-burst shells, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shells</fuelLabel>
+        <fuelGizmoLabel>Shells</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Shell_AirBurst</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>SM_Gun_FieldGun_AirBurst</turretGunDef>
+    </building>
+  </ThingDef>
+
+
+  <ThingDef ParentName="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun_AirBurst</defName>
+    <label>field gun (Air-burst)</label>
+    <description>A large-bore cannon calibrated to fire air-burst shells. may explode when damaged.</description>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>SM_Bullet_FieldGun_AirBurst</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- HE -->
+  <ThingDef ParentName="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun_HE</defName>
+    <label>Field Gun (HE)</label>
+    <description>A large-bore cannon calibrated to fire HE shells, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shells</fuelLabel>
+        <fuelGizmoLabel>Shells</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Shell_HighExplosive</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>SM_Gun_FieldGun_HE</turretGunDef>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun_HE</defName>
+    <label>field gun (HE)</label>
+    <description>A large-bore cannon calibrated to fire HE shells. may explode when damaged.</description>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>SM_Bullet_FieldGun_HE</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- Incendiary -->
+  <ThingDef ParentName="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun_Incendiary</defName>
+    <label>Field Gun (Incendiary)</label>
+    <description>A large-bore cannon calibrated to fire Incendiary shells, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shells</fuelLabel>
+        <fuelGizmoLabel>Shells</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Shell_Incendiary</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>SM_Gun_FieldGun_Incendiary</turretGunDef>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun_Incendiary</defName>
+    <label>field gun (Incendiary)</label>
+    <description>A large-bore cannon calibrated to fire Incendiary shells. may explode when damaged.</description>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>SM_Bullet_FieldGun_Incendiary</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- WP -->
+  <ThingDef ParentName="SM_Turret_FieldGun_Base">
+    <defName>SM_Turret_FieldGun_WP</defName>
+    <label>Field Gun (white phosphorus)</label>
+    <description>A large-bore cannon calibrated to fire white phosphorus shells, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shells</fuelLabel>
+        <fuelGizmoLabel>Shells</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Shell_White_Phospher</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>SM_Gun_FieldGun_WP</turretGunDef>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="SM_Gun_FieldGun_Base">
+    <defName>SM_Gun_FieldGun_WP</defName>
+    <label>field gun (white phosphorus)</label>
+    <description>A large-bore cannon calibrated to fire white phosphorus shells. may explode when damaged.</description>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>SM_Bullet_FieldGun_WP</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>

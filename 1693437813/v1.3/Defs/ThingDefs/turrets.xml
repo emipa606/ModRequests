@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+<!-- narq -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>SM_Turret_NarqTurret</defName>
+    <label>NARQ mini-turret</label>
+    <description>A portable semi-automatic turret. Fires darts loaded with strong sedatives, must be refueled regularly. Its dumb AI brain can't be directly controlled, so beware of friendly fire.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Security/TurretMini_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Submunition/Item/TurretNarq_MenuIcon</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>1800</WorkToBuild>
+      <Mass>8</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>80</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Remaining ammo</fuelLabel>
+        <fuelGizmoLabel>Ammo</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>SM_partNarq</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>120</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>10</fuelMultiplier>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <costList>
+      <Steel>70</Steel>
+      <SM_partNarq>20</SM_partNarq>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>45</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>SM_Gun_NarqTurret</turretGunDef>
+      <turretBurstCooldownTime>1.5</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>GunTurrets</li>
+      <li>SM_chem_weapons</li>
+    </researchPrerequisites>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>SM_Gun_NarqTurret</defName>
+    <label>NARQ mini-turret gun</label>
+    <description>A simple semi-automatic air-gun made to be mounted on a turret.</description>
+    <graphicData>
+      <texPath>Submunition/Item/TurretNarq_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.80</AccuracyTouch>
+      <AccuracyShort>0.64</AccuracyShort>
+      <AccuracyMedium>0.38</AccuracyMedium>
+      <AccuracyLong>0.12</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>SM_Bullet_NarqTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>23.9</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>GunShotA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>0</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>SM_Turret_mgmt</defName>
+    <label>mini-gun mini-turret</label>
+    <description>A portable semi-automatic turret. Some nut job hooked up 3 mini-guns to a simple AI targeting system. Its dumb AI brain can't be directly controlled, so beware of friendly fire.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Security/TurretMini_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Submunition/Item/TurretMGMT_MenuIcon</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>1800</WorkToBuild>
+      <Mass>8</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>2000</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>10</fuelMultiplier>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <costList>
+      <Steel>50</Steel>
+      <Gun_Minigun>3</Gun_Minigun>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>45</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>SM_Gun_mgmt</turretGunDef>
+      <turretBurstCooldownTime>.01</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>GunTurrets</li>
+      <li>SM_adv_def</li>
+    </researchPrerequisites>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>SM_Gun_mgmt</defName>
+    <label>mini-gun mini-turret gun</label>
+    <description>Some nut job hooked up 3 mini-guns.</description>
+    <graphicData>
+      <texPath>Submunition/Item/TurretMGMT_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.25</AccuracyTouch>
+      <AccuracyShort>0.45</AccuracyShort>
+      <AccuracyMedium>0.25</AccuracyMedium>
+      <AccuracyLong>0.18</AccuracyLong>
+      <RangedWeapon_Cooldown>.01</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>SM_Bullet_compensator</defaultProjectile>
+        <warmupTime>.01</warmupTime>
+        <range>30.9</range>
+        <burstShotCount>10</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_Minigun</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+</Defs>
+  <!--
+  <ThingDef ParentName="BuildingBase">
+    <defName>SM_Turret_FieldGun_dynamic</defName>
+    <label>Field Gun</label>
+    <description>A large-bore cannon, equipped with a 10 round feeder box to reduce reload times. May explode when damaged.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <graphicData>
+      <texPath>Submunition/Item/SM_Turret_FieldGun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.7, 2.7)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Submunition/Item/SM_Icon_FieldGun</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(2,2)</size>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>450</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>15000</WorkToBuild>
+      <Mass>100</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <Steel>400</Steel>
+      <Plasteel>60</Plasteel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>SM_adv_def</li>
+    </researchPrerequisites>
+    <uiIconScale>0.95</uiIconScale>
+    <designatorDropdown>SM_FieldGuns</designatorDropdown>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>1</turretBurstCooldownTime>
+      <turretTopDrawSize>3.5</turretTopDrawSize>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+    </building>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>SM_Gun_FieldGun_dynamic</defName>
+    <label>field gun</label>
+    <description>A large-bore cannon calibrated to fire APDS shells. may explode when damaged.</description>
+    <ignoreConfigErrors>true</ignoreConfigErrors>
+    <graphicData>
+      <texPath>Submunition/Item/SM_Gun_FieldGun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <AccuracyTouch>0.10</AccuracyTouch>
+      <AccuracyShort>0.30</AccuracyShort>
+      <AccuracyMedium>.9</AccuracyMedium>
+      <AccuracyLong>1</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>4</warmupTime>
+        <minRange>4</minRange>
+        <range>75</range>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>MortarBomb_Explode</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+
+    <modExtensions>
+      <li Class="Submunition.DefAdvancedTurret">
+        <speedBoost>100</speedBoost>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+   -->

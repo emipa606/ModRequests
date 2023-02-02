@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- rubber -->
+  <HediffDef ParentName="InjuryBase">
+    <defName>SM_painBruise</defName>
+    <label>bruise</label>
+    <labelNoun>a bruise</labelNoun>
+    <description>A bruise</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>tended</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.15</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Destroyed</destroyedLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <!-- shrapnel -->
+  <HediffDef ParentName="InjuryBase">
+    <defName>SM_Shrapnel_Shredded</defName>
+    <label>shredded</label>
+    <description>a grizzly wound caused by high velocity shrapnel</description>
+    <labelNoun>a shredded wound</labelNoun>
+    <hediffClass>Submunition.AdvHediff_Injury</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.30</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>shredded scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.0125</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <bleedRate>0.1</bleedRate>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Torn off</destroyedLabel>
+      <destroyedOutLabel>Torn out</destroyedOutLabel>
+    </injuryProps>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffChainHediffToAdd>SM_Shrapnel_hediff</advHediffChainHediffToAdd>
+        <advHediffChainHediffStrength>-1</advHediffChainHediffStrength>
+        <advHediffChainHediffChance>.5</advHediffChainHediffChance>
+        <advHediffChainHediffScale>1</advHediffChainHediffScale>
+        <advHediffChainHediffRandomPart>false</advHediffChainHediffRandomPart>
+        <advHediffChainHediffWholeBody>false</advHediffChainHediffWholeBody>
+        <advHediffChainHediffMerge>false</advHediffChainHediffMerge>
+      </li>
+    </modExtensions>
+  </HediffDef>
+  <HediffDef ParentName="InjuryBase">
+    <defName>SM_Shrapnel_hediff</defName>
+    <label>shrapnel</label>
+    <description>A sharp jagged piece of embedded metal, causes constant bleeding and pain until removed</description>
+    <labelNoun>a piece of shrapnel</labelNoun>
+    <hediffClass>Submunition.AdvHediff_Injury</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.5</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>shrapnel scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.05</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <bleedRate>0.06</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Torn off</destroyedLabel>
+      <destroyedOutLabel>Torn out</destroyedOutLabel>
+    </injuryProps>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffTendReducesSeverity>999</advHediffTendReducesSeverity>
+        <advHediffTendDificulty>0.25</advHediffTendDificulty>
+      </li>
+    </modExtensions>
+  </HediffDef>
+
+  <!-- mech -->
+  <HediffDef ParentName="InjuryBase">
+    <defName>SM_Hediff_Mech_All</defName>
+    <hediffClass>Submunition.AdvHediff</hediffClass>
+    <defaultLabelColor>(0.5, 1.0, 0.5)</defaultLabelColor>
+    <label>Mechinites</label>
+    <description>mechinite contamination the will constantly destroy surrounding tissue</description>
+    <makesSickThought>true</makesSickThought>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffDamageDef>SM_Mech_All</advHediffDamageDef>
+        <advHediffDamageStrength>1</advHediffDamageStrength>
+        <advHediffDamageScale>1</advHediffDamageScale>
+        <advHediffDamageInterval>30</advHediffDamageInterval>
+        <advHediffDamageRandomPart>false</advHediffDamageRandomPart>
+        <advHediffTendReducesSeverity>-1</advHediffTendReducesSeverity>
+      </li>
+    </modExtensions>
+  </HediffDef>
+
+  <!-- wp flash/burn/frag -->
+  <HediffDef>
+    <defName>FlashBlind</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <label>Flash Blindness</label>
+    <description>Eye damage due to exposure to extremely bright light</description>
+    <makesSickThought>true</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-48.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <setMax>0.9</setMax>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>moderate</label>
+        <minSeverity>0.20</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <setMax>0.7</setMax>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>serious</label>
+        <minSeverity>0.40</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <setMax>0.5</setMax>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>serious</label>
+        <minSeverity>0.60</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <setMax>0.30</setMax>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>extreme</label>
+        <minSeverity>0.80</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <setMax>0.10</setMax>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Blindness</hediff>
+            <mtbDays>10</mtbDays>
+            <partsToAffect>
+              <li>Eye</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+      <li>
+        <label>extreme</label>
+        <minSeverity>1.00</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <setMax>0.00</setMax>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Blindness</hediff>
+            <mtbDays>5</mtbDays>
+            <partsToAffect>
+              <li>Eye</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  <HediffDef ParentName="InjuryBase">
+    <defName>SM_WP_Burn</defName>
+    <hediffClass>Submunition.AdvHediff_Injury</hediffClass>
+    <label>burn</label>
+    <description>burns caused by exposure to white phosphorus</description>
+    <labelNoun>a burn</labelNoun>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.30</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>burn scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.01875</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Burned off</destroyedLabel>
+      <destroyedOutLabel>Burned out</destroyedOutLabel>
+    </injuryProps>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <!-- <advHediffDamageDef>WhitePhospher</advHediffDamageDef>-->
+        <!-- <advHediffDamageStrength>1</advHediffDamageStrength> -->
+        <!-- <advHediffDamageInterval>60</advHediffDamageInterval>-->
+        <!-- <advHediffDamageRandomPart>false</advHediffDamageRandomPart> -->
+        <!-- <advHediffDamageResist> </advHediffDamageResist> -->
+
+        <!-- <advHediffHediffToAdd>ToxicBuildup</advHediffHediffToAdd> -->
+        <!-- <advHediffHediffInterval>20</advHediffHediffInterval> -->
+        <!-- <advHediffHediffStrength>0.01</advHediffHediffStrength> -->
+        <!-- <advHediffHediffRandomPart>false</advHediffHediffRandomPart> -->
+        <!-- <advHediffHediffWholeBody>true</advHediffHediffWholeBody> -->
+        <!-- <advHediffHediffResist>ToxicSensitivity</advHediffHediffResist> -->
+
+        <advHediffChainHediffToAdd>SM_WP_debries</advHediffChainHediffToAdd>
+        <advHediffChainHediffStrength>-1</advHediffChainHediffStrength>
+        <advHediffChainHediffRandomPart>false</advHediffChainHediffRandomPart>
+        <advHediffChainHediffWholeBody>false</advHediffChainHediffWholeBody>
+        <!-- <advHediffChainHediffResist>ToxicSensitivity</advHediffChainHediffResist> -->
+      </li>
+    </modExtensions>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_WP_debries</defName>
+    <label>White Phosphorus shrapnel</label>
+    <description>a piece of embedded white phosphorus... still burning</description>
+    <labelNoun>White Phosphorus shrapnel</labelNoun>
+    <tendable>true</tendable>
+    <displayWound>false</displayWound>
+    <hediffClass>Submunition.AdvHediff</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <makesSickThought>true</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffDamageDef>WhitePhospher</advHediffDamageDef>
+        <advHediffDamageStrength>-1</advHediffDamageStrength>
+        <advHediffDamageScale>0.25</advHediffDamageScale>
+        <advHediffDamageInterval>60</advHediffDamageInterval>
+        <advHediffDamageRandomPart>false</advHediffDamageRandomPart>
+        <!-- <advHediffDamageResist> </advHediffDamageResist> -->
+
+        <!-- <advHediffHediffToAdd>ToxicBuildup</advHediffHediffToAdd> -->
+        <!-- <advHediffHediffInterval>20</advHediffHediffInterval> -->
+        <!-- <advHediffHediffStrength>0.01</advHediffHediffStrength> -->
+        <!-- <advHediffHediffRandomPart>false</advHediffHediffRandomPart> -->
+        <!-- <advHediffHediffWholeBody>true</advHediffHediffWholeBody> -->
+        <!-- <advHediffHediffResist>ToxicSensitivity</advHediffHediffResist> -->
+
+        <advHediffSeverityInterval>60</advHediffSeverityInterval>
+        <advHediffSeverityOffset>-0.1</advHediffSeverityOffset>
+
+        <advHediffTendReducesSeverity>999</advHediffTendReducesSeverity>
+        <advHediffTendDificulty>0.5</advHediffTendDificulty>
+      </li>
+    </modExtensions>
+  </HediffDef>
+
+  <!-- chem burn/nerve -->
+  <HediffDef ParentName="InjuryBase">
+    <defName>SM_Chem_Burn</defName>
+    <label>chemical burn</label>
+    <description>burns from exposure to caustic chemicals</description>
+    <labelNoun>a chemical burn</labelNoun>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.30</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>chemical burn scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.03</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.009</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Melted off</destroyedLabel>
+      <destroyedOutLabel>Melted out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NerveAgent</defName>
+    <hediffClass>Submunition.AdvHediff</hediffClass>
+    <defaultLabelColor>(0.5, 1.0, 0.5)</defaultLabelColor>
+    <label>R-NDY</label>
+    <description>contamination from the nerve agent R-NDY</description>
+    <makesSickThought>true</makesSickThought>
+    <tendable>true</tendable>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <baseTendDurationHours>1</baseTendDurationHours>
+        <severityPerDayTended>0</severityPerDayTended>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <painOffset>0.01</painOffset>
+        <vomitMtbDays>4</vomitMtbDays>
+        <partEfficiencyOffset>-0.2</partEfficiencyOffset>
+        <lifeThreatening>true</lifeThreatening>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>50</mtbDays>
+            <canAffectAnyLivePart>true</canAffectAnyLivePart>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Dementia</hediff>
+            <mtbDays>50</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <painOffset>0.02</painOffset>
+        <label>moderate</label>
+        <vomitMtbDays>2</vomitMtbDays>
+        <partEfficiencyOffset>-0.4</partEfficiencyOffset>
+        <lifeThreatening>true</lifeThreatening>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>10</mtbDays>
+            <canAffectAnyLivePart>true</canAffectAnyLivePart>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Dementia</hediff>
+            <mtbDays>10</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <painOffset>0.04</painOffset>
+        <label>serious</label>
+        <vomitMtbDays>1</vomitMtbDays>
+        <partEfficiencyOffset>-0.8</partEfficiencyOffset>
+        <lifeThreatening>true</lifeThreatening>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>1</mtbDays>
+            <canAffectAnyLivePart>true</canAffectAnyLivePart>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Dementia</hediff>
+            <mtbDays>1</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <painOffset>0.06</painOffset>
+        <label>extreme</label>
+        <vomitMtbDays>0.5</vomitMtbDays>
+        <lifeThreatening>true</lifeThreatening>
+        <partEfficiencyOffset>-1.6</partEfficiencyOffset>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>.2</mtbDays>
+            <canAffectAnyLivePart>true</canAffectAnyLivePart>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Dementia</hediff>
+            <mtbDays>.2</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+    </stages>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffDamageDef>SM_Toxic</advHediffDamageDef>
+        <advHediffDamageStrength>-1</advHediffDamageStrength>
+        <advHediffDamageScale>10</advHediffDamageScale>
+        <advHediffDamageInterval>240</advHediffDamageInterval>
+        <advHediffDamageRandomPart>false</advHediffDamageRandomPart>
+        <!-- <advHediffDamageResist> </advHediffDamageResist> -->
+
+        <!-- <advHediffHediffToAdd>ToxicBuildup</advHediffHediffToAdd>
+        <advHediffHediffInterval>480</advHediffHediffInterval>
+        <advHediffHediffStrength>0.01</advHediffHediffStrength>
+        <advHediffHediffRandomPart>false</advHediffHediffRandomPart>
+        <advHediffHediffWholeBody>true</advHediffHediffWholeBody> -->
+        <!-- <advHediffHediffResist>ToxicSensitivity</advHediffHediffResist> -->
+
+        <advHediffTendReducesSeverity>-1</advHediffTendReducesSeverity>
+      </li>
+    </modExtensions>
+  </HediffDef>
+
+  <!-- tear gas -->
+  <HediffDef>
+    <defName>SM_Teargas</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <label>Tear Gas</label>
+    <description>contamination from tear gas. causes extreme nausea, difficulty seeing and breathing</description>
+    <makesSickThought>true</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>10</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-120.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <vomitMtbDays>0.5</vomitMtbDays>
+        <painOffset>0.1</painOffset>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.01</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.01</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.3</vomitMtbDays>
+        <painOffset>0.2</painOffset>
+        <minSeverity>0.10</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.2</vomitMtbDays>
+        <painOffset>0.3</painOffset>
+        <minSeverity>0.20</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.2</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.2</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.1</vomitMtbDays>
+        <painOffset>0.4</painOffset>
+        <minSeverity>0.30</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.3</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.3</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.05</vomitMtbDays>
+        <painOffset>0.5</painOffset>
+        <minSeverity>0.40</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.4</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.4</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.01</vomitMtbDays>
+        <painOffset>0.6</painOffset>
+        <minSeverity>0.50</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.5</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.5</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.01</vomitMtbDays>
+        <painOffset>0.6</painOffset>
+        <minSeverity>0.60</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.6</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.6</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <vomitMtbDays>0.01</vomitMtbDays>
+        <painOffset>0.8</painOffset>
+        <minSeverity>0.70</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.7</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.7</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- dart -->
+  <HediffDef ParentName="InjuryBase" Name="SM_Dart" Abstract="True">
+    <defName>SM_Dart</defName>
+    <label>dart</label>
+    <description>site of a dart injection point</description>
+    <labelNoun>a dart wound</labelNoun>
+    <hediffClass>Submunition.AdvHediff_Injury</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.01</infectionChance>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.0125</painPerSeverity>
+      <bleedRate>0.01</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Shot off</destroyedLabel>
+      <destroyedOutLabel>Shot out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <!-- narq darts -->
+  <HediffDef ParentName="SM_Dart">
+    <defName>SM_SeditiveDart</defName>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffChainHediffToAdd>SM_Seditive</advHediffChainHediffToAdd>
+        <advHediffChainHediffStrength>-1</advHediffChainHediffStrength>
+        <advHediffChainHediffMerge>false</advHediffChainHediffMerge>
+        <advHediffChainHediffRandomPart>false</advHediffChainHediffRandomPart>
+        <advHediffChainHediffWholeBody>false</advHediffChainHediffWholeBody>
+      </li>
+    </modExtensions>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_Seditive</defName>
+    <label>Sedative</label>
+    <description>pocket of strong sedative, will seep into the bloodstream over time</description>
+    <labelNoun>Sedative</labelNoun>
+    <tendable>false</tendable>
+    <displayWound>false</displayWound>
+    <hediffClass>Submunition.AdvHediff</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffHediffToAdd>SM_Sedated</advHediffHediffToAdd>
+        <advHediffHediffInterval>60</advHediffHediffInterval>
+        <advHediffHediffStrength>0.1</advHediffHediffStrength>
+        <advHediffHediffRandomPart>false</advHediffHediffRandomPart>
+        <advHediffHediffWholeBody>true</advHediffHediffWholeBody>
+        <advHediffHediffBodyScaling>true</advHediffHediffBodyScaling>
+
+        <advHediffSeverityInterval>60</advHediffSeverityInterval>
+        <advHediffSeverityOffset>-0.1</advHediffSeverityOffset>
+      </li>
+    </modExtensions>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_Sedated</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <label>Sedated</label>
+    <description>a strong sedative, relaxing and soothing. In large doses can cause unconsciousness</description>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>2</restFallFactor>
+        <painFactor>0.90</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.05</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <restFallFactor>4</restFallFactor>
+        <minSeverity>0.2</minSeverity>
+        <painFactor>0.90</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.05</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <restFallFactor>8</restFallFactor>
+        <minSeverity>0.4</minSeverity>
+        <painFactor>0.85</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.40</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.1</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <restFallFactor>12</restFallFactor>
+        <minSeverity>0.6</minSeverity>
+        <painFactor>0.80</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.60</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.15</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <restFallFactor>16</restFallFactor>
+        <minSeverity>0.8</minSeverity>
+        <painFactor>0.75</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.80</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.2</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <restFallFactor>100</restFallFactor>
+        <minSeverity>1</minSeverity>
+        <painFactor>0.70</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>.1</setMax>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.25</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_SeditiveHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Sedated</label>
+    <description>a strong sedative, relaxing and soothing. In large doses can cause unconsciousness</description>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.25</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <restFallFactor>1.25</restFallFactor>
+          <painFactor>0.90</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.05</offset>
+            </li>
+          </capMods>
+          <statOffsets>
+            <MentalBreakThreshold>-0.10</MentalBreakThreshold>
+          </statOffsets>
+        </li>
+        <li>
+          <minSeverity>0.251</minSeverity>
+          <restFallFactor>1.50</restFallFactor>
+          <painFactor>0.85</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.15</offset>
+            </li>
+          </capMods>
+          <statOffsets>
+            <MentalBreakThreshold>-0.15</MentalBreakThreshold>
+          </statOffsets>
+        </li>
+        <li>
+          <minSeverity>0.501</minSeverity>
+          <restFallFactor>1.750</restFallFactor>
+          <painFactor>0.8</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.25</offset>
+            </li>
+          </capMods>
+          <statOffsets>
+            <MentalBreakThreshold>-0.2</MentalBreakThreshold>
+          </statOffsets>
+        </li>
+        <li>
+          <minSeverity>0.751</minSeverity>
+          <restFallFactor>2</restFallFactor>
+          <painFactor>0.75</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.35</offset>
+            </li>
+          </capMods>
+          <statOffsets>
+            <MentalBreakThreshold>-0.25</MentalBreakThreshold>
+          </statOffsets>
+        </li>
+      </stages>
+  </HediffDef>
+
+  <!-- Roid darts -->
+  <HediffDef ParentName="SM_Dart">
+    <defName>SM_BerserkDart</defName>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffChainHediffToAdd>SM_Berserk</advHediffChainHediffToAdd>
+        <advHediffChainHediffStrength>-1</advHediffChainHediffStrength>
+        <advHediffChainHediffMerge>false</advHediffChainHediffMerge>
+        <advHediffChainHediffRandomPart>false</advHediffChainHediffRandomPart>
+        <advHediffChainHediffWholeBody>false</advHediffChainHediffWholeBody>
+      </li>
+    </modExtensions>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_Berserk</defName>
+    <label>Roid</label>
+    <description>pocket of Roid combat stimulant, will seep into the bloodstream over time</description>
+    <labelNoun>Roid</labelNoun>
+    <tendable>false</tendable>
+    <displayWound>false</displayWound>
+    <hediffClass>Submunition.AdvHediff</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <modExtensions>
+      <li Class="Submunition.DefAdvHediffExtension">
+        <advHediffHediffToAdd>SM_Raging</advHediffHediffToAdd>
+        <advHediffHediffInterval>60</advHediffHediffInterval>
+        <advHediffHediffStrength>0.1</advHediffHediffStrength>
+        <advHediffHediffRandomPart>false</advHediffHediffRandomPart>
+        <advHediffHediffWholeBody>true</advHediffHediffWholeBody>
+        <advHediffHediffBodyScaling>true</advHediffHediffBodyScaling>
+
+        <advHediffSeverityInterval>60</advHediffSeverityInterval>
+        <advHediffSeverityOffset>-0.1</advHediffSeverityOffset>
+      </li>
+    </modExtensions>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_Raging</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0, 0.7, 0.7)</defaultLabelColor>
+    <label>Raging</label>
+    <description>a powerful combat stimulant, can cause extreme aggression</description>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>2.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-6</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>0.1</restFallFactor>
+        <painFactor>0.1</painFactor>
+        <hungerRateFactor>1.5</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.5</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.5</offset>
+					</li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.5</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>1</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>0.50</minSeverity>
+        <restFallFactor>0.01</restFallFactor>
+        <painFactor>0.01</painFactor>
+        <hungerRateFactor>3</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.2</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.75</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.75</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.75</offset>
+					</li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.75</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>.1</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>1.00</minSeverity>
+        <restFallFactor>0.01</restFallFactor>
+        <painFactor>0.01</painFactor>
+        <hungerRateFactor>5</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.3</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>1.5</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>1.5</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>1.5</offset>
+					</li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>1.5</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>.01</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>SM_RagingHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>High on Roid</label>
+    <description>a powerful combat stimulant, can cause extreme aggression</description>
+    <labelNoun>a Roid high</labelNoun>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.07</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>0.1</restFallFactor>
+        <painFactor>0.1</painFactor>
+        <hungerRateFactor>1.5</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.1</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.5</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.5</offset>
+					</li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.5</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>60</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>0.333</minSeverity>
+        <restFallFactor>0.01</restFallFactor>
+        <painFactor>0.01</painFactor>
+        <hungerRateFactor>3</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.2</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.75</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.75</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.75</offset>
+					</li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.75</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>30</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>0.666</minSeverity>
+        <restFallFactor>0.01</restFallFactor>
+        <painFactor>0.01</painFactor>
+        <hungerRateFactor>5</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.3</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>1.25</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>1.25</offset>
+          </li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>1.25</offset>
+					</li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>1.25</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ChemicalDef>
+    <defName>Roid</defName>
+    <label>roid</label>
+    <addictionHediff>RoidAddiction</addictionHediff>
+    <toleranceHediff>RoidTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_Roid</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>roid</label>
+    <description>Because of a Roid addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>RoidTolerance</defName>
+    <label>Roid tolerance</label>
+    <description>resistance to Roid</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.01</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>Roid</chemical>
+      </li>
+    </comps>
+		<hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>ChemicalDamageModerate</hediff>
+				<minSeverity>0.50</minSeverity>
+				<baseMtbDays>120</baseMtbDays>
+				<partsToAffect>
+					<li>Brain</li>
+				</partsToAffect>
+			</li>
+		</hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>RoidAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>roid addiction</label>
+    <description>addiction to Roid</description>
+    <causesNeed>Chemical_Roid</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.01</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <painFactor>5</painFactor>
+        <restFallFactor>5</restFallFactor>
+        <hungerRateFactor>0.5</hungerRateFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.50</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugExtreme</mentalState>
+						<mtbDays>40</mtbDays>
+					</li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>60</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
