@@ -1,0 +1,255 @@
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Ideology</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ThoughtDef[defName="GenderRatioBase"]</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<IssueDef>
+							<defName>AP_FemaleIssue</defName>
+							<label>female presence</label>
+							<iconPath>UI/Issues/FemPresence</iconPath>
+						</IssueDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<PreceptDef>
+							<defName>AP_FemalePreceptZero</defName>
+							<issue>AP_FemaleIssue</issue>
+							<label>Ignored</label>
+							<description>Women are a part of life, but not a necessary one. Their presence is irrelevant.</description>
+							<impact>Low</impact>
+							<classic>true</classic>
+							<displayOrderInIssue>10</displayOrderInIssue>
+							<requiredMemes>
+								<li>MaleSupremacy</li>
+							</requiredMemes>
+						</PreceptDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<PreceptDef>
+							<defName>AP_FemalePreceptOne</defName>
+							<issue>AP_FemaleIssue</issue>
+							<label>appreciated</label>
+							<description>Women are a welcome addition to our people. Having them around makes life a little less dismal.</description>
+							<impact>Medium</impact>
+							<classic>false</classic>
+							<displayOrderInIssue>10</displayOrderInIssue>
+							<comps>
+								<li Class="PreceptComp_SituationalThought">
+									<description>Women count</description>
+									<thought>GenderRatioOne</thought>
+									<tooltipShowMoodRange>true</tooltipShowMoodRange>
+								</li>
+							</comps>
+							<requiredMemes>
+								<li>MaleSupremacy</li>
+							</requiredMemes>
+						</PreceptDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<PreceptDef>
+							<defName>AP_FemalePreceptTwo</defName>
+							<issue>AP_FemaleIssue</issue>
+							<label>desired</label>
+							<description>The absence of woman makes the soul ache. Without women our struggles feel tougher to overcome.</description>
+							<impact>Medium</impact>
+							<classic>true</classic>
+							<displayOrderInIssue>10</displayOrderInIssue>
+							<defaultSelectionWeight>1</defaultSelectionWeight>
+							<comps>
+								<li Class="PreceptComp_SituationalThought">
+									<description>Women count</description>
+									<thought>GenderRatioTwo</thought>
+									<tooltipShowMoodRange>true</tooltipShowMoodRange>
+								</li>
+							</comps>
+						</PreceptDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<PreceptDef>
+							<defName>AP_FemalePreceptThree</defName>
+							<issue>AP_FemaleIssue</issue>
+							<label>essential</label>
+							<description>The male is nothing without its female half. No colony can truly prosper without an abundance of women.</description>
+							<impact>High</impact>
+							<classic>false</classic>
+							<displayOrderInIssue>10</displayOrderInIssue>
+							<comps>
+								<li Class="PreceptComp_SituationalThought">
+									<description>Women count</description>
+									<thought>GenderRatioThree</thought>
+									<tooltipShowMoodRange>true</tooltipShowMoodRange>
+								</li>
+							</comps>
+							<requiredMemes>
+								<li>MaleSupremacy</li>
+								<li>FemaleSupremacy</li>
+							</requiredMemes>
+						</PreceptDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThoughtDef>
+							<defName>GenderRatioOne</defName>
+							<workerClass>HediffApplier.ThoughtWorker_GenderRatio</workerClass>
+							<validWhileDespawned>true</validWhileDespawned>
+							<nullifyingTraits>
+								<li>Gay</li>
+								<li>Asexual</li>
+								<li>Psychopath</li>
+								<li>DislikesWomen</li>
+								<li>Ascetic</li>
+							</nullifyingTraits>
+							<stages>
+								<li>
+									<label>Absence of women</label>
+									<description>There are no women around. This feels like a harsh place to be.</description>
+									<baseMoodEffect>-2</baseMoodEffect>
+								</li>
+								<li>
+									<label>Scarcity of women</label>
+									<description>There are women around, but too few. This gets frustrating.</description>
+									<baseMoodEffect>0</baseMoodEffect>
+								</li>
+								<li>
+									<label>Feminine pleasance</label>
+									<description>There are women around. It takes my mind off our hardships.</description>
+									<baseMoodEffect>2</baseMoodEffect>
+								</li>
+								<li>
+									<label>Abundance of women</label>
+									<description>There are plenty of women around. It really feels like home here.</description>
+									<baseMoodEffect>5</baseMoodEffect>
+								</li>
+							</stages>
+							<nullifyingPrecepts>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptZero</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptTwo</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptThree</li>
+							</nullifyingPrecepts>
+						</ThoughtDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThoughtDef>
+							<defName>GenderRatioTwo</defName>
+							<workerClass>HediffApplier.ThoughtWorker_GenderRatio</workerClass>
+							<validWhileDespawned>true</validWhileDespawned>
+							<nullifyingTraits>
+								<li>Gay</li>
+								<li>Asexual</li>
+								<li>Psychopath</li>
+								<li>DislikesWomen</li>
+								<li>Ascetic</li>
+							</nullifyingTraits>
+							<stages>
+								<li>
+									<label>Absence of women</label>
+									<description>There are no women around. This feels like a harsh place to be.</description>
+									<baseMoodEffect>-8</baseMoodEffect>
+								</li>
+								<li>
+									<label>Scarcity of women</label>
+									<description>There are women around, but too few. This gets frustrating.</description>
+									<baseMoodEffect>-3</baseMoodEffect>
+								</li>
+								<li>
+									<label>Feminine pleasance</label>
+									<description>There are women around. It takes my mind off our hardships.</description>
+									<baseMoodEffect>6</baseMoodEffect>
+								</li>
+								<li>
+									<label>Abundance of women</label>
+									<description>There are plenty of women around. It really feels like home here.</description>
+									<baseMoodEffect>12</baseMoodEffect>
+								</li>
+							</stages>
+							<nullifyingPrecepts>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptZero</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptOne</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptThree</li>
+							</nullifyingPrecepts>
+						</ThoughtDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThoughtDef>
+							<defName>GenderRatioThree</defName>
+							<workerClass>HediffApplier.ThoughtWorker_GenderRatio</workerClass>
+							<validWhileDespawned>true</validWhileDespawned>
+							<nullifyingTraits>
+								<li>Gay</li>
+								<li>Asexual</li>
+								<li>Psychopath</li>
+								<li>DislikesWomen</li>
+								<li>Ascetic</li>
+							</nullifyingTraits>
+							<stages>
+								<li>
+									<label>Absence of women</label>
+									<description>There are no women around. This feels like a harsh place to be.</description>
+									<baseMoodEffect>-20</baseMoodEffect>
+								</li>
+								<li>
+									<label>Scarcity of women</label>
+									<description>There are women around, but too few. This gets frustrating.</description>
+									<baseMoodEffect>-5</baseMoodEffect>
+								</li>
+								<li>
+									<label>Feminine pleasance</label>
+									<description>There are women around. It takes my mind off our hardships.</description>
+									<baseMoodEffect>8</baseMoodEffect>
+								</li>
+								<li>
+									<label>Abundance of women</label>
+									<description>There are plenty of women around. It really feels like home here.</description>
+									<baseMoodEffect>20</baseMoodEffect>
+								</li>
+							</stages>
+							<nullifyingPrecepts>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptZero</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptTwo</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">AP_FemalePreceptOne</li>
+							</nullifyingPrecepts>
+						</ThoughtDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/MemeDef[defName="FemaleSupremacy"]</xpath>
+					<value>
+							<requireOne>
+								<li>
+									<li>AP_FemalePreceptTwo</li>
+									<li>AP_FemalePreceptThree</li>
+								</li>
+							</requireOne>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
