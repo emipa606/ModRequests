@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>FishIndustry</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Tailteeth</defName>
+							<label>tailteeth hide</label>
+							<graphicData>
+								<color>(115,110,100)</color>
+							</graphicData>
+						</ThingDef>
+					</value>
+				</li>
+				<!--change label to avoid confusion
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="Hide_Tailteeth"]/label</xpath>
+					<value>
+						<label>dinosaur leather</label>
+					</value>
+				</li>
+				-->
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef/race/leatherDef[text()="Leather_Tailteeth"]</xpath>
+					<value>
+						<leatherDef>Hide_Tailteeth</leatherDef>
+					</value>
+				</li>				
+				<!-- add the prepared hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="PreparedHideBase">
+							<defName>Prepared_Hide_Tailteeth</defName>
+							<label>prepared tailteeth hide</label>
+						</ThingDef>
+					</value>
+				</li>				
+				<!-- add the recipes-->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<RecipeDef ParentName="PrepareHideBase">
+							<label>prepare tailteeth hide</label>
+							<defName>Owl_PrepareHideTailteeth</defName>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Hide_Tailteeth</li>
+										</thingDefs>
+									</filter>
+									<count>15</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Owl_TanningLiquor</li>
+										</thingDefs>
+									</filter>
+									<count>7</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>Hide_Tailteeth</li>
+									<li>Owl_TanningLiquor</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<Prepared_Hide_Tailteeth>15</Prepared_Hide_Tailteeth>
+							</products>
+						</RecipeDef>
+					</value>
+				</li>
+				<!-- Add the tannin vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="UniversalFermenter.CompProperties_UniversalFermenter"]/products</xpath>
+					<value>
+						<li>
+							<thingDef>Leather_Tailteeth</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Prepared_Hide_Tailteeth</li>
+								</thingDefs>
+							</ingredientFilter>
+							<maxCapacity>75</maxCapacity>
+							<baseFermentationDuration>182000</baseFermentationDuration>
+							<temperatureIdeal>
+								<min>1</min>
+								<max>99</max>
+							</temperatureIdeal>
+							<temperatureSafe>
+								<min>-50</min>
+								<max>200</max>
+							</temperatureSafe>
+							<graphSuffix>_full</graphSuffix>
+						</li>	
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

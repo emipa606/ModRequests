@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Magical Menagerie</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_LightMagical</defName>
+							<label>light magical hide</label>
+							<graphicData>
+								<color>(203,167,107)</color>
+							</graphicData>
+						</ThingDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_HeavyMagical</defName>
+							<label>heavy magical hide</label>
+							<graphicData>
+								<color>(66,62,49)</color>
+							</graphicData>
+						</ThingDef>
+					</value>
+				</li>				
+				<!--change label to avoid confusion
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="Hide_LightMagical"]/label</xpath>
+					<value>
+						<label>dinosaur leather</label>
+					</value>
+				</li>
+				-->
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef/race/leatherDef[text()="MM_LightMagicalLeather"]</xpath>
+					<value>
+						<leatherDef>Hide_LightMagical</leatherDef>
+					</value>
+				</li>				
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef/race/leatherDef[text()="MM_HeavyMagicalLeather"]</xpath>
+					<value>
+						<leatherDef>Hide_HeavyMagical</leatherDef>
+					</value>
+				</li>	
+				<!-- add the prepared hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="PreparedHideBase">
+							<defName>Prepared_Hide_LightMagical</defName>
+							<label>prepared light magical hide</label>
+						</ThingDef>
+					</value>
+				</li>				
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="PreparedHideBase">
+							<defName>Prepared_Hide_HeavyMagical</defName>
+							<label>prepared heavy magical hide</label>
+						</ThingDef>
+					</value>
+				</li>					
+				<!-- add the recipes-->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<RecipeDef ParentName="PrepareHideBase">
+							<label>prepare light magical hide</label>
+							<defName>Owl_PrepareHideLightMagical</defName>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Hide_LightMagical</li>
+										</thingDefs>
+									</filter>
+									<count>15</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Owl_TanningLiquor</li>
+										</thingDefs>
+									</filter>
+									<count>7</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>Hide_LightMagical</li>
+									<li>Owl_TanningLiquor</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<Prepared_Hide_LightMagical>15</Prepared_Hide_LightMagical>
+							</products>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<RecipeDef ParentName="PrepareHideBase">
+							<label>prepare heavy magical hide</label>
+							<defName>Owl_PrepareHideHeavyMagical</defName>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Hide_HeavyMagical</li>
+										</thingDefs>
+									</filter>
+									<count>15</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Owl_TanningLiquor</li>
+										</thingDefs>
+									</filter>
+									<count>7</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>Hide_HeavyMagical</li>
+									<li>Owl_TanningLiquor</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<Prepared_Hide_HeavyMagical>15</Prepared_Hide_HeavyMagical>
+							</products>
+						</RecipeDef>
+					</value>
+				</li>
+				<!-- Add the tannin vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="UniversalFermenter.CompProperties_UniversalFermenter"]/products</xpath>
+					<value>
+						<li>
+							<thingDef>MM_LightMagicalLeather</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Prepared_Hide_LightMagical</li>
+								</thingDefs>
+							</ingredientFilter>
+							<maxCapacity>75</maxCapacity>
+							<baseFermentationDuration>182000</baseFermentationDuration>
+							<temperatureIdeal>
+								<min>1</min>
+								<max>99</max>
+							</temperatureIdeal>
+							<temperatureSafe>
+								<min>-50</min>
+								<max>200</max>
+							</temperatureSafe>
+							<graphSuffix>_full</graphSuffix>
+						</li>	
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="UniversalFermenter.CompProperties_UniversalFermenter"]/products</xpath>
+					<value>
+						<li>
+							<thingDef>MM_HeavyMagicalLeather</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Prepared_Hide_HeavyMagical</li>
+								</thingDefs>
+							</ingredientFilter>
+							<maxCapacity>75</maxCapacity>
+							<baseFermentationDuration>182000</baseFermentationDuration>
+							<temperatureIdeal>
+								<min>1</min>
+								<max>99</max>
+							</temperatureIdeal>
+							<temperatureSafe>
+								<min>-50</min>
+								<max>200</max>
+							</temperatureSafe>
+							<graphSuffix>_full</graphSuffix>
+						</li>	
+					</value>
+				</li>				
+			</operations>
+		</match>
+	</Operation>
+</Patch>
