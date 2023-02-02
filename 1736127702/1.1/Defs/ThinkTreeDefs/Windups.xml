@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Defs>
+
+  <ThinkTreeDef>
+    <defName>WindupDefensive</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+      <!-- Keep lying down if we have to -->
+        <li Class="ThinkNode_ConditionalMustKeepLyingDown">
+          <subNodes>
+            <!-- Do a queued job if possible -->
+            <li Class="ThinkNode_QueuedJob">
+              <inBedOnly>true</inBedOnly>
+            </li>
+
+            <!-- Keep lying down -->
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        
+		<li Class="JobGiver_ReactToCloseMeleeThreat" />
+		
+        <li Class="ThinkNode_Subtree">
+          <treeDef>LordDuty</treeDef>
+        </li>
+		
+		<!-- Do a queued job if possible -->
+		<li Class="ThinkNode_QueuedJob">
+		  <inBedOnly>false</inBedOnly>
+		</li>
+		
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+          
+        <li Class="JobGiver_IdleError"/>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+  	<ThinkTreeDef>
+		<defName>WindupDefensiveConstant</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+					<subNodes>
+                        <!-- Fight enemies -->
+						<li Class="JobGiver_AIFightEnemies" />
+					</subNodes>
+				</li>
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+	
+  <ThinkTreeDef>
+    <defName>WindupSimple</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+      <!-- Keep lying down if we have to -->
+        <li Class="ThinkNode_ConditionalMustKeepLyingDown">
+          <subNodes>
+            <!-- Do a queued job if possible -->
+            <li Class="ThinkNode_QueuedJob">
+              <inBedOnly>true</inBedOnly>
+            </li>
+
+            <!-- Keep lying down -->
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+		
+		<li Class="JobGiver_ReactToCloseMeleeThreat" />
+		
+        <li Class="ThinkNode_Subtree">
+          <treeDef>LordDuty</treeDef>
+        </li>
+
+		<li Class="JobGiver_RescueNearby">
+		  <radius>30</radius>
+		</li>
+		
+		<li Class="ThinkNode_ConditionalOfPlayerFaction">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Idle</tagToGive>
+              <subNodes>
+                <!-- Wander near your current position if in hostile map -->
+                <li Class="ThinkNode_ConditionalAnyEnemyInHostileMap">
+                  <subNodes>
+                    <li Class="JobGiver_WanderAnywhere">
+                      <maxDanger>None</maxDanger>
+                      <ticksBetweenWandersRange>
+                        <min>120</min>
+                        <max>240</max>
+                      </ticksBetweenWandersRange>
+                    </li>
+                  </subNodes>
+                </li>
+
+                <!-- Wander near colony -->
+                <li Class="JobGiver_WanderColony">
+                  <maxDanger>None</maxDanger>
+                  <ticksBetweenWandersRange>
+                    <min>120</min>
+                    <max>240</max>
+                  </ticksBetweenWandersRange>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>		
+		
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+  	<ThinkTreeDef>
+		<defName>WindupSimpleConstant</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+					<subNodes>
+						<li Class="JobGiver_AnimalFlee" />
+						<li Class="JobGiver_Haul" />						
+					</subNodes>
+				
+				</li>
+
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+  
+</Defs>

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>Phantasm</defName>
+    <label>phantasm</label>
+    <description>A mind-altering serum that induces pain, paranoia, and hallucinations. Administering this is probably a war crime.</description>
+    <graphicData>
+      <texPath>Things/Item/Drug/Tea</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.88</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>10</MarketValue>
+      <Mass>0.05</Mass>
+      <DeteriorationRate>6</DeteriorationRate>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <baseIngestTicks>240</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Hard</drugCategory>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PhantasmWarp</hediffDef>
+          <severity>1.00</severity>
+        </li>
+	  </outcomeDoers>
+    </ingestible>
+	  <recipeMaker>
+			<researchPrerequisite>Serums</researchPrerequisite>
+      <recipeUsers>
+        <li>TableAlchemy</li>
+      </recipeUsers>
+      <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+      <workSkill>Intellectual</workSkill>
+      <skillRequirements>
+        <Intellectual>3</Intellectual>
+      </skillRequirements>
+    </recipeMaker>
+    <costList>
+      <PsychoidLeaves>10</PsychoidLeaves>
+	  <Yayo>3</Yayo>
+	  <CaS_Bronze>5</CaS_Bronze>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Phantasm</chemical>
+		<addictiveness>0.25</addictiveness>
+        <listOrder>1010</listOrder>
+	  </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>PhantasmWarp</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>phantasm warp</label>
+    <labelNoun>phantasm warp</labelNoun>
+    <description>Active phantasm in the bloodstream. Generates a nightmarish experience.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-3.0</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>1.50</painFactor>
+		  <painOffset>0.2</painOffset>
+		  <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.50</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.10</offset>
+          </li>
+		  <li>
+		    <capacity>Sight</capacity>
+		    <offset>-0.50</offset>
+		  </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.15</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>0.10</offset>
+          </li>
+        </capMods>
+	    <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>HeartAttack</hediff>
+            <mtbDays>60</mtbDays>
+            <partsToAffect>
+              <li>Heart</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+		<mentalStateGivers>
+          <li>
+           <mentalState>Wander_Psychotic</mentalState>
+		   <mtbDays>0.1</mtbDays>
+          </li>
+        </mentalStateGivers>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>PhantasmWarp</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>PhantasmWarp</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>Nightmarish Phantasmagoria</label>
+        <description>Make it stop! Make it stop! AHHHHHH!</description>
+        <baseMoodEffect>-50</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <ChemicalDef>
+    <defName>Phantasm</defName>
+    <label>phantasm</label>
+	<addictionHediff>PhantasmAddiction</addictionHediff>
+	<onGeneratedAddictedEvents>
+      <li>
+        <hediff>ChemicalDamageModerate</hediff>
+        <chance>0.5</chance>
+        <partsToAffect>
+          <li>Brain</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+	<canBinge>false</canBinge>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_Phantasm</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>phantasm</label>
+    <description>This person suffers phantasm dependence, a horrible warping of the mind to enjoy nightmarish pain.</description>
+	<fallPerDay>0.10</fallPerDay>
+    <listPriority>50</listPriority>
+  </NeedDef>
+
+ <HediffDef ParentName="AddictionBase">
+    <defName>PhantasmAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>phantasm dependence</label>
+    <description>A chemical addiction to phantasm. Long-term use of phantasm has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of phantasm, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <causesNeed>Chemical_Phantasm</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+        <li>
+        <label>active</label>
+		<painOffset>0.5</painOffset>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.10</offset>
+          </li>
+		  <li>
+		    <capacity>Sight</capacity>
+		    <offset>0.50</offset>
+		  </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.20</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>0.20</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>recovering</label>
+        <restFallFactorOffset>0.5</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.50</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>PhantasmWithdrawl</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>PhantasmAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>phantasmagorical warp</label>
+        <description>Ah, it hurts... I love it! Let the madness take me!</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>
+      <li>
+        <label>recovering from phantasm dependence</label>
+        <description>Everything hurts. Please, let me feel that madness again...</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>
