@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<ThingCategoryDef>
+		<defName>AmmoImpGrenade</defName>
+		<label>Imperial Grenade</label>
+		<parent>AmmoGrenades</parent>
+    <iconPath>UI/Icons/ThingCategories/CaliberGrenade</iconPath>
+	</ThingCategoryDef>
+	
+	<!-- ==================== AmmoSet ========================== -->
+
+  <CombatExtended.AmmoSetDef>
+    <defName>AmmoSet_ImpGrenade</defName>
+    <label>Imperial Grenades</label>
+    <ammoTypes>
+      <Ammo_ImpGrenade>Bullet_ImpGrenade</Ammo_ImpGrenade>
+    </ammoTypes>
+  </CombatExtended.AmmoSetDef>
+	
+	<!-- ==================== Ammo ========================== -->
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="ImpGrenadeBase" ParentName="AmmoBase" Abstract="True">
+    <description>Relatively small, low velocity grenade for use in grenade launchers.</description>
+    <statBases>
+	  <Mass>0.2</Mass>
+	  <Bulk>0.3</Bulk>
+    </statBases>
+    <tradeTags>
+      <li>CE_AutoEnableTrade</li>
+      <li>CE_AutoEnableCrafting_TableMachining</li>
+    </tradeTags>
+    <thingCategories>
+      <li>AmmoImpGrenade</li>
+    </thingCategories>
+    <stackLimit>75</stackLimit>
+    <cookOffFlashScale>20</cookOffFlashScale>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="ImpGrenadeBase">
+    <defName>Ammo_ImpGrenade</defName>
+    <label>Imperial grenade</label>
+    <graphicData>
+      <texPath>Things/Ammo/GrenadeLauncher/HE</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>1.73</MarketValue>
+    </statBases>
+    <ammoClass>GrenadeHE</ammoClass>
+    <comps>
+      <li Class="CombatExtended.CompProperties_ExplosiveCE">
+        <explosionDamage>24</explosionDamage>
+        <explosionDamageDef>Flame</explosionDamageDef>
+        <explosionRadius>3.0</explosionRadius>
+      </li>
+    </comps>
+  </ThingDef>
+	
+	<!-- ================== Projectiles ================== -->
+
+	<ThingDef Class="CombatExtended.AmmoDef" Name="BaseImpGrenade" ParentName="BaseBullet" Abstract="true">
+		<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+		<graphicData>
+			<texPath>Things/IGCore/Projectile/GrenadaProjectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
+			<speed>35</speed>
+			<flyOverhead>false</flyOverhead>
+		</projectile>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseImpGrenade">
+		<defName>Bullet_ImpGrenade</defName>
+		<label>Imperial grenade</label>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
+			<explosionRadius>3.0</explosionRadius>
+			<damageDef>Flame</damageDef>
+			<damageAmountBase>24</damageAmountBase>
+			<postExplosionSpawnThingDef>Filth_Fuel</postExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.15</preExplosionSpawnChance>
+			<soundExplode>IGLRG_Explosion</soundExplode>
+		</projectile>
+	</ThingDef>
+  
+	<!-- ==================== Recipes ========================== -->
+  
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>MakeAmmo_ImpGrenade</defName>
+    <label>make Imperial grenades x50</label>
+    <description>Craft 50 Imperial grenades.</description>
+    <jobString>Making Imperial grenades.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FSX</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>FSX</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_ImpGrenade>50</Ammo_ImpGrenade>
+    </products>
+	<researchPrerequisite>WRGrenadeLauncher</researchPrerequisite>
+  </RecipeDef>
+	
+</Defs>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ThingCategoryDef>
+      <defName>AmmoBoltGun</defName>
+      <label>BoltGun charge</label>
+      <parent>AmmoAdvanced</parent>
+      <iconPath>UI/Icons/ThingCategories/CaliberCharge</iconPath>
+    </ThingCategoryDef>
+	
+	<!-- ==================== AmmoSet ========================== -->
+
+  <CombatExtended.AmmoSetDef>
+    <defName>AmmoSet_BoltGun</defName>
+    <label>BoltGun charge</label>
+    <ammoTypes>
+      <Ammo_BoltGun>Bullet_BoltGun</Ammo_BoltGun>
+    </ammoTypes>
+  </CombatExtended.AmmoSetDef>
+	
+	<!-- ==================== Ammo ========================== -->
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="BoltGunBase" ParentName="AmmoBase" Abstract="True">
+    <description>BoltGun ammo</description>
+    <statBases>
+	  <Mass>0.01</Mass>
+	  <Bulk>0.02</Bulk>
+    </statBases>
+    <tradeTags>
+      <li>CE_AutoEnableTrade</li>
+      <li>CE_AutoEnableCrafting</li>
+    </tradeTags>
+    <thingCategories>
+      <li>AmmoBoltGun</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="BoltGunBase">
+    <defName>Ammo_BoltGun</defName>
+    <label>BoltGun cartridge</label>
+    <graphicData>
+      <texPath>Things/Ammo/HighCaliber/HE</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>0.95</MarketValue>
+    </statBases>
+    <ammoClass>FullMetalJacket</ammoClass>
+  </ThingDef>
+	
+	<!-- ================== Projectiles ================== -->
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="BaseBoltGun" ParentName="BaseBullet" Abstract="true">
+    <graphicData>
+      <texPath>Things/IGCore/Projectile/BoltProjectileMk1-MED</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>IGBomb</damageDef>
+      <speed>100</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseBoltGun">
+    <defName>Bullet_BoltGun</defName>
+    <label>BoltGun bullet</label>
+	<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageAmountBase>45</damageAmountBase>
+      <armorPenetrationSharp>40</armorPenetrationSharp>
+      <armorPenetrationBlunt>36</armorPenetrationBlunt>
+	  <explosionRadius>1.01</explosionRadius>
+	  <soundExplode>IGSML_Explosion</soundExplode>
+    </projectile>
+  </ThingDef>
+	
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>MakeAmmo_BoltGun</defName>
+    <label>make BoltGun cartridge x90</label>
+    <description>Craft 90 BoltGun cartridges.</description>
+    <jobString>Making BoltGun cartridges.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Plasteel</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_BoltGun>90</Ammo_BoltGun>
+    </products>
+	<researchPrerequisite>WRBoltGun</researchPrerequisite>
+  </RecipeDef>
+	
+</Defs>
