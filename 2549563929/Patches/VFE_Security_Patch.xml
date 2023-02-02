@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+<Operation Class="PatchOperationFindMod">
+	<mods>
+		<li>Vanilla Furniture Expanded - Security</li>
+	</mods>
+<match Class="PatchOperationFindMod">
+	<mods>
+		<li>Combat Extended</li>
+	</mods>
+<nomatch Class="PatchOperationSequence">
+	<operations>
+<!-- Buildings_AdvancedStructure.xml -->			
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_DeployableBarrier"]/costList/ComponentIndustrial</xpath>
+		<value>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_FloorTurret"]/costList</xpath>
+		<value>
+			<costList Inherit="False">
+			  <Steel>150</Steel>
+			  <ComponentIndustrial>8</ComponentIndustrial>
+			</costList>
+		</value>
+	</li>		
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_MilitaryTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelCapacity</xpath>
+		<value>
+			<fuelCapacity>120</fuelCapacity>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_MilitaryTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelMultiplier</xpath>
+		<value>
+			<fuelMultiplier>0.75</fuelMultiplier>
+		</value>
+	</li>
+	
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_HMGComplex"]/fillPercent</xpath>
+		<value>
+			<fillPercent>0.55</fillPercent>
+		</value>
+	</li>
+	<li Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_HMGComplex"]/researchPrerequisites</xpath>
+		<value>
+			<li>GasOperation</li>
+		</value>
+	</li>
+
+<!-- Buildings_AdvancedTraps.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFES_ChemfuelBarrel" or
+		defName="VFES_Landmine" or
+		defName="VFES_Turret_Decoy" or
+		defName="VFES_Gun_None" or
+		defName="VFES_Bullet_Invisible"]</xpath>
+	</li>
+
+<!-- Buildings_AdvancedTurrets.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFES_Turret_AutocannonDouble" or
+		defName="VFES_TurretDoubleAutocannon_Top"]</xpath>
+	</li>
+
+<!-- Buildings_ArtilleryMortar.xml -->
+	<li Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_Artillery"]</xpath>
+		<value>
+			<costListForDifficulty>
+			  <difficultyVar>classicMortars</difficultyVar>
+			  <invert>true</invert>
+			  <costList>
+				<ComponentIndustrial>9</ComponentIndustrial>
+				<ReinforcedBarrel>1</ReinforcedBarrel>
+			  </costList>
+			  <costStuffCount>100</costStuffCount>
+			</costListForDifficulty>
+		</value>
+	</li>
+	
+	<li Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_Artillery"]/comps</xpath>
+		<value>
+		  <li Class="CompProperties_Refuelable">
+			<fuelLabel>Shots until barrel change</fuelLabel>
+			<fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+			<outOfFuelMessage>Cannot shoot: Needs new reinforced barrel</outOfFuelMessage>
+			<fuelFilter><thingDefs><li>ReinforcedBarrel</li></thingDefs></fuelFilter>
+			<fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+			<fuelCapacity>20</fuelCapacity>
+			<fuelMultiplier>20</fuelMultiplier>
+			<initialFuelPercent>1</initialFuelPercent>
+			<showFuelGizmo>true</showFuelGizmo>
+			<minimumFueledThreshold>1</minimumFueledThreshold>
+			<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+			<initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+			<autoRefuelPercent>0</autoRefuelPercent>
+			<fuelIconPath>Things/Item/Resource/ReinforcedBarrel/ReinforcedBarrel</fuelIconPath>
+		  </li>
+		</value>
+	</li>
+
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_Artillery"]/building/buildingTags/li[text()="Artillery_BaseDestroyer"]</xpath>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_Artillery"]/researchPrerequisites</xpath>
+		<value>
+			<researchPrerequisites Inherit="False">
+			  <li>VFES_Artillery</li>
+			</researchPrerequisites>
+		</value>
+	</li>
+
+<!-- Buildings_IndustrialSecurity.xml -->
+<!-- 			<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_Trench"]</xpath>
+	</li> -->
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Trench"]/statBases/Flammability</xpath>
+		<value>
+			<Flammability>1.0</Flammability>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Trench"]/costList/WoodLog</xpath>
+		<value>
+			<WoodLog>10</WoodLog>
+		</value>
+	</li>
+
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_Platform"]</xpath>
+	</li>
+
+<!-- 			<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_AmmoCrate"]</xpath>
+	</li> -->
+	<li Class="PatchOperationAttributeSet">
+		<xpath>/Defs/ThingDef[defName="VFES_AmmoCrate"]</xpath>
+		<attribute>ParentName</attribute>
+		<value>BuildingBase</value>
+	</li>
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_AmmoCrate"]/researchPrerequisites</xpath>
+	</li>
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_AmmoCrate"]/designationCategory</xpath>
+	</li>
+
+<!-- Buildings_IndustrialTurrets.xml -->	
+	<li Class="PatchOperationAttributeAdd">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_MilitaryTurret"]</xpath>
+		<attribute>Abstract</attribute>
+		<value>True</value>
+	</li>
+	<li Class="PatchOperationAttributeAdd">
+		<xpath>/Defs/ThingDef[defName="VFES_Gun_MilitaryTurret"]</xpath>
+		<attribute>Abstract</attribute>
+		<value>True</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_Searchlight"]/costStuffCount</xpath>
+		<value>
+			<costStuffCount>30</costStuffCount>
+		</value>
+	</li>
+
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFES_Turret_SentryGun" or
+		defName="VFES_Gun_SentryTurret"]</xpath>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_Flame"]/costStuffCount</xpath>
+		<value>
+			<costStuffCount>30</costStuffCount>
+		</value>
+	</li>
+	
+	<li Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Weapons Expanded</li>
+		</mods>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName="VFES_Turret_Flame"]/researchPrerequisites</xpath>
+			<value>
+				<li>VWE_Flamethrower</li>
+			</value>
+		</match>
+	</li>
+
+<!-- Buildings_MedievalDefenses.xml -->
+<!-- 			<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VFES_BearTrap"]</xpath>
+	</li> -->
+
+<!-- Buildings_ShieldGenerator.xml -->
+	<li Class="PatchOperationConditional">
+		<xpath>/Defs/ThingDef[defName="BroadshieldCore"]</xpath>
+		<success>Always</success>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName="VFES_ShieldGenerator_Small"]/costList</xpath>
+			<value>
+				<BroadshieldCore>1</BroadshieldCore>
+			</value>
+		</match>
+	</li>
+
+	<li Class="PatchOperationConditional">
+		<xpath>/Defs/ThingDef[defName="BroadshieldCore"]</xpath>
+		<success>Always</success>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName="VFES_ShieldGenerator_Large"]/costList</xpath>
+			<value>
+				<BroadshieldCore>2</BroadshieldCore>
+			</value>
+		</match>
+	</li>
+	
+	<li Class="PatchOperationConditional">
+		<xpath>/Defs/ThingDef[defName="BroadshieldCore"]</xpath>
+		<success>Always</success>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName="VFES_ShieldGenerator_Archotech"]/costList</xpath>
+			<value>
+				<BroadshieldCore>1</BroadshieldCore>
+			</value>
+		</match>
+	</li>
+
+<!-- Buildings_SpacerComplex.xml -->
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Barrier"]/fillPercent</xpath>
+		<value>
+			<fillPercent>0.55</fillPercent>
+		</value>
+	</li>
+	
+	<li Class="PatchOperationAttributeAdd">
+		<xpath>/Defs/ThingDef[defName="VFES_Barrier"]</xpath>
+		<attribute>Abstract</attribute>
+		<value>True</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeComplex"]/fillPercent</xpath>
+		<value>
+			<fillPercent>0.55</fillPercent>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeComplex"]/comps/li[@Class="CompProperties_Refuelable"]/fuelCapacity</xpath>
+		<value>
+			<fuelCapacity>100</fuelCapacity>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeComplex"]/comps/li[@Class="CompProperties_Refuelable"]/fuelMultiplier</xpath>
+		<value>
+			<fuelMultiplier>50</fuelMultiplier>
+		</value>
+	</li>
+
+<!-- Buildings_SpacerTurrets.xml -->
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeTurret"]/costStuffCount</xpath>
+		<value>
+			<costStuffCount>30</costStuffCount>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelCapacity</xpath>
+		<value>
+			<fuelCapacity>60</fuelCapacity>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelMultiplier</xpath>
+		<value>
+			<fuelMultiplier>2</fuelMultiplier>
+		</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeRailgunTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelCapacity</xpath>
+		<value>
+			<fuelCapacity>60</fuelCapacity>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_ChargeRailgunTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelMultiplier</xpath>
+		<value>
+			<fuelMultiplier>20</fuelMultiplier>
+		</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFES_Turret_EMPTurret"]/comps/li[@Class="CompProperties_Refuelable"]/fuelCapacity</xpath>
+		<value>
+			<fuelCapacity>20</fuelCapacity>
+		</value>
+	</li>
+
+<!-- Buildings_Structure.xml -->
+	<li Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Factions Expanded - Medieval</li>
+		</mods>
+		<nomatch Class="PatchOperationRemove">
+			<xpath>/Defs/ThingDef[defName="VFES_ShortWall"]</xpath>
+		</nomatch>
+	</li>
+
+<!-- Terrain_Special.xml -->
+<!-- 			<li Class="PatchOperationRemove">
+		<xpath>/Defs/TerrainDef[defName="VFES_TrenchTerrain"]</xpath>
+	</li> -->
+
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/TerrainDef[defName="VFES_PlatformTerrain"]</xpath>
+	</li>
+
+<!-- Hediffs_Local_Misc.xml -->
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/HediffDef[defName="VFES_Dazzled"]/stages</xpath>
+		<value>
+			<stages>
+			  <li>
+				<partEfficiencyOffset>-0.3</partEfficiencyOffset>
+			  </li>
+			</stages>
+		</value>
+	</li>
+
+<!-- ResearchProjects_Various.xml -->
+	<li Class="PatchOperationRemove">
+	  <xpath>Defs/ResearchProjectDef[
+	  defName="VFES_SentryGuns" or
+	  defName="VFES_MetalAlloysBarricades"]</xpath>
+	</li>		
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ResearchProjectDef[defName="VFES_ConcealedDefenses"]/prerequisites/li[text()="VFES_MetalAlloysBarricades"]</xpath>
+		<value>
+			<li>MicroelectronicsBasics</li>
+		</value>
+	</li>
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ResearchProjectDef[defName="VFES_PulseChargedDefenses"]/prerequisites/li[text()="VFES_MetalAlloysBarricades"]</xpath>
+	</li>
+
+	</operations>
+</nomatch>
+</match>
+</Operation>
+</Patch>

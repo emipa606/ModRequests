@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+<Operation Class="PatchOperationFindMod">
+	<mods>
+		<li>Vanilla Furniture Expanded - Power</li>
+	</mods>
+	<match Class="PatchOperationSequence">
+	<operations>
+
+<!-- Buildings_AdvancedPower.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFE_AdvancedWindTurbine" or
+		defName="VFE_AdvancedSolarGenerator" or
+		defName="VFE_AdvancedWatermillGenerator" or
+		defName="VPE_AdvancedGeothermalGenerator"]</xpath>
+	</li>
+	
+<!-- Buildings_Batteries.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFE_LargeBattery" or 
+		defName="VFE_SmallBattery" or
+		defName="VFE_LargeAdvancedBattery"]</xpath>
+	</li>
+
+<!-- Buildings_Gas.xml -->
+<!-- 	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VPE_GasPipe" or defName="VPE_GasPipeSub"]</xpath>
+	</li> -->
+	<li Class="PatchOperationAttributeSet">
+		<xpath>/Defs/ThingDef[defName="VPE_GasPipe" or defName="VPE_GasPipeSub"]</xpath>
+		<attribute>ParentName</attribute>
+		<value>BuildingBase</value>
+	</li>
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VPE_GasPipe" or defName="VPE_GasPipeSub"]/researchPrerequisites</xpath>
+	</li>
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VPE_GasPipe" or defName="VPE_GasPipeSub"]/designationCategory</xpath>
+	</li>
+
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VPE_GasPipeValve" or
+		defName="VPE_GasTank" or
+		defName="VPE_HelixienPump" or
+		defName="VPE_HelixienGenerator" or
+		defName="VPE_IndustrialHelixienGenerator" or
+		defName="VPE_GasCrematorium" or
+		defName="VPE_GasSmelter" or
+		defName="VPE_GasStove" or
+		defName="VPE_GasDrill" or
+		defName="VPE_GasCooler" or
+		defName="VPE_GasHeater" or
+		defName="VPE_GasSunLamp" or
+		defName="VPE_GasSmithy" or
+		defName="VPE_GasLamp" or
+		defName="VPE_GasWallLight" or
+		defName="VPE_GasWallDarkLight" or
+		defName="VPE_GasFloodlight" or
+		defName="VPE_GasBiofuelRefinery" or
+		defName="VPE_GasPodLauncher" or
+		defName="VPE_GasVent"]</xpath>
+	</li>
+
+<!-- Buildings_Power.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFE_PortableWoodFiredGenerator" or
+		defName="VFE_IndustrialWoodFiredGenerator" or
+		defName="VFE_IndustrialChemfuelPoweredGenerator"]</xpath>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFE_PortableChemfuelPoweredGenerator"]/comps/li[@Class="CompProperties_Refuelable"]/fuelCapacity</xpath>
+		<value>
+			<fuelCapacity>10.0</fuelCapacity>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFE_PortableChemfuelPoweredGenerator"]/comps/li[@Class="CompProperties_Power"]/basePowerConsumption</xpath>
+		<value>
+			<basePowerConsumption>-300</basePowerConsumption>
+		</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ThingDef[defName="VFE_TidalGenerator"]/comps/li[@Class="CompProperties_Power"]/basePowerConsumption</xpath>
+		<value>
+			<basePowerConsumption>-1600</basePowerConsumption>
+		</value>
+	</li>
+
+<!-- Buildings_Special.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[
+		defName="VFE_SmallVanometricPowerCell" or 
+		defName="VFE_LargeVanometricPowerCell"]</xpath>
+	</li>
+
+<!-- Buildings_Natural.xml -->
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/VanillaPowerExpanded.SpecialPowerSpawnsDef[defName="VPE_SpawnHelixienVents"]/thingDef</xpath>
+		<value>
+			<thingDef>Plant_Grass</thingDef>
+		</value>
+	</li>
+
+<!-- Buildings_Chemfuel.xml -->
+	<li Class="PatchOperationFindMod">
+		<mods>
+			<li>Rimefeller</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationRemove">
+				<xpath>/Defs/ThingDef[defName="VPE_ChemfuelPump"]</xpath>
+			</li>
+			
+			<li Class="PatchOperationReplace">
+				<xpath>/Defs/VanillaPowerExpanded.SpecialPowerSpawnsDef[defName="VPE_SpawnChemfuelPonds"]/thingDef</xpath>
+				<value>
+					<thingDef>Plant_Grass</thingDef>
+				</value>
+			</li>
+		</operations>
+		</match>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName="VPE_ChemfuelPump"]/researchPrerequisites</xpath>
+			<value>
+				<li>DeepDrilling</li>
+			</value>
+		</nomatch>
+	</li>
+
+<!-- Buildings_Nuclear.xml -->
+	<li Class="PatchOperationFindMod">
+		<mods>
+			<li>Dubs Rimatomics</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationRemove">
+				<xpath>/Defs/ThingDef[defName="VPE_NuclearGenerator"]</xpath>
+			</li>
+			
+			<li Class="PatchOperationRemove">
+				<xpath>/Defs/WeatherDef[defName="VPE_RadioactiveFog"]</xpath>
+			</li>
+			
+			<li Class="PatchOperationRemove">
+				<xpath>/Defs/ResearchProjectDef[defName="VFE_NuclearPower"]</xpath>
+			</li>
+		</operations>
+		</match>
+		<nomatch Class="PatchOperationReplace">
+			<xpath>/Defs/ResearchProjectDef[defName="VFE_NuclearPower"]/prerequisites</xpath>
+			<value>
+				<prerequisites>
+				  <li>MultiAnalyzer</li>
+				</prerequisites>
+			</value>
+		</nomatch>
+	</li>
+
+<!-- Mote_Visual.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="VPE_Mote_GasPuff"]</xpath>
+	</li>
+
+<!-- LetterDef.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/LetterDef[defName="VPE_GasUpdateNoticeLetter"]</xpath>
+	</li>
+
+<!-- DeconstructGasNetwork.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/DesignationCategoryDef[defName="Power"]/specialDesignatorClasses/li[text()="GasNetwork.Designator_DeconstructGasNetwork"]</xpath>
+	</li>
+
+<!-- Gas.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ThingDef[defName="Gas_Helixien"]</xpath>
+	</li>
+
+<!-- WorkGivers.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/WorkGiverDef[
+		defName="VPE_DoBillsGasCrematorium" or
+		defName="VPE_BurnGasCrematorium" or
+		defName="VPE_DoBillsGasSmelter" or
+		defName="VPE_DoBillsGasStove" or
+		defName="VPE_DoBillsGasSmithy" or
+		defName="VPE_DoBillsGasRefinery" or
+		defName="VPE_WorkAtGasExcavator" or
+		defName="VPE_WorkGiverPluggingHole"]</xpath>
+	</li>
+
+<!-- ResearchProjects_2_Electricity.xml -->
+	<li Class="PatchOperationRemove">
+		<xpath>/Defs/ResearchProjectDef[
+		defName="VFE_IndustrialGenerators" or 
+		defName="VFE_GasExtraction"]</xpath>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ResearchProjectDef[defName="VFE_AdvancedPowerSources"]/prerequisites</xpath>
+		<value>
+			<prerequisites>
+			  <li>MultiAnalyzer</li>
+			</prerequisites>
+		</value>
+	</li>
+
+	<li Class="PatchOperationAdd">
+		<xpath>/Defs/ResearchProjectDef[defName="VFE_AdvancedBatteries"]/prerequisites</xpath>
+		<value>
+			<li>MultiAnalyzer</li>
+		</value>
+	</li>
+
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ResearchProjectDef[defName="VFE_AdvancedPowerSources"]/label</xpath>
+		<value>
+			<label>lightning rods</label>
+		</value>
+	</li>
+	<li Class="PatchOperationReplace">
+		<xpath>/Defs/ResearchProjectDef[defName="VFE_AdvancedPowerSources"]/description</xpath>
+		<value>
+			<description>Construct spacertech lightning rods that can convert lightning energy to usable power.</description>
+		</value>
+	</li>
+
+	</operations>
+	</match>
+</Operation>
+</Patch>
