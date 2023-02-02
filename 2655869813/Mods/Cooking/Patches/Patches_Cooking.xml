@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Plants Expanded</li>
+		</mods>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="VCE_CannedFruit"]/thingCategories</xpath>
+			<value>
+				<li>PlantFoodRaw</li>
+			</value>
+		</nomatch>
+	</Operation>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Fishing Expanded</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="VCE_CanFish"]/fixedIngredientFilter</xpath>
+					<value>
+						<disallowedThingDefs>
+							<li>VCE_CannedFish</li>
+						</disallowedThingDefs>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VCE_CannedFish"]/thingCategories/li[text()="MeatRaw"]</xpath>
+					<value>
+						<li>VCEF_RawFishCategory</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/HediffDef[defName="VCE_Cholesterol" or defName="VCE_Diabetes" or defName="VCE_HighBloodPressure"]/stages/li/becomeVisible</xpath>
+		<value>
+			<becomeVisible>false</becomeVisible>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Android tiers</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="VCE_SmokeleafButter"]//li[text()="Milk"]</xpath>
+					<value>
+						<li>Milk</li>
+						<li>NSolution</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd"> 
+					<xpath>Defs/ItemProcessor.ItemAcceptedDef[defName="IP_CheesePressFirstItem"]/items</xpath>
+					<value>
+						<li>NSolution</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ItemProcessor.CombinationDef>
+							<defName>BenLubarsVanillaExpandedPatches_NSolutionIntoCheese</defName>
+							<building>VCE_CheesePress</building>
+							<items>
+								<li>NSolution</li>
+							</items>
+							<amount>
+								<li>50</li>
+							</amount>
+							<result>BenLubarsVanillaExpandedPatches_NSolutionCheese</result>	
+							<yield>25</yield>
+							<useQualityIncreasing>true</useQualityIncreasing>
+							<awfulQualityAgeDaysThreshold>10</awfulQualityAgeDaysThreshold>
+							<poorQualityAgeDaysThreshold>15</poorQualityAgeDaysThreshold>
+							<normalQualityAgeDaysThreshold>25</normalQualityAgeDaysThreshold>
+							<goodQualityAgeDaysThreshold>35</goodQualityAgeDaysThreshold>
+							<excellentQualityAgeDaysThreshold>40</excellentQualityAgeDaysThreshold>
+							<masterworkQualityAgeDaysThreshold>45</masterworkQualityAgeDaysThreshold>
+							<legendaryQualityAgeDaysThreshold>75</legendaryQualityAgeDaysThreshold>
+						</ItemProcessor.CombinationDef>
+
+						<ThingDef ParentName="MealBase">
+							<defName>BenLubarsVanillaExpandedPatches_NSolutionCheese</defName>
+							<label>n. solution cheese</label>
+							<description>"Cheese" made from nutrient solution.</description>
+							<graphicData>
+								<texPath>Things/Items/Cheese/VCE_BearffaloCheese</texPath>
+								<graphicClass>Graphic_StackCount</graphicClass>
+							</graphicData>
+							<tradeability>Sellable</tradeability>
+							<stackLimit>75</stackLimit>
+							<statBases>
+								<MarketValue>15</MarketValue>
+								<Nutrition>0.25</Nutrition>
+							</statBases>
+							<thingCategories>
+								<li>VCE_Cheese</li>
+							</thingCategories>
+							<ingestible>
+								<preferability>MealLavish</preferability>
+								<ingestEffect>EatMeat</ingestEffect>
+								<ingestSound>Meal_Eat</ingestSound>
+								<maxNumToIngestAtOnce>7</maxNumToIngestAtOnce>
+							</ingestible>
+							<comps>
+								<li Class="CompProperties_Rottable">
+									<daysToRotStart>60</daysToRotStart>
+									<rotDestroys>true</rotDestroys>
+								</li>
+								<li>
+									<compClass>CompQuality</compClass>
+								</li>
+								<li Class="VanillaCookingExpanded.CompProperties_StackByQuality" />
+							</comps>
+						</ThingDef>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="VCE_CannedMeat" or defName="VCE_CannedFish" or defName="VCE_CannedProduce" or defName="VCE_CannedFruit" or defName="VCE_CannedAP"]/ingestible/preferability</xpath>
+		<value>
+			<preferability>DesperateOnly</preferability>
+		</value>
+	</Operation>
+</Patch>
