@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+<!--NOTE ON VOLUME OVERRIDES:
+
+    Without an override, the noise level of any soundDef will be the average from its volumeRange, so an override is only necessary if the noise area doesn't match what would be expected from it in-game. The level will determine both the noise intensity and it's range: 
+    - For sustained noises not produced by human pawns, peak noise = level/2 & radius = level; 
+    - For one-shot noises & sounds sustained by pawns, peak noise = level & radius = level/2.
+    
+    As a reference, the noise level for doors is 3.5, building in wood is 12, most firearms are 25 and explosions are 70-100.
+-->
+
+  <!--Vanilla soundDefs-->
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef[defName="FireBurning"]</xpath>
+        <value>
+          <overrideNoiseVolume>6</overrideNoiseVolume>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef[defName="Recipe_MakeStoneBlocks"]</xpath>
+        <value>
+          <overrideNoiseVolume>16</overrideNoiseVolume>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef[defName="Recipe_ButcherCorpseFlesh"]</xpath>
+        <value>
+          <overrideNoiseVolume>8</overrideNoiseVolume>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef[defName="Interact_Research"]</xpath>
+        <value>
+          <overrideNoiseVolume>4</overrideNoiseVolume>
+        </value>
+      </li>
+      <!--<li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef[defName="Standard_Pickup"]</xpath>
+        <value>
+          <overrideNoiseVolume>10</overrideNoiseVolume>
+        </value>
+      </li>-->
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef/defName[contains(text(),"Pickup")]/..</xpath>
+        <value>
+          <overrideNoiseVolume>10</overrideNoiseVolume>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef/defName[contains(text(),"_Drop")]/..</xpath>
+        <value>
+          <overrideNoiseVolume>10</overrideNoiseVolume>
+        </value>
+      </li>    
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/SoundDef/defName[contains(text(),"Bow")]/..</xpath>
+        <value>
+          <overrideNoiseVolume>4</overrideNoiseVolume>
+        </value>
+      </li>    
+    </operations>
+  </Operation>
+  
+  <!--Royalty-->
+  <Operation Class="JPTools.PatchOperationFindModById">
+    <mods>
+      <li>ludeon.rimworld.royalty</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/SoundDef[defName="MeditationGainPsyfocus"]</xpath>
+      <value>
+        <overrideNoiseVolume>0</overrideNoiseVolume>
+      </value>
+    </match>
+  </Operation>
+
+  <!--Dubs Bad Hygiene-->
+  <Operation Class="JPTools.PatchOperationFindModById">
+    <mods>
+      <li>dubwise.dubsbadhygiene</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef/defName[.="DrainHole" or .="ToiletFlush" or  .="SewageStart" or .="shower_Ambience" or .="sewage_Ambience" or .="hottub_Ambience" or .="washingmachine"]/..</xpath>
+          <value>
+            <overrideNoiseVolume>10</overrideNoiseVolume>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef[defName="StallDoor"]</xpath>
+          <value>
+            <overrideNoiseVolume>3</overrideNoiseVolume>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef[defName="sprinklers"]</xpath>
+          <value>
+            <overrideNoiseVolume>16</overrideNoiseVolume>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+  
+  <!--Rimefeller-->
+  <Operation Class="JPTools.PatchOperationFindModById">
+    <mods>
+      <li>Dubwise.Rimefeller</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef/defName[.="Cracker_Ambience" or .="FuelGen_Ambience"]/..</xpath>
+          <value>
+            <overrideNoiseVolume>20</overrideNoiseVolume>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+  
+  <!--VFE - Vikings-->
+  <Operation Class="JPTools.PatchOperationFindModById">
+    <mods>
+      <li>oskarpotocki.vfe.vikings</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef[defName="VFEV_Apiary_Ambience"]</xpath>
+          <value>
+            <overrideNoiseVolume>15</overrideNoiseVolume>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef[defName="VFEV_CryptoHeavyCrossbowShot"]</xpath>
+          <value>
+            <overrideNoiseVolume>20</overrideNoiseVolume>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/SoundDef[defName="VFEV_CryptoLightCrossbowShot"]</xpath>
+          <value>
+            <overrideNoiseVolume>16</overrideNoiseVolume>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+
+  <!--Vanilla Books Expanded-->
+  <Operation Class="JPTools.PatchOperationFindModById">
+    <mods>
+      <li>VanillaExpanded.VBooksE</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/SoundDef[defName="Recipe_Write"]</xpath>
+      <value>
+        <overrideNoiseVolume>4</overrideNoiseVolume>
+      </value>
+    </match>
+  </Operation>
+
+  <!--Must be at the end-->
+  <Operation Class="PatchOperationAttributeAdd">
+    <xpath>/Defs/SoundDef/overrideNoiseVolume/..</xpath>
+    <attribute>Class</attribute>
+    <value>KeepItQuiet.NoisySoundDef</value>
+  </Operation>
+  
+</Patch>
