@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <!--ThingDefs-->
+  
+	<ThingDef Name="Thing_AmritaBase" ParentName="MakeableDrugPillBase" Abstract="True">
+		<rotatable>false</rotatable>
+		<graphicData>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<statBases>
+			<Mass>0.05</Mass>
+		</statBases>
+		<stackLimit>10</stackLimit>
+		<techLevel>Ultra</techLevel>
+		<minRewardCount>1</minRewardCount>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+      <ingestCommandString>Take {0}</ingestCommandString>
+      <ingestReportString>Taking {0}.</ingestReportString>
+      <ingestSound>Ingest_Drink</ingestSound>
+		</ingestible>
+			<recipeMaker>
+				<researchPrerequisite>Amrita</researchPrerequisite>
+			<recipeUsers>
+				<li>DrugLab</li>
+			</recipeUsers>
+			<bulkRecipeCount>0</bulkRecipeCount>
+			<soundWorking>Recipe_Drug</soundWorking>
+			</recipeMaker>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<listOrder>2000</listOrder>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+		<thingSetMakerTags>
+			<li>RewardStandardLowFreq</li>
+		</thingSetMakerTags>
+	</ThingDef>
+
+	<ThingDef ParentName="Thing_AmritaBase">
+	<defName>Amrita</defName>
+    <label>amrita</label>
+    <description>Amrita, the way to immortality that ancient antecedents had sought for, has been finally realized in the rim-world by the by-products of the archotech.\n\nIt reverses a flowing direction where the taker's biological age goes slow and gradually.\nContinuous intake is needed to achieve targeted level of effect.</description>
+    <descriptionHyperlinks>
+      <HediffDef>AmritaHigh</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Amrita</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>1500</MarketValue>
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AmritaHigh</hediffDef>
+          <severity>1.00</severity>
+        </li>
+      </outcomeDoers>
+      <ingestSound>Ingest_Drink</ingestSound>
+    </ingestible>
+    <recipeMaker>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+        <Medicine>10</Medicine>
+        <Intellectual>12</Intellectual>
+      </skillRequirements>
+      <workAmount>4800</workAmount>
+      <effectWorking>Surgery</effectWorking>
+    </recipeMaker>
+    <costList>
+      <Heart>1</Heart>
+      <Luciferium>1</Luciferium>
+      <Ambrosia>5</Ambrosia>
+      <Neutroamine>5</Neutroamine>
+      <Uranium>5</Uranium>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="Thing_AmritaBase">
+    <defName>DilutedAmrita</defName>
+    <label>diluted amrita</label>
+    <description>Amrita, the way to immortality that ancient antecedents had sought for, has been finally realized in the rim-world by the by-products of the archotech.\n\nThis diluted solution just keeps the biological age, not making taker to grow up anymore.</description>
+    <descriptionHyperlinks>
+      <HediffDef>AmritaLow</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>DilutedAmrita</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>450</MarketValue>
+    </statBases>
+    <ingestible>
+       <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AmritaLow</hediffDef>
+          <severity>1.00</severity>
+        </li>
+      </outcomeDoers>
+      <ingestSound>Ingest_Drink</ingestSound>
+    </ingestible>
+    <recipeMaker>
+      <productCount>3</productCount>
+      <workAmount>600</workAmount>
+    </recipeMaker>
+    <costList>
+      <Amrita>1</Amrita>
+    </costList>
+  </ThingDef>
+  
+  <!--HediffDefs-->
+
+	<HediffDef Name="Hediff_AmritaBase" Abstract="True">
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(1,1,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.05</severityPerDay>
+				<showDaysToRecover>true</showDaysToRecover>
+			</li>
+		</comps>
+	</HediffDef>
+
+  <HediffDef ParentName="Hediff_AmritaBase">
+    <defName>AmritaHigh</defName>
+    <label>amrita</label>
+    <description>Active amrita mechanites in the body.\nThey reverse a flowing direction where the taker's biological age goes.</description>
+    <comps>
+      <li Class="Amrita.HediffCompProperties_ReverseAge">
+        <reversePerDay>3</reversePerDay>
+      </li>
+      <li Class="Amrita.HediffCompProperties_ExpireHediff">
+        <hediffToExpire>AmritaLow</hediffToExpire>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="Hediff_AmritaBase">
+    <defName>AmritaLow</defName>
+    <label>amrita (Weakened)</label>
+    <description>Active amrita mechanites in the body.\nThey stop taker's biological growth.</description>
+    <comps>
+      <li Class="Amrita.HediffCompProperties_ReverseAge">
+        <reversePerDay>0</reversePerDay>
+      </li>
+      <li Class="Amrita.HediffCompProperties_ExpireHediff">
+        <hediffToExpire>AmritaHigh</hediffToExpire>
+      </li>
+    </comps>
+  </HediffDef>
+	
+  <!--ResearchDefs-->
+  
+	<ResearchProjectDef>
+		<defName>Amrita</defName>
+		<label>amrita</label>
+    <description>Natural low is actually depend on how we define it.\nNow we have overcome many adversities, and be prepared to the path into unknown domain.\n\nResearch a method to refine luciferium into rejuvenation serum.</description>
+		<tab>Main</tab>
+		<techLevel>Ultra</techLevel>
+		<baseCost>8000</baseCost>
+		<researchViewX>0</researchViewX>
+		<researchViewY>1</researchViewY>
+		<prerequisites>
+			<li>MedicineProduction</li>
+			<li>VitalsMonitor</li>
+			<li>Bionics</li>
+		</prerequisites>
+	</ResearchProjectDef>
+</Defs>
