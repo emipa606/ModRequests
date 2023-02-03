@@ -1,0 +1,112 @@
+﻿using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using UnityEngine;
+using Verse;
+
+namespace Copyprint
+{
+    [StaticConstructorOnStartup]
+    public class Resources
+    {
+        #region Fields
+
+        public static readonly Texture2D RotLeftTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotLeft", true);
+        public static readonly Texture2D RotRightTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotRight", true);
+        // todo; figure out copyprint flipping
+        // public static readonly Texture2D FlipTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotRight", true);
+        public static Color ghostBlue = new Color( .25f, .50f, .50f, .5f );
+        public static Color ghostGrey = new Color( .8f, .8f, .8f, .5f );
+        public static Color ghostRed = new Color( .5f, .08f, .08f, .5f );
+        public static Texture2D Icon_AddCopyprint;
+        public static Texture2D Icon_Copyprint;
+        public static Texture2D Icon_Edit;
+        private static readonly Material _mouseOverBracketMaterial = MaterialPool.MatFrom("UI/Overlays/MouseoverBracketTex", ShaderDatabase.MetaOverlay);
+        private static Dictionary<Color, Material> _ghostFloors = new Dictionary<Color, Material>();
+        private static FieldInfo designator_place_placingRotation_FI = typeof( Designator_Place).GetField( "placingRot", BindingFlags.Instance | BindingFlags.NonPublic );
+
+        #endregion Fields
+
+        static Resources()
+        {
+            Icon_AddCopyprint = ContentFinder<Texture2D>.Get("Icons/AddCopyprint", true);
+            Icon_Copyprint = ContentFinder<Texture2D>.Get("Icons/Copyprint", true);
+            Icon_Edit = ContentFinder<Texture2D>.Get("Icons/Edit", true);
+        }
+
+        #region Methods
+
+        public static IntVec3 CenterPosition( IntVec3 bottomLeft, IntVec2 size, Rot4 rotation )
+        {
+            return bottomLeft + new IntVec3( ( size.x - 1 ) / 2, 0, ( size.z - 1 ) / 2 );
+        }
+
+        public static void DesignatorRotate( Designator_Place designator, RotationDirection direction )
+        {
+            Rot4 rotation = GetDesignatorRotation( designator );
+            rotation.Rotate( direction );
+            SetDesignatorRotation( designator, rotation );
+        }
+
+        public static void DottedLine( float x, float y, float width, float dashLength = 10f, float gapLength = 5f )
+        {
+            float curX = x;
+            while ( curX < x + width )
+            {
+                Widgets.DrawLineHorizontal( curX, y, dashLength );
+                curX += dashLength + gapLength;
+            }
+        }
+
+        public static Rot4 GetDesignatorRotation( Designator_Place designator )
+        {
+            return (Rot4)designator_place_placingRotation_FI.GetValue( designator );
+        }
+
+        public static Color GhostColor( PlacementReport placementReport )
+        {
+            switch ( placementReport )
+            {
+                case PlacementReport.CanNotPlace:
+                    return ghostRed;
+
+                case PlacementReport.CanPlace:
+                    return ghostBlue;
+
+                case PlacementReport.Alreadyplaced:
+                    return ghostGrey;
+
+                default:
+                    return Color.white;
+            }
+        }
+
+        public static Material GhostFloorMaterial( PlacementReport placementReport )
+        {
+            Color color = GhostColor( placementReport );
+            if (_ghostFloors.TryGetValue(color, out Material ghost))
+                return ghost;
+            ghost = new Material(_mouseOverBracketMaterial)
+            {
+                color = color
+            };
+            _ghostFloors.Add( color, ghost );
+            return ghost;
+        }
+
+        public static void LogNull( object obj, string name )
+        {
+            Log.Message( name + ": " + (obj ?? "NULL") );
+        }
+
+        public static void SetDesignatorRotation( Designator_Place designator, Rot4 rotation )
+        {
+            designator_place_placingRotation_FI.SetValue( designator, rotation );
+        }
+
+        #endregion Methods
+    }
+}
