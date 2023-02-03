@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<HediffDef ParentName="InfectionBase">
+		<defName>Poliomyelitis</defName>
+		<label>Polio Virus Disease</label>
+		<defaultLabelColor>(216, 255, 0)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<makesSickThought>true</makesSickThought>
+		<tendable>true</tendable>
+		<maxSeverity>1.0</maxSeverity>
+		<description>Poliomyelitis commonly shortened to polio, is an infectious disease caused by the poliovirus.
+It can moves from the gut to affect the central nervous system and there is muscle weakness resulting in a flaccid paralysis.
+Symptoms :Fever, Numbness, Paralysis, Brain Inflammation</description>
+		<comps>
+			<li Class="HediffCompProperties_Immunizable">
+				<immunityPerDayNotSick>-0.180</immunityPerDayNotSick>
+				<immunityPerDaySick>0.175</immunityPerDaySick>
+				<severityPerDayNotImmune>0.190</severityPerDayNotImmune>
+				<severityPerDayImmune>-0.333</severityPerDayImmune>
+				<severityPerDayNotImmuneRandomFactor>
+					<min>0.90</min>
+					<max>1.15</max>
+				</severityPerDayNotImmuneRandomFactor>
+			</li>
+			<li Class="HediffCompProperties_TendDuration">
+				<baseTendDurationHours>12</baseTendDurationHours>
+				<severityPerDayTended>-0.1</severityPerDayTended>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorA.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.100</minSeverity>
+				<needTicks>15000</needTicks>
+				<hediffDef>TP_Fever</hediffDef>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorB.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.100</minSeverity>
+				<needTicks>7500</needTicks>
+				<hediffDef>ExposedPolio</hediffDef>
+				<blockerHediff>Antiviral_Pill</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorC.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.100</minSeverity>
+				<needTicks>25000</needTicks>
+				<hediffDef>TP_Numbness</hediffDef>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorD.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.666</minSeverity>
+				<needTicks>60000</needTicks>
+				<hediffDef>WoundInfection</hediffDef>
+				<partsToAffect>
+					<li>Brain</li>
+				</partsToAffect>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorE.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.833</minSeverity>
+				<needTicks>75000</needTicks>
+				<hediffDef>PP</hediffDef>
+				<blockerHediff>PolioVaccine1</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<partsToAffect>
+					<li>Lung</li>
+					<li>Leg</li>
+					<li>Spine</li>
+					<li>Arm</li>
+				</partsToAffect>
+				<letter>True</letter>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>initial</label>
+        		<becomeVisible>true</becomeVisible>
+			</li>
+			<li>
+				<minSeverity>0.100</minSeverity>
+				<label>minor</label>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.666</minSeverity>
+				<label>major</label>
+				<painOffset>0.2</painOffset>
+				<vomitMtbDays>1.5</vomitMtbDays>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.15</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.25</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.833</minSeverity>
+				<label>extreme</label>
+				<lifeThreatening>true</lifeThreatening>
+				<vomitMtbDays>0.75</vomitMtbDays>
+				<painOffset>0.4</painOffset>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+			<makeImmuneTo>
+				<li>ExposedPolio</li>
+			</makeImmuneTo>
+		</li>
+		</stages>
+</HediffDef>
+
+<HediffDef ParentName="InfectionBase">
+  <defName>PP</defName>
+  <label>Paralytic Poliomyelitis</label>
+  <description>Viral infection causes inflammation of nerve cells, leading to partial or total destruction of the motor neuron ganglion.
+The muscle cells atrophy, weaken and become rapidly inactive.</description>
+  <minSeverity>0.01</minSeverity>
+  <initialSeverity>0.3</initialSeverity>
+  <maxSeverity>1.0</maxSeverity>
+  <tendable>false</tendable>
+  <makesSickThought>false</makesSickThought>
+	<comps>
+		<li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>0.1</severityPerDay>
+		</li>
+	</comps>
+  <stages>
+    <li>
+      <label>affected</label>
+			<minSeverity>0.30</minSeverity>
+			<partEfficiencyOffset>-0.25</partEfficiencyOffset>
+    </li>
+    <li>
+      <label>atrophy</label>
+      <minSeverity>0.60</minSeverity>
+			<partEfficiencyOffset>-0.5</partEfficiencyOffset>
+    </li>
+    <li>
+      <label>paralyzed</label>
+      <minSeverity>0.90</minSeverity>
+			<partEfficiencyOffset>-0.75</partEfficiencyOffset>
+    </li>
+  </stages>
+</HediffDef>
+
+</Defs>

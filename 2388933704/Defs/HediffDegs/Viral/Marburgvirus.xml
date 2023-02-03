@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<HediffDef ParentName="InfectionBase">
+		<defName>Marburg</defName>
+		<label>Marburg Virus Disease</label>
+		<defaultLabelColor>(255, 0, 0)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<makesSickThought>true</makesSickThought>
+		<tendable>true</tendable>
+		<initialSeverity>0.01</initialSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<description>The Marburg virus is endemic in several colonies.
+It belongs to the family Filoviridae. This family of viruses is responsible for some of the most pathogenic viral infections in humans.
+Although quite similar to the Ebola virus, it is known to be less lethal than the latter.
+Symptoms :Fever, Loss of blood, Sepsis</description>
+		<comps>
+			<li Class="HediffCompProperties_Immunizable">
+				<immunityPerDayNotSick>-0.180</immunityPerDayNotSick>
+				<immunityPerDaySick>0.180</immunityPerDaySick>
+				<severityPerDayNotImmune>0.200</severityPerDayNotImmune>
+				<severityPerDayImmune>-0.333</severityPerDayImmune>
+				<severityPerDayNotImmuneRandomFactor>
+					<min>0.9</min>
+					<max>1.15</max>
+				</severityPerDayNotImmuneRandomFactor>
+			</li>
+			<li Class="HediffCompProperties_TendDuration">
+				<baseTendDurationHours>12</baseTendDurationHours>
+				<severityPerDayTended>-0.1</severityPerDayTended>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorA.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.100</minSeverity>
+				<needTicks>15000</needTicks>
+				<hediffDef>TP_Fever</hediffDef>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorB.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.100</minSeverity>
+				<needTicks>7500</needTicks>
+				<hediffDef>ExposedMarburg</hediffDef>
+				<blockerHediff>Antiviral_Pill</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorC.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.100</minSeverity>
+				<needTicks>25000</needTicks>
+				<hediffDef>BloodLoss</hediffDef>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorD.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.833</minSeverity>
+				<needTicks>60000</needTicks>
+				<hediffDef>TP_Sepsis</hediffDef>
+				<blockerHediff>Azithromycine</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<letter>True</letter>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.01</minSeverity>
+				<label>minor</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.1</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.666</minSeverity>
+				<label>major</label>
+				<painOffset>0.2</painOffset>
+				<vomitMtbDays>1.5</vomitMtbDays>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.833</minSeverity>
+				<label>extreme</label>
+				<lifeThreatening>true</lifeThreatening>
+				<vomitMtbDays>0.75</vomitMtbDays>
+				<painOffset>0.4</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.3</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+			<makeImmuneTo>
+				<li>ExposedMarburg</li>
+			</makeImmuneTo>
+			</li>
+		</stages>
+
+	</HediffDef>
+
+</Defs>

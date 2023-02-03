@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<HediffDef ParentName="InfectionBase">
+		<defName>Diphtheria</defName>
+		<label>Diphtheria Disease</label>
+		<defaultLabelColor>(255, 182, 0)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<makesSickThought>true</makesSickThought>
+		<tendable>true</tendable>
+		<initialSeverity>0.1</initialSeverity>
+		<lethalSeverity>1.0</lethalSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<description>Diphtheria is an infection caused by the bacterium Corynebacterium diphtheriae.
+Symptoms often come on fairly gradually, beginning with a sore throat and fever.
+In severe cases, a grey or white patch develops in the throat.
+This can block the airway and create a barking cough as in croup.
+Symptoms :Fever, Pseudomembrane Angina, KidneyFailure, Cardiac asthma</description>
+		<comps>
+			<li Class="HediffCompProperties_Immunizable">
+				<immunityPerDayNotSick>-0.130</immunityPerDayNotSick>
+				<immunityPerDaySick>0.130</immunityPerDaySick>
+				<severityPerDayNotImmune>0.150</severityPerDayNotImmune>
+				<severityPerDayImmune>-0.333</severityPerDayImmune>
+				<severityPerDayNotImmuneRandomFactor>
+					<min>0.90</min>
+					<max>1.15</max>
+				</severityPerDayNotImmuneRandomFactor>
+			</li>
+			<li Class="HediffCompProperties_TendDuration">
+				<baseTendDurationHours>12</baseTendDurationHours>
+				<severityPerDayTended>-0.1</severityPerDayTended>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorA.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.25</minSeverity>
+				<needTicks>15000</needTicks>
+				<hediffDef>TP_Fever</hediffDef>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorB.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.25</minSeverity>
+				<needTicks>7500</needTicks>
+				<hediffDef>ExposedDiphtheria</hediffDef>
+				<blockerHediff>Azithromycine</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<letter>False</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorC.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.25</minSeverity>
+				<needTicks>60000</needTicks>
+				<hediffDef>Croup</hediffDef>
+				<countToAffect>1</countToAffect>
+				<partsToAffect>
+					<li>Neck</li>
+				</partsToAffect>
+				<letter>True</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorD.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.75</minSeverity>
+				<needTicks>60000</needTicks>
+				<hediffDef>TP_Cardiac_Asthma</hediffDef>
+				<blockerHediff>DiphtheriaVaccine1</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<letter>True</letter>
+			</li>
+			<li Class="RimCore.DiseasesGeneratorE.HediffCompProperties_DiseasesGiver">
+				<minSeverity>0.9</minSeverity>
+				<needTicks>15000</needTicks>
+				<hediffDef>TP_Kidney_Failure</hediffDef>
+				<blockerHediff>DiphtheriaVaccine1</blockerHediff>
+				<countToAffect>1</countToAffect>
+				<letter>True</letter>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>initial</label>
+						<becomeVisible>true</becomeVisible>
+			</li>
+			<li>
+				<minSeverity>0.1</minSeverity>
+				<label>low toxins</label>
+				<capMods>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.05</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.5</minSeverity>
+				<label>medium toxins</label>
+				<painOffset>0.2</painOffset>
+				<vomitMtbDays>1.5</vomitMtbDays>
+				<capMods>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.75</minSeverity>
+				<label>high toxins</label>
+				<lifeThreatening>true</lifeThreatening>
+				<vomitMtbDays>0.75</vomitMtbDays>
+				<painOffset>0.4</painOffset>
+				<capMods>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.9</minSeverity>
+				<label>lethal toxins</label>
+				<vomitMtbDays>0.75</vomitMtbDays>
+				<painOffset>0.4</painOffset>
+				<capMods>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.15</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+			<makeImmuneTo>
+				<li>ExposedDiphtheria</li>
+			</makeImmuneTo>
+			</li>
+		</stages>
+</HediffDef>
+
+<HediffDef ParentName="InfectionBase">
+  <defName>Croup</defName>
+  <label>Croup</label>
+  <description>Pseudomembranous angina can lead to death by suffocation if left untreated, a complication historically known as croup.</description>
+  <minSeverity>0.1</minSeverity>
+  <initialSeverity>0.1</initialSeverity>
+  <maxSeverity>1.1</maxSeverity>
+  <tendable>false</tendable>
+  <makesSickThought>false</makesSickThought>
+	<comps>
+		<li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>0.2</severityPerDay>
+		</li>
+		<li Class="HediffCompProperties_Disappears">
+			<disappearsAfterTicks>300000~600000</disappearsAfterTicks>
+			<showRemainingTime>false</showRemainingTime>
+		</li>
+	</comps>
+  <stages>
+    <li>
+      <label>formation</label>
+			<minSeverity>0.2</minSeverity>
+			<partEfficiencyOffset>-0.20</partEfficiencyOffset>
+    </li>
+    <li>
+      <label>extension</label>
+      <minSeverity>0.4</minSeverity>
+			<partEfficiencyOffset>-0.40</partEfficiencyOffset>
+    </li>
+    <li>
+      <label>adenopathy</label>
+      <minSeverity>0.6</minSeverity>
+			<partEfficiencyOffset>-0.60</partEfficiencyOffset>
+    </li>
+		<li>
+			<label>obstruction</label>
+			<minSeverity>0.8</minSeverity>
+			<partEfficiencyOffset>-0.80</partEfficiencyOffset>
+		</li>
+		<li>
+			<label>total obstruction</label>
+			<minSeverity>1.0</minSeverity>
+			<partEfficiencyOffset>-0.95</partEfficiencyOffset>
+		</li>
+  </stages>
+</HediffDef>
+
+</Defs>
