@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Complete Vanilla Animal Bionics -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+		<!-- Bionic Tail -->
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+			  <RecipeDef ParentName="SurgeryFlesh">
+				<defName>AnyC_InstallBionicTail</defName>
+				<label>install bionic tail</label>
+				<description>Install a bionic tail.</description>
+				<workerClass>Recipe_InstallArtificialBodyPart</workerClass>
+				<jobString>Installing bionic tail.</jobString>
+				<workAmount>5000</workAmount>
+				<deathOnFailedSurgeryChance>0.05</deathOnFailedSurgeryChance>
+				<skillRequirements>
+				  <Medicine>7</Medicine>
+				</skillRequirements>
+				<ingredients>
+				  <li>
+					<filter>
+					  <categories>
+						<li>Medicine</li>
+					  </categories>
+					</filter>
+					<count>3</count>
+				  </li>
+				  <li>
+					<filter>
+					  <thingDefs>
+						<li>AnyC_BionicTail</li>
+					  </thingDefs>
+					</filter>
+					<count>1</count>
+				  </li>
+				</ingredients>
+				<fixedIngredientFilter>
+				  <categories>
+					<li>Medicine</li>
+				  </categories>
+				  <thingDefs>
+					<li>AnyC_BionicTail</li>
+				  </thingDefs>
+				</fixedIngredientFilter>
+				<appliedOnFixedBodyParts>
+				  <li>Tail</li>
+				</appliedOnFixedBodyParts>
+				<addsHediff>Trunken_hediff_BionicTail</addsHediff>
+			  </RecipeDef>
+			</value>
+		</li>
+		<!-- Bionic -->
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+			  <HediffDef ParentName="AddedBodyPartBase">
+				<defName>Trunken_hediff_BionicTail</defName>
+				<label>bionic tail</label>
+				<labelNoun>a bionic tail</labelNoun>
+				<spawnThingOnRemoved>AnyC_BionicTail</spawnThingOnRemoved>
+				<addedPartProps>
+				  <solid>true</solid>
+				  <partEfficiency>1.25</partEfficiency>
+				</addedPartProps>
+			  </HediffDef>
+			</value>
+		</li>
+		<!-- Item -->
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+			  <ThingDef ParentName="BodyPartBionicBase">
+				<defName>AnyC_BionicTail</defName>
+				<label>bionic tail</label>
+				<description>An advanced artifical tail made for animals. Universally applyable to all types and sizes.</description>
+				<techLevel>Spacer</techLevel>
+				<costList>
+				  <Steel>20</Steel>
+				  <Plasteel>10</Plasteel>
+				  <ComponentIndustrial>7</ComponentIndustrial>
+				</costList>
+				<statBases>
+				  <WorkToMake>38000</WorkToMake>
+				  <Mass>0.3</Mass>
+				</statBases>
+				<techHediffsTags>
+				  <li>Advanced</li>
+				</techHediffsTags>
+			  </ThingDef>
+			</value>
+		</li>
+        <!-- Add Tail recipe to base animal -->
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+          <value>
+			  <li>AnyC_InstallBionicTail</li>
+          </value>
+        </li>
+    </operations>
+  </Operation>
+
+</Patch>

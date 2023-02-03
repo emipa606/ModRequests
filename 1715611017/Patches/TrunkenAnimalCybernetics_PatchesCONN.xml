@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Compatibility Patch for Cybernetic Organism and Neural Network -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+	  <li>Cybernetic Organism and Neural Network</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+	  <success>Always</success>
+      <operations>
+        <!-- Add CONN recipes to base animal -->
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+          <value>
+            <li>ANN_InstallCompressionJaw</li>
+            <li>ANN_InstallCompressionStomach</li>
+            <li>ANN_InstallEnergeticLung</li>
+            <li>ANN_InstallEnergeticKidney</li>
+          </value>          
+        </li>
+        <!-- Jaws -->
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/RecipeDef[defName="ANN_InstallCompressionJaw"]/appliedOnFixedBodyParts</xpath>
+          <value>
+            <li>AnimalJaw</li>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+
+  <!-- Enhancements for CONN -->
+  <Operation Class="PatchOperationFindMod">
+	<mods>
+		<li>Cybernetic Organism and Neural Network</li>
+	</mods>
+	<match Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!-- Chainlink Tail-->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+				  <RecipeDef ParentName="SurgeryFlesh">
+					<defName>AnyC_InstallChainlinkTail</defName>
+					<label>install chainlink tail</label>
+					<description>Install a chainlink tail.</description>
+					<workerClass>Recipe_InstallArtificialBodyPart</workerClass>
+					<jobString>Installing chainlink tail.</jobString>
+					<workAmount>5000</workAmount>
+					<deathOnFailedSurgeryChance>0.05</deathOnFailedSurgeryChance>
+					<skillRequirements>
+					  <Medicine>7</Medicine>
+					</skillRequirements>
+					<ingredients>
+					  <li>
+						<filter>
+						  <categories>
+							<li>Medicine</li>
+						  </categories>
+						</filter>
+						<count>3</count>
+					  </li>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AnyC_ChainlinkTail</li>
+						  </thingDefs>
+						</filter>
+						<count>1</count>
+					  </li>
+					</ingredients>
+					<fixedIngredientFilter>
+					  <categories>
+						<li>Medicine</li>
+					  </categories>
+					  <thingDefs>
+						<li>AnyC_ChainlinkTail</li>
+					  </thingDefs>
+					</fixedIngredientFilter>
+					<appliedOnFixedBodyParts>
+					  <li>Tail</li>
+					</appliedOnFixedBodyParts>
+					<addsHediff>Trunken_hediff_ChainlinkTail</addsHediff>
+				  </RecipeDef>
+				</value>
+			</li>
+			<!-- Bionic -->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+				  <HediffDef ParentName="AddedBodyPartBase">
+					<defName>Trunken_hediff_ChainlinkTail</defName>
+					<label>chainlink tail</label>
+					<labelNoun>a chainlink tail</labelNoun>
+					<spawnThingOnRemoved>AnyC_ChainlinkTail</spawnThingOnRemoved>
+					<addedPartProps>
+					  <solid>true</solid>
+					  <partEfficiency>1.50</partEfficiency>
+					</addedPartProps>
+				  </HediffDef>
+				</value>
+			</li>
+			<!-- Item -->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+				  <ThingDef ParentName="BodyPartBionicBase">
+					<defName>AnyC_ChainlinkTail</defName>
+					<label>chainlink tail</label>
+					<description>An advanced artifical tail. The chainlink core is universally applyable to all types and sizes. Increases the jumping ability and improves overall balance massively. Needs a short acclimatisation period to get used to it. Orginally invented by judges for cybernetic tracking dogs on high criminal urban worlds.</description>
+					<techLevel>Spacer</techLevel>
+					<costList>
+					  <Plasteel>20</Plasteel>
+					  <Uranium>10</Uranium>
+					  <ComponentSpacer>7</ComponentSpacer>
+					</costList>
+					<statBases>
+					  <WorkToMake>40000</WorkToMake>
+					  <Mass>0.3</Mass>
+					</statBases>
+					<techHediffsTags>
+					  <li>Advanced</li>
+					</techHediffsTags>
+				  </ThingDef>
+				</value>
+			</li>
+			<!-- Add Tail recipe to base animal -->
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+			  <value>
+				  <li>AnyC_InstallChainlinkTail</li>
+			  </value>
+			</li>
+		</operations>
+	</match>
+  </Operation>
+
+</Patch>
