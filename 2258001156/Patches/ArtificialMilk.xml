@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!--<ThingDef ParentName="OrganicProductBase">
+				<defName>NSolution</defName>
+				<label>nutrient solution</label>
+				<description>an oily substance extracted from the N.Solution Unit, high in calories and quite easy to store.</description>
+				<graphicData>
+					<texPath>Things/ArtificalMilk</texPath>
+				</graphicData>
+				<stackLimit>150</stackLimit>
+				<socialPropernessMatters>true</socialPropernessMatters>
+				<statBases>
+					<MarketValue>8</MarketValue>
+					<Mass>0.02</Mass>
+					<MaxHitPoints>60</MaxHitPoints>
+					<Flammability>0.1</Flammability>
+					<Nutrition>0.15</Nutrition>
+					<FoodPoisonChanceFixedHuman>0.02</FoodPoisonChanceFixedHuman>
+				</statBases>
+				<comps>
+					<li Class="CompProperties_Rottable">
+						<daysToRotStart>18</daysToRotStart>
+						<rotDestroys>true</rotDestroys>
+					</li>
+				</comps>
+				<ingestible>
+					<preferability>RawTasty</preferability>
+					<foodType>AnimalProduct, Fluid</foodType>
+				</ingestible>
+				<thingCategories>
+					<li>AnimalProductRaw</li>
+				</thingCategories>
+			</ThingDef>-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/ThingDef[defName="NSolution"]</xpath>
+				<value>
+					<tickerType>Normal</tickerType>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/ThingDef[defName="NSolution"]/comps</xpath>
+				<value>
+					<li Class="CompProperties_Explosive">
+						<explosiveRadius>0.01</explosiveRadius>
+						<explosiveDamageType>EMP</explosiveDamageType>
+						<explosiveExpandPerStackcount>0.037</explosiveExpandPerStackcount>
+						<startWickOnDamageTaken>
+							<li>Flame</li>
+						</startWickOnDamageTaken>
+						<startWickHitPointsPercent>0.005</startWickHitPointsPercent>
+						<preExplosionSpawnThingDef>CoolantAndroidTier</preExplosionSpawnThingDef>
+						<preExplosionSpawnChance>1</preExplosionSpawnChance>
+						<wickTicks>250~300</wickTicks>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/ThingDef[defName="NSolution"]/ingestible</xpath>
+				<value>
+					<tasteThought>DrankNutrientMilk</tasteThought>
+					<outcomeDoers>
+						<li Class="MOARANDROIDS.IngestionOutcomeDoer_GiveTwoHediffs">
+							<hediffDef_Human>NBloated</hediffDef_Human>
+							<hediffDef_Android>NEngergized</hediffDef_Android>
+							<severity>.01</severity>
+						</li>
+					</outcomeDoers>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs</xpath>
+				<value>
+					<ThoughtDef>
+						<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+						<defName>DrankNutrientMilk</defName>
+						<durationDays>0.5</durationDays>
+						<stages>
+							<li>
+								<label>drank nutrient solution</label>
+								<description>The taste of that nutrient solution just won't go away.</description>
+								<baseMoodEffect>-2</baseMoodEffect>
+							</li>
+						</stages>
+						<modExtensions>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Diabetes</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.001</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Cholesterol</hediffToAffect>
+								<partToAffect>Heart</partToAffect>
+								<percentage>0.001</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_HighBloodPressure</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.001</percentage>
+							</li>
+						</modExtensions>
+					</ThoughtDef>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

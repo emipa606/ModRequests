@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!--Remove Nutrient Solution as an ingredient in canned  meat-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/RecipeDef[defName="VCE_CanMeats"]/fixedIngredientFilter/disallowedThingDefs</xpath>
+				<value>
+					<li>NBlock</li>
+					<li>CannedNBlock</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/RecipeDef[defName="VCE_CanMeats"]/defaultIngredientFilter/disallowedThingDefs</xpath>
+				<value>
+					<li>NBlock</li>
+					<li>CannedNBlock</li>
+				</value>
+			</li>
+			<!--Add canned Nutrient Solution ThingDef-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs</xpath>
+				<value>
+					<ThingDef ParentName="MealBase">
+						<defName>CannedNBlock</defName>
+						<label>canned nutrient block</label>
+						<description>Diced nutrient block vacuum sealed and secured in a steel can effectively extending shelf life indefinitely. While edible cold right out of the can it's quite gross and slightly nourishing mixed into a meal and heated. Consuming too many canned goods might cause an increase in blood pressure.</description>
+						<graphicData>
+							<texPath>Things/Items/CannedNBlock</texPath>
+							<graphicClass>Graphic_StackCount</graphicClass>
+						</graphicData>
+						<tickerType>Normal</tickerType>
+						<tradeability>Sellable</tradeability>
+						<stackLimit>75</stackLimit>
+						<statBases>
+							<MarketValue>9.5</MarketValue>
+							<WorkToMake>1600</WorkToMake>
+							<Nutrition>0.15</Nutrition>
+						</statBases>
+						<comps>
+							<li Class="CompProperties_Explosive">
+								<explosiveRadius>1.0</explosiveRadius>
+								<explosiveDamageType>EMP</explosiveDamageType>
+								<explosiveExpandPerStackcount>0.037</explosiveExpandPerStackcount>
+								<startWickOnDamageTaken>
+									<li>Flame</li>
+								</startWickOnDamageTaken>
+								<startWickHitPointsPercent>0.1</startWickHitPointsPercent>
+								<preExplosionSpawnThingDef>CoolantAndroidTier</preExplosionSpawnThingDef>
+								<preExplosionSpawnChance>1</preExplosionSpawnChance>
+								<wickTicks>100~200</wickTicks>
+							</li>
+						</comps>
+						<thingCategories>
+							<li>MeatRaw</li>
+						</thingCategories>
+						<rotatable>false</rotatable>
+						<ingestible>
+							<preferability>MealAwful</preferability>
+							<ingestEffect>EatMeat</ingestEffect>
+							<ingestSound>Meal_Eat</ingestSound>
+							<tasteThought>ConsumedCannedNBlock</tasteThought>
+							<outcomeDoers>
+								<li Class="MOARANDROIDS.IngestionOutcomeDoer_GiveTwoHediffs">
+									<hediffDef_Human>NBloated</hediffDef_Human>
+									<hediffDef_Android>NEngergized</hediffDef_Android>
+									<severity>.2</severity>
+								</li>
+							</outcomeDoers>
+						</ingestible>
+					</ThingDef>
+				</value>
+			</li>
+			<!--Add canned Nutrient Solution RecipeDef-->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<RecipeDef>
+						<defName>MakeCannedNblock</defName>
+						<label>can nutrient block x20</label>
+						<description>Store diced nutrient block in a steel can. Canning food extends its shelf life almost indefinitely.</description>
+						<jobString>Canning nutrient block.</jobString>
+						<workSpeedStat>CookSpeed</workSpeedStat>
+						<effectWorking>Cook</effectWorking>
+						<soundWorking>Recipe_CookMeal</soundWorking>
+						<allowMixingIngredients>true</allowMixingIngredients>
+						<recipeUsers>
+							<li>VCE_CanningMachine</li>
+						</recipeUsers>
+						<ingredientValueGetterClass>VanillaCookingExpanded.IngredientValueGetter_NutritionWithExtraIngredient</ingredientValueGetterClass>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>NBlock</li>
+									</thingDefs>
+								</filter>
+								<count>1</count>
+							</li>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>Steel</li>
+									</thingDefs>
+								</filter>
+								<count>1</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>NBlock</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<CannedNBlock>20</CannedNBlock>
+						</products>
+			<researchPrerequisites>
+			<li>TofuProduction</li>
+			<li>AdvRoboticAnimals</li>
+		</researchPrerequisites>
+					</RecipeDef>
+				</value>
+			</li>
+			<!--Add canned Nutrient Solution ThoughtDef-->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<ThoughtDef>
+						<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+						<defName>ConsumedCannedNBlock</defName>
+						<showBubble>true</showBubble>
+						<icon>Things/Mote/ThoughtSymbol/CannedNBlock</icon>
+						<durationDays>0.5</durationDays>
+						<stages>
+							<li>
+								<label>ate canned nutrient block</label>
+								<description>Eating diced nutrient block directly from a can is gross.</description>
+								<baseMoodEffect>-5</baseMoodEffect>
+							</li>
+						</stages>
+						<modExtensions>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Diabetes</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.025</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Cholesterol</hediffToAffect>
+								<partToAffect>Heart</partToAffect>
+								<percentage>0.005</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_HighBloodPressure</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.005</percentage>
+							</li>
+						</modExtensions>
+					</ThoughtDef>
+					<ThoughtDef>
+						<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+						<defName>ATConsumedCannedNBlock</defName>
+						<showBubble>true</showBubble>
+						<icon>Things/Mote/ThoughtSymbol/CannedNBlock</icon>
+						<durationDays>0.5</durationDays>
+						<stages>
+							<li>
+								<label>ate canned nutrient block</label>
+								<description>Eating diced nutrient block directly from a can is gross.</description>
+								<baseMoodEffect>1</baseMoodEffect>
+							</li>
+						</stages>
+						<modExtensions>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Diabetes</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.005</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Cholesterol</hediffToAffect>
+								<partToAffect>Heart</partToAffect>
+								<percentage>-0.005</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_HighBloodPressure</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>-0.005</percentage>
+							</li>
+						</modExtensions>
+					</ThoughtDef>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

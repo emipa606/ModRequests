@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!--Add the deep fried Nutrient Solution recipe-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs</xpath>
+				<value>
+					<RecipeDef>
+						<defName>MakeDeepFriedNBlock</defName>
+						<label>deep fry nutrient block</label>
+						<description>Deep fry nutrient block. Deep fried food is very tasty, but not very good for your health..wait, why is it purple?</description>
+						<jobString>Deep fying nutrient block.</jobString>
+						<workSpeedStat>CookSpeed</workSpeedStat>
+						<effectWorking>Cook</effectWorking>
+						<soundWorking>Recipe_CookMeal</soundWorking>
+						<recipeUsers>
+							<li>VCE_DeepFrier</li>
+						</recipeUsers>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>NBlock</li>
+										<li>CannedNBlock</li>
+									</thingDefs>
+								</filter>
+								<count>1</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>NBlock</li>
+								<li>CannedNBlock</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<DeepFriedNBlock>4</DeepFriedNBlock>
+						</products>
+						<workSkill>Cooking</workSkill>
+						<researchPrerequisites>
+							<li>TofuProduction</li>
+							<li>AdvRoboticAnimals</li>
+						</researchPrerequisites>
+					</RecipeDef>
+				</value>
+			</li>
+			<!--Add the deep fried Nutrient Solution item-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs</xpath>
+				<value>
+					<ThingDef ParentName="MealBase">
+						<defName>DeepFriedNBlock</defName>
+						<label>deep fried nutrient block</label>
+						<description>Nutrient block coated in a thick batter, then submerged into hot oil and fried. Not pleasing to eat, or very healthy..why is it so purple? Deep frying nutrient block reduces shelf life unless frozen.</description>
+						<graphicData>
+							<texPath>Things/Items/DeepFriedNBlock</texPath>
+							<graphicClass>Graphic_StackCount</graphicClass>
+						</graphicData>
+						<tickerType>Normal</tickerType>
+						<tradeability>None</tradeability>
+						<stackLimit>75</stackLimit>
+						<statBases>
+							<MarketValue>9</MarketValue>
+							<WorkToMake>1600</WorkToMake>
+							<Nutrition>0.01</Nutrition>
+						</statBases>
+						<thingCategories>
+							<li>Foods</li>
+						</thingCategories>
+						<tradeTags Inherit="False">
+							<li>VCE_JunkFood</li>
+						</tradeTags>
+						<ingestible>
+							<foodType>Processed</foodType>
+							<optimalityOffsetHumanlikes>-1</optimalityOffsetHumanlikes>
+							<preferability>DesperateOnly</preferability>
+							<tasteThought>AteFriedNBlock</tasteThought>
+							<specialThoughtAsIngredient>AteFriedNBlock</specialThoughtAsIngredient>
+							<ingestEffect>EatMeat</ingestEffect>
+							<ingestSound>Meal_Eat</ingestSound>
+							<maxNumToIngestAtOnce>4</maxNumToIngestAtOnce>
+							<joy>0.15</joy>
+							<joyKind>Gluttonous</joyKind>
+							<outcomeDoers>
+								<li Class="MOARANDROIDS.IngestionOutcomeDoer_GiveTwoHediffs">
+									<hediffDef_Human>NBloated</hediffDef_Human>
+									<hediffDef_Android>NEngergized</hediffDef_Android>
+									<severity>.4</severity>
+								</li>
+							</outcomeDoers>
+						</ingestible>
+						<comps>
+							<li Class="CompProperties_Rottable">
+								<daysToRotStart>1</daysToRotStart>
+								<rotDestroys>true</rotDestroys>
+							</li>
+							<li Class="CompProperties_Explosive">
+								<explosiveRadius>0.75</explosiveRadius>
+								<explosiveDamageType>EMP</explosiveDamageType>
+								<explosiveExpandPerStackcount>0.037</explosiveExpandPerStackcount>
+								<startWickOnDamageTaken>
+									<li>Flame</li>
+								</startWickOnDamageTaken>
+								<startWickHitPointsPercent>0.1</startWickHitPointsPercent>
+								<preExplosionSpawnThingDef>CoolantAndroidTier</preExplosionSpawnThingDef>
+								<preExplosionSpawnChance>1</preExplosionSpawnChance>
+								<wickTicks>100~150</wickTicks>
+							</li>
+						</comps>
+					</ThingDef>
+				</value>
+			</li>
+			<!--Add deep fried Nutrient Solution as a joy item-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/JoyGiverDef[defName="VCE_EatFriedFood"]/thingDefs</xpath>
+				<value>
+					<li>DeepFriedNBlock</li>
+				</value>
+			</li>
+			<!--Remove Nutrient Solution as an ingredient in deep fried meat-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/RecipeDef[defName="VCE_DeepFryMeats"]/fixedIngredientFilter/disallowedThingDefs</xpath>
+				<value>
+					<li>NBlock</li>
+					<li>CannedNBlock</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/RecipeDef[defName="VCE_DeepFryMeats"]/defaultIngredientFilter/disallowedThingDefs</xpath>
+				<value>
+					<li>NBlock</li>
+					<li>CannedNBlock</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<ThoughtDef>
+						<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+						<defName>AteFriedNBlock</defName>
+						<durationDays>0.5</durationDays>
+						<stages>
+							<li>
+								<label>ate deep fried nutrient block</label>
+								<description>Greasy oily food. Not very good, but better than nothing.</description>
+								<baseMoodEffect>-4</baseMoodEffect>
+							</li>
+						</stages>
+						<modExtensions>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Diabetes</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.005</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Cholesterol</hediffToAffect>
+								<partToAffect>Heart</partToAffect>
+								<percentage>0.04</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_HighBloodPressure</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>0.005</percentage>
+							</li>
+						</modExtensions>
+					</ThoughtDef>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<ThoughtDef>
+						<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+						<defName>ATAteFriedNBlock</defName>
+						<durationDays>0.5</durationDays>
+						<stages>
+							<li>
+								<label>ate deep fried nutrient block</label>
+								<description>Greasy oily food. Your internals are running more smoothly.</description>
+								<baseMoodEffect>4</baseMoodEffect>
+							</li>
+						</stages>
+						<modExtensions>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Diabetes</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>-0.005</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_Cholesterol</hediffToAffect>
+								<partToAffect>Heart</partToAffect>
+								<percentage>0.01</percentage>
+							</li>
+							<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+								<hediffToAffect>VCE_HighBloodPressure</hediffToAffect>
+								<partToAffect>Body</partToAffect>
+								<percentage>-0.005</percentage>
+							</li>
+						</modExtensions>
+					</ThoughtDef>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

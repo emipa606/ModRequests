@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!--SoymilkIntoCheese-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs</xpath>
+				<value>
+					<ItemProcessor.CombinationDef>
+						<defName>AT_NutrientSolutionIntoCheese</defName>
+						<building>VCE_CheesePress</building>
+						<items>
+							<li>NSolution</li>
+						</items>
+						<amount>
+							<li>50</li>
+						</amount>
+						<result>NBlockCheese</result>
+						<yield>25</yield>
+						<useQualityIncreasing>true</useQualityIncreasing>
+						<awfulQualityAgeDaysThreshold>10</awfulQualityAgeDaysThreshold>
+						<poorQualityAgeDaysThreshold>16</poorQualityAgeDaysThreshold>
+						<normalQualityAgeDaysThreshold>24</normalQualityAgeDaysThreshold>
+						<goodQualityAgeDaysThreshold>34</goodQualityAgeDaysThreshold>
+						<excellentQualityAgeDaysThreshold>40</excellentQualityAgeDaysThreshold>
+						<masterworkQualityAgeDaysThreshold>50</masterworkQualityAgeDaysThreshold>
+						<legendaryQualityAgeDaysThreshold>90</legendaryQualityAgeDaysThreshold>
+					</ItemProcessor.CombinationDef>
+				</value>
+			</li>
+			<!--NutrientSolutionCheese-->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs</xpath>
+				<value>
+					<ThingDef ParentName="MealBase">
+						<defName>NBlockCheese</defName>
+						<label>Nutrient Solution cheese</label>
+						<description>A cheese alternative made by pressing nutrient solution for a length of time. Nutrient solution cheese is light blue covered in a darker almost purple rind with an oily metallic smell. Ages but rots faster than standard cheese.</description>
+						<graphicData>
+							<texPath>Things/Items/NBlockCheese</texPath>
+							<graphicClass>Graphic_StackCount</graphicClass>
+						</graphicData>
+						<tickerType>Normal</tickerType>
+						<tradeability>Sellable</tradeability>
+						<stackLimit>75</stackLimit>
+						<statBases>
+							<MarketValue>15</MarketValue>
+							<Nutrition>0.05</Nutrition>
+						</statBases>
+						<thingCategories>
+							<li>VCE_Cheese</li>
+						</thingCategories>
+						<ingestible>
+							<preferability>MealSimple</preferability>
+							<ingestEffect>EatMeat</ingestEffect>
+							<ingestSound>Meal_Eat</ingestSound>
+							<maxNumToIngestAtOnce>7</maxNumToIngestAtOnce>
+							<outcomeDoers>
+								<li Class="MOARANDROIDS.IngestionOutcomeDoer_GiveTwoHediffs">
+									<hediffDef_Human>NBloated</hediffDef_Human>
+									<hediffDef_Android>NEngergized</hediffDef_Android>
+									<severity>.1</severity>
+								</li>
+							</outcomeDoers>
+						</ingestible>
+						<comps>
+							<li Class="CompProperties_Rottable">
+								<daysToRotStart>90</daysToRotStart>
+								<rotDestroys>true</rotDestroys>
+							</li>
+							<li>
+								<compClass>CompQuality</compClass>
+							</li>
+							<li Class="VanillaCookingExpanded.CompProperties_StackByQuality"/>
+							<li Class="CompProperties_Explosive">
+								<explosiveRadius>0.25</explosiveRadius>
+								<explosiveDamageType>EMP</explosiveDamageType>
+								<explosiveExpandPerStackcount>0.037</explosiveExpandPerStackcount>
+								<startWickOnDamageTaken>
+									<li>Flame</li>
+								</startWickOnDamageTaken>
+								<startWickHitPointsPercent>0.1</startWickHitPointsPercent>
+								<preExplosionSpawnThingDef>CoolantAndroidTier</preExplosionSpawnThingDef>
+								<preExplosionSpawnChance>1</preExplosionSpawnChance>
+								<wickTicks>250~350</wickTicks>
+							</li>
+						</comps>
+					</ThingDef>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/ItemProcessor.ItemAcceptedDef[defName = "IP_CheesePressFirstItem"]/items</xpath>
+				<value>
+					<li>NSolution</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>
