@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- If the Mantis mod is active, Adding footprints parameters for mantis when they step in the blood filth from slugs -->
+<!-- Since mantis blood is insectblood filth, no need to patch slug walking into it -->
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Mantis - Blood and stains src</li>
+			<li>Mantis - Blood and stains</li>
+		</mods>
+		<match Class="PatchOperationConditional">
+			<xpath>/Defs/HediffDef[defName="Hediff_Mantis_Stain_Footprint"]/comps/li/footprint/li[defName="pink_fluid"]</xpath>
+			<!-- if we dont find pink fluid def, we add it -->
+			<nomatch Class="PatchOperationAdd">
+				<success>Normal</success>
+				<!-- <success>Always</success> -->
+				<xpath>/Defs/HediffDef[defName="Hediff_Mantis_Stain_Footprint"]/comps/li/footprint</xpath>
+				<value>
+					<li>
+						<defName>pink_fluid</defName>
+						<triggerOnFilthDef>
+							<li>Filth_SlugDew</li>
+						</triggerOnFilthDef>
+						<moteDef>Mote_Mantis_Pink_Footprint</moteDef>
+					</li>
+				</value>
+			</nomatch>
+			<!-- if we find pink fluid def, we add it triggerOnFilthDef Filth_SlugDew-->
+			<match Class="PatchOperationAdd">
+				<success>Normal</success>
+				<xpath>/Defs/HediffDef[defName="Hediff_Mantis_Stain_Footprint"]/comps/li/footprint/li[defName="pink_fluid"]/triggerOnFilthDef</xpath>
+				<value>
+					<li>Filth_SlugDew</li>
+				</value>
+			</match>
+		</match>
+	</Operation>
+</Patch>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef>
+    <defName>LTF_SlugDewBeeraweckaHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+	<description>High on slug dew beerawecka</description>
+    <label>High on Slug dew Beerawecka</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+		<li Class="HediffCompProperties_SeverityPerDay">
+		<severityPerDay>-1.5</severityPerDay>
+		</li>
+    </comps>
+	<stages>
+		<li>
+			<!-- <painFactor>1.2</painFactor> -->
+			<painOffset>-0.2</painOffset>
+			<restFallFactor>2</restFallFactor>
+			<vomitMtbDays>1.0</vomitMtbDays>
+            
+			<capMods>
+			<li>
+				<capacity>Talking</capacity>
+				<offset>-0.3</offset>
+			</li>
+			<li>
+				<capacity>BloodFiltration</capacity>
+				<offset>-0.05</offset>
+			</li>
+			<li>
+			<capacity>Sight</capacity>
+				<offset>.1</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>.05</offset>
+			</li>
+			<li>
+			<capacity>Manipulation</capacity>
+			<offset>.1</offset>
+			</li>
+			</capMods>
+		</li>
+	</stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>LTF_SlugDewBeeraweckaHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>LTF_SlugDewBeeraweckaHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on Slug dew Beerawecka</label>
+        <description>I can see reverse rainbows °\../°</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- LTF_SlugDewBeerawecka addiction -->
+  
+  <ChemicalDef>
+    <defName>LTF_Chem_SlugDewBeerawecka</defName>
+    <label>Beerawecka slugdewcted</label>
+    <addictionHediff>LTF_SlugDewBeeraweckaAddiction</addictionHediff>
+    <toleranceHediff>LTF_SlugDewBeeraweckaTolerance</toleranceHediff>
+	
+    <onGeneratedAddictedToleranceChance>0.5</onGeneratedAddictedToleranceChance>
+    <onGeneratedAddictedEvents>
+      <li>
+        <hediff>ChemicalDamageModerate</hediff>
+        <chance>0.15</chance>
+        <partsToAffect>
+			<li>Stomach</li>
+			<li>Liver</li>
+			<li>Kidney</li>
+        </partsToAffect>
+      </li>
+	  <li>
+        <hediff>TraumaSavant</hediff>
+        <chance>0.01</chance>
+        <partsToAffect>
+			<li>Brain</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_LTF_SlugDewBeerawecka</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>Beerawecka slugdewcted</label>
+    <description>Being Beerawecka slugdewcted, this person needs to regularly lick slugs exudations to avoid withdrawal symptoms.</description>
+    <listPriority>50</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>LTF_SlugDewBeeraweckaTolerance</defName>
+    <label>Slugdew Beerawecka tolerance</label>
+	<description>developed a tolerance to slug dew beerawecka</description>
+    <comps>
+		<li Class="HediffCompProperties_SeverityPerDay">
+		<severityPerDay>-0.015</severityPerDay>
+		</li>
+		<li Class="HediffCompProperties_DrugEffectFactor">
+		<chemical>LTF_Chem_SlugDewBeerawecka</chemical>
+		</li>
+    </comps>
+	<hediffGivers>
+		<li Class="HediffGiver_RandomDrugEffect">
+			<hediff>ChemicalDamageModerate</hediff>
+			<minSeverity>0.50</minSeverity>
+			<baseMtbDays>120</baseMtbDays>
+			<partsToAffect>
+				<li>Kidney</li>
+			</partsToAffect>
+		</li>
+	</hediffGivers>
+  </HediffDef>
+  
+  <HediffDef ParentName="AddictionBase">
+    <defName>LTF_SlugDewBeeraweckaAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+	<description>addicted on slug dew beerawecka</description>
+    <label>Beerawecka slugdewction</label>
+    <causesNeed>Chemical_LTF_SlugDewBeerawecka</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+					
+		<painFactor>2</painFactor>
+		<painOffset>-0.5</painOffset>
+        <restFallFactor>4</restFallFactor>
+		<vomitMtbDays>1.5</vomitMtbDays>
+        <socialFightChanceFactor>2.0</socialFightChanceFactor>
+		
+			<capMods>
+			<li>
+				<capacity>Talking</capacity>
+				<offset>-0.7</offset>
+			</li>
+			<li>
+				<capacity>BloodFiltration</capacity>
+				<offset>-0.15</offset>
+			</li>
+			<li>
+			<capacity>Sight</capacity>
+				<offset>.2</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>.1</offset>
+			</li>
+			<li>
+				<capacity>Manipulation</capacity>
+				<offset>.15</offset>
+			</li>
+			</capMods>
+			
+        <mentalStateGivers>
+			<li>
+				<mentalState>Binging_DrugExtreme</mentalState>
+				<mtbDays>40</mtbDays>
+			</li>
+			<li>
+				<mentalState>Wander_Psychotic</mentalState>
+				<mtbDays>10</mtbDays>
+			</li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>LTF_SlugDewBeeraweckaWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>LTF_SlugDewBeeraweckaAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>LTF_SlugDewBeerawecka withdrawal</label>
+        <description>I'm tired, almost blind. I feel like a larva.</description>
+        <baseMoodEffect>-25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+
+		<operations>
+			<!-- Slug HediffGiverSet for footprints and blooddripping -->
+			<li Class="PatchOperationAdd">
+				<success>Normal</success>
+
+				<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Slug"]/race/hediffGiverSets</xpath>
+				<value>
+					<li>LTF_Slug_Stain_Footprint_HediffGiverSet</li>
+					<li>LTF_Slug_BloodDripping_HediffGiverSet</li>
+				</value>
+			</li>
+			<!-- Slug DeathActionWorker for bloodpuddle upon death -->
+			<li Class="PatchOperationInsert">
+				<success>Normal</success>
+
+				<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Slug"]/race/body</xpath>
+				<value>
+					<deathActionWorkerClass>BloodDripping.DeathActionWorker_BloodPuddle</deathActionWorkerClass>
+				</value>
+			</li>
+
+			<!-- Human footprints parameters when they step in the blood filth from slugs -->
+			<li Class="PatchOperationConditional">
+				<success>Normal</success>
+
+				<xpath>/Defs/HediffDef[defName="Hediff_Human_Stain_Footprint"]/comps/li/footprint/li[defName="pink_fluid"]</xpath>
+				<!-- if we dont find pink fluid def, we add it -->
+				<nomatch Class="PatchOperationAdd">
+					<success>Normal</success>
+
+					<xpath>/Defs/HediffDef[defName="Hediff_Human_Stain_Footprint"]/comps/li/footprint</xpath>
+					<value>
+						<li>
+							<defName>pink_fluid</defName>
+							<triggerOnFilthDef>
+								<li>Filth_SlugDew</li>
+							</triggerOnFilthDef>
+							<moteDef>Mote_Human_Pink_Footprint</moteDef>
+						</li>
+					</value>
+				</nomatch>
+				<!-- if we find pink fluid def, we add triggerOnFilthDef Filth_SlugDew-->
+				<match Class="PatchOperationAdd">
+					<success>Normal</success>
+
+					<xpath>/Defs/HediffDef[defName="Hediff_Human_Stain_Footprint"]/comps/li/footprint/li[defName="pink_fluid"]/triggerOnFilthDef</xpath>
+					<value>
+						<li>Filth_SlugDew</li>
+					</value>
+				</match>
+			</li>
+		</operations>
+
+	</Operation>
+
+</Patch>

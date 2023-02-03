@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- If the Syntho mod is active,-->
+	<!-- Adding footprints parameters for syntho when they step in the slug blood filth-->
+	<!-- Adding footprints parameters for slugs when they step in the syntho blood filth-->
+	<Operation Class="PatchOperationFindMod">
+		<success>Normal</success>
+		<mods>
+			<li>Syntho</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<!-- if syntho walks in to slug_dew -->
+				<li Class="PatchOperationConditional">
+					<success>Normal</success>
+					<xpath>/Defs/HediffDef[defName="Hediff_Syntho_Stain_Footprint"]/comps/li/footprint/li[defName="pink_fluid"]</xpath>
+					<!-- if we dont find pink fluid def, we add it -->
+					<nomatch Class="PatchOperationAdd">
+						<success>Normal</success>
+						<xpath>/Defs/HediffDef[defName="Hediff_Syntho_Stain_Footprint"]/comps/li/footprint</xpath>
+						<value>
+							<li>
+								<defName>pink_fluid</defName>
+								<triggerOnFilthDef>
+									<li>Filth_SlugDew</li>
+								</triggerOnFilthDef>
+								<!-- since syntho use human footprints, let's use them -->
+								<moteDef>Mote_Human_Pink_Footprint</moteDef>
+							</li>
+						</value>
+					</nomatch>
+					<!-- if we find pink fluid def, we add triggerOnFilthDef Filth_SlugDew-->
+					<match Class="PatchOperationAdd">
+						<success>Normal</success>
+						<xpath>/Defs/HediffDef[defName="Hediff_Syntho_Stain_Footprint"]/comps/li/footprint/li[defName="pink_fluid"]/triggerOnFilthDef</xpath>
+						<value>
+							<li>Filth_SlugDew</li>
+						</value>
+					</match>
+				</li>
+				<!-- if slug walk into syntho blood -->
+				<li Class="PatchOperationConditional">
+					<success>Normal</success>
+					<xpath>/Defs/HediffDef[defName="Hediff_LTF_Slug_Stain_Footprint"]/comps/li/footprint/li[defName="cyan_fluid"]</xpath>
+					<!-- if we dont find cyan fluid def, we add it -->
+					<nomatch Class="PatchOperationAdd">
+						<success>Normal</success>
+						<xpath>/Defs/HediffDef[defName="Hediff_LTF_Slug_Stain_Footprint"]/comps/li/footprint</xpath>
+						<value>
+							<li>
+								<defName>cyan_fluid</defName>
+								<triggerOnFilthDef>
+									<li>SynthoBlood</li>
+								</triggerOnFilthDef>
+								<moteDef>Mote_LTF_Slug_Cyan_Footprint</moteDef>
+							</li>
+						</value>
+					</nomatch>
+					<!-- if we find cyan fluid def, we add triggerOnFilthDef SynthoBlood-->
+					<match Class="PatchOperationAdd">
+						<success>Normal</success>
+						<xpath>/Defs/HediffDef[defName="Hediff_LTF_Slug_Stain_Footprint"]/comps/li/footprint/li[defName="cyan_fluid"]/triggerOnFilthDef</xpath>
+						<value>
+							<li>SynthoBlood</li>
+						</value>
+					</match>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
