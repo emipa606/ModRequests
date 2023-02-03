@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!--=============== Mortar 3x ===============-->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Turret_MortarThree</defName>
+    <label>mortar 3x</label>
+    <description>Three times the mortar, three times the accurate. Engineers only made it accept HE shells because it's easier than figuring out which mortar contains which shells.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>MortarStand</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(2,2)</size>
+    <uiIconPath>UI/MorThreeUI</uiIconPath>
+    <uiIconScale>1.1</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>30</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>6</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.6</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Mannable">
+		<manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Check your ammo</fuelLabel>
+        <fuelGizmoLabel>Ammo count</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs reload</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Shell_HighExplosive</li></thingDefs></fuelFilter>
+        <fuelCapacity>30</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>215</costStuffCount>
+    <costList>
+      <Steel>150</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>225</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_MortarThree</turretGunDef>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>28</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>Mortars</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <thingClass>Projectile_Explosive</thingClass>
+    <defName>Bullet_MortarThree</defName>
+    <label>mortar 3x shell</label>
+     <graphicData>
+      <texPath>Things/Projectile/ShellHighExplosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>41</speed>
+      <explosionRadius>2.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_MortarThree</defName>
+    <label>mortar 3x</label>
+    <description>Inaccurate, but then again, you have three shots.</description>
+    <graphicData>
+      <texPath>MortarThree</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forcedMissRadius>10</forcedMissRadius>
+        <defaultProjectile>Bullet_MortarThree</defaultProjectile>
+        <warmupTime>4.0</warmupTime>
+        <range>500</range>
+        <minRange>29.9</minRange>
+        <requireLineOfSight>false</requireLineOfSight>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>3</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+<!--=============== Mortar 5x ===============-->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Turret_MortarFive</defName>
+    <label>mortar 5x</label>
+    <description>Measure once, fire five times. One of them will hit.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>MortarStand</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(2,2)</size>
+    <uiIconPath>UI/MorFiveUI</uiIconPath>
+    <uiIconScale>1.1</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>30</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>6</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.6</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Mannable">
+		<manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Check your ammo</fuelLabel>
+        <fuelGizmoLabel>Ammo count</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs reload</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Shell_HighExplosive</li></thingDefs></fuelFilter>
+        <fuelCapacity>50</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>355</costStuffCount>
+    <costList>
+      <Steel>150</Steel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>225</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_MortarFive</turretGunDef>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>28</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>Mortars</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <thingClass>Projectile_Explosive</thingClass>
+    <defName>Bullet_MortarFive</defName>
+    <label>mortar 5x shell</label>
+     <graphicData>
+      <texPath>Things/Projectile/ShellHighExplosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>41</speed>
+      <explosionRadius>2.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_MortarFive</defName>
+    <label>mortar 5x</label>
+    <description>Inaccurate, but then again, you have five shots.</description>
+    <graphicData>
+      <texPath>MortarFive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forcedMissRadius>10</forcedMissRadius>
+        <defaultProjectile>Bullet_MortarFive</defaultProjectile>
+        <warmupTime>4.0</warmupTime>
+        <range>500</range>
+        <minRange>29.9</minRange>
+        <requireLineOfSight>false</requireLineOfSight>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>5</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+<!--=============== Mortar 11x ===============-->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Turret_MortarEleven</defName>
+    <label>mortar 11x</label>
+    <description>Making it rain has never been the same.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>BigMortarStand</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(2,2)</size>
+    <uiIconPath>UI/MorElevenUI</uiIconPath>
+    <uiIconScale>1.1</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>30</Mass>
+      <Beauty>-20</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>6</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.6</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Mannable">
+		<manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Check your ammo</fuelLabel>
+        <fuelGizmoLabel>Ammo count</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs reload</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Shell_HighExplosive</li></thingDefs></fuelFilter>
+        <fuelCapacity>110</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>775</costStuffCount>
+    <costList>
+      <Steel>200</Steel>
+      <ComponentIndustrial>16</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>225</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_MortarEleven</turretGunDef>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>28</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>Mortars</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <thingClass>Projectile_Explosive</thingClass>
+    <defName>Bullet_MortarEleven</defName>
+    <label>mortar 11x shell</label>
+     <graphicData>
+      <texPath>Things/Projectile/ShellHighExplosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>41</speed>
+      <explosionRadius>2.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_MortarEleven</defName>
+    <label>mortar 11x</label>
+    <description>"Shoot them again."</description>
+    <graphicData>
+      <texPath>MortarEleven</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forcedMissRadius>10</forcedMissRadius>
+        <defaultProjectile>Bullet_MortarFive</defaultProjectile>
+        <warmupTime>4.0</warmupTime>
+        <range>500</range>
+        <minRange>29.9</minRange>
+        <requireLineOfSight>false</requireLineOfSight>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>11</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>
