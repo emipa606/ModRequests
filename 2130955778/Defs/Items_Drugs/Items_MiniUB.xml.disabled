@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>RH_SpeedBoost</defName>
+    <label>speed boost</label>
+    <description>A synthetic performance-enhancing drug developed in an unknown world. speed boost blocks pain, increases movement speed, and improves the user's melee and shooting abilities.\n\nIt is meant to be taken only once, so long as it stays in the user's system for roughly a few months; Multiple use within a short timespan is not recommended.</description>
+    <descriptionHyperlinks>
+      <HediffDef>RH_SpeedBoostHigh</HediffDef>
+      <!--<HediffDef>RH_SpeedBoostTolerance</HediffDef>
+      <HediffDef>RH_SpeedBoostAddiction</HediffDef>-->
+      <HediffDef>ChemicalDamageModerate</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Special/SpeedBoost</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>20000</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.40</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>90</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Inject {0}</ingestCommandString>
+      <ingestReportString>Injecting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RH_SpeedBoostHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>RH_SpeedBoost</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.15</offset>
+          <toleranceChemical>RH_SpeedBoost</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RH_SpeedBoostTolerance</hediffDef>
+          <severity>0.005</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+   <!--<recipeMaker>
+      <researchPrerequisite>GoJuiceProduction</researchPrerequisite>
+       <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>-->
+    <costList>
+      <Neutroamine>2</Neutroamine>
+      <Yayo>1</Yayo>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>RH_SpeedBoost</chemical>
+        <addictiveness>0</addictiveness>
+        <minToleranceToAddict>0</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>200</listOrder>
+        <overdoseSeverityOffset>0~0</overdoseSeverityOffset>
+        <largeOverdoseChance>0</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>RH_SpeedBoostHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>high on speed boost</label>
+    <labelNoun>a speed boost high</labelNoun>
+    <description>speed boost in the bloodstream. It supercharges combat-related abilities.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.40</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <!--<painFactor>0.1</painFactor>-->
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.25</offset>
+            </li>
+            <li>
+              <capacity>Manipulation</capacity>
+              <offset>0.50</offset>
+            </li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.50</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>RH_SpeedBoostHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RH_SpeedBoostHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on speed boost</label>
+        <description>I feel pumped but steady. I am the bullet in flight, ready to cut through you.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- speed boost addiction -->
+
+  <ChemicalDef>
+    <defName>RH_SpeedBoost</defName>
+    <label>speed boost</label>
+    <addictionHediff>RH_SpeedBoostAddiction</addictionHediff>
+    <toleranceHediff>RH_SpeedBoostTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>RHChemical_SpeedBoost</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>speed boost</label>
+    <description>Because of a speed boost addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>RH_SpeedBoostTolerance</defName>
+    <label>speed boost tolerance</label>
+    <description>A built-up tolerance to speed boost. The more severe this tolerance is, the more speed boost it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.025</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>RH_SpeedBoost</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageModerate</hediff>
+        <minSeverity>0.50</minSeverity>
+        <baseMtbDays>120</baseMtbDays>
+        <partsToAffect>
+          <li>Brain</li>
+        </partsToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>RH_SpeedBoostAddiction</defName>
+    <label>speed boost addiction</label>
+    <description>A chemical addiction to speed boost. Long-term presence of speed boost has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of speed boost, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>RHChemical_SpeedBoost</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.04</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <!--<painFactor>3</painFactor>-->
+        <restFallFactorOffset>0.1</restFallFactorOffset>
+        <hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.5</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>60</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>7</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>RH_SpeedBoostWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RH_SpeedBoostAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>speed boost withdrawal</label>
+        <description>I'm all fuzzy and can't think straight. My limbs feel heavy, I'm tired and hungry, everything hurts. And why won't my eyes focus properly?</description>
+        <baseMoodEffect>-8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>
