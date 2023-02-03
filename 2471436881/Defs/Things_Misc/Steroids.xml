@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<ThingDef ParentName="MakeableDrugBase">
+    <defName>Steroids</defName>
+    <label>steroids</label>
+    <description>A pack of steroid hormone, stimulates muscular hypertrophy and makes a person stronger.</description>
+    <graphicData>
+      <texPath>Things/Drugs/Steroids</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>1000</WorkToMake>
+      <MarketValue>4</MarketValue>
+      <Mass>0.10</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+      <ingestible>
+      <foodType>Processed, Fluid</foodType>
+      <drugCategory>Medical</drugCategory>
+      <baseIngestTicks>100</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.21,0,0.05)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Take {0}</ingestCommandString>
+      <ingestReportString>Taking {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SteroidBuff</hediffDef>
+          <severity>1</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>DrugProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <PsychoidLeaves>8</PsychoidLeaves>
+	  <Neutroamine>6</Neutroamine>
+    </costList>
+  <comps>
+   <li Class="CompProperties_Drug">
+        <listOrder>1100</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+     </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>SteroidBuff</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>steroid buff</label>
+    <description>Steroids stimulate muscle growth.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>4.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.00</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+		<label>wearing off</label>
+		<minSeverity>0.0</minSeverity>
+          <capMods>
+            <li>
+				<capacity>Manipulation</capacity>
+				<offset>0.10</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>-0.10</offset>
+			</li>
+			<li>
+				<capacity>BloodFiltration</capacity>
+				<offset>-0.20</offset>
+			</li>
+          </capMods>
+        </li>
+		<li>
+		 <label>fine</label>
+		 <minSeverity>0.5</minSeverity>
+          <capMods>
+            <li>
+				<capacity>Manipulation</capacity>
+				<offset>0.30</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>0.25</offset>
+			</li>
+          </capMods>
+        </li>
+		<li>
+		<label>tripping</label>
+		<minSeverity>1.2</minSeverity>
+          <capMods>
+            <li>
+				<capacity>Manipulation</capacity>
+				<offset>0.10</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>-0.10</offset>
+			</li>
+			<li>
+				<capacity>BloodFiltration</capacity>
+				<offset>-0.20</offset>
+			</li>
+          </capMods>
+        </li>
+		<li>
+		<label>overdose</label>
+		<minSeverity>2.3</minSeverity>
+          <capMods>
+            <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.86</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>-0.91</offset>
+			</li>
+			<li>
+				<capacity>BloodFiltration</capacity>
+				<offset>-0.20</offset>
+			</li>
+          </capMods>
+		  <hediffGivers>
+			<li Class="HediffGiver_Random">
+				<hediff>LiverDamage</hediff>
+				<partsToAffect>
+					<li>Liver</li>
+				</partsToAffect>
+			</li>
+		  </hediffGivers>
+        </li>
+		<li>
+		<label>Liver Death</label>
+		<minSeverity>3.2</minSeverity>
+          <capMods>
+            <li>
+				<capacity>Manipulation</capacity>
+				<offset>-1.00</offset>
+			</li>
+			<li>
+				<capacity>Moving</capacity>
+				<offset>-1.00</offset>
+			</li>
+			<li>
+				<capacity>BloodFiltration</capacity>
+				<offset>-1.00</offset>
+			</li>
+          </capMods>
+        </li>			
+      </stages>
+   </HediffDef> 
+   <HediffDef ParentName="DiseaseBase">
+    <defName>LiverDamage</defName>
+    <label>liver damage</label>
+    <description>A form of permanent liver damage caused by drug abuse.</description>
+    <stages>
+      <li>
+        <partEfficiencyOffset>-0.20</partEfficiencyOffset>
+        <painOffset>0.15</painOffset>
+      </li>
+    </stages>
+   </HediffDef>
+</Defs>
