@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <HediffDef>
+    <defName>ExPainShock</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>electroshock</label>
+    <description>Inflicts pain on the user from electroshock.</description>
+    <isBad>true</isBad>
+    <stages>
+      <li>
+        <painOffset>2</painOffset>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>6000~6000</disappearsAfterTicks>
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+      <li Class="Explorite.HediffCompProperties_DisappearsOnSourceApparelLost"/>
+    </comps>
+  </HediffDef>
+
+  <ThingDef Name="SU_SlaveOutfit" ParentName="ApparelNoQualityBase" Abstract="True">
+    <thingClass>Apparel</thingClass>
+    <selectable>true</selectable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToMake>2000</WorkToMake>
+      <EquipDelay>2</EquipDelay>
+      <Mass>3</Mass>
+    </statBases>
+    <smeltable>true</smeltable>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li>
+        <compClass>CompColorable</compClass>
+      </li>
+    </comps>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <equippedStatOffsets>
+      <SlaveSuppressionOffset>0.15</SlaveSuppressionOffset>
+      <MoveSpeed>-0.1</MoveSpeed>
+    </equippedStatOffsets>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <slaveApparel>true</slaveApparel>
+      <defaultOutfitTags>
+        <li>Slave</li>
+      </defaultOutfitTags>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="SU_SlaveOutfit">
+    <defName>SU_Shock_Collar</defName>
+    <label>Shock Collar</label>
+    <description>A heavy metal ring with a shock device attached could activate with a remote activator.</description>
+    <graphicData>
+      <texPath>Things/ShockCollar</texPath>
+    </graphicData>
+    <costList>
+      <ComponentIndustrial>1</ComponentIndustrial>
+      <Steel>50</Steel>
+      <Plasteel>10</Plasteel>
+    </costList>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToMake>2000</WorkToMake>
+      <EquipDelay>2</EquipDelay>
+      <Mass>3</Mass>
+    </statBases>
+    <comps>
+      <li Class="Explorite.CompProperties_RemoteActivationEffect_Apparel_ApplyHediff">
+        <tags>
+          <li>ExRemoteShock</li>
+        </tags>
+        <hediff>ExPainShock</hediff>
+        <part>Neck</part>
+      </li>
+      <li Class="Explorite.CompProperties_RemoteActivationEffect_PlayEffects">
+        <tags>
+          <li>ExRemoteShock</li>
+        </tags>
+        <sound>MeleeHit_BladelinkZeusHammer</sound>
+        <fleck>ElectricalSpark</fleck>
+      </li>
+
+    </comps>
+    <equippedStatOffsets>
+      <SlaveSuppressionOffset>0.1</SlaveSuppressionOffset>
+      <MoveSpeed>-0.1</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <bodyPartGroups>
+        <li>Neck</li>
+      </bodyPartGroups>
+      <slaveApparel>true</slaveApparel>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <defaultOutfitTags>
+        <li>Slave</li>
+      </defaultOutfitTags>
+      <wornGraphicPath>Things/ShockCollar/Collar</wornGraphicPath>
+    </apparel>
+    <recipeMaker>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="SU_SlaveOutfit">
+    <defName>SU_Explosive_Collar</defName>
+    <label>Explosive Collar</label>
+    <description>A heavy metal ring with a detonator device attached could activate with a remote activator.</description>
+    <graphicData>
+      <texPath>Things/ExplosiveCollar</texPath>
+    </graphicData>
+    <comps>
+      <li Class="Explorite.CompProperties_RemoteActivationEffect_Explode">
+        <tags>
+          <li>ExRemoteExplode</li>
+        </tags>
+        <explosiveDamageType>BombSuper</explosiveDamageType>
+        <explosiveRadius>1.5</explosiveRadius>
+        <explosiveExpandPerStackcount>0</explosiveExpandPerStackcount>
+        <chanceToStartFire>0</chanceToStartFire>
+        <damageFalloff>true</damageFalloff>
+        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+        <explosionEffect>GiantExplosion</explosionEffect>
+        <explosionSound>Explosion_GiantBomb</explosionSound>
+      </li>
+      <li Class="Explorite.CompProperties_RemoteActivationEffect_Destroy">
+        <tags>
+          <li>ExRemoteExplode</li>
+        </tags>
+        <destroyMode>KillFinalize</destroyMode>
+      </li>
+
+    </comps>
+    <costList>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <Steel>50</Steel>
+      <Chemfuel>50</Chemfuel>
+      <Plasteel>10</Plasteel>
+    </costList>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToMake>2000</WorkToMake>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <SlaveSuppressionOffset>0.5</SlaveSuppressionOffset>
+      <MoveSpeed>-0.1</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <bodyPartGroups>
+        <li>Neck</li>
+      </bodyPartGroups>
+      <slaveApparel>true</slaveApparel>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <defaultOutfitTags>
+        <li>Slave</li>
+      </defaultOutfitTags>
+      <wornGraphicPath>Things/ExplosiveCollar/Collar</wornGraphicPath>
+    </apparel>
+    <recipeMaker>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>SU_RemoteCollarActivator</defName>
+    <label>remote collar activator belt</label>
+    <description>A remote collar activator.</description>
+    <techLevel>Industrial</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/ShieldBelt/ShieldBelt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <Steel>50</Steel>
+      <Uranium>50</Uranium>
+      <Plasteel>10</Plasteel>
+    </costList>
+    <recipeMaker>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+    <statBases>
+      <Mass>3</Mass>
+      <Flammability>0.4</Flammability>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <generateAllowChance>0</generateAllowChance>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>ExRemoteShockBelt</li>
+      </tags>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+          <weight>10</weight>
+          <only>(0.33,0.33,0.33,1)</only>
+        </li>
+        <li>
+          <weight>10</weight>
+          <only>(0.6,0.4,0.4,1)</only>
+        </li>
+        <li>
+          <weight>10</weight>
+          <only>(0.6,0.6,0.4,1)</only>
+        </li>
+        <li>
+          <weight>6</weight>
+          <min>(0.3,0.3,0.3,1)</min>
+          <max>(0.5,0.5,0.5,1)</max>
+        </li>
+      </options>
+    </colorGenerator>
+    <comps>
+      <li Class="Explorite.CompProperties_ReloadableNotReloadable">
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li Class="Explorite.VerbProperties_RemoteActivator">
+        <label>remote shock</label>
+        <commandIcon>UI/Structures/Archist</commandIcon>
+        <violent>true</violent>
+        <hasStandardCommand>true</hasStandardCommand>
+        <targetable>true</targetable>
+        <onlyManualCast>True</onlyManualCast>
+        <tags>
+          <li>ExRemoteShock</li>
+        </tags>
+        <requireLineOfSight>false</requireLineOfSight>
+        <range>34.9</range>
+        <warmupTime>1</warmupTime>
+        <targetParams>
+          <canTargetSelf>true</canTargetSelf>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetItems>false</canTargetItems>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+      </li>
+      <li Class="Explorite.VerbProperties_RemoteActivator_Area">
+        <label>remote shock (Area)</label>
+        <commandIcon>UI/Structures/Archist</commandIcon>
+        <violent>true</violent>
+        <hasStandardCommand>true</hasStandardCommand>
+        <targetable>true</targetable>
+        <onlyManualCast>True</onlyManualCast>
+        <tags>
+          <li>ExRemoteShock</li>
+        </tags>
+        <radius>4.5</radius>
+        <needLOSToCenter>false</needLOSToCenter>
+        <requireLineOfSight>false</requireLineOfSight>
+        <range>34.9</range>
+        <warmupTime>1</warmupTime>
+        <targetParams>
+          <canTargetSelf>true</canTargetSelf>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetItems>true</canTargetItems>
+          <canTargetBuildings>true</canTargetBuildings>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+      <li Class="Explorite.VerbProperties_RemoteActivator">
+        <label>remote explode</label>
+        <commandIcon>UI/Structures/Archist</commandIcon>
+        <violent>true</violent>
+        <hasStandardCommand>true</hasStandardCommand>
+        <targetable>true</targetable>
+        <onlyManualCast>True</onlyManualCast>
+        <tags>
+          <li>ExRemoteExplode</li>
+        </tags>
+        <requireLineOfSight>false</requireLineOfSight>
+        <range>34.9</range>
+        <warmupTime>1</warmupTime>
+        <targetParams>
+          <canTargetSelf>true</canTargetSelf>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetItems>true</canTargetItems>
+          <canTargetBuildings>true</canTargetBuildings>
+        </targetParams>
+      </li>
+      <li Class="Explorite.VerbProperties_RemoteActivator_Area">
+        <label>remote explode (Area)</label>
+        <commandIcon>UI/Structures/Archist</commandIcon>
+        <violent>true</violent>
+        <hasStandardCommand>true</hasStandardCommand>
+        <targetable>true</targetable>
+        <onlyManualCast>True</onlyManualCast>
+        <tags>
+          <li>ExRemoteExplode</li>
+        </tags>
+        <radius>4.5</radius>
+        <needLOSToCenter>false</needLOSToCenter>
+        <requireLineOfSight>false</requireLineOfSight>
+        <range>34.9</range>
+        <warmupTime>1</warmupTime>
+        <targetParams>
+          <canTargetSelf>true</canTargetSelf>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetItems>true</canTargetItems>
+          <canTargetBuildings>true</canTargetBuildings>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+
+  </ThingDef>
+
+</Defs>
