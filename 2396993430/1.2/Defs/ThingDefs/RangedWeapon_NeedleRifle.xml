@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+	<HediffDef Name="BlamiteSuperCombinationBase" Abstract="True">
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(0.8, 0.8, 0.35)</defaultLabelColor>
+		<initialSeverity>1</initialSeverity>
+		<removeOnRedressChanceByDaysCurve>
+			<points>
+				<li>(0, 0)</li>
+				<li>(2, 0)</li>
+				<li>(7, 0.5)</li>
+				<li>(20, 1)</li>
+			</points>
+		</removeOnRedressChanceByDaysCurve>
+	</HediffDef>
+
+	<HediffDef ParentName="BlamiteSuperCombinationBase">
+		<defName>SuperCombination</defName>
+		<label>blamite super combination</label>
+		<description>This Pawn has a blamite projectile stuck, if combined with 2 more crystals it will cause an explosion due to super combination.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<makesSickThought>true</makesSickThought>
+		<tendable>true</tendable>
+		<stages>
+			<li>
+				<painOffset>0.2</painOffset>
+			</li>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_TendDuration">
+				<baseTendDurationHours>48</baseTendDurationHours>
+				<disappearsAtTotalTendQuality>3</disappearsAtTotalTendQuality>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>RemoveBlamite</defName>
+		<label>Shard Extracting Procedure</label>
+		<description>This special medical operation removes the shards of subanese crystal embedded in the flesh.</description>
+		<workerClass>Recipe_RemoveHediff</workerClass>
+		<jobString>Removing Shards.</jobString>
+		<workAmount>2000</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<isViolation>false</isViolation>
+		<targetsBodyPart>false</targetsBodyPart>
+		<removesHediff>SuperCombination</removesHediff>
+		<successfullyRemovedHediffMessage>{0} has successfully removed {1}'s embedded shards of subanese crystal.</successfullyRemovedHediffMessage>
+		<skillRequirements>
+			<Medicine>5</Medicine>
+		</skillRequirements>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>MedicineIndustrial</li>
+					</thingDefs>
+				</filter>
+				<count>10</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>Medicine</li>
+			</categories>
+		</fixedIngredientFilter>
+		<recipeUsers>
+			<li>Human</li>
+			<li>Alien_KigYar</li>
+			<li>Alien_Tvaoan</li>
+		</recipeUsers>
+	</RecipeDef>
+
+	<DamageDef Name="Blamite">
+		<defName>Blamite</defName>
+		<label>stab</label>
+		<workerClass>DamageWorker_AddInjury</workerClass>
+		<externalViolence>true</externalViolence>
+		<deathMessage>{0} has been stabbed to death.</deathMessage>
+		<hediff>Stab</hediff>
+		<!--<additionalHediffs>SuperCombination</additionalHediffs>-->
+		<!--Remember, this is the line that causes the bug-->
+		<harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+		<hediffSolid>Crack</hediffSolid>
+		<impactSoundType>Slice</impactSoundType>
+		<armorCategory>Sharp</armorCategory>
+		<overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+		<isRanged>true</isRanged>
+		<makesAnimalsFlee>true</makesAnimalsFlee>
+	</DamageDef>
+	
+	<!--First Try at fixing the longstanging red error on startup-->
+
+	<DamageDef ParentName="Blamite">
+		<defName>BlamiteStab</defName>
+		<label>Blamite Stab</label>
+		<additionalHediffs>
+			<li>
+				<hediff>SuperCombination</hediff>
+				<!--<severityPerDamageDealt>0.015</severityPerDamageDealt>
+				<victimSeverityScaling>ToxicSensitivity</victimSeverityScaling>
+				<victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>-->
+			</li>
+		</additionalHediffs>
+		<!--<impactSoundType>Toxic</impactSoundType>
+		<damageEffecter>Impact_Toxic</damageEffecter>-->
+	</DamageDef>
+	
+	<!--First Try at fixing the longstanging red error on startup-->
+	
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_BlamiteNeedleRifle</defName>
+		<label>needle rifle blamite</label>
+		<graphicData>
+			<texPath>Things/Projectile/BlamiteProjectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>Blamite</damageDef>
+			<damageAmountBase>15</damageAmountBase>
+			<speed>100</speed>
+		</projectile>
+
+		<thingClass>SkirmisherJump.Projectile_BlamiteNeedleRifle</thingClass>
+		
+		<modExtensions>
+			<li Class="CovenantWeapons.ModExtension_BlamiteNeedleRifle">
+				<addHediffChance>1</addHediffChance>
+				<hediffToAdd>SuperCombination</hediffToAdd>
+			</li>
+		</modExtensions>
+		
+	</ThingDef>
+	
+	<SoundDef>
+		<defName>Shot_NeedleRifle</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Folder">
+						<clipFolderPath>Weapon/NeedleRifleFire</clipFolderPath>
+					</li>
+				</grains>
+				<volumeRange>45.2941~45.2941</volumeRange>
+				<pitchRange>1.091765~1</pitchRange>
+				<sustainLoop>False</sustainLoop>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>GunTail_NeedleRifle</defName>
+		<context>MapOnly</context>
+		<maxVoices>2</maxVoices>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<grains>
+					<li Class="AudioGrain_Folder">
+						<clipFolderPath>Weapon/Tails/GunTail_NeedleRifle</clipFolderPath>
+					</li>
+				</grains>
+				<volumeRange>38.23529~37.05882</volumeRange>
+				<pitchRange>0.9082352~1.091765</pitchRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+		
+	  <SoundDef>
+    <defName>BlamiteBomb_Explode</defName>  
+    <context>MapOnly</context>  
+    <maxSimultaneous>1</maxSimultaneous>  
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Weapon/Blamite_SuperCombo</clipFolderPath>
+          </li>
+        </grains>      
+        <volumeRange>64.70588~67.05882</volumeRange>      
+        <pitchRange>0.8516304~1.254348</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+		
+	<ThingDef ParentName="BaseHumanMakeableGun">
+		<defName>Gun_NeedleRifle</defName>
+		<label>needle rifle</label>
+		<description>A covenant blamite rifle.</description>
+		<graphicData>
+			<texPath>Things/Item/Equipment/WeaponRanged/NeedleRifle</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		<recipeMaker>
+			<researchPrerequisite>SubaneseCrystalProccesing</researchPrerequisite>
+			<skillRequirements>
+				<Crafting>7</Crafting>
+			</skillRequirements>
+		</recipeMaker>
+		<thingSetMakerTags>
+			<li>RewardStandardQualitySuper</li>
+		</thingSetMakerTags>
+		<statBases>
+			<WorkToMake>45000</WorkToMake>
+			<Mass>4</Mass>
+			<AccuracyTouch>0.50</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.86</AccuracyMedium>
+			<AccuracyLong>0.88</AccuracyLong>
+			<RangedWeapon_Cooldown>1.70</RangedWeapon_Cooldown>
+		</statBases>
+
+		<equippedAngleOffset>45</equippedAngleOffset>
+		
+		<costList>
+			<Steel>60</Steel>
+			<ComponentCovenant>8</ComponentCovenant>
+			<SubaneseCrystal>30</SubaneseCrystal>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Bullet_BlamiteNeedleRifle</defaultProjectile>
+				<warmupTime>3.5</warmupTime>
+				<range>44.9</range>
+				<burstShotCount>3</burstShotCount>
+				<soundCast>Shot_NeedleRifle</soundCast>
+				<soundCastTail>GunTail_NeedleRifle</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<weaponTags Inherit="False">
+			<li>CovieWeapon</li>
+		</weaponTags>
+	</ThingDef>
+	
+</Defs>
