@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■EGG BASE■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■-->  
+  <ThingDef Abstract="True" Name="KWVR_EGG_BASE_DEF" ParentName="OrganicProductBase" >
+    <thingCategories>
+      <li>EggsFertilized</li>
+    </thingCategories>
+   
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>AnimalProduct</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <ingestEffect>EatMeat</ingestEffect>
+      <ingestSound>RawMeat_Eat</ingestSound>
+      <ingestEffectEat>EatVegetarian</ingestEffectEat>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>eat the {0}</ingestCommandString>
+      <ingestReportString>smashing into mouth {0}.</ingestReportString>
+      <ingestReportStringEat>smashing into mouth {0}.</ingestReportStringEat>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <tasteThought>AteRawFood</tasteThought>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FoodPoisoning</hediffDef>
+          <severity>1</severity>
+          <toleranceChemical>KWVR_CHEMICAL_SPAWNER_DEF</toleranceChemical>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>-0.1</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    
+    <socialPropernessMatters>true</socialPropernessMatters>
+    
+    
+    <statBases>
+      <Mass>0.15</Mass>
+      <MaxHitPoints>30</MaxHitPoints>
+      <DeteriorationRate>30</DeteriorationRate>
+      <Flammability>1.5</Flammability>
+      <Nutrition>0.2</Nutrition>
+      <FoodPoisonChanceFixedHuman>0.3</FoodPoisonChanceFixedHuman>
+    </statBases>
+    
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_TemperatureRuinable">
+          <minSafeTemperature>21</minSafeTemperature>
+          <maxSafeTemperature>50</maxSafeTemperature>
+        <progressPerDegreePerTick>0.00003</progressPerDegreePerTick>
+      </li>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>15</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+        <disableIfHatcher>false</disableIfHatcher>
+      </li>
+    </comps>
+</ThingDef>
+
+<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■PLAYER-PAWN FERTILE EGGS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■-->  
+  
+    <!--■■■■■■■■■■■■■■■■■■TINY, 3 EYES■■■■■■■■■■■■■■■■■■■■■■■-->
+<ThingDef ParentName="KWVR_EGG_BASE_DEF">
+    <defName>KWVR_EGG_PLAYER_TINY3EYES_DEF</defName>
+    <label>kwiver egg (tiny)</label>
+  <description>An Kwiver egg sack. Will hatch into a small, dimorphic Kwiver polyp.
+   \nIncubates at 21c-50c</description>
+    <graphicData>
+      <color>(168,158,216)</color>
+      <texPath>Resources/Eggs/TinyEggs10Eye</texPath>
+      <graphicClass>Graphic_Random</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+  
+    <stackLimit>1</stackLimit>
+  
+    <statBases>
+      <MarketValue>10.0</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Hatcher">
+        <hatcherDaystoHatch>3</hatcherDaystoHatch>
+        <hatcherPawn>KWVR_PAWN_PLAYER_TINY3EYES_DEF</hatcherPawn>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(173,158,216,0)</glowColor>
+      </li>    
+      <li Class="CompProperties_Drug">
+        <chemical>KWVR_CHEMICAL_SPAWNER_DEF</chemical>
+        <addictiveness>0.020</addictiveness>
+        <minToleranceToAddict>0.15</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.06</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>20</listOrder>
+      </li>
+   <!--   <li Class="CompProperties_Usable">
+        <useJob>UseArtifact</useJob>
+        <useLabel>Polyp Vacuolization</useLabel>
+      </li>
+      Homemade use effect I couldn't restrict on race though HAR so went the ingestable outcome doer route.
+      <li Class="CompProperties_UseEffect">
+        <compClass>Kwiver.CompUseBioEffect_AddHediff</compClass>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li> -->
+    </comps>
+</ThingDef>
+  
+</Defs>
