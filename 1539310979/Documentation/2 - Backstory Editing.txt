@@ -1,0 +1,264 @@
+=========================
+  BACKSTORY XML DETAILS
+=========================
+
+The BackstoryDefs file allows you to add backstories to the game's database. A typical entry in your BackstoryDefs file might look something like this:
+
+	<REB_Code.BackstoryDef>
+		<defName>RayneA01</defName>
+		<slot>Adulthood</slot>
+		<title>Unmotivated wage slave</title>
+		<titleShort>Wage slave</titleShort>
+		<titleFemale>Unmotivated wage slave</titleFemale>
+		<titleShortFemale>Wage slave</titleShortFemale>
+		<baseDesc>[PAWN_nameDef] wastes most of [PAWN_possessive] time playing games in the company of [PAWN_possessive] cats.</baseDesc>
+		<skillGains>
+			<li><key>Research</key><value>2</value></li>
+			<li><key>Social</key><value>2</value></li>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+		</requiredWorkTags>
+		<workDisables>
+			<li>Violent</li>
+		</workDisables>
+		<forcedTraits>
+			<li><key>Industriousness</key><value>-1</value></li>
+		</forcedTraits>
+		<disallowedTraits>
+			<li><key>Psychopath</key><value>0</value></li>
+		</disallowedTraits>
+		<bodyTypeMale>Hulk</bodyTypeMale>
+		<bodyTypeFemale>Thin</bodyTypeFemale>
+		<spawnCategories>
+			<li>Civil</li>
+			<li>Raider</li>
+			<li>Slave</li>
+			<li>Trader</li>
+			<li>Traveler</li>
+			<li>Rare</li>
+			<li>AgeOver40</li>
+		</spawnCategories>
+		<shuffleable>true</shuffleable>
+	</REB_Code.BackstoryDef>
+
+Actually, this example really isn't "typical," as it contains more tags than you'd normally include in a single definition, but that's because I wanted to include all the options. ;)
+
+-- <defName> --
+
+The first tag, <defName>, is a unique identifier for the backstory in question. It should contain only alphanumeric characters (no spaces), and should be different from the defNames that you've assigned to any other backstories.
+
+-- <slot> --
+
+The <slot> tag tells the game whether a particular backstory is a childhood story or an adulthood story. It should be defined as either <slot>Childhood</slot> or <slot>Adulthood</slot>.
+
+-- <title> and <titleShort> --
+
+<title> and <titleShort> are exactly what you'd expect from the tag names. Note that the game will complain if you capitalize any but the first word in each of them.
+
+-- <titleFemale> and <titleShortFemale> --
+
+Alternate versions of the above, to be used for female pawns. Completely optional. If these tags don't appear in a backstory definition, the game will simply use the default title tags for both male and female pawns.
+
+-- <baseDesc> --
+
+The <baseDesc> tag is where you put the description of what a pawn with this backstory has done or is like. You can utilize certain "wildcards" to personalize the description, as follows:
+
+    [PAWN_nameDef]    -- will be replaced with the pawn's name.
+    [PAWN_pronoun]    -- will be replaced with "he" or "she," depending on the pawn's gender. (Will be capitalized if appropriate.)
+    [PAWN_possessive] -- will be replaced with "his" or "her" as appropriate. (Will be capitalized if appropriate.)
+    [PAWN_objective]  -- will be replaced with "him" or "her" as appropriate.
+
+-- <skillGains> --
+
+Each key/value pair within the <skillGains> tag defines the number of points to be added to or subtracted from a particular skill. If you try to add more than 20 points to or subtract more than 20 points from a skill, bad things will happen, possibly even leading to the implosion of the universe. So don't do it. Valid skill names are:
+
+    Animals
+    Artistic 
+    Construction
+    Cooking
+    Crafting
+    Intellectual
+    Medicine
+    Melee
+    Mining
+	Plants
+    Shooting
+    Social
+
+Here, and pretty much everywhere else in the XML files, capitalization matters. The following two entries are *not* the same:
+
+    <li><key>Social</key><value>2</value></li>
+    <li><key>social</key><value>2</value></li>
+
+The first, which is properly capitalized, will instruct a backstory to add 2 points to the pawn's social skill. The second, which is *not* properly capitalized, will generate an error when the game tries to read the XML file.
+
+Finally, note that you can have backstories add points to skills that are added by other mods. Be aware, though, that if you try to use such backstories without the mods that add the skills, they'll generate errors.
+
+-- <requiredWorkTags> and <workDisables> --
+
+Work tags define "categories" of work for pawns. The <requiredWorkTags> and <workDisables> XML tags allow you to use work tags to define certain categories of work which pawns with a specific backstory either must be able to do or will never be able to do. A backstory which requires a particular work tag will never be combined with a backstory which disables that same tag, so for example, a childhood story which disables dumb manual labor will never be combined with an adulthood story which requires dumb manual labor. Both tags are optional; neither has to be used in a backstory definition. Valid work tags (and the work types to which they apply) are:
+
+    Animals        -- Handle
+    Artistic       -- Art
+    Caring         -- Doctor
+    Cleaning       -- Clean
+    Cooking        -- Cook
+    Crafting       -- Craft, Smith, Tailor
+    Firefighting   -- Firefight
+    Hauling        -- Haul
+    Intellectual   -- Research
+    ManualDumb     -- Clean, Haul, Plant Cut
+    ManualSkilled  -- Construct, Cook, Craft, Grow, Mine, Smith, Tailor
+    Mining         -- Mine
+    PlantWork      -- Grow, Plant Cut
+    Social         -- Warden
+    Violent        -- Hunt
+
+-- <forcedTraits> and <disallowedTraits> --
+
+The <forcedTraits> and <disallowedTraits> tags allow you to define traits which must be, or can never be, paired with a particular backstory. Both tags, of course, are optional. Each trait is defined with a key/value pair, though for most traits, the value will always be 0. Static traits (for which you'll always use a value of 0) are as follows:
+
+    Abrasive 
+    AnnoyingVoice
+    Ascetic 
+    Bloodlust 
+	BodyPurist
+    Brawler 
+    Cannibal
+    CreepyBreathing
+    DislikesMen
+    DislikesWomen
+	FastLearner
+    Gay
+	Gourmand
+	GreatMemory
+    Greedy 
+    Jealous 
+    Kind 
+    Masochist
+    NightOwl
+	Nimble
+    Nudist
+    Psychopath
+    Pyromaniac 
+	QuickSleeper
+	Tough
+	Transhumanist
+    TooSmart 
+	Undergrounder
+    Wimp
+
+If you want to force or disallow a "spectrum" trait, you'll need to define a non-zero value. Spectrum traits are actually "groups" of mutually-exclusive traits. The Beauty spectrum, for example, includes the traits Beautiful, Pretty, Ugly, and Staggeringly Ugly. If you tried to add "Beautiful" as a forced trait in a backstory, it wouldn't work, as "Beautiful" isn't actually a valid trait name, even though it's the trait name you see in the game. You'd need instead to force the "Beauty" trait, with a value of 2. Valid spectrum trait names and values are:
+
+    Beauty 
+       2: Beautiful
+       1: Pretty
+      -1: Ugly
+      -2: Staggeringly Ugly
+    DrugDesire 
+       2: Chemical Fascination
+       1: Chemical Interest
+      -1: Teetotaler
+    Immunity
+       1: Super-Immune
+	  -1: Sickly
+    Industriousness 
+       2: Industrious
+       1: Hard Worker
+      -1: Lazy
+      -2: Slothful
+    NaturalMood 
+       2: Sanguine
+       1: Optimist
+      -1: Pessimist
+      -2: Depressive
+    Nerves 
+       2: Iron-Willed
+       1: Steadfast
+      -1: Nervous
+      -2: Volatile
+    Neurotic 
+       2: Very Neurotic
+       1: Neurotic
+    PsychicSensitivity 
+       2: Psychically Hypersensitive
+       1: Psychically Sensitive
+      -1: Psychically Dull
+      -2: Psychically Deaf
+    ShootingAccuracy 
+       1: Careful Shooter
+      -1: Trigger-Happy
+    SpeedOffset 
+       2: Jogger
+       1: Fast Walker
+      -1: Slowpoke
+ 
+-- <bodyTypeMale>, <bodyTypeFemale>, and <bodyTypeGlobal> --
+
+These tags allow you to specify what body type a pawn with this backstory will have. You can specify separate body types for male and female pawns, or use the "global" tag to specify the same body type for everyone. Note that body type definitions are optional. If you don't specify body types, the default "Male" and "Female" types will be used. Valid body types are:
+
+    Male
+    Female
+    Thin
+    Hulk
+    Fat
+
+-- <spawnCategories> --
+
+The <spawnCategories> tag is essentially a filter tag. It actually serves several distinct but related purposes.
+
+First and most importantly, it determines which spawn categories (hence its name) a pawn with this backstory can belong to. Valid spawn categories are:
+
+    Civil
+    Raider
+    Slave
+    Trader
+    Traveler
+    Tribal
+
+A backstory's <spawnCategories> tag *must* include at least one of these categories, or the backstory will never show up in the game at all. "Civil" and "Tribal" backstories can show up on your starting pawns, "Raider" backstories on pawns involved in raids of your settlement, etc.
+
+You can also add a "rarity" definition to your <spawnCategories> tag. Possible values are:
+
+    Common
+    Uncommon
+    Rare 
+    Legendary
+
+Note that there's really no need to ever define a backstory as "Common," as any backstory that isn't defined as "Uncommon," "Rare" or "Legendary" will be assumed to be common, anyway.
+
+You can optionally define some backstories to be usable only by pawns of a certain gender:
+
+    Male
+    Female
+
+(Yeah, I know, those options are pretty obvious.) 
+
+You can specify that a particular backstory can only be assigned to a pawn of at least a certain biological age: 
+
+	AgeOver40
+	AgeOver60
+	AgeOver80
+
+This could be useful, for example, to avoid having a "revered tribal elder" backstory assigned to a 22 year-old.
+
+Finally, you can use one or more of the following <spawnCategories> definitions to create "sets" of backstories:
+
+    FilterSet1
+    FilterSet2
+    FilterSet3
+    FilterSet4
+    FilterSet5
+    FilterSet6
+    FilterSet7
+    FilterSet8
+    FilterSet9
+
+Backstories which belong to a particular set will always and only be attached to other stories in the same set. You might use a filter set to ensure, for example, that medievally-themed childhoods only ever connect to medievally-themed adulthoods, and vice versa. Or you could create a set of particularly pirate-themed childhood and adulthood backstories, and then assign them all to the same filter set to ensure that they always connect to each other. There's probably a lot of different things that filter sets could be used for, most of which I haven't even thought of.
+
+(Note that you can define special sets of names to be used in conjunction with the FilterSets defined here. See the "Name Editing" documentation file for more info on those.)
+
+-- <shuffleable> --
+
+The <shuffleable> tag is completely optional, and in fact generally won't be used much at all. There's no need to include <shuffleable>true</shuffleable> in a backstory definition, as shuffleability will default to true, anyway. Setting shuffleability to false will prevent a backstory from being included on randomly-assembled characters. Include <shuffleable>false</shuffleable> in a backstory definition if you want that backstory to only ever appear on pawns with a specific name to which the backstory has been linked in your NamesDef file.
