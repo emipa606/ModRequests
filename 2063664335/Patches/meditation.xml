@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+	<Operation Class="PatchOperationRemove">
+		<xpath>/Defs/JoyGiverDef[defName="Meditate"]/pctPawnsEverDo</xpath>
+	</Operation>
+	
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/JoyGiverDef[defName="Meditate"]/giverClass</xpath>
+		<value>
+			<giverClass>ImprovedMeditation.JoyGiver_Meditate</giverClass>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/JobDef[defName="Meditate"]/driverClass</xpath>
+		<value>
+			<driverClass>ImprovedMeditation.JobDriver_Meditate</driverClass>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationRemove">
+		<xpath>/Defs/ThinkTreeDef[defName="MainColonistBehaviorCore"]/thinkRoot/subNodes/li/subNodes/li[@Class="JobGiver_MeditateInBed"]</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<xpath>/Defs/ThinkTreeDef[defName="MainColonistBehaviorCore"]/thinkRoot/subNodes/li/subNodes/li[@Class="JobGiver_Meditate"]</xpath>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/ThinkTreeDef[defName="MentalStateNonCritical"]/thinkRoot/subNodes</xpath>
+		<value>
+			<li Class="ThinkNode_ConditionalMentalState">
+				<state>MeditationRetreat</state>
+				<subNodes>
+					<li Class="ThinkNode_PrioritySorter">
+						<subNodes>
+							<li Class="JobGiver_GetFood">
+								<maxLevelPercentage>0.05</maxLevelPercentage>
+							</li>
+							<li Class="JobGiver_GetRest">
+								<maxLevelPercentage>0.15</maxLevelPercentage>
+							</li>
+						</subNodes>
+					</li>
+					<li Class="ImprovedMeditation.JobGiver_MeditationRetreat">
+					</li>
+				</subNodes>
+			</li>
+		</value>
+	</Operation>
+
+
+</Patch>
