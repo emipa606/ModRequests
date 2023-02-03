@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ゴミ入りごはん -->
+
+  <ThingDef ParentName="MealCooked">
+    <defName>RimTrash_TrashMeal</defName>
+    <label>trash mixed meal</label>
+    <description>A trash mixed meal, smelly, if you eat this, most likely you has stomach ache.</description>
+    <graphicData>
+      <texPath>Thing/TrashMeal</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>15</MarketValue>
+      <WorkToMake>300</WorkToMake>
+      <Nutrition>0.9</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealAwful</preferability> <!-- same as nutrient paste meal -->
+      <tasteThought>AteAwfulMeal</tasteThought> <!-- same as nutrient paste meal -->
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+    </ingestible>
+    <comps Inherit="False">
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Ingredients"/>
+      <li Class="CompProperties_FoodPoisonable">
+        <compClass>RimTrash.CompTrashFoodPoisonable</compClass>
+      </li>
+    </comps>
+    <tradeability>None</tradeability>
+  </ThingDef>
+
+  <!-- 製造レシピ -->
+
+  <RecipeDef Name="RimTrash_CookTrashMealBase" Abstract="True">
+    <fixedIngredientFilter>
+      <categories>
+        <li>FoodMeals</li>
+      </categories>
+      <disallowedThingDefs>
+        <li>RimTrash_TrashMeal</li>
+      </disallowedThingDefs>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>MealSimple</li>
+      </thingDefs>
+    </defaultIngredientFilter>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+
+  <RecipeDef ParentName="RimTrash_CookTrashMealBase">
+    <defName>RimTrash_CookTrashMeal</defName>
+    <label>cook trash mixed meal</label>
+    <description>Cook a trash mixed meal from one ingredient.</description>
+    <jobString>Cooking trash mixed meal.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <workerCounterClass>RecipeWorkerCounter</workerCounterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>FoodMeals</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RimTrash_TrashBag</li>
+          </thingDefs>
+        </filter>
+        <count>75</count>
+      </li>
+    </ingredients>
+    <products>
+      <RimTrash_TrashMeal>1</RimTrash_TrashMeal>
+    </products>
+    <workAmount>100</workAmount> <!-- maybe cook simple meal is 100 -->
+  </RecipeDef>
+
+  <RecipeDef ParentName="RimTrash_CookTrashMealBase">
+    <defName>RimTrash_CookTrashMealBulk</defName>
+    <label>cook trash mixed meal x4</label>
+    <description>Cook 4 trash mixed meals from one ingredient.</description>
+    <jobString>Cooking 4 trash mixed meals.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>false</allowMixingIngredients>
+    <workerCounterClass>RecipeWorkerCounter</workerCounterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>FoodMeals</li>
+          </categories>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RimTrash_TrashBag</li>
+          </thingDefs>
+        </filter>
+        <count>300</count> <!-- 4 stacks -->
+      </li>
+    </ingredients>
+    <products>
+      <RimTrash_TrashMeal>4</RimTrash_TrashMeal>
+    </products>
+    <workAmount>400</workAmount> <!-- cook simple meal bulk is 1200 -->
+  </RecipeDef>
+
+</Defs>

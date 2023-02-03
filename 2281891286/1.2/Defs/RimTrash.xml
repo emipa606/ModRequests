@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="RimTrash_TrashBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>75</stackLimit>
+    <statBases>
+      <MaxHitPoints>20</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <Beauty>-12</Beauty> <!-- chunk base is -8 -->
+      <Cleanliness>0</Cleanliness>
+      <Mass>0.1</Mass> <!-- woodlog is 0.4 -->
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="RimTrash.CompProperties_Trash">
+        <compClass>RimTrash.CompTrash</compClass>
+        <excludeFilths></excludeFilths>
+        <scatterWhenDestroyed>true</scatterWhenDestroyed>
+        <scatterRadius>1.0</scatterRadius>
+      </li>
+    </comps>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <rotatable>false</rotatable>
+    <pathCost>14</pathCost>
+    <tradeability>None</tradeability>
+    <thingCategories>
+      <li>RimTrash_Trashes</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- ゴミ袋 -->
+
+  <ThingDef ParentName="RimTrash_TrashBase">
+    <defName>RimTrash_TrashBag</defName>
+    <label>trash bag</label>
+    <description>Packed trash. Its not dirty, but it looks so awful.</description>
+    <graphicData>
+      <texPath>Thing/TrashBag</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+  </ThingDef>
+
+  <!-- 焼却レシピ -->
+
+  <RecipeDef>
+    <defName>RimTrash_BurnTrashBags</defName>
+    <label>burn trash bags</label>
+    <description>Burn trash bags to completely destroy them.</description>
+    <jobString>Burning trash bags.</jobString>
+    <workAmount>60</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <requiredGiverWorkType>Hauling</requiredGiverWorkType>
+    <effectWorking>BurnDrug</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <conceptLearned>DrugBurning</conceptLearned>
+    <ignoreIngredientCountTakeEntireStacks>true</ignoreIngredientCountTakeEntireStacks>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>RimTrash_Trashes</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>RimTrash_Trashes</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>RimTrash_BurnTrashBagsBulk</defName>
+    <label>burn trash bag x75</label>
+    <description>Burn bulk trash bags to completely destroy them.</description>
+    <jobString>Burning bulk trash bags.</jobString>
+    <workAmount>60</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <requiredGiverWorkType>Hauling</requiredGiverWorkType>
+    <effectWorking>BurnDrug</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <conceptLearned>DrugBurning</conceptLearned>
+    <ignoreIngredientCountTakeEntireStacks>false</ignoreIngredientCountTakeEntireStacks> <!-- burn trash bags is true -->
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>RimTrash_Trashes</li>
+          </categories>
+        </filter>
+        <count>75</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>RimTrash_Trashes</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+</Defs>

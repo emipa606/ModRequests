@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 汚物ランチャーの定義です -->
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>RimTrash_TrashLauncher</defName>
+    <label>Trash launcher</label>
+    <description>A wide-barreled trash shell launcher. The shells scatter filths on impact, offending to targets.</description>
+    <graphicData>
+      <texPath>Thing/TrashLauncher/TrashLauncher</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <generateCommonality>0.3</generateCommonality>
+    <statBases>
+      <WorkToMake>30000</WorkToMake>
+      <Mass>3.4</Mass>
+      <RangedWeapon_Cooldown>3.5</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>75</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <RimTrash_TrashBag>75</RimTrash_TrashBag>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>RimTrash_TrashLauncherBullet</defaultProjectile>
+        <warmupTime>3.5</warmupTime>
+        <range>23.9</range>
+        <forcedMissRadius>1.9</forcedMissRadius>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>14</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <comps>
+      <li Class="RimTrash.CompProperties_TrashProduct">
+        <compClass>RimTrash.CompTrashProduct</compClass>
+        <scatterWhenDestroyed>true</scatterWhenDestroyed>
+        <scatterRadius>1.0</scatterRadius>
+      </li>
+      <li>
+        <compClass>RimTrash.CompShotWeaponHistoryForWeapon</compClass>
+      </li>
+    </comps>
+    <tradeability>None</tradeability>
+    <!-- 敵が持ち込まないように -->
+    <weaponTags Inherit="False">
+    </weaponTags>
+  </ThingDef>
+
+  <!-- 汚物ランチャーの弾丸です -->
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>RimTrash_TrashLauncherBullet</defName>
+    <label>Trash launcher shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/LauncherShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <color>(114,146,16)</color>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <speed>40</speed>
+      <damageDef>RimTrash_TrashProductExplosion</damageDef>
+      <!-- Use default damage from explosion def -->
+      <explosionRadius>1.1</explosionRadius>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+      <arcHeightFactor>0.2</arcHeightFactor>
+      <shadowSize>0.6</shadowSize>
+    </projectile>
+  </ThingDef>
+
+</Defs>
