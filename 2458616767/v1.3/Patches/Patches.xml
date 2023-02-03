@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.ForEach">
+		<xpath>/Defs/ThingDef[defName][@ParentName="BaseGun" or @ParentName="BaseGunWithQuality" or @ParentName="BaseMakeableGun" or @ParentName="BaseHumanMakeableGun"][verbs/li[verbClass="Verb_Shoot" or verbClass="Verb_LaunchProjectile"]]</xpath>
+		<storeIn>weapon</storeIn>
+		<prefixLength>2</prefixLength>
+		<apply>
+			<Operation Class="XmlExtensions.AggregateValues">
+				<valueOperations>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>defName</storeIn>
+						<value>{weapon}/defName</value>
+						<fromXml>true</fromXml>
+					</Operation>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>label</storeIn>
+						<value>{weapon}/label</value>
+						<defaultValue>(missing label)</defaultValue>
+						<fromXml>true</fromXml>
+					</Operation>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>desc</storeIn>
+						<value>{weapon}/description</value>
+						<defaultValue>(no description)</defaultValue>
+						<fromXml>true</fromXml>
+					</Operation>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>icon</storeIn>
+						<value>{weapon}/graphicData/texPath</value>
+						<defaultValue></defaultValue>
+						<fromXml>true</fromXml>
+					</Operation>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>verb</storeIn>
+						<value>{weapon}/verbs/li/verbClass[. = "Verb_Shoot" or . = "Verb_LaunchProjectile"][1]</value>
+						<fromXml>true</fromXml>
+					</Operation>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>origCount</storeIn>
+						<value>{weapon}/verbs/li[verbClass="Verb_Shoot" or verbClass="Verb_LaunchProjectile"][1]/burstShotCount</value>
+						<defaultValue>1</defaultValue>
+						<fromXml>true</fromXml>
+						<operation>*</operation>
+						<value2>10</value2>
+					</Operation>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>count</storeIn>
+						<value>{origCount}</value>
+						<operation>max</operation>
+						<value2>10</value2>
+					</Operation>
+				</valueOperations>
+				<apply>
+					<Operation Class="XmlExtensions.UseSettings">
+						<modId>ZzZombo.commission.GunMagazines</modId>
+						<keys>
+							<li>{defName}_enabled</li>
+							<li>{defName}_mag_size</li>
+						</keys>
+						<defaultValues>
+							<li>true</li>
+							<li>{count}</li>
+						</defaultValues>
+						<apply>
+							<Operation Class="XmlExtensions.PatchOperationSafeAdd">
+								<xpath>{weapon}</xpath>
+								<safetyDepth>1</safetyDepth>
+								<value>
+									<comps>
+										<li Class="ZzZomboRW.GunMagazines.CompProperties_GunWithMagazines">
+											<MaxShots>{{defName}_mag_size}</MaxShots>
+											<ReloadSound>Standard_Reload</ReloadSound>
+											<NewVerbClass>{verb}</NewVerbClass>
+											<StartLoaded>true</StartLoaded>
+											<enabled>{{defName}_enabled}</enabled>
+										</li>
+									</comps>
+								</value>
+							</Operation>
+							<Operation Class="XmlExtensions.PatchOperationSafeAdd">
+								<xpath>{weapon}</xpath>
+								<safetyDepth>1</safetyDepth>
+								<value>
+									<statBases>
+										<ZzZomboRW_GunMagazines_MaxAmmo>{count}</ZzZomboRW_GunMagazines_MaxAmmo>
+									</statBases>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationAdd">
+								<xpath>/Defs/XmlExtensions.SettingsMenuDef[modId="ZzZombo.commission.GunMagazines"]/settings/li[@id="weaponSection"]/settings</xpath>
+								<value>
+									<li Class="XmlExtensions.Setting.SplitColumn">
+										<split>0.5</split>
+										<leftCol>
+											<li Class="XmlExtensions.Setting.SplitColumn">
+												<split>0.1</split>
+												<leftCol>
+													<li Class="XmlExtensions.Setting.DrawImage">
+														<texPath>{icon}</texPath>
+														<dimensions>(32, 32)</dimensions>
+														<anchor>Middle</anchor>
+													</li>
+												</leftCol>
+												<rightCol>
+													<li Class="XmlExtensions.Setting.Text">
+														<text>{label}</text>
+														<tooltip>{desc}</tooltip>
+													</li>
+												</rightCol>
+											</li>
+										</leftCol>
+										<rightCol>
+											<li Class="XmlExtensions.Setting.SplitColumn">
+												<split>0.7</split>
+												<leftCol>
+													<li Class="XmlExtensions.Setting.IntEntry">
+														<key>{defName}_mag_size</key>
+														<defaultValue>10</defaultValue>
+														<multiplier>1</multiplier>
+														<min>1</min>
+													</li>
+												</leftCol>
+												<rightCol>
+													<li Class="XmlExtensions.Setting.Checkbox">
+														<key>{defName}_enabled</key>
+														<label>Enabled</label>
+													</li>
+												</rightCol>
+											</li>
+										</rightCol>
+									</li>
+								</value>
+							</Operation>
+						</apply>
+					</Operation>
+				</apply>
+			</Operation>
+		</apply>
+	</Operation>
+	<Operation Class="ZzZomboRW.Framework.PatchOperationAddNodeWithDefault">
+		<name>parts</name>
+		<xpath>/Defs/StatDef[defName="RangedWeapon_Cooldown"]</xpath>
+		<value>
+			<li Class="ZzZomboRW.GunMagazines.StatPart_RangedWeapon_Cooldown" />
+		</value>
+	</Operation>
+	<!-- <Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<name>comps</name>
+		<xpath>/Defs/ThingDef[@ParentName="BaseHumanMakeableGun"]</xpath>
+		<value>
+			<li Class="ZzZomboRW.CompProperties_GunWithMagazines" />
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<name>statBases</name>
+		<xpath>/Defs/ThingDef[@ParentName="BaseHumanMakeableGun"]</xpath>
+		<value />
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_Revolver"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>6</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_Autopistol"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>10</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_MachinePistol"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>15</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_HeavySMG"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>30</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_IncendiaryLauncher"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>25</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_PumpShotgun"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>7</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_ChainShotgun"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>7</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_LMG"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>200</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_AssaultRifle"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>35</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_SniperRifle"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>10</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation>
+	<Operation Class="ZzZomboRW.PatchOperationAddNodeWithDefault">
+		<xpath>/Defs/ThingDef[defName="Gun_Minigun"]/statBases</xpath>
+		<value>
+			<ZzZomboRW_GunMagazines_MaxAmmo>300</ZzZomboRW_GunMagazines_MaxAmmo>
+		</value>
+	</Operation> -->
+</Patch>
