@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>AshesWater</defName>
+		<label>Ashes water</label>
+		<description>The special herbs and ashes from the nuclear bombardment jungle dissolved in Go-juice cause a short-term effect of superhigh regeneration with powerful side effects, but if your colonist is about to die in a couple of hours, this is the only way.</description>
+		<graphicData>
+			<texPath>Things/Medical/AshesWater</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>500</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AshesWaterHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>AshesWaterChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>ToxicBuildup</hediffDef>
+					<severity>0.2</severity>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AshesWaterTolerance</hediffDef>
+					<severity>0.5</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>AshesWaterChemical</chemical>  
+				<addictiveness>0.4</addictiveness>
+				<minToleranceToAddict>0.4</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.4</min>
+					<max>0.5</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>AshesWaterTolerance</defName>
+		<label>Ashes water tolerance</label>
+		<description>The special herbs and ashes from the nuclear bombardment jungle dissolved in Go-juice cause a short-term effect of superhigh regeneration with powerful side effects, but if your colonist is about to die in a couple of hours, this is the only way.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.010</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>AshesWaterChemical</chemical>
+			</li>
+		</comps>
+		<hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>ChemicalDamageSevere</hediff>
+				<minSeverity>0.3</minSeverity>
+				<baseMtbDays>10</baseMtbDays>
+				<partsToAffect>
+					<li>Head</li>
+				</partsToAffect>
+			</li>
+		</hediffGivers>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>AshesWaterHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Super regeneration</label>
+		<description>The special herbs and ashes from the nuclear bombardment jungle dissolved in Go-juice cause a short-term effect of superhigh regeneration with powerful side effects, but if your colonist is about to die in a couple of hours, this is the only way.</description>
+		<labelNoun>Super regeneration</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-12.0</severityPerDay>
+			</li>
+			<li Class="MoreEvents.Hediffs.HediffCompProperties_AutoHeal">
+				<HealTicks>150</HealTicks>
+				<HealModiff>10</HealModiff>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>4.0</painFactor>
+				<hungerRateFactorOffset>2.5</hungerRateFactorOffset>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>AshesWaterAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Ashes water addiction</label>
+		<description>The special herbs and ashes from the nuclear bombardment jungle dissolved in Go-juice cause a short-term effect of superhigh regeneration with powerful side effects, but if your colonist is about to die in a couple of hours, this is the only way.</description>
+		<causesNeed>Chemical_AshesWater</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.04</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<vomitMtbDays>0.5</vomitMtbDays>
+				<painFactor>1.0</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.25</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>AshesWaterChemical</defName>
+		<label>Ashes water</label>
+		<addictionHediff>AshesWaterAddiction</addictionHediff>
+		<toleranceHediff>AshesWaterTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_AshesWater</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Ashes water</label>
+		<description>Because of a ashes water addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

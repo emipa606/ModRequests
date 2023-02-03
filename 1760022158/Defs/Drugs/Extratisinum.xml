@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Extratisinum</defName>
+		<label>Extratisinum</label>
+		<description>Resin-like viscous substance. After use, it greatly increases visual acuity and hearing, giving vigor. It causes a strong dependence, requiring constant consumption to maintain the effect.</description>
+		<graphicData>
+			<texPath>Things/Medical/Extratisinum</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>210</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>ExtratisinumHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>ExtratisinumChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>ExtratisinumTolerance</hediffDef>
+					<severity>0.1</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>EntotizinChemical</chemical>  
+				<addictiveness>0.45</addictiveness>
+				<minToleranceToAddict>0.15</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.3</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.2</min>
+					<max>0.4</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>ExtratisinumTolerance</defName>
+		<label>Extratisinum tolerance</label>
+		<description>Resin-like viscous substance. After use, it greatly increases visual acuity and hearing, giving vigor. It causes a strong dependence, requiring constant consumption to maintain the effect.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>ExtratisinumChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>ExtratisinumHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Extratisinum</label>
+		<description>Resin-like viscous substance. After use, it greatly increases visual acuity and hearing, giving vigor. It causes a strong dependence, requiring constant consumption to maintain the effect.</description>
+		<labelNoun>Extratisinum</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1.7</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<restFallFactorOffset>-0.4</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>1.2</offset>
+					</li>
+					<li>
+						<capacity>Hearing</capacity>
+						<offset>1.2</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>ExtratisinumAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Extratisinum addiction</label>
+		<description>Resin-like viscous substance. After use, it greatly increases visual acuity and hearing, giving vigor. It causes a strong dependence, requiring constant consumption to maintain the effect.</description>
+		<causesNeed>Chemical_Extratisinum</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.02</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<restFallFactorOffset>1.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-1.0</offset>
+					</li>
+					<li>
+						<capacity>Hearing</capacity>
+						<offset>-0.9</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>ExtratisinumChemical</defName>
+		<label>Extratisinum</label>
+		<addictionHediff>ExtratisinumAddiction</addictionHediff>
+		<toleranceHediff>ExtratisinumTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Extratisinum</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Extratisinum</label>
+		<description>Because of a Extratisinum addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

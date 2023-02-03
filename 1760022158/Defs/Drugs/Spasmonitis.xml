@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Spasmonitis</defName>
+		<label>Spasmonitis</label>
+		<description>This drug belongs to the group of spasmolytics used to treat muscle pain. The main active ingredient is drotaverine hydrochloride. It has a strong effect as an antispasmodic. It affects the contractility of smooth muscles, causing them to relax. It causes an average dependence, when applied, the owner does not feel pain during the duration of the drug. However, blood filtration is reduced. Several doses of the drug can stop the effects of intestinal diseases, such as mechanical worms. To do this, take 5 tablets of the drug, which can cause overdose and death.</description>
+		<graphicData>
+			<texPath>Things/Medical/Spasmonitis</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>160</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>SpasmonitisHediff</hediffDef>
+					<severity>0.25</severity>
+					<toleranceChemical>SpasmonitisChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>SpasmonitisTolerance</hediffDef>
+					<severity>0.3</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>SpasmonitisChemical</chemical>  
+				<addictiveness>0.12</addictiveness>
+				<minToleranceToAddict>0.25</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.35</min>
+					<max>0.45</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>SpasmonitisTolerance</defName>
+		<label>Spasmonitis tolerance</label>
+		<description>This drug belongs to the group of spasmolytics used to treat muscle pain. The main active ingredient is drotaverine hydrochloride. It has a strong effect as an antispasmodic. It affects the contractility of smooth muscles, causing them to relax. It causes an average dependence, when applied, the owner does not feel pain during the duration of the drug. However, blood filtration is reduced. Several doses of the drug can stop the effects of intestinal diseases, such as mechanical worms. To do this, take 5 tablets of the drug, which can cause overdose and death.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>SpasmonitisChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>SpasmonitisHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Muscle relaxation</label>
+		<description>This drug belongs to the group of spasmolytics used to treat muscle pain. The main active ingredient is drotaverine hydrochloride. It has a strong effect as an antispasmodic. It affects the contractility of smooth muscles, causing them to relax. It causes an average dependence, when applied, the owner does not feel pain during the duration of the drug. However, blood filtration is reduced. Several doses of the drug can stop the effects of intestinal diseases, such as mechanical worms. To do this, take 5 tablets of the drug, which can cause overdose and death.</description>
+		<labelNoun>Muscle relaxation</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.7</severityPerDay>
+			</li>
+			<li Class="DarkNET.Hediffs.HediffCompProperties_ClearHediffPerUse">
+				<Uses>5</Uses>
+				<ClearHeddifs> 
+					<li>MuscleParasites</li>
+				</ClearHeddifs>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.30</offset>
+					</li>
+				</capMods>
+				<painFactor>-2.0</painFactor>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>SpasmonitisAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Spasmonitis addiction</label>
+		<description>This drug belongs to the group of spasmolytics used to treat muscle pain. The main active ingredient is drotaverine hydrochloride. It has a strong effect as an antispasmodic. It affects the contractility of smooth muscles, causing them to relax. It causes an average dependence, when applied, the owner does not feel pain during the duration of the drug. However, blood filtration is reduced. Several doses of the drug can stop the effects of intestinal diseases, such as mechanical worms. To do this, take 5 tablets of the drug, which can cause overdose and death.</description>
+		<causesNeed>Chemical_Spasmonitis</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.03</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.50</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>SpasmonitisChemical</defName>
+		<label>Spasmonitis</label>
+		<addictionHediff>SpasmonitisAddiction</addictionHediff>
+		<toleranceHediff>SpasmonitisTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Spasmonitis</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Spasmonitis</label>
+		<description>Because of a spasmonitis addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

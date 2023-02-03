@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>MaxBrain</defName>
+		<label>Drug 'boost your brain'</label>
+		<description>A home-made drug made from extracts of psycholist and Devil's mushroom is designed for short-term improvement in brain function and consciousness. When taking the drug for two to three days, it significantly increases the speed of mental work, concentration and mental stability. If consumed more than 1 time per month, addiction to the drug can occur, which is fraught with serious consequences that are difficult to overcome.</description>
+		<graphicData>
+			<texPath>Things/Medical/MaxBrain</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>200</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>MaxBrainHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>MaxBrainChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>MaxBrainTolerance</hediffDef>
+					<severity>0.3</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>MaxBrainChemical</chemical>  
+				<addictiveness>0.2</addictiveness>
+				<minToleranceToAddict>0.4</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.15</min>
+					<max>0.20</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>MaxBrainTolerance</defName>
+		<label>MaxBrain tolerance</label>
+		<description>A home-made drug made from extracts of psycholist and Devil's mushroom is designed for short-term improvement in brain function and consciousness. When taking the drug for two to three days, it significantly increases the speed of mental work, concentration and mental stability. If consumed more than 1 time per month, addiction to the drug can occur, which is fraught with serious consequences that are difficult to overcome.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>MaxBrainChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>MaxBrainHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Expanded consciousness</label>
+		<description>A home-made drug made from extracts of psycholist and Devil's mushroom is designed for short-term improvement in brain function and consciousness. When taking the drug for two to three days, it significantly increases the speed of mental work, concentration and mental stability. If consumed more than 1 time per month, addiction to the drug can occur, which is fraught with serious consequences that are difficult to overcome.</description>
+		<labelNoun>Expanded consciousness</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-2.0</severityPerDay>
+			</li>
+			<li Class="DarkNET.Hediffs.HediffCompProperties_UseCooldown">
+				<DaysCooldown>15</DaysCooldown>
+				<AppendHediff>MaxBrainPostfactor</AppendHediff>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<GlobalLearningFactor>0.3</GlobalLearningFactor>
+					<PsychicSensitivity>-0.5</PsychicSensitivity>
+					<ResearchSpeed>0.5</ResearchSpeed>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>MaxBrainPostfactor</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>'boost your brain' post factor</label>
+		<description>A home-made drug made from extracts of psycholist and Devil's mushroom is designed for short-term improvement in brain function and consciousness. When taking the drug for two to three days, it significantly increases the speed of mental work, concentration and mental stability. If consumed more than 1 time per month, addiction to the drug can occur, which is fraught with serious consequences that are difficult to overcome.</description>
+		<labelNoun>'boost your brain' post factor</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.7</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.4</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.6</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.9</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.8</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>MaxBrainAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>'boost your brain' addiction</label>
+		<description>A home-made drug made from extracts of psycholist and Devil's mushroom is designed for short-term improvement in brain function and consciousness. When taking the drug for two to three days, it significantly increases the speed of mental work, concentration and mental stability. If consumed more than 1 time per month, addiction to the drug can occur, which is fraught with serious consequences that are difficult to overcome.</description>
+		<causesNeed>Chemical_MaxBrain</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.01</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<GlobalLearningFactor>-0.8</GlobalLearningFactor>
+					<ResearchSpeed>-1.0</ResearchSpeed>
+				</statOffsets>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Wander_Psychotic</mentalState>
+						<mtbDays>5</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>MaxBrainChemical</defName>
+		<label>Drug 'boost your brain'</label>
+		<addictionHediff>MaxBrainAddiction</addictionHediff>
+		<toleranceHediff>MaxBrainTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_MaxBrain</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Drug 'boost your brain'</label>
+		<description>Because of a 'boost your brain' addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Cordianian</defName>
+		<label>Cordianian</label>
+		<description>A multi-purpose drug used to maintain breathing in case of lung loss. When using multiple doses, the drug is able to start the regeneration process and restore the lost lung. The drug is not addictive and is actively used in specialized operations.</description>
+		<graphicData>
+			<texPath>Things/Medical/Cordianian</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>110</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Ultra</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>CordianianHediff</hediffDef>
+					<severity>1</severity>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<overdoseSeverityOffset>
+					<min>0.45</min>
+					<max>0.6</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef>
+		<defName>CordianianHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Cordianian</label>
+		<description>A multi-purpose drug used to maintain breathing in case of lung loss. When using multiple doses, the drug is able to start the regeneration process and restore the lost lung. The drug is not addictive and is actively used in specialized operations.</description>
+		<labelNoun>Cordianian</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-2.0</severityPerDay>
+			</li>
+			<li Class="DarkNET.Hediffs.HediffCompProperties_RestoreBodypart">
+				<HealableParts>
+					<li>Lung</li>
+				</HealableParts>
+				<ChancePerSeverity>
+					<points>
+						<li>0,  0.04</li>
+						<li>0.4,  0.06</li>
+						<li>0.6,  0.07</li>
+						<li>0.8,  0.08</li>
+					</points>
+				</ChancePerSeverity>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>0.1</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+</Defs>

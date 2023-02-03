@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Ingalin</defName>
+		<label>Ingalin</label>
+		<description>This drug is part of a group of complex pharmaceutical substances, including sulfonamides, which have caused effects on the respiratory system, in particular antiseptics for the treatment of diseases of the throat and nasopharynx. It does not cause addiction. Its goal is the treatment of diseases of the nasopharynx. With prolonged use, they can restore lost hearing, smell and vision due to high regeneration. Mood in action the drug is significantly reduced.</description>
+		<graphicData>
+			<texPath>Things/Medical/Ingalin</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>110</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<ingestCommandString>Use {0}</ingestCommandString>
+			<ingestReportString>Uses {0}.</ingestReportString>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>IngalinHediff</hediffDef>
+					<severity>0.2</severity>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<listOrder>500</listOrder>
+			</li>
+			<li Class="DarkNET.Hediffs.CompProperties_Overdose">
+				<overdoseSeverityOffset>
+					<min>0.20</min>
+					<max>0.35</max>
+				</overdoseSeverityOffset>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef>
+		<defName>IngalinHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>exposure to inhalin</label>
+		<description>This drug is part of a group of complex pharmaceutical substances, including sulfonamides, which have caused effects on the respiratory system, in particular antiseptics for the treatment of diseases of the throat and nasopharynx. It does not cause addiction. Its goal is the treatment of diseases of the nasopharynx. With prolonged use, they can restore lost hearing, smell and vision due to high regeneration. Mood in action the drug is significantly reduced.</description>
+		<labelNoun>exposure to inhalin</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1.2</severityPerDay>
+			</li>
+			<li Class="DarkNET.Hediffs.HediffCompProperties_RestoreBodypart">
+				<HealableParts>
+					<li>Jaw</li>
+					<li>Ear</li>
+					<li>Nose</li>
+				</HealableParts>
+				<ChancePerSeverity>
+					<points>
+						<li>0,  0.07</li>
+						<li>0.4,  0.14</li>
+						<li>0.6,  0.28</li>
+						<li>0.8,  0.30</li>
+					</points>
+				</ChancePerSeverity>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ThoughtDef>
+		<defName>IngalinHediff</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>IngalinHediff</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+			<li>
+				<label>exposure to inhalin</label>
+				<description>Ingalin affects my body. I feel bad.</description>
+				<baseMoodEffect>-10</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+</Defs>

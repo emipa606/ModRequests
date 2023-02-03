@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Joycstasy</defName>
+		<label>Joycstasy</label>
+		<description>Homemade merchant drug made from ambrosia and Devil's mushroom extracts. It improves mood and mental stability, but is addictive and negative effects when breaking.</description>
+		<graphicData>
+			<texPath>Things/Medical/Joycstasy</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>180</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>JoycstasyHediff</hediffDef>
+					<severity>0.5</severity>
+					<toleranceChemical>JoycstasyChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>JoycstasyTolerance</hediffDef>
+					<severity>0.2</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>JoycstasyChemical</chemical>  
+				<addictiveness>0.06</addictiveness>
+				<minToleranceToAddict>0.4</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.15</min>
+					<max>0.20</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>JoycstasyTolerance</defName>
+		<label>Joycstasy tolerance</label>
+		<description>Homemade merchant drug made from ambrosia and Devil's mushroom extracts. It improves mood and mental stability, but is addictive and negative effects when breaking.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>JoycstasyChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>JoycstasyHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Mental blockade</label>
+		<description>Homemade merchant drug made from ambrosia and Devil's mushroom extracts. It improves mood and mental stability, but is addictive and negative effects when breaking.</description>
+		<labelNoun>Mental blockade</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.7</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>-0.1</painFactor>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>JoycstasyAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Joycstasy addiction</label>
+		<description>Homemade merchant drug made from ambrosia and Devil's mushroom extracts. It improves mood and mental stability, but is addictive and negative effects when breaking.</description>
+		<causesNeed>Chemical_Joycstasy</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.01</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.30</offset>
+					</li>
+				</capMods>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugExtreme</mentalState>
+						<mtbDays>30</mtbDays>
+					</li>
+					<li>
+						<mentalState>Wander_Psychotic</mentalState>
+						<mtbDays>10</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>JoycstasyChemical</defName>
+		<label>Joycstasy</label>
+		<addictionHediff>JoycstasyAddiction</addictionHediff>
+		<toleranceHediff>JoycstasyTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Joycstasy</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Joycstasy</label>
+		<description>Because of a joycstasy addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+	
+	<ThoughtDef>
+		<defName>JoycstasyHediff</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>JoycstasyHediff</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+			<li>
+				<label>I do not care</label>
+				<description>I see a purpose, but I do not see obstacles</description>
+				<baseMoodEffect>30</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>JoycstasyAddiction</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>JoycstasyAddiction</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<label>loss of interest in life</label>
+				<description>I see no point in mortal being.</description>
+				<baseMoodEffect>-50</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+</Defs>

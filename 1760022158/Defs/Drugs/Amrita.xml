@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Amita</defName>
+		<label>amita</label>
+		<description>The drink combines the famous berries stimulants, as well as some brought from their distant worlds. It invigorates well, but causes instant dependence.</description>
+		<graphicData>
+			<texPath>Things/Medical/Amita</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<DeteriorationRate>6</DeteriorationRate>
+			<MarketValue>25</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<joyKind>Chemical</joyKind>
+			<joy>0.25</joy>
+			<drugCategory>None</drugCategory>
+			<foodType>Processed, Fluid</foodType>
+			<baseIngestTicks>150</baseIngestTicks>
+			<ingestSound>Ingest_Inject</ingestSound>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<ingestCommandString>Drink {0}</ingestCommandString>
+			<ingestReportString>Drinking {0}.</ingestReportString>
+			<useEatingSpeedStat>false</useEatingSpeedStat>
+			<chairSearchRadius>0</chairSearchRadius>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AmitaHediff</hediffDef>
+					<severity>0.25</severity>
+					<toleranceChemical>AmitaChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetNeed">
+					<need>Rest</need>
+					<offset>0.1</offset>
+					<toleranceChemical>AmitaChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AmitaTolerance</hediffDef>
+					<severity>0.1</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>AmitaChemical</chemical>  
+				<addictiveness>1</addictiveness>
+				<minToleranceToAddict>0.08</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>AmitaTolerance</defName>
+		<label>Amita tolerance</label>
+		<description>A vigorous mixture of berries boosting vitality.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>AmitaChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>AmitaHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Unusual vigor</label>
+		<description>A vigorous mixture of berries boosting vitality.</description>
+		<labelNoun>A vigorous mixture of berries boosting vitality does its job!</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-2.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.1</minSeverity>
+				<restFallFactor>0.9</restFallFactor>
+				<hungerRateFactorOffset>-0.1</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.1</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.35</minSeverity>
+				<restFallFactor>0.85</restFallFactor>
+				<hungerRateFactorOffset>-0.15</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.15</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.7</minSeverity>
+				<restFallFactor>0.80</restFallFactor>
+				<hungerRateFactorOffset>-0.2</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.2</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>AmitaAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>amita addiction</label>
+		<description>A vigorous mixture of berries boosting vitality.</description>
+		<causesNeed>Chemical_Amita</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.01</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+		    <li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<painFactor>2.5</painFactor>
+				<restFallFactorOffset>0.3</restFallFactorOffset>
+				<hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.70</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.10</offset>
+					</li>
+				</capMods>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugExtreme</mentalState>
+						<mtbDays>40</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>AmitaChemical</defName>
+		<label>amita</label>
+		<addictionHediff>AmitaAddiction</addictionHediff>
+		<toleranceHediff>AmitaTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Amita</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>amita</label>
+		<description>Because of a amita addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

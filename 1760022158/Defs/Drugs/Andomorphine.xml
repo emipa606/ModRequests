@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DrugPillBase">
+		<defName>Andomorphine</defName>
+		<label>Andomorphine</label>
+		<description>A potent drug from the opium group, obtained synthetically, causing large-scale changes in brain functions in the consumer. When used, it blocks pain receptors and covers the body of the spruce with a noticeable layer of mechanites, which serve to protect against injuries and rapid regeneration. The drug cannot be removed from the body and it must be used throughout the rest of life to prevent irreversible changes in the body.</description>
+		<graphicData>
+			<texPath>Things/Medical/Andomorphine</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>450</MarketValue>
+			<Mass>0.01</Mass>
+		</statBases>
+		<techLevel>Ultra</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AndomorphineHigh</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>Andomorphine</chemical>
+				<addictiveness>1.00</addictiveness>
+				<needLevelOffset>1.00</needLevelOffset>
+				<listOrder>1010</listOrder>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+
+	<HediffDef>
+		<defName>AndomorphineHigh</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Andomorphine</label>
+		<description>A potent drug from the opium group, obtained synthetically, causing large-scale changes in brain functions in the consumer. When used, it blocks pain receptors and covers the body of the spruce with a noticeable layer of mechanites, which serve to protect against injuries and rapid regeneration. The drug cannot be removed from the body and it must be used throughout the rest of life to prevent irreversible changes in the body.</description>
+		<defaultLabelColor>(1,1,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="MoreEvents.Hediffs.HediffCompProperties_AutoHeal">
+				<HealTicks>250</HealTicks>
+				<HealModiff>5</HealModiff>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>0</painFactor>
+				<statOffsets>
+					<MeleeDodgeChance>30.0</MeleeDodgeChance>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>Andomorphine</defName>
+		<label>Andomorphine</label>
+		<addictionHediff>AndomorphineAddiction</addictionHediff>
+		<canBinge>false</canBinge>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Andomorphine</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Andomorphine</label>
+		<description>Because of a Andomorphine, this person needs to regularly consume the drug to avoid withdrawal symptoms.\n\nThis addiction never goes away.</description>
+		<listPriority>45</listPriority>
+		<fallPerDay>0.15</fallPerDay>
+	</NeedDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>AndomorphineAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>andomorphine need</label>
+		<description>A potent drug from the opium group, obtained synthetically, causing large-scale changes in brain functions in the consumer. When used, it blocks pain receptors and covers the body of the spruce with a noticeable layer of mechanites, which serve to protect against injuries and rapid regeneration. The drug cannot be removed from the body and it must be used throughout the rest of life to prevent irreversible changes in the body.</description>
+		<causesNeed>Chemical_Andomorphine</causesNeed>
+		<everCurableByItem>false</everCurableByItem>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<painOffset>0.4</painOffset>
+				<lifeThreatening>true</lifeThreatening>
+				<deathMtbDays>10</deathMtbDays>
+				<statOffsets>
+					<MeleeDodgeChance>-30.0</MeleeDodgeChance>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.4</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.5</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+</Defs>

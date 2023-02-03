@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Metocarbine</defName>
+		<label>Metocarbine</label>
+		<description>Easy combat stimulator, almost non-addictive. Slightly increases combat performance, but does not have serious side effects. Within a few hours, subjects experienced an increased reaction and speed of decision-making.</description>
+		<graphicData>
+			<texPath>Things/Medical/Metocarbine</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>150</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>MetocarbineHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>MetocarbineChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>MetocarbineTolerance</hediffDef>
+					<severity>0.15</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>MaxBrainChemical</chemical>  
+				<addictiveness>0.08</addictiveness>
+				<minToleranceToAddict>0.1</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.15</min>
+					<max>0.25</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>MetocarbineTolerance</defName>
+		<label>Metocarbine tolerance</label>
+		<description>Easy combat stimulator, almost non-addictive. Slightly increases combat performance, but does not have serious side effects. Within a few hours, subjects experienced an increased reaction and speed of decision-making.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>MetocarbineChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>MetocarbineHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Concentration</label>
+		<description>Easy combat stimulator, almost non-addictive. Slightly increases combat performance, but does not have serious side effects. Within a few hours, subjects experienced an increased reaction and speed of decision-making.</description>
+		<labelNoun>Concentration</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-9.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>Hearing</capacity>
+						<offset>0.1</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<MeleeWeapon_CooldownMultiplier>-0.1</MeleeWeapon_CooldownMultiplier>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>MetocarbineAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Metocarbine addiction</label>
+		<description>Easy combat stimulator, almost non-addictive. Slightly increases combat performance, but does not have serious side effects. Within a few hours, subjects experienced an increased reaction and speed of decision-making.</description>
+		<causesNeed>Chemical_Metocarbine</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>MetocarbineChemical</defName>
+		<label>Metocarbine</label>
+		<addictionHediff>MetocarbineAddiction</addictionHediff>
+		<toleranceHediff>MetocarbineTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Metocarbine</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Metocarbine</label>
+		<description>Because of a Metocarbine addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

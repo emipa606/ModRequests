@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<PawnKindDef Name="GSSBase" Abstract="True">
+		<race>Human</race>
+		<defaultFactionType>GalacticSecurityService</defaultFactionType>
+		<backstoryCategories>
+			<li>Raider</li>
+		</backstoryCategories>
+		<chemicalAddictionChance>0.1</chemicalAddictionChance>
+		<!-- шанс, что пешка будет под наркотой -->
+		<invNutrition>2.55</invNutrition>
+		<!-- очевидно вероятно насколько они будут ссытые. Можно скипать нахуй -->
+		<itemQuality>Normal</itemQuality>
+		<!-- какого качества будет шмотье. 
+												Awful,
+												Poor,
+												Normal,
+												Good,
+												Excellent,
+												Masterwork,
+												Legendary
+										-->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<maxGenerationAge>50</maxGenerationAge>
+		<combatEnhancingDrugsChance>0.15</combatEnhancingDrugsChance>
+		<!-- здесь речь идет тоже о наркоте, но именнно боевой, шанс -->
+		<combatEnhancingDrugsCount>
+			<!-- колв- во -->
+			<min>0</min>
+			<max>2</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSBase" Name="GSSMidTierBase" Abstract="True">
+		<techHediffsChance>0.15</techHediffsChance>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>700</min>
+			<max>1500</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Simple</li>
+			<li>Advanced</li>
+		</techHediffsTags>
+	</PawnKindDef>
+
+	<!-- норм пацаны -->
+	<PawnKindDef Abstract="True" Name="GSSMeleeBase" ParentName="GSSBase">
+		<combatPower>60</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>45</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>IndustrialBasic</li>
+			<li>IndustrialAdvanced</li>
+			<li>IndustrialMilitaryBasic</li>
+			<li>IndustrialMilitaryAdvanced</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>1500</min>
+			<max>2500</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>500</min>
+			<max>1400</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_Melee_One</li>
+			<li>MedievalMeleeAdvanced</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>1000</min>
+			<max>1200</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.15</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.80</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>3</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSMeleeBase">
+		<defName>Pawn_Infantryman</defName>
+		<label>Infantryman</label>
+		<labelPlural>Infantrymans</labelPlural>
+		<factionLeader>false</factionLeader>
+		<baseRecruitDifficulty>0.70</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>false</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.4</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>1</min>
+						<max>3</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>10</min>
+						<max>100</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+	<!-- элитка -->
+	<PawnKindDef Abstract="True" Name="GSSMeleeEliteBase" ParentName="GSSBase">
+		<combatPower>85</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>35</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>SpacerMilitary</li>
+			<li>BeltDefensePop</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>2500</min>
+			<max>3500</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>2500</min>
+			<max>6400</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_Melee_Elite</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>1000</min>
+			<max>2600</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+			<li>Spacer</li>
+		</techHediffsTags>
+		<techHediffsChance>0.45</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.90</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>4</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSMeleeEliteBase">
+		<defName>Pawn_Infantryman_Elite</defName>
+		<label>Elite infantry</label>
+		<labelPlural>Elite infantries</labelPlural>
+		<factionLeader>true</factionLeader>
+		<baseRecruitDifficulty>0.30</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>false</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.6</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>50</min>
+						<max>100</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Gold</thingDef>
+					<countRange>
+						<min>2</min>
+						<max>8</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>2</min>
+						<max>5</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+	<!-- уникальные какие-то баклажаны -->
+	<PawnKindDef Abstract="True" Name="GSSGrenadierBase" ParentName="GSSBase">
+		<combatPower>70</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>45</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>0.7</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>IndustrialBasic</li>
+			<li>IndustrialAdvanced</li>
+			<li>IndustrialMilitaryBasic</li>
+			<li>BeltDefensePop</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>800</min>
+			<max>1500</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>800</min>
+			<max>1500</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GrenadeDestructive</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>300</min>
+			<max>1200</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.1</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.30</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>2</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSGrenadierBase">
+		<defName>Pawn_FrontGrenadier</defName>
+		<label>Front grenadier</label>
+		<labelPlural>Front grenadiers</labelPlural>
+		<factionLeader>false</factionLeader>
+		<baseRecruitDifficulty>0.75</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>true</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.5</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>1</min>
+						<max>2</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+	<PawnKindDef Abstract="True" Name="GSSGrenadierEliteBase" ParentName="GSSBase">
+		<combatPower>85</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>50</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>IndustrialMilitaryBasic</li>
+			<li>BeltDefensePop</li>
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>SpacerMilitary</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>1900</min>
+			<max>2500</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>1400</min>
+			<max>1600</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_Grenades_Elite</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>700</min>
+			<max>2600</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.4</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.30</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>3</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSGrenadierEliteBase">
+		<defName>Pawn_EliteGrenadier</defName>
+		<label>Elite grenadier</label>
+		<labelPlural>Elite grenadiers</labelPlural>
+		<factionLeader>true</factionLeader>
+		<baseRecruitDifficulty>0.4</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>true</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.5</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>2</min>
+						<max>4</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>20</min>
+						<max>80</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+
+	<PawnKindDef Abstract="True" Name="GSSShotgunBase" ParentName="GSSBase">
+		<combatPower>165</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>50</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>BeltDefensePop</li>
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>IndustrialBasic</li>
+			<li>IndustrialAdvanced</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>1600</min>
+			<max>2100</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>3050</min>
+			<max>4500</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_Shotgun_Elite</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>800</min>
+			<max>2600</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.5</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.30</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>3</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSShotgunBase">
+		<defName>Pawn_EliteShotgun</defName>
+		<label>Buckshot man</label>
+		<labelPlural>Buckshot man</labelPlural>
+		<factionLeader>true</factionLeader>
+		<baseRecruitDifficulty>0.2</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>true</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.4</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>2</min>
+						<max>4</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>20</min>
+						<max>80</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+	<PawnKindDef Abstract="True" Name="GSSShooterLightBase" ParentName="GSSBase">
+		<combatPower>80</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>65</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>IndustrialAdvanced</li>
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>IndustrialAdvanced</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>1300</min>
+			<max>1700</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>400</min>
+			<max>1600</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_Shooter_Light</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>300</min>
+			<max>1500</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.3</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.10</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>3</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSShooterLightBase">
+		<defName>Pawn_LightShooter</defName>
+		<label>Light shooter</label>
+		<labelPlural>Light shooters</labelPlural>
+		<factionLeader>true</factionLeader>
+		<baseRecruitDifficulty>0.5</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>false</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.3</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>1</min>
+						<max>2</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>20</min>
+						<max>30</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+	<PawnKindDef Abstract="True" Name="GSSShooterHeavyBase" ParentName="GSSBase">
+		<combatPower>110</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>65</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>BeltDefensePop</li>
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>SpacerMilitary</li>
+			<li>IndustrialAdvanced</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>1700</min>
+			<max>2400</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>1900</min>
+			<max>3700</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_Shooter_Heavy</li>
+			<li>IndustrialGunAdvanced</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>800</min>
+			<max>2800</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.2</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.20</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>5</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSShooterHeavyBase">
+		<defName>Pawn_HeavyShooter</defName>
+		<label>Heavy assaulter</label>
+		<labelPlural>Heavy assaulters</labelPlural>
+		<factionLeader>true</factionLeader>
+		<baseRecruitDifficulty>0.2</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>false</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.4</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>1</min>
+						<max>4</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>20</min>
+						<max>120</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+
+	<PawnKindDef Abstract="True" Name="GSSHeavyArcherBase" ParentName="GSSBase">
+		<combatPower>70</combatPower>
+		<!-- условная мощь -->
+		<maxGenerationAge>45</maxGenerationAge>
+		<!-- макс возраст -->
+		<backstoryCryptosleepCommonality>0.0</backstoryCryptosleepCommonality>
+		<gearHealthRange>
+			<!-- ХП брони, 1 = всегда целая -->
+			<min>1</min>
+			<max>1</max>
+		</gearHealthRange>
+		<apparelTags>
+			<!-- теги вещей, которые они могут получить при генерации. Открываешь ThingDef_Misc -> Apparel_блабла и ищешь там apparelTags -->
+			<li>BeltDefensePop</li>
+			<li>IndustrialMilitaryAdvanced</li>
+			<li>SpacerMilitary</li>
+			<li>IndustrialBasic</li>
+			<li>IndustrialAdvanced</li>
+		</apparelTags>
+		<apparelMoney>
+			<!-- суммарная цена всей брони. Большие значения гарантировано оденут пацана как надо -->
+			<min>1300</min>
+			<max>1700</max>
+		</apparelMoney>
+		<apparelAllowHeadgearChance>0.9</apparelAllowHeadgearChance>
+		<weaponMoney>
+			<!-- аналогично с броней, только тут для оружия -->
+			<min>1850</min>
+			<max>2400</max>
+		</weaponMoney>
+		<weaponTags>
+			<!-- теги оружия, которые могут быть получены. Аналогично -->
+			<li>GSS_HeavyArcher</li>
+		</weaponTags>
+		<techHediffsMoney>
+			<!-- суммарное цена всех протезов на пешке мин/макс -->
+			<min>900</min>
+			<max>2300</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<!-- теги, из которых будет выбор. Все, что ты добавлял в даркнете попадает под это, так шо можно не трогать, а то бан -->
+			<li>Advanced</li>
+		</techHediffsTags>
+		<techHediffsChance>0.2</techHediffsChance>
+		<!-- шанс выдать какой-то протез -->
+		<combatEnhancingDrugsChance>0.20</combatEnhancingDrugsChance>
+		<combatEnhancingDrugsCount>
+			<min>1</min>
+			<max>3</max>
+		</combatEnhancingDrugsCount>
+	</PawnKindDef>
+
+	<PawnKindDef ParentName="GSSHeavyArcherBase">
+		<defName>Pawn_HeavyArcher</defName>
+		<label>Heavy archer</label>
+		<labelPlural>Heavy archers</labelPlural>
+		<factionLeader>true</factionLeader>
+		<baseRecruitDifficulty>0.4</baseRecruitDifficulty>
+		<!-- шанс рекрута -->
+		<canBeSapper>false</canBeSapper>
+		<!-- может ли быть сапёром -->
+		<inventoryOptions>
+			<!-- инвентарь -->
+			<skipChance>0.2</skipChance>
+			<!-- шанс -->
+			<subOptionsChooseOne>
+				<li>
+					<thingDef>MealSurvivalPack</thingDef>
+					<countRange>
+						<min>1</min>
+						<max>2</max>
+					</countRange>
+				</li>
+				<li>
+					<thingDef>Silver</thingDef>
+					<countRange>
+						<min>10</min>
+						<max>50</max>
+					</countRange>
+				</li>
+			</subOptionsChooseOne>
+		</inventoryOptions>
+	</PawnKindDef>
+
+
+</Defs>

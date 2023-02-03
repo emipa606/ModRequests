@@ -1,0 +1,743 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef Name="BasedRimOverhaulMom" Abstract="True">
+		<category>Building</category>
+		<thingClass>Building</thingClass>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<selectable>true</selectable>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<repairEffect>Repair</repairEffect>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<filthLeaving>Filth_RubbleBuilding</filthLeaving>
+		<designationCategory>GasProduction</designationCategory>
+		<passability>PassThroughOnly</passability>
+		<altitudeLayer>Building</altitudeLayer>
+		<tickerType>Normal</tickerType>
+		<statBases>
+			<SellPriceFactor>0.70</SellPriceFactor>
+		</statBases>
+	</ThingDef>
+
+	<ThingDef ParentName="BasedRimOverhaulMom" Name="RimOverhaulPipeBase" Abstract="True">
+		<thingClass>RimOverhaul.Gas.Building_Pipe</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasPipe/PipeOverlay_Atlas</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<linkType>Basic</linkType>
+			<linkFlags>
+				<li>Custom1</li>
+			</linkFlags>
+			<damageData>
+				<rect>(0,0.35,1,0.3)</rect>
+			</damageData>
+		</graphicData>
+		<building>
+			<blueprintGraphicData>
+				<texPath>Things/Buildings/GasPipe/PipeOverlay_Atlas</texPath>
+			</blueprintGraphicData>
+			<isInert>true</isInert>
+			<isEdifice>false</isEdifice>
+		</building>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<passability>Standable</passability>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>    
+		<statBases>
+			<MaxHitPoints>80</MaxHitPoints>
+			<WorkToBuild>200</WorkToBuild>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<rotatable>false</rotatable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<clearBuildingArea>false</clearBuildingArea>
+		<placeWorkers>
+			<li>RimOverhaul.Gas.PlaceWorker_GasPipe</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<ThingDef ParentName="RimOverhaulPipeBase">
+		<defName>GasPipeline</defName>
+		<label>Gas pipe (natural gas)</label>
+		<description>Gas pipe designed to transport natural gas.</description>
+		<costList>
+			<IronIngot>1</IronIngot>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasPipe">
+				<pipeType>NaturalGas</pipeType>
+			</li>
+		</comps>
+		<uiIconPath>Things/Building/Linked/PowerConduit_MenuIcon</uiIconPath>
+		<menuHidden>true</menuHidden>
+		<researchPrerequisites>
+			<li>GasIndustry</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="RimOverhaulPipeBase">
+		<defName>LiquidGasPipeline</defName>
+		<label>Gas pipe (liquefied gas)</label>
+		<description>Gas pipe for transporting liquefied natural gas.</description>
+		<costList>
+			<IronIngot>1</IronIngot>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasPipe">
+				<pipeType>LiquidGas</pipeType>
+			</li>
+		</comps>
+		<uiIconPath>Things/Building/Linked/PowerConduit_MenuIcon</uiIconPath>
+		<menuHidden>true</menuHidden>
+		<researchPrerequisites>
+			<li>GasIndustry</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingNaturalBase">
+		<defName>GasWell</defName>
+		<label>Gas well</label>
+		<description>Well with gas reserves. Install a gas production unit for gas production.</description>
+		<thingClass>Building</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasWell/GasWell</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>Transparent</shaderType>
+			<drawSize>(4,4)</drawSize>
+		</graphicData>
+		<altitudeLayer>Floor</altitudeLayer>
+		<rotatable>false</rotatable>
+		<destroyable>true</destroyable>
+		<useHitPoints>false</useHitPoints>
+		<tickerType>Normal</tickerType>
+		<selectable>true</selectable>
+		<size>(2,2)</size>
+		<neverOverlapFloors>true</neverOverlapFloors>
+		<blockPlants>true</blockPlants>
+		<building>
+			<isEdifice>false</isEdifice>
+			<claimable>false</claimable>
+			<deconstructible>false</deconstructible>
+		</building>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasWell">
+				<GasRange>
+					<min>5000</min>
+					<max>10000</max>
+				</GasRange>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>GasProductionPlant</defName>
+		<label>Gas production plant</label>
+		<description>It pumps gas out of the well and feeds it into the pipes in the form of natural gas.</description>
+		<thingClass>Building</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasPlant/GasPlant</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(4,4)</drawSize>
+			<shadowData>
+				<volume>(3.93,1,3.69)</volume>
+				<offset>(-0.03,0,-0.1)</offset>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>150</pathCost>
+		<blockWind>true</blockWind>
+		<fillPercent>1.0</fillPercent>
+		<castEdgeShadows>false</castEdgeShadows>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<WorkToBuild>18000</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Beauty>-20</Beauty>
+			<MarketValue>1200</MarketValue>
+		</statBases>
+		<tickerType>Rare</tickerType>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(4,4)</size>
+		<costList>
+			<CopperIngot>120</CopperIngot>
+			<IronIngot>200</IronIngot>
+			<ComponentIndustrial>10</ComponentIndustrial>
+			<Chromium>65</Chromium>
+			<NickelIngot>80</NickelIngot>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasPlant">
+				<pipeType>NaturalGas</pipeType>
+				<PumpingSpeed>1.5</PumpingSpeed>
+			</li>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>1500</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+		</comps>
+		<placeWorkers>
+			<li>RimOverhaul.Gas.PlaceWorker_GasPlant</li>
+		</placeWorkers>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>GasProduction</designationCategory>
+		<designationHotKey>Misc3</designationHotKey>
+		<constructEffect>ConstructMetal</constructEffect>
+		<researchPrerequisites>
+			<li>GasIndustry</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>GasCooler</defName>
+		<label>Gas cooler</label>
+		<description>It cools the incoming gas to -160 and produces liquefied natural gas, which can be stored in large quantities.</description>
+		<thingClass>Building</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasCooler/GasCooler</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<shadowData>
+				<volume>(1.63,1,1.93)</volume>
+				<offset>(-0.03,0,-0.1)</offset>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>150</pathCost>
+		<blockWind>true</blockWind>
+		<fillPercent>1.0</fillPercent>
+		<castEdgeShadows>false</castEdgeShadows>
+		<rotatable>true</rotatable>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<WorkToBuild>9000</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Beauty>-20</Beauty>
+			<MarketValue>800</MarketValue>
+		</statBases>
+		<tickerType>Rare</tickerType>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(2,2)</size>
+		<costList>
+			<IlmeniteIngot>10</IlmeniteIngot>
+			<Steel>100</Steel>
+			<ComponentIndustrial>5</ComponentIndustrial>
+			<Chromium>50</Chromium>
+			<CobaltIngot>65</CobaltIngot>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasCooler">
+				<pipeType>LiquidGas</pipeType>
+				<ConnectEverything>true</ConnectEverything>
+				<CoolingRate>1.1</CoolingRate>
+			</li>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>500</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+		</comps>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>GasProduction</designationCategory>
+		<designationHotKey>Misc3</designationHotKey>
+		<constructEffect>ConstructMetal</constructEffect>
+		<researchPrerequisites>
+			<li>GasIndustry</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>14</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>SmallGasVault</defName>
+		<label>Small gas vault</label>
+		<description>Small liquefied natural gas storage tank.</description>
+		<thingClass>Building</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasVault/gasvault</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(4,2)</drawSize>
+			<shadowData>
+				<volume>(2.93,1,0.69)</volume>
+				<offset>(-0.03,0,-0.1)</offset>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>150</pathCost>
+		<blockWind>true</blockWind>
+		<fillPercent>1.0</fillPercent>
+		<castEdgeShadows>false</castEdgeShadows>
+		<rotatable>true</rotatable>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<WorkToBuild>10000</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Beauty>-20</Beauty>
+			<MarketValue>350</MarketValue>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(4,2)</size>
+		<costList>
+			<Steel>80</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<CopperIngot>100</CopperIngot>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasTask">
+				<pipeType>LiquidGas</pipeType>
+				<StorageCapacity>2000</StorageCapacity>
+			</li>
+			<li Class="RimOverhaul.Gas.CompProperties_Explosive_GasProp">
+				<explosiveRadius>2</explosiveRadius>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<damageAmountBase>20</damageAmountBase>
+				<startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+			</li>
+		</comps>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>GasProduction</designationCategory>
+		<designationHotKey>Misc3</designationHotKey>
+		<constructEffect>ConstructMetal</constructEffect>
+		<researchPrerequisites>
+			<li>GasIndustry</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>BigGasVault</defName>
+		<label>Big gas vault</label>
+		<description>Big liquefied natural gas storage tank.</description>
+		<thingClass>Building</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasVault/gasvault2</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(6,3)</drawSize>
+			<shadowData>
+				<volume>(4.93,1,1.69)</volume>
+				<offset>(-0.03,0,-0.1)</offset>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>150</pathCost>
+		<blockWind>true</blockWind>
+		<fillPercent>1.0</fillPercent>
+		<castEdgeShadows>false</castEdgeShadows>
+		<rotatable>true</rotatable>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<WorkToBuild>15000</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Beauty>-20</Beauty>
+			<MarketValue>550</MarketValue>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(6,3)</size>
+		<costList>
+			<IlmeniteIngot>10</IlmeniteIngot>
+			<ComponentSpacer>1</ComponentSpacer>
+			<ComponentIndustrial>3</ComponentIndustrial>
+			<CopperIngot>150</CopperIngot>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasTask">
+				<pipeType>LiquidGas</pipeType>
+				<StorageCapacity>5000</StorageCapacity>
+			</li>
+			<li Class="RimOverhaul.Gas.CompProperties_Explosive_GasProp">
+				<explosiveRadius>2</explosiveRadius>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<damageAmountBase>20</damageAmountBase>
+				<startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+			</li>
+		</comps>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>GasProduction</designationCategory>
+		<designationHotKey>Misc3</designationHotKey>
+		<constructEffect>ConstructMetal</constructEffect>
+		<researchPrerequisites>
+			<li>GasTraspAndStorage</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>GasProcessingStation</defName>
+		<label>Gas processing station</label>
+		<description>Station for processing liquefied natural gas into other gases.</description>
+		<thingClass>RimOverhaul.Gas.Building_GasStation</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasProduction/GasProduction</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<shadowData>
+				<volume>(1.93,1,1.69)</volume>
+				<offset>(-0.03,0,-0.1)</offset>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<pathCost>150</pathCost>
+		<blockWind>true</blockWind>
+		<fillPercent>1.0</fillPercent>
+		<castEdgeShadows>false</castEdgeShadows>
+		<rotatable>true</rotatable>
+		<inspectorTabs>
+			<li>RimOverhaul.Gas.ITab_BillsGas</li>
+		</inspectorTabs>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<WorkToBuild>18000</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Beauty>-20</Beauty>
+			<MarketValue>1000</MarketValue>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(2,2)</size>
+		<costList>
+			<PalladiumIngot>20</PalladiumIngot>
+			<Plasteel>40</Plasteel>
+			<ComponentSpacer>1</ComponentSpacer>
+			<ComponentIndustrial>5</ComponentIndustrial>
+		</costList>
+		<recipes>
+			<li>GetHydrogen</li>
+			<li>GetLeqGasCycl</li>
+			<li>GetFuelfromCoal</li>
+		</recipes>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasStation">
+				<pipeType>LiquidGas</pipeType>
+				<GasModifier> 
+					<li>
+						<key>GetHydrogen</key>
+						<value>20</value>
+					</li>
+					<li>
+						<key>GetLeqGasCycl</key>
+						<value>10</value>
+					</li>
+					<li>
+						<key>GetFuelfromCoal</key>
+						<value>100</value>
+					</li>
+				</GasModifier>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>800</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_HeatPusher">
+				<compClass>CompHeatPusherPowered</compClass>
+				<heatPerSecond>5</heatPerSecond>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li>
+				<compClass>CompReportWorkSpeed</compClass>
+			</li>
+			<li Class="CompProperties_AffectedByFacilities">
+				<linkableFacilities>
+					<li>ToolCabinet</li>
+				</linkableFacilities>
+			</li>
+			<li Class="RimOverhaul.Gas.CompProperties_Explosive_GasProp">
+				<explosiveRadius>2</explosiveRadius>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<damageAmountBase>35</damageAmountBase>
+				<startWickHitPointsPercent>0.3</startWickHitPointsPercent>
+			</li>
+		</comps>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>GasProduction</designationCategory>
+		<designationHotKey>Misc3</designationHotKey>
+		<constructEffect>ConstructMetal</constructEffect>
+		<placeWorkers>
+			<li>PlaceWorker_ShowFacilitiesConnections</li>
+			<li>PlaceWorker_ReportWorkSpeedPenalties</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>GasIndustry</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>GasTurbine</defName>
+		<label>Gas turbine</label>
+		<description>A gas turbine, also called a combustion turbine, is a type of continuous combustion, internal combustion engine.</description>
+		<thingClass>Building</thingClass>
+		<graphicData>
+			<texPath>Things/Buildings/GasTurbine/GasTurbine</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(12,4)</drawSize>
+			<shadowData>
+				<volume>(5.93,1,1.69)</volume>
+				<offset>(-0.03,0,-0.1)</offset>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>150</pathCost>
+		<blockWind>true</blockWind>
+		<fillPercent>1.0</fillPercent>
+		<castEdgeShadows>false</castEdgeShadows>
+		<rotatable>true</rotatable>
+		<statBases>
+			<MaxHitPoints>400</MaxHitPoints>
+			<WorkToBuild>25000</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Beauty>-20</Beauty>
+			<MarketValue>2500</MarketValue>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(12,4)</size>
+		<costList>
+			<TungstenIngot>50</TungstenIngot>
+			<Chromium>110</Chromium>
+			<ComponentIndustrial>10</ComponentIndustrial>
+			<ComponentSpacer>4</ComponentSpacer>
+			<Steel>200</Steel>
+		</costList>
+		<comps>
+			<li Class="RimOverhaul.Gas.CompProperties_GasPowerPlant">
+				<pipeType>LiquidGas</pipeType>
+				<GasConsumption>50</GasConsumption>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>RimOverhaul.Gas.CompGasPowerPlant</compClass>
+				<basePowerConsumption>-5000</basePowerConsumption>
+				<transmitsPower>true</transmitsPower>
+			</li>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_HeatPusher">
+				<compClass>CompHeatPusherPowered</compClass>
+				<heatPerSecond>12</heatPerSecond>
+			</li>
+			<li Class="CompProperties_Breakdownable"/>
+		</comps>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>GasProduction</designationCategory>
+		<designationHotKey>Misc3</designationHotKey>
+		<constructEffect>ConstructMetal</constructEffect>
+		<researchPrerequisites>
+			<li>ElectricityAndGas</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>14</constructionSkillPrerequisite>
+	</ThingDef>
+	
+ <ThingDef ParentName="BuildingBase">
+    <defName>GasHeater</defName>
+    <label>gas heater</label>
+    <description>A device that converts gas into heat. It can automatically turn itself on or off to reach a specific target temperature.</description>
+    <thingClass>RimOverhaul.Things.Building_GasHeater</thingClass>
+    <graphicData>
+      <texPath>Things/Buildings/GasHeater/GasHeater</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.5,0.3,0.7)</volume>
+        <offset>(0,0,-0.15)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.234375,0,0.515625,0.984375)</rect>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <blockWind>true</blockWind>
+    <rotatable>false</rotatable>
+    <fillPercent>0.4</fillPercent>
+    <thingCategories>
+      <li>BuildingsTemperature</li>
+    </thingCategories>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>6</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <costList>
+			<ComponentIndustrial>1</ComponentIndustrial>
+			<CopperIngot>30</CopperIngot>
+			<NickelIngot>15</NickelIngot>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_TempControl">
+        <energyPerSecond>30</energyPerSecond>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>1</fuelConsumptionRate>
+        <fuelCapacity>2.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>LiquefiedNaturalGasCylinder</li>
+          </thingDefs>
+        </fuelFilter>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(255,150,100,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <designationCategory>GasProduction</designationCategory>
+    <designationHotKey>Misc3</designationHotKey>
+    <researchPrerequisites>
+      <li>GasToHeat</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+  </ThingDef>
+  
+  
+   <ThingDef ParentName="LampBase">
+    <defName>GasSunLamp</defName>
+    <label>Gas sun lamp</label>
+    <description>An advanced industrial lamp used to constantly illuminate the space around.</description>
+	<thingClass>Building_SunLamp</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Production/LampSun</texPath>
+    </graphicData>
+    <blockWind>true</blockWind>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <WorkToBuild>500</WorkToBuild>
+      <Mass>5.5</Mass>
+    </statBases>
+    <costList>
+      <ComponentIndustrial>2</ComponentIndustrial>
+	  <NickelIngot>20</NickelIngot>
+	  <IronIngot>30</IronIngot>
+    </costList>
+      <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>10</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>LiquefiedNaturalGasCylinder</li>
+          </thingDefs>
+        </fuelFilter>
+      </li>
+      <li Class="CompProperties_Glower">
+        <overlightRadius>7.0</overlightRadius>
+        <glowRadius>14</glowRadius>
+        <glowColor>(127,255,212,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+	<specialDisplayRadius>5.8</specialDisplayRadius>
+    <designationCategory>GasProduction</designationCategory>
+    <designationHotKey>Misc3</designationHotKey>
+    <researchPrerequisites>
+      <li>ElectricityAndGas</li>
+	  <li>Hydroponics</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+  </ThingDef>
+  
+  
+  
+  <ThingDef ParentName="TrapIEDBase">
+    <defName>GasMine</defName>
+    <label>Gas mine</label>
+    <description>Mine of destructive power achieved through gas expansion.</description>
+    <graphicData>
+      <texPath>Things/Building/Security/IEDEMP</texPath>
+    </graphicData>
+    <costList>
+      <Pyrotium>10</Pyrotium>
+	  <ComponentIndustrial>2</ComponentIndustrial>
+	  <LiquefiedNaturalGasCylinder>8</LiquefiedNaturalGasCylinder>
+    </costList>
+    <designationHotKey>Misc7</designationHotKey>
+	<designationCategory>GasProduction</designationCategory>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>5.0</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <startWickHitPointsPercent>0.2</startWickHitPointsPercent>
+        <wickTicks>15</wickTicks>
+        <startWickOnDamageTaken>
+          <li>Bullet</li>
+          <li>Arrow</li>
+          <li>ArrowHighVelocity</li>
+        </startWickOnDamageTaken>
+      </li>
+    </comps>
+	<researchPrerequisites>
+      <li>GasWeapon</li>
+    </researchPrerequisites>
+    <specialDisplayRadius>5.0</specialDisplayRadius>
+  </ThingDef>
+
+
+<ThingDef ParentName="TrapIEDBase">
+    <defName>HydrogenGasMine</defName>
+    <label>Hydrogen gas mine</label>
+    <description>Mine of destructive power achieved through gas expansion.</description>
+    <graphicData>
+      <texPath>Things/Building/Security/IEDIncendiary</texPath>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+	  <ComponentIndustrial>3</ComponentIndustrial>
+	  <HydrogenCylinder>8</HydrogenCylinder>
+    </costList>
+    <designationHotKey>Misc7</designationHotKey>
+	<designationCategory>GasProduction</designationCategory>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>9.0</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <startWickHitPointsPercent>0.2</startWickHitPointsPercent>
+        <wickTicks>15</wickTicks>
+        <startWickOnDamageTaken>
+          <li>Bullet</li>
+          <li>Arrow</li>
+          <li>ArrowHighVelocity</li>
+        </startWickOnDamageTaken>
+      </li>
+    </comps>
+	<researchPrerequisites>
+      <li>GasWeapon</li>
+    </researchPrerequisites>
+    <specialDisplayRadius>9.0</specialDisplayRadius>
+  </ThingDef>
+  
+
+
+
+</Defs>

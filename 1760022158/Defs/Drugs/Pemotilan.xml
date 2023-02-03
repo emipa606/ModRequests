@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Pemotilan</defName>
+		<label>Pemotilan</label>
+		<description>An experimental mixture of drugs designed to increase the combat parameters of subjects. The drug did not pass the proper studies, but a serious dependence was revealed after consumption. Significantly increases resistance and attack speed for a short time, draining the body.</description>
+		<graphicData>
+			<texPath>Things/Medical/Pemotilan</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>170</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>PemotilanHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>PemotilanChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>PemotilanTolerance</hediffDef>
+					<severity>0.25</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>PemotilanChemical</chemical>  
+				<addictiveness>0.60</addictiveness>
+				<minToleranceToAddict>0.15</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.35</min>
+					<max>0.40</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>PemotilanTolerance</defName>
+		<label>Pemotilan tolerance</label>
+		<description>An experimental mixture of drugs designed to increase the combat parameters of subjects. The drug did not pass the proper studies, but a serious dependence was revealed after consumption. Significantly increases resistance and attack speed for a short time, draining the body.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>PemotilanChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>PemotilanHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Artificial rage</label>
+		<description>An experimental mixture of drugs designed to increase the combat parameters of subjects. The drug did not pass the proper studies, but a serious dependence was revealed after consumption. Significantly increases resistance and attack speed for a short time, draining the body.</description>
+		<labelNoun>Artificial rage</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-6.0</severityPerDay>
+			</li>
+			<li Class="DarkNET.Hediffs.HediffCompProperties_ApplyHediffAfter">
+				<Hediff>PemotilanPosthediff</Hediff>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.5</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.2</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<MeleeWeapon_CooldownMultiplier>-0.7</MeleeWeapon_CooldownMultiplier>
+					<MeleeDodgeChance>30</MeleeDodgeChance>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>PemotilanPosthediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Exhaustion</label>
+		<description>An experimental mixture of drugs designed to increase the combat parameters of subjects. The drug did not pass the proper studies, but a serious dependence was revealed after consumption. Significantly increases resistance and attack speed for a short time, draining the body.</description>
+		<labelNoun>Exhaustion</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-6.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<restFallFactorOffset>1.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.4</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.1</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>PemotilanAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Pemotilan addiction</label>
+		<description>An experimental mixture of drugs designed to increase the combat parameters of subjects. The drug did not pass the proper studies, but a serious dependence was revealed after consumption. Significantly increases resistance and attack speed for a short time, draining the body.</description>
+		<causesNeed>Chemical_Pemotilan</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.015</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<restFallFactorOffset>1.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.4</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ThoughtDef>
+		<defName>PemotilanWithdrawal</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>PemotilanAddiction</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<label>Pemotilan withdrawal</label>
+				<description>I'm all fuzzy and can't think straight. My limbs feel heavy. And why won't my eyes focus properly?</description>
+				<baseMoodEffect>-10</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>PemotilanAddition</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>PemotilanAddiction</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+			<li>
+				<label>Pemotilan effect</label>
+				<description>I don’t feel very good after consuming Pemotilan, I hope it doesn’t last long</description>
+				<baseMoodEffect>-10</baseMoodEffect>
+			</li>
+			<li>
+				<label>Pemotilan effect</label>
+				<description>I don’t feel very good after consuming Pemotilan, I hope it doesn’t last long</description>
+				<baseMoodEffect>-15</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<ChemicalDef>
+		<defName>PemotilanChemical</defName>
+		<label>Pemotilan</label>
+		<addictionHediff>PemotilanAddiction</addictionHediff>
+		<toleranceHediff>PemotilanTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Pemotilan</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Pemotilan</label>
+		<description>Because of a Pemotilan addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Tetrodicline</defName>
+		<label>Tetrodicline</label>
+		<description>A drug that affects the brain activity of neurons, allowing you to double the speed of learning and remembering new knowledge. It is worth remembering that the consumption of body resources is comparable to its work, which is also reflected in the action of the drug. It is highly addictive.</description>
+		<graphicData>
+			<texPath>Things/Medical/Tetrodicline</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>230</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>TetrodiclineHediff</hediffDef>
+					<severity>0.35</severity>
+					<toleranceChemical>TetrodiclineChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>TetrodiclineTolerance</hediffDef>
+					<severity>0.2</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>TetrodiclineChemical</chemical>  
+				<addictiveness>0.6</addictiveness>
+				<minToleranceToAddict>0.15</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.1</min>
+					<max>0.2</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>TetrodiclineTolerance</defName>
+		<label>Tetrodicline tolerance</label>
+		<description>A drug that affects the brain activity of neurons, allowing you to double the speed of learning and remembering new knowledge. It is worth remembering that the consumption of body resources is comparable to its work, which is also reflected in the action of the drug. It is highly addictive.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>TetrodiclineChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>TetrodiclineHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Tetrodicline</label>
+		<description>A drug that affects the brain activity of neurons, allowing you to double the speed of learning and remembering new knowledge. It is worth remembering that the consumption of body resources is comparable to its work, which is also reflected in the action of the drug. It is highly addictive.</description>
+		<labelNoun>Tetrodicline</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-5.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>Easy</label>
+				<minSeverity>0.01</minSeverity>
+				<hungerRateFactorOffset>0.3</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.05</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<ResearchSpeedFactor>0.2</ResearchSpeedFactor>
+					<GlobalLearningFactor>0.2</GlobalLearningFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>Hard</label>
+				<minSeverity>0.4</minSeverity>
+				<hungerRateFactorOffset>0.6</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.10</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<ResearchSpeedFactor>0.4</ResearchSpeedFactor>
+					<GlobalLearningFactor>0.4</GlobalLearningFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>Extreme</label>
+				<minSeverity>0.7</minSeverity>
+				<hungerRateFactorOffset>1.2</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.15</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<ResearchSpeedFactor>0.6</ResearchSpeedFactor>
+					<GlobalLearningFactor>0.6</GlobalLearningFactor>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>TetrodiclineAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Tetrodicline addiction</label>
+		<description>A drug that affects the brain activity of neurons, allowing you to double the speed of learning and remembering new knowledge. It is worth remembering that the consumption of body resources is comparable to its work, which is also reflected in the action of the drug. It is highly addictive.</description>
+		<causesNeed>Chemical_Tetrodicline</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.010</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<restFallFactorOffset>1.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.5</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<GlobalLearningFactor>-0.5</GlobalLearningFactor>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>TetrodiclineChemical</defName>
+		<label>Tetrodicline</label>
+		<addictionHediff>TetrodiclineAddiction</addictionHediff>
+		<toleranceHediff>TetrodiclineTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Tetrodicline</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Tetrodicline</label>
+		<description>Because of a Tetrodicline addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

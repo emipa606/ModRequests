@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Entotizin</defName>
+		<label>Entotizin</label>
+		<description>Resin-like viscous substance used mainly by snipers. The drug significantly increases the shooter's potential, increasing visual acuity and vigor. There is a chance of addiction, which is offset by its beneficial properties.</description>
+		<graphicData>
+			<texPath>Things/Medical/Entotizin</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>90</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>EntotizinHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>EntotizinChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>EntotizinTolerance</hediffDef>
+					<severity>0.08</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>EntotizinChemical</chemical>  
+				<addictiveness>0.1</addictiveness>
+				<minToleranceToAddict>0.15</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.25</min>
+					<max>0.4</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>EntotizinTolerance</defName>
+		<label>Entotizin tolerance</label>
+		<description>Resin-like viscous substance used mainly by snipers. The drug significantly increases the shooter's potential, increasing visual acuity and vigor. There is a chance of addiction, which is offset by its beneficial properties.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>EntotizinChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>EntotizinHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Entotizin</label>
+		<description>Resin-like viscous substance used mainly by snipers. The drug significantly increases the shooter's potential, increasing visual acuity and vigor. There is a chance of addiction, which is offset by its beneficial properties.</description>
+		<labelNoun>Entotizin</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<restFallFactorOffset>-0.3</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.8</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>EntotizinAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Entotizin addiction</label>
+		<description>Resin-like viscous substance used mainly by snipers. The drug significantly increases the shooter's potential, increasing visual acuity and vigor. There is a chance of addiction, which is offset by its beneficial properties.</description>
+		<causesNeed>Chemical_Entotizin</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.02</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<restFallFactorOffset>1.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-1.0</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>EntotizinChemical</defName>
+		<label>Entotizin</label>
+		<addictionHediff>EntotizinAddiction</addictionHediff>
+		<toleranceHediff>EntotizinTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Entotizin</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Entotizin</label>
+		<description>Because of a Entotizin addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

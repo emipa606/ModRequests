@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Dextromitaine</defName>
+		<label>Dextromitaine</label>
+		<description>Psychostimulant used to increase concentration. Due to its composition, it is able to repeatedly increase the speed of manipulation. However, it has several disadvantages. So, after the action of the drug, Subjects observed mental lethargy and increased drowsiness. Perfect for lightning attacks, but does not last long. Quickly addictive and painful breaking.</description>
+		<graphicData>
+			<texPath>Things/Medical/Dextromitaine</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>300</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>DextromitaineHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>DextromitaineChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>DextromitaineTolerance</hediffDef>
+					<severity>0.1</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>MaxBrainChemical</chemical>  
+				<addictiveness>0.25</addictiveness>
+				<minToleranceToAddict>0.05</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.3</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.3</min>
+					<max>0.5</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>DextromitaineTolerance</defName>
+		<label>Dextromitaine tolerance</label>
+		<description>Psychostimulant used to increase concentration. Due to its composition, it is able to repeatedly increase the speed of manipulation. However, it has several disadvantages. So, after the action of the drug, Subjects observed mental lethargy and increased drowsiness. Perfect for lightning attacks, but does not last long. Quickly addictive and painful breaking.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>DextromitaineChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>DextromitaineHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Occipital lobe stimulation</label>
+		<description>Psychostimulant used to increase concentration. Due to its composition, it is able to repeatedly increase the speed of manipulation. However, it has several disadvantages. So, after the action of the drug, Subjects observed mental lethargy and increased drowsiness. Perfect for lightning attacks, but does not last long. Quickly addictive and painful breaking.</description>
+		<labelNoun>Occipital lobe stimulation</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-5.0</severityPerDay>
+			</li>
+			<li Class="DarkNET.Hediffs.HediffCompProperties_ApplyHediffAfter">
+				<Hediff>DextromitainePostfactor</Hediff>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<hungerRateFactorOffset>3.0</hungerRateFactorOffset>
+				<restFallFactorOffset>2.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.2</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<MeleeWeapon_CooldownMultiplier>-0.5</MeleeWeapon_CooldownMultiplier>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>DextromitainePostfactor</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Exhausted organism</label>
+		<description>Psychostimulant used to increase concentration. Due to its composition, it is able to repeatedly increase the speed of manipulation. However, it has several disadvantages. So, after the action of the drug, Subjects observed mental lethargy and increased drowsiness. Perfect for lightning attacks, but does not last long. Quickly addictive and painful breaking.</description>
+		<labelNoun>Exhausted organism</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-4.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<restFallFactorOffset>1.0</restFallFactorOffset>
+				<statOffsets>
+					<PsychicSensitivity>-0.25</PsychicSensitivity>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>DextromitaineAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Dextromitaine addiction</label>
+		<description>Psychostimulant used to increase concentration. Due to its composition, it is able to repeatedly increase the speed of manipulation. However, it has several disadvantages. So, after the action of the drug, Subjects observed mental lethargy and increased drowsiness. Perfect for lightning attacks, but does not last long. Quickly addictive and painful breaking.</description>
+		<causesNeed>Chemical_Dextromitaine</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.015</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<hungerRateFactorOffset>3.0</hungerRateFactorOffset>
+				<restFallFactorOffset>3.0</restFallFactorOffset>
+				<statOffsets>
+					<MeleeWeapon_CooldownMultiplier>0.2</MeleeWeapon_CooldownMultiplier>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>DextromitaineChemical</defName>
+		<label>Dextromitaine</label>
+		<description>Psychostimulant used to increase concentration. Due to its composition, it is able to repeatedly increase the speed of manipulation. However, it has several disadvantages. So, after the action of the drug, Subjects observed mental lethargy and increased drowsiness. Perfect for lightning attacks, but does not last long. Quickly addictive and painful breaking.</description>
+		<addictionHediff>DextromitaineAddiction</addictionHediff>
+		<toleranceHediff>DextromitaineTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Dextromitaine</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Dextromitaine</label>
+		<description>Because of a Dextromitaine addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>

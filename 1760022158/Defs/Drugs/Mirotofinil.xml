@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DarkNetDrugPillBase">
+		<defName>Mirotofinil</defName>
+		<label>Mirotofinil</label>
+		<description>Analeptic, used to treat drowsiness associated with narcolepsy. Used for a long time in medicine. Significantly reduces sleep time, which, however, is not without consequences. It is highly addictive.</description>
+		<graphicData>
+			<texPath>Things/Medical/Mirotofinil</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MarketValue>160</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>MirotofinilHediff</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>MirotofinilChemical</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>MirotofinilTolerance</hediffDef>
+					<severity>0.25</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>MirotofinilChemical</chemical>  
+				<addictiveness>0.35</addictiveness>
+				<minToleranceToAddict>0.15</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+				<overdoseSeverityOffset>
+					<min>0.10</min>
+					<max>0.20</max>
+				</overdoseSeverityOffset>
+				<listOrder>200</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>MirotofinilTolerance</defName>
+		<label>Mirotofinil tolerance</label>
+		<description>Analeptic, used to treat drowsiness associated with narcolepsy. Used for a long time in medicine. Significantly reduces sleep time, which, however, is not without consequences. It is highly addictive.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.025</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>MirotofinilChemical</chemical>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>MirotofinilHediff</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>psychosuppression</label>
+		<description>Analeptic, used to treat drowsiness associated with narcolepsy. Used for a long time in medicine. Significantly reduces sleep time, which, however, is not without consequences. It is highly addictive.</description>
+		<labelNoun>psychosuppression</labelNoun>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<restFallFactorOffset>-0.7</restFallFactorOffset>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>MirotofinilAddiction</defName>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<label>Mirotofinil addiction</label>
+		<description>Analeptic, used to treat drowsiness associated with narcolepsy. Used for a long time in medicine. Significantly reduces sleep time, which, however, is not without consequences. It is highly addictive.</description>
+		<causesNeed>Chemical_Mirotofinil</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.015</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<restFallFactorOffset>4.0</restFallFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.4</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>MirotofinilChemical</defName>
+		<label>Mirotofinil</label>
+		<addictionHediff>MirotofinilAddiction</addictionHediff>
+		<toleranceHediff>MirotofinilTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_Mirotofinil</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>Mirotofinil</label>
+		<description>Because of a Mirotofinil addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>45</listPriority>
+	</NeedDef>
+
+</Defs>
