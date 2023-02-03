@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>ThrumboCrack</defName>
+    <label>thrumbo crack</label>
+    <description>A fine white powder snorted to produce a euphoric high. Thrumbo crack reduces the colony's need for food storage expansions, grants wisdom, and is said to improve sex drive. It is, however, very addictive.\n\nThere have been various reported cases of biological organisms that have consumed thrumbo crack actually growing thrumbo horns. We do not take any responsibility for the implications that may come with this.\n\nWithdrawal may result in the affected person actually turning into a manhunting thrumbo. Always read the label.</description>
+    <graphicData>
+      <texPath>Things/Item/Drug/Thrumbo_Crack</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+      <MarketValue>1000</MarketValue>
+      <Mass>0.05</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>100</joy>
+      <drugCategory>Hard</drugCategory>
+      <baseIngestTicks>240</baseIngestTicks>
+      <ingestSound>Ingest_Snort</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.21,0,0.05)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Snort {0}</ingestCommandString>
+      <ingestReportString>Snorting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>ThrumboCrackHigh</hediffDef>
+          <severity>1</severity>
+          <toleranceChemical>ThrumboCrack</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.4</offset>
+          <toleranceChemical>ThrumboCrack</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>ThrumboCrackTolerance</hediffDef>
+          <severity>0.040</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <!-- <researchPrerequisite>PsychiteRefining</researchPrerequisite> -->
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <ThrumboHorn>1</ThrumboHorn>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>ThrumboCrack</chemical>
+        <addictiveness>0.42</addictiveness>
+        <minToleranceToAddict>0</minToleranceToAddict>
+        <existingAddictionSeverityOffset>1</existingAddictionSeverityOffset>
+        <needLevelOffset>0.5</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>100</listOrder>
+        <overdoseSeverityOffset>
+          <min>0.749</min>
+          <max>0.749</max>
+        </overdoseSeverityOffset>
+        <!-- <largeOverdoseChance>0.01</largeOverdoseChance> -->
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>ThrumboCrackHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>high on thrumbo crack</label>
+    <labelNoun>a thrumbo crack high</labelNoun>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.033333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <!-- <painFactor>0.08</painFactor> -->
+        <painOffset>0.15</painOffset>
+        <hungerRateFactorOffset>6.66</hungerRateFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>6.66</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>ThrumboHornGrowth</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Head</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+        <statOffsets>
+          <ArmorRating_Blunt>1.337</ArmorRating_Blunt>
+          <ArmorRating_Sharp>1.337</ArmorRating_Sharp>
+          <ArmorRating_Heat>1.337</ArmorRating_Heat>
+          <GlobalLearningFactor>6.66</GlobalLearningFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>ThrumboCrackHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>ThrumboCrackHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on thrumbo crack</label>
+        <description>REEEEEEEEEE\n-I've been shot-\nREEEEEEEEE\nSounds of doors breaking</description>
+        <baseMoodEffect>451</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Psychite addiction -->
+
+  <ChemicalDef>
+    <defName>ThrumboCrack</defName>
+    <label>thrumbo crack</label>
+    <addictionHediff>ThrumboCrackAddiction</addictionHediff>
+    <toleranceHediff>ThrumboCrackTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.95</onGeneratedAddictedToleranceChance>
+    <!-- <onGeneratedAddictedEvents>
+      <li>
+        <hediff>ChemicalDamageSevere</hediff>
+        <chance>0.15</chance>
+        <partsToAffect>
+          <li>LeftKidney</li>
+          <li>RightKidney</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents> -->
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_ThrumboCrack</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>thrumbo crack</label>
+    <description>Because of a thrumbo crack addiction, this person needs to regularly consume the drug to avoid transmogrification.</description>
+    <listPriority>50</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>ThrumboCrackTolerance</defName>
+    <label>thrumbo crack tolerance</label>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>ThrumboCrack</chemical>
+      </li>
+    </comps>
+    <!-- <hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>ChemicalDamageSevere</hediff>
+				<minSeverity>0.50</minSeverity>
+				<baseMtbDays>120</baseMtbDays>
+				<partsToAffect>
+					<li>LeftKidney</li>
+					<li>RightKidney</li>
+				</partsToAffect>
+			</li>
+		</hediffGivers> -->
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>ThrumboCrackAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>thrumbo crack addiction</label>
+    <causesNeed>Chemical_ThrumboCrack</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+      </li>
+      <li Class="Codename_Project_RIM.HediffCompProperties_ThrumboTransformer">
+        <mtbDaysTransformIntoThrumbo>30</mtbDaysTransformIntoThrumbo>
+        <!-- Hediff transferring feature's currently not functional -->
+        <!-- <partConversionsByDefNames>
+          <li><key>Jaw</key><value>AnimalJaw</value></li>
+          <li><key>Torso</key><value>Body</value></li>
+          <li><key>Foot</key><value>Hoof</value></li>
+          <li><key>Hand</key><value>Hoof</value></li>
+        </partConversionsByDefNames>
+        <partConversionsByCustomLabels>
+          <li><key>left arm</key><value>front left leg</value></li>
+          <li><key>left hand</key><value>front left hoof</value></li>
+          <li><key>right arm</key><value>front right leg</value></li>
+          <li><key>right hand</key><value>front right hoof</value></li>
+          <li><key>left leg</key><value>rear left leg</value></li>
+          <li><key>left foot</key><value>rear left hoof</value></li>
+          <li><key>right leg</key><value>rear right leg</value></li>
+          <li><key>right foot</key><value>rear right hoof</value></li>
+        </partConversionsByCustomLabels>
+        <partConversionBlacklist>
+          <li>Shoulder</li>
+          <li>Clavicle</li>
+          <li>Humerus</li>
+          <li>Radius</li>
+          <li>Ribcage</li>
+          <li>Waist</li>
+          <li>Pelvis</li>
+          <li>Femur</li>
+          <li>Tibia</li>
+          <li>Toe</li>
+          <li>Finger</li>
+        </partConversionBlacklist> -->
+      </li>
+    </comps>
+    <stages>
+      <li />
+      <li>
+        <label>withdrawal</label>
+        <painFactor>13</painFactor>
+        <hungerRateFactorOffset>-0.7</hungerRateFactorOffset>
+        <socialFightChanceFactor>25</socialFightChanceFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.3</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>15</mtbDays>
+          </li>
+          <li>
+            <mentalState>Binging_Food</mentalState>
+            <mtbDays>5</mtbDays>
+          </li>
+        </mentalStateGivers>
+        <statOffsets>
+          <GlobalLearningFactor>-0.9</GlobalLearningFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>ThrumboCrackWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>ThrumboCrackAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>thrumbo crack withdrawal</label>
+        <description>GOTTA GET A GRIP</description>
+        <baseMoodEffect>-35</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>
