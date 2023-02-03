@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <ThingDef ParentName="BaseMechanoidWalker">
+    <defName>Mech_Valkyrie</defName>
+    <label>valkyrie</label>
+    <description>Highly agile winged mechanoid. Despite their infinite power sources, flying requires a burst of power supplied by inner capacitors. The time they require to charge means flight is only possible every minute or so.</description>
+	<statBases>
+      <MoveSpeed>5.7</MoveSpeed>
+      <ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+    </statBases>
+	<tools>
+      <li>
+        <label>left fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Lancer</body>
+      <baseHealthScale>0.7</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+    </race>
+	<comps>
+		<li Class="VFECore.CompProperties_ShieldBubble">
+			<compClass>VFECore.Abilities.CompAbilities</compClass>
+			<blockRangedAttack>False</blockRangedAttack>
+			<blockMeleeAttack>False</blockMeleeAttack>
+			<showAlways>False</showAlways>
+		</li>
+	</comps>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseMechanoidKind">
+    <defName>Mech_MeleeValkyrie</defName>
+    <label>valkyrie</label>
+    <race>Mech_Valkyrie</race>
+    <combatPower>150</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Valkyrie/Valkyrie</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.8</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+		  <shaderType>Transparent</shaderType>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+        <li>MeleeValkyrieWeapon</li> <!-- patched out because we are already patching all mechs to add this tag to them-->
+    </weaponTags>
+	<!--<modExtensions>
+		<li Class="VFECore.Abilities.PawnKindAbilityExtension">
+			<giveAbilities>
+				<li>MechValkyrieFlight</li>
+			</giveAbilities>
+			<giveRandomAbilities>false</giveRandomAbilities>
+		</li>
+	</modExtensions>-->
+  </PawnKindDef>
+  
+  <PawnKindDef ParentName="BaseMechanoidKind">
+    <defName>Mech_RangedValkyrie</defName>
+    <label>valkyrie</label>
+    <race>Mech_Valkyrie</race>
+    <combatPower>130</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>ValkyrieRanged/ValkyrieRanged</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.8</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+        <li>ValkyrieGun</li>
+    </weaponTags>
+  </PawnKindDef>
+  
+  <ThingDef ParentName="BaseMeleeWeapon">
+    <defName>MeleeValkyrieStinger</defName>
+    <label>stinger</label>
+    <description>A powerful mechanoid blade. Named for the wasp-like appearence of the mechanoids using it.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Weapons/Mechsword</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <relicChance>0</relicChance>
+    <statBases>
+      <MarketValue>1400</MarketValue>
+      <Mass>2.6</Mass>
+	  <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags>
+      <li>MeleeValkyrieWeapon</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>blade</label>
+        <capacities>
+          <li>Stab</li>
+          <li>Cut</li>
+        </capacities>
+        <power>16</power>
+        <cooldownTime>1.4</cooldownTime>
+      </li>
+    </tools>
+	<verbs MayRequire="Ludeon.RimWorld.Royalty">
+		<li>
+			<verbClass>MVCF.Verbs.Verb_CooldownJump</verbClass>
+			<label>jump</label>
+			<violent>true</violent>
+			<hasStandardCommand>true</hasStandardCommand>
+			<forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+			<warmupTime>0.5</warmupTime>
+			<!--<warmupEffecter>JumpWarmupEffect</warmupEffecter>-->
+			<requireLineOfSight>true</requireLineOfSight>
+			<range>20</range>
+			<!--<canFireIndependently>true</canFireIndependently>
+			<ticksBetweenBurstShots>999999</ticksBetweenBurstShots>
+			<burstShotCount>2</burstShotCount>-->
+			<targetParams>
+			  <canTargetLocations>false</canTargetLocations>
+			  <canTargetPawns>true</canTargetPawns>
+			  <canTargetBuildings>false</canTargetBuildings>
+			</targetParams>
+		</li>
+	</verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseWeapon">
+    <defName>MeleeValkyrieStinger_Leapless</defName>
+    <label>stinger</label>
+    <description>A powerful mechanoid blade. Named for the wasp-like appearence of the mechanoids using it.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Weapons/Mechsword</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <relicChance>0</relicChance>
+    <statBases>
+      <MarketValue>1400</MarketValue>
+      <Mass>2.6</Mass>
+	  <RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags>
+      <li>MeleeValkyrieWeapon_Leapless</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>blade</label>
+        <capacities>
+          <li>Stab</li>
+          <li>Cut</li>
+        </capacities>
+        <power>16</power>
+        <cooldownTime>1.4</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+  
+  <ThingDef ParentName="PawnFlyerBase">
+    <defName>PawnJumper_ValkyrieFlight</defName>
+    <thingClass>PawnJumper</thingClass>
+    <pawnFlyer>
+      <flightDurationMin>0.5</flightDurationMin>
+      <flightSpeed>12</flightSpeed>
+    </pawnFlyer>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseGunWithQuality">
+    <defName>Gun_ValkyrieChargeSpear</defName>
+    <label>charge spear</label>
+    <description>A long-range weapon used by mechanoids. Fires three powerful charged projectiles in a short burst.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Weapons/ChargeSpear</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <relicChance>0</relicChance>
+    <statBases>
+      <MarketValue>1400</MarketValue>
+      <Mass>2.6</Mass>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
+      <AccuracyMedium>0.90</AccuracyMedium>
+      <AccuracyLong>0.85</AccuracyLong>
+      <RangedWeapon_Cooldown>2.1</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags>
+      <li>MechanoidGunLongRange</li>
+	  <li>ValkyrieGun</li>
+    </weaponTags>
+    <weaponClasses>
+      <li>RangedHeavy</li>
+      <li>LongShots</li>
+    </weaponClasses>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_NeedleGun</defaultProjectile>
+        <warmupTime>2.5</warmupTime>
+        <range>34.9</range>
+		<burstShotCount>3</burstShotCount>
+		<ticksBetweenBurstShots>11</ticksBetweenBurstShots>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.6</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+  
+  <!--<VFECore.Abilities.AbilityDef>
+      <defName>MechValkyrieFlight</defName>
+      <label>valkyrie's flight</label>
+      <description>A valkyrie leaps at you.</description>
+      <iconPath>UI/EmptyImage</iconPath>	
+	  <abilityClass>VFECore.Abilities.Ability_Flight</abilityClass>
+	  <castTime>0</castTime>
+	  <cooldownTime>600</cooldownTime>	
+	  <targetMode>Pawn</targetMode>
+	  <range>24.9</range>
+  </VFECore.Abilities.AbilityDef>-->
+  
+</Defs>
