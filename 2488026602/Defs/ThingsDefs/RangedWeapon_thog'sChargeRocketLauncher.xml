@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+ <ThingDef ParentName="BaseHumanMakeableGun">
+		<defName>Gun_ChargeMissileLauncher</defName>
+		<label>charge missile launcher</label>
+		<description>A reloadable, single-shot missile launcher capable of delivering a single, accurate explosive payload a respectable distance with high accuracy. Designed to disable heavily armored glitterworld strike craft, its charged payload's explosion pierces through armor with superstatic waves, but has a lower radius of effect than traditional explosives. Not effective at actually destroying structures.</description>
+		<graphicData>
+			<texPath>Weapon/ChargePG</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>1.2</drawSize>
+		</graphicData>
+	    <techLevel>Spacer</techLevel>
+		<soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>ChargedShot</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>9</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+		<statBases>
+			<WorkToMake>40000</WorkToMake>
+			<Mass>9.5</Mass>
+			<AccuracyTouch>0.35</AccuracyTouch>
+			<AccuracyShort>0.48</AccuracyShort>
+			<AccuracyMedium>0.70</AccuracyMedium>
+			<AccuracyLong>0.90</AccuracyLong>
+			<RangedWeapon_Cooldown>10</RangedWeapon_Cooldown>
+		</statBases>
+		    <equippedStatOffsets>
+      <MoveSpeed>-0.22</MoveSpeed>
+    </equippedStatOffsets>
+		<weaponTags>
+         <li>SpacerGunHeavy</li>
+        </weaponTags>
+		<tradeTags>
+         <li>ExoticMisc</li>
+        </tradeTags>
+		<costList>
+		    <Plasteel>125</Plasteel>
+			<ComponentSpacer>7</ComponentSpacer>
+			<Steel>50</Steel>
+			<Uranium>25</Uranium>
+			<Chemfuel>50</Chemfuel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+    <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
+				<defaultProjectile>Bullet_ChargeMissileLaunched</defaultProjectile>
+				<forcedMissRadius>1.9</forcedMissRadius>
+				<warmupTime>7</warmupTime>
+				<range>32.9</range>
+				<minRange>2.5</minRange>
+				<burstShotCount>1</burstShotCount>
+				<ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+				<soundCast>ChargeLance_Fire</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>22</muzzleFlashScale>
+			</li>
+	</verbs>
+    <tools>
+      <li>
+        <label>tube</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+	</ThingDef>
+	  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_ChargeMissileLaunched</defName>
+    <label>charge missile</label>
+    <graphicData>
+      <texPath>Weapon/ChargeMissile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>ChargeBomb</damageDef>
+      <!-- Use default damage from explosion def -->
+      <explosionRadius>2.5</explosionRadius>
+      <speed>110</speed>
+    </projectile>
+  </ThingDef>
+  
+   <DamageDef Name="ChargeBomb">
+    <defName>ChargeBomb</defName>
+    <label>charge bomb</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has died in an charged explosion.</deathMessage>
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <minDamageToFragment>20</minDamageToFragment>
+    <defaultDamage>50</defaultDamage>
+    <defaultStoppingPower>2</defaultStoppingPower>
+    <defaultArmorPenetration>0.6</defaultArmorPenetration>
+    <buildingDamageFactor>2</buildingDamageFactor>
+    <plantDamageFactor>1</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <explosionCellMote>Mote_BlastEMP</explosionCellMote>
+    <explosionColorCenter>(0.7, 0.7, 1)</explosionColorCenter>
+    <explosionColorEdge>(.9, 0.9, 1)</explosionColorEdge>
+    <soundExplosion>Explosion_EMP</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+ </Defs>
