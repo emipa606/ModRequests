@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="Farmproduct">
+    <defName>HuskenGrain</defName>
+    <label>Husken Grain [IGD]</label>
+    <description>Husken Grain is for using windmill. You can get grain flour if you put it next to windmill.</description>
+    <graphicData>
+      <texPath>Things/Items/HuskenGrain</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>1</MarketValue>
+    </statBases>
+    <stackLimit>150</stackLimit>
+	<ingestible>
+	    <foodType>Processed</foodType>
+	    <preferability>DesperateOnly</preferability>
+		<tasteThought>AteKibble</tasteThought>
+        <nutrition>0.1</nutrition>
+        <ingestEffect>EatVegetarian</ingestEffect>
+        <ingestSound>Meal_Eat</ingestSound>
+    </ingestible>
+    <thingCategories>
+      <li>ProductfoodRaw</li>
+    </thingCategories>
+    <tickerType>Rare</tickerType>   
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>50</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+  </ThingDef>
+
+	<RecipeDef>
+    <defName>HuskGrain</defName>
+    <label>Husk Grain x10</label>
+    <description>Husk Grain to use windmill</description>
+    <jobString>Husking Flour.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <workAmount>1</workAmount>
+       <soundWorking>Recipe_CookMeal</soundWorking>
+       <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>IngredientValueGetter_Nutrition</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+			<li>RawProso_millet</li>
+			<li>RawWheat</li>
+			<li>RawCorn</li>
+			<li>RawRice</li>
+			<li>RawPotatoes</li>
+			<li>RawBarley</li>
+			<li>RawSorghum</li>
+			<li>RawFoxtail_millet</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+		<li>RawProso_millet</li>
+        <li>RawWheat</li>
+        <li>RawCorn</li>
+        <li>RawRice</li>
+        <li>RawPotatoes</li>
+        <li>RawBarley</li>
+        <li>RawSorghum</li>
+        <li>RawFoxtail_millet</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HuskenGrain>10</HuskenGrain>
+    </products>
+	<recipeUsers>
+        <li>TableAgriculture</li>
+    </recipeUsers>
+  </RecipeDef>
+   
+  <ThingDef ParentName="BuildingBase">
+    <defName>WindMill</defName>
+    <label>WindMill</label>
+    <thingClass>AutomatedVat.Building_AutomatedVat</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Windmill</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4.6)</drawSize>
+    </graphicData>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.45</fillPercent>
+    <pathCost>60</pathCost>
+    <size>(2,3)</size>
+    <statBases>
+		<WorkToBuild>2000</WorkToBuild>
+		<Mass>10</Mass>
+		<MaxHitPoints>200</MaxHitPoints>
+		<Flammability>1.0</Flammability>
+    </statBases>
+	<Description>A Windmill for grind crops. You should place husken grain next to it.</Description>
+    <costList>
+      <Steel>100</Steel>
+      <WoodLog>350</WoodLog>
+	  <Component>3</Component>
+    </costList>
+    <building>
+      <wantsHopperAdjacent>true</wantsHopperAdjacent>
+    </building>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <designationCategory>FarmingTool</designationCategory>
+    <constructEffect>ConstructWood</constructEffect>
+	<comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_TemperatureDamaged">
+        <safeTemperatureRange>
+          <min>-40</min>
+          <max>100</max>
+        </safeTemperatureRange>
+        <damagePerTickRare>1</damagePerTickRare>
+      </li>
+	  <li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-40</minSafeTemperature>
+				<maxSafeTemperature>100</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		  <li Class="CR.CompProperties_FXOverlay">
+			<fxType>FX_Animate</fxType>
+			<fxPath>Things/FX/WindMill</fxPath>
+			<fxRotWithThing>true</fxRotWithThing>
+			<fxSize>(8.5,8.5)</fxSize>
+			<fxTicks>10</fxTicks>
+			<fxDependency>None</fxDependency>				
+		  </li>	
+		</comps>
+    <modExtensions>
+      <li Class="AutomatedVat.ModExtension_AutomatedVat">
+        <workAmount>600</workAmount>
+        <ingredients>
+          <HuskenGrain>10</HuskenGrain>
+        </ingredients>
+        <products>
+          <Grainflour>10</Grainflour>
+        </products>
+        <tickRateDivisor>35</tickRateDivisor>
+        <workSpeedMultiplier>1</workSpeedMultiplier>
+        <temperatureManagement>
+          <hasTemperatureManagement>false</hasTemperatureManagement>
+          <temperatureManagementStrength>5</temperatureManagementStrength>
+          <powerConsumptionExtra>0</powerConsumptionExtra>
+        </temperatureManagement>
+        <!-- Short demonstration on how to override these translation strings:
+        Translation strings can be found in the Keyed section of the English translation folder.
+        First, you will have to have an overrides tag:
+        <overrides>
+        Then, you simply state the original and modified strings like so:
+          <li>
+            <original>AVInspect_BadTempManaged</original> The translation string I want to replace
+            <modified>AVInspect_IngredientsLeft</modified> The translation string I replace with
+          </li>
+          You can add more li tags if you want.
+        </overrides>
+        -->
+      </li>
+    </modExtensions>
+  </ThingDef> 
+
+   
+  <ThingDef ParentName="BuildingBase">
+    <defName>Water_Mill</defName>
+    <label>Water Mill</label>
+    <thingClass>AutomatedVat.Building_AutomatedVat</thingClass>
+    <graphicData>
+      <texPath>Things/Building/WaterMill</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(7,7)</drawSize>
+    </graphicData>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-3)</interactionCellOffset>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.45</fillPercent>
+    <pathCost>60</pathCost>
+    <size>(3,5)</size>
+    <statBases>
+		<WorkToBuild>2000</WorkToBuild>
+		<Mass>10</Mass>
+		<MaxHitPoints>200</MaxHitPoints>
+		<Flammability>1.0</Flammability>
+    </statBases>
+	<Description>A Water mill for producing water.</Description>
+    <costList>
+      <Steel>250</Steel>
+      <WoodLog>500</WoodLog>
+	  <Component>6</Component>
+    </costList>
+    <building>
+      <wantsHopperAdjacent>true</wantsHopperAdjacent>
+    </building>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <designationCategory>FarmingTool</designationCategory>
+    <constructEffect>ConstructWood</constructEffect>
+	<comps>
+      <li Class="CompProperties_Forbiddable"/>
+	  <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_TemperatureDamaged">
+        <safeTemperatureRange>
+          <min>-40</min>
+          <max>100</max>
+        </safeTemperatureRange>
+        <damagePerTickRare>1</damagePerTickRare>
+      </li>		
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-40</minSafeTemperature>
+				<maxSafeTemperature>100</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		  <li Class="CR.CompProperties_FXOverlay">
+			<fxType>FX_Animate</fxType>
+			<fxPath>Things/FX/WaterMill</fxPath>
+			<fxRotWithThing>false</fxRotWithThing>
+			<fxSize>(7,7)</fxSize>
+			<fxTicks>10</fxTicks>
+			<fxDependency>None</fxDependency>				
+		  </li>	
+		</comps>
+    <modExtensions>
+      <li Class="AutomatedVat.ModExtension_AutomatedVat">
+        <workAmount>36000</workAmount>
+        <ingredients>
+        </ingredients>
+        <products>
+          <Waterbowl>60</Waterbowl>
+        </products>
+        <tickRateDivisor>35</tickRateDivisor>
+        <workSpeedMultiplier>1</workSpeedMultiplier>
+        <temperatureManagement>
+          <hasTemperatureManagement>false</hasTemperatureManagement>
+          <temperatureManagementStrength>5</temperatureManagementStrength>
+          <powerConsumptionExtra>0</powerConsumptionExtra>
+        </temperatureManagement>
+        <!-- Short demonstration on how to override these translation strings:
+        Translation strings can be found in the Keyed section of the English translation folder.
+        First, you will have to have an overrides tag:
+        <overrides>
+        Then, you simply state the original and modified strings like so:
+          <li>
+            <original>AVInspect_BadTempManaged</original> The translation string I want to replace
+            <modified>AVInspect_IngredientsLeft</modified> The translation string I replace with
+          </li>
+          You can add more li tags if you want.
+        </overrides>
+        -->
+      </li>
+    </modExtensions>
+  </ThingDef>   
+  
+</Defs>

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Buildings>
+
+	<ThingDef Name="BuildingBase_T" Abstract="True">
+		<category>Building</category>
+		<thingClass>Building</thingClass>
+		<soundImpactDefault>BulletImpactMetal</soundImpactDefault>
+		<selectable>true</selectable>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<repairEffect>Repair</repairEffect>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<filthLeaving>BuildingRubble</filthLeaving>
+	</ThingDef>
+ 
+
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Hopper_silkworm</defName>
+    <label>silkworm feeding box</label>
+    <thingClass>Building_Storage</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Production/Hopper</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rect>(0.05,0.1,0.9,0.9)</rect>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>70</pathCost>
+    <canOverlapZones>false</canOverlapZones>
+    <building>
+      <fixedStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>Mulberry</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>Mulberry</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <castEdgeShadows>true</castEdgeShadows>
+    <statBases>
+      <WorkToBuild>450</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <description>Hold mulberry for feeding silkworms to make silk.</description>
+    <costList>
+      <Steel>15</Steel>
+    </costList>
+    <tickerType>Never</tickerType>
+    <rotatable>true</rotatable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <designationCategory>FarmingTool</designationCategory>
+    <staticSunShadowHeight>0.3</staticSunShadowHeight>
+    <surfaceType>Item</surfaceType>
+    <placeWorkers>
+      <li>PlaceWorker_NextToHopperAccepter</li>
+    </placeWorkers>
+    <constructEffect>ConstructMetal</constructEffect>
+  </ThingDef> 
+
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>Silkworm_farm</defName>
+    <label>Silkworm farm</label>
+    <thingClass>AutomatedVat.Building_AutomatedVat</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Silkworm_farm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.1,2.1)</drawSize>
+    </graphicData>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.45</fillPercent>
+    <pathCost>60</pathCost>
+    <size>(2,2)</size>
+    <statBases>
+		<WorkToBuild>2000</WorkToBuild>
+		<Mass>10</Mass>
+		<MaxHitPoints>200</MaxHitPoints>
+		<Flammability>1.0</Flammability>
+    </statBases>
+	<Description>A farm for breeding silk worm. It should be 20~35 degree. You should build silkworm feeding box next to it.</Description>
+    <costList>
+      <Steel>50</Steel>
+      <WoodLog>100</WoodLog>
+    </costList>
+		<comps>
+      <li Class="CompProperties_TemperatureDamaged">
+        <safeTemperatureRange>
+          <min>20</min>
+          <max>35</max>
+        </safeTemperatureRange>
+        <damagePerTickRare>1</damagePerTickRare>
+      </li>		
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>20</minSafeTemperature>
+				<maxSafeTemperature>35</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		</comps>
+    <building>
+      <wantsHopperAdjacent>true</wantsHopperAdjacent>
+    </building>
+    <tickerType>Normal</tickerType>
+    <rotatable>true</rotatable>
+    <designationCategory>FarmingTool</designationCategory>
+    <constructEffect>ConstructWood</constructEffect>
+    <modExtensions>
+      <li Class="AutomatedVat.ModExtension_AutomatedVat">
+        <workAmount>300000</workAmount>
+        <ingredients>
+          <Mulberry>25</Mulberry>
+        </ingredients>
+        <products>
+          <Silk_Cocoon>25</Silk_Cocoon>
+        </products>
+        <tickRateDivisor>35</tickRateDivisor>
+        <workSpeedMultiplier>1</workSpeedMultiplier>
+        <temperatureManagement>
+          <hasTemperatureManagement>true</hasTemperatureManagement>
+          <temperatureManagementStrength>2</temperatureManagementStrength>
+        </temperatureManagement>
+        <!-- Short demonstration on how to override these translation strings:
+        Translation strings can be found in the Keyed section of the English translation folder.
+        First, you will have to have an overrides tag:
+        <overrides>
+        Then, you simply state the original and modified strings like so:
+          <li>
+            <original>AVInspect_BadTempManaged</original> The translation string I want to replace
+            <modified>AVInspect_IngredientsLeft</modified> The translation string I replace with
+          </li>
+          You can add more li tags if you want.
+        </overrides>
+        -->
+      </li>
+    </modExtensions>
+  </ThingDef> 
+
+</Buildings>

@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ThingDefs>
+	<ThingDef Name="TeaBase" ParentName="DrugBase" Abstract="True">
+	 <statBases>
+      <MaxHitPoints>20</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <DeteriorationRate>2</DeteriorationRate>
+	  <Beauty>1</Beauty>
+      <Mass>0.4</Mass>
+    </statBases>
+    <stackLimit>25</stackLimit>
+    <ingestible>
+      <drugCategory>Social</drugCategory>
+      <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <chairSearchRadius>8</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>TeaTolerance</hediffDef>
+          <severity>0.032</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+	  <comps>
+	  		<li Class="CompProperties_Drug">
+				<chemical>Tea</chemical>
+				<addictiveness>0.003</addictiveness>
+				<minToleranceToAddict>0.15</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<listOrder>30</listOrder>
+			</li>
+	  </comps>
+	</ThingDef>
+
+  <!-- 차 중독 -->
+  
+  <ChemicalDef>
+    <defName>Tea</defName>
+    <label>Tea</label>
+    <addictionHediff>TeaAddiction</addictionHediff>
+    <toleranceHediff>TeaTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_Tea</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>Tea</label>
+    <description>Because of an Tea addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>20</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>TeaTolerance</defName>
+    <label>Tea tolerance</label>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.020</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>Tea</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="AddictionBase">
+    <defName>TeaAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>Tea addiction</label>
+    <causesNeed>Chemical_Tea</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>TeaWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>TeaAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>ambrosia withdrawal</label>
+        <description>I just feel heavy and cold all the time. I never thought I'd want a Tea so much.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>	
+	
+<!--차 아이템 정보-->
+	
+	<ThingDef ParentName="TeaBase">
+    <defName>fruittea</defName>
+    <label>Fruit tea</label>
+    <description>A tea that is made of some fruit and some spice. Good for working</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/fruittea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>25</MarketValue>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.10</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.05</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedfruittea</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>  
+
+  <ThingDef ParentName="TeaBase">
+    <defName>graintea</defName>
+    <label>grain tea</label>
+    <description>A tea that is made of some grain and some spice. Good for active.</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/graintea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>22</MarketValue>
+      <Mass>0.4</Mass>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.10</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.03</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedgraintea</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>  
+
+  <ThingDef ParentName="TeaBase">
+    <defName>vegetabletea</defName>
+    <label>vegetable tea</label>
+    <description>A tea that is made of some vegetable and some spice. Good for health.</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/vegetabletea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>25</MarketValue>
+      <Mass>0.4</Mass>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.20</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.2</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedvegetabletea</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>  
+
+ 
+  <ThingDef ParentName="TeaBase">
+    <defName>honeytea</defName>
+    <label>honey tea</label>
+    <description>A tea that is made of some honey and some spice. Good for healing</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/honeytea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>35</MarketValue>
+      <Mass>0.4</Mass>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.10</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.03</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedhoney</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>  
+
+  <ThingDef ParentName="TeaBase">
+    <defName>honeygraintea</defName>
+    <label>honey grain tea</label>
+    <description>A tea that is made of honey, grain and some spice.</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/honey_graintea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>40</MarketValue>
+      <Mass>0.4</Mass>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.40</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.05</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedhoney</hediffDef>
+          <severity>0.25</severity>
+        </li>
+		<li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedgraintea</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>   
+
+  <ThingDef ParentName="TeaBase">
+    <defName>honeyfruittea</defName>
+    <label>honey fruit tea</label>
+    <description>A tea that is made of honey, fruit and some spice.</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/honey_fruittea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>40</MarketValue>
+      <Mass>0.4</Mass>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.30</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.05</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedhoney</hediffDef>
+          <severity>0.25</severity>
+        </li>
+		<li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedfruittea</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>
+
+  <ThingDef ParentName="TeaBase">
+    <defName>honeyvegetabletea</defName>
+    <label>honey vegetable tea</label>
+    <description>A tea that is made of honey, vegetable and some spice.</description>
+    <graphicData>
+      <texPath>Things/Items/Meal/honey_vegetabletea</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>40</MarketValue>
+      <Mass>0.4</Mass>
+    </statBases>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.30</nutrition>
+	  <joyKind>Gluttonous</joyKind>
+      <joy>0.05</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedhoney</hediffDef>
+          <severity>0.25</severity>
+        </li>
+		<li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedvegetabletea</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>
+  
+  
+</ThingDefs>

@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Beer>
+
+
+
+<!--술-->
+
+	<ThingDef Name="TB_DrugBase" ParentName="DrugBase" Abstract="True">
+    <equippedAngleOffset>-150</equippedAngleOffset>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <Mass>0.3</Mass>
+      <MeleeWeapon_DamageAmount>7</MeleeWeapon_DamageAmount>
+      <MeleeWeapon_Cooldown>1.8</MeleeWeapon_Cooldown>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <nutrition>0.08</nutrition>
+      <joy>0.17</joy>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>15</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Tobe_AlcoholHigh</hediffDef>
+          <severity>0.40</severity>
+          <toleranceChemical>Alcohol</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AlcoholTolerance</hediffDef>
+          <severity>0.032</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+      </outcomeDoers>
+    </ingestible>
+    <equipmentType>Primary</equipmentType>
+    <techLevel>Neolithic</techLevel>
+    <verbs>
+      <li>
+        <verbClass>Verb_MeleeAttack</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <meleeDamageDef>Blunt</meleeDamageDef>
+      </li>
+    </verbs>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+	  
+  <HediffDef>
+    <defName>Tobe_AlcoholHigh</defName>
+    <hediffClass>Hediff_Alcohol</hediffClass>
+    <label>alcohol</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <comps>
+      <li Class="HediffCompProperties_Effecter">
+        <stateEffecter>Drunk</stateEffecter>
+        <severityIndices>
+          <min>3</min>
+          <max>5</max>
+        </severityIndices>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>buzzed-hidden</label>
+          <everVisible>false</everVisible>
+        </li>
+        <li>
+          <minSeverity>0.15</minSeverity>
+          <label>warm</label>
+          <painFactor>1.0</painFactor>
+          <socialFightChanceFactor>1.5</socialFightChanceFactor>
+            <capMods>
+              <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.01</offset>
+              </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.3</minSeverity>
+          <label>tipsy</label>
+          <painFactor>0.98</painFactor>
+          <socialFightChanceFactor>2.5</socialFightChanceFactor>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>-0.03</offset>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.01</offset>
+              </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.5</minSeverity>
+          <label>drunk</label>
+          <painFactor>0.7</painFactor>
+          <socialFightChanceFactor>3.0</socialFightChanceFactor>
+          <vomitMtbDays>0.75</vomitMtbDays>
+          <tale>Drunk</tale>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>-0.05</offset>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.03</offset>
+              </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.7</minSeverity>
+          <label>hammered</label>
+          <painFactor>0.6</painFactor>
+          <socialFightChanceFactor>4.0</socialFightChanceFactor>
+          <vomitMtbDays>0.2</vomitMtbDays>
+          <painOffset>0.05</painOffset>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>-0.15</offset>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.05</offset>
+              </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.9</minSeverity>
+          <label>blackout</label>
+          <painFactor>0.1</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.1</setMax>
+            </li>
+          </capMods>
+					<hediffGivers>
+						<li Class="HediffGiver_Random">
+							<hediff>ChemicalDamageModerate</hediff>
+							<mtbDays>10</mtbDays>
+							<partsToAffect>
+								<li>Brain</li>
+							</partsToAffect>
+						</li>
+					</hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>	  
+	  
+  <ThingDef ParentName="TB_DrugBase">
+    <defName>Mead</defName> <!-- 술 이름 -->
+    <label>Mead</label>
+    <description>Mead is an alcoholic beverage created by fermenting honey with water.</description>
+    <graphicData>
+      <texPath>Things/Drug/Mead_a</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>20</MarketValue> <!-- 가격 -->
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Hedhoney</hediffDef>
+          <severity>0.40</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>  <!-- 알콜 효과 -->
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.020</addictiveness> <!--중독성-->
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="TB_DrugBase">
+    <defName>Makkoli</defName> <!-- 술 이름 -->
+    <label>Makkoli</label>
+    <description>Makkoli is Korea traditional alcoholic beverage base on rice. It's usally drunk by Farmers. Cheap and easy to make. Also give power for hard working.\nThe main thing is you can make Soju by boiling it!</description>
+    <graphicData>
+      <texPath>Things/Drug/Makkoli_a</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>13</MarketValue> <!-- 가격 -->
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HedMakkoli</hediffDef>
+          <severity>0.40</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>  <!-- 알콜 효과 -->
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.012</addictiveness> <!--중독성-->
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="TB_DrugBase">
+    <defName>Wine</defName> <!-- 술 이름 -->
+    <label>Wine</label>
+    <description>Wine is an alcoholic beverage made from fruit fermented without the addition of sugars or other nutrients</description>
+    <graphicData>
+      <texPath>Things/Drug/Wine_a</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>13</MarketValue> <!-- 가격 -->
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HedWine</hediffDef>
+          <severity>0.40</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>  <!-- 알콜 효과 -->
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.006</addictiveness> <!--중독성-->
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="TB_DrugBase">
+    <defName>Soju</defName> <!-- 술 이름 -->
+    <label>Soju</label>
+    <description>Soju is base of distilled beverage. Using this, You can make various liqueurs! If you want to make soju, then just boil Makkoli.</description>
+    <graphicData>
+      <texPath>Things/Drug/Soju_a</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>16</MarketValue> <!-- 가격 -->
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HedSoju</hediffDef>
+          <severity>0.40</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>  <!-- 알콜 효과 -->
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.018</addictiveness> <!--중독성-->
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="TB_DrugBase">
+    <defName>Whiskey</defName> <!-- 술 이름 -->
+    <label>Whiskey</label>
+    <description>whiskey is a type of distilled alcoholic beverage made from fermented grain mash.</description>
+    <graphicData>
+      <texPath>Things/Drug/Whiskey_a</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>20</MarketValue> <!-- 가격 -->
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HedWhiskey</hediffDef>
+          <severity>0.40</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>  <!-- 알콜 효과 -->
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.024</addictiveness> <!--중독성-->
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="TB_DrugBase">
+    <defName>Vodka</defName> <!-- 술 이름 -->
+    <label>Vodka</label>
+    <description>Vodka is a distilled beverage composed primarily of water and ethanol, sometimes with traces of impurities and flavorings.</description>
+    <graphicData>
+      <texPath>Things/Drug/Vodka_a</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>24</MarketValue> <!-- 가격 -->
+    </statBases>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HedVodka</hediffDef>
+          <severity>0.40</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>  <!-- 알콜 효과 -->
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.03</addictiveness> <!--중독성-->
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>  
+  
+</Beer>
