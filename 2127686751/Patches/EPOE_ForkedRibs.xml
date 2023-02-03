@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+	
+	
+	
+    <Operation Class="PatchOperationFindMod">
+        <success>Always</success>
+        <mods>
+          <li>Expanded Prosthetics and Organ Engineering - Forked</li>
+        </mods>
+          <match Class="PatchOperationSequence">
+			  <operations>
+				<li Class="PatchOperationReplace">					
+				  <xpath>Defs/ThingDef[defName="CombinedRib"]</xpath>
+					<value>
+						<ThingDef ParentName="EPIA_BodyPartBionicRibBase">
+						  <defName>Forked_CombinedRib</defName>
+						  <label>combined rib replacement</label>
+						  <description>An artificial rib, combining the effects of the medical, painkiller and adrenaline rib replacements stabilized with repurposed Luciferium mechanites.</description>
+						  <statBases>
+							 <Mass>0.3</Mass>
+						  </statBases>
+						  <costList>
+							 <Plasteel>25</Plasteel>
+							 <ComponentIndustrial>3</ComponentIndustrial>
+							 <Neutroamine>9</Neutroamine> <!--  x3  945 Market Value -->
+							 <Silver>48</Silver>    <!--  10% discount  -->
+							 <Penoxycyline>10</Penoxycyline>
+							 <Yayo>5</Yayo>
+							 <GoJuice>5</GoJuice>
+						  </costList>
+						  <techHediffsTags>
+							 <li>Advanced</li>
+						  </techHediffsTags>
+					   </ThingDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">					
+				  <xpath>Defs</xpath>
+					<value>
+						<RecipeDef ParentName="EPIA_RecipeUpgradeBionicRib">
+							<defName>CreateCombinedRib</defName>
+							<label>assemble combined rib</label>
+							<description>Fill a blank rib replacement to complete a combined rib replacement.</description>
+							<descriptionHyperlinks><ThingDef>Forked_CombinedRib</ThingDef></descriptionHyperlinks>
+							<jobString>Assembling combined rib.</jobString>
+							<products>
+								<Forked_CombinedRib>1</Forked_CombinedRib>
+							</products>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>SimpleRib</li>
+										</thingDefs>
+									</filter>
+									<count>1</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Neutroamine</li>
+										</thingDefs>
+									</filter>
+									<count>9</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Silver</li>
+										</thingDefs>
+									</filter>
+									<count>48</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Penoxycyline</li>
+										</thingDefs>
+									</filter>
+									<count>10</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Yayo</li>
+										</thingDefs>
+									</filter>
+									<count>5</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>GoJuice</li>
+										</thingDefs>
+									</filter>
+									<count>5</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>SimpleRib</li>
+									<li>Neutroamine</li>
+									<li>Penoxycyline</li>
+									<li>Silver</li>
+									<li>Yayo</li>
+									<li>Flake</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">					
+				  <xpath>Defs/HediffDef[defName="CombinedRib"]</xpath>
+					<value>
+						<HediffDef ParentName="addedPartBionicsRib">
+						  <defName>Forked_CombinedRib</defName>
+						  <label>combined rib replacement</label>
+						  <description>An installed combined rib replacement.</description>
+						  <spawnThingOnRemoved>Forked_CombinedRib</spawnThingOnRemoved>
+						  <addedPartProps>
+							 <partEfficiency>1.0</partEfficiency>
+						  </addedPartProps>
+						  <stages>
+							<li>
+							<painOffset>-0.08</painOffset>
+							<painFactor>0.9</painFactor>
+							 <capMods>
+								<li>
+								   <capacity>BloodFiltration</capacity>
+								   <offset>0.1</offset>
+								</li>
+								<li>
+									<capacity>Moving</capacity>
+									<offset>0.05</offset>
+								</li>
+							 </capMods>
+							</li>	 
+						  </stages>
+						  <tags>
+								<li>MedicalRib</li>
+								<li>PainkillerRib</li>
+								<li>AdrenalineRib</li>
+						  </tags>
+					   </HediffDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">					
+				  <xpath>Defs/RecipeDef[defName="InstallCombinedRib"]</xpath>
+					<value>
+						<RecipeDef ParentName="SurgeryInstallImplantBase">
+						  <defName>Forked_InstallCombinedRib</defName>
+						  <label>install combined rib replacement</label>
+						  <description>Installs a combined rib replacement.</description>
+						  <jobString>Installing a combined rib replacement.</jobString>
+						  <ingredients>
+							 <li>
+								<filter>
+								   <categories>
+									  <li>Medicine</li>
+								   </categories>
+								</filter>
+								<count>1</count>
+							 </li>
+							 <li>
+								<filter>
+								   <thingDefs>
+									  <li>Forked_CombinedRib</li>
+								   </thingDefs>
+								</filter>
+								<count>1</count>
+							 </li>
+						  </ingredients>
+						  <fixedIngredientFilter>
+							 <categories>
+								<li>Medicine</li>
+							 </categories>
+							 <thingDefs>
+								<li>Forked_CombinedRib</li>
+							 </thingDefs>
+						  </fixedIngredientFilter>
+						  <appliedOnFixedBodyParts>
+							 <li>Ribcage</li>
+						  </appliedOnFixedBodyParts>
+						  <addsHediff>Forked_CombinedRib</addsHediff>
+					   </RecipeDef>
+					   <incompatibleWithHediffTags>
+							<li>MedicalRib</li>
+							<li>PainkillerRib</li>
+							<li>AdrenalineRib</li>
+						</incompatibleWithHediffTags>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">					
+				  <xpath>Defs/RecipeDef[defName="RemoveCombinedRib"]</xpath>
+					<value>
+						<RecipeDef ParentName="SurgeryRemoveImplantBase">
+							<defName>Forked_RemoveCombinedRib</defName>
+							<label>remove combined rib replacement</label>
+							<description>Remove a combined rib replacement.</description>
+							<descriptionHyperlinks><ThingDef>Forked_CombinedRib</ThingDef></descriptionHyperlinks>
+							<jobString>Removing rib replacement.</jobString>
+							<removesHediff>Forked_CombinedRib</removesHediff>
+						</RecipeDef>
+					</value>
+				</li>
+			  </operations>		
+			</match>
+	</Operation>
+	
+</Patch>	
