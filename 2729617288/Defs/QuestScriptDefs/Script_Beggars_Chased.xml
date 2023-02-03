@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>Beggars_Chased</defName>
+    <rootSelectionWeight>0.6</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <expireDaysRange>0.3</expireDaysRange>
+    <autoAccept>false</autoAccept>
+    <defaultCharity>true</defaultCharity>
+    <affectedByPopulation>true</affectedByPopulation>
+    <hideInvolvedFactionsInfo>true</hideInvolvedFactionsInfo>
+    <questNameRules>
+      <rulesStrings>
+
+		<li>questName(beggarCount==1)->Saving [beggarSingle]</li>
+		<li>questName(beggarCount==1)->The Salvation of a [beggarSingle]</li>
+		<li>questName(beggarCount>=2)->Helping [beggarPlural]</li>
+		<li>questName(beggarCount>=2)->[beggarPlural] Chased by [enemyFaction_pawnsPlural]</li>
+
+
+        <!-- pieces -->
+        <li>beggarSingle->beggar</li>
+        <li>beggarSingle->vagabond</li>
+        <li>beggarSingle->drifter</li>
+        <li>beggarSingle->traveler</li>
+
+        <li>beggarPlural->[beggarSingle]s</li>
+		
+		
+
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+
+        <!-- misc -->
+        <li>beggarLabelPlural->beggars</li>
+        <li>beggarLabelSingle->beggar</li>
+
+        <li>travelerInfo(beggarCount==1)->This [beggarLabelSingle] is</li>
+        <li>travelerInfo(beggarCount>=2)->These [beggarLabelPlural] are</li>
+
+        <li>traverObjective(beggarCount==1)->[beggars0_objective]</li>
+        <li>traverObjective(beggarCount>=2)->them</li>
+        
+        <!-- quest description -->
+        <li>questDescription->[approachInfo].[chaseInfo].[claimInfo].\n\n[moveOnInfo].\n\n[travelerInfo] not part of any faction. If you wish, you can choose to kill, arrest, sell, or harvest [traverObjective], without diplomatic consequences.</li>
+
+        <li>approachInfo(beggarCount==1)->A poor [beggarLabelSingle] named [beggars0_nameDef] is calling from nearby</li>
+        <li>approachInfo(beggarCount>=2)->A group of poor [beggarLabelPlural] are calling from nearby</li>
+		
+		<li>chaseInfo(beggarCount==1)-> [beggars0_pronoun] is being chased by [enemyFaction_pawnsPlural] from [enemyFaction_name], and begs for safety</li>
+		<li>chaseInfo(beggarCount>=2)-> They are being chased by [enemyFaction_pawnsPlural] from [enemyFaction_name], and they beg for safety</li>
+
+        <li>claimInfo(beggarCount==1)-> If you accept, you'll have to fight off [enemyFaction_pawnsPluralDef] on [beggars0_possessive] tail</li>
+
+        <li>claimInfo(beggarCount>=2)-> If you accept, you'll have to fight off [enemyFaction_pawnsPluralDef] on their tail</li>
+
+        <li>moveOnInfo(beggarCount==1)->[beggars0_nameDef] will stay with you for [stayDurationTicks_duration], then move on</li>
+        <li>moveOnInfo(beggarCount>=2)->The [beggarLabelPlural] will stay with you for [stayDurationTicks_duration], then move on</li>
+
+      </rulesStrings>
+    </questDescriptionRules>
+    <questContentRules>
+      <rulesStrings>
+
+        <!-- pieces -->
+		<li>beggarsPronoun(beggarCount==1)->[beggars0_pronoun]</li>
+        <li>beggarsPronoun(beggarCount>=2)->they</li>
+		
+		<li>beggarsObjective(beggarCount==1)->[beggars0_objective]</li>
+		<li>beggarsObjective(beggarCount>=2)->them</li>
+		
+        <li>hasHave(beggarCount==1)->has</li>
+        <li>hasHave(beggarCount>=2)->have</li>
+
+        <li>wasWere(beggarCount==1)->was</li>
+        <li>wasWere(beggarCount>=2)->were</li>
+		
+		<li>beggarsLabel->beggar</li>
+        <li>beggarsLabelPlural->beggars</li>
+
+        <li>beggarLabelSingleOrPlural(beggarCount==1)->beggar</li>
+        <li>beggarLabelSingleOrPlural(beggarCount>=2)->beggars</li>
+		
+		<li>charityUnhappy->Colonists with charitable beliefs will be unhappy.</li>
+		
+		
+		
+		<li>lastOrNot(beggarCount==1)-></li>
+        <li>lastOrNot(beggarCount>=2)->last</li>
+		
+		<!-- letters -->
+        <li>letterLabelBeggarsBetrayed->[beggarLabelSingleOrPlural] betrayed</li>
+        <li>letterTextBeggarsBetrayed->The [beggarLabelSingleOrPlural] who [wasWere] seeking your charity [hasHave] been betrayed. Colonists with charitable beliefs will be unhappy.</li>
+		
+		<!-- arrived -->
+        <li>beggarsArriveLetterLabel->[beggarLabelSingleOrPlural] arrived</li>
+        <li>beggarsArriveLetterText->The [beggarLabelSingleOrPlural] [hasHave] arrived, and the [enemyFaction_pawnsPlural] are close behind [beggarsObjective]. [beggarsPronoun] will stay with you for [stayDurationTicks_duration] so [beggarsPronoun] can rest and repay you with labor.</li>
+		
+		<!-- no action -->
+        <li>appalledButNoAction->The {PAWNSALIVECOUNT_multiple ? others seem : last [beggarsLabel] is} appalled at this, but {PAWNSALIVECOUNT_multiple ? are: is} not taking action against you.</li>
+
+        <!-- beggar action -->
+        <li>othersWillNotAccept->The {PAWNSALIVECOUNT_multiple ? others are : last [beggarsLabel] is} not willing to accept this</li>
+        <li>turnedViolent->[othersWillNotAccept], and {PAWNSALIVECOUNT_multiple ? have : has } turned violently against you.</li>
+        <li>decidedToLeave->[othersWillNotAccept], and {PAWNSALIVECOUNT_multiple ? have : has } decided to leave.</li>
+		
+		<li>whoAskedToStay->who asked to stay with you</li>
+        <li>oneOfThe->one of the desperate [beggarFaction_pawnsPlural] who asked to stay with you</li>
+        <li>questOver->The quest '[resolvedQuestName]' is over.</li>
+		
+		<!-- Interaction response: Beggar death -->
+        <li>letterIntroDeath->{SUBJECT_definite}, [oneOfThe] has died.</li>
+
+        <li>beggarDiedMemoryThoughtLetterLabel->[beggarsLabel] died: Anger</li>
+        <li>beggarDiedMemoryThoughtLetterText->[letterIntroDeath] [charityUnhappy]\n\n[appalledButNoAction]</li>
+
+        <li>beggarDiedAttackPlayerLetterLabel->[beggarsLabel] died: Revenge</li>
+        <li>beggarDiedAttackPlayerLetterText->[letterIntroDeath] [charityUnhappy]\n\n[turnedViolent]</li>
+
+        <li>beggarDiedLeaveMapLetterLabel->[beggarsLabel] died: Departure</li>
+        <li>beggarDiedLeaveMapLetterText->[letterIntroDeath] [charityUnhappy]\n\n[decidedToLeave]</li>
+
+        <li>beggarsAllDiedLetterLabel->Quest failed</li>
+        <li>beggarsAllDiedLetterText->{SUBJECT_definite}, the [lastOrNot] desperate [beggarFaction_pawnSingular] [whoAskedToStay], has died. [charityUnhappy]\n\n[questOver]</li>
+		
+		<!-- Interaction response: Beggar arrested -->
+        <li>letterIntroArrested->You arrested {SUBJECT_definite}, [oneOfThe].</li>
+
+        <li>beggarArrestedMemoryThoughtLetterLabel->[beggarsLabel] arrested: Anger</li>
+        <li>beggarArrestedMemoryThoughtLetterText->[letterIntroArrested] [charityUnhappy]\n\n[appalledButNoAction]</li>
+
+        <li>beggarArrestedAttackPlayerLetterLabel->[beggarsLabel] arrested: Revenge</li>
+        <li>beggarArrestedAttackPlayerLetterText->[letterIntroArrested] [charityUnhappy]\n\n[turnedViolent]</li>
+
+        <li>beggarArrestedLeaveMapLetterLabel->[beggarsLabel] arrested: Departure</li>
+        <li>beggarArrestedLeaveMapLetterText->[letterIntroArrested] [charityUnhappy]\n\n[decidedToLeave]</li>
+
+        <li>beggarsAllArrestedLetterLabel->Quest failed</li>
+        <li>beggarsAllArrestedLetterText->You arrested {SUBJECT_definite}, the [lastOrNot] desperate [beggarFaction_pawnSingular] [whoAskedToStay]. [charityUnhappy]\n\n[questOver]</li>
+
+        <!-- Interaction response: Beggar violated by surgery -->
+        <li>letterIntroViolated->{SUBJECT_definite}, [oneOfThe], was violated by surgery. Colonists with charitable beliefs will be unhappy.</li>
+
+        <li>beggarViolatedMemoryThoughtLetterLabel->[beggarsLabel] violated: Anger</li>
+        <li>beggarViolatedMemoryThoughtLetterText->[letterIntroViolated] [charityUnhappy]\n\n[appalledButNoAction]</li>
+
+        <li>beggarViolatedAttackPlayerLetterLabel->[beggarsLabel] violated: Revenge</li>
+        <li>beggarViolatedAttackPlayerLetterText->[letterIntroViolated] [charityUnhappy]\n\n[turnedViolent]</li>
+
+        <li>beggarViolatedLeaveMapLetterLabel->[beggarsLabel] arrested: Departure</li>
+        <li>beggarViolatedLeaveMapLetterText->[letterIntroViolated] [charityUnhappy]\n\n[decidedToLeave]</li>
+
+		
+		<!-- leaving -->
+		<li>beggarsLeavingLetterLabel->[beggarLabelSingleOrPlural] leaving</li>
+		
+        <li>beggarsLeavingLetterText->[beggars0_nameDef] thanks you for keeping [beggarsObjective] safe and allowing [beggarsObjective] to stay at [map_definite] for these [stayDurationTicks_duration]. [beggars0_pronoun] is now moving on with [beggars0_possessive] people.\n\n[beggars0_nameDef] says [beggars0_pronoun] won't forget what you've done.</li>
+
+      </rulesStrings>
+    </questContentRules>
+    <root Class="BetterBeggars.QuestNode_Root_Beggars_Chased" />
+  </QuestScriptDef>
+
+</Defs>
