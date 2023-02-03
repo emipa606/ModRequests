@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+	<ThinkTreeDef>
+		<defName>VFE_Mechanoids_ViolentMachineWork</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="ThinkNode_Subtree">
+					<treeDef>Downed</treeDef>
+				</li>
+
+				<!-- React to close melee threat -->
+				<li Class="JobGiver_ReactToCloseMeleeThreat" />
+				
+				<!-- Drafted -->
+				<li Class="VFEMech.ThinkNode_ConditionalHasPower">
+					<subNodes>
+						<li Class="ThinkNode_Priority">
+							<subNodes>
+								<li Class="ThinkNode_QueuedJob" />
+							
+								<li Class="ThinkNode_Tagger">
+									<tagToGive>DraftedOrder</tagToGive>
+									<subNodes>
+										<li Class="JobGiver_Orders" />
+									</subNodes>
+								</li>
+							
+							</subNodes>
+						</li>
+					</subNodes>
+				</li>
+
+				
+				<!-- Main colonist behavior core -->				
+				<li Class="ThinkNode_Priority">
+					<subNodes>
+						<li Class="VFE.Mechanoids.AI.JobGivers.JobGiver_Recharge"/>
+						<li Class="VFE.Mechanoids.AI.JobGivers.JobGiver_ReturnToStation"/>
+						<li Class="JobGiver_AIFightEnemies"/>
+						<li Class="JobGiver_Work"/>
+
+						<li Class="ThinkNode_Tagger">
+							<tagToGive>Idle</tagToGive>
+							<subNodes>              
+								<!-- Wander -->
+								<li Class="JobGiver_WanderColony">
+									<maxDanger>None</maxDanger>
+								</li>
+							</subNodes>
+						</li>
+					</subNodes>
+				</li>
+				
+
+
+
+
+
+
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+
+</Defs>
