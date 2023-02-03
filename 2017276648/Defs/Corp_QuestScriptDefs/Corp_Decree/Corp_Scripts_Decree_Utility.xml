@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>Corp_DecreeSetup</defName>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>CorpdecreeIntro->[asker_nameDef], your [asker_bestRoyalTitle], has issued a corporate decree.</li>
+        <li>decreeThreatInfo->If you fail to fulfill this decree within [decreeDays] days, [asker_nameDef] will start to become unhappy. [asker_possessive] anger will increase over time until the decree is satisfied.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        <li Class="QuestNode_GetNearestHomeMapOf">
+          <storeAs>map</storeAs>
+          <mapOf>$asker</mapOf>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>$(80*60000)</delayTicks>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <text>[asker_nameDef] has forgotten about [asker_possessive] decree.</text>
+                <label>[asker_nameDef]'s decree forgotten</label>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        
+        <!-- End if incompletable -->
+        <li Class="QuestNode_Signal">
+          <inSignal>Incompletable</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label>Decree cancelled</label>
+                <text>[asker_nameDef] has grudgingly cancelled the decree '[resolvedQuestName]' since it cannot be completed.</text>
+              </li>
+              <li Class="QuestNode_End" />
+            </nodes>
+          </node>
+        </li>
+
+        <!-- End if asker is banished, or otherwise has their faction changed. -->
+        <li Class="QuestNode_Signal">
+          <inSignal>asker.ChangedFaction</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Fail</outcome>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <QuestScriptDef>
+    <defName>Decree_Util_Reward</defName>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_AddMemoryThought">
+          <pawn>$asker</pawn>
+          <def>DecreeMet</def>
+        </li>
+        <li Class="QuestNode_ChangeNeed">
+          <pawn>$asker</pawn>
+          <need>Authority</need>
+          <offset>0.5</offset>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>

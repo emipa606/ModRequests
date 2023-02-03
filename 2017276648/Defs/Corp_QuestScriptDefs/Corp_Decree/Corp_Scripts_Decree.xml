@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <QuestScriptDef Abstract="True" Name="Corp_DecreeBase">
+    <decreeSelectionWeight>1</decreeSelectionWeight>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <autoAccept>true</autoAccept>
+    <decreeTags>
+      <li>Corp_Corporation</li>
+    </decreeTags>
+  </QuestScriptDef>
+
+  <QuestScriptDef ParentName="Corp_DecreeBase">
+    <defName>Corp_Decree_ProduceItem</defName>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->[defToProduce_label] production decree</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[CorpdecreeIntro]
+\nYou must produce:
+\n - [thingToProduceLabel]
+\n[decreeThreatInfo]</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Corp_DecreeSetup</def>
+        </li>
+
+        <li Class="QuestNode_Set">
+          <name>decreeDays</name>
+          <value>5</value>
+        </li>
+
+        <li Class="QuestNode_GetThingPlayerCanProduce">
+          <storeProductionItemDefAs>defToProduce</storeProductionItemDefAs>
+          <storeProductionItemStuffAs>stuffToProduce</storeProductionItemStuffAs>
+          <storeProductionItemCountAs>countToProduce</storeProductionItemCountAs>
+          <storeProductionItemLabelAs>thingToProduceLabel</storeProductionItemLabelAs>
+          <workAmountRandomFactorRange>0.75~1.25</workAmountRandomFactorRange>
+          <productionItemCountRandomFactorRange>0.75~1.25</productionItemCountRandomFactorRange>
+          <maxMarketValueFactor>0.85</maxMarketValueFactor>
+          <minStuffCommonality>1</minStuffCommonality> <!-- Common stuff like steel, wood, and cloth. -->
+          <pointsToMaxItemMarketValueCurve>
+            <points>
+              <li>(300, 800)</li>
+              <li>(700, 1500)</li>
+              <li>(5000, 4000)</li>
+            </points>
+          </pointsToMaxItemMarketValueCurve>
+          <pointsToRequiredWorkCurve>
+            <points>
+              <li>(100, 20000)</li>
+              <li>(700, 40000)</li>
+              <li>(1400, 80000)</li>
+              <li>(2800, 120000)</li>
+            </points>
+          </pointsToRequiredWorkCurve>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>$($decreeDays*60000)</delayTicks>
+          <node Class="QuestNode_SituationalThought">
+            <def>DecreeUnmet</def>
+            <pawn>$asker</pawn>
+            <delayTicks>$($decreeDays*60000)</delayTicks>
+          </node>
+        </li>
+
+        <li Class="QuestNode_ThingsProduced">
+          <def>$defToProduce</def>
+          <stuff>$stuffToProduce</stuff>
+          <count>$countToProduce</count>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SubScript">
+                <def>Decree_Util_Reward</def>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>true</sendStandardLetter>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <QuestScriptDef ParentName="Corp_DecreeBase">
+    <defName>Corp_Decree_HarvestCrop</defName>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->[plantToHarvest_label] harvest decree</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[CorpdecreeIntro]
+\nYou must harvest [plantToHarvest_label] x[harvestItemCount].
+\nYou may need to plant and grow the [plantToHarvest_label] first.
+\n[decreeThreatInfo]</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Corp_DecreeSetup</def>
+        </li>
+        
+        <li Class="QuestNode_GetPlantPlayerCanHarvest">
+          <storeHarvestItemDefAs>plantToHarvest</storeHarvestItemDefAs>
+          <storeHarvestItemCountAs>harvestItemCount</storeHarvestItemCountAs>
+          <storeGrowDaysAs>growDays</storeGrowDaysAs>
+          <maxPlantGrowDays>10</maxPlantGrowDays>
+          <workRandomFactorRange>0.75~1.25</workRandomFactorRange>
+          <pointsToRequiredWorkCurve>
+            <points>
+              <li>(100, 2000)</li>
+              <li>(700, 12000)</li>
+              <li>(1400, 20000)</li>
+              <li>(2800, 40000)</li>
+            </points>
+          </pointsToRequiredWorkCurve>
+        </li>
+
+        <li Class="QuestNode_Set">
+          <name>decreeDays</name>
+          <value>$($growDays*2)</value>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>$($decreeDays*60000)</delayTicks>
+          <node Class="QuestNode_SituationalThought">
+            <def>DecreeUnmet</def>
+            <pawn>$asker</pawn>
+            <delayTicks>$($decreeDays*60000)</delayTicks>
+          </node>
+        </li>
+
+        <li Class="QuestNode_PlantsHarvested">
+          <plant>$plantToHarvest</plant>
+          <count>$harvestItemCount</count>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SubScript">
+                <def>Decree_Util_Reward</def>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+                <sendStandardLetter>true</sendStandardLetter>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>

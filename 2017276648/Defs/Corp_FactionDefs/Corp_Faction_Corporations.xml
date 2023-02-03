@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <FactionDef Name="CorpFactionBase" Abstract="True">
+    <description>A spacer-level subsidiary from another solar system that is opening up a new branch on the local rimworld, the megacorporations are an interstellar trade organization bound together not unlike the shattered empire that recently arrived.
+	\n However, where the royalty care about prestige and titles and fancy hats, the megacorporations care about one thing and one thing only - profits.  They're willing to hire and promote locals so much as the locals provide them with useful resources, services, and bodies - if not, the locals might find themselves targets of a hostile take over by this powerful faction.
+	\n Those who ally these interstellar moguls, meanwhile, will find themselves with valuable military allies and trade partners.</description>
+    <categoryTag>CORP_Corporation</categoryTag>
+	<pawnSingular>corporate employee</pawnSingular>
+    <pawnsPlural>corporate employees</pawnsPlural>
+    <settlementGenerationWeight>1</settlementGenerationWeight>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <maxCountAtGameStart>1</maxCountAtGameStart>
+    <canSiege>true</canSiege>
+    <canStageAttacks>true</canStageAttacks>
+    <leaderForceGenerateNewPawn>true</leaderForceGenerateNewPawn>
+    <factionNameMaker>CORP_NamerFactionCorporate</factionNameMaker>
+    <settlementNameMaker>CORP_NamerSettlementCorporate</settlementNameMaker>
+    <pawnNameMaker>CORP_NamerPersonCorporate</pawnNameMaker>
+    <pawnNameMakerFemale>CORP_NamerPersonCorporateFemale</pawnNameMakerFemale>
+    <techLevel>Spacer</techLevel>
+	<goodwillDailyGain>0.40</goodwillDailyGain>
+    <goodwillDailyFall>0.40</goodwillDailyFall>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>ImperialCommon</li>
+        </categories>
+		<commonality>0.05</commonality>
+		</li>
+		<li>
+        <categories>
+          <li>Outlander</li>
+        </categories>
+        <commonality>0.04</commonality>
+      </li>
+	  <li>
+        <categories>
+          <li>Offworld</li>
+        </categories>
+		<commonality>0.90</commonality>
+      </li>
+	  <li>
+        <categories>
+          <li>Pirate</li>
+        </categories>
+		<commonality>0.01</commonality>
+      </li>
+    </backstoryFilters>
+    <geneticVariance>1.0</geneticVariance>
+    <apparelStuffFilter>
+      <thingDefs>
+        <li>Synthread</li>
+        <li>Hyperweave</li>
+        <li>Plasteel</li>
+      </thingDefs>
+    </apparelStuffFilter>
+    <hairTags>
+      <li>Urban</li>
+      <li>Rural</li>
+    </hairTags>
+    <allowedArrivalTemperatureRange>-500~500</allowedArrivalTemperatureRange>
+    <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
+    <!--<minTitleForBladelinkWeapons>Knight</minTitleForBladelinkWeapons>-->
+    <royalImplantRules>
+      <li>
+        <implantHediff>Corp_Neurocomputer</implantHediff>
+        <maxLevel>1</maxLevel>
+        <minTitle>CORP_OperationsManager</minTitle>
+      </li>
+      <li>
+        <implantHediff>Corp_Neurocomputer</implantHediff>
+        <maxLevel>2</maxLevel>
+        <minTitle>CORP_GeneralManager</minTitle>
+      </li>
+      <li>
+        <implantHediff>Corp_Neurocomputer</implantHediff>
+        <maxLevel>3</maxLevel>
+        <minTitle>CORP_SeniorManager</minTitle>
+      </li>
+      <li>
+        <implantHediff>Corp_Neurocomputer</implantHediff>
+        <maxLevel>4</maxLevel>
+        <minTitle>CORP_JuniorExecutive</minTitle>
+      </li>
+      <li>
+        <implantHediff>Corp_Neurocomputer</implantHediff>
+        <maxLevel>5</maxLevel>
+        <minTitle>CORP_Executive</minTitle>
+      </li>
+    </royalImplantRules>
+    <raidCommonalityFromPointsCurve>
+      <points>
+        <li>(300,  0)</li>
+        <li>(700,  1)</li>
+        <li>(1400, 2)</li>
+        <li>(2800, 3.5)</li>
+      </points>
+    </raidCommonalityFromPointsCurve>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(500, 100)</li> <!-- Can always use relatively strong pawns, because empire doesn't really have weak ones -->
+        <li>(1000, 150)</li>
+        <li>(2000, 250)</li>
+        <li>(2001, 10000)</li>
+		<li>(3001, 100000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+    <pawnGroupMakers>
+      <li>
+        <!-- Normal fights, standard mix, mercenaries-only -->
+        <kindDef>Combat</kindDef>
+		<commonality>100</commonality>
+        <options>
+          <Corp_Trooper_Merc>20</Corp_Trooper_Merc>
+		  <Corp_Assault_Merc>15</Corp_Assault_Merc>
+		  <Corp_HeavyWeapons_Merc>10</Corp_HeavyWeapons_Merc>
+		  <Corp_Sniper_Merc>10</Corp_Sniper_Merc>
+		  <Corp_Grenadier_Smoke_Merc>1</Corp_Grenadier_Smoke_Merc>
+		  <Corp_Grenadier_EMP_Merc>1</Corp_Grenadier_EMP_Merc>
+		  <Corp_Grenadier_Destructive_Merc>5</Corp_Grenadier_Destructive_Merc>
+        </options>
+      </li>
+	  <li>
+        <!-- Normal fights, Heavy Weapons Only-->
+        <kindDef>Combat</kindDef>
+		<commonality>10</commonality>
+        <options>
+		  <Corp_HeavyWeapons_Merc>20</Corp_HeavyWeapons_Merc>
+		  <Corp_HeavyWeapons>5</Corp_HeavyWeapons>
+		  <Corp_BionicHeavyWeapons>1</Corp_BionicHeavyWeapons>
+        </options>
+      </li>
+	  <li>
+        <!-- Normal fights, SnipersWeapons Only-->
+        <kindDef>Combat</kindDef>
+		<commonality>5</commonality>
+        <options>
+		  <Corp_Sniper>10</Corp_Sniper>
+        </options>
+      </li>
+      <li>
+        <!-- Normal fights, standard mix, troopers-only -->
+        <kindDef>Combat</kindDef>
+		<commonality>50</commonality>
+        <options>
+          <Corp_Trooper>20</Corp_Trooper>
+		  <Corp_Commando>15</Corp_Commando>
+		  <Corp_Assault>15</Corp_Assault>
+		  <Corp_HeavyWeapons>10</Corp_HeavyWeapons>
+		  <Corp_Sniper>10</Corp_Sniper>
+		  <Corp_Grenadier_Smoke>1</Corp_Grenadier_Smoke>
+		  <Corp_Grenadier_EMP>1</Corp_Grenadier_EMP>
+		  <Corp_Grenadier_Destructive>5</Corp_Grenadier_Destructive>
+        </options>
+      </li>
+	  <li>
+        <!-- Normal fights, standard mix, bionics-only -->
+        <kindDef>Combat</kindDef>
+		<commonality>10</commonality>
+        <options>
+          <Corp_BionicAssault>10</Corp_BionicAssault>
+		  <Corp_BionicCommando>5</Corp_BionicCommando>
+		  <Corp_BionicHeavyWeapons>3</Corp_BionicHeavyWeapons>
+		  <Corp_BionicGrenadier_EMP>1</Corp_BionicGrenadier_EMP>
+        </options>
+      </li>
+	  <li>
+        <!-- Normal fights, standard mix -->
+        <kindDef>Combat</kindDef>
+		<commonality>5</commonality>
+        <options>
+		  <Corp_Trooper_Merc>40</Corp_Trooper_Merc>
+		  <Corp_Assault_Merc>30</Corp_Assault_Merc>
+		  <Corp_HeavyWeapons_Merc>20</Corp_HeavyWeapons_Merc>
+		  <Corp_Sniper_Merc>20</Corp_Sniper_Merc>
+		  <Corp_Grenadier_Smoke_Merc>5</Corp_Grenadier_Smoke_Merc>
+		  <Corp_Grenadier_EMP_Merc>5</Corp_Grenadier_EMP_Merc>
+		  <Corp_Grenadier_Destructive_Merc>5</Corp_Grenadier_Destructive_Merc>
+		  <Corp_Trooper>20</Corp_Trooper>
+		  <Corp_Commando>20</Corp_Commando>
+		  <Corp_Assault>20</Corp_Assault>
+		  <Corp_HeavyWeapons>5</Corp_HeavyWeapons>
+		  <Corp_Sniper>5</Corp_Sniper>
+		  <Corp_Grenadier_Smoke>1</Corp_Grenadier_Smoke>
+		  <Corp_Grenadier_EMP>1</Corp_Grenadier_EMP>
+		  <Corp_Grenadier_Destructive>1</Corp_Grenadier_Destructive>
+          <Corp_BionicAssault>5</Corp_BionicAssault>
+		  <Corp_BionicCommando>3</Corp_BionicCommando>
+		  <Corp_BionicHeavyWeapons>1</Corp_BionicHeavyWeapons>
+		  <Corp_BionicGrenadier_EMP>1</Corp_BionicGrenadier_EMP>
+        </options>
+      </li>
+	  <li>
+        <!-- Normal fights, Melee-only, bionics-only -->
+        <kindDef>Combat</kindDef>
+		<commonality>1</commonality>
+        <options>
+		  <Corp_BionicCommando>5</Corp_BionicCommando>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <Corp_Common_Trader>10</Corp_Common_Trader>
+		  <Corp_Trooper_Merc>3</Corp_Trooper_Merc>
+          <Corp_Executive_Trader>1</Corp_Executive_Trader>
+        </options>
+      </li>
+		<!-- Trader, Low-Tier -->
+		<li>
+        <kindDef>Trader</kindDef>
+		<commonality>5</commonality>
+        <traders>
+		  <Corp_Common_Trader>5</Corp_Common_Trader>
+          <Corp_Executive_Trader>1</Corp_Executive_Trader>
+        </traders>
+        <carriers>
+          <Muffalo>1</Muffalo>
+          <Alpaca>5</Alpaca>
+        </carriers>
+        <guards>
+		  <Corp_Trooper_Merc>40</Corp_Trooper_Merc>
+		  <Corp_Assault_Merc>30</Corp_Assault_Merc>
+		  <Corp_HeavyWeapons_Merc>20</Corp_HeavyWeapons_Merc>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+		<commonality>3</commonality>
+        <traders>
+		  <Corp_Common_Trader>5</Corp_Common_Trader>
+          <Corp_Executive_Trader>1</Corp_Executive_Trader>
+        </traders>
+        <carriers>
+          <Muffalo>6</Muffalo>
+          <Alpaca>5</Alpaca>
+		  <Dromedary>2</Dromedary>
+          <Elephant>1</Elephant>
+        </carriers>
+        <guards>
+		  <Corp_Trooper>20</Corp_Trooper>
+		  <Corp_Assault>15</Corp_Assault>
+		  <Corp_HeavyWeapons>10</Corp_HeavyWeapons>
+		  <!-- <Corp_Sniper>5</Corp_Sniper> -->
+		  <Corp_Commando>1</Corp_Commando>
+		  <Corp_BionicAssault>1</Corp_BionicAssault>
+        </guards>
+      </li>
+	  <!-- Trader, High-Tier -->
+      <li>
+        <kindDef>Trader</kindDef>
+		<commonality>1</commonality>
+        <traders>
+          <Corp_Executive_Trader>1</Corp_Executive_Trader>
+        </traders>
+        <carriers>
+          <Elephant>1</Elephant>
+        </carriers>
+        <guards>
+		  <Corp_BionicAssault>10</Corp_BionicAssault>
+		  <Corp_BionicCommando>1</Corp_BionicCommando>
+		  <Corp_BionicHeavyWeapons>8</Corp_BionicHeavyWeapons>
+        </guards>
+      </li>
+	  <!-- Settlement, Moderate-->
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <Corp_Executive_Trader>1</Corp_Executive_Trader>
+          <Corp_Trooper>20</Corp_Trooper>
+		  <Corp_Commando>15</Corp_Commando>
+		  <Corp_Assault>15</Corp_Assault>
+		  <Corp_HeavyWeapons>10</Corp_HeavyWeapons>
+		  <Corp_Sniper>10</Corp_Sniper>
+		  <Corp_BionicAssault>3</Corp_BionicAssault>
+		  <Corp_BionicCommando>2</Corp_BionicCommando>
+		  <Corp_BionicHeavyWeapons>1</Corp_BionicHeavyWeapons>
+        </options>
+      </li>
+	  <!-- Settlement, Important-->
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <Corp_Executive_Trader>1</Corp_Executive_Trader>
+		  <Corp_BionicAssault>10</Corp_BionicAssault>
+		  <Corp_BionicCommando>5</Corp_BionicCommando>
+		  <Corp_BionicHeavyWeapons>5</Corp_BionicHeavyWeapons>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+  
+  <FactionDef ParentName="CorpFactionBase">
+    <defName>Corp_HostileCorporation</defName>
+    <label>expansionistic megacorporation</label>
+	<!-- <categoryTag>CORP_HostileCorporation</categoryTag> -->
+    <description>This megacorporation subsidiary is not interested in trade.  They seek only to expand their influence and gather resources for trade and production elsewhere.  Locals are to be taken care of with extreme prejudice.</description>
+    <colorSpectrum>
+      <li>(0.57, 0.32, 0.26)</li>
+    </colorSpectrum>
+	<leaderTitle>chief acquisitions officer</leaderTitle>
+    <permanentEnemy>true</permanentEnemy>
+    <goodwillDailyGain>0</goodwillDailyGain><!-- Reset goodwill inherited from TribeBase->HumanFactionBase for permanent enemy -->
+    <goodwillDailyFall>0</goodwillDailyFall>
+	<listOrderPriority>1</listOrderPriority>
+	<factionIconPath>Factions/CorporateSymbolHostile</factionIconPath>
+	<fixedLeaderKinds>
+      <li>Corp_BionicLeader</li>
+    </fixedLeaderKinds>
+	<pawnGroupMakers>
+      <li>
+        <!-- Extreme Danger!! -->
+        <kindDef>Combat</kindDef>
+		<commonality>0.5</commonality>
+        <options>
+		  <Corp_BionicLeader>1</Corp_BionicLeader>
+          <Corp_BionicAssault>10</Corp_BionicAssault>
+		  <Corp_BionicCommando>3</Corp_BionicCommando>
+		  <Corp_BionicHeavyWeapons>5</Corp_BionicHeavyWeapons>
+		  <Corp_BionicGrenadier_EMP>1</Corp_BionicGrenadier_EMP>
+        </options>
+		</li>
+		<li>
+        <!-- Slaaaavesssss! -->
+        <kindDef>Combat</kindDef>
+		<commonality>.01</commonality>
+        <options>
+		  <Corp_DebtSlave>1</Corp_DebtSlave>
+        </options>
+		</li>
+	  </pawnGroupMakers>
+  </FactionDef>
+  
+  <FactionDef ParentName="CorpFactionBase">
+    <defName>CORP_Corporation</defName>
+    <label>megacorporation</label>
+	<colorSpectrum>
+      <li>(0.63, 0.70, 0.71)</li>
+    </colorSpectrum>
+    <startingGoodwill>0</startingGoodwill>
+    <naturalColonyGoodwill>0</naturalColonyGoodwill>
+	<listOrderPriority>150</listOrderPriority>
+	<leaderTitle>chief executive officer</leaderTitle>
+	<factionIconPath>Factions/CorporateSymbol</factionIconPath>
+	<royalFavorLabel>corporate favor</royalFavorLabel>
+	<fixedLeaderKinds>
+      <li>Corp_CEO</li>
+    </fixedLeaderKinds>
+	<baseTraderKinds>
+      <li>CORP_Base_Standard</li>
+    </baseTraderKinds>
+    <caravanTraderKinds>
+	  <li>CORP_Caravan_General</li>
+	  <li>Corp_Caravan_TributeCollector</li>
+	  <li>CORP_Caravan_Bulk</li>
+	  <li>CORP_Caravan_Industrial</li>
+	  <li>CORP_Caravan_Slave</li>
+	  <li>CORP_Caravan_Prosthetics</li>
+	  <li>CORP_Caravan_AdvBulk</li>
+	  <li>CORP_Caravan_Pharma</li>
+	  <li>CORP_Caravan_Combat</li>
+	  <li>CORP_Caravan_Executive</li>
+    </caravanTraderKinds>
+	<royalTitleTags>
+      <li>CorporateTitle</li>
+    </royalTitleTags>
+    <royalTitleInheritanceWorkerClass>RoyalTitleInheritanceWorker</royalTitleInheritanceWorkerClass>
+    <royalTitleInheritanceRelations>
+      <li>Child</li>
+      <li>Grandchild</li>
+      <li>GreatGrandchild</li>
+      <li>Spouse</li>
+      <li>Sibling</li>
+      <li>Cousin</li>
+    </royalTitleInheritanceRelations>
+  </FactionDef>
+
+  <!-- =============================== Names =============================== -->
+
+  <RulePackDef>
+    <defName>CORP_NamerFactionCorporate2</defName>
+    <include>
+      <li>EmpireNameUtility</li>
+    </include>
+    <rulePack>
+      <rulesStrings>
+		<!--	~950,000 different name combos! -->
+		<li>r_name->[Color][ofThing] [storeType]</li>
+		<li>r_name->[Color][ofThing] [storeType][legal]</li>
+		<li>r_name(p=.1)->[Color][ofThing].com</li>
+		<li>r_name(p=.1)->[Color][ofThing].com[legal]</li>
+
+		<li>r_name->[Colors_Badass][ofThing] [storeType]</li>
+		<li>r_name->[Colors_Badass][ofThing] [storeType][legal]</li>
+		<li>r_name(p=.1)->[Colors_Badass][ofThing].com</li>
+		<li>r_name(p=.1)->[Colors_Badass][ofThing].com[legal]</li>
+		
+		<li>r_name(p=.5)->[AdjectiveFriendly][ofThing] [storeType]</li>
+		<li>r_name(p=.5)->[AdjectiveFriendly][ofThing] [storeType][legal]</li>
+		<li>r_name(p=.5)->[AdjectiveFriendly][storeSuffix]</li>
+		<li>r_name(p=.5)->[AdjectiveFriendly][storeSuffix][legal]</li>
+		<li>r_name(p=.1)->[AdjectiveFriendly][ofThing].com</li>
+		<li>r_name(p=.1)->[AdjectiveFriendly][ofThing].com[legal]</li>
+		<li>r_name(p=.1)->[AdjectiveFriendly][storeSuffix].com</li>
+		<li>r_name(p=.1)->[AdjectiveFriendly][storeSuffix].com[legal]</li>
+		
+		<!-- <li>r_name(p=2)->[ofThing][storeSuffix]</li> -->
+		<li>r_name->[ofThing][storeSuffix][legal]</li>
+		<li>r_name(p=.1)->[ofThing][storeSuffix].com</li>
+		<li>r_name(p=.1)->[ofThing][storeSuffix].com[legal]</li>
+		<li>r_name->[ofThing][storeSuffix] [storeType]</li>
+		<li>r_name->[ofThing][storeSuffix] [storeType][legal]</li>
+		
+		<li>r_name(p=.3)->[Vegetable] [storeType]</li>
+		<li>r_name(p=.3)->[Vegetable] [storeType][legal]</li>
+		<li>r_name(p=.3)->[Vegetable][storeSuffix]</li>
+		<li>r_name(p=.3)->[Vegetable][storeSuffix][legal]</li>
+		<li>r_name(p=.1)->[Vegetable][storeSuffix].com</li>
+		<li>r_name(p=.1)->[Vegetable][storeSuffix].com[legal]</li>
+		<li>r_name(p=.3)->[Vegetable][storeSuffix] [storeType]</li>
+		<li>r_name(p=.3)->[Vegetable][storeSuffix] [storeType][legal]</li>
+		<li>r_name(p=.1)->[Gore][storeSuffix]</li>
+		<li>r_name(p=.1)->[Gore][storeSuffix][legal]</li>
+		<li>r_name(p=.1)->[Gore][storeSuffix].com</li>
+		<li>r_name(p=.1)->[Gore][storeSuffix].com[legal]</li>
+		<li>r_name(p=.1)->[Gore][storeSuffix] [storeType]</li>
+		<li>r_name(p=.1)->[Gore][storeSuffix] [storeType][legal]</li>
+		
+		<li>r_name(p=.4)->[companyName][legal]</li>
+		<li>r_name(p=.4)->[companyName] [storeType]</li>
+		<li>r_name(p=.4)->[companyName] [storeType][legal]</li>
+		<li>r_name(p=.1)->[companyName].com</li>
+		<li>r_name(p=.1)->[companyName].com[legal]</li>
+		
+		
+		
+		<!-- Stuff -->
+		
+		<!-- Legal descriptions go here; 6-->
+		<li>legal->, LLC</li>
+		<li>legal->, Inc</li>
+		<li>legal->, Incorporated</li>
+		<li>legal->, Ltd</li>
+		<li>legal->, Limited</li>
+		<li>legal-> and Co.</li>
+		
+		<!-- Company Types go here; 33 -->
+		<li>storeType->Group</li>
+		<li>storeType->Stores</li>
+		<li>storeType->Holdings</li>
+		<li>storeType->Contractors</li>
+		<li>storeType->Conglomerate</li>
+		<li>storeType->Superstores</li>
+		<li>storeType->Markets</li>
+		<li>storeType->Enterprises</li>
+		<li>storeType->Enterprise</li>
+		<li>storeType->Agency</li>
+		<li>storeType->Trading Co.</li>
+		<li>storeType->Ventures</li>
+		<li>storeType->Syndicate</li>
+		<li>storeType->Studios</li>
+		<li>storeType->Jobs</li>
+		<li>storeType->Company</li>
+		<li>storeType->Partners</li>
+		<li>storeType->Corporation</li>
+		<li>storeType->Traders</li>
+		<li>storeType->Industries</li>
+		<li>storeType->Travelers</li>
+		<li>storeType->Interplanetary</li>
+		<li>storeType->Shipping</li>
+		<li>storeType->Export Company</li>
+		<li>storeType->Import Company</li>
+		<li>storeType->Transport Company</li>
+		<li>storeType->Transit Company</li>
+		<li>storeType->Securities</li>
+		<li>storeType->Solutions</li>
+		<li>storeType->Consortium</li>
+		<li>storeType->Interstellar</li>
+		<li>storeType->Lubricants</li>
+		<li>storeType->Entertainment</li>
+		
+		<!-- Suffixes go here; 16 -->
+		<li>storeSuffix->Corp</li>
+		<li>storeSuffix->Mart</li>
+		<li>storeSuffix->Con</li>
+		<li>storeSuffix->Con</li>
+		<li>storeSuffix->Conn</li>
+		<li>storeSuffix->King</li>
+		<li>storeSuffix->Soft</li>
+		<li>storeSuffix->Queen</li>
+		<li>storeSuffix->Jack</li>
+		<li>storeSuffix->Co</li>
+		<li>storeSuffix->Co</li>
+		<li>storeSuffix->Mobil</li>
+		<li>storeSuffix->ron</li>
+		<li>storeSuffix->Ron</li>
+		<li>storeSuffix->Tech</li>
+		
+		<!-- Things Go here; 50-->
+		<li>ofThing(p=4)->Rim</li>
+		<li>ofThing->Farm</li>
+		<li>ofThing->Money</li>
+		<li>ofThing->Slave</li>
+		<li>ofThing->Gun</li>
+		<li>ofThing->Glitter</li>
+		<li>ofThing->Bigly</li>
+		<li>ofThing->Merchant</li>
+		<li>ofThing->Burger</li>
+		<li>ofThing->Dairy</li>
+		<li>ofThing->Gene</li>
+		<li>ofThing->Umbrella</li>
+		<li>ofThing->Miner</li>
+		<li>ofThing->Farmer</li>
+		<li>ofThing->Trade</li>
+		<li>ofThing->Trader</li>
+		<li>ofThing->Mine</li>
+		<li>ofThing->Star</li>
+		<li>ofThing->Sun</li>
+		<li>ofThing->Moon</li>
+		<li>ofThing->Rock</li>
+		<li>ofThing->Smokeleaf</li>
+		<li>ofThing->Yayo</li>
+		<li>ofThing->Shield</li>
+		<li>ofThing->Thrumbo</li>
+		<li>ofThing->Muffalo</li>
+		<li>ofThing->Mech</li>
+		<li>ofThing->Spacer</li>
+		<li>ofThing->Border</li>
+		<li>ofThing->Cannibal</li>
+		<li>ofThing->Murder</li>
+		<li>ofThing->Raider</li>
+		<li>ofThing->Soldier</li>
+		<li>ofThing->Void</li>
+		<li>ofThing->Sky</li>
+		<li>ofThing->Innocent</li>
+		<li>ofThing->Perfectly Legal</li>
+		<li>ofThing->Definitely Not Illegal</li>
+		<li>ofThing->Mom</li>
+		<li>ofThing->Dad</li>
+		<li>ofThing->Prison</li>
+		<li>ofThing->Freeman</li>
+		<li>ofThing->Labour</li>
+		<li>ofThing->Outlander</li>
+		<li>ofThing->Servant</li>
+		<li>ofThing->Bigman</li>
+		<li>ofThing->Smallman</li>
+		<li>ofThing->Deadman</li>
+		<li>ofThing->Venture</li>
+		<li>ofThing->Empire</li>
+		
+		<!-- Company Names go here; 45 -->
+		<li>companyName->LOL</li>
+		<li>companyName->ACME</li>
+		<li>companyName->Ermazon</li>
+		<li>companyName->Gloogle</li>
+		<li>companyName->Noogle</li>
+		<li>companyName->Ludeon</li>
+		<li>companyName->Tynan</li>
+		<li>companyName->Mehni</li>
+		<li>companyName->Crusty</li>
+		<li>companyName->Metz</li>
+		<li>companyName->Dismar</li>
+		<li>companyName->Urist</li>
+		<li>companyName->Armok</li>
+		<li>companyName->Morul</li>
+		<li>companyName->Logem</li>
+		<li>companyName->Unon</li>
+		<li>companyName->BaRKy</li>
+		<li>companyName->Pete</li>
+		<li>companyName->Potocki</li>
+		<li>companyName->Butt</li>
+		<li>companyName->iBay</li>
+		<li>companyName->Cattenmat</li>
+		<li>companyName->Lokumlektad</li>
+		<li>companyName->Kain</li>
+		<li>companyName->Opo</li>
+		<li>companyName->Exo</li>
+		<li>companyName->OMG</li>
+		<li>companyName->Booma</li>
+		<li>companyName->Doom</li>
+		<li>companyName->EA</li>
+		<li>companyName->Rich</li>
+		<li>companyName->Murica</li>
+		<li>companyName->Murican</li>
+		<li>companyName->Soylent</li>
+		<li>companyName->Neutro</li>
+		<li>companyName->Ultra</li>
+		<li>companyName->Spacer</li>
+		<li>companyName->Archo</li>
+		<li>companyName->Ermahgurd</li>
+		<li>companyName->Neutro</li>
+		<li>companyName->Medi</li>
+		<li>companyName->Bionic</li>
+		<li>companyName->Match</li>
+		<li>companyName->Ganadstot</li>
+		<li>companyName->Euneria</li>
+		
+		
+		 </rulesStrings>
+	  <rulesFiles>
+        <li>businessname->Names/Business</li>
+        <li>businesstype->Words/Nouns/BusinessTypes</li>
+      </rulesFiles>
+    </rulePack>
+  </RulePackDef>
+
+  <RulePackDef>
+    <defName>CORP_NamerSettlementCorporate2</defName>
+    <include>
+      <li>EmpireNameUtility</li>
+    </include>
+    <rulePack>
+      <rulesStrings>
+		<li>r_name->[townname_fixed_corp] [storeType]</li>
+		<li>r_name->[townname_fixed] [storeType]</li>
+	    <li>r_name->[townname_fixed_corp] [buildingtype]</li>
+		<li>r_name->[townname_fixed] [buildingtype]</li>
+		
+		<li>buildingtype->Warehouse</li>
+		<li>buildingtype->Trading Post</li>
+		<li>buildingtype->Emporium</li>
+		<li>buildingtype->Supermarket</li>
+		<li>buildingtype->Market</li>
+		<li>buildingtype->Regional Offices</li>
+		<li>buildingtype->Offices</li>
+		<li>buildingtype->Storage Facility</li>
+		<li>buildingtype->Group</li>
+		<li>buildingtype->Shipping</li>
+		<li>buildingtype->Company</li>
+		<li>buildingtype->Agencies</li>
+		<li>buildingtype->Studios</li>
+		<li>buildingtype->Partners</li>
+		<li>buildingtype->Township</li>
+		<li>buildingtype->Smuggler's Den</li>
+		<li>buildingtype->Facilities</li>
+		<li>buildingtype->Spaceport</li>
+		<li>buildingtype->Township</li>
+		<li>buildingtype->Private Estate</li>
+		<li>buildingtype->Estates</li>
+		<li>storeType->Group</li>
+		<li>storeType->Stores</li>
+		<li>storeType->Holdings</li>
+		<li>storeType->Contractors</li>
+		<li>storeType->Superstores</li>
+		<li>storeType->Markets</li>
+		<li>storeType->Enterprises</li>
+		<li>storeType->Agency</li>
+		<li>storeType->Trading Co.</li>
+		<li>storeType->Ventures</li>
+		<li>storeType->Syndicate</li>
+		<li>storeType->Studios</li>
+		<li>storeType->Company</li>
+		<li>storeType->Partners</li>
+		<li>storeType->Corporation</li>
+		<li>storeType->Traders</li>
+		<li>storeType->Industries</li>
+		<li>storeType->Travelers</li>
+		<li>storeType->Shipping</li>
+		<li>storeType->Export Company</li>
+		<li>storeType->Import Company</li>
+		<li>storeType->Transport Company</li>
+		<li>storeType->Transit Company</li>
+		<li>storeType->Securities</li>
+		<li>storeType->Solutions</li>
+		<li>storeType->Consortium</li>
+		<li>storeType->Lubricants</li>
+      </rulesStrings>
+      <rulesFiles>
+        <li>townname_fixed_corp->Names/Business</li>
+		<li>townname_fixed_corp->Names/OutlanderTown</li>
+      </rulesFiles>
+    </rulePack>
+  </RulePackDef>
+
+  <RulePackDef>
+    <defName>CORP_NamerPersonCorporate2</defName>
+    <include>
+      <li>EmpireNameUtility</li>
+    </include>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name(p=3)->[ImperialNameFirstMale] [ImperialNameLast]</li>
+        <li>r_name(p=2)->[ImperialNameFirstMale] [WordImperial]</li>
+        <li>r_name(p=2)->[WordImperial] [WordImperial]</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <RulePackDef>
+    <defName>CORP_NamerPersonCorporateFemale2</defName>
+    <include>
+      <li>EmpireNameUtility</li>
+    </include>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name(p=3)->[ImperialNameFirstFemale] [ImperialNameLast]</li>
+        <li>r_name(p=2)->[ImperialNameFirstFemale] [WordImperial]</li>
+        <li>r_name(p=2)->[WordImperial] [WordImperial]</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+</Defs>
