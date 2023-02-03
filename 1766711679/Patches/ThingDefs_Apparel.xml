@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+  <!-- Fur Coat -->
+  <!-- nerf armor multiplier from 0.35 to 0.3. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+  <!-- nerf heat insulation from 0.1 to 0. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0</value>
+  </Operation>
+  <!-- increase equip delay from 2.5 to 3.0. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/statBases/EquipDelay/text()</xpath>
+    <value>3.0</value>
+  </Operation>
+  <!-- reduce cost from 150 to 90. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/costStuffCount/text()</xpath>
+    <value>90</value>
+  </Operation>
+  <!-- reduce move speed penalty from -0.08 to -0.04. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/equippedStatOffsets/MoveSpeed/text()</xpath>
+    <value>-0.04</value>
+  </Operation>
+  <!-- reduce global work speed penalty from -0.2 to -0.02. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/equippedStatOffsets/WorkSpeedGlobal/text()</xpath>
+    <value>-0.02</value>
+  </Operation>
+  <!-- add heat insulation offset of -6. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/statBases</xpath>
+    <value>
+      <Insulation_Heat>
+        -6
+      </Insulation_Heat>
+    </value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurCoat"]/description/text()</xpath>
+    <value>A heavy coat that insulates against cold very well. Due to the amount of fabric, it is cumbersome to move while wearing it. The rustic cut and sewing makes it difficult to vent out excess heat, so beware of heatstrokes.</value>
+  </Operation>
+
+  <!--Desert Robe -->
+  <!-- nerf armor multiplier from 0.3 to 0.15. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSDesertRobe"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.15</value>
+  </Operation>
+  <!-- nerf heat insulation offset from 20 to 0. -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSDesertRobe"]/statBases/Insulation_Heat</xpath>
+  </Operation>
+  <!-- nerf cold insulation offset from 5 to 0. -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSDesertRobe"]/statBases/Insulation_Cold</xpath>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSDesertRobe"]/description/text()</xpath>
+    <value>A very light robe that prioritizes venting out accumulated heat and increasing airflow to help keep it cool, but it will not protect you from more than small cuts and scrapes due to its limited thickness.</value>
+  </Operation>
+
+  <!-- Fur Hat -->
+  <!-- reduce material cost brom 50 to 40. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/costStuffCount/text()</xpath>
+    <value>40</value>
+  </Operation>
+  <!-- nerf cold insulation from 0.5 to 0.4. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/statBases/StuffEffectMultiplierInsulation_Cold/text()</xpath>
+    <value>0.4</value>
+  </Operation>
+  <!-- add a 7% social buff. -->
+  <!-- check if equippedStatOffsets exists, add it if not. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/equippedStatOffsets</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]</xpath>
+      <value>
+        <equippedStatOffsets>
+          <SocialImpact>0.07</SocialImpact>
+        </equippedStatOffsets>
+      </value>
+    </nomatch>
+    <match Class="PatchOperationConditional">
+      <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/equippedStatOffsets/SocialImpact</xpath>
+      <nomatch Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/equippedStatOffsets</xpath>
+        <value>
+          <SocialImpact>0.1</SocialImpact>
+        </value>
+      </nomatch>
+      <match Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/equippedStatOffsets/SocialImpact/text()</xpath>
+        <value>0.07</value>
+      </match>
+    </match>
+  </Operation>
+  <!-- make Fur Hat craftable with leather if not yet defined. -->
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/stuffCategories/li[text()="Leathery"]</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/stuffCategories</xpath>
+        <value>
+          <li>Leathery</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+  <!-- add heat insulation offset of -2. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/statBases</xpath>
+    <value>
+      <Insulation_Heat>
+        -2
+      </Insulation_Heat>
+    </value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSFurHat"]/description/text()</xpath>
+    <value>A stylish hat that helps protect the wearer's head from wind and snow. The rustic cut and sewing makes it less than efficient at production costs and insulation, while the excess material can build up heat.</value>
+  </Operation>
+
+  <!-- desert head wrap -->
+  <!-- nerf heat insulation from 1.2 to 0.7. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSDesertWrap"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0.7</value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Apparel_FSDesertWrap"]/description/text()</xpath>
+    <value>A heavy head and face scarf that could get you mistaken with a raider. Where it lacks in style, it compensates with unparalleled insulation against heat.</value>
+  </Operation>
+
+  <!-- wolf hood -->
+  <!-- remove inherited RecipeUser -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/recipeMaker/recipeUsers</xpath>
+    <value>
+      <recipeUsers Inherit="False" />
+    </value>
+  </Operation>
+  <!-- increase amount of required resources -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/costList</xpath>
+  </Operation>
+  <!-- increase amount of required resources -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]</xpath>
+    <value>
+      <costStuffCount>40</costStuffCount>
+      <stuffCategories>
+        <li>Leathery</li>
+      </stuffCategories>
+    </value>
+  </Operation>
+  <!-- increase work amount to increase market value -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/statBases/WorkToMake/text()</xpath>
+    <value>21000</value>
+  </Operation>
+  <!-- adjust commonality -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/generateCommonality/text()</xpath>
+    <value>0.2</value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/description/text()</xpath>
+    <value>A head garment imbued with the mystical powers of wolves.</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.25</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/statBases/StuffEffectMultiplierInsulation_Cold/text()</xpath>
+    <value>0.25</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0.25</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_WolfHood"]/equippedStatOffsets</xpath>
+    <value>
+      <equippedStatOffsets>
+        <SocialImpact>0.10</SocialImpact>
+        <ToxicSensitivity>-0.3</ToxicSensitivity>
+        <MentalBreakThreshold>-0.05</MentalBreakThreshold>
+        <WorkSpeedGlobal>0.05</WorkSpeedGlobal>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+  <!-- deer hood -->
+  <!-- remove inherited RecipeUser -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/recipeMaker/recipeUsers</xpath>
+    <value>
+      <recipeUsers Inherit="False" />
+    </value>
+  </Operation>
+  <!-- increase amount of required resources -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/costStuffCount/text()</xpath>
+    <value>40</value>
+  </Operation>
+  <!-- increase work amount to increase market value -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/statBases/WorkToMake/text()</xpath>
+    <value>21000</value>
+  </Operation>
+  <!-- adjust commonality -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/generateCommonality/text()</xpath>
+    <value>0.2</value>
+  </Operation>
+  <!-- adjust mass -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/statBases/Mass/text()</xpath>
+    <value>1.2</value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/description/text()</xpath>
+    <value>A head garment imbued with the mystical powers of deers.</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.25</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/statBases/StuffEffectMultiplierInsulation_Cold/text()</xpath>
+    <value>0.25</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0.25</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_DeerHood"]/equippedStatOffsets</xpath>
+    <value>
+      <equippedStatOffsets>
+        <SocialImpact>0.10</SocialImpact>
+        <FoodPoisonChance>-0.2</FoodPoisonChance>
+        <TradePriceImprovement>0.1</TradePriceImprovement>
+        <NegotiationAbility>0.1</NegotiationAbility>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+  <!-- megascarab hood -->
+  <!-- rename to megascarab helm -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/label/text()</xpath>
+    <value>megascarab helm</value>
+  </Operation>
+  <!-- remove inherited RecipeUser -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/recipeMaker/recipeUsers</xpath>
+    <value>
+      <recipeUsers Inherit="False" />
+    </value>
+  </Operation>
+  <!-- increase amount of required resources -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/costStuffCount/text()</xpath>
+    <value>50</value>
+  </Operation>
+  <!-- increase work amount to increase market value -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/statBases/WorkToMake/text()</xpath>
+    <value>39960</value>
+  </Operation>
+  <!-- adjust item health -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/statBases/MaxHitPoints/text()</xpath>
+    <value>150</value>
+  </Operation>
+  <!-- adjust commonality -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/generateCommonality/text()</xpath>
+    <value>0.1</value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/description/text()</xpath>
+    <value>A helm imbued with the mystical powers of megascarabs. You can still feel the hatred and spite of the sacrificed living beings coming from it.</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.35</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/statBases/StuffEffectMultiplierInsulation_Cold/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_ScarabHood"]/equippedStatOffsets</xpath>
+    <value>
+      <equippedStatOffsets>
+        <SocialImpact>-0.1</SocialImpact>
+        <MentalBreakThreshold>0.1</MentalBreakThreshold>
+        <ImmunityGainSpeedFactor>0.1</ImmunityGainSpeedFactor>
+        <MedicalSurgerySuccessChance>0.1</MedicalSurgerySuccessChance>
+        <MedicalTendQuality>0.1</MedicalTendQuality>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+  <!-- megaspider helmet -->
+  <!-- rename to megaspider helm -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/label/text()</xpath>
+    <value>megaspider helm</value>
+  </Operation>
+  <!-- remove inherited RecipeUser -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/recipeMaker/recipeUsers</xpath>
+    <value>
+      <recipeUsers Inherit="False" />
+    </value>
+  </Operation>
+  <!-- remove fabri stuff category element -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/stuffCategories/li[text()="Fabric"]</xpath>
+  </Operation>
+  <!-- increase amount of required resources -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/costStuffCount/text()</xpath>
+    <value>50</value>
+  </Operation>
+  <!-- increase work amount to increase market value -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/statBases/WorkToMake/text()</xpath>
+    <value>39960</value>
+  </Operation>
+  <!-- adjust item health -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/statBases/MaxHitPoints/text()</xpath>
+    <value>150</value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/description/text()</xpath>
+    <value>A helm imbued with the mystical powers of megaspiders. You can still feel the hatred and spite of the sacrificed living beings coming from it.</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.35</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/statBases/StuffEffectMultiplierInsulation_Cold/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpiderHelm"]/equippedStatOffsets</xpath>
+    <value>
+      <equippedStatOffsets>
+        <SocialImpact>-0.1</SocialImpact>
+        <MentalBreakThreshold>0.1</MentalBreakThreshold>
+        <MoveSpeed>0.05</MoveSpeed>
+        <MeleeHitChance>0.05</MeleeHitChance>
+        <PainShockThreshold>0.15</PainShockThreshold>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+  <!-- spelopede helmet -->
+  <!-- remove inherited RecipeUser -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/recipeMaker/recipeUsers</xpath>
+    <value>
+      <recipeUsers Inherit="False" />
+    </value>
+  </Operation>
+  <!-- increase amount of required resources -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/costStuffCount/text()</xpath>
+    <value>50</value>
+  </Operation>
+  <!-- increase work amount to increase market value -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/statBases/WorkToMake/text()</xpath>
+    <value>39960</value>
+  </Operation>
+  <!-- adjust item health -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/statBases/MaxHitPoints/text()</xpath>
+    <value>150</value>
+  </Operation>
+  <!-- update description -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/description/text()</xpath>
+    <value>A helm imbued with the mystical powers of spelopedes. You can still feel the hatred and spite of the sacrificed living beings coming from it.</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/statBases/StuffEffectMultiplierArmor/text()</xpath>
+    <value>0.35</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/statBases/StuffEffectMultiplierInsulation_Cold/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/statBases/StuffEffectMultiplierInsulation_Heat/text()</xpath>
+    <value>0.3</value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="ET_Apparel_SpelHelm"]/equippedStatOffsets</xpath>
+    <value>
+      <equippedStatOffsets>
+        <SocialImpact>-0.1</SocialImpact>
+        <MentalBreakThreshold>0.1</MentalBreakThreshold>
+        <MeleeDodgeChance>0.05</MeleeDodgeChance>
+        <ShootingAccuracyPawn>1.2</ShootingAccuracyPawn>
+        <AimingDelayFactor>-0.05</AimingDelayFactor>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+</Patch>
