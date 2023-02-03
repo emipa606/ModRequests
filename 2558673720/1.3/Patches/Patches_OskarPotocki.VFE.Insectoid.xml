@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Factions Expanded - Insectoids</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+
+				<!-- Makes all insects from VFE-Insectoids tameable -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Queen" or defName="VFEI_Insectoid_RoyalMegaspider" or defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede" or defName="VFEI_Insectoid_Larvae"]/comps/li[@Class="AnimalBehaviours.CompProperties_Untameable"]</xpath>
+				</li>
+
+				<!-- Gives all insects from VFE-Insectoids the insect trade tag -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Queen" or defName="VFEI_Insectoid_RoyalMegaspider" or defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede" or defName="VFEI_Insectoid_Larvae"]</xpath>
+					<value>
+						<tradeTags>
+							<li>AnimalInsect</li>
+						</tradeTags>
+					</value>
+				</li>
+
+				<!-- Gives gigalocusts, megapedes, royal megaspiders, and queens advanced trainability -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Queen" or defName="VFEI_Insectoid_RoyalMegaspider" or defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede"]/race</xpath>
+					<value>
+						<trainability>Advanced</trainability>
+					</value>
+				</li>
+
+				<!-- Adds mating frequency and litter size for gigalocusts and megapedes -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede"]/race</xpath>
+					<value>
+						<mateMtbHours>8</mateMtbHours>
+						<gestationPeriodDays>6</gestationPeriodDays>
+						<litterSizeCurve>
+							<points>
+								<li>(1.0, 0)</li>
+								<li>(1.5, 1)</li>
+								<li>(3.0, 1)</li>
+								<li>(3.5, 0)</li>
+							</points>
+						</litterSizeCurve>
+					</value>
+				</li>
+
+				<!-- Allows gigalocusts and megapedes to have genders -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede"]/race/hasGenders</xpath>
+					<value>
+						<hasGenders>true</hasGenders>
+					</value>
+				</li>
+
+				<!-- Changes wildness of gigalocusts and megapedes -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede"]/race/wildness</xpath>
+					<value>
+						<wildness>0.5</wildness>
+					</value>
+				</li>
+
+				<!-- Changes wildness of larvae -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Larvae"]/race/wildness</xpath>
+					<value>
+						<wildness>0.1</wildness>
+					</value>
+				</li>
+
+				<!-- Gives gigalocusts, megapedes, and royal megaspiders the ability to scare away enemies -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Gigalocust" or defName="VFEI_Insectoid_Megapede" or defName="VFEI_Insectoid_RoyalMegaspider"]/comps</xpath>
+					<value>
+						<li Class="ImprovedInsectoids.CompProperties_MentalStatePusher">
+							<mentalState>PanicFlee</mentalState>
+							<radius>8</radius>
+							<chance>0.16</chance>
+							<tickInterval>1000</tickInterval>
+							<exceptionForPlayerFaction>Wander_OwnRoom</exceptionForPlayerFaction>
+						</li>
+					</value>
+				</li>
+
+				<!-- Gives queens the ability to scare away enemies -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VFEI_Insectoid_Queen"]/comps</xpath>
+					<value>
+						<li Class="ImprovedInsectoids.CompProperties_MentalStatePusher">
+							<mentalState>PanicFlee</mentalState>
+							<radius>10</radius>
+							<chance>0.20</chance>
+							<tickInterval>1000</tickInterval>
+							<exceptionForPlayerFaction>Wander_OwnRoom</exceptionForPlayerFaction>
+						</li>
+					</value>
+				</li>
+				
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>

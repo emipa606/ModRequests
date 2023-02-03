@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Animals Expanded — Caves</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+
+				<!-- Makes cave crawlers, insectoid hulks, and ancient giant spiders tameable -->
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ThingDef[defName="VAECaves_CaveCrawler" or defName="VAECaves_InsectoidHulk" or defName="VAECaves_AncientGiantSpider"]/comps/li[@Class="AnimalBehaviours.CompProperties_Untameable"]</xpath>
+				</li>
+
+
+				<!-- Adds giant spider eggs -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="EggUnfertBase">
+							<defName>Egg_VAECaves_GiantSpider_Unfertilized</defName>
+							<label>giant spider egg (unfert.)</label>
+						    <description>An unfertilized giant spider egg. It can be eaten raw, but it's much, much better cooked.</description>
+						    <statBases>
+						      	<MarketValue>14.0</MarketValue>
+						    </statBases>
+							<graphicData>
+								<texPath>Things/Item/Resource/VAE_EggBeetle</texPath>
+						      	<color>(228,185,135)</color>
+							</graphicData>
+						</ThingDef>
+
+						<ThingDef ParentName="EggFertBase">
+					    	<defName>Egg_VAECaves_GiantSpider_Fertilized</defName>
+					    	<label>giant spider egg (fert.)</label>
+					    	<description>A fertilized giant spider egg. If all goes well, it should hatch into a giant spider hatchling. It can be eaten raw, but it's much better cooked.</description>
+					    	<graphicData>
+								<texPath>Things/Item/Resource/VAE_EggBeetle</texPath>
+					      		<color>(245,245,245)</color>
+					    	</graphicData>
+					    	<statBases>
+					      		<MarketValue>35.0</MarketValue>
+					    	</statBases>
+					    	<comps>
+					      		<li Class="CompProperties_Hatcher">
+					        		<hatcherDaystoHatch>8</hatcherDaystoHatch>
+					        		<hatcherPawn>VAECaves_GiantSpiderHatchling</hatcherPawn>
+					      		</li>
+					    	</comps>
+						</ThingDef>
+					</value>
+				</li>
+
+				<!-- Makes regular giant spiders lay eggs -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="VAECaves_GiantSpider"]/comps</xpath>
+					<value>
+				      	<li Class="CompProperties_EggLayer">
+					        <eggUnfertilizedDef>Egg_VAECaves_GiantSpider_Unfertilized</eggUnfertilizedDef>
+					        <eggFertilizedDef>Egg_VAECaves_GiantSpider_Fertilized</eggFertilizedDef>
+					        <eggFertilizationCountMax>10</eggFertilizationCountMax>
+					        <eggLayIntervalDays>4</eggLayIntervalDays>
+					        <eggCountRange>6~10</eggCountRange>
+		      			</li>
+	      			</value>
+	      		</li>
+
+				<!-- Reduces wildness of cave crawlers and giant spiders -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="VAECaves_CaveCrawler" or defName="VAECaves_GiantSpider"]/race/wildness</xpath>
+					<value>
+						<wildness>0.85</wildness>
+					</value>
+				</li>
+
+				<!-- Gives cave crawlers and giant spiders fear-inducing ability -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="VAECaves_CaveCrawler" or defName="VAECaves_GiantSpider"]/comps</xpath>
+					<value>
+						<li Class="ImprovedInsectoids.CompProperties_MentalStatePusher">
+							<mentalState>PanicFlee</mentalState>
+							<radius>8</radius>
+							<chance>0.16</chance>
+							<tickInterval>1000</tickInterval>
+							<exceptionForPlayerFaction>Wander_OwnRoom</exceptionForPlayerFaction>
+						</li>
+					</value>
+				</li>
+
+				<!-- Reduces wildness of giant spider hatchlings -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="VAECaves_GiantSpiderHatchling"]/race/wildness</xpath>
+					<value>
+						<wildness>0.30</wildness>
+					</value>
+				</li>
+
+				<!-- Reduces wildness of insectoid hulks -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="VAECaves_InsectoidHulk"]/race/wildness</xpath>
+					<value>
+						<wildness>0.90</wildness>
+					</value>
+				</li>
+
+				<!-- Reduces wildness of ancient giant spiders -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="VAECaves_AncientGiantSpider"]/race/wildness</xpath>
+					<value>
+						<wildness>0.95</wildness>
+					</value>
+				</li>
+
+				<!-- Gives ancient giant spiders and insectoid hulks fear-inducing ability -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="VAECaves_AncientGiantSpider" or defName="VAECaves_InsectoidHulk"]/comps</xpath>
+					<value>
+						<li Class="ImprovedInsectoids.CompProperties_MentalStatePusher">
+							<mentalState>PanicFlee</mentalState>
+							<radius>10</radius>
+							<chance>0.20</chance>
+							<tickInterval>1000</tickInterval>
+							<exceptionForPlayerFaction>Wander_OwnRoom</exceptionForPlayerFaction>
+						</li>
+					</value>
+				</li>
+
+				<!-- Allows ancient giant spiders to eat regular food -->
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ThingDef[defName="VAECaves_AncientGiantSpider"]/comps/li[@Class="AnimalBehaviours.CompProperties_EatWeirdFood"]</xpath>
+				</li>
+
+				<!-- Makes ancient giant spiders use the default ThinkTree -->
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ThingDef[defName="VAECaves_AncientGiantSpider"]/race/thinkTreeMain</xpath>
+				</li>
+
+				<!-- Allows harvesting of VFEI spidersilk from ancient and regular giant spiders if spidersilk exists -->
+				<li Class="PatchOperationConditional">
+					<xpath>/Defs/ThingDef[defName="VFEI_Spidersilk"]</xpath>
+					<match Class="PatchOperationAdd">
+						<xpath>/Defs/ThingDef[defName="VAECaves_AncientGiantSpider" or defName="VAECaves_GiantSpider"]/comps</xpath>
+						<value>
+							<li Class="CompProperties_Shearable">
+						        <woolDef>VFEI_Spidersilk</woolDef>
+						        <shearIntervalDays>3</shearIntervalDays>
+						        <woolAmount>10</woolAmount>
+					        </li>
+					    </value>
+					</match>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>

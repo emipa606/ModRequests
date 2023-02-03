@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Save Our Ship 2</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+
+				<!-- Prevents astromites from reproducing -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="Astromite"]/race/lifeStageAges/li[def="EusocialInsectAdult"]/def</xpath>
+					<value>
+						<def>EusocialInsectAdultInfertile</def>
+					</value>
+				</li>
+
+				<!-- Adds litter size for cosmopillars -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Cosmopillar"]/race</xpath>
+					<value>
+						<mateMtbHours>8</mateMtbHours>
+						<litterSizeCurve>
+							<points>
+								<li>(1.5, 0)</li>
+								<li>(2.0, 1)</li>
+								<li>(4.0, 1)</li>
+								<li>(4.5, 0)</li>
+							</points>
+						</litterSizeCurve>
+					</value>
+				</li>
+
+				<!-- Adds litter size for stellapedes -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Stellapede"]/race</xpath>
+					<value>
+						<mateMtbHours>8</mateMtbHours>
+						<litterSizeCurve>
+							<points>
+								<li>(2.5, 0)</li>
+								<li>(3.0, 0.5)</li>
+								<li>(5.0, 1)</li>
+								<li>(5.5, 0)</li>
+							</points>
+						</litterSizeCurve>
+					</value>
+				</li>
+
+				<!-- Gives stellapedes and cosmopillars the ability to scare away enemies -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Stellapede" or defName="Cosmopillar"]</xpath>
+					<value>
+						<comps>
+							<li Class="ImprovedInsectoids.CompProperties_MentalStatePusher">
+								<mentalState>PanicFlee</mentalState>
+								<radius>8</radius>
+								<chance>0.16</chance>
+								<tickInterval>1000</tickInterval>
+								<exceptionForPlayerFaction>Wander_OwnRoom</exceptionForPlayerFaction>
+							</li>
+						</comps>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>
