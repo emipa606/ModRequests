@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+
+    <ThingDef ParentName="PlantBaseNonEdible">
+        <defName>Plant_AnimaFruit</defName>
+        <label>Anima fruit</label>
+        <description>Anima fruit that grows near Anima trees. Consuming it gives extra psychic sensitivity.</description>
+        <drawerType>MapMeshAndRealTime</drawerType>
+        <graphicData>
+            <texPath>AnimaFruit_Grow/AnimaFruit_GrowA</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <MaxHitPoints>100</MaxHitPoints>
+        </statBases>
+        <descriptionHyperlinks>
+            <ThingDef>Plant_TreeAnima</ThingDef>
+        </descriptionHyperlinks>
+        <selectable>true</selectable>
+        <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+        <plant>
+            <harvestMinGrowth>0.99</harvestMinGrowth>
+            <harvestYield>1</harvestYield>
+            <harvestYieldAffectedByDifficulty>false</harvestYieldAffectedByDifficulty>
+            <harvestTag>Standard</harvestTag>
+            <harvestedThingDef>AnimaFruit</harvestedThingDef>
+            <harvestFailable>false</harvestFailable>
+            <fertilityMin>0.05</fertilityMin>
+            <fertilitySensitivity>0</fertilitySensitivity>
+            <sowMinSkill>0</sowMinSkill>
+            <growDays>30</growDays>
+            <visualSizeRange>0.5~0.7</visualSizeRange>
+            <topWindExposure>0.15</topWindExposure>
+            <wildClusterWeight>0</wildClusterWeight>
+            <maxMeshCount>1</maxMeshCount>
+            <purpose>Misc</purpose>
+            <allowAutoCut>false</allowAutoCut>
+            <dieFromToxicFallout>False</dieFromToxicFallout>
+        </plant>
+        <comps>
+            <li Class="AnimaFruit.CompProperties_MutlipleLifeStagesForPlant">
+                <GraphicsA>AnimaFruit_Grow/AnimaFruit_GrowA</GraphicsA>
+                <GraphicsB>AnimaFruit_Grow/AnimaFruit_GrowB</GraphicsB>
+                <GraphicsC>AnimaFruit_Grow/AnimaFruit_GrowC</GraphicsC>
+                <GraphicsD>AnimaFruit_Grow/AnimaFruit_GrowD</GraphicsD>
+                <StageB>0.33</StageB>
+                <StageC>0.66</StageC>
+                <StageD>1</StageD>
+            </li>
+        </comps>
+    </ThingDef>
+
+    <ThingDef>
+        <defName>AnimaFruit</defName>
+        <label>anima fruit</label>
+        <description>Anima fruit that grows near Anima trees. Consuming it gives extra psychic sensitivity.</description>
+        <descriptionHyperlinks>
+            <HediffDef>PsychicAmplifier</HediffDef>
+        </descriptionHyperlinks>
+        <thingClass>ThingWithComps</thingClass>
+        <category>Item</category>
+        <drawerType>MapMeshOnly</drawerType>
+        <techLevel>Neolithic</techLevel>
+        <useHitPoints>true</useHitPoints>
+        <pathCost>14</pathCost>
+        <selectable>true</selectable>
+        <altitudeLayer>Item</altitudeLayer>
+        <tickerType>Never</tickerType>
+        <alwaysHaulable>true</alwaysHaulable>
+        <stackLimit>25</stackLimit>
+        <drawGUIOverlay>true</drawGUIOverlay>
+        <resourceReadoutPriority>Middle</resourceReadoutPriority>
+        <thingCategories>
+            <li>Items</li>
+        </thingCategories>
+        <statBases>
+            <MaxHitPoints>100</MaxHitPoints>
+            <MarketValue>1200</MarketValue>
+            <Mass>0.2</Mass>
+            <DeteriorationRate>2.0</DeteriorationRate>
+            <Flammability>1</Flammability>
+            <Nutrition>0.6</Nutrition>
+        </statBases>
+        <graphicData>
+            <texPath>Things/AnimaFruit</texPath>
+            <graphicClass>Graphic_StackCount</graphicClass>
+            <drawSize>0.62</drawSize>
+        </graphicData>
+        <tradeTags>
+            <li>ExoticMisc</li>
+        </tradeTags>
+        <ingestible>
+            <foodType>VegetableOrFruit</foodType>
+            <preferability>DesperateOnly</preferability>
+            <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+            <joyKind>Chemical</joyKind>
+            <joy>0.40</joy>
+            <drugCategory>None</drugCategory>
+            <outcomeDoers>
+                <li Class="IngestionOutcomeDoer_GiveHediff">
+                    <hediffDef>AnimaFruitEffect</hediffDef>
+                    <severity>1.0</severity>
+                </li>
+            </outcomeDoers>
+        </ingestible>
+        <comps>
+            <li Class="CompProperties_Forbiddable" />
+        </comps>
+    </ThingDef>
+
+    <HediffDef>
+        <defName>AnimaFruitEffect</defName>
+        <label>under effect of anima fruit</label>
+        <labelNoun>an anima fruit effect</labelNoun>
+        <description>Juices of anima fruit greatly increase psychic sensitivity after injesting. It also increases the psyfocus gains from meditation.</description>
+        <hediffClass>Hediff_High</hediffClass>
+        <defaultLabelColor>(100,0,255)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <maxSeverity>5.0</maxSeverity>
+        <isBad>false</isBad>
+        <stages>
+            <li>
+                <minSeverity>1.0</minSeverity>
+                <statOffsets>
+                    <MeditationFocusGain>0.05</MeditationFocusGain>
+                    <PsychicSensitivity>0.5</PsychicSensitivity>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>2.0</minSeverity>
+                <statOffsets>
+                    <MeditationFocusGain>0.09</MeditationFocusGain>
+                    <PsychicSensitivity>0.9</PsychicSensitivity>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>3.0</minSeverity>
+                <statOffsets>
+                    <MeditationFocusGain>0.13</MeditationFocusGain>
+                    <PsychicSensitivity>1.3</PsychicSensitivity>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>4.0</minSeverity>
+                <statOffsets>
+                    <MeditationFocusGain>0.15</MeditationFocusGain>
+                    <PsychicSensitivity>1.5</PsychicSensitivity>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>5.0</minSeverity>
+                <statOffsets>
+                    <MeditationFocusGain>0.16</MeditationFocusGain>
+                    <PsychicSensitivity>1.6</PsychicSensitivity>
+                </statOffsets>
+            </li>
+        </stages>
+    </HediffDef>
+
+</Defs>

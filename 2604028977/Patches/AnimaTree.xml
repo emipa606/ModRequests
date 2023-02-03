@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/comps</xpath>
+		<value>
+			<li Class="CompProperties_SpawnSubplant">
+				<compClass>AnimaFruit.CompSpawnAnimaFruit</compClass>
+				<subplant>Plant_AnimaFruit</subplant>
+				<maxRadius>3.5</maxRadius>
+				<subplantSpawnDays>0.1</subplantSpawnDays>
+				<minGrowthForSpawn>0.03</minGrowthForSpawn>
+				<initialGrowthRange>0.01~0.05</initialGrowthRange>
+				<canSpawnOverPlayerSownPlants>false</canSpawnOverPlayerSownPlants>
+				<plantsToNotOverwrite>
+					<li MayRequire="Ludeon.RimWorld.Ideology">Plant_TreeGauranlen</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">Plant_PodGauranlen</li>
+				</plantsToNotOverwrite>
+				<maxPlants>1</maxPlants>
+			</li>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]</xpath>
+		<value>
+			<tickerType>Normal</tickerType>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/comps/li[compClass="CompSpawnSubplant"]/plantsToNotOverwrite</xpath>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/comps/li[compClass="CompSpawnSubplant"]/plantsToNotOverwrite</xpath>
+				<value>
+					<li>Plant_AnimaFruit</li>
+				</value>
+		</match>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/comps/li[compClass="CompSpawnSubplant"]</xpath>
+			<value>
+				<plantsToNotOverwrite>
+					<li>Plant_AnimaFruit</li>
+				</plantsToNotOverwrite>
+			</value>
+		</nomatch>
+	</Operation>
+</Patch>
