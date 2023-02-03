@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--============= Main colonist behavior core ============-->
+  
+  <ThinkTreeDef>
+    <defName>RobotColonistBehaviorCore</defName>
+    <thinkRoot Class="ThinkNode_Tagger">
+      <tagToGive>SatisfyingNeeds</tagToGive> <!-- note that JobGiver_Work will assign its own tag -->
+      <subNodes>
+        <li Class="ThinkNode_PrioritySorter">
+          <subNodes>
+            <li Class="JobGiver_GetRest"/>
+            <li Class="JobGiver_MoveDrugsToInventory"/>
+            <li Class="JobGiver_MeditateInBed"/>
+            <li Class="ThinkNode_Priority_GetJoy">
+              <subNodes>
+                <li Class="JobGiver_GetJoy"/>
+                <li Class="JobGiver_GetJoyInBed"/>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_Meditate"/>
+            <li Class="JobGiver_Reload"/>
+            <li Class="JobGiver_Work"/>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <!--============= Main wild man behavior core ============-->
+  
+  <ThinkTreeDef>
+    <defName>RobotWildManBehaviorCore</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Leave the colony -->
+        <li Class="ThinkNode_ConditionalWildManNeedsToReachOutside">
+          <subNodes>
+            <li Class="JobGiver_ReachOutside" />
+          </subNodes>
+        </li>
+
+        <!-- Drop random gear or apparel -->
+        <li Class="ThinkNode_ChancePerHour_Constant">
+          <mtbHours>10</mtbHours>
+          <subNodes>
+            <li Class="JobGiver_DropRandomGearOrApparel"/>
+          </subNodes>
+        </li>
+
+        <!-- Satisfy needs -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>SatisfyingNeeds</tagToGive>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest"/>
+                <li Class="ThinkNode_Priority_GetJoy">
+                  <subNodes>
+                    <li Class="JobGiver_GetJoy"/>
+                  </subNodes>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+
+
+  
+
+
+
+  <!--============= Mental states (non-critical) ============-->
+
+  <ThinkTreeDef>
+    <defName>RobotMentalStateNonCritical</defName>
+    <thinkRoot Class="ThinkNode_Tagger">
+      <tagToGive>InMentalState</tagToGive>
+      <subNodes>
+        <!-- Various wanders  -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>Wander_Psychotic</state>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>Wander_Sad</state>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>WanderConfused</state>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Hide in room -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>Wander_OwnRoom</state>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderOwnRoom">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Manhunter -->
+        <li Class="ThinkNode_ConditionalMentalStateClass">
+          <stateClass>MentalState_Manhunter</stateClass>
+          <subNodes>
+            <li Class="ThinkNode_Priority">
+              <subNodes>
+                <li Class="ThinkNode_PrioritySorter">
+                  <subNodes>
+                  </subNodes>
+                </li>
+                <li Class="JobGiver_Manhunter" />
+                <li Class="JobGiver_WanderAnywhere">
+                  <maxDanger>Deadly</maxDanger>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Panic flee -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>PanicFlee</state>
+          <subNodes>
+            <li Class="JobGiver_ExitMapPanic" />
+            <li Class="JobGiver_WanderAnywhere">
+              <!-- Can happen if there is no way to exit the map -->
+              <maxDanger>Some</maxDanger>
+              <locomotionUrgency>Jog</locomotionUrgency>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Give up and leave -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>GiveUpExit</state>
+          <subNodes>
+            <li Class="JobGiver_ExitMapRandom">
+              <defaultLocomotion>Walk</defaultLocomotion>
+            </li>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+          
+        <!-- Fire starting spree -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>FireStartingSpree</state>
+          <subNodes>
+            <li Class="JobGiver_FireStartingSpree" />
+          </subNodes>
+        </li>
+
+        <!-- Insulting spree -->
+        <li Class="ThinkNode_ConditionalMentalStateClass">
+          <stateClass>MentalState_InsultingSpree</stateClass>
+          <subNodes>
+            <li Class="JobGiver_InsultingSpree" />
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+
+        <!-- Tantrum -->
+        <li Class="ThinkNode_ConditionalMentalStateClass">
+          <stateClass>MentalState_Tantrum</stateClass>
+          <subNodes>
+            <li Class="JobGiver_Tantrum" />
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+
+        <!-- Corpse obsession -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>CorpseObsession</state>
+          <subNodes>
+            <li Class="JobGiver_HaulCorpseToPublicPlace" />
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+
+        <!-- Jailbreaker -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>Jailbreaker</state>
+          <subNodes>
+            <li Class="JobGiver_InducePrisonerToEscape" />
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+
+        <!-- Slaughterer -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>Slaughterer</state>
+          <subNodes>
+            <li Class="JobGiver_SlaughterRandomAnimal" />
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+
+        <!-- Murderous rage -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>MurderousRage</state>
+          <subNodes>
+            <li Class="JobGiver_MurderousRage" />
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="JobGiver_GetRest">
+                  <maxLevelPercentage>0.15</maxLevelPercentage>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <!--============= Satisfy basic needs ============-->
+  
+  <ThinkTreeDef>
+    <defName>RobotSatisfyBasicNeeds</defName>
+    <thinkRoot Class="ThinkNode_Tagger">
+      <tagToGive>SatisfyingNeeds</tagToGive>
+      <subNodes>
+        <li Class="ThinkNode_PrioritySorter">
+          <subNodes>
+            <li Class="JobGiver_GetRest"/>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef> 
+  
+  <!--============= Satisfy basic needs and work ============-->
+  
+  <ThinkTreeDef>
+    <defName>RobotSatisfyBasicNeedsAndWork</defName>
+    <thinkRoot Class="ThinkNode_Tagger">
+      <tagToGive>SatisfyingNeeds</tagToGive> <!-- note that JobGiver_Work will assign its own tag -->
+      <subNodes>
+        <li Class="ThinkNode_PrioritySorter">
+          <subNodes>
+            <li Class="JobGiver_GetRest"/>
+            <li Class="JobGiver_Work"/>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef> 
+  
+  <!--============= Satisfy very urgent needs ============-->
+  
+  <ThinkTreeDef>
+    <defName>RobotSatisfyVeryUrgentNeeds</defName>
+    <thinkRoot Class="ThinkNode_Tagger">
+      <tagToGive>SatisfyingNeeds</tagToGive>
+      <subNodes>
+        <li Class="ThinkNode_PrioritySorter">
+          <subNodes>
+            <li Class="JobGiver_GetRest">
+              <minCategory>VeryTired</minCategory>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef> 
+  
+
+
+
+</Defs>
