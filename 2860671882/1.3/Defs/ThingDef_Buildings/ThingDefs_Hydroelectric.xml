@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef ParentName="BasedWaterTower" DBHLite="true">
+		<defName>HydroElectricBattery</defName>
+		<label>hydroelectric battery</label>
+		<description>A huge water tower with an inbuilt turbine. Should your colony run low on power, draining this tower will provide 1000w.</description>
+		<graphicData>
+			<texPath>Buildings/WaterTower/HydroelectricWaterTower</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(3,4)</drawSize>
+			<damageData>
+				<rect>(0.05,0.05,0.95,0.95)</rect>
+			</damageData>
+		</graphicData>
+		<size>(3,3)</size>
+		<comps>
+			<!-- This contains all the same values as the base water tower properties -->
+			<!-- Water out is used when the tower is draining. It represents the amount lost per second (At default speed).-->
+			<li Class="DBHExtension.HydroElectricWaterStorageProperties">
+				<WaterStorageCap>50000</WaterStorageCap>
+				<waterOut>10</waterOut>
+			</li>
+			
+			<!--To make it a power generator, add this block.-->
+			<!-- basePowerConsumption can be changed to change the output while draining; You just need to make sure it is negative to provide output.--> 
+			<li Class="CompProperties_Power">
+				<compClass>DBHExtension.HydroElectricPowerPlant</compClass>
+				<basePowerConsumption>-1000</basePowerConsumption>
+				<transmitsPower>true</transmitsPower>
+			</li>
+		</comps>
+		<costList>
+			<Steel>200</Steel>
+			<ComponentIndustrial>3</ComponentIndustrial>
+		</costList>
+		<statBases>
+			<MaxHitPoints>150</MaxHitPoints>
+			<WorkToBuild>5000</WorkToBuild>
+			<Flammability>0.0</Flammability>
+		</statBases>
+		<researchPrerequisites>
+			<li MayRequire="dbhlitemode">LargeWaterPumps</li>
+		</researchPrerequisites>
+	</ThingDef>
+</Defs>
