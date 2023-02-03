@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<PawnKindDef>
+    <defName>ShuttleHeavyHoverBorg</defName>
+    <label>Heavy Cargo Shuttle (hover mode)</label>
+    <race>ShuttleHeavyRaceBorg</race>
+	<combatPower>999999</combatPower>
+	<isFighter>false</isFighter>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <aiAvoidCover>true</aiAvoidCover>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Borg/Items/spherehov</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>5</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+
+    <!--weaponMoney>9999~9999</weaponMoney-->
+    <!--weaponTags>
+      <li>MechanoidGunHeavy</li>
+    </weaponTags-->
+  </PawnKindDef>
+  
+    <ThingDef ParentName="BaseShuttle">
+    <defName>ShuttleHeavyRaceBorg</defName>
+    <label>Borg Sphere (hover)</label>
+    <description>A Borg Sphere set to hover mode, allowing it to be used as part of a caravan.</description>
+    <statBases>
+      <MoveSpeed>10</MoveSpeed>
+	  <Mass>1000</Mass>
+      <CarryingCapacity>2000</CarryingCapacity>
+      <ArmorRating_Blunt>0.1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.3</ArmorRating_Sharp>
+      <MeatAmount>0</MeatAmount>
+      <MarketValue>10000</MarketValue>
+    </statBases>
+
+    <race>
+      <intelligence>Animal</intelligence>
+      <thinkTreeMain>ShuttleThinkTree</thinkTreeMain>
+      <body>SoSShuttlecraft</body>
+      <baseBodySize>4.0</baseBodySize>
+      <baseHealthScale>4.0</baseHealthScale>
+		<packAnimal>true</packAnimal>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Centipede_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centipede_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centipede_Call</soundCall>
+        </li>
+      </lifeStageAges>
+	  <ageGenerationCurve>
+        <points>
+          <li>(0,0)</li>
+		  <li>(0.001,100)</li>
+		  <li>(0.01,0)</li>
+        </points>
+      </ageGenerationCurve>
+      <soundCallIntervalRange>
+        <min>9999</min>
+        <max>9999</max>
+      </soundCallIntervalRange>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+    </race>
+    <butcherProducts>
+      <BorgOrgSub>336</BorgOrgSub>
+      <Plasteel>336</Plasteel>
+      <ComponentIndustrial>24</ComponentIndustrial>
+    </butcherProducts>
+	<comps>
+		<li Class="CompProperties_Refuelable">
+			<fuelCapacity>200.0</fuelCapacity>
+			<initialConfigurableTargetFuelLevel>100</initialConfigurableTargetFuelLevel>
+			<targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+			<fuelConsumptionRate>12.0</fuelConsumptionRate>
+			<fuelFilter>
+				<thingDefs>
+					<li>BorgOrgSub</li>
+				</thingDefs>
+			</fuelFilter>
+			<consumeFuelOnlyWhenUsed>false</consumeFuelOnlyWhenUsed>
+		</li>
+		<li Class="CompProperties_BecomeBuilding">
+			<buildingDef>HeavyShuttleBorg</buildingDef>
+			<fuelPerTile>1.75</fuelPerTile>
+			<skyfaller>ShuttleIncomingHeavyBorg</skyfaller>
+		</li>
+	</comps>
+  </ThingDef>
+
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>ShuttleIncomingHeavyBorg</defName>
+    <label>shuttle (incoming)</label>
+	<thingClass>DropPodIncoming</thingClass>
+    <graphicData>
+      <texPath>Things/Borg/Items/spherehov</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>5</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(5, 5)</shadowSize>
+      <anticipationSound>DropPod_Fall</anticipationSound>
+      <anticipationSoundTicks>100</anticipationSoundTicks>
+      <motesPerCell>0</motesPerCell>
+    </skyfaller>
+  </ThingDef>
+  
+    <ThingDef ParentName="SkyfallerBase">
+    <defName>HeavyCargoShuttleSkyfallerBorg</defName>
+    <label>shuttle (leaving)</label>
+	<thingClass>DropPodLeaving</thingClass>
+    <graphicData>
+      <texPath>Things/Borg/Items/spherehov</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>5</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <reversed>true</reversed>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(5, 5)</shadowSize>
+      <anticipationSound>DropPod_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange><min>-40</min><max>-15</max></ticksToImpactRange>
+    </skyfaller>
+  </ThingDef>
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>HeavyShuttleBorg</defName>
+    <label>Borg Sphere</label>
+    <thingClass>Building</thingClass>
+    <description>A reusable Borg Sphere powered by uranium substrate. Can carry tonnes of cargo.</description>
+    <graphicData>
+      <texPath>Things/Borg/Items/sphere</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(5,5)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <designationCategory>Ship</designationCategory>
+	<building>
+      <hasFuelingPort>true</hasFuelingPort>
+    </building>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <WorkToBuild>20000</WorkToBuild>
+      <Flammability>0</Flammability>
+	  <Mass>1000</Mass>
+    </statBases>
+    <costList>
+      <Plasteel>120</Plasteel>
+	  <BorgOrgSub>480</BorgOrgSub>
+      <ComponentIndustrial>16</ComponentIndustrial>
+	  <ComponentSpacer>6</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Transporter">
+		<massCapacity>2000</massCapacity>
+	  </li>
+      <li Class="CompProperties_ShuttleLaunchable">
+		<fuelPerTile>1.75</fuelPerTile>
+		<skyfaller>HeavyCargoShuttleSkyfallerBorg</skyfaller>
+	  </li>
+	  <li Class="CompProperties_Refuelable">
+        <fuelCapacity>200.0</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>200</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>BorgOrgSub</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+      </li>
+		<li Class="CompProperties_BecomePawn">
+			<pawnDef>ShuttleHeavyHoverBorg</pawnDef>
+		</li>
+    </comps>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <placeWorkers>
+    </placeWorkers>
+    <minifiedDef>MinifiedThing</minifiedDef>
+	<thingCategories>
+      <li>BuildingsFurniture</li>
+    </thingCategories>
+  </ThingDef>
+  
+   
+       <RecipeDef> 
+      <defName>MakeHeavyShuttleBorg</defName>
+    <label>make Borg Sphere</label>
+    <description>make Borg Sphere.</description>
+    <jobString>making Borg Sphere.</jobString>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <workAmount>10000</workAmount>
+    <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+		<allowMixingIngredients>true</allowMixingIngredients>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>BorgThings</li>
+          </categories>
+        </filter>
+        <count>2000</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>BorgThings</li>
+      </categories>
+    </fixedIngredientFilter>
+    <products>
+      <HeavyShuttleBorg>1</HeavyShuttleBorg>
+    </products>
+    <skillRequirements>
+      <Crafting>1</Crafting>
+    </skillRequirements>
+    <workSkill>Crafting</workSkill>
+		<recipeUsers>
+	  <li>BorgMachiningStationShip</li>
+    </recipeUsers>
+  </RecipeDef>
+  
+</Defs>
