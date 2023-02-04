@@ -1,0 +1,1648 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!--=============================== Cold ===============================-->
+
+  <!-- SeaIce -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="SeaIce"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.015</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>FillerWater</terrain>
+							<min>0.76</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="SeaIce"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>2</Cloudy>
+			<LightRain>3</LightRain>
+			<Downpour>1</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="SeaIce"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Elevation">
+				<terrainsByElevation>
+					<li>
+						<terrain>Ice</terrain>
+						<min>0.0</min>
+						<max>999</max>
+					</li>
+				</terrainsByElevation>
+				<moistureSourceOffsetFromGroundwaterDepthCurve>
+					<points>
+						<li>(0, 0)</li>
+						<li>(5, 0)</li>
+					</points>
+				</moistureSourceOffsetFromGroundwaterDepthCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>Ice</sandReplacement>
+				<gravelReplacement>Ice</gravelReplacement>
+				<riverFloor>SoakedSand</riverFloor>
+			</li>
+			<li Class="Terra.ModExt_Biome_GenStep_Spikes">
+				<baseFrequency>0.030</baseFrequency>
+				<sineX>31</sineX>
+				<sineZ>29</sineZ>
+				<sineScale>0.15</sineScale>
+				<sineOffset>1.0</sineOffset>
+				<calcElevationType>Set</calcElevationType>
+				<noiseElevationPreScale>0.3</noiseElevationPreScale>
+				<noiseElevationPreOffset>-0.85</noiseElevationPreOffset>
+				<elevationPostCurves>
+					<li>
+						<points>
+							<li>(-2, -2)</li>
+							<li>(-1.5, -1.8)</li>
+							<li>(-0.8, -1)</li>
+							<li>(-0.5, -0.45)</li>
+							<li>(0, -0.25)</li>
+							<li>(2, 0)</li>
+						</points>
+					</li>
+				</elevationPostCurves>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<groundwaterLevel>-4</groundwaterLevel>
+				<clearSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+					<winter>1.1</winter>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<summer>1.4</summer>
+					<fall>1.1</fall>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<summer>1.6</summer>
+					<fall>1.2</fall>
+				</rainSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- IceSheet -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>/Defs/BiomeDef[defName="IceSheet"]/terrainPatchMakers</xpath>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="IceSheet"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>2</Cloudy>
+			<LightRain>3</LightRain>
+			<Downpour>1</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="IceSheet"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Elevation">
+				<terrainsByElevation>
+					<li>
+						<terrain>Ice</terrain>
+						<min>0.0</min>
+						<max>0.53</max>
+					</li>
+					<li>
+						<terrain>Gravel</terrain>
+						<min>0.53</min>
+						<max>0.61</max>
+					</li>
+					<li>
+						<terrain>FillerStone</terrain>
+						<min>0.61</min>
+						<max>999</max>
+					</li>
+				</terrainsByElevation>
+			</li>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>NormalSand</sandReplacement>
+				<gravelReplacement>NormalBarrenGravel</gravelReplacement>
+				<riverFloor>SoakedGravel</riverFloor>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>0.5</DesertHighPlains>
+					<IceSheet>1</IceSheet>
+					<Tundra>0.5</Tundra>
+					<BorealForest>0.5</BorealForest>
+					<TemperateForest>0.5</TemperateForest>
+					<TemperateMeadow>0.5</TemperateMeadow>
+					<Desert>0.5</Desert>
+					<ExtremeDesert>0.5</ExtremeDesert>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<clearSeasonalCommonalityFactors>
+					<summer>1.2</summer>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+					<winter>1.1</winter>
+				</overcastSeasonalCommonalityFactors>
+				<snowSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+					<winter>1.3</winter>
+				</snowSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<spring>1.1</spring>
+					<fall>1.6</fall>
+					<winter>1.3</winter>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- Tundra -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="Tundra"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.84</max>
+				</li>
+				<li>
+					<terrain>NormalFertileSoil</terrain>
+					<min>0.84</min>
+					<max>0.93</max>
+				</li>
+				<li>
+					<terrain>NormalRichSoil</terrain>
+					<min>0.93</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="Tundra"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.015</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetSoil</terrain>
+							<min>0.64</min>
+							<max>0.83</max>
+						</li>
+						<li>
+							<terrain>SoakedSoil</terrain>
+							<min>0.83</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+				<li>
+					<perlinFrequency>0.025</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetSoil</terrain>
+							<min>0.72</min>
+							<max>0.83</max>
+						</li>
+						<li>
+							<terrain>WetFertileSoil</terrain>
+							<min>0.83</min>
+							<max>0.94</max>
+						</li>
+						<li>
+							<terrain>SoakedFertileSoil</terrain>
+							<min>0.94</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="Tundra"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>3</Cloudy>
+			<LightRain>3</LightRain>
+			<Downpour>1</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="Tundra"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>NormalSand</sandReplacement>
+				<gravelReplacement>DryBarrenGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>0.5</DesertHighPlains>
+					<IceSheet>0.5</IceSheet>
+					<Tundra>1</Tundra>
+					<BorealForest>1</BorealForest>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<Desert>0.5</Desert>
+					<ExtremeDesert>0.5</ExtremeDesert>
+					<ColdBog>1</ColdBog>
+					<TemperateSwamp>1</TemperateSwamp>
+					<ColdBogDeep>1</ColdBogDeep>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+					<FrozenLake>1</FrozenLake>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<clearSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<fall>1.1</fall>
+					<winter>1.5</winter>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+					<winter>0.8</winter>
+				</rainSeasonalCommonalityFactors>
+				<snowSeasonalCommonalityFactors>
+					<winter>1.3</winter>
+				</snowSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+					<fall>1.3</fall>
+					<winter>1.2</winter>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- BorealForest -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="BorealForest"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_BorealForest</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="BorealForest"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.83</max>
+				</li>
+				<li>
+					<terrain>NormalFertileSoil</terrain>
+					<min>0.83</min>
+					<max>0.94</max>
+				</li>
+				<li>
+					<terrain>NormalRichSoil</terrain>
+					<min>0.94</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="BorealForest"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.035</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>NormalBarrenSoil</terrain>
+							<min>0.70</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+				<li>
+					<perlinFrequency>0.020</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetSoil</terrain>
+							<min>0.67</min>
+							<max>0.78</max>
+						</li>
+						<li>
+							<terrain>WetFertileSoil</terrain>
+							<min>0.78</min>
+							<max>0.86</max>
+						</li>
+						<li>
+							<terrain>SoakedFertileSoil</terrain>
+							<min>0.86</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="BorealForest"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>3</Cloudy>
+			<LightRain>3</LightRain>
+			<Downpour>1</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="BorealForest"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>NormalSand</sandReplacement>
+				<gravelReplacement>DryGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>0.5</DesertHighPlains>
+					<IceSheet>0.5</IceSheet>
+					<Tundra>1</Tundra>
+					<BorealForest>1</BorealForest>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<Savanna>0.5</Savanna>
+					<AridShrubland>0.5</AridShrubland>
+					<Desert>0.5</Desert>
+					<ExtremeDesert>0.5</ExtremeDesert>
+					<ColdBog>1</ColdBog>
+					<TemperateSwamp>1</TemperateSwamp>
+					<ColdBogDeep>1</ColdBogDeep>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+					<FrozenLake>1</FrozenLake>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<clearSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+					<winter>1.1</winter>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+				</rainSeasonalCommonalityFactors>
+				<snowSeasonalCommonalityFactors>
+					<winter>1.2</winter>
+				</snowSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<fall>1.3</fall>
+					<winter>1.2</winter>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- ColdBog -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ColdBog"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_ColdBog</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ColdBog"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.50</max>
+				</li>
+				<li>
+					<terrain>WetSoil</terrain>
+					<min>0.50</min>
+					<max>0.69</max>
+				</li>
+				<li>
+					<terrain>WetFertileSoil</terrain>
+					<min>0.69</min>
+					<max>0.93</max>
+				</li>
+				<li>
+					<terrain>SoakedFertileSoil</terrain>
+					<min>0.93</min>
+					<max>1.5</max>
+				</li>
+				<li>
+					<terrain>WetSoil</terrain>
+					<min>1.5</min>
+					<max>3.0</max>
+				</li>
+				<li>
+					<terrain>WaterMarshShallow</terrain>
+					<min>3.0</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ColdBog"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.035</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetFertileSoil</terrain>
+							<min>0.79</min>
+							<max>0.95</max>
+						</li>
+						<li>
+							<terrain>WetRichSoil</terrain>
+							<min>0.95</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ColdBog"]/baseWeatherCommonalities</xpath>
+		<value>
+			<baseWeatherCommonalities>
+				<Clear>15</Clear>
+				<Cloudy>4</Cloudy>
+				<Fog>5</Fog>
+				<LightRain>6</LightRain>
+				<Rain>3</Rain>
+				<Downpour>1</Downpour>
+				<Storm>1</Storm>
+				<RainyStorm>1</RainyStorm>
+				<Sandstorm>1</Sandstorm>
+				<Blizzard>1</Blizzard>
+				<DryThunderstorm>1</DryThunderstorm>
+				<RainyThunderstorm>1</RainyThunderstorm>
+				<FoggyRain>3</FoggyRain>
+				<SnowGentle>4</SnowGentle>
+				<SnowHard>4</SnowHard>
+			</baseWeatherCommonalities>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="ColdBog"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>WetSand</sandReplacement>
+				<gravelReplacement>NormalGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_FeatureControl">
+				<beachHeight>0.45</beachHeight>
+			</li>
+			<li Class="Terra.ModExt_Biome_GenStep_NestedNoise">
+				<baseFrequency>0.110</baseFrequency>
+				<calcElevationType>Add</calcElevationType>
+				<noiseElevationPreScale>1.0</noiseElevationPreScale>
+				<noiseElevationPreOffset>0.1</noiseElevationPreOffset>
+				<elevationPostCurves>
+					<li>
+						<points>
+							<li>(-2, -0.5)</li>
+							<li>(-1, -0.3)</li>
+							<li>(-0.05, -0.1)</li>
+							<li>(0, 0)</li>
+							<li>(2, 0)</li>
+						</points>
+					</li>
+				</elevationPostCurves>
+				<calcFertilityType>Add</calcFertilityType>
+				<noiseFertilityPreScale>1.0</noiseFertilityPreScale>
+				<noiseFertilityPreOffset>0.1</noiseFertilityPreOffset>
+				<fertilityPostCurves>
+					<li>
+						<points>
+							<li>(-2, 4.0)</li>
+							<li>(-1, 4.0)</li>
+							<li>(-0.05, 2.5)</li>
+							<li>(0, 2)</li>
+							<li>(2, 2)</li>
+						</points>
+					</li>
+				</fertilityPostCurves>
+				<outerBaseFrequency>0.025</outerBaseFrequency>
+				<outerNoiseMaskCurve>
+					<points>
+						<li>(-0.05, 0)</li>
+						<li>(0.2, 1)</li>
+					</points>
+				</outerNoiseMaskCurve>
+				<postCurveMaskFromElevationCurve>
+					<points>
+						<li>(0.57, 1)</li>
+						<li>(0.65, 0)</li>
+					</points>
+				</postCurveMaskFromElevationCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<IceSheet>0.5</IceSheet>
+					<Tundra>0.5</Tundra>
+					<BorealForest>1</BorealForest>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<ColdBog>1</ColdBog>
+					<TemperateSwamp>1</TemperateSwamp>
+					<ColdBogDeep>1</ColdBogDeep>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<overcastSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+					<summer>1.3</summer>
+					<fall>1.4</fall>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<spring>1.3</spring>
+					<fall>1.4</fall>
+				</rainSeasonalCommonalityFactors>
+				<snowSeasonalCommonalityFactors>
+					<fall>1.3</fall>
+					<winter>1.3</winter>
+				</snowSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<winter>1.1</winter>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!--=============================== Temperate ===============================-->
+
+  <!-- TemperateForest -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateForest"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_TemperateForest</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateForest"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.83</max>
+				</li>
+				<li>
+					<terrain>NormalFertileSoil</terrain>
+					<min>0.83</min>
+					<max>0.94</max>
+				</li>
+				<li>
+					<terrain>NormalRichSoil</terrain>
+					<min>0.94</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateForest"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.040</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetSoil</terrain>
+							<min>0.71</min>
+							<max>0.98</max>
+						</li>
+						<li>
+							<terrain>SoakedSoil</terrain>
+							<min>0.98</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="TemperateForest"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>5</Cloudy>
+			<LightRain>3</LightRain>
+			<Downpour>1</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="TemperateForest"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>NormalSand</sandReplacement>
+				<gravelReplacement>DryGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>1</DesertHighPlains>
+					<Tundra>1</Tundra>
+					<BorealForest>1</BorealForest>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<TropicalRainforest>1</TropicalRainforest>
+					<Savanna>1</Savanna>
+					<AridShrubland>1</AridShrubland>
+					<Desert>1</Desert>
+					<ExtremeDesert>1</ExtremeDesert>
+					<ColdBog>1</ColdBog>
+					<TemperateSwamp>1</TemperateSwamp>
+					<TropicalSwamp>1</TropicalSwamp>
+					<ColdBogDeep>1</ColdBogDeep>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+					<TropicalSwampDeep>1</TropicalSwampDeep>
+					<FrozenLake>1</FrozenLake>
+					<SpikeMountains>1</SpikeMountains>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<clearSeasonalCommonalityFactors>
+					<summer>1.1</summer>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<spring>1.3</spring>
+					<fall>1.6</fall>
+					<winter>1.3</winter>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<spring>1.3</spring>
+					<fall>1.6</fall>
+					<winter>1.3</winter>
+				</rainSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+					<fall>1.3</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- TemperateSwamp -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateSwamp"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_TemperateSwamp</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateSwamp"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.42</max>
+				</li>
+				<li>
+					<terrain>WetSoil</terrain>
+					<min>0.42</min>
+					<max>0.64</max>
+				</li>
+				<li>
+					<terrain>WetFertileSoil</terrain>
+					<min>0.64</min>
+					<max>0.87</max>
+				</li>
+				<li>
+					<terrain>SoakedFertileSoil</terrain>
+					<min>0.87</min>
+					<max>1.5</max>
+				</li>
+				<li>
+					<terrain>WetSoil</terrain>
+					<min>1.5</min>
+					<max>3.0</max>
+				</li>
+				<li>
+					<terrain>WaterMarshShallow</terrain>
+					<min>3.0</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateSwamp"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.035</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetFertileSoil</terrain>
+							<min>0.78</min>
+							<max>0.94</max>
+						</li>
+						<li>
+							<terrain>WetRichSoil</terrain>
+							<min>0.94</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TemperateSwamp"]/baseWeatherCommonalities</xpath>
+		<value>
+			<baseWeatherCommonalities>
+				<Clear>15</Clear>
+				<Cloudy>5</Cloudy>
+				<Fog>4</Fog>
+				<LightRain>5</LightRain>
+				<Rain>3</Rain>
+				<Downpour>2</Downpour>
+				<Storm>1</Storm>
+				<RainyStorm>1</RainyStorm>
+				<Sandstorm>1</Sandstorm>
+				<Blizzard>1</Blizzard>
+				<DryThunderstorm>1</DryThunderstorm>
+				<RainyThunderstorm>1</RainyThunderstorm>
+				<FoggyRain>2</FoggyRain>
+				<SnowGentle>4</SnowGentle>
+				<SnowHard>4</SnowHard>
+			</baseWeatherCommonalities>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="TemperateSwamp"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>WetSand</sandReplacement>
+				<gravelReplacement>NormalGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_FeatureControl">
+				<beachHeight>0.45</beachHeight>
+			</li>
+			<li Class="Terra.ModExt_Biome_GenStep_NestedNoise">
+				<baseFrequency>0.110</baseFrequency>
+				<calcElevationType>Add</calcElevationType>
+				<noiseElevationPreScale>1.0</noiseElevationPreScale>
+				<noiseElevationPreOffset>0.1</noiseElevationPreOffset>
+				<elevationPostCurves>
+					<li>
+						<points>
+							<li>(-2, -0.5)</li>
+							<li>(-1, -0.3)</li>
+							<li>(-0.05, -0.1)</li>
+							<li>(0, 0)</li>
+							<li>(2, 0)</li>
+						</points>
+					</li>
+				</elevationPostCurves>
+				<calcFertilityType>Add</calcFertilityType>
+				<noiseFertilityPreScale>1.0</noiseFertilityPreScale>
+				<noiseFertilityPreOffset>0.1</noiseFertilityPreOffset>
+				<fertilityPostCurves>
+					<li>
+						<points>
+							<li>(-2, 4.0)</li>
+							<li>(-1, 4.0)</li>
+							<li>(-0.05, 2.5)</li>
+							<li>(0, 2)</li>
+							<li>(2, 2)</li>
+						</points>
+					</li>
+				</fertilityPostCurves>
+				<outerBaseFrequency>0.025</outerBaseFrequency>
+				<outerNoiseMaskCurve>
+					<points>
+						<li>(-0.05, 0)</li>
+						<li>(0.2, 1)</li>
+					</points>
+				</outerNoiseMaskCurve>
+				<postCurveMaskFromElevationCurve>
+					<points>
+						<li>(0.57, 1)</li>
+						<li>(0.65, 0)</li>
+					</points>
+				</postCurveMaskFromElevationCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>0.5</DesertHighPlains>
+					<Tundra>1</Tundra>
+					<BorealForest>1</BorealForest>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<TropicalRainforest>1</TropicalRainforest>
+					<Savanna>0.5</Savanna>
+					<ColdBog>1</ColdBog>
+					<TemperateSwamp>1</TemperateSwamp>
+					<TropicalSwamp>1</TropicalSwamp>
+					<ColdBogDeep>1</ColdBogDeep>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+					<TropicalSwampDeep>1</TropicalSwampDeep>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<overcastSeasonalCommonalityFactors>
+					<spring>1.5</spring>
+					<fall>1.7</fall>
+					<winter>1.4</winter>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<spring>1.4</spring>
+					<fall>1.7</fall>
+					<winter>1.3</winter>
+				</rainSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<spring>1.1</spring>
+					<fall>1.2</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!--=============================== Warm ===============================-->
+
+  <!-- TropicalRainforest -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalRainforest"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_TropicalRainforest</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalRainforest"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.75</max>
+				</li>
+				<li>
+					<terrain>NormalFertileSoil</terrain>
+					<min>0.75</min>
+					<max>0.92</max>
+				</li>
+				<li>
+					<terrain>NormalRichSoil</terrain>
+					<min>0.92</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalRainforest"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.04</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetSoil</terrain>
+							<min>0.7</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+				<li>
+					<perlinFrequency>0.035</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetSoil</terrain>
+							<min>0.64</min>
+							<max>0.87</max>
+						</li>
+						<li>
+							<terrain>SoakedSoil</terrain>
+							<min>0.87</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="TropicalRainforest"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>5</Cloudy>
+			<LightRain>2</LightRain>
+			<Downpour>2</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="TropicalRainforest"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Elevation">
+				<terrainsByElevation>
+					<li>
+						<terrain>FillerWater</terrain>
+						<min>-999</min>
+						<max>0.0</max>
+					</li>
+					<li>
+						<terrain>WetFertileSoil</terrain>
+						<min>0.0</min>
+						<max>0.07</max>
+					</li>
+					<li>
+						<terrain>WetSoil</terrain>
+						<min>0.07</min>
+						<max>0.15</max>
+					</li>
+					<li>
+						<terrain>Gravel</terrain>
+						<min>0.57</min>
+						<max>0.61</max>
+					</li>
+					<li>
+						<terrain>FillerStone</terrain>
+						<min>0.61</min>
+						<max>999</max>
+					</li>
+				</terrainsByElevation>
+			</li>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>NormalSand</sandReplacement>
+				<gravelReplacement>DryGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>1</DesertHighPlains>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<TropicalRainforest>1</TropicalRainforest>
+					<Savanna>1</Savanna>
+					<AridShrubland>1</AridShrubland>
+					<Desert>1</Desert>
+					<ExtremeDesert>1</ExtremeDesert>
+					<TemperateSwamp>1</TemperateSwamp>
+					<TropicalSwamp>1</TropicalSwamp>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+					<TropicalSwampDeep>1</TropicalSwampDeep>
+					<SpikeMountains>1</SpikeMountains>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<clearSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+					<winter>1.1</winter>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<summer>1.3</summer>
+					<fall>1.1</fall>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<summer>1.4</summer>
+					<fall>1.2</fall>
+				</rainSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<fall>1.4</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- TropicalSwamp -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalSwamp"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_TropicalSwamp</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalSwamp"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>NormalSoil</terrain>
+					<min>-999</min>
+					<max>0.42</max>
+				</li>
+				<li>
+					<terrain>WetSoil</terrain>
+					<min>0.42</min>
+					<max>0.63</max>
+				</li>
+				<li>
+					<terrain>WetFertileSoil</terrain>
+					<min>0.63</min>
+					<max>0.85</max>
+				</li>
+				<li>
+					<terrain>SoakedFertileSoil</terrain>
+					<min>0.85</min>
+					<max>1.5</max>
+				</li>
+				<li>
+					<terrain>WetSoil</terrain>
+					<min>1.5</min>
+					<max>3.0</max>
+				</li>
+				<li>
+					<terrain>WaterMarshShallow</terrain>
+					<min>3.0</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalSwamp"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.035</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>WetFertileSoil</terrain>
+							<min>0.72</min>
+							<max>0.90</max>
+						</li>
+						<li>
+							<terrain>WetRichSoil</terrain>
+							<min>0.90</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="TropicalSwamp"]/baseWeatherCommonalities</xpath>
+		<value>
+			<baseWeatherCommonalities>
+				<Clear>15</Clear>
+				<Cloudy>5</Cloudy>
+				<Fog>4</Fog>
+				<LightRain>3</LightRain>
+				<Rain>3</Rain>
+				<Downpour>4</Downpour>
+				<Storm>1</Storm>
+				<RainyStorm>1</RainyStorm>
+				<Sandstorm>1</Sandstorm>
+				<Blizzard>1</Blizzard>
+				<DryThunderstorm>0.3</DryThunderstorm>
+				<RainyThunderstorm>1.7</RainyThunderstorm>
+				<FoggyRain>1</FoggyRain>
+				<SnowGentle>4</SnowGentle>
+				<SnowHard>4</SnowHard>
+			</baseWeatherCommonalities>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="TropicalSwamp"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>WetSand</sandReplacement>
+				<gravelReplacement>NormalGravel</gravelReplacement>
+			</li>
+			<li Class="Terra.ModExt_Biome_FeatureControl">
+				<beachHeight>0.45</beachHeight>
+			</li>
+			<li Class="Terra.ModExt_Biome_GenStep_NestedNoise">
+				<baseFrequency>0.110</baseFrequency>
+				<calcElevationType>Add</calcElevationType>
+				<noiseElevationPreScale>1.0</noiseElevationPreScale>
+				<noiseElevationPreOffset>0.1</noiseElevationPreOffset>
+				<elevationPostCurves>
+					<li>
+						<points>
+							<li>(-2, -0.5)</li>
+							<li>(-1, -0.3)</li>
+							<li>(-0.05, -0.1)</li>
+							<li>(0, 0)</li>
+							<li>(2, 0)</li>
+						</points>
+					</li>
+				</elevationPostCurves>
+				<calcFertilityType>Add</calcFertilityType>
+				<noiseFertilityPreScale>1.0</noiseFertilityPreScale>
+				<noiseFertilityPreOffset>0.1</noiseFertilityPreOffset>
+				<fertilityPostCurves>
+					<li>
+						<points>
+							<li>(-2, 4.0)</li>
+							<li>(-1, 4.0)</li>
+							<li>(-0.05, 2.5)</li>
+							<li>(0, 2)</li>
+							<li>(2, 2)</li>
+						</points>
+					</li>
+				</fertilityPostCurves>
+				<outerBaseFrequency>0.025</outerBaseFrequency>
+				<outerNoiseMaskCurve>
+					<points>
+						<li>(-0.05, 0)</li>
+						<li>(0.2, 1)</li>
+					</points>
+				</outerNoiseMaskCurve>
+				<postCurveMaskFromElevationCurve>
+					<points>
+						<li>(0.57, 1)</li>
+						<li>(0.65, 0)</li>
+					</points>
+				</postCurveMaskFromElevationCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>0.5</DesertHighPlains>
+					<TemperateForest>1</TemperateForest>
+					<TemperateMeadow>1</TemperateMeadow>
+					<TropicalRainforest>1</TropicalRainforest>
+					<Savanna>0.5</Savanna>
+					<TemperateSwamp>1</TemperateSwamp>
+					<TropicalSwamp>1</TropicalSwamp>
+					<TemperateSwampDeep>1</TemperateSwampDeep>
+					<TropicalSwampDeep>1</TropicalSwampDeep>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<clearSeasonalCommonalityFactors>
+					<spring>1.2</spring>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<summer>1.6</summer>
+					<fall>1.3</fall>
+					<winter>1.2</winter>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<summer>1.6</summer>
+					<fall>1.4</fall>
+					<winter>1.3</winter>
+				</rainSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<fall>1.3</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!--=============================== Warm arid ===============================-->
+
+  <!-- AridShrubland -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="AridShrubland"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_AridShrubland</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="AridShrubland"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>DrySand</terrain>
+					<min>-999</min>
+					<max>0.45</max>
+				</li>
+				<li>
+					<terrain>DryLaterite</terrain>
+					<min>0.45</min>
+					<max>0.58</max>
+				</li>
+				<li>
+					<terrain>DryBarrenSoil</terrain>
+					<min>0.58</min>
+					<max>0.77</max>
+				</li>
+				<li>
+					<terrain>DrySoil</terrain>
+					<min>0.77</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="AridShrubland"]</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.008</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>ParchedLaterite</terrain>
+							<min>0.35</min>
+							<max>0.55</max>
+						</li>
+					</thresholds>
+				</li>
+				<li>
+					<perlinFrequency>0.030</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>ParchedSand</terrain>
+							<min>0.65</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+				<li>
+					<perlinFrequency>0.025</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>ParchedBarrenSoil</terrain>
+							<min>0.56</min>
+							<max>0.67</max>
+						</li>
+						<li>
+							<terrain>ParchedSoil</terrain>
+							<min>0.67</min>
+							<max>0.82</max>
+						</li>
+						<li>
+							<terrain>ParchedFertileSoil</terrain>
+							<min>0.82</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="AridShrubland"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>2</Cloudy>
+			<LightRain>2</LightRain>
+			<Downpour>2</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="AridShrubland"]/wildPlants/Plant_Grass</xpath>
+		<value>
+			<Plant_SavannaGrass>6.0</Plant_SavannaGrass>
+			<Plant_TallSavannaGrass>1.0</Plant_TallSavannaGrass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="AridShrubland"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Elevation">
+				<terrainsByElevation>
+					<li>
+						<terrain>Gravel</terrain>
+						<min>0.55</min>
+						<max>0.61</max>
+					</li>
+					<li>
+						<terrain>FillerStone</terrain>
+						<min>0.61</min>
+						<max>999</max>
+					</li>
+				</terrainsByElevation>
+				<moistureSourceOffsetFromGroundwaterDepthCurve>
+					<points>
+						<li>(0, 0.25)</li>
+						<li>(0.2, 0.2)</li>
+						<li>(1, 0)</li>
+						<li>(1.4, -0.1)</li>
+						<li>(1.8, -0.2)</li>
+						<li>(2, -0.25)</li>
+						<li>(4, -0.75)</li>
+						<li>(5, -1)</li>
+					</points>
+				</moistureSourceOffsetFromGroundwaterDepthCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>DrySand</sandReplacement>
+				<gravelReplacement>ParchedBarrenGravel</gravelReplacement>
+				<riverFloor>SoakedBarrenSoil</riverFloor>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>1</DesertHighPlains>
+					<Tundra>1</Tundra>
+					<BorealForest>0.5</BorealForest>
+					<TemperateForest>0.5</TemperateForest>
+					<TemperateMeadow>0.5</TemperateMeadow>
+					<TropicalRainforest>0.5</TropicalRainforest>
+					<Savanna>1</Savanna>
+					<AridShrubland>1</AridShrubland>
+					<Desert>1</Desert>
+					<ExtremeDesert>1</ExtremeDesert>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<groundwaterLevel>-1</groundwaterLevel>
+				<clearSeasonalCommonalityFactors>
+					<spring>1.3</spring>
+					<summer>1.1</summer>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+					<winter>1.2</winter>
+				</rainSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<fall>1.2</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- Desert -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="Desert"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_Desert</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="Desert"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>ParchedSand</terrain>
+					<min>-999</min>
+					<max>0.48</max>
+				</li>
+				<li>
+					<terrain>DrySand</terrain>
+					<min>0.48</min>
+					<max>0.79</max>
+				</li>
+				<li>
+					<terrain>DryLaterite</terrain>
+					<min>0.79</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="Desert"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.025</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>ParchedLaterite</terrain>
+							<min>0.56</min>
+							<max>0.75</max>
+						</li>
+						<li>
+							<terrain>ParchedBarrenSoil</terrain>
+							<min>0.75</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="Desert"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>1</Cloudy>
+			<LightRain>1</LightRain>
+			<Downpour>2</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="Desert"]/wildPlants/Plant_Grass</xpath>
+		<value>
+			<Plant_SavannaGrass>5.5</Plant_SavannaGrass>
+			<Plant_TallSavannaGrass>0.5</Plant_TallSavannaGrass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="Desert"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Elevation">
+				<terrainsByElevation>
+					<li>
+						<terrain>Gravel</terrain>
+						<min>0.55</min>
+						<max>0.61</max>
+					</li>
+					<li>
+						<terrain>FillerStone</terrain>
+						<min>0.61</min>
+						<max>999</max>
+					</li>
+				</terrainsByElevation>
+				<moistureSourceOffsetFromGroundwaterDepthCurve>
+					<points>
+						<li>(0, 0.35)</li>
+						<li>(0.2, 0.3)</li>
+						<li>(1, 0.1)</li>
+						<li>(1.4, 0)</li>
+						<li>(1.8, -0.1)</li>
+						<li>(2, -0.15)</li>
+						<li>(4, -0.65)</li>
+						<li>(5, -1)</li>
+					</points>
+				</moistureSourceOffsetFromGroundwaterDepthCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>DrySand</sandReplacement>
+				<gravelReplacement>ParchedBarrenGravel</gravelReplacement>
+				<riverFloor>SoakedLaterite</riverFloor>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>1</DesertHighPlains>
+					<Tundra>1</Tundra>
+					<BorealForest>0.5</BorealForest>
+					<TemperateForest>0.5</TemperateForest>
+					<TemperateMeadow>0.5</TemperateMeadow>
+					<TropicalRainforest>0.5</TropicalRainforest>
+					<Savanna>1</Savanna>
+					<AridShrubland>1</AridShrubland>
+					<Desert>1</Desert>
+					<ExtremeDesert>1</ExtremeDesert>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<groundwaterLevel>-1.4</groundwaterLevel>
+				<clearSeasonalCommonalityFactors>
+					<spring>1.3</spring>
+					<summer>1.2</summer>
+				</clearSeasonalCommonalityFactors>
+				<overcastSeasonalCommonalityFactors>
+					<fall>1.1</fall>
+				</overcastSeasonalCommonalityFactors>
+				<rainSeasonalCommonalityFactors>
+					<fall>1.1</fall>
+				</rainSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<summer>1.2</summer>
+					<fall>1.1</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+  <!-- ExtremeDesert -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ExtremeDesert"]/workerClass/text()</xpath>
+		<value>Terra.BiomeWorker_ExtremeDesert</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ExtremeDesert"]/terrainsByFertility</xpath>
+		<value>
+			<terrainsByFertility>
+				<li>
+					<terrain>ParchedSand</terrain>
+					<min>-999</min>
+					<max>999</max>
+				</li>
+			</terrainsByFertility>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ExtremeDesert"]/terrainPatchMakers</xpath>
+		<value>
+			<terrainPatchMakers>
+				<li>
+					<perlinFrequency>0.008</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>DrySand</terrain>
+							<min>0.25</min>
+							<max>0.55</max>
+						</li>
+					</thresholds>
+				</li>
+				<li>
+					<perlinFrequency>0.015</perlinFrequency>
+					<thresholds>
+						<li>
+							<terrain>ParchedLaterite</terrain>
+							<min>0.95</min>
+							<max>999</max>
+						</li>
+					</thresholds>
+				</li>
+			</terrainPatchMakers>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/BiomeDef[defName="ExtremeDesert"]/baseWeatherCommonalities</xpath>
+		<value>
+			<Cloudy>0.5</Cloudy>
+			<LightRain>0.5</LightRain>
+			<Downpour>1</Downpour>
+			<Storm>1</Storm>
+			<RainyStorm>1</RainyStorm>
+			<Sandstorm>1.5</Sandstorm>
+			<Blizzard>1</Blizzard>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>/Defs/BiomeDef[defName="ExtremeDesert"]/wildPlants/Plant_Grass</xpath>
+		<value>
+			<Plant_SavannaGrass>5.8</Plant_SavannaGrass>
+			<Plant_TallSavannaGrass>0.2</Plant_TallSavannaGrass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>/Defs/BiomeDef[defName="ExtremeDesert"]</xpath>
+		<value>
+			<li Class="Terra.ModExt_Biome_Elevation">
+				<terrainsByElevation>
+					<li>
+						<terrain>Gravel</terrain>
+						<min>0.55</min>
+						<max>0.61</max>
+					</li>
+					<li>
+						<terrain>FillerStone</terrain>
+						<min>0.61</min>
+						<max>999</max>
+					</li>
+				</terrainsByElevation>
+				<moistureSourceOffsetFromGroundwaterDepthCurve>
+					<points>
+						<li>(0, 0.4)</li>
+						<li>(0.2, 0.35)</li>
+						<li>(1, 0.16)</li>
+						<li>(1.4, 0.08)</li>
+						<li>(1.8, 0)</li>
+						<li>(2, -0.05)</li>
+						<li>(4, -0.55)</li>
+						<li>(5, -1)</li>
+					</points>
+				</moistureSourceOffsetFromGroundwaterDepthCurve>
+			</li>
+			<li Class="Terra.ModExt_Biome_Replacement">
+				<sandReplacement>DrySand</sandReplacement>
+				<gravelReplacement>ParchedBarrenGravel</gravelReplacement>
+				<riverFloor>SoakedSand</riverFloor>
+			</li>
+			<li Class="Terra.ModExt_Biome_MixedBiome">
+				<mixType>ByNeighbors</mixType>
+				<biomeWeights>
+					<DesertHighPlains>1</DesertHighPlains>
+					<Tundra>0.5</Tundra>
+					<BorealForest>0.2</BorealForest>
+					<TemperateForest>0.2</TemperateForest>
+					<TemperateMeadow>0.2</TemperateMeadow>
+					<TropicalRainforest>0.2</TropicalRainforest>
+					<Savanna>1</Savanna>
+					<AridShrubland>1</AridShrubland>
+					<Desert>1</Desert>
+					<ExtremeDesert>1</ExtremeDesert>
+				</biomeWeights>
+			</li>
+			<li Class="Terra.ModExt_Biome_Climate">
+				<groundwaterLevel>-1.8</groundwaterLevel>
+				<clearSeasonalCommonalityFactors>
+					<spring>1.3</spring>
+					<summer>1.2</summer>
+				</clearSeasonalCommonalityFactors>
+				<stormSeasonalCommonalityFactors>
+					<summer>1.2</summer>
+					<fall>1.1</fall>
+				</stormSeasonalCommonalityFactors>
+			</li>
+		</value>
+	</Operation>
+
+</Patch>

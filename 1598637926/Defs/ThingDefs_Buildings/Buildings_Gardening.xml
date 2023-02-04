@@ -1,0 +1,907 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--============================== Plant grower ==============================-->
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>IndoorFarm</defName>
+		<label>indoor farm</label>
+		<description>An advanced raised bed for indoor farming. Built in sun lamps provide lighting for the plants. Raised beds use soil instead of hydroponics, so plants grow at a more natural speed while there is no risk that plants get damaged during power shortage and other problems with the hydroponics basin. There are also less limitations on what plants can grow here.</description>
+		<thingClass>Terra.Building_PlantGrowerPlus</thingClass>
+		<graphicData>
+		<texPath>Things/Building/Gardening/IndoorFarm</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(3.5,3.5)</drawSize>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+		<castEdgeShadows>true</castEdgeShadows>
+		<altitudeLayer>LowPlant</altitudeLayer>
+		<fillPercent>0.2</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>40</pathCost>
+		<canOverlapZones>false</canOverlapZones>
+		<rotatable>false</rotatable>
+		<size>(3,3)</size>
+		<statBases>
+			<WorkToBuild>3200</WorkToBuild>
+			<MaxHitPoints>200</MaxHitPoints>
+			<Flammability>0.5</Flammability>
+			<Cleanliness>-4</Cleanliness>
+		</statBases>
+		<costList>
+			<Steel>40</Steel>
+			<ComponentIndustrial>1</ComponentIndustrial>
+		</costList>
+		<costStuffCount>150</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+		<designationCategory>Gardening</designationCategory>
+		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+		<fertility>1.0</fertility>
+		<building>
+			<defaultPlantToGrow>Plant_Potato</defaultPlantToGrow>
+			<sowTag>RaisedBed</sowTag>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_Forbiddable" />
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Glower">
+				<overlightRadius>2.9</overlightRadius>
+				<glowRadius>4.0</glowRadius>
+				<glowColor>(370,370,370,0)</glowColor>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>250</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Schedule">
+				<startTime>0.25</startTime>
+				<endTime>0.8</endTime>
+				<offMessage>Off for plant resting period</offMessage>
+			</li>
+			<li Class="CompProperties_HeatPusher">
+				<compClass>CompHeatPusherPowered</compClass>
+				<heatPerSecond>1</heatPerSecond>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>AdvancedIndoorFarming</li>
+		</researchPrerequisites>
+		<modExtensions>
+			<li Class="Terra.ModExt_Building_PlantGrower">
+				<fertilityStorageFactor>0.8</fertilityStorageFactor>
+				<moistureStorageFactor>0.8</moistureStorageFactor>
+				<fertilizerLimitFactor>1.0</fertilizerLimitFactor>
+				<edgeCellsOnly>true</edgeCellsOnly>
+				<plantsSurvivePowerOut>true</plantsSurvivePowerOut>
+				<plantPositionZOffset>0.15</plantPositionZOffset>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+  <!--============================== Fertilizer stuff ==============================-->
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>CompostHeap</defName>
+		<label>compost</label>
+		<description>A compost heap. Fill it with plant waste to slowly compost it into fertilizer.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/CompostHeap</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<damageData>
+				<rect>(0.05,0.1,0.9,0.9)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.75,0.35,0.33)</volume>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.45</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<canOverlapZones>false</canOverlapZones>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<WorkToBuild>1000</WorkToBuild>
+			<Mass>50</Mass>
+			<Flammability>0.6</Flammability>
+		</statBases>
+		<costStuffCount>25</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<designationCategory>Gardening</designationCategory>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="Terra.CompProperties_ItemProcessor">
+				<sourceItemDef>PlantWaste</sourceItemDef>
+				<processedItemDef>CompostFertilizer</processedItemDef>
+				<maxCapacity>100</maxCapacity>
+				<itemOutputFactor>0.2</itemOutputFactor>
+				<baseProcessingDuration>360000</baseProcessingDuration>
+				<minIdealTemperature>8</minIdealTemperature>
+				<maxIdealTemperature>52</maxIdealTemperature>
+			</li>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-10</minSafeTemperature>
+				<maxSafeTemperature>58</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>PlantWasteRecycling</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>FermentingBox</defName>
+		<label>silage fermenting box</label>
+		<description>A fermenting box. Fill it with plant waste to slowly ferment it fertilizer.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/FermentingBox</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<damageData>
+				<rect>(0.05,0.1,0.9,0.9)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.75,0.35,0.33)</volume>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.45</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<canOverlapZones>false</canOverlapZones>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>90</MaxHitPoints>
+			<WorkToBuild>1200</WorkToBuild>
+			<Mass>40</Mass>
+			<Flammability>0.6</Flammability>
+		</statBases>
+		<costStuffCount>40</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<designationCategory>Gardening</designationCategory>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="Terra.CompProperties_ItemProcessor">
+				<sourceItemDef>PlantWaste</sourceItemDef>
+				<processedItemDef>Silage</processedItemDef>
+				<maxCapacity>100</maxCapacity>
+				<itemOutputFactor>0.5</itemOutputFactor>
+				<baseProcessingDuration>300000</baseProcessingDuration>
+				<minIdealTemperature>2</minIdealTemperature>
+				<maxIdealTemperature>54</maxIdealTemperature>
+			</li>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-20</minSafeTemperature>
+				<maxSafeTemperature>60</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>PlantWasteRecycling</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+  <!--============================== Beehives ==============================-->
+
+	<ThingDef Name="BeehiveBase" ParentName="BuildingBase" Abstract="True">
+		<thingClass>Terra.Building_Beehive</thingClass>
+		<graphicData>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.05,0.1,0.9,0.9)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.55</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<size>(1,1)</size>
+		<tickerType>Rare</tickerType>
+		<rotatable>true</rotatable>
+		<designationCategory>Gardening</designationCategory>
+		<specialDisplayRadius>9.9</specialDisplayRadius>
+		<constructEffect>ConstructWood</constructEffect>
+		<comps>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-2</minSafeTemperature>
+				<maxSafeTemperature>36</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>Beekeeping</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BeehiveBase">
+		<defName>Beehive</defName>
+		<label>Beehive</label>
+		<description>A beehive. Bees live here and collect nectar from surrounding plants to make honey. As a side benefit plants grow better when visited by bees.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/Beehive</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToBuild>1200</WorkToBuild>
+			<Mass>30</Mass>
+			<MaxHitPoints>80</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<costList>
+			<WoodLog>80</WoodLog>
+		</costList>
+	</ThingDef>
+
+	<ThingDef ParentName="BeehiveBase">
+		<defName>BeehiveAirConditioned</defName>
+		<label>air-conditioned Beehive</label>
+		<description>A beehive. Bees live here and collect nectar from surrounding plants to make honey. As a side benefit plants grow better when visited by bees. This air-conditioned beehive comes with a powered temperature control system to prevent the bees from dying in extreme temperatures.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/BeehiveAirConditioned</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToBuild>2200</WorkToBuild>
+			<Mass>60</Mass>
+			<MaxHitPoints>120</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<costList>
+			<WoodLog>60</WoodLog>
+			<Steel>40</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>false</shortCircuitInRain>
+				<basePowerConsumption>60</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Breakdownable" />
+		</comps>
+		<researchPrerequisites>
+			<li>AirConditioning</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+  <!--============================== Silkworm cultivation ==============================-->
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>SilkwormBreeder</defName>
+		<label>silkworm breeder</label>
+		<description>A silkworm breeder. It slowly creates silkworm cultures over time. Place it near mulberry trees, so grown silkworm cultures can move to the trees. The silkworms live in the trees until they are ready to pupate and create a cocoon with the valuable silk.</description>
+		<thingClass>Terra.Building_SilkwormBreeder</thingClass>
+		<graphicData>
+			<texPath>Things/Building/Gardening/SilkwormBreeder</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<damageData>
+				<rect>(0.05,0.1,0.9,0.9)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.75,0.35,0.33)</volume>
+			</shadowData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.45</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<canOverlapZones>false</canOverlapZones>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>90</MaxHitPoints>
+			<WorkToBuild>1200</WorkToBuild>
+			<Mass>40</Mass>
+			<Flammability>0.6</Flammability>
+		</statBases>
+		<costList>
+			<WoodLog>75</WoodLog>
+			<Steel>20</Steel>
+		</costList>
+		<designationCategory>Gardening</designationCategory>
+		<specialDisplayRadius>2.4</specialDisplayRadius>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-5</minSafeTemperature>
+				<maxSafeTemperature>48</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>SilkwormCultivation</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+  <!--============================== Shrimps farming ==============================-->
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>ShrimpsFarm</defName>
+		<label>shrimps farm</label>
+		<description>A shrimps farm.</description>
+		<thingClass>Terra.Building_ShrimpsFarm</thingClass>
+		<graphicData>
+			<texPath>Things/Building/Gardening/ShrimpsFarm</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(5,4)</drawSize>
+			<shadowData>
+				<volume>(3.5,0.75,3.4)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0,0.6,4,2.8)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.2</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>20</pathCost>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(5,4)</size>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<WorkToBuild>1500</WorkToBuild>
+			<Mass>80</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<costList>
+			<WoodLog>40</WoodLog>
+		</costList>
+		<costStuffCount>60</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<designationCategory>Gardening</designationCategory>
+		<terrainAffordanceNeeded />
+		<placeWorkers>
+			<li>Terra.PlaceWorker_ShrimpsFarm</li>
+		</placeWorkers>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<researchPrerequisites>
+			<li>ShrimpsFarming</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+  <!--============================== Fishing ==============================-->
+
+	<ThingDef Name="FishingSpotBase" ParentName="BuildingBase" Abstract="True">
+		<graphicData>
+			<texPath>Things/Building/Gardening/FishingSpot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<passability>Standable</passability>
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<useHitPoints>false</useHitPoints>
+		<statBases>
+			<WorkToBuild>0</WorkToBuild>
+			<WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
+		</statBases>
+		<designationCategory>Gardening</designationCategory>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<terrainAffordanceNeeded />
+		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+		<inspectorTabs>
+			<li>ITab_Bills</li>
+		</inspectorTabs>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+			<sowTag>SupportPlantsOnly</sowTag>
+			<canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+	</ThingDef>
+	
+	<ThingDef ParentName="FishingSpotBase">
+		<defName>FishingSpotIce</defName>
+		<label>ice fishing spot</label>
+		<description>A place for ice fishing or fishing directly from a bridge in deep water.</description>
+		<thingClass>Terra.Building_FishingSpot_Ice</thingClass>
+		<placeWorkers>
+			<li>Terra.PlaceWorker_FishingSpot_Ice</li>
+		</placeWorkers>
+	</ThingDef>
+	
+	<ThingDef ParentName="FishingSpotBase">
+		<defName>FishingSpotLong</defName>
+		<label>fishing spot</label>
+		<description>A place for ice fishing from the shore.</description>
+		<thingClass>Terra.Building_FishingSpot_Long</thingClass>
+		<placeWorkers>
+			<li>Terra.PlaceWorker_FishingSpot_Long</li>
+		</placeWorkers>
+	</ThingDef>
+
+  <!--============================== Water sources ==============================-->
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>WaterScoopingSpot</defName>
+		<label>water scooping spot</label>
+		<description>A place for scooping water from a lake, river or flooded terrain.</description>
+		<thingClass>Terra.Building_WaterScoopingSpot</thingClass>
+		<graphicData>
+			<texPath>Things/Building/Gardening/WaterScoopingSpot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<passability>Standable</passability>
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<useHitPoints>false</useHitPoints>
+		<statBases>
+			<WorkToBuild>0</WorkToBuild>
+		</statBases>
+		<designationCategory>Gardening</designationCategory>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<terrainAffordanceNeeded />
+		<placeWorkers>
+			<li>Terra.PlaceWorker_WaterScoopingSpot</li>
+		</placeWorkers>
+		<inspectorTabs>
+			<li>ITab_Bills</li>
+		</inspectorTabs>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+			<sowTag>SupportPlantsOnly</sowTag>
+			<canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>Terra_RainwaterCollector</defName>
+		<label>rainwater collector</label>
+		<description>A rainwater collector. Collects the rainwater so it can be use for things like irrigation.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/RainwaterCollector</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(4.5,4.5)</drawSize>
+			<shadowData>
+				<volume>(3.5,0.75,3.4)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0,0.6,4,2.8)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<blockWind>true</blockWind>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<rotatable>false</rotatable>
+		<size>(4,4)</size>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<WorkToBuild>400</WorkToBuild>
+			<Mass>10</Mass>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<costList>
+			<Cloth>50</Cloth>
+		</costList>
+		<costStuffCount>10</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+		</stuffCategories>
+		<designationCategory>Gardening</designationCategory>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="Terra.CompProperties_RainwaterCollector" />
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>Terra_Well</defName>
+		<label>well</label>
+		<description>A well. Water collects on the ground of this wells hole and can be scooped.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/Well</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(3,3)</drawSize>
+			<shadowData>
+				<volume>(0.58,0.35,0.25)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.50</fillPercent>
+		<blockWind>true</blockWind>
+		<passability>PassThroughOnly</passability>
+		<pathCost>70</pathCost>
+		<rotatable>false</rotatable>
+		<size>(2,2)</size>
+		<statBases>
+			<MaxHitPoints>120</MaxHitPoints>
+			<WorkToBuild>4000</WorkToBuild>
+			<Mass>200</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<costList>
+			<WoodLog>20</WoodLog>
+		</costList>
+		<costStuffCount>100</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+		<designationCategory>Gardening</designationCategory>
+		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+		<placeWorkers>
+			<li>Terra.PlaceWorker_WaterPump</li>
+		</placeWorkers>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="Terra.CompProperties_WaterPump">
+				<maxWaterStorage>25</maxWaterStorage>
+				<pumpRadius>9</pumpRadius>
+				<pumpRadiusRandomMax>12</pumpRadiusRandomMax>
+				<cellsToPumpPerRareTick>5</cellsToPumpPerRareTick>
+				<moistureFactorConsumptionPerPumpStep>0.0001</moistureFactorConsumptionPerPumpStep>
+				<maxGroundwaterDepthToPumpOptimal>0.2</maxGroundwaterDepthToPumpOptimal>
+				<maxGroundwaterDepthToPump>0.8</maxGroundwaterDepthToPump>
+				<groundwaterConsumptionPerDay>0.002</groundwaterConsumptionPerDay>
+				<deepwaterLossPerDay>0.00001</deepwaterLossPerDay>
+				<canUseCisterns>false</canUseCisterns>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>Cistern</defName>
+		<label>cistern</label>
+		<description>Holds water. Various water sources like collectors or pumps can output their water here.</description>
+		<thingClass>Terra.Building_Cistern</thingClass>
+		<graphicData>
+			<texPath>Things/Building/Gardening/Cistern</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.78,0.35,0.35)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.05,0.1,0.9,0.9)</rect>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<canOverlapZones>false</canOverlapZones>
+		<neverMultiSelect>true</neverMultiSelect>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToBuild>600</WorkToBuild>
+			<MaxHitPoints>150</MaxHitPoints>
+			<Mass>30</Mass>
+		</statBases>
+		<costList>
+			<Steel>10</Steel>
+		</costList>
+		<costStuffCount>25</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<designationCategory>Gardening</designationCategory>
+		<surfaceType>Item</surfaceType>
+		<inspectorTabs>
+			<li>ITab_Storage</li>
+		</inspectorTabs>
+		<building>
+			<fixedStorageSettings>
+				<filter>
+					<thingDefs>
+						<li>Thing_Water</li>
+					</thingDefs>
+				</filter>
+			</fixedStorageSettings>
+			<defaultStorageSettings>
+				<filter>
+					<thingDefs>
+						<li>Thing_Water</li>
+					</thingDefs>
+				</filter>
+			</defaultStorageSettings>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="Terra.CompProperties_RainwaterCollector">
+				<maxWaterStorage>2</maxWaterStorage>
+				<showStorage>false</showStorage>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>Terra_MoisturePump</defName>
+		<label>moisture pump</label>
+		<description>Slowly drains moisture from nearby terrain. This pump can be used to reduce ground moisture to a desired level or to drain lakes or prevent basins from flooding. A good pump to control existing water on the map, but it doesn't pump groundwater.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/MoisturePump</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.58,0.35,0.25)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.25</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>35</pathCost>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<WorkToBuild>2200</WorkToBuild>
+			<Mass>50</Mass>
+			<Flammability>1.0</Flammability>
+			<Beauty>-8</Beauty>
+		</statBases>
+		<costList>
+			<Steel>75</Steel>
+			<ComponentIndustrial>3</ComponentIndustrial>
+		</costList>
+		<constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+		<designationCategory>Gardening</designationCategory>
+		<specialDisplayRadius>6.8</specialDisplayRadius>
+		<placeWorkers>
+			<li>Terra.PlaceWorker_WaterPump</li>
+		</placeWorkers>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>150</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Breakdownable" />
+			<li Class="Terra.CompProperties_WaterPump">
+				<maxWaterStorage>10</maxWaterStorage>
+				<pumpRadius>1</pumpRadius>
+				<pumpRadiusRandomMax>6.8</pumpRadiusRandomMax>
+				<cellsToPumpPerRareTick>4</cellsToPumpPerRareTick>
+				<moistureFactorConsumptionPerPumpStep>0.006</moistureFactorConsumptionPerPumpStep>
+				<hasTargetMoistureLevelCommand>true</hasTargetMoistureLevelCommand>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>MoisturePump</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>Terra_GroundwaterPump</defName>
+		<label>groundwater pump</label>
+		<description>Slowly pumps water from the near groundwater in areas with high groundwater level. This pumping method is environmentally friendly as there is very little overexploitation of the groundwater.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/GroundwaterPump</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,2)</drawSize>
+			<shadowData>
+				<volume>(0.58,0.35,0.25)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.3</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>35</pathCost>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>60</MaxHitPoints>
+			<WorkToBuild>2500</WorkToBuild>
+			<Mass>60</Mass>
+			<Flammability>1.0</Flammability>
+			<Beauty>-8</Beauty>
+		</statBases>
+		<costList>
+			<Steel>150</Steel>
+			<ComponentIndustrial>4</ComponentIndustrial>
+		</costList>
+		<constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+		<designationCategory>Gardening</designationCategory>
+		<specialDisplayRadius>11.8</specialDisplayRadius>
+		<placeWorkers>
+			<li>Terra.PlaceWorker_WaterPump</li>
+		</placeWorkers>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>250</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Breakdownable" />
+			<li Class="Terra.CompProperties_WaterPump">
+				<maxWaterStorage>10</maxWaterStorage>
+				<pumpRadius>5</pumpRadius>
+				<pumpRadiusRandomMax>11.8</pumpRadiusRandomMax>
+				<cellsToPumpPerRareTick>5</cellsToPumpPerRareTick>
+				<moistureFactorConsumptionPerPumpStep>0.0006</moistureFactorConsumptionPerPumpStep>
+				<maxGroundwaterDepthToPumpOptimal>0.8</maxGroundwaterDepthToPumpOptimal>
+				<maxGroundwaterDepthToPump>1.6</maxGroundwaterDepthToPump>
+				<groundwaterConsumptionPerDay>0.01</groundwaterConsumptionPerDay>
+				<deepwaterLossPerDay>0.0001</deepwaterLossPerDay>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>ElectricalIrrigation</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>Terra_DeepWaterPump</defName>
+		<label>deep water pump</label>
+		<description>Pumps huge amounts of water from the lower groundwater layer. Draining this water reservoir may result in environmental problems where the upper groundwater level sinks and terrain dries out. Use this technology with caution.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/DeepWaterPump</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<shadowData>
+				<volume>(0.96,0.7,0.5)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<blockWind>true</blockWind>
+		<passability>PassThroughOnly</passability>
+		<pathCost>60</pathCost>
+		<rotatable>false</rotatable>
+		<size>(2,2)</size>
+		<statBases>
+			<MaxHitPoints>80</MaxHitPoints>
+			<WorkToBuild>3300</WorkToBuild>
+			<Mass>100</Mass>
+			<Flammability>1.0</Flammability>
+			<Beauty>-8</Beauty>
+		</statBases>
+		<costList>
+			<Steel>250</Steel>
+			<ComponentIndustrial>5</ComponentIndustrial>
+		</costList>
+		<constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+		<designationCategory>Gardening</designationCategory>
+		<specialDisplayRadius>19.8</specialDisplayRadius>
+		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+		<placeWorkers>
+			<li>Terra.PlaceWorker_WaterPump</li>
+		</placeWorkers>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>400</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Breakdownable" />
+			<li Class="Terra.CompProperties_WaterPump">
+				<maxWaterStorage>10</maxWaterStorage>
+				<storageTransfersPerRareTick>2</storageTransfersPerRareTick>
+				<cellsToPumpPerRareTick>5</cellsToPumpPerRareTick>
+				<minDeepwaterLevelToPumpOptimal>-0.5</minDeepwaterLevelToPumpOptimal>
+				<minDeepwaterLevelToPump>-5.0</minDeepwaterLevelToPump>
+				<deepwaterConsumptionPerDay>0.002</deepwaterConsumptionPerDay>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>DeepWaterPump</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+  <!--============================== Irrigation stuff ==============================-->
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>IrrigationPlant</defName>
+		<label>irrigation plant</label>
+		<description>An irrigation plant to automatically irrigate surrounding terrain and plants.</description>
+		<graphicData>
+			<texPath>Things/Building/Gardening/IrrigationPlant</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.58,0.35,0.25)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.20</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<pathCost>25</pathCost>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<WorkToBuild>2500</WorkToBuild>
+			<Mass>40</Mass>
+			<Flammability>1.0</Flammability>
+			<Beauty>-8</Beauty>
+		</statBases>
+		<costList>
+			<Steel>120</Steel>
+			<ComponentIndustrial>3</ComponentIndustrial>
+		</costList>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+		<designationCategory>Gardening</designationCategory>
+		<specialDisplayRadius>5.8</specialDisplayRadius>
+		<building>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>150</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Breakdownable" />
+			<li Class="Terra.CompProperties_IrrigationPlant" />
+		</comps>
+		<researchPrerequisites>
+			<li>ElectricalIrrigation</li>
+		</researchPrerequisites>
+	</ThingDef>
+  
+</Defs>

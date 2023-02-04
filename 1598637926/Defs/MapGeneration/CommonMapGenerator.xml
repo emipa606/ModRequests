@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <!-- Generate abstract grids -->
+
+	<GenStepDef>
+		<defName>ElevationFertilityPost</defName>
+		<order>11</order>
+		<genStep Class="Terra.GenStep_ElevationFertilityPost" />
+	</GenStepDef>
+
+	<GenStepDef>
+		<defName>BetterCaves</defName>
+		<order>14</order>
+		<genStep Class="Terra.GenStep_BetterCaves" />
+	</GenStepDef>
+
+  <!-- Generate basic rocks and terrain from grid -->
+  
+	<GenStepDef>
+		<defName>TerrainPost</defName>
+		<order>219</order>
+		<genStep Class="Terra.GenStep_TerrainPost" />
+	</GenStepDef>
+  
+	<GenStepDef>
+		<defName>CaveRockChunks</defName>
+		<order>271</order>
+		<genStep Class="Terra.GenStep_CaveRockChunks" />
+	</GenStepDef>
+
+  <!-- Volcanic vents (shortly after steam geysers) -->
+
+	<GenStepDef>
+		<defName>HydrothermalVents</defName>
+		<order>510</order>
+		<genStep Class="GenStep_ScatterThings">
+			<thingDef>HydrothermalVent</thingDef>
+			<allowInWaterBiome>false</allowInWaterBiome>
+			<minSpacing>10</minSpacing>
+			<extraNoBuildEdgeDist>4</extraNoBuildEdgeDist>
+			<countPer10kCellsRange>
+				<min>1.4</min>
+				<max>1.7</max>
+			</countPer10kCellsRange>
+			<clearSpaceSize>30</clearSpaceSize>
+			<terrainValidationRadius>4</terrainValidationRadius>
+			<terrainValidationDisallowed>
+				<li>Road</li>
+			</terrainValidationDisallowed>
+			<validators>
+				<li Class="Terra.ScattererValidator_OnlyInBiomes">
+					<biomes>
+						<li>OceanBank</li>
+						<li>ArcticSeafloor</li>
+					</biomes>
+				</li>
+				<li Class="ScattererValidator_Buildable">
+					<radius>4</radius>
+					<affordance>HeavyAll</affordance>
+				</li>
+				<li Class="ScattererValidator_NoNonNaturalEdifices">
+					<radius>4</radius>
+				</li>
+			</validators>
+			<warnOnFail>false</warnOnFail>
+		</genStep>
+	</GenStepDef>
+
+	<GenStepDef>
+		<defName>HydrothermalVentsMany</defName>
+		<order>510</order>
+		<genStep Class="GenStep_ScatterThings">
+			<thingDef>HydrothermalVent</thingDef>
+			<allowInWaterBiome>false</allowInWaterBiome>
+			<minSpacing>10</minSpacing>
+			<extraNoBuildEdgeDist>4</extraNoBuildEdgeDist>
+			<countPer10kCellsRange>
+				<min>4.0</min>
+				<max>5.0</max>
+			</countPer10kCellsRange>
+			<clearSpaceSize>30</clearSpaceSize>
+			<terrainValidationRadius>4</terrainValidationRadius>
+			<terrainValidationDisallowed>
+				<li>Road</li>
+			</terrainValidationDisallowed>
+			<validators>
+				<li Class="Terra.ScattererValidator_OnlyInBiomes">
+					<biomes>
+						<li>AbyssalTrench</li>
+					</biomes>
+				</li>
+				<li Class="ScattererValidator_Buildable">
+					<radius>4</radius>
+					<affordance>HeavyAll</affordance>
+				</li>
+				<li Class="ScattererValidator_NoNonNaturalEdifices">
+					<radius>4</radius>
+				</li>
+			</validators>
+			<warnOnFail>false</warnOnFail>
+		</genStep>
+	</GenStepDef>
+	
+  <!-- Fill terrain manager after everything is done that affects terrain (and before plants) -->
+
+	<GenStepDef>
+		<defName>FillTerrainManager</defName>
+		<order>790</order>
+		<genStep Class="Terra.GenStep_FillTerrainManager" />
+	</GenStepDef>
+
+</Defs>
