@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!--Activator-->
+
+<ThingDef ParentName="BaseBullet">
+    <thingClass>Projectile_Explosive</thingClass>
+    <defName>Bullet_TT</defName>
+    <label>rapid thunderstrike</label>
+     <graphicData>
+     <drawSize>(1,20)</drawSize>
+      <texPath>TT_Blank</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>EMP</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>900</speed>
+      <explosionRadius>0.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof></soundHitThickRoof>
+      <soundExplode></soundExplode>
+      <soundImpactAnticipate></soundImpactAnticipate>
+      <soundAmbient></soundAmbient>
+      <!--<preExplosionSpawnThingDef>ThunderIncoming</preExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.6</preExplosionSpawnChance>-->
+      <postExplosionSpawnThingDef>ThunderIncoming_TT</postExplosionSpawnThingDef>
+      <postExplosionSpawnChance>1</postExplosionSpawnChance>
+    </projectile>
+  </ThingDef>
+
+  <!--Thunderstrike-->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>ThunderIncoming_TT</defName>
+    <label>thunderstrike</label>
+    <size>(2,2)</size>
+    <graphicData>
+      <texPath>TT_Bullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(4, 20)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <explosionRadius>1.9</explosionRadius>
+      <explosionDamage>Bomb</explosionDamage>
+      <rotateGraphicTowardsDirection>true</rotateGraphicTowardsDirection>
+      <speed>5</speed>
+    </skyfaller>
+  </ThingDef>
+
+
+<!--=============== Mega Thunder Targeter ===============-->
+
+<ThingDef ParentName="BuildingBase">
+    <defName>Turret_MegaThunderTargeter</defName>
+    <label>Mega Thunder Targeter</label>
+    <description>This device manipulates electricity to create an artificial lightning strike. Affects a large area.
+
+"First comes the EMP, then comes the death."
+
+"Okay so maybe we made it too good at attracting lightning." -Jeff</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>TT_ComputerBottom</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(3,3)</size>
+    <uiIconPath>TT_icon</uiIconPath>
+    <uiIconScale>1</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>450</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>22000</WorkToBuild>
+      <Mass>30</Mass>
+      <Beauty>5</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>false</shortCircuitInRain>
+        <basePowerConsumption>450</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Mannable">
+		<manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <Steel>450</Steel>
+      <ComponentIndustrial>12</ComponentIndustrial>
+      <ComponentSpacer>4</ComponentSpacer>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>60</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_MTT</turretGunDef>
+      <turretTopDrawSize>3</turretTopDrawSize>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>18</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>MicroelectronicsBasics</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_MTT</defName>
+    <label>mega targeter</label>
+    <description>Lightning will be forced to strike multiple times.</description>
+    <graphicData>
+      <texPath>TT_SatelliteDish</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forcedMissRadius>10</forcedMissRadius>
+        <defaultProjectile>Bullet_TT</defaultProjectile>
+        <warmupTime>4.0</warmupTime> <!--completely useless because the turret used the one in the building itself-->
+        <range>500</range>
+        <minRange>15</minRange>
+        <requireLineOfSight>false</requireLineOfSight>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>60</burstShotCount>
+        <soundCast></soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+<!--=============== Thunder Targeter ===============-->
+
+<ThingDef ParentName="BuildingBase">
+    <defName>Turret_ThunderTargeter</defName>
+    <label>Thunder Targeter</label>
+    <description>This device manipulates electricity to create an artificial lightning strike. Very inaccurate, but it's fast.
+
+"First comes the EMP, then comes the death."
+
+"Now this is what i was initially thinking of." -Jeff</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>TT_ComputerBottom</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(2,2)</size>
+    <uiIconPath>TT_icon</uiIconPath>
+    <uiIconScale>0.6</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>15000</WorkToBuild>
+      <Mass>25</Mass>
+      <Beauty>5</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>false</shortCircuitInRain>
+        <basePowerConsumption>300</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Mannable">
+		<manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>9</ComponentIndustrial>
+      <ComponentSpacer>3</ComponentSpacer>
+    </costList>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>45</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_TT</turretGunDef>
+      <turretTopDrawSize>2</turretTopDrawSize>
+      <turretBurstWarmupTime>3</turretBurstWarmupTime>
+      <turretBurstCooldownTime>12</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>MicroelectronicsBasics</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_TT</defName>
+    <label>targeter</label>
+    <description>Lightning will be forced to strike twice.</description>
+    <graphicData>
+      <texPath>TT_SatelliteDish</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forcedMissRadius>5</forcedMissRadius>
+        <defaultProjectile>Bullet_TT</defaultProjectile>
+        <warmupTime>4.0</warmupTime> <!--completely useless because the turret used the one in the building itself-->
+        <range>500</range>
+        <minRange>15</minRange>
+        <requireLineOfSight>false</requireLineOfSight>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>30</burstShotCount>
+        <soundCast></soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>
