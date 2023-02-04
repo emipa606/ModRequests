@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Cooking Expanded</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+
+				<!-- Condiment -->
+
+				<li Class="PatchOperationAdd"> 
+					<xpath>/Defs</xpath>
+					<value>
+
+						<ThingDef ParentName="RoughPlantBase">
+							<defName>TaCo_ClossomSpice</defName>
+							<label>clossom grounds</label>
+							<description>A strange, blue, almost druglike powder made by grinding up the blue spikes on the Clossom's "Claw". This strange powder contains the ability to make anyone who consumes it feel hyper, though this effect doesn't wake people up in the slightest, and it's thought that a weird adaptation to being consumed by many different creatures, mainly due to it being toxic in unreasonably large amounts.
+
+Due to the strange flavor similar to a sort taco seasoning flavor, it's often added to various savory recipes across the galaxy, and usually added to many more in worlds that were orignially infested by the bawg, where it's commonly added to brews and sweets to make those who consume it better at rationalizing and understanding, essential for "political" debates that boil down to arguments.</description>
+							<graphicData>
+								<texPath>Patches/Condiments/ClossomSpice</texPath>
+							</graphicData>
+							<statBases>
+								<MarketValue>5</MarketValue>
+								<Nutrition>1</Nutrition>
+								<Flammability>0.6</Flammability>
+							</statBases>
+							<comps>
+								<li Class="CompProperties_Rottable">
+									<daysToRotStart>120</daysToRotStart>
+									<rotDestroys>true</rotDestroys>
+								</li>
+							</comps>
+							<thingCategories>
+								<li>VCE_Condiments</li>
+							</thingCategories>
+							<ingestible>
+								<preferability>NeverForNutrition</preferability>
+								<specialThoughtAsIngredient>TaCoClawThink</specialThoughtAsIngredient>
+								<optimalityOffsetFeedingAnimals>-50</optimalityOffsetFeedingAnimals>
+							</ingestible>
+						</ThingDef>
+
+					</value>
+				</li>
+
+				<!-- Condiment Recipe -->
+
+				<li Class="PatchOperationAdd"> 
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>ClossomGrind</defName>
+							<label>grind clossom spikes</label>
+							<description>Grind up Clossoms</description>
+							<jobString>Grinding up spikes.</jobString>
+							<workSpeedStat>CookSpeed</workSpeedStat>
+							<effectWorking>Cook</effectWorking>
+							<soundWorking>Recipe_CookMeal</soundWorking>
+							<workAmount>300</workAmount>
+							<recipeUsers>
+								<li>VCE_CondimentPrepTable</li>	  
+							</recipeUsers>	
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>RawClossom</li>
+										</thingDefs>
+									</filter>
+									<count>10</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>RawClossom</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<TaCo_ClossomSpice>5</TaCo_ClossomSpice>
+							</products>
+							<researchPrerequisite>VCE_CondimentsResearch</researchPrerequisite>
+						</RecipeDef>
+					</value>
+				</li>
+
+				<!-- Thought -->
+
+				<li Class="PatchOperationAdd"> 
+					<xpath>/Defs</xpath>
+					<value>
+
+						<ThoughtDef>	
+							<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+							<hediff>TaCoSpicedUp</hediff>
+							<defName>TaCoClawThink</defName>
+							<durationDays>1</durationDays>
+							<stages>
+								<li>
+									<label>spiced up</label>
+									<description>I ff-feel so jj-ittery, but I can f-feel myself th-thinking so clearly!</description>
+									<baseMoodEffect>4</baseMoodEffect>
+								</li>
+							</stages>	
+							<modExtensions>
+								<li Class="VanillaCookingExpanded.Thought_Hediff_Extension">
+									<hediffToAffect>VCE_HighBloodPressure</hediffToAffect>
+									<partToAffect>Body</partToAffect>
+									<percentage>0.0075</percentage>
+								</li>
+							</modExtensions>
+						</ThoughtDef>
+					</value>
+				</li>
+				<!-- Hediff -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef>
+							<defName>TaCoSpicedUp</defName>
+							<label>consumed clossom grounds (from meal)</label>
+							<makesSickThought>false</makesSickThought>
+							<description>This spice adds a small boost to conciousness while also slightly raising the consumer's blood pressure. This feeling to be thought to deter creatures from eating the Clossom, though that would probably be more attributed to the intense flavor contained within a single spike.</description>
+							<tendable>false</tendable>
+							<isBad>false</isBad>
+							<defaultLabelColor>(135,100,255)</defaultLabelColor>
+							<hediffClass>HediffWithComps</hediffClass>
+							<initialSeverity>1.0</initialSeverity>
+							<maxSeverity>1.0</maxSeverity>
+							<comps>
+								<li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+									<thoughtDefs>
+										<li>TaCoClawThink</li>
+									</thoughtDefs>
+								</li>
+							</comps>
+							<stages>
+								<li>
+									<capMods>
+										<li>
+											<capacity>Consciousness</capacity>
+											<offset>0.1</offset>
+										</li>
+									</capMods>
+								</li>
+							</stages>
+						</HediffDef>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+
+
+</Patch>
+
