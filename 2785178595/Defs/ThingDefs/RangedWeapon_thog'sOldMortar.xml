@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+<ThingDef Name="OldBaseArtilleryBuilding" ParentName="BuildingBase" Abstract="True">
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Weapon/OldMortarBase</texPath>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.38,0.2,0.56375,0.8)</rect>
+        <cornerTL>Damage/Corner</cornerTL>
+      </damageData>
+      <shadowData>
+        <offset>(-0.13,-0.87,-0.1)</offset>
+        <volume>(0.5,0.4,1.05)</volume>
+      </shadowData>
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+        <uiIconPath>Weapon/OldMortarUI</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <size>(2,2)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <stuffCategories>
+      <li>Metallic</li>
+	  <li>Woody</li>
+    </stuffCategories>
+    <tickerType>Normal</tickerType>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <costStuffCount>100</costStuffCount>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <costList>
+      <Steel>200</Steel>
+    </costList>
+    <inspectorTabs>
+      <li>ITab_Shells</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+    </comps>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>1500</WorkToBuild>
+      <Mass>40</Mass>
+      <Beauty>-25</Beauty>
+    </statBases>
+    <building>
+      <turretBurstWarmupTime>5</turretBurstWarmupTime>
+      <turretBurstCooldownTime>30.0</turretBurstCooldownTime>
+      <buildingTags>
+        <li>Artillery</li>
+      </buildingTags>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>Smithing</li>
+    </researchPrerequisites>
+    <uiIconScale>1.1</uiIconScale>
+  </ThingDef>
+  <ThingDef ParentName="OldBaseArtilleryBuilding">
+    <defName>Turret_ThogsOldMortar</defName>
+    <label>old mortar</label>
+    <description>A old manned mortar that old-school high explosive black powder ball shot. It's innacurate and lacks the range of modern armaments, but fires cheap ammunition and is easy to produce and maintain.</description>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>350</wickTicks>
+        <explosiveRadius>3.5</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel maintenance</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs steel reinforcements</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+        <fuelCapacity>10</fuelCapacity>
+        <fuelMultiplier>.5</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <autoRefuelPercent>0</autoRefuelPercent>
+        <fuelIconPath>Things/Item/Resource/Steel</fuelIconPath>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <building>
+      <turretGunDef>Artillery_OldMortar</turretGunDef>
+      <buildingTags>
+        <li>Artillery_BaseDestroyer</li>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+  <uiIconPath>Things/Building/Security/TurretMortar_MenuIcon</uiIconPath>
+  <uiIconScale>0.9</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseArtilleryWeapon">
+    <defName>Artillery_ThogsOldMortar</defName>
+    <label>old mortar</label>
+    <description>An Archaic mortar launcher. Lobs old-school bombs over walls. Very, very inaccurate but long-ranged.</description>
+    <recoilPower>2</recoilPower>
+    <graphicData>
+      <texPath>Weapon/OldMortarTop</texPath>
+    </graphicData>
+    <weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <warmupTime>5.0</warmupTime>
+        <forcedMissRadius>11</forcedMissRadius>
+        <forcedMissRadiusClassicMortars>14</forcedMissRadiusClassicMortars>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>20.9</minRange>
+        <range>200</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>13</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+			<thingDefs>
+				<li>Shell_ThogsCannonball</li>
+				<li>Shell_ThogsClustershot</li>
+				<li>Shell_ThogsIncendiaryCannonball</li>
+			</thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+			<thingDefs>
+				<li>Shell_ThogsCannonball</li>
+				<li>Shell_ThogsClustershot</li>
+				<li>Shell_ThogsIncendiaryCannonball</li>
+			</thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+</Defs>
+
