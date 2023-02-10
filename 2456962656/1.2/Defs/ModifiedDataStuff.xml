@@ -1,0 +1,328 @@
+<Defs>
+	<RecipeDef>
+		<defName>WTH_HackMechanoidBedless</defName>
+		<label>hack mechanoid targeting device using modified data injector</label>
+		<description>Hacks the targeting device of a mechanoid so it targets your enemies instead of yourself. This method doesn't require a hacking bench, but is more expensive to perform.</description>
+		<workerClass>WhatTheHack.Recipes.Recipe_HackMechanoid</workerClass>
+		<jobString>Hacking mechanoid</jobString>
+		<surgerySuccessChanceFactor>9999</surgerySuccessChanceFactor>
+		<deathOnFailedSurgeryChance>0.0</deathOnFailedSurgeryChance>
+		<workAmount>500</workAmount>
+		<skillRequirements>
+			<Crafting>5</Crafting>
+			<Intellectual>5</Intellectual>
+		</skillRequirements>
+		<effectWorking>Repair</effectWorking>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WTH_ModifiedDataInjector</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<appliedOnFixedBodyParts>
+			<li>ArtificialBrain</li>
+			<li>Brain</li>
+			<li>MechanicalHead</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>WTH_TargetingHacked</addsHediff>
+		<researchPrerequisite>WTH_HackingSuperAdvanced</researchPrerequisite>
+		<modExtensions>
+			<li Class="WhatTheHack.DefModExtension_Recipe">
+				<requireBed>false</requireBed>
+				<addsAdditionalHediff>WTH_BackupBattery</addsAdditionalHediff>
+				<additionalHediffBodyPart>Reactor</additionalHediffBodyPart>
+			</li>
+		</modExtensions>
+	</RecipeDef>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>WTH_ModifiedDataInjector</defName>
+		<label>modified data injector</label>
+		<description>A device filled with modified mechanoid hive data. Can be used to quickly hack a mechanoid without a hacking bench.</description>
+		<graphicData>
+			<texPath>Things/HackingUSB</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.8</drawSize>
+		</graphicData>
+		<stackLimit>10</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<statBases>
+			<MaxHitPoints>1000</MaxHitPoints>
+			<MarketValue>350</MarketValue>
+			<WorkToMake>1500</WorkToMake>
+			<Mass>0.1</Mass>
+			<Flammability>0</Flammability>
+			<DeteriorationRate>0</DeteriorationRate>
+		</statBases>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+	</ThingDef>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>WTH_ModifiedMechanoidData</defName>
+		<label>modified hive data</label>
+		<description>Data records from the mechanoid hive with an implanted virus. Can't be used to feed an AI as they don't accept tainted data.</description>
+		<graphicData>
+			<texPath>Things/ModifiedData</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<soundInteract>Metal_Drop</soundInteract>
+		<soundDrop>Standard_Drop</soundDrop>
+		<stackLimit>75</stackLimit>
+		<statBases>
+			<WorkToMake>10000</WorkToMake>
+			<MaxHitPoints>70</MaxHitPoints>
+			<MarketValue>35</MarketValue>
+			<Mass>0.6</Mass>
+			<Flammability>1.0</Flammability>
+			<DeteriorationRate>2.0</DeteriorationRate>
+			<SellPriceFactor>0.7</SellPriceFactor>
+		</statBases>
+		<intricate>true</intricate>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+	</ThingDef>
+
+	<RecipeDef ParentName="WTH_Craft_Module_Base">
+		<defName>WTH_Craft_ModifiedDataInjector</defName>
+		<label>craft modified data injector</label>
+		<description>Craft a modified data injector</description>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WTH_ModifiedMechanoidData</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>ComponentSpacer</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WTH_MechanoidParts</li>
+					</thingDefs>
+				</filter>
+				<count>15</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WTH_MechanoidChip</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>WTH_ModifiedMechanoidData</li>
+				<li>ComponentSpacer</li>
+				<li>WTH_MechanoidChip</li>
+				<li>WTH_MechanoidParts</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<WTH_ModifiedDataInjector>1</WTH_ModifiedDataInjector>
+		</products>
+		<skillRequirements>
+			<Crafting>16</Crafting>
+		</skillRequirements>
+		<workSkill>Crafting</workSkill>
+		<researchPrerequisite>WTH_HackingSuperAdvanced</researchPrerequisite>
+	</RecipeDef>
+
+	<RecipeDef ParentName="WTH_Craft_Module_Base">
+		<defName>WTH_Craft_ModifiedHiveData</defName>
+		<label>implant virus into hive data</label>
+		<description>Craft modified hive data.</description>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>ComponentIndustrial</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WTH_MechanoidData</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WTH_MechanoidChip</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>WTH_MechanoidData</li>
+				<li>ComponentIndustrial</li>
+				<li>WTH_MechanoidChip</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<WTH_ModifiedMechanoidData>1</WTH_ModifiedMechanoidData>
+		</products>
+		<skillRequirements>
+			<Crafting>16</Crafting>
+		</skillRequirements>
+		<workSkill>Crafting</workSkill>
+		<researchPrerequisite>WTH_ModifiedHiveData</researchPrerequisite>
+	</RecipeDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>WTH_HackingSupportBuilding</defName>
+		<label>hacking assistant</label>
+		<description>A device that, when connected to a hacking bench, increases the chance of an operation being successful.</description>
+		<graphicData>
+			<texPath>Things/HackSupport</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<designationCategory>WTH_Hacking</designationCategory>
+		<costList>
+			<Steel>175</Steel>
+			<ComponentSpacer>2</ComponentSpacer>
+			<Plasteel>45</Plasteel>
+			<WTH_ModifiedMechanoidData>35</WTH_ModifiedMechanoidData>
+		</costList>
+		<comps>
+
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>125</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Facility">
+				<statOffsets>
+					<SurgerySuccessChanceFactor>0.5</SurgerySuccessChanceFactor>
+				</statOffsets>
+				<maxSimultaneous>2</maxSimultaneous>
+			</li>
+
+		</comps>
+		<altitudeLayer>Building</altitudeLayer>
+		<statBases>
+			<MaxHitPoints>150</MaxHitPoints>
+			<WorkToBuild>1500</WorkToBuild>
+			<MarketValue>230</MarketValue>
+			<Mass>20</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<size>(2, 2)</size>
+		<fillPercent>1.0</fillPercent>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<passability>Impassable</passability>
+		<rotatable>false</rotatable>
+		<canOverlapZones>false</canOverlapZones>
+		<tradeability>Sellable</tradeability>
+		<constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+		<researchPrerequisites>
+			<li>WTH_SupportFacilities</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>WTH_FacilitySupportBuilding</defName>
+		<label>mechanoid platform upgrade</label>
+		<description>A device capable of using modified hive data to steal a fraction of mechanoid hive's energy, greatly increasing a mechanoid platform's repair and charge rate while also lowering part consumption rate.</description>
+		<graphicData>
+			<texPath>Things/PlatformUpgradeBuilding</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<designationCategory>WTH_Hacking</designationCategory>
+		<costList>
+			<Steel>45</Steel>
+			<Gold>5</Gold>
+			<ComponentSpacer>2</ComponentSpacer>
+			<WTH_ModifiedMechanoidData>20</WTH_ModifiedMechanoidData>
+		</costList>
+		<comps>
+
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>25</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Facility">
+				<statOffsets>
+					<WTH_RepairRate>25</WTH_RepairRate>
+					<WTH_RechargeRate>50</WTH_RechargeRate>
+					<WTH_PartConsumptionRate>-5</WTH_PartConsumptionRate>
+				</statOffsets>
+				<maxSimultaneous>3</maxSimultaneous>
+			</li>
+
+		</comps>
+		<altitudeLayer>Building</altitudeLayer>
+		<statBases>
+			<MaxHitPoints>125</MaxHitPoints>
+			<WorkToBuild>2250</WorkToBuild>
+			<MarketValue>750</MarketValue>
+			<Mass>20</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<size>(1, 1)</size>
+		<fillPercent>1.0</fillPercent>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<passability>Impassable</passability>
+		<rotatable>false</rotatable>
+		<canOverlapZones>false</canOverlapZones>
+		<tradeability>Sellable</tradeability>
+		<constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+		<researchPrerequisites>
+			<li>WTH_SupportFacilities</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	
+</Defs>

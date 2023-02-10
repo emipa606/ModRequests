@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	
+<!--Adds the modules and necessary patches to make them work if Vanilla Fishing Expanded is active-->
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Fishing Expanded</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Normal</success>
+			<operations>
+				<!--Tier1-->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef>
+							<defName>WTH_FishModule</defName>
+							<label>fishing module</label>
+							<description>fishing module</description>
+							<defaultLabelColor>(0.5, 0.5, 0.9)</defaultLabelColor>
+							<isBad>false</isBad>
+							<stages>
+								<li>
+									<capMods>
+										<li>
+											<capacity>Manipulation</capacity>
+											<offset>-0.1</offset>
+										</li>
+									</capMods>
+								</li>
+							</stages>
+							<modExtensions>
+								<li Class="WhatTheHack.DefModExtension_Hediff">
+									<extraButcherProduct>WTH_FishModule</extraButcherProduct>
+									<canUninstall>true</canUninstall>
+									<destroyOnDeathChance>0.65</destroyOnDeathChance>
+								</li>
+								<li Class="WhatTheHack.DefModExtension_Hediff_WorkModule">
+									<workTypes>
+										<li>VCEF_Fishing</li>
+									</workTypes>
+									<skillLevel>4</skillLevel>
+								</li>
+							</modExtensions>
+						</HediffDef>		
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>WTH_InstallFishModule</defName>
+							<label>install fishing module</label>
+							<description>Install a fishing module.</description>
+							<workerClass>WhatTheHack.Recipes.Recipe_ModifyMechanoid_WorkModule</workerClass>
+							<jobString>Installing fishing module.</jobString>
+							<workAmount>5000</workAmount>
+							<surgerySuccessChanceFactor>1.3</surgerySuccessChanceFactor>
+							<deathOnFailedSurgeryChance>0.05</deathOnFailedSurgeryChance>
+							<skillRequirements>
+								<Crafting>5</Crafting>
+								<Intellectual>5</Intellectual>
+							</skillRequirements>
+							<workSkill>Intellectual</workSkill>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_FishModule</li>
+										</thingDefs>
+									</filter>
+									<count>1</count>
+								</li>
+							</ingredients>
+							<appliedOnFixedBodyParts>
+								<li>Reactor</li>
+							</appliedOnFixedBodyParts>
+							<addsHediff>WTH_FishModule</addsHediff>
+							<modExtensions>
+								<li Class="WhatTheHack.DefModExtension_Recipe">
+									<requireBed>true</requireBed>
+								</li>
+							</modExtensions>
+						</RecipeDef>
+					</value>
+				</li>	
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef ParentName="WTH_Craft_Module_Base">
+							<defName>WTH_Craft_FishModule</defName>
+							<label>craft fishing module</label>
+							<description>Craft a fishing module</description>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Plasteel</li>
+										</thingDefs>
+									</filter>
+									<count>10</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>ComponentSpacer</li>
+										</thingDefs>
+									</filter>
+									<count>1</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_MechanoidParts</li>
+										</thingDefs>
+									</filter>
+									<count>10</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_MechanoidChip</li>
+										</thingDefs>
+									</filter>
+									<count>3</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>Plasteel</li>
+									<li>ComponentSpacer</li>
+									<li>WTH_MechanoidChip</li>
+									<li>WTH_MechanoidParts</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<WTH_FishModule>1</WTH_FishModule>
+							</products>
+							<skillRequirements>
+								<Crafting>8</Crafting>
+							</skillRequirements>
+							<workSkill>Crafting</workSkill>
+							<researchPrerequisite>WTH_WorkModules</researchPrerequisite>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="BodyPartBase">
+							<defName>WTH_FishModule</defName>
+							<label>fishing module</label>
+							<description>Can be installed in a mechanoid to make it capable of fishing.</description>
+							<graphicData>
+								<texPath>Things/MechModuleTierOne</texPath>
+								<graphicClass>Graphic_Single</graphicClass>
+							</graphicData>
+							<soundInteract>Metal_Drop</soundInteract>
+							<soundDrop>Standard_Drop</soundDrop>
+							<stackLimit>1</stackLimit>
+							<statBases>
+								<WorkToMake>7000</WorkToMake>
+								<MaxHitPoints>70</MaxHitPoints>
+								<Mass>0.6</Mass>
+								<Flammability>1.0</Flammability>
+								<DeteriorationRate>2.0</DeteriorationRate>
+								<SellPriceFactor>0.70</SellPriceFactor>
+							</statBases>
+							<intricate>true</intricate>
+							<thingCategories>
+								<li>Manufactured</li>
+							</thingCategories>
+						</ThingDef>
+					</value>
+				</li>
+				<!--Tier2-->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef>
+							<defName>WTH_AdvancedFishModule</defName>
+							<label>Advanced fishing module</label>
+							<description>Advanced fishing module</description>
+							<defaultLabelColor>(255, 255, 0)</defaultLabelColor>
+							<isBad>false</isBad>
+							<stages>
+								<li>
+									<capMods>
+										<li>
+											<capacity>Manipulation</capacity>
+											<offset>-0.1</offset>
+										</li>
+										<li>
+											<capacity>Moving</capacity>
+											<offset>-0.25</offset>
+										</li>
+									</capMods>
+								</li>
+							</stages>
+							<modExtensions>
+								<li Class="WhatTheHack.DefModExtension_Hediff">
+									<extraButcherProduct>WTH_AdvancedFishModule</extraButcherProduct>
+									<canUninstall>true</canUninstall>
+									<destroyOnDeathChance>0.65</destroyOnDeathChance>
+								</li>
+								<li Class="WhatTheHack.DefModExtension_Hediff_WorkModule">
+									<workTypes>
+										<li>VCEF_Fishing</li>
+									</workTypes>
+									<skillLevel>10</skillLevel>
+								</li>
+							</modExtensions>
+						</HediffDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>WTH_InstallAdvancedFishModule</defName>
+							<label>install advanced fishing module</label>
+							<description>Install an advanced fishing module.</description>
+							<workerClass>WhatTheHack.Recipes.Recipe_ModifyMechanoid_WorkModule</workerClass>
+							<jobString>Installing advanced fishing module.</jobString>
+							<workAmount>5000</workAmount>
+							<surgerySuccessChanceFactor>1.3</surgerySuccessChanceFactor>
+							<deathOnFailedSurgeryChance>0.05</deathOnFailedSurgeryChance>
+							<skillRequirements>
+								<Crafting>10</Crafting>
+								<Intellectual>10</Intellectual>
+							</skillRequirements>
+							<workSkill>Intellectual</workSkill>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_AdvancedFishModule</li>
+										</thingDefs>
+									</filter>
+									<count>1</count>
+								</li>
+							</ingredients>
+							<appliedOnFixedBodyParts>
+								<li>Reactor</li>
+							</appliedOnFixedBodyParts>
+							<addsHediff>WTH_AdvancedFishModule</addsHediff>
+							<modExtensions>
+								<li Class="WhatTheHack.DefModExtension_Recipe">
+									<requireBed>true</requireBed>
+								</li>
+							</modExtensions>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef ParentName="WTH_Craft_Module_Base">
+							<defName>WTH_Craft_AdvancedFishModule</defName>
+							<label>craft advanced fishing module</label>
+							<description>Craft an advanced fishing module</description>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Plasteel</li>
+										</thingDefs>
+									</filter>
+									<count>25</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>ComponentSpacer</li>
+										</thingDefs>
+									</filter>
+									<count>2</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_MechanoidParts</li>
+										</thingDefs>
+									</filter>
+									<count>15</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_MechanoidChip</li>
+										</thingDefs>
+									</filter>
+									<count>8</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>Plasteel</li>
+									<li>ComponentSpacer</li>
+									<li>WTH_MechanoidChip</li>
+									<li>WTH_MechanoidParts</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<WTH_AdvancedFishModule>1</WTH_AdvancedFishModule>
+							</products>
+							<skillRequirements>
+								<Crafting>16</Crafting>
+							</skillRequirements>
+							<workSkill>Crafting</workSkill>
+							<researchPrerequisite>WTH_WorkModules</researchPrerequisite>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="BodyPartBase">
+							<defName>WTH_AdvancedFishModule</defName>
+							<label>Advanced fishing module</label>
+							<description>Can be installed in a mechanoid to make it capable of fishing. This model allows the mechanoid to perform the task with higher skill and precision at the cost of decreased movement speed.</description>
+							<graphicData>
+								<texPath>Things/MechModuleTierTwo</texPath>
+								<graphicClass>Graphic_Single</graphicClass>
+							</graphicData>
+							<soundInteract>Metal_Drop</soundInteract>
+							<soundDrop>Standard_Drop</soundDrop>
+							<stackLimit>1</stackLimit>
+							<statBases>
+								<WorkToMake>10000</WorkToMake>
+								<MaxHitPoints>70</MaxHitPoints>
+								<Mass>0.6</Mass>
+								<Flammability>1.0</Flammability>
+								<DeteriorationRate>2.0</DeteriorationRate>
+								<SellPriceFactor>1</SellPriceFactor>
+							</statBases>
+							<intricate>true</intricate>
+							<thingCategories>
+								<li>Manufactured</li>
+							</thingCategories>
+						</ThingDef>
+					</value>
+				</li>
+				<!--Tier3-->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef>
+							<defName>WTH_ArchotechFishModule</defName>
+							<label>Archotech fishing module</label>
+							<description>Archotech fishing module</description>
+							<defaultLabelColor>(80,220,100)</defaultLabelColor>
+							<isBad>false</isBad>
+							<stages>
+								<li>
+									<capMods>
+										<li>
+											<capacity>Manipulation</capacity>
+											<offset>0.1</offset>
+										</li>
+									</capMods>
+								</li>
+							</stages>
+							<modExtensions>
+								<li Class="WhatTheHack.DefModExtension_Hediff">
+									<extraButcherProduct>WTH_ArchotechFishModule</extraButcherProduct>
+									<canUninstall>true</canUninstall>
+									<destroyOnDeathChance>0.65</destroyOnDeathChance>
+								</li>
+								<li Class="WhatTheHack.DefModExtension_Hediff_WorkModule">
+									<workTypes>
+										<li>VCEF_Fishing</li>
+									</workTypes>
+									<skillLevel>20</skillLevel>
+								</li>
+							</modExtensions>
+						</HediffDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>WTH_InstallArchotechFishModule</defName>
+							<label>install archotech fishing module</label>
+							<description>Install an archotech fishing module.</description>
+							<workerClass>WhatTheHack.Recipes.Recipe_ModifyMechanoid_WorkModule</workerClass>
+							<jobString>Installing archotech fishing module.</jobString>
+							<workAmount>1000</workAmount>
+							<surgerySuccessChanceFactor>1.3</surgerySuccessChanceFactor>
+							<deathOnFailedSurgeryChance>0.0</deathOnFailedSurgeryChance>
+							<skillRequirements>
+								<Crafting>1</Crafting>
+								<Intellectual>1</Intellectual>
+							</skillRequirements>
+							<workSkill>Intellectual</workSkill>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>WTH_ArchotechFishModule</li>
+										</thingDefs>
+									</filter>
+									<count>1</count>
+								</li>
+							</ingredients>
+							<appliedOnFixedBodyParts>
+								<li>Reactor</li>
+							</appliedOnFixedBodyParts>
+							<addsHediff>WTH_ArchotechFishModule</addsHediff>
+							<modExtensions>
+								<li Class="WhatTheHack.DefModExtension_Recipe">
+									<requireBed>true</requireBed>
+								</li>
+							</modExtensions>
+						</RecipeDef>
+					</value>
+				</li>
+				
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="BodyPartBase">
+							<defName>WTH_ArchotechFishModule</defName>
+							<label>Archotech fishing module</label>
+							<description>Can be installed in a mechanoid to make it capable of fishing. This complex module is able to make even the most primitive device capable of working at the level of a professional. Can be installed with ease by almost anyone, it automatically implants itself into the machine if pushed into the right spot.</description>
+							<graphicData>
+								<texPath>Things/MechModuleTierThree</texPath>
+								<graphicClass>Graphic_Single</graphicClass>
+							</graphicData>
+							<soundInteract>Metal_Drop</soundInteract>
+							<soundDrop>Standard_Drop</soundDrop>
+							<stackLimit>1</stackLimit>
+							<statBases>
+								<MaxHitPoints>70</MaxHitPoints>
+								<MarketValue>4500</MarketValue>
+								<Mass>0.6</Mass>
+								<Flammability>1.0</Flammability>
+								<DeteriorationRate>2.0</DeteriorationRate>
+								<SellPriceFactor>0.70</SellPriceFactor>
+							</statBases>
+							<intricate>true</intricate>
+							<thingSetMakerTags>
+								<li>RewardStandardHighFreq</li>
+							</thingSetMakerTags>
+							<thingCategories>
+								<li>Manufactured</li>
+							</thingCategories>
+							<tradeTags>
+								<li>Artifact</li>
+							</tradeTags>
+						</ThingDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[@ParentName="BaseMechanoid" or (race/fleshType = "Mechanoid" and not (@ParentName="BaseMechanoid") and not (@Name="BaseMechanoid"))]/recipes</xpath>
+					<value>
+						<li>WTH_InstallFishModule</li>
+						<li>WTH_InstallAdvancedFishModule</li>
+						<li>WTH_InstallArchotechFishModule</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName = "WTH_TableMechanoidWorkshop"]/recipes</xpath>
+					<value>
+						<li>WTH_Craft_FishModule</li>
+						<li>WTH_Craft_AdvancedFishModule</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>
