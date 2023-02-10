@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>FCP Fallout New Vegas Shotguns!</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+                <!-- Defines how many total pellets are launched for the shotgun's projectile -->
+                <!-- You also don't need to change damage amount; the mod will take care of that automatically -->
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>/Defs/ThingDef[defName="3_0_Shell_Shotgun"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>6</pelletCount>
+                        </li>
+                    </value>
+                </li>
+
+                <!-- Changes the shotgun projectile's texture so that it appears to be a single pellet -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="3_0_Shell_Shotgun"]/graphicData/texPath</xpath>
+                    <value>
+                        <texPath>Things/Projectile/Bullet_Small</texPath>
+                    </value>
+                </li>
+
+                <!-- Effectively tells the game that the shotgun should fire buckshots according to its projectile's pelletCount -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="FCP_Gun_Sturdy_Caravan_Shotgun"]/verbs//li[verbClass="Verb_Shoot" and defaultProjectile="3_0_Shell_Shotgun"]/verbClass</xpath>
+                    <value>
+                        <verbClass>ProperShotguns.Verb_ShootShotgun</verbClass>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+
+</Patch>

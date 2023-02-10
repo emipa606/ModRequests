@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>[RH2] Rimmu-Nation² - Weapons</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+                <!-- Defines how many total pellets are launched for the shotgun's projectile -->
+                <!-- You also don't need to change damage amount; the mod will take care of that automatically -->
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>/Defs/ThingDef[defName="RNBullet_12Gauge_Shotgun"]</xpath>
+                    <value>
+                        <li Class="ProperShotguns.ShotgunExtension">
+                            <pelletCount>6</pelletCount>
+                        </li>
+                    </value>
+                </li>
+
+                <!-- Changes the shotgun projectile's texture so that it appears to be a single pellet -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="RNBullet_12Gauge_Shotgun"]/graphicData/texPath</xpath>
+                    <value>
+                        <texPath>Things/Projectile/Bullet_Small</texPath>
+                    </value>
+                </li>
+
+                <!-- Effectively tells the game that the shotgun should fire buckshots according to its projectile's pelletCount -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="RNGUN_AA12_Shotgun" or defName = "RNGun_Remington870MCS_Shotgun" or defName = "RNGun_SPAS12_Shotgun" or defName = "RNGun_Model1897_Shotgun" or defName = "RNGun_IZh43_Shotgun" or defName = "RNGun_BenelliMontefeltro_Shotgun" or defName = "RNGun_Mossberg500_Shotgun" or defName = "RNGun_Saiga12_Shotgun" or defName = "RNGun_USAS12_Shotgun" or defName = "RNGun_SpartanMarine_Shotgun" or defName = "RNGun_M1014_Shotgun" or defName = "RNGun_StoegerCoachGun_Shotgun"]/verbs//li[verbClass="Verb_Shoot" and defaultProjectile="RNBullet_12Gauge_Shotgun"]/verbClass</xpath>
+                    <value>
+                        <verbClass>ProperShotguns.Verb_ShootShotgun</verbClass>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+
+</Patch>
