@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<RulePackDef>
+		<defName>NamerRitualStudytheTraditions</defName>
+		<rulePack>
+			  <rulesStrings>
+			  
+					<li>r_ritualName->[ritNoun] of [keyDeity]</li>
+					<li>r_ritualName->[ritNoun] of [chosenTheme]</li>
+					<li>r_ritualName->[ritNoun] of [memeConcept]</li>
+					<li>r_ritualName->[memeAdjective] [ritNoun]</li>
+
+					<li>ritNoun->lore</li>
+					<li>ritNoun->chronicle</li>
+					<li>ritNoun->culture</li>
+					<li>ritNoun->word</li>
+					<li>ritNoun->text</li>
+					<li>ritNoun->tome</li>
+				
+			  </rulesStrings>
+		</rulePack>
+	</RulePackDef>
+	
+	
+	<PreceptDef>
+		<defName>LiteraryTradition</defName>
+		<label>literary tradition</label>
+		<description>A means to communicate our culture for all time through the sacred tomes.</description>
+		<issue>Ritual</issue>
+		<impact>Medium</impact>
+		<iconPath>UI/Precepts/LiteraryTraditionSymbol</iconPath>
+		<preceptClass>Precept_Ritual</preceptClass>
+		<ritualPatternBase>LiteraryTradition</ritualPatternBase>
+		<allowDuplicates>false</allowDuplicates>
+		<countsTowardsPreceptLimit>true</countsTowardsPreceptLimit>
+		<selectionWeight>1.0</selectionWeight>
+		<displayOrderInImpact>100</displayOrderInImpact>
+		<ignoreLimitsInEditMode>false</ignoreLimitsInEditMode>
+		<receivesExpectationsQualityOffset>false</receivesExpectationsQualityOffset>
+		<canGenerateAsSpecialPrecept>false</canGenerateAsSpecialPrecept>
+		<associatedMemes>
+		  <li>LiteraryTradition</li>
+		</associatedMemes>
+		<requiredMemes>
+		  <li>LiteraryTradition</li>
+		</requiredMemes>
+		<conflictingMemes>
+		  <li>OralTradition</li>
+		</conflictingMemes>
+		<modExtensions>
+			<li Class="TPRitualAttachableOutcomes.Precept_Ritual_Custom">
+				<coolDownDays>7</coolDownDays>
+			</li>
+		</modExtensions>
+	</PreceptDef>
+		
+	
+	<RitualPatternDef>
+		<defName>LiteraryTradition</defName>
+		<ritualBehavior>LiteraryTradition</ritualBehavior>
+		<ritualTargetFilter>AltarOrRitualSpot</ritualTargetFilter>
+		<ritualObligationTargetFilter>RitualSpotOrAltar</ritualObligationTargetFilter>
+		<ritualExplanation>In case of success, all attendees will be inspired to learn. If it backfires, their interest in greater understanding will decrease.</ritualExplanation>
+		<ritualOutcomeEffect>LiteraryTradition</ritualOutcomeEffect>
+		<nameMaker>NamerRitualStudytheTraditions</nameMaker>
+		<shortDescOverride>Literary Tradition</shortDescOverride>
+		<descOverride>Read through the Traditions</descOverride>
+		<ritualOnlyForIdeoMembers>true</ritualOnlyForIdeoMembers>
+		<canStartAnytime>true</canStartAnytime>
+		<tags>
+			<li>LiteraryTradition</li>
+		</tags>
+		<patternGroupTag>LiteraryTradition</patternGroupTag>
+	</RitualPatternDef>
+	
+	<RitualBehaviorDef>
+    <defName>LiteraryTradition</defName>
+    <workerClass>RitualBehaviorWorker_Speech</workerClass>
+    <durationTicks>5000</durationTicks>
+    <letterTitle>{RITUAL_labelCap}</letterTitle>
+    <letterText>{SPEAKER_labelShort} is giving a {RITUAL_labelIndef}.
+      \nIf all goes well, attendees will feel inspired and gain a bonus to their research abilities. If it goes poorly, the ritual will reduce their ability to research.</letterText>
+    <roles>
+      <li Class="RitualRoleTag">
+        <label>reader</label>
+        <tag>Moralist</tag>
+        <id>speaker</id>
+        <precept>IdeoRole_Moralist</precept>
+        <required>True</required>
+        <substitutable>False</substitutable>
+		<maxCount>1</maxCount>
+        <countsAsParticipant>False</countsAsParticipant>
+      </li>
+    </roles>
+    <stages>
+      <li>
+        <defaultDuty>Spectate</defaultDuty>
+        <allowedSpectateSidesOverride>Vertical</allowedSpectateSidesOverride>
+        <spectateDistanceOverride>1</spectateDistanceOverride>
+        <spectatorsRequired>true</spectatorsRequired>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>1</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+			<li>
+				<roleId>speaker</roleId>
+				<dutyDef>SpeakOnCell_Leader</dutyDef>
+				<speakerInteraction>Speech_LiteraryTradition</speakerInteraction>
+				<customPositions>
+				  <li Class="RitualPosition_Lectern">
+					<maxDistanceToFocus>5</maxDistanceToFocus>
+				  </li>
+				  <li Class="RitualPosition_BesideThing" />
+				</customPositions>
+			</li>
+        </roleBehaviors>
+        <visualEffectDef>Speech</visualEffectDef>
+      </li>
+    </stages>
+  </RitualBehaviorDef>
+  
+	<InteractionDef>
+	<defName>Speech_LiteraryTradition</defName>
+	<label>leader speech</label>
+	<workerClass>InteractionWorker</workerClass>
+	<ignoreTimeSinceLastInteraction>True</ignoreTimeSinceLastInteraction>
+	<symbol>UI/Precepts/LiteraryTraditionSymbol-coloured</symbol>
+	<logRulesInitiator>
+	  <include><li>SpeechUtility</li></include>
+	  <rulesStrings>
+		<li>r_logentry->[INITIATOR_nameDef] [spokeof] [speechtopic].</li>
+
+		<li>speechtopic->supporting one's [Community] as it is written</li>
+		<li>speechtopic->destroying our [Enemy]s</li>
+		<li>speechtopic->how to be a good [PersonAlly] as it is written</li>
+		<li>speechtopic->defeating [Enemy] through [ConceptBadass] writing</li>
+		<li>speechtopic->the meaning of [ConceptPositive]</li>
+		<li>speechtopic->the value of [ConceptPositive]</li>
+		<li>speechtopic->[AdjectiveNatural] [TerrainFeature]s</li>
+		<li>speechtopic->how to be [AdjectiveFriendly] as it is written</li>
+		<li>speechtopic->extoling the virtues of being [PersonalCharacteristic]</li>
+		<li>speechtopic->the colony's [AdjectiveLarge] potential</li>
+		<li>speechtopic->the symbolism of the [NaturalObject] and the [NaturalObject]</li>
+		<li>speechtopic->the [ConceptPositive] of the colony</li>
+		<li>speechtopic->[ConceptPositive] words</li>
+		<li>speechtopic->[ConceptPositive] writing</li>
+		<li>speechtopic->how all are [PersonFamily]s and [PersonFamily]s as it is written</li>
+		<li>speechtopic->how to be use writing like [Weapon]s</li>
+		<li>speechtopic->how a good word is like a [AdjectiveBadass] [BodyPart]</li>
+		<li>speechtopic->the terrible writing of the [Enemy]</li>
+		<li>speechtopic->the written word is more [AdjectiveLarge] than the [Weapon]</li>
+		<li>speechtopic->avoiding [AdjectiveAngsty] writing</li>
+		<li>speechtopic->how to be [AdjectiveFriendly] as it is written</li>
+		
+		<li>speechtopic(p=0.25)->following the path of the sacred tomes together</li>
+		<li>speechtopic(p=0.25)->the path forward through literary tragedy</li>
+		<li>speechtopic(p=0.25)->the community and its importance as written</li>
+		<li>speechtopic(p=0.25)->survival versus luxury</li>
+		<li>speechtopic(p=0.25)->happiness through hard study</li>
+		<li>speechtopic(p=0.25)->satisfaction through reading</li>
+		<li>speechtopic(p=0.25)->strong words and minds</li>
+
+	  </rulesStrings>
+	</logRulesInitiator>
+	</InteractionDef>
+  
+  <RitualOutcomeEffectDef>
+    <defName>LiteraryTradition</defName>
+    <description>Depending on ritual quality, participants will get between -4 and +4 mood for {MOODDAYS} days.</description>
+	<workerClass>TPRitualAttachableOutcomes.RitualOutcomeEffectWorker_FromQuality_TP_Custom</workerClass>
+    <allowAttachableOutcome>false</allowAttachableOutcome>
+    <comps>
+      <li Class="RitualOutcomeComp_BuildingOfDefUsed">
+        <def>Lectern</def>
+        <qualityOffset>0.15</qualityOffset>
+        <maxHorDistFromTarget>5</maxHorDistFromTarget>
+      </li>
+	  <li Class="RitualOutcomeComp_PawnStatScaled">
+        <label>{PAWN_labelShort}'s research impact</label>
+        <labelAbstract>speaker's research impact</labelAbstract>
+        <roleId>moralist</roleId>
+        <statDef>ResearchSpeed</statDef>
+        <curve>
+          <points>
+            <li>(0.2,  0.0)</li>
+            <li>(0.6,  0.18)</li>
+            <li>(1.0, 0.25)</li>
+            <li>(1.5, 0.3)</li>
+          </points>
+        </curve>
+      </li>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1,  0.0)</li>
+            <li>(5,  0.3)</li>
+            <li>(10, 0.4)</li>
+          </points>
+        </curve>
+      </li>
+	  <li Class="RitualOutcomeComp_RitualSeatPresent">
+        <qualityOffset>0.15</qualityOffset>
+      </li>
+    </comps>
+    <outcomeChances>
+      <li>
+        <label>Terrible</label>
+		<chance>0.15</chance>
+		<memory>TerribleLiteraryPresentation</memory>
+        <description>The {0} was terrible! Why do we even keep those dusty books?</description>
+		<positivityIndex>-2</positivityIndex>
+      </li>
+      <li>
+        <label>Bad</label>
+        <chance>0.35</chance>
+        <memory>BadWrittenTradition</memory>
+        <description>The {0} was bad. The words recorded are not interesting.</description>
+        <positivityIndex>-1</positivityIndex>
+      </li>
+      <li>
+        <label>Satisfying</label>
+        <chance>0.35</chance>
+        <memory>SatisfyingReadingofLore</memory>
+        <description>The {0} was satisfying. It's good that we studied the texts.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Spectacular</label>
+        <chance>0.15</chance>
+        <memory>SpectacularExpositionofTexts</memory>
+        <description>The {0} was spectacular! Our sacred tomes have provided us exactly the information we needed!</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+
+	<modExtensions>
+		<li Class="TPRitualAttachableOutcomes.RitualAttachableOutcomeEffectDef_TP_Custom">
+			<node Class="TPRitualAttachableOutcomes.RitualAttachableOutcomeEffectDef_TP_Custom_Node">
+				<li>
+					<triggerPositivityIndex>
+						<li>-2</li>
+						<li>-1</li>
+					</triggerPositivityIndex>
+					<hediffToAdd>
+						<li>LiteratureResearchSpeedDown</li>
+					</hediffToAdd>
+				</li>
+				<li>
+					<triggerPositivityIndex>						
+						<li>1</li>
+						<li>2</li>
+					</triggerPositivityIndex>
+					<hediffToAdd>
+						<li>LiteratureResearchSpeedUp</li>
+					</hediffToAdd>
+				</li>
+			</node>
+		</li>
+	</modExtensions>
+  </RitualOutcomeEffectDef>
+		
+  <HediffDef>
+    <defName>LiteratureResearchSpeedUp</defName>
+    <label>Cultural Inspiration</label>
+    <description>Inspired to do research.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+	     <disappearsAfterTicks>450000</disappearsAfterTicks>
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+    </comps>
+    <isBad>false</isBad>
+    <stages>
+	  <li>
+        <statOffsets>
+		  <ResearchSpeed>0.05</ResearchSpeed>
+		</statOffsets>
+	  </li>
+    </stages>
+	<defaultLabelColor>(0.3, 1, 0.3)</defaultLabelColor>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>LiteratureResearchSpeedDown</defName>
+    <label>Cultural Malaise</label>
+    <description>Uninspired to do research.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+	     <disappearsAfterTicks>450000</disappearsAfterTicks>
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+    </comps>
+    <isBad>true</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+		  <ResearchSpeed>-0.05</ResearchSpeed>
+		</statOffsets>
+	  </li>
+    </stages>
+	<defaultLabelColor>(0.3, 1, 0.3)</defaultLabelColor>
+  </HediffDef>
+
+</Defs>
