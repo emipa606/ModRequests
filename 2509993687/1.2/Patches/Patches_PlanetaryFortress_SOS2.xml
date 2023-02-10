@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<!-- Search SOS2 -->
+
+	<!-- AssaultPod -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Save Our Ship 2</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+		<operations>
+		<!-- ============== Adding Comps =============== -->
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName = "PlanetaryFortress"]/comps</xpath>
+			
+			<value>
+			<li Class="CompProperties_BecomePawn">
+			<pawnDef>PlanetaryFortressHover</pawnDef>
+			</li>
+			</value>
+		</li>
+
+		<!-- ============== Adding Race =============== -->
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+		<value>
+  <ThingDef ParentName="BaseShuttle">
+    <defName>PlanetaryFortressRace</defName>
+    <label>Planetary Fortress (Hover)</label>
+    <description>Planetary Fortress (Hover)</description>
+    <statBases>
+      <MoveSpeed>1.5</MoveSpeed>
+	  <Mass>300</Mass>
+      <CarryingCapacity>100</CarryingCapacity>
+      <ArmorRating_Blunt>0.1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.3</ArmorRating_Sharp>
+      <MeatAmount>0</MeatAmount>
+      <MarketValue>1500</MarketValue>
+    </statBases>
+    <verbs>
+    </verbs>
+    <race>
+      <intelligence>Animal</intelligence>
+      <thinkTreeMain>ShuttleThinkTree</thinkTreeMain>
+      <body>SoSShuttlecraft</body>
+      <baseBodySize>4.0</baseBodySize>
+      <baseHealthScale>4.0</baseHealthScale>
+		<packAnimal>true</packAnimal>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Centipede_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centipede_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centipede_Call</soundCall>
+        </li>
+      </lifeStageAges>
+	  <ageGenerationCurve>
+        <points>
+          <li>(0,0)</li>
+		  <li>(0.001,100)</li>
+		  <li>(0.01,0)</li>
+        </points>
+      </ageGenerationCurve>
+      <soundCallIntervalRange>
+        <min>9999</min>
+        <max>9999</max>
+      </soundCallIntervalRange>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+      <deathActionWorkerClass>DeathActionWorker_BigExplosion</deathActionWorkerClass>	  
+    </race>
+    <butcherProducts>
+      <Steel>280</Steel>
+      <Plasteel>150</Plasteel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </butcherProducts>
+	<comps>
+		<li Class="CompProperties_Refuelable">
+			<fuelCapacity>800.0</fuelCapacity>
+			<initialConfigurableTargetFuelLevel>400</initialConfigurableTargetFuelLevel>
+			<targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+			<fuelConsumptionRate>35.0</fuelConsumptionRate>
+			<fuelFilter>
+				<thingDefs>
+					<li>ChemGas</li>
+				</thingDefs>
+			</fuelFilter>
+			<consumeFuelOnlyWhenUsed>false</consumeFuelOnlyWhenUsed>
+		</li>
+		<li Class="CompProperties_BecomeBuilding">
+			<buildingDef>PlanetaryFortress</buildingDef>
+			<fuelPerTile>3.25</fuelPerTile>
+			<skyfaller>ShuttleIncomingPersonal</skyfaller>
+		</li> 
+	</comps>
+  </ThingDef>
+	</value>
+	</li>
+		<!-- ============== Adding PawnKinds =============== -->
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+		<value>
+  <PawnKindDef>
+    <defName>PlanetaryFortressHover</defName>
+    <label>Planetary Fortress (Hover)</label>
+    <race>PlanetaryFortressRace</race>
+	<combatPower>999999</combatPower>
+	<isFighter>false</isFighter>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <aiAvoidCover>true</aiAvoidCover>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Building/PlanetaryFortress/Hover/PlanetaryFortressHover</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>14</drawSize>
+          <shadowData>
+        <volume>(6.75,1.0,5.35)</volume>
+        <offset>(0.5,0,-2.55)</offset>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>
+      <min>0</min>
+      <max>0</max>
+    </weaponMoney>
+    <weaponTags>
+    </weaponTags>
+  </PawnKindDef>
+  
+	</value>
+	</li>
+
+
+	
+			</operations>
+		</match>
+	</Operation>
+
+
+</Patch>

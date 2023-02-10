@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="AutoTurret" ParentName="BuildingBase" Abstract="True">
+    <category>Building</category>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <selectable>true</selectable>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <repairEffect>Repair</repairEffect>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <filthLeaving>Filth_RubbleBuilding</filthLeaving>
+    <rotatable>false</rotatable>	
+    <statBases>
+      <SellPriceFactor>0.70</SellPriceFactor>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <stealable>false</stealable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>Buildings</li>
+    </thingCategories>
+	<inspectorTabs>
+		<li>ITab_ContentsTransporter</li>
+	</inspectorTabs>
+    <pathCost>60</pathCost>
+    <pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.90</fillPercent>
+    <designationCategory>Security</designationCategory>
+    <killedLeavings>
+      <ChunkSlagSteel>12</ChunkSlagSteel>
+    </killedLeavings>
+	<comps>
+		<li Class="CompProperties_Explosive">
+			<explosiveRadius>1.1</explosiveRadius>
+			<explosiveExpandPerFuel>0.02</explosiveExpandPerFuel>
+			<explosiveDamageType>Bomb</explosiveDamageType>
+			<destroyThingOnExplosionSize>0.3</destroyThingOnExplosionSize>
+			<startWickHitPointsPercent>0.15</startWickHitPointsPercent>
+			<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.25</preExplosionSpawnChance>
+			<wickTicks>
+				<min>90</min>
+				<max>140</max>
+			</wickTicks>
+		</li>
+	</comps>
+  </ThingDef>
+
+
+
+  <ThingDef ParentName="AutoTurret">
+    <defName>AutoTurret</defName> 
+    <label>Auto-Turret</label> 
+    <description>An airborne automatic turret for fixed-point defense, it can be deployed repeatedly after installing the SRTS engine. This turret itself is fragile and needs to be used flexibly.</description>
+
+     <thingClass>TerrenSecurity.Building_CanSetForcedTargetTurret</thingClass>
+	 
+    <graphicData>
+      <texPath>Things/Building/AutoTurret/AutoTurret</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize> 
+      <shadowData>
+        <volume>(1.37,1.45,1.37)</volume>
+        <offset>(0.2,0,0.2)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(2,2)</size> 
+    <statBases>
+      <MaxHitPoints>530</MaxHitPoints> 
+      <WorkToBuild>6000</WorkToBuild> 
+      <Flammability>0</Flammability>
+      <Mass>20</Mass> 
+      <Beauty>5</Beauty>
+    </statBases>
+    <costList> 
+      <Steel>250</Steel>
+      <Plasteel>80</Plasteel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+	<comps>	  
+  <li Class="CompProperties_Refuelable">
+     <fuelCapacity>250</fuelCapacity>
+     <fuelConsumptionRate>0.8</fuelConsumptionRate>
+     <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+     <initialConfigurableTargetFuelLevel>125</initialConfigurableTargetFuelLevel>
+     <fuelFilter>
+     <thingDefs>
+        <li>ChemGas</li>
+     </thingDefs>
+     </fuelFilter>
+     <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+     <autoRefuelPercent>1</autoRefuelPercent>
+     <showFuelGizmo>true</showFuelGizmo>
+     <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+     <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+   </li>
+        <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-160</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Breakdownable" />
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(217,217,217,0)</glowColor>
+      </li>	  	  	  
+	</comps>	
+	<researchPrerequisites>
+      <li>Research_AutoTurret</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite> 
+    <uiIconPath>Things/Building/AutoTurret/AutoTurretUI</uiIconPath>	
+    <uiIconScale>1.2</uiIconScale> 
+    <killedLeavings>
+    <ChunkSlagSteel>6</ChunkSlagSteel>
+    </killedLeavings>
+	
+    <building>
+      <hasFuelingPort>true</hasFuelingPort>	
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>AutoTurret_Turret_Top</turretGunDef>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+      <turretTopDrawSize>3</turretTopDrawSize>
+      <turretTopOffset>(0, 0.35)</turretTopOffset>
+	  </building>	
+	
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+      <li>PlaceWorker_NotUnderRoof</li>	  
+    </placeWorkers>
+	
+	
+  </ThingDef>
+  
+  
+
+
+</Defs>
