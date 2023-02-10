@@ -1,0 +1,121 @@
+<!-- With this, the option to summon mech clusers shouldn't appear if Royalty isn't installed -->
+<Patch>
+	
+
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Cooking Expanded</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Normal</success>
+			<operations>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="RoughPlantBase">
+							<defName>ArchoNutVial</defName>
+							<label>archotech spices vial</label>
+							<description>A vial containing a strange liquid. It's apparently not only edible, but tasty and beneficial aswell.</description>
+							<graphicData>
+								<texPath>Things/Items/FoodVial</texPath>
+								<graphicClass>Graphic_StackCount</graphicClass>
+							</graphicData>
+							<statBases>
+								<MarketValue>10</MarketValue>
+								<Nutrition>1</Nutrition>
+								<Flammability>0</Flammability>
+							</statBases>
+							<thingCategories>
+								<li>VCE_Condiments</li>
+							</thingCategories>
+							<ingestible>
+								<preferability>NeverForNutrition</preferability>
+								<specialThoughtAsIngredient>AteArchoVialVCE</specialThoughtAsIngredient>
+								<optimalityOffsetFeedingAnimals>-50</optimalityOffsetFeedingAnimals>
+
+							</ingestible>
+						</ThingDef>
+					</value>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ThoughtDef>
+							<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+							<defName>AteArchoVialVCE</defName>
+							<hediff>VCE_ConsumedArchotechVial</hediff>
+							<durationDays>1</durationDays>
+							<stages>
+								<li>
+									<label>consumed archotech vial</label>
+									<description>No idea what I just ate, but I feel strangely energized!</description>
+									<baseMoodEffect>2</baseMoodEffect>
+								</li>
+							</stages>
+						</ThoughtDef>
+					</value>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef>
+							<defName>VCE_ConsumedArchotechVial</defName>
+							<label>consumed archotech nutrient vial (from meal)</label>
+							<makesSickThought>false</makesSickThought>
+							<description>Consuming contents of the archotech spice vial has given this pawn a small boost.</description>
+							<tendable>false</tendable>
+							<isBad>false</isBad>
+							<defaultLabelColor>(92,62,198)</defaultLabelColor>
+							<hediffClass>HediffWithComps</hediffClass>
+							<initialSeverity>1.0</initialSeverity>
+							<maxSeverity>1.0</maxSeverity>
+							<comps>
+								<li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+									<thoughtDefs>
+										<li>AteArchoVialVCE</li>
+									</thoughtDefs>
+								</li>
+							</comps>
+							<stages>
+								<li>
+									<capMods>
+										<li>
+											<capacity>Moving</capacity>
+											<offset>0.25</offset>
+										</li>
+										<li>
+											<capacity>Manipulation</capacity>
+											<offset>0.25</offset>
+										</li>
+									</capMods>
+								</li>
+							</stages>
+						</HediffDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName = "ArchoCookingAssistant"]/comps</xpath>
+					<value>
+						<li Class="CompProperties_Spawner3">
+							<requiresPower>false</requiresPower>
+							<thingToSpawn>ArchoNutVial</thingToSpawn>
+							<spawnCount>3</spawnCount>
+							<spawnIntervalRange>
+								<min>320000</min>
+								<max>320000</max>
+							</spawnIntervalRange>
+							<writeTimeLeftToSpawn>true</writeTimeLeftToSpawn>
+							<showMessageIfOwned>true</showMessageIfOwned>
+						</li>
+					</value>
+				</li>
+				
+				
+			</operations>
+		</match>
+	</Operation>
+</Patch>
