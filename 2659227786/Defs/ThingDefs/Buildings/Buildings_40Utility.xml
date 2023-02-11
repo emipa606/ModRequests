@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Defs>
+
+  <ThingDef Name="ARR_TemperatureDeviceBase" ParentName="BuildingBase" Abstract="True">
+    <category>Building</category>
+    <rotatable>false</rotatable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>0.40</fillPercent>
+    <thingCategories>
+      <li>ARRBuildings</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>200</WorkToBuild>
+      <Mass>5</Mass>
+      <Flammability>0.4</Flammability>
+    </statBases>
+    <selectable>true</selectable>
+    <costList>
+      <Steel>40</Steel>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationCategory>ARR_Aether</designationCategory>
+    <researchPrerequisites>
+      <li>ARR_AethericDevices</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!-- aetheric cooler -->
+  <ThingDef ParentName="ARR_TemperatureDeviceBase">
+    <defName>ARR_AethericCooler</defName>
+    <label>aetheric cooler</label>
+    <description>A simple evaporative cooler that uses water crystals. It doesn't cool enough to refrigerate food, but will keep a room comfortable in warm weather.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/AethericCooler</texPath>
+      <drawSize>(2,2)</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+<!--      <shadowData>-->
+<!--        <volume>(0.9,0.3,0.9)</volume>-->
+<!--      </shadowData>-->
+<!--      <damageData>-->
+<!--        <rect>(0.2,0,0.6,0.1)</rect>-->
+<!--      </damageData>-->
+    </graphicData>
+    <costList>
+      <Steel>40</Steel>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <!--
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>-21</heatPerSecond>
+        <heatPushMinTemperature>17</heatPushMinTemperature>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>2.0</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      -->
+      <li Class="CompProperties_Flickable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherUser">
+        <baseAetherConsumption>3.0</baseAetherConsumption>
+        <canUseAetherLinks>true</canUseAetherLinks>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>10.0</aetherCapacity>
+        <canBeFilled>true</canBeFilled>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_WaterCrystal</fuelThingDef>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherThermostat">
+        <baseHeatPerSecond>-21</baseHeatPerSecond>
+        <targetTemp>17</targetTemp>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(117,176,219,0)</glowColor>
+        <conditionalOnAethericUse>true</conditionalOnAethericUse>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- aetheric freezer -->
+  <ThingDef ParentName="ARR_TemperatureDeviceBase">
+    <defName>ARR_AethericIceCooler</defName>
+    <label>aetheric ice cooler</label>
+    <description>An aetheric cooler that uses ice crystals. It is stronger than a water-based aetheric cooler and can be used to refrigerate food.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/AethericIceCooler</texPath>
+      <drawSize>(2,2)</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+<!--      <shadowData>-->
+<!--        <volume>(0.9,0.3,0.9)</volume>-->
+<!--      </shadowData>-->
+<!--      <damageData>-->
+<!--        <rect>(0.2,0,0.6,0.1)</rect>-->
+<!--      </damageData>-->
+    </graphicData>
+    <costList>
+      <Steel>60</Steel>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+    </placeWorkers>
+    <comps>
+      <!--
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>-21</heatPerSecond>
+        <heatPushMinTemperature>5</heatPushMinTemperature>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>5.0</fuelConsumptionRate>
+        <fuelCapacity>30.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_IceCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      -->
+      <li Class="CompProperties_Flickable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherUser">
+        <baseAetherConsumption>4.0</baseAetherConsumption>
+        <canUseAetherLinks>true</canUseAetherLinks>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>20.0</aetherCapacity>
+        <canBeFilled>true</canBeFilled>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_IceCrystal</fuelThingDef>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherThermostat">
+        <baseHeatPerSecond>-21</baseHeatPerSecond>
+        <targetTemp>4</targetTemp>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(115,181,196,0)</glowColor>
+        <conditionalOnAethericUse>true</conditionalOnAethericUse>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- aetheric heater -->
+  <ThingDef ParentName="ARR_TemperatureDeviceBase">
+    <defName>ARR_AethericHeater</defName>
+    <label>aetheric heater</label>
+    <description>An aetheric device that generates heat when fueled with fire crystals. It can be used to keep rooms warm in cold weather.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/AethericHeater</texPath>
+      <drawSize>(2,2)</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+<!--      <shadowData>-->
+<!--        <volume>(0.5,0.3,0.7)</volume>-->
+<!--        <offset>(0,0,-0.15)</offset>-->
+<!--      </shadowData>-->
+<!--      <damageData>-->
+<!--        <rect>(0.234375,0,0.515625,0.984375)</rect>-->
+<!--        <cornerTL>Damage/Corner</cornerTL>-->
+<!--        <cornerTR>Damage/Corner</cornerTR>-->
+<!--        <cornerBL>Damage/Corner</cornerBL>-->
+<!--        <cornerBR>Damage/Corner</cornerBR>-->
+<!--      </damageData>-->
+    </graphicData>
+    <costList>
+      <Steel>50</Steel>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <comps>
+      <!--
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>21</heatPerSecond>
+        <heatPushMaxTemperature>24</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>5.0</fuelConsumptionRate>
+        <fuelCapacity>20.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(210,159,131,0)</glowColor>
+      </li>
+      -->
+      <li Class="CompProperties_Flickable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherUser">
+        <baseAetherConsumption>4.0</baseAetherConsumption>
+        <canUseAetherLinks>true</canUseAetherLinks>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>10.0</aetherCapacity>
+        <canBeFilled>true</canBeFilled>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_FireCrystal</fuelThingDef>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherThermostat">
+        <baseHeatPerSecond>21</baseHeatPerSecond>
+        <targetTemp>24</targetTemp>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(224,38,13,0)</glowColor>
+        <conditionalOnAethericUse>true</conditionalOnAethericUse>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- aetheric thermostat -->
+  <ThingDef ParentName="ARR_TemperatureDeviceBase">
+    <defName>ARR_AethericThermostat</defName>
+    <label>aetheric thermostat</label>
+    <description>An aetheric temperature control device that can be used to heat or cool a room. It is strong enough to freeze food and can be adapted to use aetheric links as well as consuming a variety of crystals for fuel.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/AethericThermostat</texPath>
+      <drawSize>(2,2)</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+<!--      <shadowData>-->
+<!--        <volume>(0.5,0.3,0.7)</volume>-->
+<!--        <offset>(0,0,-0.15)</offset>-->
+<!--      </shadowData>-->
+<!--      <damageData>-->
+<!--        <rect>(0.234375,0,0.515625,0.984375)</rect>-->
+<!--        <cornerTL>Damage/Corner</cornerTL>-->
+<!--        <cornerTR>Damage/Corner</cornerTR>-->
+<!--        <cornerBL>Damage/Corner</cornerBL>-->
+<!--        <cornerBR>Damage/Corner</cornerBR>-->
+<!--      </damageData>-->
+    </graphicData>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherUser">
+        <baseAetherConsumption>6.0</baseAetherConsumption>
+        <minimumConsumptionRate>0.5</minimumConsumptionRate>
+        <maximumConsumptionRate>2.0</maximumConsumptionRate>
+        <canUseAetherLinks>true</canUseAetherLinks>
+        <canAdjustConsumptionRate>true</canAdjustConsumptionRate>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>30.0</aetherCapacity>
+        <canBeFilled>true</canBeFilled>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDefs>
+          <li>ARR_FireCrystal</li>
+          <li>ARR_IceCrystal</li>
+          <li>ARR_WaterCrystal</li>
+        </fuelThingDefs>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherThermostat">
+        <baseHeatPerSecond>21</baseHeatPerSecond>
+        <minimumTemp>-50</minimumTemp>
+        <maximumTemp>50</maximumTemp>
+        <bidirectional>true</bidirectional>
+        <canAdjustTargetTemp>true</canAdjustTargetTemp>
+        <adjustRateBasedOnUse>true</adjustRateBasedOnUse>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(112,167,203,0)</glowColor>
+        <conditionalOnAethericUse>true</conditionalOnAethericUse>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>ARR_AethericDevices</li>
+      <li>ARR_BasicMagitek</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>

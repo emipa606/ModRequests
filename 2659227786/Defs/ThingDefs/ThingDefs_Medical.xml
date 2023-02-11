@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Alchemical medicine -->
+  <ThingDef ParentName="MedicineBase">
+    <defName>ARR_MedicineAlchemical</defName>
+    <label>alchemical medicine</label>
+    <description>A kit containing various liquid tinctures, salves, and dressings created using alchemy and infused with aether. These can be used in lieu of traditional medicine to tend wounds or treat disease.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/AlchemicalMedicine</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.85</drawSize>
+    </graphicData>
+    <techLevel>Medieval</techLevel>
+    <statBases>
+      <MarketValue>16</MarketValue>
+      <Mass>0.80</Mass>
+      <Flammability>1.0</Flammability>
+      <MedicalPotency>0.90</MedicalPotency>
+      <MedicalQualityMax>0.90</MedicalQualityMax>
+      <DeteriorationRate>5</DeteriorationRate>
+      <WorkToMake>900</WorkToMake>
+    </statBases>
+    <allowedArchonexusCount>10</allowedArchonexusCount>
+  </ThingDef>
+
+  <!-- Alchemical medicine recipe -->
+  <RecipeDef Name="ARR_CraftAlchemicalMedicine">
+    <defName>ARR_CraftAlchemicalMedicine</defName>
+    <label>synthesize alchemical medicine</label>
+    <description>Produce alchemical medicine by distilling and transmuting salves and dressings from healroot.</description>
+    <jobString>Synthesizing alchemical medicine.</jobString>
+    <workSkill>Intellectual</workSkill>
+    <workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+    <workAmount>900</workAmount>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_MedicineAlchemical>1</ARR_MedicineAlchemical>
+    </products>
+    <skillRequirements>
+      <Cooking>4</Cooking>
+      <Medicine>4</Medicine>
+    </skillRequirements>
+    <researchPrerequisite>ARR_BasicAlchemy</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CraftAlchemicalMedicine">
+    <defName>ARR_CraftAlchemicalMedicineWithCrystals</defName>
+    <label>synthesize alchemical medicine</label>
+    <description>Produce alchemical medicine by distilling and transmuting salves and dressings from healroot using aether crystals.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- Potion base -->
+  <ThingDef ParentName="ResourceBase" Name="ARR_PotionBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <DeteriorationRate>5.0</DeteriorationRate>
+      <Flammability>1</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>ARRPotions</li>
+    </thingCategories>
+    <techLevel>Medieval</techLevel>
+    <comps />
+    <uiIconForStackCount>1</uiIconForStackCount>
+  </ThingDef>
+  <!-- Potion recipe base -->
+  <RecipeDef Name="ARR_PotionRecipeBase" Abstract="True">
+    <workSkill>Intellectual</workSkill>
+    <workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+    <workAmount>1200</workAmount>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <skillRequirements>
+      <Cooking>4</Cooking>
+      <Medicine>4</Medicine>
+    </skillRequirements>
+    <researchPrerequisite>ARR_BasicAlchemy</researchPrerequisite>
+  </RecipeDef>
+
+  <!-- Healing potion -->
+  <ThingDef ParentName="ARR_PotionBase">
+    <defName>ARR_Potion</defName>
+    <label>potion</label>
+    <description>A small vial containing an alchemical healing potion. When drunk or poured over someone, it will heal some of their injuries. It is not powerful enough to restore lost body parts or fix scar tissue, but can be an invaluable tool for stabilizing badly wounded individuals.\n\nAlchemical potions are powerful, but can be toxic in high concentrations. Using more than one at a time is dangerous.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/Alchemy/PotionHealing</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MarketValue>50</MarketValue>
+    </statBases>
+    <tradeability>All</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Use potion</useLabel>
+        <useDuration>0</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>CompTargetable_SinglePawn</compClass>
+      </li>
+      <li Class="ARimReborn.CompProperties_TargetEffectHeal">
+        <sound>ARR_UsePotion</sound>
+        <effect>ARR_Sparkles</effect>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- recipe -->
+  <RecipeDef Name="ARR_CraftPotion" ParentName="ARR_PotionRecipeBase">
+    <defName>ARR_CraftPotion</defName>
+    <label>synthesize potion</label>
+    <description>Produce a healing potion from healroot.</description>
+    <jobString>Synthesizing potion.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_Potion>1</ARR_Potion>
+    </products>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CraftPotion">
+    <defName>ARR_CraftPotionWithCrystals</defName>
+    <description>Produce a healing potion from healroot using aether crystals.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- Hi-potion -->
+  <ThingDef ParentName="ARR_PotionBase">
+    <defName>ARR_PotionHi</defName>
+    <label>hi-potion</label>
+    <description>A small vial containing an improved alchemical healing potion produced using both Eorzean and local resources. When drunk or poured over someone, it will heal some of their injuries. It is not powerful enough to restore lost body parts or fix scar tissue, but can be an invaluable tool for stabilizing badly wounded individuals.\n\nAlchemical potions are powerful, but can be toxic in high concentrations. Using more than one at a time is dangerous.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/Alchemy/PotionHi</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MarketValue>80</MarketValue>
+    </statBases>
+    <tradeability>All</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Use potion</useLabel>
+        <useDuration>0</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>CompTargetable_SinglePawn</compClass>
+      </li>
+      <li Class="ARimReborn.CompProperties_TargetEffectHeal">
+        <sound>ARR_UsePotion</sound>
+        <effect>ARR_Sparkles</effect>
+        <healingPerInjury>2~10</healingPerInjury>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- recipe -->
+  <RecipeDef Name="ARR_CraftPotionHi" ParentName="ARR_PotionRecipeBase">
+    <defName>ARR_CraftPotionHi</defName>
+    <label>synthesize hi-potion</label>
+    <description>Produce an improved healing potion from healroot and mistletoe.</description>
+    <jobString>Synthesizing hi-potion.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_Mistletoe</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_PotionHi>1</ARR_PotionHi>
+    </products>
+    <skillRequirements Inherit="False">
+      <Cooking>4</Cooking>
+      <Medicine>6</Medicine>
+    </skillRequirements>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CraftPotionHi">
+    <defName>ARR_CraftPotionHiWithCrystals</defName>
+    <description>Produce an improved healing potion from healroot and mistletoe using aether crystals.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- Potion of vitality -->
+  <ThingDef ParentName="ARR_PotionBase">
+    <defName>ARR_PotionVitality</defName>
+    <label>potion of vitality</label>
+    <description>A small vial containing an alchemical potion. When drunk or poured over someone, it enhances their physical vitality and lessens pain, allowing them to sustain greater injury before succumbing to shock.\n\nAlchemical potions are powerful, but can be toxic in high concentrations. Using more than one at a time is dangerous.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/Alchemy/PotionVitality</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MarketValue>80</MarketValue>
+    </statBases>
+    <tradeability>All</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Use potion</useLabel>
+        <useDuration>0</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>CompTargetable_SinglePawn</compClass>
+      </li>
+      <li Class="ARimReborn.CompProperties_TargetEffectBuff">
+        <sound>ARR_UsePotion</sound>
+        <effect>ARR_Sparkles</effect>
+        <hediff>ARR_AlchemicalVitality</hediff>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- recipe -->
+  <RecipeDef Name="ARR_CraftPotionVitality" ParentName="ARR_PotionRecipeBase">
+    <defName>ARR_CraftPotionVitality</defName>
+    <label>synthesize potion of vitality</label>
+    <description>Produce an alchemical potion from lavender and mistletoe.</description>
+    <jobString>Synthesizing potion of vitality.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_Lavender</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_Mistletoe</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_PotionVitality>1</ARR_PotionVitality>
+    </products>
+    <skillRequirements Inherit="False">
+      <Cooking>4</Cooking>
+      <Medicine>7</Medicine>
+    </skillRequirements>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CraftPotionVitality">
+    <defName>ARR_CraftPotionVitalityWithCrystals</defName>
+    <description>Produce an alchemical potion from lavender and mistletoe using aether crystals.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- Potion of strength -->
+  <ThingDef ParentName="ARR_PotionBase">
+    <defName>ARR_PotionStrength</defName>
+    <label>potion of strength</label>
+    <description>A small vial containing an alchemical potion. When drunk or poured over someone, it enhances their physical strength and endurance, allowing them to move faster and be more effective in melee combat.\n\nAlchemical potions are powerful, but can be toxic in high concentrations. Using more than one at a time is dangerous.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/Alchemy/PotionStrength</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MarketValue>80</MarketValue>
+    </statBases>
+    <tradeability>All</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Use potion</useLabel>
+        <useDuration>0</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>CompTargetable_SinglePawn</compClass>
+      </li>
+      <li Class="ARimReborn.CompProperties_TargetEffectBuff">
+        <sound>ARR_UsePotion</sound>
+        <effect>ARR_Sparkles</effect>
+        <hediff>ARR_AlchemicalStrength</hediff>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- recipe -->
+  <RecipeDef Name="ARR_CraftPotionStrength" ParentName="ARR_PotionRecipeBase">
+    <defName>ARR_CraftPotionStrength</defName>
+    <label>synthesize potion of strength</label>
+    <description>Produce an alchemical potion from gil bun.</description>
+    <jobString>Synthesizing potion of strength.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_GilBun</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_PotionStrength>1</ARR_PotionStrength>
+    </products>
+    <skillRequirements Inherit="False">
+      <Cooking>4</Cooking>
+      <Medicine>7</Medicine>
+    </skillRequirements>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CraftPotionStrength">
+    <defName>ARR_CraftPotionStrengthWithCrystals</defName>
+    <description>Produce an alchemical potion from gil bun using aether crystals.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- Potion of dexterity -->
+  <ThingDef ParentName="ARR_PotionBase">
+    <defName>ARR_PotionDexterity</defName>
+    <label>potion of dexterity</label>
+    <description>A small vial containing an alchemical potion. When drunk or poured over someone, it enhances their physical agility and manipulation, allowing them to handle firearms and tools with greater precision.\n\nAlchemical potions are powerful, but can be toxic in high concentrations. Using more than one at a time is dangerous.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/Alchemy/PotionDexterity</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MarketValue>80</MarketValue>
+    </statBases>
+    <tradeability>All</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Use potion</useLabel>
+        <useDuration>0</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>CompTargetable_SinglePawn</compClass>
+      </li>
+      <li Class="ARimReborn.CompProperties_TargetEffectBuff">
+        <sound>ARR_UsePotion</sound>
+        <effect>ARR_Sparkles</effect>
+        <hediff>ARR_AlchemicalDexterity</hediff>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  <!-- recipe -->
+  <RecipeDef Name="ARR_CraftPotionDexterity" ParentName="ARR_PotionRecipeBase">
+    <defName>ARR_CraftPotionDexterity</defName>
+    <label>synthesize potion of dexterity</label>
+    <description>Produce an alchemical potion from Aldenard belladonna.</description>
+    <jobString>Synthesizing potion of dexterity.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_Belladonna</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_PotionDexterity>1</ARR_PotionDexterity>
+    </products>
+    <skillRequirements Inherit="False">
+      <Cooking>4</Cooking>
+      <Medicine>7</Medicine>
+    </skillRequirements>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CraftPotionDexterity">
+    <defName>ARR_CraftPotionDexterityWithCrystals</defName>
+    <description>Produce an alchemical potion from Aldenard belladonna using aether crystals.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+</Defs>

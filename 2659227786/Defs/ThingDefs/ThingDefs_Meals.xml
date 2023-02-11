@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Travel rations (intermediate preserved meal) -->
+  <ThingDef ParentName="MealBase">
+    <defName>ARR_MealTravel</defName>
+    <label>travel rations</label>
+    <description>A plain but hearty meal that has been dried and preserved using aether crystals. It takes more ingredients and some crystals to make, but lasts a long time without refrigeration and is great for traveling.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Items/MealBag</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <DeteriorationRate>1</DeteriorationRate>
+      <MarketValue>18</MarketValue>
+      <Mass>0.39</Mass>
+      <WorkToMake>450</WorkToMake>
+      <Nutrition>0.9</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealSimple</preferability>
+      <optimalityOffsetHumanlikes>-5</optimalityOffsetHumanlikes>
+      <optimalityOffsetFeedingAnimals>-10</optimalityOffsetFeedingAnimals>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>45</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+    <allowedArchonexusCount>40</allowedArchonexusCount>
+  </ThingDef>
+
+  <!-- Travel rations recipe -->
+  <RecipeDef Name="ARR_CookTravelRations" ParentName="CookMealBase">
+    <defName>ARR_CookTravelRations</defName>
+    <label>synthesize travel rations</label>
+    <description>Prepare travel rations from a combination of meat and plant ingredients. Some of the ingredients are wasted in the process.</description>
+    <jobString>Synthesizing travel rations.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>0.25</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.25</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_MealTravel>1</ARR_MealTravel>
+    </products>
+    <skillRequirements>
+      <Cooking>6</Cooking>
+    </skillRequirements>
+    <researchPrerequisite>ARR_Synthesis</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CookTravelRations">
+    <defName>ARR_CookTravelRationsWithCrystals</defName>
+    <description>Prepare travel rations from a combination of meat and plant ingredients using aether crystals. Some of the ingredients are wasted in the process.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_IceCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- Travel rations bulk recipe -->
+  <RecipeDef Name="ARR_CookTravelRationsBulk" ParentName="CookMealBase">
+    <defName>ARR_CookTravelRationsBulk</defName>
+    <label>synthesize travel rations x4</label>
+    <description>Prepare 4 travel rations from a combination of meat and plant ingredients. Some of the ingredients are wasted in the process.</description>
+    <jobString>Synthesizing 4 travel rations.</jobString>
+    <workAmount>1440</workAmount>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>1.0</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>1.0</count>
+      </li>
+    </ingredients>
+    <products>
+      <ARR_MealTravel>4</ARR_MealTravel>
+    </products>
+    <skillRequirements>
+      <Cooking>8</Cooking>
+    </skillRequirements>
+    <researchPrerequisite>ARR_Synthesis</researchPrerequisite>
+  </RecipeDef>
+  <RecipeDef ParentName="ARR_CookTravelRationsBulk">
+    <defName>ARR_CookTravelRationsBulkWithCrystals</defName>
+    <description>Prepare 4 travel rations from a combination of meat and plant ingredients using aether crystals. Some of the ingredients are wasted in the process.</description>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_IceCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <!-- ALT RECIPES FOR VANILLA MEALS -->
+  <!-- Simple meal -->
+  <RecipeDef ParentName="CookMealBase">
+    <defName>ARR_CookMealSimple</defName>
+    <label>synthesize simple meal</label>
+    <description>Synthesize a straightforward meal from one ingredient using aether crystals.</description>
+    <jobString>Synthesizing simple meal.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealSimple>1</MealSimple>
+    </products>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+
+  <!-- Bulk simple meal -->
+  <RecipeDef ParentName="CookMealBase">
+    <defName>ARR_CookMealSimpleBulk</defName>
+    <label>synthesize simple meal x4</label>
+    <description>Synthesize 4 straightforward meals from one ingredient using aether crystals.</description>
+    <jobString>Synthesizing 4 simple meals.</jobString>
+    <workAmount>1200</workAmount>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+        </filter>
+        <count>2.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealSimple>4</MealSimple>
+    </products>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+
+  <!-- Fine meal -->
+  <RecipeDef ParentName="CookMealFineBase">
+    <defName>ARR_CookMealFine</defName>
+    <label>synthesize fine meal</label>
+    <description>Synthesize a somewhat complex meal from a combination of meat and plant ingredients using aether crystals.</description>
+    <jobString>Synthesizing fine meal.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>0.25</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.25</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealFine>1</MealFine>
+    </products>
+  </RecipeDef>
+
+  <!-- Fine meal (vegetarian) -->
+  <RecipeDef ParentName="CookMealFineBase">
+    <defName>ARR_CookMealFine_Veg</defName>
+    <label>synthesize vegetarian fine meal</label>
+    <description>Synthesize a somewhat complex meal from plant ingredients using aether crystals.</description>
+    <jobString>Synthesizing vegetarian fine meal.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>0.75</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>MeatRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealFine_Veg>1</MealFine_Veg>
+    </products>
+  </RecipeDef>
+
+  <!-- Fine meal (carnivore) -->
+  <RecipeDef ParentName="CookMealFineBase">
+    <defName>ARR_CookMealFine_Meat</defName>
+    <label>synthesize carnivore fine meal</label>
+    <description>Synthesize a somewhat complex meal from meat ingredients using aether crystals.</description>
+    <jobString>Synthesizing carnivore fine meal.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>0.75</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>PlantFoodRaw</li>
+        <li>AnimalProductRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealFine_Meat>1</MealFine_Meat>
+    </products>
+  </RecipeDef>
+
+  <!-- Bulk fine meal -->
+  <RecipeDef ParentName="CookMealFineBulkBase">
+    <defName>ARR_CookMealFineBulk</defName>
+    <label>synthesize fine meal x4</label>
+    <description>Synthesize 4 somewhat complex meals from a combination of meat and plant ingredients using aether crystals. Some of the ingredients are wasted in order to create a good eating experience.</description>
+    <jobString>Synthesizing 4 fine meals.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>1.0</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>1.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealFine>4</MealFine>
+    </products>
+  </RecipeDef>
+
+  <!-- Bulk fine meal (carnivore) -->
+  <RecipeDef ParentName="CookMealFineBulkBase">
+    <defName>ARR_CookMealFineBulk_Meat</defName>
+    <label>synthesize carnivore fine meal x4</label>
+    <description>Synthesize 4 somewhat complex meals from meat ingredients using aether crystals. Some of the ingredients are wasted in order to create a good eating experience. Producing varied flavors with meat alone introduces extra inefficiencies.</description>
+    <jobString>Synthesizing 4 carnivore fine meals.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>3.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>PlantFoodRaw</li>
+        <li>AnimalProductRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealFine_Meat>4</MealFine_Meat>
+    </products>
+  </RecipeDef>
+
+  <!-- Bulk fine meal (vegetarian) -->
+  <RecipeDef ParentName="CookMealFineBulkBase">
+    <defName>ARR_CookMealFineBulk_Veg</defName>
+    <label>synthesize vegetarian fine meal x4</label>
+    <description>Synthesize 4 somewhat complex meals from plant ingredients using aether crystals. Some of the ingredients are wasted in order to create a good eating experience. Producing varied flavors with plants alone introduces extra inefficiencies.</description>
+    <jobString>Synthesizing 4 vegetarian fine meals.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>3.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>MeatRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealFine_Veg>4</MealFine_Veg>
+    </products>
+  </RecipeDef>
+
+  <!-- Lavish meal -->
+  <RecipeDef ParentName="CookMealLavishBase">
+    <defName>ARR_CookMealLavish</defName>
+    <label>synthesize lavish meal</label>
+    <description>Synthesize a very complex meal from a combination of meat and plant ingredients using aether crystals. Much of the ingredients are wasted in order to create the best eating experience.</description>
+    <jobString>Synthesizing lavish meal.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>0.5</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealLavish>1</MealLavish>
+    </products>
+  </RecipeDef>
+
+  <!-- Lavish meal (carnivore) -->
+  <RecipeDef ParentName="CookMealLavishBase">
+    <defName>ARR_CookMealLavish_Meat</defName>
+    <label>synthesize carnivore lavish meal</label>
+    <description>Synthesize a very complex meal from meat ingredients using aether crystals. Much of the ingredients are wasted in order to create the best eating experience. Producing varied flavors with meat alone introduces extra inefficiencies.</description>
+    <jobString>Synthesizing carnivore lavish meal.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>2.5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>PlantFoodRaw</li>
+        <li>AnimalProductRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealLavish_Meat>1</MealLavish_Meat>
+    </products>
+  </RecipeDef>
+
+  <!-- Lavish meal (vegetarian) -->
+  <RecipeDef ParentName="CookMealLavishBase">
+    <defName>ARR_CookMealLavish_Veg</defName>
+    <label>synthesize vegetarian lavish meal</label>
+    <description>Synthesize a very complex meal from plant ingredients using aether crystals. Much of the ingredients are wasted in order to create the best eating experience. Producing varied flavors with plants alone introduces extra inefficiencies.</description>
+    <jobString>Synthesizing vegetarian lavish meal.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>2.5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>MeatRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealLavish_Veg>1</MealLavish_Veg>
+    </products>
+  </RecipeDef>
+
+  <!-- Bulk lavish meal -->
+  <RecipeDef ParentName="CookMealLavishBulkBase">
+    <defName>ARR_CookMealLavishBulk</defName>
+    <label>synthesize lavish meal x4</label>
+    <description>Synthesize 4 very complex meals from a combination of meat and plant ingredients using aether crystals. Much of the ingredients are wasted in order to create the best eating experience.</description>
+    <jobString>Synthesizing 4 lavish meals.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>2.0</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>2.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+    <products>
+      <MealLavish>4</MealLavish>
+    </products>
+  </RecipeDef>
+
+  <!-- Bulk lavish meal (vegetarian) -->
+  <RecipeDef ParentName="CookMealLavishBulkBase">
+    <defName>ARR_CookMealLavishBulk_Veg</defName>
+    <label>synthesize vegetarian lavish meal x4</label>
+    <description>Synthesize 4 very complex meals from plant ingredients using aether crystals. Much of the ingredients are wasted in order to create the best eating experience. Producing varied flavors with plants alone introduces extra inefficiencies.</description>
+    <jobString>Synthesizing 4 vegetarian lavish meals.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>10.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>MeatRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealLavish_Veg>4</MealLavish_Veg>
+    </products>
+  </RecipeDef>
+
+  <!-- Bulk lavish meal (carnivore) -->
+  <RecipeDef ParentName="CookMealLavishBulkBase">
+    <defName>ARR_CookMealLavishBulk_Meat</defName>
+    <label>synthesize carnivore lavish meal x4</label>
+    <description>Synthesize 4 very complex meals from meat ingredients using aether crystals. Much of the ingredients are wasted in order to create the best eating experience. Producing varied flavors with meat alone introduces extra inefficiencies.</description>
+    <jobString>Synthesizing 4 carnivore lavish meals.</jobString>
+    <ingredientValueGetterClass>ARimReborn.IngredientValueGetter_NutritionAndCrystals</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>10.0</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <disallowedCategories>
+        <li>PlantFoodRaw</li>
+        <li>AnimalProductRaw</li>
+      </disallowedCategories>
+    </fixedIngredientFilter>
+    <products>
+      <MealLavish_Meat>4</MealLavish_Meat>
+    </products>
+  </RecipeDef>
+
+</Defs>

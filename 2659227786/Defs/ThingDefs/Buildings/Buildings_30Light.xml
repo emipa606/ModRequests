@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Aetheric lamp base -->
+  <ThingDef Name="ARR_LampBase" ParentName="BuildingBase" Abstract="True">
+    <category>Building</category>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>ARRBuildings</li>
+    </thingCategories>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>0.15</fillPercent>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Mass>2.5</Mass>
+    </statBases>
+    <researchPrerequisites>
+      <li>ARR_Synthesis</li>
+    </researchPrerequisites>
+    <selectable>true</selectable>
+    <placeWorkers/>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationCategory>ARR_Aether</designationCategory>
+  </ThingDef>
+
+  <!-- Floor Lamp base -->
+  <ThingDef Name="ARR_FloorLampBase" ParentName="ARR_LampBase" Abstract="True">
+    <graphicData>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherUser">
+        <baseAetherConsumption>1.0</baseAetherConsumption>
+        <canUseAetherLinks>true</canUseAetherLinks>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>10.0</aetherCapacity>
+        <canBeFilled>true</canBeFilled>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDefs>
+          <li>ARR_EarthCrystal</li>
+          <li>ARR_FireCrystal</li>
+          <li>ARR_IceCrystal</li>
+          <li>ARR_LightningCrystal</li>
+          <li>ARR_WaterCrystal</li>
+          <li>ARR_WindCrystal</li>
+        </fuelThingDefs>
+      </li>
+      <li Class="ARimReborn.CompProperties_VariableAetherGlower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(255,198,116,0)</glowColor>
+        <colorOptions>
+          <li>
+            <key>ARR_ElementNone</key>
+            <color>(255,255,255,0)</color>
+          </li>
+          <li>
+            <key>ARR_ElementEarth</key>
+            <thingDef>ARR_EarthCrystal</thingDef>
+            <color>(255,198,116,0)</color>
+          </li>
+          <li>
+            <key>ARR_ElementFire</key>
+            <thingDef>ARR_FireCrystal</thingDef>
+            <color>(255,92,71,0)</color>
+          </li>
+          <li>
+            <key>ARR_ElementIce</key>
+            <thingDef>ARR_IceCrystal</thingDef>
+            <color>(29,159,255,0)</color>
+          </li>
+          <li>
+            <key>ARR_ElementLightning</key>
+            <thingDef>ARR_LightningCrystal</thingDef>
+            <color>(232,107,255,0)</color>
+          </li>
+          <li>
+            <key>ARR_ElementWater</key>
+            <thingDef>ARR_WaterCrystal</thingDef>
+            <color>(119,159,255,0)</color>
+          </li>
+          <li>
+            <key>ARR_ElementWind</key>
+            <thingDef>ARR_WindCrystal</thingDef>
+            <color>(80,255,116,0)</color>
+          </li>
+        </colorOptions>
+        <inheritColorFromCapacitor>true</inheritColorFromCapacitor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Glade Floor Lamp -->
+  <ThingDef ParentName="ARR_FloorLampBase">
+    <defName>ARR_FloorLampGlade</defName>
+    <label>Glade floor lamp</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes earth crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Earth</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <!-- Earth crystal Glade Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_GladeFloorLampBase">
+    <defName>ARR_FloorLampGladeEarth</defName>
+    <label>glade floor lamp (earth crystal)</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes earth crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Earth</texPath>
+    </graphicData>
+    <comps>
+       <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_EarthCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(255,198,116,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Fire crystal Glade Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_GladeFloorLampBase">
+    <defName>ARR_FloorLampGladeFire</defName>
+    <label>glade floor lamp (fire crystal)</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes fire crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Fire</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(255,92,71,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Ice crystal Glade Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_GladeFloorLampBase">
+    <defName>ARR_FloorLampGladeIce</defName>
+    <label>glade floor lamp (ice crystal)</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes ice crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Earth</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_IceCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(29,159,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Lightning crystal Glade Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_GladeFloorLampBase">
+    <defName>ARR_FloorLampGladeLightning</defName>
+    <label>glade floor lamp (lightning crystal)</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes lightning crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Lightning</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(232,107,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Water crystal Glade Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_GladeFloorLampBase">
+    <defName>ARR_FloorLampGladeWater</defName>
+    <label>glade floor lamp (water crystal)</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes water crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Water</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(119,159,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Wind crystal Glade Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_GladeFloorLampBase">
+    <defName>ARR_FloorLampGladeWind</defName>
+    <label>glade floor lamp (wind crystal)</label>
+    <description>A floor lamp designed in the Glade fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes wind crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Glade/Wind</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_WindCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(80,255,116,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- ==================================================================================== -->
+
+  <!-- Riviera Floor Lamp -->
+  <ThingDef ParentName="ARR_FloorLampBase">
+    <defName>ARR_FloorLampRiviera</defName>
+    <label>Rivera floor lamp</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Earth</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <!-- Riviera floor lamp base -->
+  <!--
+  <ThingDef Name="ARR_RivieraFloorLampBase" ParentName="ARR_FloorLampBase" Abstract="True">
+    <graphicData>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+  </ThingDef>
+  -->
+
+  <!-- Earth crystal Riviera Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_RivieraFloorLampBase">
+    <defName>ARR_FloorLampRivieraEarth</defName>
+    <label>Riviera floor lamp (earth crystal)</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes earth crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Earth</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_EarthCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(255,198,116,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Fire crystal Riviera Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_RivieraFloorLampBase">
+    <defName>ARR_FloorLampRivieraFire</defName>
+    <label>Riviera floor lamp (fire crystal)</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes fire crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Fire</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_FireCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(255,92,71,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Ice crystal Riviera Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_RivieraFloorLampBase">
+    <defName>ARR_FloorLampRivieraIce</defName>
+    <label>Riviera floor lamp (ice crystal)</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes ice crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Earth</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_IceCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(29,159,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Lightning crystal Riviera Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_RivieraFloorLampBase">
+    <defName>ARR_FloorLampRivieraLightning</defName>
+    <label>Riviera floor lamp (lightning crystal)</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes lightning crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Lightning</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_LightningCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(232,107,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Water crystal Riviera Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_RivieraFloorLampBase">
+    <defName>ARR_FloorLampRivieraWater</defName>
+    <label>Riviera floor lamp (water crystal)</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes water crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Water</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_WaterCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(119,159,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+
+  <!-- Wind crystal Riviera Floor Lamp -->
+  <!--
+  <ThingDef ParentName="ARR_RivieraFloorLampBase">
+    <defName>ARR_FloorLampRivieraWind</defName>
+    <label>Riviera floor lamp (wind crystal)</label>
+    <description>A floor lamp designed in the Riviera fashion that illuminates an area using aether crystals.\n\nThis particular lamp consumes wind crystals.</description>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/FloorLamp/Riviera/Wind</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>ARR_WindCrystal</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(80,255,116,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  -->
+</Defs>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Alchemical toxicity -->
+  <HediffDef ParentName="DiseaseBase">
+    <defName>ARR_AlchemicalToxicity</defName>
+    <label>alchemical toxicity</label>
+    <description>Alchemical potions are made using a combination of natural and aetheric compounds that can heal or improve bodily functions in small doses, but are toxic when taken too often. The body needs time to recover after ingesting a potion before it can safely handle another.</description>
+<!--    <defaultLabelColor>(0.149, 0.604, 0.894)</defaultLabelColor>-->
+    <defaultLabelColor>(0.192, 0.851, 0.275)</defaultLabelColor>
+    <lethalSeverity>1.00</lethalSeverity>
+    <initialSeverity>0.30</initialSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.30</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>negligible</label>
+      </li>
+      <li>
+        <label>minor</label>
+        <minSeverity>0.40</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.90</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.90</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.90</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>moderate</label>
+        <minSeverity>0.60</minSeverity>
+        <vomitMtbDays>0.50</vomitMtbDays>
+        <painOffset>0.20</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.7</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.7</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.7</postFactor>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <postFactor>0.7</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>severe</label>
+        <minSeverity>0.80</minSeverity>
+        <vomitMtbDays>0.20</vomitMtbDays>
+        <painOffset>0.40</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  <!-- Alchemical shock (chance of happening when alchemical toxicity goes above 50%) -->
+  <HediffDef ParentName="DiseaseBase">
+    <defName>ARR_AlchemicalShock</defName>
+    <label>alchemical shock</label>
+    <description>Too much alchemical potion has been ingested, causing debilitating distributive shock in the body.</description>
+    <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>10000~30000</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painOffset>0.4</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Potion of Vitality buff -->
+  <HediffDef>
+    <defName>ARR_AlchemicalVitality</defName>
+    <label>potion of vitality</label>
+    <labelNoun>a potion of vitality buff</labelNoun>
+    <description>A potion of vitality has been used. It reduces damage taken, felt pain, and slows the rate at which rest is lost.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+<!--    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>-->
+    <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>25000~35000</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>0.8</restFallFactor>
+        <painFactor>0.5</painFactor>
+        <statFactors>
+          <IncomingDamageFactor>0.8</IncomingDamageFactor>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Potion of Strength buff -->
+  <HediffDef>
+    <defName>ARR_AlchemicalStrength</defName>
+    <label>potion of strength</label>
+    <labelNoun>a potion of strength buff</labelNoun>
+    <description>A potion of strength has been used. It increases melee hit chance, movement speed, and carrying capacity.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>25000~35000</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.2</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MeleeHitChance>0.20</MeleeHitChance>
+        </statOffsets>
+        <statFactors>
+          <CarryingCapacity>2.0</CarryingCapacity>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Potion of Dexterity buff -->
+  <HediffDef>
+    <defName>ARR_AlchemicalDexterity</defName>
+    <label>potion of dexterity</label>
+    <labelNoun>a potion of dexterity buff</labelNoun>
+    <description>A potion of dexterity has been used. It increases ranged weapon accuracy, dodge chance, and work speed.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+<!--    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>-->
+    <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>25000~35000</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ShootingAccuracyPawn>0.2</ShootingAccuracyPawn>
+          <MeleeDodgeChance>0.2</MeleeDodgeChance>
+          <GeneralLaborSpeed>0.2</GeneralLaborSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!--==== AETHERIC ACCUMULATORS ====-->
+
+  <!-- Accumulator base -->
+  <ThingDef Name="ARR_AccumulatorBase" ParentName="BuildingBase" Abstract="True">
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <canBeUsedUnderRoof>false</canBeUsedUnderRoof>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <designationCategory>ARR_Aether</designationCategory>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <researchPrerequisites>
+      <li>ARR_CrystalSynthesis</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>Item</surfaceType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <linkRadius>0</linkRadius>
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>ARimReborn.PlaceWorker_NeverAdjacentAccumulator</li>
+      <li>ARimReborn.PlaceWorker_ShowAethericLinks</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_IceAccumulator</defName>
+    <label>ice accumulator</label>
+    <description>A simple aetheric device that draws in natural energy and condenses it down into usable crystals.\n\nThis accumulator will produce ice crystals when it is outdoors and snowing.</description>
+    <thingClass>ARimReborn.Building_IceAccumulator</thingClass>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/IceAccumulator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>100</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>300</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_IceCrystal</fuelThingDef>
+      </li>
+    </comps>
+    <costList>
+      <Steel>30</Steel>
+    </costList>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_LightningAccumulator</defName>
+    <label>lightning accumulator</label>
+    <description>A simple aetheric device that draws in natural energy and condenses it down into usable crystals.\n\nThis accumulator will produce lightning crystals during lightning storms or when it is struck by lightning, which it will draw towards itself within its effective radius.</description>
+    <thingClass>ARimReborn.Building_LightningAccumulator</thingClass>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/LightningAccumulator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>25</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>300</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_LightningCrystal</fuelThingDef>
+      </li>
+    </comps>
+    <costList>
+      <Steel>30</Steel>
+    </costList>
+    <placeWorkers>
+      <li>ARimReborn.PlaceWorker_ShowLightningRodRadius</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_WaterAccumulator</defName>
+    <label>water accumulator</label>
+    <description>A simple aetheric device that draws in natural energy and condenses it down into usable crystals.\n\nThis accumulator will produce water crystals when it is outdoors and raining.</description>
+    <thingClass>ARimReborn.Building_WaterAccumulator</thingClass>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/WaterAccumulator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>100</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>300</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_WaterCrystal</fuelThingDef>
+      </li>
+    </comps>
+    <costList>
+      <Steel>30</Steel>
+    </costList>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_WindAccumulator</defName>
+    <label>wind accumulator</label>
+    <description>A simple aetheric device that draws in natural energy and condenses it down into usable crystals.\n\nThis accumulator will produce wind crystals when it is outdoors and windy.</description>
+    <thingClass>ARimReborn.Building_WindAccumulator</thingClass>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/WaterAccumulator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>25</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>300</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_WindCrystal</fuelThingDef>
+      </li>
+    </comps>
+    <costList>
+      <Steel>30</Steel>
+    </costList>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_GeothermalAccumulator</defName>
+    <label>geothermal accumulator</label>
+    <description>An advanced accumulator that draws energy from the earth and converts it into earth, fire, or water crystals.\n\nThis accumulator must be built over a steam geyser.</description>
+    <thingClass>ARimReborn.Building_GeothermalAccumulator</thingClass>
+    <size>(2,2)</size>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/GeothermalAccumulator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3,3)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <statBases>
+      <WorkToBuild>5000</WorkToBuild>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+    </statBases>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>120</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>600</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDefs>
+          <li>ARR_EarthCrystal</li>
+          <li>ARR_FireCrystal</li>
+          <li>ARR_WaterCrystal</li>
+        </fuelThingDefs>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(255,198,116,0)</glowColor>
+      </li>
+    </comps>
+    <costList>
+      <Steel>80</Steel>
+    </costList>
+    <costStuffCount>120</costStuffCount>
+    <researchPrerequisites Inherit="False">
+      <li>ARR_AdvancedAccumulators</li>
+    </researchPrerequisites>
+    <placeWorkers>
+      <li>PlaceWorker_OnSteamGeyser</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_CelestialAccumulator</defName>
+    <label>celestial accumulator</label>
+    <description>An advanced accumulator that draws energy from celestial currents surrounding the planet and converts it into ice, lightning, or wind crystals.\n\nCelestial accumulators draw energy from a wide area and require a significant amount of space between each other.</description>
+    <thingClass>ARimReborn.Building_CelestialAccumulator</thingClass>
+    <size>(2,2)</size>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/CelestialAccumulator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3,3)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <statBases>
+      <WorkToBuild>5000</WorkToBuild>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+    </statBases>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>100</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>500</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDefs>
+          <li>ARR_IceCrystal</li>
+          <li>ARR_LightningCrystal</li>
+          <li>ARR_WindCrystal</li>
+        </fuelThingDefs>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(29,159,255,0)</glowColor>
+      </li>
+    </comps>
+    <costList>
+      <Steel>80</Steel>
+    </costList>
+    <costStuffCount>120</costStuffCount>
+    <researchPrerequisites Inherit="False">
+      <li>ARR_AdvancedAccumulators</li>
+    </researchPrerequisites>
+    <placeWorkers>
+      <li>ARimReborn.PlaceWorker_CelestialAccumulator</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="ARR_AccumulatorBase">
+    <defName>ARR_ElectricalAccumulator</defName>
+    <label>electric accumulator</label>
+    <description>Designed using a convergence of Eorzean and rimworld technology, this accumulator converts electrical energy into lightning-aspected aether.</description>
+    <thingClass>ARimReborn.Building_ElectricAccumulator</thingClass>
+    <size>(2,1)</size>
+    <rotatable>true</rotatable>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/ElectricalAccumulator</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,2)</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToBuild>2500</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+    </statBases>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherAccumulator">
+        <baseGenerationRate>30</baseGenerationRate>
+        <canTransmitToNetwork>true</canTransmitToNetwork>
+        <canToggleTransmission>true</canToggleTransmission>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>300</aetherCapacity>
+        <canBeTransmitted>true</canBeTransmitted>
+        <canAcceptTransmitted>false</canAcceptTransmitted>
+        <canBeEmptied>true</canBeEmptied>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_LightningCrystal</fuelThingDef>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(29,159,255,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1000</basePowerConsumption>
+        <shortCircuitInRain>false</shortCircuitInRain>
+      </li>
+    </comps>
+    <stuffCategories Inherit="False" />
+    <costStuffCount>0</costStuffCount>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>ARR_AethericElectricity</li>
+    </researchPrerequisites>
+    <placeWorkers Inherit="False">
+      <li>ARimReborn.PlaceWorker_ShowAethericLinks</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <!--==== AETHERIC NETWORK ====-->
+
+  <!-- Aetheric link -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>ARR_AethericLink</defName>
+    <label>aetheric link</label>
+    <description>An aetheric link tower that connects aether accumulators, capacitors, and devices within range. Additional link towers within range of each other will extend the aetheric grid.</description>
+    <thingClass>ARimReborn.Building_AethericLink</thingClass>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/AetherLink</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <rotatable>false</rotatable>
+    <designationCategory>ARR_Aether</designationCategory>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <costList>
+      <Steel>30</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>ARR_AethericTransmission</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <surfaceType>Item</surfaceType>
+    <comps>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <linkRadius>15</linkRadius>
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(112,167,203,0)</glowColor>
+        <conditionalOnActiveLink>true</conditionalOnActiveLink>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>ARimReborn.PlaceWorker_ShowAethericLinks</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <!--==== AETHERIC CONVERSION ====-->
+
+  <!-- Lightning generator -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>ARR_LightningGenerator</defName>
+    <label>lightning generator</label>
+    <description>A convergence of Eorzean and rimworld technology, lightning generators are devices that convert lightning-aspected aether into electricity. They can be linked to aetheric links or be fueled with lightning crystals directly.</description>
+<!--    <thingClass>ARimReborn.Building_AethericLink</thingClass>-->
+    <size>(2,1)</size>
+    <graphicData>
+      <texPath>ARimReborn/Things/Buildings/LightningGenerator</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+<!--    <drawerType>MapMeshAndRealTime</drawerType>-->
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+<!--    <rotatable>false</rotatable>-->
+    <designationCategory>ARR_Aether</designationCategory>
+    <statBases>
+      <WorkToBuild>2500</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+      <Mass>12</Mass>
+    </statBases>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>ARR_AethericElectricity</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>ARRBuildings</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="ARimReborn.CompProperties_AetherLink">
+        <canBeToggled>true</canBeToggled>
+        <defaultToggleState>true</defaultToggleState>
+        <disableIfNotInRangeOfNetworkOnSpawn>true</disableIfNotInRangeOfNetworkOnSpawn>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherUser">
+        <baseAetherConsumption>24.0</baseAetherConsumption>
+        <minimumConsumptionRate>0.5</minimumConsumptionRate>
+        <maximumConsumptionRate>2.0</maximumConsumptionRate>
+        <canUseAetherLinks>true</canUseAetherLinks>
+        <canAdjustConsumptionRate>true</canAdjustConsumptionRate>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherCapacitor">
+        <aetherCapacity>100.0</aetherCapacity>
+        <canBeFilled>true</canBeFilled>
+        <disableInteractionIfLinkAvailableOnSpawn>true</disableInteractionIfLinkAvailableOnSpawn>
+        <fuelThingDef>ARR_LightningCrystal</fuelThingDef>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>ARimReborn.CompAetherPowerGenerator</compClass>
+        <basePowerConsumption>-600</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="ARimReborn.CompProperties_AetherGlower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(232,107,255,0)</glowColor>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>ARimReborn.PlaceWorker_ShowAethericLinks</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+  </ThingDef>
+
+</Defs>
