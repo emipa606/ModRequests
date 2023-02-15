@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+ 
+
+	<ThingDef Name="WalkblemVehicleBase" Abstract="True">
+	<thingClass>Pawn</thingClass>
+	<category>Pawn</category>
+	<selectable>true</selectable>
+	<tickerType>Normal</tickerType>
+	<altitudeLayer>Pawn</altitudeLayer>
+	<useHitPoints>false</useHitPoints>
+	<hasTooltip>true</hasTooltip>
+	<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+	<statBases>
+		<Mass>70</Mass>
+	<WPVehicle>1</WPVehicle>
+	<ComfyTemperatureMin>-100</ComfyTemperatureMin>
+		<ComfyTemperatureMax>250</ComfyTemperatureMax>
+	</statBases>
+	<inspectorTabs>
+		<li>ITab_Pawn_Health</li>
+		<li>ITab_Pawn_Needs</li>
+		<li>ITab_Pawn_Character</li>
+		<li>ITab_Pawn_Training</li>
+		<li>ITab_Pawn_Social</li>
+		<li>ITab_Pawn_Guest</li>
+		<li>ITab_Pawn_Prisoner</li>
+		<li>ITab_Pawn_FormingCaravan</li>
+		<li>ITab_Pawn_Gear</li>
+		<li>ITab_Pawn_Log</li>
+	</inspectorTabs>
+	<comps>
+		<li>
+		<compClass>CompAttachBase</compClass>
+		</li>
+	</comps>
+	<drawGUIOverlay>true</drawGUIOverlay>
+	<race>
+		<thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+		<nameGenerator>NamerAnimalGenericMale</nameGenerator>
+		<nameGeneratorFemale>NamerAnimalGenericFemale</nameGeneratorFemale>
+	</race>
+	 <recipes>
+		<li>WPVehicleRepair</li>
+		<li>WPEquipWeaponOnAnimal</li>
+	</recipes>
+</ThingDef>
+
+
+	<ThinkTreeDef>
+		<defName>WPVehicle</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+		<subNodes>
+	
+
+		<li Class="ThinkNode_Subtree">
+			<treeDef>BurningResponse</treeDef>
+		</li>
+		<li Class="ThinkNode_Subtree">
+			<treeDef>MentalStateCritical</treeDef>
+		</li>
+		
+		<li Class="AnimalWeapons.ThinkNode_ConditionalWPVehicleCaravan">
+			<invert>true</invert>
+			<subNodes>			
+			<li Class="ThinkNode_ConditionalShouldFollowMaster">
+				<invert>true</invert>
+				<subNodes>
+						<li Class="AnimalWeapons.ThinkNode_ConditionalWPAttackAnyEnemyNearMe">
+							<distance>30</distance>
+						</li>						
+				</subNodes>
+			</li>
+			</subNodes>
+		</li>
+				
+				
+		<li Class="AnimalWeapons.ThinkNode_ConditionalWPVehicleCaravan">
+		<subNodes>	
+		
+			<li Class="AnimalWeapons.ThinkNode_ConditionalWPAttackAnyEnemyNearMe">
+				<distance>30</distance>
+				<subNodes>
+					<li Class="AnimalWeapons.ThinkNode_ConditionalWPLowHealthPanicExitMap">
+					<threshold>0.5</threshold>
+					<subNodes>				
+						<li Class="JobGiver_ExitMapPanic" />
+					</subNodes>
+					</li>
+				</subNodes>
+			</li>
+			<li Class="ThinkNode_ConditionalMentalState">
+			<state>PanicFlee</state>
+			<subNodes>				
+				<li Class="JobGiver_ExitMapPanic" />
+				<li Class="JobGiver_WanderAnywhere">
+				<maxDanger>Some</maxDanger>
+				<locomotionUrgency>Jog</locomotionUrgency>
+				</li>
+			</subNodes>
+			</li>
+			<li Class="ThinkNode_ConditionalShouldFollowMaster" >
+				<subNodes>
+				<li Class="JobGiver_AIFollowMaster"/>
+				<li Class="JobGiver_WanderNearMaster" />
+				</subNodes>	
+			</li>
+		</subNodes>
+		</li>
+		
+		
+		
+
+		
+		<li Class="ThinkNode_ConditionalOfPlayerFaction">
+			<subNodes>
+			<li Class="AnimalVehicle.JobGiver_WPAutoSkill" />
+			</subNodes>
+		</li>
+		
+
+		
+		<li Class="AnimalWeapons.ThinkNode_ConditionalNotDowned">
+			<subNodes>
+			<li Class="ThinkNode_ConditionalDowned">
+					<invert>true</invert>	
+					<subNodes>
+					<li Class="AnimalJobs.ThinkNode_WPChancePerHour_Constant">
+							<mtbHours>0.1</mtbHours>
+							<subNodes>
+							<li Class="AnimalWeapons.JobGiver_WPAutoWeapon" />
+							</subNodes>
+					</li>
+				</subNodes>
+			</li>
+			</subNodes>
+		</li>
+				<!-- React to close melee threat -->
+		<li Class="ThinkNode_ConditionalDowned">
+			<invert>true</invert>	
+			<subNodes>
+			<li Class="JobGiver_ReactToCloseMeleeThreat" />
+			</subNodes>
+		</li>
+		
+
+		<!-- Leave if timed out -->
+		<li Class="ThinkNode_ConditionalExitTimedOut">
+			<subNodes>
+				<li Class="ThinkNode_Tagger">
+				<tagToGive>Misc</tagToGive>
+				<subNodes>
+					<li Class="JobGiver_ExitMapRandom">
+						<defaultLocomotion>Walk</defaultLocomotion>	 
+					</li>
+				</subNodes>
+				</li>
+			</subNodes>
+		</li>
+
+		<!-- Mental state non critical -->
+		<li Class="ThinkNode_Subtree">
+			<treeDef>MentalStateNonCritical</treeDef>
+		</li>
+
+		<li Class="ThinkNode_ConditionalMentalState">
+			<state>GiveUpExit</state>
+			<subNodes>
+				<li Class="JobGiver_ExitMapRandom">
+				<defaultLocomotion>Walk</defaultLocomotion>
+				</li>
+				<li Class="JobGiver_WanderAnywhere">
+				<maxDanger>Deadly</maxDanger>
+				</li>
+			</subNodes>
+		</li>
+		
+		
+		<!-- Insertion hook for modders -->
+		<li Class="ThinkNode_SubtreesByTag">
+		</li>
+
+		<!-- Wild animals leave map in some conditions -->
+		<li Class="ThinkNode_ConditionalHasFaction">
+			<invert>true</invert>
+			<subNodes>
+				<li Class="ThinkNode_Subtree">
+				<treeDef>LeaveIfWrongSeason</treeDef>
+				</li>
+				<li Class="ThinkNode_Subtree">
+				<treeDef>LeaveIfStarving</treeDef>
+				</li>
+
+				<!-- Wild animals randomly leave map -->
+				<li Class="ThinkNode_ChancePerHour_Constant">
+				<mtbDays>60</mtbDays>
+				<subNodes>
+					<li Class="ThinkNode_Tagger">
+						<tagToGive>Misc</tagToGive>
+						<subNodes>
+						<li Class="JobGiver_ExitMapRandom">
+							<defaultLocomotion>Walk</defaultLocomotion>
+						</li>
+						</subNodes>
+					</li>
+				</subNodes>
+				</li>
+			</subNodes>
+		</li>
+
+		<li Class="ThinkNode_ConditionalOfPlayerFaction">
+			<subNodes>
+				
+				<li Class="ThinkNode_Tagger">
+				<tagToGive>TrainedAnimalBehavior</tagToGive>
+				<subNodes>
+					<!-- Trained behavior: obedience: Follow and defend master-->
+					<li Class="ThinkNode_ConditionalTrainableCompleted">
+						<trainable>Obedience</trainable>
+						<subNodes> 
+						<li Class="ThinkNode_ConditionalShouldFollowMaster">
+							<subNodes>
+								<li Class="AnimalWeapons.JobGiver_WPArtyAIDefendMaster">
+									<attackMeleeThreatEvenIfNotHostile>true</attackMeleeThreatEvenIfNotHostile>
+								</li> 
+								<li Class="JobGiver_AIFollowMaster"/>
+								<li Class="JobGiver_WanderNearMaster" />							
+							</subNodes>
+						</li>
+					
+						</subNodes>
+					</li>
+
+					<!-- Trained behavior: Rescue-->
+					<li Class="ThinkNode_ConditionalTrainableCompleted">
+						<trainable>Rescue</trainable>
+						<subNodes>
+						<li Class="JobGiver_RescueNearby">
+							<radius>50</radius>
+						</li>
+						 </subNodes>
+					</li>
+				
+				
+				</subNodes>
+				</li>
+			
+			<li Class="JobGiver_SeekAllowedArea" />
+			<li Class="JobGiver_SeekSafeTemperature" />
+			</subNodes>
+		</li>
+		
+		 <li Class="ThinkNode_Subtree">
+			<treeDef>SatisfyBasicNeeds</treeDef>
+		</li>
+
+		 <li Class="ThinkNode_ConditionalHasFaction">
+			<subNodes>
+		<li Class="ThinkNode_Subtree">
+				<treeDef>JoinAutoJoinableCaravan</treeDef>
+				</li>
+			</subNodes>
+		</li>
+		
+
+		<!-- Insertion hook for modders -->
+		<li Class="ThinkNode_SubtreesByTag">
+		</li>
+		
+
+		
+		<!-- Do a queued job -->
+		<li Class="ThinkNode_QueuedJob" />
+		
+		<!-- Forced goto -->
+		<li Class="ThinkNode_ConditionalForcedGoto">
+			<subNodes>
+				<li Class="ThinkNode_Tagger">
+				<tagToGive>Misc</tagToGive>
+				<subNodes>
+					<li Class="JobGiver_ForcedGoto" />
+				</subNodes>
+				</li>
+			</subNodes>
+		</li>
+		
+		<!-- Lord directives -->
+		<li Class="ThinkNode_Subtree">
+			<treeDef>LordDuty</treeDef>
+		</li>
+		
+		<!-- Of neutral faction: rest and then exit the map -->
+		<li Class="ThinkNode_ConditionalNonPlayerNonHostileFaction">
+			<subNodes>
+				
+				<li Class="ThinkNode_Tagger">
+				<tagToGive>Misc</tagToGive>
+				<subNodes>
+					<li Class="JobGiver_ExitMapBest">
+						<defaultLocomotion>Walk</defaultLocomotion>
+					</li>
+				</subNodes>
+				</li>
+			</subNodes>
+		</li>
+		
+				<li Class="AnimalWeapons.ThinkNode_ConditionalWPVehicleCaravan">
+		<invert>true</invert>
+			<subNodes>
+			<li Class="AnimalWeapons.ThinkNode_ConditionalNotDowned">
+				<subNodes>
+				<li Class="ThinkNode_ConditionalMentalState">
+				<state>PanicFlee</state>
+				<invert>true</invert>
+				<subNodes>	
+					<li Class="ThinkNode_ConditionalDowned">
+						<invert>true</invert>	
+						<subNodes>
+								<li Class="ThinkNode_ConditionalShouldFollowMaster" >
+									<subNodes>
+									<li Class="JobGiver_AIFollowMaster"/>
+									<li Class="JobGiver_WanderNearMaster" />
+									</subNodes>	
+								</li>
+								<li Class="ThinkNode_ConditionalShouldFollowMaster" >
+									<invert>true</invert>
+									<subNodes>
+									<li Class="AnimalWeapons.JobGiver_WPAIFightAnyone" />
+									</subNodes>	
+								</li>
+						</subNodes>
+					</li>
+				</subNodes>
+				</li>
+				</subNodes>
+			</li>
+			</subNodes>
+		</li>
+		
+		
+
+		<li Class="JobGiver_IdleError"/>
+		</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+
+	
+	
+
+
+</Defs>
+

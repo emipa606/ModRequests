@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+<!-- Advanced Animal Framework Snotlingz -->
+<Operation Class="PatchOperationSequence">
+  <success>Always</success>
+  <operations>
+    <li Class="PatchOperationTest">
+      <xpath>/Defs/JobDef[defName = "AnimalWeaponEquip"]</xpath>
+    </li>
+    <li Class="PatchOperationAdd">
+      <xpath>/Defs</xpath>
+		<value>
+		
+  <ThingDef ParentName="BasePawn" Name="SnotlingThingBase" Abstract="True">
+    <statBases>
+      <Flammability>1.0</Flammability>
+      <LeatherAmount>25</LeatherAmount>
+    </statBases>
+    <race>      
+      <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+      <hasGenders>false</hasGenders>
+      <nameGenerator>NamerAnimalGenericMale</nameGenerator>
+      <manhunterOnDamageChance>0</manhunterOnDamageChance>
+      <manhunterOnTameFailChance>0</manhunterOnTameFailChance>
+      <nameOnNuzzleChance>1</nameOnNuzzleChance>
+      <hediffGiverSets>
+        <li>OrganicStandard</li>
+      </hediffGiverSets>
+    </race>
+    <recipes>
+      <li>InstallArchotechEye</li>
+      <li>InstallArchotechArm</li>
+      <li>InstallArchotechLeg</li>
+      <li>InstallPowerClaw</li>
+      <li>InstallBionicEye</li>
+      <li>InstallBionicArm</li>
+      <li>InstallBionicLeg</li>
+      <li>InstallBionicSpine</li>
+      <li>InstallBionicHeart</li>
+      <li>InstallBionicStomach</li>
+      <li>InstallBionicEar</li>
+      <li>InstallSimpleProstheticArm</li>
+      <li>InstallSimpleProstheticLeg</li>
+      <li>InstallSimpleProstheticHeart</li>
+      <li>InstallCochlearImplant</li>
+      <li>InstallPegLeg</li>
+      <li>InstallWoodenFoot</li>
+      <li>InstallDenture</li>
+      <li>InstallJoywire</li>
+      <li>InstallPainstopper</li>
+      <li>InstallNaturalHeart</li>
+      <li>InstallNaturalLung</li>
+      <li>InstallNaturalKidney</li>
+      <li>InstallNaturalLiver</li>
+      <li>ExciseCarcinoma</li>
+      <li>AdministerMechSerumHealer</li>
+      <li>RemoveBodyPart</li>
+      <li>Euthanize</li>
+      <li>Anesthetize</li>
+	  <li>WPEquipWeaponOnAnimal</li>
+	  <li>WPRemoveWeaponOnAnimal</li>
+    </recipes>
+  </ThingDef>
+  
+  
+	<ThinkTreeDef>
+		<defName>Snotling</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Keep lying down if we have to -->
+				<li Class="ThinkNode_ConditionalMustKeepLyingDown">
+					<subNodes>
+            <!-- Do a queued job if possible -->
+            <li Class="ThinkNode_QueuedJob">
+              <inBedOnly>true</inBedOnly>
+            </li>
+
+            <!-- Keep lying down -->
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+        
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateCritical</treeDef>
+        </li>
+        
+        <!-- React to close melee threat -->
+				<li Class="JobGiver_ReactToCloseMeleeThreat" />
+
+        <!-- Do a queued job -->
+        <li Class="ThinkNode_QueuedJob" />
+
+        <!-- Wild animals dig out if no path to map edge and starving -->
+        <li Class="ThinkNode_ConditionalHasFaction">
+          <invert>true</invert>
+          <subNodes>
+            <li Class="ThinkNode_ConditionalStarving">
+              <subNodes>
+                <li Class="ThinkNode_ConditionalBodySize">
+                  <min>0.7</min>
+                  <subNodes>
+                    <li Class="ThinkNode_Subtree">
+                      <treeDef>DigOutIfCannotReachMapEdge</treeDef>
+                    </li>
+                  </subNodes>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Leave if timed out -->
+        <li Class="ThinkNode_ConditionalExitTimedOut">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Misc</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_ExitMapRandom">
+                  <defaultLocomotion>Walk</defaultLocomotion>     
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Mental state non critical -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateNonCritical</treeDef>
+        </li>
+
+        <!-- Forced goto -->
+        <li Class="ThinkNode_ConditionalForcedGoto">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Misc</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_ForcedGoto" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+				<!-- Lord directives -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>LordDuty</treeDef>
+        </li>
+        
+        <!-- Insertion hook for modders -->
+        <li Class="ThinkNode_SubtreesByTag">
+          <insertTag>Animal_PreMain</insertTag>
+        </li>
+		
+		<!-- Try to mate -->
+		<li Class="ThinkNode_ChancePerHour_Mate">
+		  <subNodes>
+			<li Class="ThinkNode_Tagger">
+			  <tagToGive>SatisfyingNeeds</tagToGive>
+			  <subNodes>
+				<li Class="JobGiver_Mate" />
+			  </subNodes>
+			</li>
+		  </subNodes>
+		</li>
+
+        <!-- Wild animals leave map in some conditions -->
+        <li Class="ThinkNode_ConditionalHasFaction">
+          <invert>true</invert>
+          <subNodes>
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LeaveIfWrongSeason</treeDef>
+            </li>
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LeaveIfStarving</treeDef>
+            </li>
+
+            <!-- Wild animals randomly leave map -->
+            <li Class="ThinkNode_ChancePerHour_Constant">
+              <mtbDays>60</mtbDays>
+              <subNodes>
+                <li Class="ThinkNode_Tagger">
+                  <tagToGive>Misc</tagToGive>
+                  <subNodes>
+                    <li Class="JobGiver_ExitMapRandom">
+                      <defaultLocomotion>Walk</defaultLocomotion>
+                    </li>
+                  </subNodes>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Lay eggs you need to -->
+        <li Class="JobGiver_LayEgg" />
+		
+		<li Class="ThinkNode_ConditionalExhausted">
+			<subNodes>
+				<li Class="JobGiver_GetRest" />
+			</subNodes>
+		</li>
+
+        <!-- Tame animal -->
+        <li Class="ThinkNode_ConditionalOfPlayerFaction">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>TrainedAnimalBehavior</tagToGive>
+              <subNodes>
+                <!-- Trained behavior: obedience: Follow and defend master -->
+                <li Class="ThinkNode_ConditionalTrainableCompleted">
+                  <trainable>Obedience</trainable>
+                  <subNodes>
+                    <li Class="ThinkNode_ConditionalShouldFollowMaster" >
+                      <subNodes>
+                        <li Class="JobGiver_AIDefendMaster">
+                          <attackMeleeThreatEvenIfNotHostile>true</attackMeleeThreatEvenIfNotHostile>
+                        </li>
+                        <li Class="JobGiver_AIFollowMaster"/>
+                        <li Class="JobGiver_WanderNearMaster" />
+						
+							<!-- Modded: Cut Plants -->
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>PlantsCut</workGiverDef>
+							</li>	
+							
+							<!-- Modded: Harvest Plants -->
+							
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>GrowerHarvest</workGiverDef>
+							</li>		
+							
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>WPGrowerSow</workGiverDef>
+							</li>		
+			
+                      </subNodes>
+                    </li>
+					
+					<!-- Trained behavior: Rescue-->
+					<li Class="ThinkNode_ConditionalTrainableCompleted">
+					  <trainable>Rescue</trainable>
+					  <subNodes>
+						<li Class="JobGiver_RescueNearby">
+						  <radius>80</radius>
+						</li>
+						<!--
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPDoctorTendToHumanlikes</workGiverDef>
+						</li>
+						
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPDoctorFeedHumanlikes</workGiverDef>
+						</li>
+						-->
+						
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPDoctorTendToAnimals</workGiverDef>
+						</li>
+						
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPDoctorFeedAnimals</workGiverDef>
+						</li>
+					  </subNodes>
+					</li>
+					
+					
+					<!-- Modded: Flick -->
+					<li Class="ThinkNode_WPChancePerHour_Constant">
+					<mtbHours>0.5</mtbHours>
+					<subNodes>
+							<li Class="JobGiver_WPFlick" />					  
+					</subNodes>
+					</li>
+					
+					<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+						<workGiverDef>CleanFilth</workGiverDef>
+					</li>	
+					
+					<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+						<workGiverDef>CleanClearSnow</workGiverDef>
+					</li>
+                  </subNodes>
+                </li>
+				
+				<!-- Trained behavior: Haul-->
+				<li Class="ThinkNode_ConditionalTrainableCompleted">
+				  <trainable>Haul</trainable>
+				  <subNodes>
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>TrainedAnimalBehavior</tagToGive>
+					  <subNodes>
+					  
+						
+							<!-- Modded: Haul -->
+
+							<li Class="ThinkNode_WPChancePerHour_Constant">
+							<mtbHours>0.1</mtbHours>
+							<subNodes>
+									<li Class="JobGiver_Haul" />						  
+							</subNodes>
+							</li>
+							
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>WPMilk</workGiverDef>
+							</li>
+										
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>WPShear</workGiverDef>
+							</li>
+							
+							<!-- Modded: Mine -->
+							
+							<!--
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>Mine</workGiverDef>
+							</li>
+							
+							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+								<workGiverDef>WPDrill</workGiverDef>
+							</li>
+							-->
+							
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+
+				<!-- Trained behavior: Haul-->
+				<li Class="ThinkNode_ConditionalTrainableCompleted">
+					<trainable>Release</trainable>
+					<subNodes>
+					<li Class="ThinkNode_Tagger">
+						<tagToGive>TrainedAnimalBehavior</tagToGive>
+						<subNodes>
+							
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>Uninstall</workGiverDef>
+						</li>
+							
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>BuildRoofs</workGiverDef>
+						</li>
+						
+						<!-- Modded: Repair-->
+						<li Class="ThinkNode_WPChancePerHour_Constant">
+						<mtbHours>0.5</mtbHours>
+							<subNodes>
+							<li Class="JobGiver_WPRepair" />					  
+							</subNodes>
+						</li> 
+						
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPConstructDeliverResourcesToBlueprints</workGiverDef>
+						</li>
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPConstructDeliverResourcesToFrames</workGiverDef>
+						</li>
+
+						<!-- Construction -->
+
+						<!--
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>WPConstructFinishFrames</workGiverDef>
+						</li>
+						-->
+						
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>ConstructSmoothFloors</workGiverDef>
+						</li>
+						
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>RemoveRoofs</workGiverDef>
+						</li>
+
+						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					  
+							<workGiverDef>ConstructRemoveFloors</workGiverDef>
+						</li>
+
+						<!-- Modded: deconstruct -->
+						<li Class="ThinkNode_WPChancePerHour_Constant">
+						<mtbHours>0.5</mtbHours>
+							<subNodes>
+							<li Class="JobGiver_WPDeconstruct" />					  
+							</subNodes>
+						</li>				
+
+					  </subNodes>
+					</li>
+                  </subNodes>
+                </li>
+				
+				
+              </subNodes>
+            </li>
+
+            <!-- Take care of critical needs (below rescue - so heroic!)-->
+            
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>RestingForMedicalReasons</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_PatientGoToBed" />
+              </subNodes>
+            </li>
+            
+            <li Class="JobGiver_SeekAllowedArea" />
+            <li Class="JobGiver_SeekSafeTemperature" />
+            
+          </subNodes>
+        </li>
+        
+				<!-- Eat random things out of curiosity -->
+				<li Class="ThinkNode_ChancePerHour_Constant">
+					<mtbDays>60</mtbDays>
+					<subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>SatisfyingNeeds</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_EatRandom"/>
+              </subNodes>
+            </li>
+					</subNodes>
+				</li>
+				
+        <!-- Satisfy basic needs -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>SatisfyBasicNeeds</treeDef>
+        </li>
+
+        <!-- Tame animal: do useful things for the colony-->
+        <li Class="ThinkNode_ConditionalHasFaction">
+          <subNodes>
+            
+
+
+            <!-- Nuzzle randoms -->
+            <li Class="ThinkNode_ChancePerHour_Nuzzle">
+              <subNodes>
+                <li Class="ThinkNode_Tagger">
+                  <tagToGive>Misc</tagToGive>
+                  <subNodes>
+                    <li Class="JobGiver_Nuzzle" />
+                  </subNodes>
+                </li>
+              </subNodes>
+			</li>
+			  
+			
+			            <!-- Join auto joinable caravan -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>JoinAutoJoinableCaravan</treeDef>
+            </li>
+
+			
+          </subNodes>
+        </li>
+
+        <!-- Insertion hook for modders -->
+        <li Class="ThinkNode_SubtreesByTag">
+          <insertTag>Animal_PreWander</insertTag>
+        </li>
+        
+        <!-- Tame animal: wander near colony if possible -->
+        <li Class="ThinkNode_ConditionalOfPlayerFaction">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Idle</tagToGive>
+              <subNodes>
+                <!-- Wander near your current position if in hostile map -->
+                <li Class="ThinkNode_ConditionalAnyEnemyInHostileMap">
+                  <subNodes>
+                    <li Class="JobGiver_WanderAnywhere">
+                      <maxDanger>None</maxDanger>
+                      <ticksBetweenWandersRange>
+                        <min>120</min>
+                        <max>240</max>
+                      </ticksBetweenWandersRange>
+                    </li>
+                  </subNodes>
+                </li>
+
+                <!-- Wander near colony -->
+                <li Class="JobGiver_WanderColony">
+                  <maxDanger>None</maxDanger>
+                  <ticksBetweenWandersRange>
+                    <min>120</min>
+                    <max>240</max>
+                  </ticksBetweenWandersRange>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Of neutral faction: rest and then exit the map -->
+        <li Class="ThinkNode_ConditionalNonPlayerNonHostileFaction">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>RestingForMedicalReasons</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_PatientGoToBed" />
+              </subNodes>
+            </li>
+            
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Misc</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_ExitMapBest">
+                  <defaultLocomotion>Walk</defaultLocomotion>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Wander -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="ThinkNode_ConditionalHerdAnimal">
+              <subNodes>
+                <li Class="JobGiver_WanderHerd">
+                  <maxDanger>Deadly</maxDanger>
+                  <ticksBetweenWandersRange>
+                    <min>120</min>
+                    <max>240</max>
+                  </ticksBetweenWandersRange>
+                </li>
+              </subNodes>
+            </li>
+            
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+              <ticksBetweenWandersRange>
+                <min>120</min>
+                <max>240</max>
+              </ticksBetweenWandersRange>    
+            </li>
+          </subNodes>
+        </li>
+
+        <li Class="JobGiver_IdleError"/>
+      </subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+
+	<ThinkTreeDef>
+		<defName>AnimalConstant</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+        <li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+          <subNodes>
+            <!-- Flee enemies, tornados, meteorites, etc. -->
+            <li Class="JobGiver_AnimalFlee" />
+
+            <!-- Join auto joinable caravan -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>JoinAutoJoinableCaravan</treeDef>
+            </li>
+            
+            <!-- Lord directives -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDutyConstant</treeDef>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+  
+		</value>
+    </li>
+    <li Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName = "Snotling"]/race</xpath>
+		<value>	
+			<thinkTreeMain>Snotling</thinkTreeMain>
+		</value>
+    </li>
+	
+	<li Class="PatchOperationAttributeSet">
+		<xpath>/Defs/ThingDef[defName = "Snotling"]</xpath>
+			<attribute>ParentName</attribute>
+			<value>SnotlingThingBase</value>
+	</li>
+  </operations>
+</Operation>
+
+</Patch>
