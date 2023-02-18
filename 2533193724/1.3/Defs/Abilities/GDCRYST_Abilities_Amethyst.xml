@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+<!--■■■■■■■■■■■■■■■■■
+     ABILITIES: Amethyst
+     1. Ability Base
+     2. Crystal Catapult
+     3. Crystal Capsule
+     4. Crystal Munitions
+     5. Crystal Cleavage
+     6. Thermal Emissions
+     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ABILITIES: Amethyst ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■-->
+    <AbilityDef Abstract="True" Name="GDCRYST_ABILITY_Base">
+        <iconPath>UI/Abilities/WorkDrive</iconPath>
+        <hotKey>Misc12</hotKey>
+        <gizmoClass>Command_Ability</gizmoClass>
+        <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+        <targetRequired>False</targetRequired>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>-1</range>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityRequiresCapacity">
+                <capacity>Talking</capacity>
+            </li>
+        </comps>
+    </AbilityDef>
+    
+    <!--■■■■■■■■■■■■■■■■■■ ISSUE ■■■■■■■■■■■■■■■■■■■■■■■-->
+    <IssueDef>
+        <defName>WorkDrive</defName>
+        <label>work drive</label>
+        <iconPath>UI/Issues/WorkDrive</iconPath>
+    </IssueDef>
+    
+    <!--■■■■■■■■■■■■■■■■■■  ABILITY GROUPs ■■■■■■■■■■■■■■■■■■■■■■■-->
+    <AbilityGroupDef>
+        <defName>GDCRYST_ABILITYGROUP_Fast</defName>
+        <cooldownTicks>3000</cooldownTicks>
+    </AbilityGroupDef>
+    <AbilityGroupDef>
+        <defName>GDCRYST_ABILITYGROUP_Slow</defName>
+        <cooldownTicks>10000</cooldownTicks>
+    </AbilityGroupDef>
+    
+    <!--■■■■■■■■■■■■■■■■■■ ABILITY: Crystal Catapult ■■■■■■■■■■■■■■■■■■■■■■■
+    <AbilityDef>
+        <defName>GDCRYST_ABILITY_AmethystCrystalCatapult</defName>
+        <label>crystal catapult</label>
+        <description>Skip dust particles up from under the ground surface to form a thick cloud. This reduces the accuracy of any shot fired through it, and preventing turrets from locking on entirely.</description>
+     
+        <iconPath>Icons/GDCRYST_CrystalMunitions</iconPath>
+        <warmupMoteSocialSymbol>UI/Abilities/WorkDrive</warmupMoteSocialSymbol>
+        <stunTargetWhileCasting>False</stunTargetWhileCasting>
+        <showPsycastEffects>True</showPsycastEffects>
+        <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+        <groupDef>GDCRYST_ABILITYGROUP_Fast</groupDef>
+        <hotKey>Misc12</hotKey>
+        <uiOrder>2</uiOrder>
+        <warmupStartSound>WorkDrive_Warmup</warmupStartSound>
+        <statBases>
+            <Ability_Duration>3000</Ability_Duration>
+        </statBases>
+        <canUseAoeToGetTargets>true</canUseAoeToGetTargets>
+        
+        <verbProperties>
+            <label>hurl crystal</label>
+            <verbClass>Verb_LaunchProjectileStatic</verbClass>
+            
+            <hasStandardCommand>true</hasStandardCommand>
+            <onlyManualCast>True</onlyManualCast>
+            
+            <range>8.9</range>
+            <forcedMissRadius>0.9</forcedMissRadius>
+            <warmupTime>2</warmupTime>
+            <defaultCooldownTime>4.0</defaultCooldownTime>
+            <noiseRadius>2</noiseRadius>
+            <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+            <soundCast>TurretAcquireTarget</soundCast>
+            <soundCastTail>GunTail_Medium</soundCastTail>
+            <muzzleFlashScale>0</muzzleFlashScale>
+            <drawHighlightWithLineOfSight>true</drawHighlightWithLineOfSight>
+            <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+            </targetParams>
+            <defaultProjectile>Bullet_IncendiaryLauncher</defaultProjectile>
+            <rangedFireRulepack>DamageEvent_Include</rangedFireRulepack>
+        </verbProperties>
+    </AbilityDef>-->
+    
+    <!--■■■■■■■■■■■■■■■■■■ ABILITY: Crystal Capsule ■■■■■■■■■■■■■■■■■■■■■■■-->  
+    <AbilityDef ParentName="GDCRYST_ABILITY_Base">
+        <defName>GDCRYST_ABILITY_AmethystCrystalCapsule</defName>
+        <label>crystal capsule</label>
+        <description>Form a enclosing cavern of solid crystal around yourself.</description>
+    
+        <iconPath>Icons/GDCRYST_CrystalCapsule</iconPath>
+        <writeCombatLog>True</writeCombatLog>
+        <hotKey>Abil1</hotKey>
+        
+        <groupDef>GDCRYST_ABILITYGROUP_Slow</groupDef>
+        <verbProperties>
+            <warmupTime>1</warmupTime>
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class = "Crystosentient.Abillities.CrystalSpawners_CompProperties">
+                <compClass>Crystosentient.Abillities.AbilityCrystalCapsule_Comp</compClass>
+
+                <dustColor>120,61,176</dustColor>
+                <spawnBuildingDef>GDCRYST_BUILDABLE_WallAmethystRough</spawnBuildingDef>
+                <pattern>
+                   <!-- ■■■ MIDDLE, CLOCKWISE ■■■-->
+                    <li>(0,2)</li>
+                    <li>(1,2)</li>
+                    <li>(2,2)</li>
+                    <li>(2,1)</li>
+                    <li>(2,0)</li>
+                    <li>(2,-1)</li>
+                    <li>(2,-2)</li>
+                    <li>(1,-2)</li>
+                    <li>(0,-2)</li>
+                    <li>(-1,-2)</li>
+                    <li>(-2,-2)</li>
+                    <li>(-2,-1)</li>
+                    <li>(-2,-0)</li>
+                    <li>(-2,1)</li>
+                    <li>(-1,2)</li>
+                    <li>(-2,2)</li>
+                    <!-- ■■■ OUTER, CLOCKWISE ■■■-->
+                    <li>(0,3)</li>
+                    <li>(1,3)</li>
+                    <li>(3,1)</li>
+                    <li>(3,0)</li>
+                    <li>(3,-1)</li>
+                    <li>(1,-3)</li>
+                    <li>(0,-3)</li>
+                    <li>(-1,-3)</li>
+                    <li>(-3,-1)</li>
+                    <li>(-3,0)</li>
+                    <li>(-3,1)</li>
+                    <li>(-1,3)</li>
+                </pattern>
+                <patternRoof>
+                    <!-- ■■■ INNER, CLOCKWISE ■■■-->
+                    <li>(0,0)</li>
+                    <li>(0,1)</li>
+                    <li>(1,1)</li>
+                    <li>(1,0)</li>
+                    <li>(1,-1)</li>
+                    <li>(0,-1)</li>
+                    <li>(-1,-1)</li>
+                    <li>(-1,-0)</li>
+                    <li>(-1,1)</li>
+                    <!-- ■■■ MIDDLE, CLOCKWISE ■■■-->
+                    <li>(0,2)</li>
+                    <li>(1,2)</li>
+                    <li>(2,1)</li>
+                    <li>(2,0)</li>
+                    <li>(2,-1)</li>
+                    <li>(1,-2)</li>
+                    <li>(0,-2)</li>
+                    <li>(-1,-2)</li>
+                    <li>(-2,-1)</li>
+                    <li>(-2,0)</li>
+                    <li>(-2,1)</li>
+                    <li>(-1,2)</li>
+                    <!-- ■■■ OUTER, CLOCKWISE ■■■-->
+                    <li>(0,3)</li>
+                    <li>(3,0)</li>
+                    <li>(0,-3)</li>                  
+                    <li>(-3,0)</li>
+                </patternRoof>
+                <patternTerrain>
+                    <!-- ■■■ INNER, CLOCKWISE ■■■-->
+                    <li>(0,0)</li>
+                    <li>(0,1)</li>
+                    <li>(1,1)</li>
+                    <li>(1,0)</li>
+                    <li>(1,-1)</li>
+                    <li>(0,-1)</li>
+                    <li>(-1,-1)</li>
+                    <li>(-1,-0)</li>
+                    <li>(-1,1)</li>
+                    <!-- ■■■ MIDDLE, CLOCKWISE ■■■-->
+                    <li>(0,2)</li>
+                    <li>(1,2)</li>
+                    <li>(2,1)</li>
+                    <li>(2,2)</li>
+                    <li>(2,0)</li>
+                    <li>(2,-1)</li>
+                    <li>(2,-2)</li>
+                    <li>(1,-2)</li>
+                    <li>(0,-2)</li>
+                    <li>(-1,-2)</li>
+                    <li>(-2,-2)</li>
+                    <li>(-2,-1)</li>
+                    <li>(-2,0)</li>
+                    <li>(-2,1)</li>
+                    <li>(-1,2)</li>
+                    <li>(-2,2)</li>
+                    <!-- ■■■ OUTER, CLOCKWISE ■■■-->
+                    <li>(0,3)</li>
+                    <li>(1,3)</li>
+                    <li>(3,1)</li>
+                    <li>(3,0)</li>
+                    <li>(3,-1)</li>
+                    <li>(1,-3)</li>
+                    <li>(0,-3)</li>
+                    <li>(-1,-3)</li>
+                    <li>(-3,-1)</li>
+                    <li>(-3,0)</li>
+                    <li>(-3,1)</li>
+                    <li>(-1,3)</li>
+                </patternTerrain>
+                <crystalPatterns>
+                    <li>
+                        <crystalPatterns>
+                            <li>(2,1)</li>
+                            <li>(2,0)</li>
+                            <li>(2,-1)</li>
+                            <li>(1,-2)</li>
+                        </crystalPatterns>
+                    </li>
+                    <li>
+                        <crystalPatterns>
+                            <li>(5,1)</li>
+                            <li>(5,0)</li>
+                            <li>(5,-1)</li>
+                            <li>(5,-2)</li>
+                        </crystalPatterns>
+                    </li>
+                </crystalPatterns>
+
+                
+                <screenShakeIntensity>1.0</screenShakeIntensity>
+                <clamorType>Ability</clamorType>
+                <clamorRadius>25</clamorRadius>
+                <sound>PsycastWallraise</sound>
+            </li>
+        </comps>
+    </AbilityDef>
+    
+    <!--■■■■■■■■■■■■■■■■■■ ABILITY: Crystal Munitions ■■■■■■■■■■■■■■■■■■■■■■■-->  
+    <AbilityDef ParentName="GDCRYST_ABILITY_Base">
+        <defName>GDCRYST_ABILITY_AmethystCrystalMunitions</defName>
+        <label>crystal munitions</label>
+        <description>forge a weapon deep within the bowel of your crystal core.</description>
+        
+        <iconPath>Icons/GDCRYST_CrystalMunitions</iconPath>
+        <writeCombatLog>True</writeCombatLog>
+        <hotKey>Abil2</hotKey>
+        
+        <groupDef>GDCRYST_ABILITYGROUP_Fast</groupDef>
+        <verbProperties>
+            <warmupTime>1</warmupTime>
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        
+        <comps>
+            <li Class = "Crystosentient.Abillities.CrystalSpawners_CompProperties">
+                <compClass>Crystosentient.Abillities.AbilityCrystalMunitions_Comp</compClass>
+               
+                <spawnThingRandom>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalSpearOne</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalSpearTwo</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalSpearThree</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalSpearOne</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalSpearTwo</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalSpearThree</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalSwordOne</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalSwordTwo</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalSwordThree</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalSwordOne</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalSwordTwo</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalSwordThree</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalHammerOne</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalHammerTwo</li>
+                    <li>GDCRYST_WEAPON_AmethystSmallCrystalHammerThree</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalHammerOne</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalHammerTwo</li>
+                    <li>GDCRYST_WEAPON_AmethystLargeCrystalHammerThree</li>
+                </spawnThingRandom>               
+                <moreThingsTerm>Small</moreThingsTerm>
+                <moreThingsCountRange>3</moreThingsCountRange>
+                <moreThingsTermTwo>Large</moreThingsTermTwo>
+                <moreThingsCountRangeTwo>1</moreThingsCountRangeTwo>
+            </li>
+            <!-- <li Class="CompProperties_AbilityEffecterOnTarget">
+                <effecterDef>Skip_Exit</effecterDef>
+                <maintainForTicks>60</maintainForTicks>
+                <scale>1.55</scale>
+            </li>
+            <li Class="CompProperties_AbilityFleckOnTarget">
+                <fleckDefs>
+                    <li>PsycastSkipInnerExit</li>
+                    <li>PsycastSkipOuterRingExit</li>
+                </fleckDefs>
+                <scale>1.55</scale>
+                <sound>Psycast_Skip_Exit</sound>
+                <preCastTicks>5</preCastTicks>
+            </li>-->
+        </comps>
+    </AbilityDef>
+    
+    <!--■■■■■■■■■■■■■■■■■■ ABILITY: Crystal Cleavage ■■■■■■■■■■■■■■■■■■■■■■■-->  
+    <AbilityDef ParentName="GDCRYST_ABILITY_Base">
+        <defName>GDCRYST_ABILITY_AmethystCrystalCleavage</defName>
+        <label>crystal cleavage</label>
+        <description>Focus extra hard and shed more crystals.</description>
+        
+        <iconPath>Icons/GDCRYST_CrystalCleavage</iconPath>
+        <writeCombatLog>True</writeCombatLog>
+        <hotKey>Abil3</hotKey>
+        
+        <groupDef>GDCRYST_ABILITYGROUP_Slow</groupDef>
+        <verbProperties>
+            <warmupTime>1</warmupTime>
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class = "Crystosentient.Abillities.CrystalSpawners_CompProperties">
+                <compClass>Crystosentient.Abillities.AbilityCrystalCleavage_Comp</compClass>
+              
+                <spawnPawnRandom>
+                    <li>GDCRYST_PAWNPLAYER_AmethystCleavlingSmall</li>
+                    <li>GDCRYST_PAWNPLAYER_AmethystCleavlingMedium</li>
+                </spawnPawnRandom>  
+                <morePawnsTerm>Small</morePawnsTerm> 
+                <morePawnsCountRange>3~4</morePawnsCountRange>
+                <morePawnsTermTwo>Medium</morePawnsTermTwo>
+                <morePawnsCountRangeTwo>1</morePawnsCountRangeTwo>
+            </li>
+            <!-- <li Class="CompProperties_AbilityEffecterOnTarget">
+                <effecterDef>Skip_Exit</effecterDef>
+                <maintainForTicks>60</maintainForTicks>
+                <scale>1.55</scale>
+            </li>
+            <li Class="CompProperties_AbilityFleckOnTarget">
+                <fleckDefs>
+                    <li>PsycastSkipInnerExit</li>
+                    <li>PsycastSkipOuterRingExit</li>
+                </fleckDefs>
+                <scale>1.55</scale>
+                <sound>Psycast_Skip_Exit</sound>
+                <preCastTicks>5</preCastTicks>
+            </li>-->
+        </comps>
+    </AbilityDef>
+    
+    <!--■■■■■■■■■■■■■■■■■■ ABILITY: Thermal Emissions ■■■■■■■■■■■■■■■■■■■■■■■-->  
+    <AbilityDef ParentName="GDCRYST_ABILITY_Base">
+        <defName>GDCRYST_ABILITY_AmethystThermalEmission</defName>
+        <label>thermal emissions</label>
+        <description>Radiate a wave of thermal energy. Amethyst Crystosentients generate enough heat to warm enclosed areas but are incapable of releasing enough energy to directly harm organic tissues through it's release.</description>
+        
+        <iconPath>Icons/GDCRYST_CrystalEmissions</iconPath>
+        <writeCombatLog>True</writeCombatLog>
+        <hotKey>Abil4</hotKey>
+        
+        <groupDef>GDCRYST_ABILITYGROUP_Fast</groupDef>
+        <verbProperties>
+            <warmupTime>1</warmupTime>
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class = "Crystosentient.Abillities.CrystalSpawners_CompProperties">
+                <compClass>Crystosentient.Abillities.AbilityCrystalEmissions_Comp</compClass>
+                <effecterDef>GDCRYST_EFFECTER_AmethystConceiverFlesh</effecterDef>
+                
+                <abilityRadius>3.6</abilityRadius>
+                <damageDef>Burn</damageDef>
+                <temperatureRange>200</temperatureRange>
+                <damageAmount>1</damageAmount>
+                <soundExplosion>TurretAcquireTarget</soundExplosion>
+
+                
+                <clamorType>Ability</clamorType>
+                <clamorRadius>15</clamorRadius>
+            </li>
+        </comps>
+    </AbilityDef>
+    
+</Defs>

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+<!--■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ CRYST SWARMLIKE ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■-->    
+    <!--Used In: GDCRYST_RACE_TINY_AMETHYST_DEF-->
+
+<ThinkTreeDef>
+    <defName>GDCRYST_THINKTREE_AmethystCleavling</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Downed -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        
+        <!-- Do a queued job -->
+        <li Class="ThinkNode_QueuedJob" />
+        
+ 
+        <li Class="ThinkNode_ChancePerHour_Constant">
+          <mtbHours>0.1</mtbHours>
+          <subNodes>
+            <li Class="Crystosentient.JobGiver_PickUpOpportunisticWeapon" />
+          </subNodes>
+        </li>
+        
+       <!-- <li Class="ThinkNode_ConditionalColonist">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Idle</tagToGive>
+              <subNodes>
+                <li Class="Crystosentient.JobGiver_PickUpOpportunisticWeapon" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li> -->
+   
+        <!--    <li Class="JobGiver_AIDefendSelf" />-->
+        <!--■■■■■■■■■■■■■■■■■■ DRAFT ■■■■■■■■■■■■■■■■■■■■■■■-->
+        <li Class="ThinkNode_ConditionalColonist">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>DraftedOrder</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_MoveToStandable" />
+                <li Class="JobGiver_Orders" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li> 
+        
+        <!--■■■ CRYSTAL SWARM ATTACK!! GO!! ■■■-->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Misc</tagToGive>
+          
+          <subNodes>
+            <li Class="JobGiver_AIFightEnemies">
+              <targetAcquireRadius>8</targetAcquireRadius>
+              <targetKeepRadius>8</targetKeepRadius>
+              <needLOSToAcquireNonPawnTargets>true</needLOSToAcquireNonPawnTargets>
+            </li>
+          </subNodes>
+        </li> 
+        
+        <!--■■■ AUTO MINING ■■■-->
+        <li Class="ThinkNode_ConditionalColonist">
+          <subNodes>
+            <li Class="ThinkNode_ChancePerHour_Constant">
+              <mtbHours>0.1</mtbHours>
+              <subNodes>
+                <li Class="Crystosentient.JobGiver_AutoMineGemFriendly" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+       
+        <!--■■■ WANDER AROUND LIKE SOME SORT OF CRYSTAL IDIOT ■■■-->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+              <wanderRadius>4</wanderRadius>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!--■■■ LORD DIRECTIVES (Caravans mostly, Conditonal think node so hostile raiders wander around eating your map up) ■■■
+        <li Class="ThinkNode_ConditionalColonist">
+          <subNodes>
+            <li Class="ThinkNode_JoinVoluntarilyJoinableLord">
+              <dutyHook>HighPriority</dutyHook>
+              <subNodes>
+                <li Class="ThinkNode_Subtree">
+                  <treeDef>GDCRYST_THINKTREE_SubTreeLordDuty</treeDef>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>-->
+        
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+</Defs>
