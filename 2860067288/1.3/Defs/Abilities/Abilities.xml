@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <KeyBindingDef ParentName="MiscKeyBinding">
+    <defName>US_Keybind_Ability</defName>
+    <label>Misc 1337</label>
+    <defaultKeyCodeA>X</defaultKeyCodeA>
+  </KeyBindingDef>
+
+  <AbilityGroupDef>
+    <defName>US_Abilities</defName>
+    <cooldownTicks>7500</cooldownTicks>
+  </AbilityGroupDef>
+
+
+  <HediffDef>
+    <defName>US_PsychicCrush</defName>
+    <label>psionic gravitational pressure</label>
+    <description>Psychic pressure crushes body parts over time, and inflicts severe debuffs on combat abilities, movement, and manipulation.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.8, 0.35, 0.8)</defaultLabelColor>
+    <initialSeverity>0.3</initialSeverity>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">  <!-- 0.3 sev / -5 spd = 1 minute of agony -->
+        <severityPerDay>-5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+      <li Class="HediffsExtended.HediffCompProperties_DamageOverTime">
+        <damageDef>PsychicCrush</damageDef>
+        <damageAmount>4</damageAmount>
+        <damageIntervalTicks>120</damageIntervalTicks>
+        <armorPenetration>2.0</armorPenetration>
+      </li>
+    </comps>
+	<stages>
+      <li>
+        <label>crushing</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>0.2</painOffset>
+        <statOffsets>
+          <ShootingAccuracyPawn>-3.0</ShootingAccuracyPawn>
+          <AimingDelayFactor>0.3</AimingDelayFactor>
+          <VerbCooldownFactor>0.3</VerbCooldownFactor>
+          <MeleeDodgeChance>-0.3</MeleeDodgeChance>
+          <MeleeHitChance>-3.0</MeleeHitChance>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.2</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.2</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <injuryProps>
+      <painPerSeverity>0.0005</painPerSeverity>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Crushed</destroyedLabel>
+      <destroyedOutLabel>Burst</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <HediffDef ParentName="InjuryBase">
+    <defName>US_PsychicPressure</defName>
+    <label>psychic crush</label>
+    <labelNoun>a psychic crush</labelNoun>
+    <description>A crush wound inflicted by psychically created pressure.</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>tended</labelTendedWellInner>
+        <labelSolidTendedWell>tended</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.05</infectionChance>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.00675</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Crushed</destroyedLabel>
+      <destroyedOutLabel>Crushed</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <DamageDef>
+    <defName>PsychicCrush</defName>
+    <label>psychic crush</label>
+    <deathMessage>{0} has been psychically crushed to death.</deathMessage>
+    <hediff>US_PsychicPressure</hediff>
+    <hediffSkin>US_PsychicPressure</hediffSkin>
+    <hediffSolid>US_PsychicPressure</hediffSolid>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Blunt</armorCategory>
+    <damageEffecter>Impact_USPsychicZap</damageEffecter>
+    <overkillPctToDestroyPart>0.4~1.0</overkillPctToDestroyPart>
+    <defaultArmorPenetration>2.0</defaultArmorPenetration>
+  </DamageDef>
+
+  <DamageDef ParentName="Bomb">
+    <defName>PsychicBomb</defName>
+    <label>psychic blast</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has died from a psychic blast.</deathMessage>
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    
+    <additionalHediffs>
+      <li>
+        <hediff>US_PsychicCrush</hediff>
+        <severityPerDamageDealt>0.1</severityPerDamageDealt>
+        <!--<victimSeverityScaling>ToxicSensitivity</victimSeverityScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>-->
+      </li>
+    </additionalHediffs>
+    
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>20</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>1.05</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>4</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>2</buildingDamageFactorPassable>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <explosionCellFleck>USPsychicBlast</explosionCellFleck>
+    <explosionColorCenter>(0.8, 0.35, 0.8)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.2, 0.6)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+	<AbilitiesExtended.EquipmentAbilityDef Name="PsykerAbilityBase" Abstract="true">
+        <abilityClass>AbilitiesExtended.EquipmentAbility</abilityClass>
+		<displayGizmoWhileUndrafted>False</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+		<groupDef>US_Abilities</groupDef>
+		<hotKey>US_Keybind_Ability</hotKey>
+		<uiOrder>10</uiOrder>
+		<warmupStartSound>USPsionic_Start</warmupStartSound>
+		<cooldown>1040</cooldown>
+        <verbProperties Class="AbilitiesExtended.VerbProperties_EquipmentAbility">
+            <verbClass>AbilitiesExtended.Verb_ShootEquipment</verbClass>
+            <hasStandardCommand>true</hasStandardCommand>
+			<soundCastTail>GunTail_Heavy</soundCastTail>
+            <muzzleFlashScale>7</muzzleFlashScale>
+            <targetParams>
+				<canTargetLocations>true</canTargetLocations>
+            </targetParams>
+        </verbProperties>
+		<comps>
+		  <li Class="CompProperties_EffectWithDest">
+			<compClass>AbilitiesExtended.CompAbilityEffect_Shoot</compClass>
+			<psychic>false</psychic>
+			<goodwillImpact>0</goodwillImpact>
+			<screenShakeIntensity>0</screenShakeIntensity>
+			<clamorRadius>0</clamorRadius>
+		  </li>
+		</comps>
+	</AbilitiesExtended.EquipmentAbilityDef>
+  
+	<AbilitiesExtended.EquipmentAbilityDef ParentName="PsykerAbilityBase">
+        <defName>US_DoT_Area_Psyker</defName>
+		<label>psionic collapse</label>
+		<description>Fire off a bolt of powerful psychic energy, blasting everyone in a nine tile radius and inflicting an extreme psychic gravitational force on them. The gravitational force deals damage over time and greatly lowers the victim's combat abilities and maneuverability.</description>
+		<iconPath>UI/Atlas_Struggled</iconPath>
+        <verbProperties Class="AbilitiesExtended.VerbProperties_EquipmentAbility">
+            <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+            <defaultProjectile>US_Psychic_Rocket</defaultProjectile>
+            <warmupTime>2</warmupTime>
+			<range>34.9</range>
+			<forcedMissRadius>0.9</forcedMissRadius>
+			<soundCast>USPsionic_Launch</soundCast>
+        </verbProperties>
+	</AbilitiesExtended.EquipmentAbilityDef>
+ 
+  <ThingDef ParentName="BaseBullet">
+    <defName>US_Psychic_Rocket</defName>
+    <label>rocket</label>
+    <graphicData>
+      <texPath>Things/Projectile/Projectile_PsyGlasses</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>PsychicBomb</damageDef>
+      <!-- Use default damage from explosion def -->
+      <explosionRadius>4.9</explosionRadius>
+      <speed>60</speed>
+    </projectile>
+  </ThingDef>
+
+  </Defs>
