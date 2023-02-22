@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef ParentName="BasePawn" Name="BaseGethHopper" Abstract="True">
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<statBases>
+			<PsychicSensitivity>0.5</PsychicSensitivity>
+			<ToxicSensitivity>0</ToxicSensitivity>
+			<Flammability>0</Flammability>
+			<ComfyTemperatureMin>-100</ComfyTemperatureMin>
+			<ComfyTemperatureMax>250</ComfyTemperatureMax>
+			<MeatAmount>0</MeatAmount>
+			<ArmorRating_Heat>2.20</ArmorRating_Heat>
+		</statBases>
+		<receivesSignals>true</receivesSignals>
+		<race>
+			<fleshType>Mechanoid</fleshType>
+			<needsRest>false</needsRest>
+			<hasGenders>false</hasGenders>
+			<foodType>None</foodType>
+			<lifeExpectancy>2500</lifeExpectancy>
+			<bloodDef>FilthGethBlood</bloodDef>
+		</race>
+	</ThingDef>
+	<PawnKindDef Name="BaseGethHopperKind" Abstract="True">
+		<defaultFactionType>GethConsensus</defaultFactionType>
+		<aiAvoidCover>true</aiAvoidCover>
+		<destroyGearOnDrop>true</destroyGearOnDrop>
+	</PawnKindDef>
+	<ThingDef ParentName="BaseGethHopper">
+		<defName>Geth_Hopper</defName>
+		<label>geth hopper</label>
+		<description>The Geth Hopper is a specialized geth platform, used primarily for stealth attacks, cyberwarfare and sabotage.</description>
+		<statBases>
+			<MoveSpeed>8.6</MoveSpeed>
+			<PsychicSensitivity>0.75</PsychicSensitivity>
+		</statBases>
+		<tools>
+			<li>
+				<label>left fist</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>4.2</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+				<surpriseAttack>
+					<extraMeleeDamages>
+						<li>
+							<def>Stun</def>
+							<amount>14</amount>
+						</li>
+					</extraMeleeDamages>
+				</surpriseAttack>
+			</li>
+			<li>
+				<label>right fist</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>4.2</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+				<surpriseAttack>
+					<extraMeleeDamages>
+						<li>
+							<def>Stun</def>
+							<amount>14</amount>
+						</li>
+					</extraMeleeDamages>
+				</surpriseAttack>
+			</li>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>5</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+		<race>
+			<intelligence>ToolUser</intelligence>
+			<thinkTreeMain>Mechanoid</thinkTreeMain>
+			<body>Geth</body>
+			<baseBodySize>1</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeStageAges>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>0</minAge>
+					<soundWounded>Geth_Hopper_Wounded</soundWounded>
+					<soundDeath>Geth_Hopper_Death</soundDeath>
+					<soundCall>Geth_Hopper_Aim</soundCall>
+				</li>
+			</lifeStageAges>
+			<soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+			<soundMeleeHitPawn>Pawn_Melee_MechanoidBash_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_MechanoidBash_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_MechanoidBash_Miss</soundMeleeMiss>
+		</race>
+		<butcherProducts>
+			<Steel>30</Steel>
+			<Plasteel>10</Plasteel>
+		</butcherProducts>
+		<modExtensions>
+			<li Class="PawnExtensions.ExtensionsDef">
+				<feelsNoPain>true</feelsNoPain>
+				<disableBreathMote>true</disableBreathMote>
+				<hediffOnDamage>
+					<li>
+						<damageDef>EMP</damageDef>
+						<hediff>GethEMPShutdown</hediff>
+					</li>
+				</hediffOnDamage>
+			</li>
+		</modExtensions>
+		<comps>
+			<li Class="PawnExtensions.CompProperties_PawnLink">
+				<hediff>GethLink</hediff>
+				<networkDef>GethNetwork</networkDef>
+				<statMaxLinked>GethLinkMaxLinked</statMaxLinked>
+				<statRange>GethLinkRangeBase</statRange>
+				<statRepeater>GethLinkRepeater</statRepeater>
+				<part>GethBlueBox</part>
+			</li>
+		</comps>
+	</ThingDef>
+	<PawnKindDef ParentName="BaseGethHopperKind">
+		<defName>Geth_Hopper</defName>
+		<label>geth hopper</label>
+		<race>Geth_Hopper</race>
+		<combatPower>30</combatPower>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Geth/Hopper</texPath>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>2.5</drawSize>
+					<shadowData>
+						<volume>(0.6, 0.8, 0.6)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<weaponMoney>9999~9999</weaponMoney>
+		<weaponTags>
+			<li>GethHopperGun</li>
+		</weaponTags>
+	</PawnKindDef>
+</Defs>
