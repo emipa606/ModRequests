@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef ParentName="MakeableDrugBase">
+		<defName>Druglerium</defName>
+		<label>Druglerium</label>
+		<description>Druglerium is one of the experimental drugs that was found in 5032 by unknown scientist. It boosts functions of every organ in the body to insane levels. It's extremly rare and despite it's not addictive, many people died trying get another dose or by being too brave after the injection. \n\nLuckily your last colony has researched the drug so you can produce it by yourself using the drug lab.</description>
+	
+
+		<graphicData>
+			<texPath>Things/Druglerium</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+
+		
+		<rotatable>false</rotatable>
+
+		<statBases>
+		<Beauty>10000</Beauty>
+			<WorkToMake>1</WorkToMake>
+			<MarketValue>5000</MarketValue>
+			<Mass>0.05</Mass>
+			  <Flammability>0</Flammability>
+      <MaxHitPoints>9999</MaxHitPoints>
+		</statBases>
+
+		<techLevel>Industrial</techLevel>
+
+
+		<ingestible>
+			<foodType>Processed</foodType>
+			<joyKind>Chemical</joyKind>
+			<joy>1</joy>
+			<drugCategory>Hard</drugCategory>
+			<baseIngestTicks>60</baseIngestTicks>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.21,0,0.05)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<ingestHoldUsesTable>false</ingestHoldUsesTable>
+			<ingestCommandString>Inject {0}</ingestCommandString>
+			<ingestReportString>Injecting {0}.</ingestReportString>
+			<useEatingSpeedStat>false</useEatingSpeedStat>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>DrugleriumHigh</hediffDef>
+					<severity>1</severity>
+					<toleranceChemical>Druglerium</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetNeed">
+					<need>Rest</need>
+					<offset>1</offset>
+					<toleranceChemical>Druglerium</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetNeed">
+					<need>Food</need>
+					<offset>1</offset>
+					<toleranceChemical>Druglerium</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>DrugleriumTolerance</hediffDef>
+					<severity>0</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+
+		<recipeMaker>
+			<researchPrerequisite></researchPrerequisite>
+			<recipeUsers>
+				<li>DrugLab</li>
+			</recipeUsers>
+		</recipeMaker>
+		<costList>
+
+			<Neutroamine>1</Neutroamine>
+
+		</costList>
+		<comps>
+			<li Class="CompProperties_Drug">
+        <chemical>Druglerium</chemical>
+        <addictiveness>0</addictiveness>
+		<minToleranceToAddict>0</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0</existingAddictionSeverityOffset>
+        <needLevelOffset>0</needLevelOffset>
+        <listOrder>3000</listOrder>
+        <overdoseSeverityOffset>0</overdoseSeverityOffset>
+        <largeOverdoseChance>0</largeOverdoseChance>
+			</li>
+		</comps>
+
+		<tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags> 
+
+	</ThingDef>
+	
+	<ThoughtDef>
+		<defName>DrugleriumAddictionThought</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>DrugleriumHigh</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+			<li>
+				<label>Injected Druglerium</label>
+				<description>I knew it! This is the best drug on the Rim!</description>
+				<baseMoodEffect>9999</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<HediffDef>
+		<defName>DrugleriumHigh</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Druglerium</label>
+		<labelNoun>Druglerium high</labelNoun>
+		<description>Druglerium in the bloodstream caused this pawn to become unstoppable.</description>
+		<defaultLabelColor>(0.4,0.9,0.7)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>0</painFactor>
+				<restFallFactor>0</restFallFactor>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>10</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>+500</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>+500</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>+500</offset>
+					</li>
+					<li>
+						<capacity>Hearing</capacity>
+						<offset>+500</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>+500</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>+500</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>+500</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+</Defs>
