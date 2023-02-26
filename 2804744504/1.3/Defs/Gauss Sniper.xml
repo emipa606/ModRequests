@@ -1,0 +1,192 @@
+<Defs>
+  <!-- Gauss Sniper -->
+	<SoundDef>
+    <defName>coilgun_charge</defName>  
+	<sustain>true</sustain>
+    <context>MapOnly</context>
+    <eventNames />  
+    <maxSimultaneous>1</maxSimultaneous>
+	<priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>railgun_charge</clipPath>
+          </li>
+        </grains>   
+		<tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <volumeRange>
+          <min>15</min>        
+          <max>15</max>
+        </volumeRange>
+        <pitchRange>
+          <min>1</min>        
+          <max>1</max>
+        </pitchRange>     
+		
+        <sustainLoop>False</sustainLoop>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>coilgun_fire</defName>  
+    <context>MapOnly</context>
+    <eventNames />  
+    <maxSimultaneous>1</maxSimultaneous>  
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>railgun_fire</clipPath>
+          </li>
+        </grains>      
+        <volumeRange>
+          <min>30</min>        
+          <max>30</max>
+        </volumeRange>
+        <pitchRange>
+          <min>0.751765</min>        
+          <max>0.774525</max>
+        </pitchRange>         
+        <sustainLoop>False</sustainLoop>
+      </li>
+    </subSounds>
+  </SoundDef>
+    <ThingDef ParentName="BaseHumanMakeableGun">
+		<defName>VWE_Gun_GaussSniper</defName>
+		<label>gauss sniper</label>
+		<description>A spacer-tech gauss sniper. A series of electromagnetic coils catapult a single shot at hypervelocity, shredding armor and punching through any targets in its path.</description>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Coilgun_01</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>1.1</drawSize>
+		</graphicData>
+		<soundInteract>VWE_Interact_GaussRifle</soundInteract>
+		<statBases> 
+			<WorkToMake>90000</WorkToMake>
+			<Mass>7</Mass>
+			<AccuracyTouch>0.30</AccuracyTouch>
+			<AccuracyShort>0.55</AccuracyShort>
+			<AccuracyMedium>0.85</AccuracyMedium>
+			<AccuracyLong>0.95</AccuracyLong>
+			<RangedWeapon_Cooldown>7.50</RangedWeapon_Cooldown>
+		</statBases>
+		<recipeMaker>
+			<researchPrerequisite>VWE_MassDrivers</researchPrerequisite>
+			<skillRequirements>
+				<Crafting>10</Crafting>
+			</skillRequirements>
+			<recipeUsers Inherit="False">
+				<li>FabricationBench</li>
+			</recipeUsers>
+		</recipeMaker>
+		<costList>
+			<Steel>250</Steel>
+			<Uranium>35</Uranium>
+			<ComponentSpacer>5</ComponentSpacer>
+		</costList>
+		<thingSetMakerTags>
+			<li>RewardStandardLowFreq</li>
+			<li>RewardStandardQualitySuper</li>
+		</thingSetMakerTags>
+		<weaponTags>
+			<li>SpacerGun</li>
+      <!-- Unused, but available to modders -->
+			<li>Coilgun</li>
+		</weaponTags>
+		
+		<verbs>
+			<li>
+			
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>VWE_Bullet_Gausssniper</defaultProjectile>
+				<soundAiming>coilgun_charge</soundAiming>
+				<warmupTime>0.9</warmupTime>
+				<range>44.9</range>
+				<soundCast>coilgun_fire</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>14</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>true</canTargetPawns>
+          <canTargetBuildings>true</canTargetBuildings>
+        </targetParams>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>11.7</power>
+				<cooldownTime>2.6</cooldownTime>
+			</li>
+		</tools>
+		<equippedAngleOffset>53</equippedAngleOffset>
+		<equippedStatOffsets>
+		  <MoveSpeed>-0.25</MoveSpeed> <!-- drawback -->
+		</equippedStatOffsets>
+		<comps>
+			<li Class="CompOversizedWeapon.CompProperties_OversizedWeapon">
+				<eastOffset>(0,0,-0.18)</eastOffset>
+				<westOffset>(0,0,-0.18)</westOffset>
+				<southOffset>(0,0,-0.18)</southOffset>
+				<northOffset>(0,0,-0.18)</northOffset>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<VFECore.ExpandableProjectileDef ParentName="BaseBullet">
+		<defName>VWE_Bullet_Gausssniper</defName>
+		<label>gauss sniper sabot</label>
+		<projectile>
+			<damageDef>Bullet</damageDef>
+			<damageAmountBase>40</damageAmountBase>
+			<armorPenetrationBase>0.70</armorPenetrationBase>
+			<stoppingPower>1.0</stoppingPower>
+			<speed>150</speed>
+		</projectile>
+		<thingClass>VFECore.GaussProjectile</thingClass>
+		<graphicData>
+			<texPath>Projectiles/Proj_CoilgunFadeIn</texPath>
+			<texPathFadeOut>Projectiles/Proj_CoilgunFadeOut</texPathFadeOut>
+		</graphicData>
+		<reachMaxRangeAlways>true</reachMaxRangeAlways>
+		<drawOffscreen>true</drawOffscreen>
+		<lifeTimeDuration>50</lifeTimeDuration>
+		<minDistanceToAffect>1.9</minDistanceToAffect>
+		<widthScaleFactor>0.10</widthScaleFactor>
+		<heightScaleFactor>1</heightScaleFactor>
+		<startingPositionOffset>(0,0,-1)</startingPositionOffset>
+		<totalSizeScale>0.8</totalSizeScale>
+		<tickFrameRate>2</tickFrameRate>
+		<finalTickFrameRate>2</finalTickFrameRate>
+		<tickDamageRate>5</tickDamageRate>
+		<dealsDamageOnce>true</dealsDamageOnce>
+		<stopWhenHit>false</stopWhenHit>
+		<stopWhenHitAt>
+			<li>MineableSteel</li>
+			<li>CollapsedRocks</li>
+			<li>MineableSilver</li>
+			<li>MineableGold</li>
+			<li>MineableUranium</li>
+			<li>MineablePlasteel</li>
+			<li>MineableJade</li>
+			<li>MineableComponentsIndustrial</li>
+			<li>RaisedRocks</li>
+			<li>Sandstone</li>
+			<li>SmoothedSandstone</li>
+			<li>Granite</li>
+			<li>SmoothedGranite</li>
+			<li>Limestone</li>
+			<li>SmoothedLimestone</li>
+			<li>Slate</li>
+			<li>SmoothedSlate</li>
+			<li>Marble</li>
+			<li>SmoothedMarble</li>
+		</stopWhenHitAt>
+	</VFECore.ExpandableProjectileDef>
+</Defs>
