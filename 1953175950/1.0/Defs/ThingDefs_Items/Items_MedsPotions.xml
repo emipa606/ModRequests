@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MedicineBase">
+    <defName>FimirMedicineSalve</defName>
+    <label>fimir salve</label>
+    <description>It may be a disgusting mashed paste of liver but it is highly effective in treatments. Only the mearghs and dirachs of the Fimir knows the recipe.</description>
+    <graphicData>
+      <texPath>Things/FimirItems/FimirSalve/FimirSalve</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
+    </graphicData>
+    <techLevel>Medieval</techLevel>
+    <statBases>
+      <MarketValue>50</MarketValue>
+      <Mass>0.5</Mass>
+      <Flammability>1</Flammability>
+      <MedicalPotency>1.6</MedicalPotency>
+      <MedicalQualityMax>1.3</MedicalQualityMax>
+      <DeteriorationRate>6</DeteriorationRate>
+    </statBases>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>90</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>FimirPotionRest</defName>
+    <label>fimir restorative potion</label>
+    <description>A fimir concoction that increases the blood flow aiding the body in fighting of diseases and infections, while also giving the one who drinks it a boost in energy. There's always a risk of heart complications when consuming it.</description>
+    <graphicData>
+      <texPath>Things/FimirItems/FimirPotions/FimirRest</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.9</drawSize>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <techLevel>Medieval</techLevel>
+    <statBases>
+      <MarketValue>500</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>1.3</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Nutrition>1.5</Nutrition>
+    </statBases>
+    <ingestible>
+      <baseIngestTicks>100</baseIngestTicks>
+      <preferability>DesperateOnly</preferability>
+      <tasteThought></tasteThought>
+      <foodType>Processed</foodType>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FimirPotionRestHigh</hediffDef>
+          <severity>0.75</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>1.0</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>30</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>FimirPotionRestHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>fimir restorative</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.35</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>0.5</restFallFactor>
+      <capMods>
+        <li>
+          <capacity>Consciousness</capacity>
+          <offset>0.2</offset>
+        </li>
+        <li>
+          <capacity>BloodFiltration</capacity>
+          <offset>0.75</offset>
+        </li>
+      </capMods>
+      <statOffsets>
+        <WorkSpeedGlobal>0.1</WorkSpeedGlobal>
+      </statOffsets>
+      <hediffGivers>
+        <li Class="HediffGiver_Random">
+          <hediff>HeartAttack</hediff>
+          <mtbDays>120</mtbDays>
+          <partsToAffect>
+            <li>Heart</li>
+          </partsToAffect>
+        </li>
+      </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>FimirPotionRestHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>FimirPotionRestHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>energized</label>
+        <description>I feel so alive, every heartbeat in my body stirs me.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <ThingDef ParentName="DrugBase">
+    <defName>FimirPotionCrippling</defName>
+    <label>fimir crippling potion</label>
+    <description>A fimir concoction that cripples the user. Makes them slow, weak and easy to handle for a couple of days... Maybe even for life.</description>
+    <graphicData>
+      <texPath>Things/FimirItems/FimirPotions/FimirCrippling</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.9</drawSize>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <techLevel>Medieval</techLevel>
+    <statBases>
+      <MarketValue>250</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>1.3</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Nutrition>0.1</Nutrition>
+    </statBases>
+    <ingestible>
+      <baseIngestTicks>100</baseIngestTicks>
+      <preferability>DesperateOnly</preferability>
+      <tasteThought></tasteThought>
+      <foodType>Processed</foodType>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FimirPotionCripplingHigh</hediffDef>
+          <severity>0.75</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.1</offset>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Food</need>
+          <offset>0.1</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>30</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>FimirPotionCripplingHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>fimir posion</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.05</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>2</restFallFactor>
+      <capMods>
+        <li>
+          <capacity>Consciousness</capacity>
+          <offset>-0.2</offset>
+        </li>
+        <li>
+          <capacity>Manipulation</capacity>
+          <offset>-0.5</offset>
+        </li>
+        <li>
+          <capacity>Moving</capacity>
+          <offset>-0.25</offset>
+        </li>
+      </capMods>
+      <statOffsets>
+        <WorkSpeedGlobal>-0.3</WorkSpeedGlobal>
+      </statOffsets>
+      <hediffGivers>
+        <li Class="HediffGiver_Random">
+          <hediff>Carcinoma</hediff>
+          <mtbDays>120</mtbDays>
+          <partsToAffect>
+            <li>Heart</li>
+          </partsToAffect>
+        </li>
+        <li Class="HediffGiver_Random">
+          <hediff>Frail</hediff>
+          <mtbDays>120</mtbDays>
+          <partsToAffect>
+            <li>Torso</li>
+          </partsToAffect>
+        </li>
+        <li Class="HediffGiver_Random">
+          <hediff>Cataract</hediff>
+          <mtbDays>120</mtbDays>
+          <partsToAffect>
+            <li>Eye</li>
+          </partsToAffect>
+        </li>
+        <li Class="HediffGiver_Random">
+          <hediff>Dementia</hediff>
+          <mtbDays>120</mtbDays>
+          <partsToAffect>
+            <li>Brain</li>
+          </partsToAffect>
+        </li>
+      </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>FimirPotionCripplingHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>FimirPotionCripplingHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>poisoned</label>
+        <description>I feel so weak, my body barely moves.</description>
+        <baseMoodEffect>-7</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!--===============
+
+  <ThingDef ParentName="DrugBase">
+    <defName>FimirPotionCure</defName>
+    <label>fimir curing potion</label>
+    <description>A fimir concoction that cures that which ails the user the most. The concotion is however stong and potent, for a day the user will suffer from a searing pain and the risk for lasting effects are always there.</description>
+    <graphicData>
+      <texPath>Things/FimirItems/FimirPotions/FimirCure</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.9</drawSize>
+    </graphicData>
+    <tradeability>Sellable</tradeability>
+    <tickerType>Rare</tickerType>
+    <techLevel>Medieval</techLevel>
+    <statBases>
+      <MarketValue>750</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>1.3</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Nutrition>1.0</Nutrition>
+    </statBases>
+    <ingestible>
+      <baseIngestTicks>100</baseIngestTicks>
+      <preferability>DesperateOnly</preferability>
+      <tasteThought></tasteThought>
+      <foodType>Processed</foodType>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FimirPotionCureHigh</hediffDef>
+          <severity>0.75</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>30</listOrder>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_FixWorstHealthCondition</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>FimirPotionCureHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>fimir curing pain</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.75</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painOffset>0.5</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.5</offset>
+          </li>
+        </capMods>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Heart</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Eye</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Stomach</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Liver</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Lung</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Kidney</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>FimirPotionCureHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>FimirPotionCureHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>searing pain</label>
+        <description>My inside is burning, I need to outlast it.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>FimirPotionBloodlust</defName>
+    <label>fimir bloodlust potion</label>
+    <description>A fimir concoction that dulls the pain and sends the user into a flying rage.</description>
+    <graphicData>
+      <texPath>Things/FimirItems/FimirPotions/FimirBloodlust</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.9</drawSize>
+    </graphicData>
+    <tradeability>Sellable</tradeability>
+    <tickerType>Rare</tickerType>
+    <techLevel>Medieval</techLevel>
+    <statBases>
+      <MarketValue>360</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>1.3</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Nutrition>1.0</Nutrition>
+    </statBases>
+    <ingestible>
+      <baseIngestTicks>100</baseIngestTicks>
+      <preferability>DesperateOnly</preferability>
+      <tasteThought></tasteThought>
+      <foodType>Processed</foodType>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FimirPotionBloodlustHigh</hediffDef>
+          <severity>0.75</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>1.0</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>30</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>FimirPotionBloodlustHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>fimir bloodlust</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <restFallFactor>2</restFallFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.5</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <PainShockThreshold>0.0</PainShockThreshold>
+        </statOffsets>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>Carcinoma</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Heart</li>
+            </partsToAffect>
+          </li>
+          <li Class="HediffGiver_Random">
+            <hediff>Dementia</hediff>
+            <mtbDays>120</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>FimirPotionBloodlustHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>FimirPotionBloodlustHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>bloodlust</label>
+        <description>My blood is boiling! I can feel nothing but the heat of battle.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+   ===================-->
+  
+</Defs>
