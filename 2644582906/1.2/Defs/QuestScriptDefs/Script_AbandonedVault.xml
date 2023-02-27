@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>RW_OpportunitySite_AbandonedVault</defName>
+    <rootSelectionWeight>1.0</rootSelectionWeight>
+    <rootMinPoints>350</rootMinPoints>
+    <canGiveRoyalFavor>true</canGiveRoyalFavor>
+    <expireDaysRange>4~8</expireDaysRange>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Abandoned Vault</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->The [asker_faction_leaderTitle] of [asker_faction_name] has informed us about an abandoned vault in the area. Although the vault has been uninhabited for years, there may still be valuable supplies within. However, it is unknown if the automated defenses are still functional.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_AdjustPointsForDistantFight</def>
+        </li>
+        <li Class="QuestNode_GetMap" />
+
+        <li Class="QuestNode_GetPawn">
+          <storeAs>asker</storeAs>
+          <mustBeFactionLeader>true</mustBeFactionLeader>
+          <allowPermanentEnemyFaction>false</allowPermanentEnemyFaction>
+          <hostileWeight>0.15</hostileWeight>
+        </li>
+		
+        <li Class="RadWorld.QuestNode_EnsureSpawnOnCavern"></li>
+
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+        </li>
+		
+        <li Class="RadWorld.QuestNode_EndSpawnOnCavernCheck"></li>
+
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
+            <li><tag>RW_AbandonedVaultSite</tag></li>
+          </sitePartsTags>
+          <mustBeHostileToFactionOf>$asker</mustBeHostileToFactionOf>
+        </li>
+
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+        
+        <li Class="QuestNode_GetSiteThreatPoints">
+          <storeAs>sitePoints</storeAs>
+          <sitePartsParams>$sitePartsParams</sitePartsParams>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+          <parms>
+            <!-- Use the actual threat points generated (some site parts define a minimum threshold) -->
+            <points>$sitePoints</points>
+          </parms>
+        </li>
+
+        <!-- Inflate reward value. Since we're basing the reward value on the threat points generated, we need to do this
+             even though the threat points was deflated from the input points already. -->
+        <li Class="QuestNode_Multiply">
+            <value1>$rewardValue</value1>
+            <value2>1.75</value2>
+            <storeAs>rewardValue</storeAs>
+        </li>
+
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+        </li>
+        
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+        </li>
+
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestExpired">The bandit camp has packed up and moved on. The quest [resolvedQuestName] has expired.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <!-- If we enter and leave, the map is destroyed. Fail the quest. -->
+        <li Class="QuestNode_Signal">
+          <inSignal>site.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestFailed">After being discovered, the bandit camp has dispersed. The quest [resolvedQuestName] has ended.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_End">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <outcome>Success</outcome>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+  
+</Defs>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Core</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+			
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/StatDef[defName="CarryingCapacity"]/parts</xpath>
+					<value>
+						<li Class="RadWorld.StatPart_MutationHediff" />
+					</value>
+				</li>
+				
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Warg"]/statBases</xpath>
+					<value>
+						<RW_RadiationResistance>1</RW_RadiationResistance>
+					</value>
+				</li>
+				
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Megaspider"]/statBases</xpath>
+					<value>
+						<RW_RadiationResistance>1</RW_RadiationResistance>
+					</value>
+				</li>
+				
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="Glowstool"]/plant/harvestYield</xpath>
+					<value>
+						<harvestYield>10</harvestYield>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="Glowstool"]/plant/growDays</xpath>
+					<value>
+						<growDays>5</growDays>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Glowstool"]/plant</xpath>
+					<value>
+						<sowWork>170</sowWork>
+						<sowMinSkill>6</sowMinSkill>
+						<sowTags>
+							<li>Ground</li>
+							<li>Hydroponic</li>
+						</sowTags>
+					</value>
+				</li>
+
+			<li Class="PatchOperationConditional">
+				<xpath>/Defs/HediffDef[defName = "ToxicBuildup"]/comps</xpath>
+				<success>Always</success>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>/Defs/HediffDef[defName = "ToxicBuildup"]</xpath>
+					<value>
+						<comps />
+					</value>
+				</nomatch>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/HediffDef[defName = "ToxicBuildup"]/comps</xpath>
+				<value>
+					<li Class="RadWorld.HediffCompProperties_RadiationMutation"></li>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationConditional">
+				<xpath>/Defs/StatDef[defName = "ToxicSensitivity"]/parts</xpath>
+				<success>Always</success>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>/Defs/StatDef[defName = "ToxicSensitivity"]</xpath>
+					<value>
+						<parts />
+					</value>
+				</nomatch>
+			</li>
+			
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/StatDef[defName = "ToxicSensitivity"]/parts</xpath>
+				<value>
+					<li Class="RadWorld.StatPart_RadiationApparelProtection"></li>
+				</value>
+			</li>
+			
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>
