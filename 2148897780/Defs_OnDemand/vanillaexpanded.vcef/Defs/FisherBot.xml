@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!--RacesDefs-->
+	<ThingDef Abstract="True" Name="AIRobot_Bot_II" ParentName="AIRobot_Bot" Class="AIRobot.X2_ThingDef_AIRobot">
+		<statBases>
+			<MarketValue>10</MarketValue>
+			<MoveSpeed>6.00</MoveSpeed>
+			<Flammability>1.0</Flammability>
+			<CarryingCapacity>100</CarryingCapacity>
+			<WorkSpeedGlobal>1</WorkSpeedGlobal>
+		</statBases>
+		<robotSkills>
+			<li><skillDef>Animals</skillDef><level>20</level><passion>Minor</passion></li>
+		</robotSkills>
+	</ThingDef>
+	
+		<ThingDef ParentName="AIRobot_Bot_II" Class="AIRobot.X2_ThingDef_AIRobot">
+		<defName>AIRobot_FisherBot</defName>
+		<label>Fisher Bot</label>
+		<description>A robot for fishing.</description>
+		<robotWorkTypes>
+			<li>
+				<workTypeDef>VCEF_Fishing</workTypeDef>
+				<priority>1</priority>
+			</li>
+		</robotWorkTypes>
+		<destroyedDef>AIRobot_FisherBot_disabled</destroyedDef>
+	</ThingDef>
+	
+	<!--PawnKinds-->
+	<PawnKindDef ParentName="AIRobot_PawnKind">
+		<defName>AIRobot_FisherBot</defName>
+		<label>Fisher Bot</label>
+		<race>AIRobot_FisherBot</race>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/AIRobot/FisherBot</texPath>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>(1.7,1.7)</drawSize>
+					<shadowData>
+						<volume>(0.2, 0.1, 0.2)</volume>
+						<offset>(0,0.5,0)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<!--RechargeStationDef-->
+	<ThingDef ParentName="CR_RechargeStation" Class="AIRobot.X2_ThingDef_AIRobot_Building_RechargeStation">
+		<defName>AIRobot_RechargeStation_FisherBot</defName>
+		<label>Fisher Bot Base Station</label>
+		<description>This station comes equipped with a specialized robot.</description>
+		<graphicData>
+			<texPath>Things/Building/AIRobot_RechargeStation/AIRobotRechargeStation_FisherBot</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(1,1)</drawSize>
+			<damageData>
+				<rect>(0.05,0.05,0.95,0.95)</rect>
+			</damageData>
+		</graphicData>
+
+		<secondaryGraphicPath>Things/Building/AIRobot_RechargeStation/AIRobotRechargeStation_Empty1</secondaryGraphicPath>
+		<spawnThingDef>AIRobot_FisherBot</spawnThingDef>
+	</ThingDef>
+	
+	<!--RecipeDefs-->
+	<ThingDef Abstract="True" Name="CR_RechargeStation_III" ParentName="Base_X2_AIRobotRechargeStation" Class="AIRobot.X2_ThingDef_AIRobot_Building_RechargeStation">
+		<minifiedDef>AIRobot_MinifiedRechargeStation</minifiedDef>
+		<thingCategories>
+			<li>BuildingsFurniture</li>
+		</thingCategories>
+		<category>Building</category>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<selectable>true</selectable>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<fillPercent>0.25</fillPercent>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<Beauty>0</Beauty>
+			<WorkToMake>50000</WorkToMake>
+			<MarketValue>1600</MarketValue>
+			<SellPriceFactor>0.40</SellPriceFactor>
+			<Mass>10</Mass>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<costList>
+			<Steel>150</Steel>
+			<Plasteel>30</Plasteel>
+			<Gold>10</Gold>
+			<ComponentIndustrial>5</ComponentIndustrial>
+		</costList>
+		<robotRepairCosts>
+			<Steel>35</Steel>
+			<Plasteel>5</Plasteel>
+			<Gold>3</Gold>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</robotRepairCosts>
+		<rechargeEfficiency>1.0</rechargeEfficiency>
+		<repairEffect>Repair</repairEffect>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<filthLeaving>Filth_RubbleBuilding</filthLeaving>
+		
+		<recipeMaker>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Crafting</workSkill>
+			<effectWorking>Smith</effectWorking>
+			<soundWorking>Recipe_Smith</soundWorking>
+			<unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+			<skillRequirements>
+				<Crafting>9</Crafting>
+			</skillRequirements>
+			<researchPrerequisite>Fabrication</researchPrerequisite>
+			<recipeUsers>
+				<li>FabricationBench</li>
+			</recipeUsers>
+		</recipeMaker>
+	</ThingDef>
+  
+  <!--DestroyedDef-->
+  <ThingDef ParentName="AIRobot_Disabled_I">
+		<defName>AIRobot_FisherBot_disabled</defName>
+		<label>Fisher Bot (disabled)</label>
+		<description>This is the sad end of a bot. It's no longer useful and needs heavy repairs or dismantling.</description>
+		<graphicData>
+			<texPath>Things/AIRobot/FisherBot_north</texPath>
+		</graphicData>
+	</ThingDef>  
+</Defs>
