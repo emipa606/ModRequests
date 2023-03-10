@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef Name="SRV_OutdoorBenchBase" ParentName="BuildingBase"  Abstract="True">
+		 <canOverlapZones>false</canOverlapZones>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<thingCategories>
+		  <li>BuildingsProduction</li>
+		</thingCategories>
+		<statBases>
+		  <Mass>20</Mass>
+		</statBases>
+		<interactionCellIcon>DiningChair</interactionCellIcon>
+	</ThingDef>
+
+	<ThingDef ParentName="SRV_OutdoorBenchBase">
+		<defName>SRV_Grill</defName>
+		<label>grill</label>
+		<thingClass>Building_WorkTable_HeatPush</thingClass>
+		<description>A small grill used to cook food. Requires fuel to cook.</description>
+		<graphicData>
+			<texPath>Cupro/Object/Station/Grill/Grill</texPath>
+			<shaderType>CutoutComplex</shaderType>
+			<graphicClass>Graphic_Multi</graphicClass>
+		</graphicData>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>50</costStuffCount>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<useHitPoints>True</useHitPoints>
+		<statBases>
+			<WorkToBuild>1200</WorkToBuild>
+			<MaxHitPoints>120</MaxHitPoints>
+			<Beauty>1</Beauty>
+			<Flammability>0</Flammability>
+			<Mass>12</Mass>
+			<WorkTableWorkSpeedFactor>0.9</WorkTableWorkSpeedFactor>
+		</statBases>
+		<size>(1,1)</size>
+		<designationCategory>Production</designationCategory>
+		<passability>PassThroughOnly</passability>
+		<canOverlapZones>false</canOverlapZones>
+		<pathCost>60</pathCost>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<recipes>
+			<li>SRV_GrillMealMeat</li>
+			<li>SRV_GrillMealMeatDouble</li>
+			<li>SRV_GrillMealVeg</li>
+			<li>SRV_GrillMealVegDouble</li>
+			<li>SRV_GrillMealFine</li>
+		</recipes>
+		<inspectorTabs>
+			<li>ITab_Bills</li>
+		</inspectorTabs>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>80.0</fuelConsumptionRate>
+				<fuelCapacity>25.0</fuelCapacity>
+				<fuelFilter>
+					<thingDefs>
+						<li>SRV_Charcoal</li>
+					</thingDefs>
+				</fuelFilter>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+			</li>
+			<li Class="SurvivalistsAdditions.CompProperties_Smoker">
+				<smokeStyle>Single</smokeStyle>
+				<frequencyMin>240</frequencyMin>
+				<frequencyMax>640</frequencyMax>
+				<produceSmokeOnlyWhenUsed>true</produceSmokeOnlyWhenUsed>
+				<size>0.45</size>
+			</li>
+		</comps>
+		<building>
+			<isMealSource>true</isMealSource>
+			<heatPerTickWhileWorking>0.10</heatPerTickWhileWorking>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+		</building>
+	</ThingDef>
+
+	<ThingDef ParentName="SRV_OutdoorBenchBase">
+		<defName>SRV_Forge</defName>
+		<label>forge</label>
+		<thingClass>Building_WorkTable_HeatPush</thingClass>
+		<description>An ancient structure used for heating up metal and working it into useful tools.</description>
+		<graphicData>
+			<texPath>Cupro/Object/Station/Forge/Forge</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<fillPercent>0.25</fillPercent>
+		<stuffCategories>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>50</costStuffCount>
+		<costList>
+			<Steel>30</Steel>
+		</costList>
+		<altitudeLayer>Building</altitudeLayer>
+		<useHitPoints>true</useHitPoints>
+		<destroyable>true</destroyable>
+		<rotatable>true</rotatable>
+		<statBases>
+			<MaxHitPoints>2000</MaxHitPoints>
+			<WorkToBuild>2000</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Cleanliness>-5</Cleanliness>
+			<Mass>50</Mass>
+			<!-- The forge is slower than the electric smelter, and the recipes use WorkToMake -->
+			<WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
+		</statBases>
+		<size>(2,1)</size>
+		<designationCategory>Production</designationCategory>
+		<passability>PassThroughOnly</passability>
+		<canOverlapZones>false</canOverlapZones>
+		<pathCost>60</pathCost>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_AffectedByFacilities">
+				<linkableFacilities>
+					<li>SRV_Bellows</li>
+				</linkableFacilities>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>64.0</fuelConsumptionRate>
+				<fuelCapacity>40.0</fuelCapacity>
+				<fuelFilter>
+					<thingDefs>
+						<li>SRV_Charcoal</li>
+					</thingDefs>
+				</fuelFilter>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+			</li>
+			<li Class="SurvivalistsAdditions.CompProperties_Smoker">
+				<smokeStyle>Single</smokeStyle>
+				<frequencyMin>1200</frequencyMin>
+				<frequencyMax>1600</frequencyMax>
+				<produceSmokeOnlyWhenUsed>true</produceSmokeOnlyWhenUsed>
+				<size>0.5</size>
+			</li>
+		</comps>
+		<inspectorTabs>
+			<li>ITab_Bills</li>
+		</inspectorTabs>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+			<heatPerTickWhileWorking>0.25</heatPerTickWhileWorking>
+		</building>
+		<placeWorkers>
+			<li>PlaceWorker_ShowFacilitiesConnections</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>SRV_Forge</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef Name="CampTableBase" ParentName="SRV_OutdoorBenchBase" Abstract="True">
+		<thingClass>Building_WorkTable</thingClass>
+		<graphicData>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(2,1)</drawSize>
+		</graphicData>
+		<costList>
+			<WoodLog>15</WoodLog>
+		</costList>
+		<constructEffect>ConstructWood</constructEffect>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<useHitPoints>True</useHitPoints>
+		<statBases>
+			<WorkToBuild>700</WorkToBuild>
+			<MaxHitPoints>90</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<Mass>4.5</Mass>
+		</statBases>
+		<size>(2,1)</size>
+		<designationCategory>Production</designationCategory>
+		<passability>PassThroughOnly</passability>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+		<canOverlapZones>false</canOverlapZones>
+		<pathCost>60</pathCost>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<inspectorTabs>
+			<li>ITab_Bills</li>
+		</inspectorTabs>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+		</building>
+		<comps>
+			<li>
+				<compClass>CompReportWorkSpeed</compClass>
+			</li>
+			<li Class="CompProperties_AffectedByFacilities">
+				<linkableFacilities>
+					<li>ToolCabinet</li>
+				</linkableFacilities>
+			</li>
+		</comps>
+		<placeWorkers>
+			<li>PlaceWorker_ReportWorkSpeedPenalties</li>
+			<li>PlaceWorker_ShowFacilitiesConnections</li>
+		</placeWorkers>
+	</ThingDef>
+	
+	<ThingDef ParentName="CampTableBase">
+		<defName>SRV_TableCamp</defName>
+		<label>camp crafting table</label>
+		<description>A lightweight collapsible table for doing simple tasks while traveling.</description>
+		<graphicData>
+			<texPath>Cupro/Object/Station/CraftingTable/CraftingTable</texPath>
+		</graphicData>
+		<statBases>
+			<Beauty>1</Beauty>
+		</statBases>
+	</ThingDef>
+
+</Defs>

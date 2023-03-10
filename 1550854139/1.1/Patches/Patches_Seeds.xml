@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<!-- If SeedsPlease is found, add seeds -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="SurvivalistsAdditions.PatchOperationModDependent">
+				<modName>SeedsPlease</modName>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>/Defs/Def[@Name="SRV_DefInsertion"]</xpath>
+				<order>Prepend</order>
+				<value>
+					<SeedsPlease.SeedDef ParentName="SeedBase">
+						<defName>SRV_SeedTurnip</defName>
+						<label>turnip seeds</label>
+						<plant>SRV_PlantTurnip</plant>
+						<graphicData><texPath>Cupro/Item/Material/Seeds/SeedTurnip</texPath></graphicData>
+					</SeedsPlease.SeedDef>
+					
+					<SeedsPlease.SeedDef ParentName="SeedBase">
+						<defName>SRV_SeedCabbage</defName>
+						<label>cabbage seeds</label>
+						<plant>SRV_PlantCabbage</plant>
+						<graphicData><texPath>Cupro/Item/Material/Seeds/SeedCabbage</texPath></graphicData>
+					</SeedsPlease.SeedDef>
+					
+					<SeedsPlease.SeedDef ParentName="SeedBase">
+						<defName>SRV_SeedJute</defName>
+						<label>jute seeds</label>
+						<plant>SRV_CultivatedJute</plant>
+						<graphicData><texPath>Cupro/Item/Material/Seeds/SeedJute</texPath></graphicData>
+					</SeedsPlease.SeedDef>
+					
+					<SeedsPlease.SeedDef ParentName="SeedBase">
+						<defName>SRV_SeedHydroJute</defName>
+						<label>hydroponic jute seeds</label>
+						<plant>SRV_HydroJute</plant>
+						<graphicData><texPath>Cupro/Item/Material/Seeds/SeedJute</texPath></graphicData>
+					</SeedsPlease.SeedDef>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="SurvivalistsAdditions.PatchOperationModDependent">
+				<modName>SeedsPlease</modName>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>/Defs/Def[@Name="SRV_DefInsertion"]</xpath>
+				<order>Prepend</order>
+				<value>
+					<RecipeDef ParentName="ProcessRaw">
+						<defName>SRV_ProcessJuteSeedHydro</defName>
+						<label>process hydroponic jute seeds</label>
+						<description>Process hydroponic jute seeds for growing in the ground.</description>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>SRV_SeedHydroJute</li>
+									</thingDefs>
+								</filter>
+								<count>2</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>SRV_SeedHydroJute</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<SRV_SeedJute>2</SRV_SeedJute>
+						</products>
+					</RecipeDef>
+
+					<RecipeDef ParentName="ProcessRaw">
+						<defName>SRV_ProcessJuteSeedReg</defName>
+						<label>process jute seeds</label>
+						<description>Process regular jute seeds for growing in hydroponics.</description>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>SRV_SeedJute</li>
+									</thingDefs>
+								</filter>
+								<count>2</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>SRV_SeedJute</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<SRV_SeedHydroJute>2</SRV_SeedHydroJute>
+						</products>
+					</RecipeDef>
+
+					<RecipeDef ParentName="ProcessRaw">
+						<defName>SRV_ProcessRawTurnip</defName>
+						<label>process turnips into seeds</label>
+						<description>Cut turnips into starters for growing more turnips.</description>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>SRV_Turnip</li>
+									</thingDefs>
+								</filter>
+								<count>2</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>SRV_Turnip</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<SRV_SeedTurnip>4</SRV_SeedTurnip>
+						</products>
+					</RecipeDef>
+					
+					<RecipeDef ParentName="ExtractSeed">
+						<defName>SRV_ExtractSeedCabbage</defName>
+						<label>extract cabbage seeds</label>
+						<description>Extract seeds from cabbage.</description>
+						<recipeUsers>
+							<li>PlantProcessingTable</li>
+						</recipeUsers>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>SRV_Cabbage</li>
+									</thingDefs>
+								</filter>
+								<count>10</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>SRV_Cabbage</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<SRV_SeedCabbage>5</SRV_SeedCabbage>
+						</products>
+					</RecipeDef>
+					
+					<RecipeDef ParentName="ExtractSeed">
+						<defName>SRV_ExtractSeedJute</defName>
+						<label>extract jute seeds</label>
+						<description>Extract seeds from jute.</description>
+						<recipeUsers>
+							<li>PlantProcessingTable</li>
+						</recipeUsers>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>SRV_JuteFibers</li>
+									</thingDefs>
+								</filter>
+								<count>8</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>SRV_JuteFibers</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<SRV_SeedJute>4</SRV_SeedJute>
+						</products>
+					</RecipeDef>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+</Patch>
