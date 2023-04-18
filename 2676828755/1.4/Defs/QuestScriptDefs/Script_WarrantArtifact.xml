@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<QuestScriptDef>
+		<defName>SW_Warrant_Artifact</defName>
+		<rootSelectionWeight>0</rootSelectionWeight>
+		<rootMinPoints>350</rootMinPoints>
+		<autoAccept>true</autoAccept>
+		<questNameRules>
+			<rulesStrings>
+				<li>questName->A warrant on [artifactLabel]</li>
+			</rulesStrings>
+		</questNameRules>
+		<questDescriptionRules>
+			<rulesStrings>
+				<li>questDescription->[asker_nameFull] from [asker_faction_name] issued a warrant on [artifactLabel]. [reward] reward for delivering.</li>
+			</rulesStrings>
+		</questDescriptionRules>
+		<root Class="QuestNode_Sequence">
+			<nodes>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_RandomizePointsChallengeRating</def>
+					<parms>
+						<pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+						<pointsFactorThreeStar>2</pointsFactorThreeStar>
+					</parms>
+				</li>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_GetDefaultRewardValueFromPoints</def>
+				</li>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_AdjustPointsForDistantFight</def>
+				</li>
+
+				<li Class="QuestNode_GetSiteTile">
+					<storeAs>siteTile</storeAs>
+					<preferCloserTiles>true</preferCloserTiles>
+				</li>
+
+				<li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+					<storeAs>sitePartDefs</storeAs>
+					<storeFactionAs>siteFaction</storeFactionAs>
+					<sitePartsTags>
+						<li>
+							<tag>SW_ArtifactStash</tag>
+						</li>
+						<li>
+							<tag>ItemStashQuestThreat</tag>
+						</li>
+					</sitePartsTags>
+				</li>
+
+				<li Class="QuestNode_GetDefaultSitePartsParams">
+					<tile>$siteTile</tile>
+					<faction>$siteFaction</faction>
+					<sitePartDefs>$sitePartDefs</sitePartDefs>
+					<storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+				</li>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_GenerateSite</def>
+					<parms>
+						<hiddenSitePartsPossible>true</hiddenSitePartsPossible>
+					</parms>
+				</li>
+
+				<li Class="QuestNode_SpawnWorldObjects">
+					<worldObjects>$site</worldObjects>
+				</li>
+
+				<li Class="QuestNode_WorldObjectTimeout">
+					<worldObject>$site</worldObject>
+					<delayTicks>$(15 * 60000)</delayTicks>
+					<inSignalDisable>site.MapGenerated</inSignalDisable>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
+								<text TKey="LetterTextQuestExpired">The warrant was expired. The quest [resolvedQuestName] has expired.</text>
+							</li>
+							<li Class="SimpleWarrants.QuestNode_WarrantFailed"></li>
+							<li Class="QuestNode_End">
+								<outcome>Fail</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+				
+				<!-- End conditions -->
+				<li Class="QuestNode_Delay">
+					<delayTicks>$(15 * 60000)</delayTicks>
+					<isQuestTimeout>true</isQuestTimeout>
+					<outSignalComplete>WarrantRequestTimeout</outSignalComplete>
+				</li>
+
+				<li Class="QuestNode_End">
+					<inSignal>artifact.WarrantRequestFulfilled</inSignal>
+					<outcome>Success</outcome>
+					<sendStandardLetter>true</sendStandardLetter>
+				</li>
+
+				<li Class="QuestNode_Signal">
+					<inSignal>WarrantRequestTimeout</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="SimpleWarrants.QuestNode_WarrantFailed"></li>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelWarrantExpiredQuestFailed">Quest failed: [resolvedQuestName]</label>
+								<text TKey="LetterTextWarrantExpiredQuestFailed">The warrant was expired. The quest [resolvedQuestName] has ended.</text>
+							</li>
+							<li Class="QuestNode_End">
+								<outcome>Fail</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+			</nodes>
+		</root>
+	</QuestScriptDef>
+</Defs>

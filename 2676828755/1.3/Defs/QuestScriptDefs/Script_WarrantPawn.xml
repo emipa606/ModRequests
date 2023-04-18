@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<QuestScriptDef>
+		<defName>SW_Warrant_Pawn</defName>
+		<rootSelectionWeight>0</rootSelectionWeight>
+		<rootMinPoints>350</rootMinPoints>
+		<autoAccept>true</autoAccept>
+		<questNameRules>
+			<rulesStrings>
+				<li>questName->A warrant on [victim_nameFull]</li>
+			</rulesStrings>
+		</questNameRules>
+		<questDescriptionRules>
+			<rulesStrings>
+				<li>questDescription->[asker_nameFull] from [asker_faction_name] has issued a warrant on [victim_nameFull] for the crime of [reason]. They are offering [rewardForLiving]$ if captured alive, [rewardForDead]$ if returned dead.</li>
+			</rulesStrings>
+		</questDescriptionRules>
+		<root Class="QuestNode_Sequence">
+			<nodes>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_RandomizePointsChallengeRating</def>
+					<parms>
+						<pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+						<pointsFactorThreeStar>2</pointsFactorThreeStar>
+					</parms>
+				</li>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_AdjustPointsForDistantFight</def>
+				</li>
+
+				<li Class="QuestNode_GetSiteTile">
+					<storeAs>siteTile</storeAs>
+					<preferCloserTiles>true</preferCloserTiles>
+				</li>
+
+				<li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+					<storeAs>sitePartDefs</storeAs>
+					<storeFactionAs>siteFaction</storeFactionAs>
+					<sitePartsTags>
+						<li><tag>SW_Camp</tag></li>
+					</sitePartsTags>
+					<mustBeHostileToFactionOf>$asker</mustBeHostileToFactionOf>
+				</li>
+
+				<li Class="QuestNode_GetDefaultSitePartsParams">
+					<tile>$siteTile</tile>
+					<faction>$siteFaction</faction>
+					<sitePartDefs>$sitePartDefs</sitePartDefs>
+					<storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+				</li>
+
+				<li Class="QuestNode_GetSiteThreatPoints">
+					<storeAs>sitePoints</storeAs>
+					<sitePartsParams>$sitePartsParams</sitePartsParams>
+				</li>
+				<li Class="QuestNode_SubScript">
+					<def>Util_GetDefaultRewardValueFromPoints</def>
+					<parms>
+						<!-- Use the actual threat points generated (some site parts define a minimum threshold) -->
+						<points>$sitePoints</points>
+					</parms>
+				</li>
+
+				<!-- Inflate reward value. Since we're basing the reward value on the threat points generated, we need to do this
+             even though the threat points was deflated from the input points already. -->
+				<li Class="QuestNode_Multiply">
+					<value1>$rewardValue</value1>
+					<value2>1.75</value2>
+					<storeAs>rewardValue</storeAs>
+				</li>
+
+				<li Class="QuestNode_SubScript">
+					<def>Util_GenerateSite</def>
+				</li>
+
+				<li Class="QuestNode_SpawnWorldObjects">
+					<worldObjects>$site</worldObjects>
+				</li>
+
+				<li Class="QuestNode_WorldObjectTimeout">
+					<worldObject>$site</worldObject>
+					<delayTicks>$(15 * 60000)</delayTicks>
+					<inSignalDisable>site.MapGenerated</inSignalDisable>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="SimpleWarrants.QuestNode_WarrantFailed"></li>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
+								<text TKey="LetterTextQuestExpired">The warrant was expired: The quest [resolvedQuestName] has expired.</text>
+							</li>
+							<li Class="QuestNode_End">
+								<outcome>Fail</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+
+				<!-- End conditions -->
+				<li Class="QuestNode_Delay">
+					<delayTicks>$(15 * 60000)</delayTicks>
+					<isQuestTimeout>true</isQuestTimeout>
+					<outSignalComplete>WarrantRequestTimeout</outSignalComplete>
+				</li>
+
+				<li Class="QuestNode_End">
+					<inSignal>victim.WarrantRequestFulfilled</inSignal>
+					<outcome>Success</outcome>
+					<sendStandardLetter>true</sendStandardLetter>
+				</li>
+
+				<li Class="QuestNode_Signal">
+					<inSignal>WarrantRequestTimeout</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="SimpleWarrants.QuestNode_WarrantFailed"></li>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelWarrantExpiredQuestFailed">Quest failed: [resolvedQuestName]</label>
+								<text TKey="LetterTextWarrantExpiredQuestFailed">The warrant was expired: The quest [resolvedQuestName] has ended.</text>
+							</li>
+							<li Class="QuestNode_End">
+								<outcome>Fail</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+
+			</nodes>
+		</root>
+	</QuestScriptDef>
+</Defs>
