@@ -1,0 +1,178 @@
+<Defs>
+
+
+<!-- ============ Thoughts gained after ritual ============= -->
+<ThoughtDef>
+    <defName>AP_DefenseRitualThoughtFailed</defName>
+    <durationDays>1</durationDays>
+	<stackLimit>1</stackLimit>
+	<thoughtClass>Thought_AttendedRitual</thoughtClass>
+    <stages>
+      <li>
+        <label>Turret summoning failed</label>
+        <description>The ritual went so bad we couldn't invoke any turret at all.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+<ThoughtDef>
+    <defName>AP_DefenseRitualThoughtSuccess</defName>
+    <durationDays>2</durationDays>
+	<stackLimit>1</stackLimit>
+	<thoughtClass>Thought_AttendedRitual</thoughtClass>
+    <stages>
+      <li>
+        <label>Turret summoning succeed</label>
+        <description>We managed to summon a turret! We will be even more prepared against any danger!</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+<!-- ============ Contains the ritual-pawns gathering- and the outcome- ============= -->
+<RitualPatternDef>
+    <defName>AP_DefenseRitualTurretPattern</defName>
+	<nameMaker>AP_NamerDefenseRitual</nameMaker>
+	<shortDescOverride>turret summon</shortDescOverride>
+    <descOverride>Your colony gathers at an alter or other ritual spot, somehow pulling out all of their strength to summon a turret near the ritual spot. Who send this? We may never know. Only successful rituals can summon turrets.</descOverride>
+    <ritualBehavior>AP_DefenseRitualTurretBehaviour</ritualBehavior>
+    <ritualOutcomeEffect>AP_DefenseRitualTurretOutcome</ritualOutcomeEffect>
+	<ritualObligationTargetFilter>AnyIdeoBuildingOrRitualSpot</ritualObligationTargetFilter>
+	<ritualTargetFilter>IdeoBuildingOrRitualSpot</ritualTargetFilter>
+	<alwaysStartAnytime>true</alwaysStartAnytime>
+  </RitualPatternDef>
+<!-- ============  outcome ============= -->
+<RitualOutcomeEffectDef>
+    <defName>AP_DefenseRitualTurretOutcome</defName>
+    <description>If the ritual is a success, all colonists will get a +3 mood buff for 2 days, if it fails, a -2 mood debuff for 1 day.</description>
+    <workerClass>AP_DefenseMeme.RitualOutcomeEffectWorker_Turret</workerClass>
+	<allowAttachableOutcome>false</allowAttachableOutcome>
+	<outcomeChances>
+      <li>
+        <label>Failed</label>
+        <chance>0.2</chance>
+        <memory>AP_DefenseRitualThoughtFailed</memory>
+        <description>The {0} was terrible! No turrets were able to spawn.</description>
+        <positivityIndex>-2</positivityIndex>
+      </li>
+      <li>
+        <label>Successful</label>
+        <chance>0.8</chance>
+        <memory>AP_DefenseRitualThoughtSuccess</memory>
+        <description>The {0} was amazing! A minifiable turret made of a random material has spawned. It's loaded and ready to use!</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+	<comps Inherit="False">
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+			<li>(0,  0.0)</li>
+            <li>(1,  0.2)</li>
+            <li>(4,  0.4)</li>
+            <li>(10, 0.6)</li>
+            <li>(20, 1)</li>
+          </points>
+        </curve>
+      </li>
+</comps>
+  </RitualOutcomeEffectDef>
+  <!-- ============ how pawns move and behave ============= -->
+  <RitualBehaviorDef>
+    <defName>AP_DefenseRitualTurretBehaviour</defName>
+    <durationTicks>5000</durationTicks>
+    <roles>
+      <li Class="RitualRoleTag">
+        <label>support</label>
+        <tag>AP_DefenseSupportRoleTag</tag>
+        <id>support</id>
+        <precept>AP_DefenseSupportRole</precept>
+        <required>True</required>
+        <maxCount>1</maxCount>
+        <countsAsParticipant>False</countsAsParticipant>
+      </li>
+    </roles>
+    <spectatorsLabel>Participants</spectatorsLabel>
+    <spectatorGerund>participate</spectatorGerund>
+    <stages Inherit="False">
+      <li>
+        <defaultDuty>AP_DefenseRitualTurretSpectate</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>1.0</percentage>
+          </li>
+        </endTriggers>
+		<visualEffectDef>AP_DefenseRitualTurretEffect</visualEffectDef>
+      </li>
+	  
+    </stages>
+  </RitualBehaviorDef>
+  
+  <!-- ============ green smoke effect ============= -->
+  <RitualVisualEffectDef>
+    <defName>AP_DefenseRitualTurretEffect</defName>
+	<tintColor>(147, 206, 147)</tintColor>
+    <comps>
+      <li>
+        <compClass>CompRitualEffect_ConstantCenter</compClass>
+        <offset>(0.26, 0, 2.25)</offset>
+		<moteDef>AP_DefenseRitualTurretMote</moteDef>
+      </li>
+    </comps>
+  </RitualVisualEffectDef>
+  <!-- ============ how spectators behave ============= -->
+  <DutyDef>
+    <defName>AP_DefenseRitualTurretSpectate</defName>
+    <hook>HighPriority</hook>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_ConditionalInGatheringArea">
+          <subNodes>
+            <li Class="ThinkNode_ConditionalRandom">
+              <chance>0.1</chance>
+              <subNodes>
+                <li Class="JobGiver_GetJoyInGatheringArea" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <li Class="JobGiver_WanderInGatheringArea">
+          <ticksBetweenWandersRange>600~1200</ticksBetweenWandersRange>
+          <locomotionUrgency>Jog</locomotionUrgency>
+          <desiredRadius>6</desiredRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+  <!-- ============ smoke visual effect ============= -->
+  <ThingDef ParentName="MoteBase">
+    <defName>AP_DefenseRitualTurretMote</defName>
+    <thingClass>MoteThrown</thingClass>
+    <altitudeLayer>Weather</altitudeLayer>
+    <mote>
+      <solidTime>99999</solidTime>
+      <fadeInTime>0.4</fadeInTime>
+      <fadeOutTime>1</fadeOutTime>
+      <needsMaintenance>True</needsMaintenance>
+      <fadeOutUnmaintained>True</fadeOutUnmaintained>
+    </mote>
+    <graphicData>
+      <graphicClass>Graphic_MotePulse</graphicClass>
+      <shaderType>RitualSmoke</shaderType>
+      <texPath>Things/Mote/RitualEffects/Smoke2_Dust</texPath>
+      <shaderParameters>
+        <_SmokeTex1>/Things/Mote/RitualEffects/Smoke1_Dust</_SmokeTex1>
+        <_SmokeTex2>/Things/Mote/RitualEffects/Smoke2_Dust</_SmokeTex2>
+        <_MaskTex>/Things/Mote/RitualEffects/GlowRayMask</_MaskTex>
+        <_DistortionTex>/Things/Mote/RitualEffects/DistortionSoft</_DistortionTex>
+        <_ScrollSpeed>0.016</_ScrollSpeed>
+        <_Thickness>25</_Thickness>
+        <_Distortion>0.6</_Distortion>
+        <_VerticalScale>1.36</_VerticalScale>
+      </shaderParameters>
+      <drawSize>(32.0, 32.0)</drawSize>
+	  <color>(141, 213, 199)</color>
+    </graphicData>
+  </ThingDef>
+</Defs>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<AbilityGroupDef>
+		<defName>AP_DefenseBulkShareGroup</defName>
+		<cooldownTicks>60000</cooldownTicks>
+	</AbilityGroupDef>
+	<AbilityGroupDef>
+		<defName>AP_DefensePanicPulseGroup</defName>
+		<cooldownTicks>420000</cooldownTicks>
+	</AbilityGroupDef>
+	<AbilityDef>
+		<defName>AP_PanicPulseAbility</defName>
+		<label>panic pulse</label>
+		<description>Makes any human pawn flee in an area of effect.</description>
+		<jobDef>CastAbilityOnThing</jobDef>
+		<targetRequired>True</targetRequired>
+		<canUseAoeToGetTargets>True</canUseAoeToGetTargets>
+		<iconPath>UI/Issues/AP_PanicPulseAbility</iconPath>
+		<warmupMoteSocialSymbol>UI/Issues/AP_PanicPulseAbility</warmupMoteSocialSymbol>
+		<stunTargetWhileCasting>True</stunTargetWhileCasting>
+		<showPsycastEffects>False</showPsycastEffects>
+		<displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+		<groupDef>AP_DefensePanicPulseGroup</groupDef>
+		<hotKey>Misc12</hotKey>
+		<uiOrder>1</uiOrder>
+		<warmupStartSound>CombatCommand_Warmup</warmupStartSound>
+		<statBases>
+			<Ability_Duration>2000</Ability_Duration>
+			<Ability_EffectRadius>3.9</Ability_EffectRadius>
+		</statBases>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupTime>3.5</warmupTime>
+			<range>12.9</range>
+			<drawAimPie>False</drawAimPie>
+			<requireLineOfSight>True</requireLineOfSight>
+			<targetParams>
+				<canTargetSelf>false</canTargetSelf>
+				<canTargetPawns>True</canTargetPawns>
+				<canTargetBuildings>false</canTargetBuildings>
+				<canTargetAnimals>false</canTargetAnimals>
+				<canTargetHumans>True</canTargetHumans>
+				<canTargetMechs>false</canTargetMechs>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilityGiveMentalState">
+				<compClass>CompAbilityEffect_GiveMentalState</compClass>
+				<stateDef>PanicFlee</stateDef>
+				<!--<stateDefForMechs>BerserkMechanoid</stateDefForMechs>-->
+				<psychic>True</psychic>
+				<durationMultiplier>PsychicSensitivity</durationMultiplier>
+				<goodwillImpact>-75</goodwillImpact>
+			</li>
+			<li Class="CompProperties_AbilityFleckOnTarget">
+				<fleckDef>PsycastPsychicEffect</fleckDef>
+			</li>
+		</comps>
+	</AbilityDef>
+	<AbilityDef>
+		<defName>AP_DefenseBulkShareAbility</defName>
+		<label>Reinforce defenses</label>
+		<description>Gives extra protection to nearby allies.</description>
+		<jobDef>CastAbilityOnThing</jobDef>
+		<targetRequired>False</targetRequired>
+		<canUseAoeToGetTargets>False</canUseAoeToGetTargets>
+		<iconPath>UI/Issues/AP_HardAbility</iconPath>
+		<warmupMoteSocialSymbol>UI/Issues/AP_HardAbility</warmupMoteSocialSymbol>
+		<stunTargetWhileCasting>True</stunTargetWhileCasting>
+		<showPsycastEffects>False</showPsycastEffects>
+		<displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+		<groupDef>AP_DefenseBulkShareGroup</groupDef>
+		<hotKey>Misc12</hotKey>
+		<uiOrder>1</uiOrder>
+		<warmupStartSound>CombatCommand_Warmup</warmupStartSound>
+		<statBases>
+			<Ability_Duration>2000</Ability_Duration>
+			<Ability_EffectRadius>12.9</Ability_EffectRadius>
+		</statBases>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupTime>0.5</warmupTime>
+			<range>12.9</range>
+			<drawAimPie>False</drawAimPie>
+			<requireLineOfSight>False</requireLineOfSight>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+				<canTargetPawns>false</canTargetPawns>
+				<canTargetBuildings>false</canTargetBuildings>
+				<canTargetAnimals>false</canTargetAnimals>
+				<canTargetHumans>false</canTargetHumans>
+				<canTargetMechs>false</canTargetMechs>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilityGiveHediff">
+				<compClass>CompAbilityEffect_GiveHediff</compClass>
+				<hediffDef>AP_DefenseHardened</hediffDef>
+				<onlyBrain>True</onlyBrain>
+				<onlyApplyToSelf>True</onlyApplyToSelf>
+				<replaceExisting>true</replaceExisting>
+			</li>
+		</comps>
+	</AbilityDef>
+	<!-- HEDIFFS -->
+	<HediffDef ParentName="RoleStatBuff">
+		<defName>AP_DefenseHardened</defName>
+		<label>Sharing protection</label>
+		<description>This person can bolster their allies' protection by commanding them and sharing their hardiness.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<showRemainingTime>True</showRemainingTime>
+			</li>
+			<li Class="HediffCompProperties_DisappearsOnDeath"/>
+			<li Class="HediffCompProperties_GiveHediffsInRange">
+				<range>12.9</range>
+				<mote>Mote_CombatCommand</mote>
+				<hideMoteWhenNotDrafted>true</hideMoteWhenNotDrafted>
+				<targetingParameters>
+					<canTargetBuildings>false</canTargetBuildings>
+					<canTargetAnimals>false</canTargetAnimals>
+					<canTargetMechs>false</canTargetMechs>
+					<onlyTargetColonists>true</onlyTargetColonists>
+				</targetingParameters>
+				<hediff>AP_DefenseHardenedBuff</hediff>
+			</li>
+		</comps>
+		<isBad>false</isBad>
+	</HediffDef>
+	<HediffDef ParentName="RoleStatBuff">
+		<defName>AP_DefenseHardenedBuff</defName>
+		<label>Defense increased</label>
+		<description>A guardian is sharing their strength and defense to any nearby allies, improving protection.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<showRemainingTime>false</showRemainingTime>
+			</li>
+			<li Class="HediffCompProperties_DisappearsOnDeath"/>
+			<li Class="HediffCompProperties_Link">
+				<requireLinkOnOtherPawn>false</requireLinkOnOtherPawn>
+				<maxDistance>10</maxDistance>
+				<customMote>Mote_CombatCommandLinkLine</customMote>
+			</li>
+		</comps>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<statOffsets>
+					<ArmorRating_Sharp>0.20</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.15</ArmorRating_Blunt>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+</Defs>
