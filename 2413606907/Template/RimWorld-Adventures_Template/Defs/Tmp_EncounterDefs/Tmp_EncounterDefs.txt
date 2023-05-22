@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+ <!--
+enemySpawnerNames:DefNames List of buildings that will spawn into the encounter. Intended for use with the Spawner comp property. 
+lootSpawnerNames:DefNames List of buildings that will spawn into the encounter. Intended for use with the Spawner comp property. 
+SpawnSpread: the radial range around the location of the encounter that the spawners will randomly spawn in.
+encounterLevel: Difficulty rating of encounter to help place into labyrinth. See Notes
+
+Notes about encounterLevel:
+	-Encounters are placed into the labyrinth based on two values, the encounter level and the room rating. 
+	-The encounter level is defined in the EncounterDef and should be a value between 1 and 100. 
+	-The room rating is determined by the number of steps into the labyrinth that the room is located; such that the starting point of the labyrinth has a step count of 0, 
+		it then steps to the next point thereby increasing the count for that point, thus the end of the labyrinth will have the highest number of steps.   
+
+	The Math: 
+	-The room rating for an individual room is normalized by the max steps that occurred to yield the percent along the total path that the room is located. 
+		This float value is then floored to an integer-based percent by multiplying by 100. N = R/Rmax*100. 
+	-The probability of an encounter spawning in a room is given by P = (1-L/(2N)), where L is the encounter level and N is the normalized rating.
+	-The probability of each encounter is rolled for each room in series until an encounter passes the roll. The first one to pass is set and the remaining do not roll.
+	-If the encounter <isMiniBoss> = true and the encounter level is set to 100, then the encounter will spawn in only at the node with a step count = max 
+	
+	The takeaway: 
+	-when setting the encounter level in the Defs avoid very low and very high values. Zero value will have a 100% percent chance at all rooms and can be used to ensure a spawn
+	-When listing the encounterDefs in the LabyrinthDef, order them from highest to lowest encounter level for optimal results. 
+	-Zero value should be very last and there can only be one (if any). Any values after zero wont count as zero has 100% chance of passing the roll.
+	-The limit for probability as encounterLevel approaches the normalized rating is 50%. So if L = N then P = 0.5
+
+ -->
+  <PRimUtility.EncounterDef>
+  		<defName>[string]</defName>
+		<label>[string]</label>
+        <enemySpawnerNames>
+			<li>[string]</li>
+		</enemySpawnerNames>
+        <lootSpawnerNames>
+		<li>[string]</li>
+		</lootSpawnerNames>
+        <encounterLevel>[int]</encounterLevel>
+        <SpawnSpread>[int]</SpawnSpread>
+		<isMiniBoss>[bool]</isMiniBoss>
+  </PRimUtility.EncounterDef>
+
+
+
+  </Defs>
