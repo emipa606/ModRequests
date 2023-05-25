@@ -1,0 +1,204 @@
+﻿<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>Vanilla Brewing Expanded - Coffees and Teas</li></mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<ThingDef ParentName="DrugBase">
+						<defName>MentholCigarettes</defName>
+						<label>menthol cigarettes</label>
+						<description>A small, rolled paper tube stuffed loosely with tobacco leaves. Offers a brief euphoria as well as mental stimulation, and is very addictive. The pungent odor is eliminated by menthol, providing a cleaner breath.</description>
+						<graphicData>
+							<texPath>Cigs/Menthol</texPath>
+							<graphicClass>Graphic_StackCount</graphicClass>
+										<drawSize>1.05</drawSize>
+						</graphicData>
+								<uiIconScale>1.15</uiIconScale>
+						<rotatable>false</rotatable>
+						<statBases>
+							<WorkToMake>550</WorkToMake>
+							<MarketValue>10</MarketValue>
+							<Mass>0.05</Mass>
+							<DeteriorationRate>6</DeteriorationRate>
+							<Flammability>1.3</Flammability>
+						</statBases>
+						<techLevel>Industrial</techLevel>
+						<ingestible>
+							<foodType>Plant, Processed</foodType>
+							<joyKind>Chemical</joyKind>
+							<joy>0.35</joy>
+							<baseIngestTicks>680</baseIngestTicks>
+							<nurseable>true</nurseable>
+							<drugCategory>Social</drugCategory>
+							<ingestSound>Ingest_Smoke</ingestSound>
+							<ingestEffect>Smoke_Joint</ingestEffect>
+							<ingestEffectEat>EatVegetarian</ingestEffectEat>
+							<ingestHoldOffsetStanding>
+								<northDefault>
+									<offset>(0.27,0,0.08)</offset>
+									<behind>true</behind>
+								</northDefault>
+								<east>
+									<offset>(0.45,0,0.08)</offset>
+								</east>
+								<south>
+									<offset>(0.27,0,0.08)</offset>
+								</south>
+								<west>
+									<offset>(-0.50,0,0.08)</offset>
+									<flip>true</flip>
+								</west>
+							</ingestHoldOffsetStanding>
+							<ingestHoldUsesTable>false</ingestHoldUsesTable>
+							<ingestCommandString>Smoke {0}</ingestCommandString>
+							<ingestReportString>Smoking {0}.</ingestReportString>
+							<ingestReportStringEat>Consuming {0}.</ingestReportStringEat>
+							<useEatingSpeedStat>false</useEatingSpeedStat>
+							<outcomeDoers>
+								<li Class="IngestionOutcomeDoer_GiveHediff">
+									<hediffDef>MentholTobaccoHigh</hediffDef>
+									<severity>1</severity>
+									<toleranceChemical>VBE_Tobacco</toleranceChemical>
+								</li>
+								<li Class="IngestionOutcomeDoer_GiveHediff">
+									<hediffDef>VBE_TobaccoTolerance</hediffDef>
+									<severity>0.015</severity>
+									<divideByBodySize>true</divideByBodySize>
+								</li>
+							</outcomeDoers>
+						</ingestible>
+						<comps>
+							<li Class="CompProperties_Drug">
+								<chemical>VBE_Tobacco</chemical>
+								<addictiveness>0.015</addictiveness>
+								<minToleranceToAddict>0.15</minToleranceToAddict>
+								<existingAddictionSeverityOffset>0.06</existingAddictionSeverityOffset>
+								<needLevelOffset>0.9</needLevelOffset>
+								<listOrder>20</listOrder>
+							</li>
+						</comps>
+					</ThingDef>
+				</value>
+				</li>
+				<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<RecipeDef>
+						<defName>MakeMentholCigarettes</defName>
+						<label>make menthol cigarettes</label>
+						<description>Make a cigarette with menthol flavor.</description>
+						<jobString>Making menthol cigarettes.</jobString>
+						<workSkill>Cooking</workSkill>
+						<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+						<workAmount>1100</workAmount>
+						<effectWorking>Cook</effectWorking>
+						<soundWorking>Recipe_Cremate</soundWorking>
+						<allowMixingIngredients>true</allowMixingIngredients>
+						<researchPrerequisite>MoreCigarettes</researchPrerequisite>
+						<recipeUsers>
+							<li>DrugLab</li>
+						</recipeUsers>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>VBE_RawTobacco</li>
+									</thingDefs>
+								</filter>
+								<count>25</count>
+							</li>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>VBE_MintLeaves</li>
+									</thingDefs>
+								</filter>
+								<count>1</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>VBE_RawTobacco</li>
+								<li>VBE_MintLeaves</li>
+							</thingDefs>
+							<categories>
+							</categories>
+						</fixedIngredientFilter>
+						<defaultIngredientFilter>
+							<thingDefs>
+								<li>VBE_RawTobacco</li>
+								<li>VBE_MintLeaves</li>
+							</thingDefs>
+							<categories>
+							</categories>
+						</defaultIngredientFilter>
+						<products>
+							<MentholCigarettes>5</MentholCigarettes>
+						</products>
+						<skillRequirements>
+							<Crafting>3</Crafting>
+						</skillRequirements>
+					</RecipeDef>
+				</value>
+				</li>
+				<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<HediffDef>
+						<defName>MentholTobaccoHigh</defName>
+						<label>menthol tobacco high</label>
+						<labelNoun>a menthol tobacco high</labelNoun>
+						<description>Nicotine in the bloodstream, along with mint essence. Generates a soft feeling of fuzzy well-being.</description>
+						<hediffClass>Hediff_High</hediffClass>
+						<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+						<scenarioCanAdd>true</scenarioCanAdd>
+						<maxSeverity>1.0</maxSeverity>
+						<isBad>false</isBad>
+						<comps>
+							<li Class="HediffCompProperties_SeverityPerDay">
+								<severityPerDay>-2.0</severityPerDay>
+								<showHoursToRecover>true</showHoursToRecover>
+							</li>
+						</comps>
+						<stages>
+							<li>
+								<hungerRateFactorOffset>-0.1</hungerRateFactorOffset>
+								<capMods>
+									<li>
+										<capacity>Consciousness</capacity>
+										<offset>0.1</offset>
+									</li>
+									<li>
+										<capacity>Breathing</capacity>
+										<offset>0.1</offset>
+									</li>
+								</capMods>
+							</li>
+						</stages>
+					</HediffDef>
+				</value>
+				</li>
+				<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<ThoughtDef>
+						<defName>MentholTobaccoHigh</defName>
+						<workerClass>ThoughtWorker_Hediff</workerClass>
+						<hediff>MentholTobaccoHigh</hediff>
+						<validWhileDespawned>true</validWhileDespawned>
+						<stages>
+							<li>
+								<label>puffing on menthol</label>
+								<description>The menthol flavor is amazing.</description>
+								<baseMoodEffect>8</baseMoodEffect>
+							</li>
+						</stages>
+					</ThoughtDef>
+				</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
