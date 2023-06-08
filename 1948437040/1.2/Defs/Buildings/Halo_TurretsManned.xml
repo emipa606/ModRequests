@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- UNSC Heavy Machine Gun Turret -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>rco_HMGTurret</defName>
+    <label>UNSC Heavy Machine Gun</label>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>	
+    <graphicData>
+      <texPath>Things/Buildings/Turret/HMGTurretBase</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.4,2.4)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>	  
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>	  
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+	<thingCategories>
+		<li>BuildingsSecurity</li>
+    </thingCategories>
+    <altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>150</Mass>
+      <Beauty>-60</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Breakdownable"/>
+	  <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+	  <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>200</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>0.75</fuelMultiplier>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <description>The AIE-486H Heavy Machine Gun is a standard Gatling-style heavy machine gun, used by the UNSC for offensive and defensive purposes. It is also more powerful than the UNSC's stationary turret, the M247 GP Machine Gun.</description>
+    <size>(1,1)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.2</fillPercent>
+    <hasTooltip>true</hasTooltip>
+
+    <costList>
+      <Steel>250</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>rco_HaloCategory</designationCategory>
+    <specialDisplayRadius>28</specialDisplayRadius>
+	<constructionSkillPrerequisite>9</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+     <!-- <turretGunDef>Gun_TurretMilitaryManned</turretGunDef> -->
+      <turretGunDef>rco_HMGTurretManned</turretGunDef>	  
+      <turretBurstCooldownTime>3.0</turretBurstCooldownTime>
+      <!-- <turretTopGraphicPath>Things/Building/Security/MilitaryTurretGun</turretTopGraphicPath> -->
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>	
+    <researchPrerequisites>
+      <li>UnscWeaponry</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>rco_HMGBullet</defName>
+    <label>heavy machine gun round</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <speed>110</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>rco_HMGTurretManned</defName>
+    <label>manned heavy machine gun</label>
+    <graphicData>
+      <texPath>Things/Buildings/Turret/HMGTurretTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+
+    </graphicData>
+    <!--<menuHidden>true</menuHidden>-->
+    <description>Triple-barreled, 12.7mm machine gun conviently mounted.</description>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <statBases>
+	  <Mass>40</Mass>
+      <AccuracyTouch>0.98</AccuracyTouch>
+      <AccuracyShort>0.79</AccuracyShort>
+      <AccuracyMedium>0.70</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>0.35</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>rco_HMGBullet</defaultProjectile>
+        <warmupTime>0.65</warmupTime>
+        <range>40</range>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>10</burstShotCount>
+        <soundCast>Shot_HMG</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+
+
+  </ThingDef>
+  
+ </Defs> 

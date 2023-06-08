@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- UNSC Heavy Machine Gun Turret -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>rce_HMGTurret</defName>
+    <label>UNSC Heavy Machine Gun</label>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>	
+    <graphicData>
+      <texPath>Things/Buildings/Turret/HMGTurretBase</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.4,2.4)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>	  
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>	  
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+	<thingCategories>
+		<li>BuildingsSecurity</li>
+    </thingCategories>
+    <altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>150</Mass>
+      <Beauty>-60</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Breakdownable"/>
+	  <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+	  <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>200</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>0.75</fuelMultiplier>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <description>The AIE-486H Heavy Machine Gun is a standard Gatling-style heavy machine gun, used by the UNSC for offensive and defensive purposes. It is also more powerful than the UNSC's stationary turret, the M247 GP Machine Gun.</description>
+    <size>(1,1)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.2</fillPercent>
+    <hasTooltip>true</hasTooltip>
+
+    <costList>
+      <Steel>250</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>rce_HaloCategory</designationCategory>
+    <specialDisplayRadius>28</specialDisplayRadius>
+	<constructionSkillPrerequisite>9</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+     <!-- <turretGunDef>Gun_TurretMilitaryManned</turretGunDef> -->
+      <turretGunDef>rce_HMGTurretManned</turretGunDef>	  
+      <turretBurstCooldownTime>3.0</turretBurstCooldownTime>
+      <!-- <turretTopGraphicPath>Things/Building/Security/MilitaryTurretGun</turretTopGraphicPath> -->
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>	
+    <researchPrerequisites>
+      <li>UnscAssaultWeapons</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>rce_HMGBullet</defName>
+    <label>heavy machine gun round</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <speed>110</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>rce_HMGTurretManned</defName>
+    <label>manned heavy machine gun</label>
+    <graphicData>
+      <texPath>Things/Buildings/Turret/HMGTurretTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+
+    </graphicData>
+    <description>Triple-barreled, 12.7mm machine gun conviently mounted.</description>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <statBases>
+	  <Mass>40</Mass>
+      <AccuracyTouch>0.98</AccuracyTouch>
+      <AccuracyShort>0.79</AccuracyShort>
+      <AccuracyMedium>0.70</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>0.35</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>rce_HMGBullet</defaultProjectile>
+        <warmupTime>0.65</warmupTime>
+        <range>40</range>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>10</burstShotCount>
+        <soundCast>Shot_HMG</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  
+<!-- Missle Pod -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>rce_MisslePodTurret</defName>
+    <label>UNSC Missle Pod Launcher</label>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>	
+    <graphicData>
+      <texPath>Things/Buildings/Turret/HMGTurretBase</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.4,2.4)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>	  
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>	  
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+	<thingCategories>
+		<li>BuildingsSecurity</li>
+    </thingCategories>
+    <altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>150</Mass>
+      <Beauty>-60</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Breakdownable"/>
+	  <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+	  <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>10</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.0</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>1.0</fuelMultiplier>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <description>The AIE-486H Heavy Machine Gun is a standard Gatling-style heavy machine gun, used by the UNSC for offensive and defensive purposes. It is also more powerful than the UNSC's stationary turret, the M247 GP Machine Gun.</description>
+    <size>(1,1)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.2</fillPercent>
+    <hasTooltip>true</hasTooltip>
+
+    <costList>
+      <Steel>250</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>rce_HaloCategory</designationCategory>
+    <specialDisplayRadius>28</specialDisplayRadius>
+	<constructionSkillPrerequisite>9</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+     <!-- <turretGunDef>Gun_TurretMilitaryManned</turretGunDef> -->
+      <turretGunDef>rce_MisslePodTurretManned</turretGunDef>	  
+      <turretBurstCooldownTime>3.0</turretBurstCooldownTime>
+      <!-- <turretTopGraphicPath>Things/Building/Security/MilitaryTurretGun</turretTopGraphicPath> -->
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>	
+    <researchPrerequisites>
+      <li>UnscHeavyWeapons</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>rce_MisslePodBullet</defName>
+    <label>missle</label>
+    <graphicData>
+      <texPath>Things/Projectile/rocketLauncher_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+		  <damageDef>Bomb</damageDef>
+		  <!-- Use default damage from explosion def -->
+		  <explosionRadius>1.5</explosionRadius>
+		  <speed>55</speed>
+		</projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>rce_MisslePodTurretManned</defName>
+    <label>manned missle pod launcher</label>
+    <graphicData>
+      <texPath>Things/Buildings/Turret/MisslePodTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+
+    </graphicData>
+    <description>Mounted turret capable of launching high explosive, self guided missles.</description>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <statBases>
+	  <Mass>40</Mass>
+      <AccuracyTouch>0.98</AccuracyTouch>
+      <AccuracyShort>0.79</AccuracyShort>
+      <AccuracyMedium>0.70</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>0.35</RangedWeapon_Cooldown>
+    </statBases>
+    <tickerType>Normal</tickerType>	
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>rce_MisslePodBullet</defaultProjectile>
+        <warmupTime>2.8</warmupTime>
+        <range>40</range>
+        <ticksBetweenBurstShots>9</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_MisslePod</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+		<forcedMissRadius>1.0</forcedMissRadius>		
+		<targetParams>
+			<canTargetLocations>true</canTargetLocations>
+		</targetParams>		
+      </li>
+    </verbs>
+		<comps>
+		  <li Class="CompProperties_Explosive">
+			<explosiveRadius>1.5</explosiveRadius>
+			<explosiveDamageType>Bomb</explosiveDamageType>
+			<requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+			</li>
+		</comps>
+	
+  </ThingDef>
+    
+  
+   <!--Plasma Turret -->
+ 
+  <ThingDef ParentName="BuildingBase">
+    <defName>rce_PlasmaTurret</defName>
+    <label>Covenant Plasma Turret</label>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>		
+    <graphicData>
+      <texPath>Things/Buildings/Turret/PlasmaTurretBase</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.4,2.4)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>	  
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>		  
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+	<thingCategories>
+		<li>BuildingsSecurity</li>
+    </thingCategories>
+    <altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>150</Mass>
+      <Beauty>-60</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Breakdownable"/>
+	  <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+	  <li Class="CompProperties_Refuelable">
+	  
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>200</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>0.75</fuelMultiplier>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+				<li Class="CompProperties_Glower">
+				<glowRadius>2</glowRadius>
+				<glowColor>(46,161,228,0)</glowColor>
+			</li>	  
+    </comps>
+    <description>he Type-52 Directed Energy Support Weapon,[2][3] otherwise known as the Plasma Cannon, is a manned automatic plasma turret used by the Covenant. It was rarely encountered prior to 2552 and is likely to be a universal replacement for the older Type-42 Directed Energy Support Weapon.</description>
+    <size>(1,1)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.2</fillPercent>
+    <hasTooltip>true</hasTooltip>
+
+    <costList>
+      <Plasteel>200</Plasteel>
+      <ComponentSpacer>6</ComponentSpacer>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>rce_HaloCategory</designationCategory>
+    <specialDisplayRadius>28</specialDisplayRadius>
+	<constructionSkillPrerequisite>13</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+     <!-- <turretGunDef>Gun_TurretMilitaryManned</turretGunDef> -->
+      <turretGunDef>rce_PlasmaTurretManned</turretGunDef>	  
+      <turretBurstCooldownTime>3.0</turretBurstCooldownTime>
+      <!-- <turretTopGraphicPath>Things/Building/Security/MilitaryTurretGun</turretTopGraphicPath> -->
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>		
+    <researchPrerequisites>
+      <li>CovenantWeaponry</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+	<ThingDef ParentName="BaseBullet">			
+    <defName>rce_PlasmaTurretBullet</defName>
+    <label>blue plamsa bolt</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charge_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>	  
+    </graphicData>
+    <projectile>
+      <damageDef>Plasma_Burn</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <armorPenetrationBase>0.50</armorPenetrationBase>
+      <speed>75</speed>
+    </projectile>
+	<comps> 
+		<li Class="CompProperties_Glower">
+		<glowRadius>1</glowRadius>
+		<glowColor>(46,161,228,0)</glowColor>
+		</li>
+	</comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>rce_PlasmaTurretManned</defName>
+    <label>manned Plasma Turret</label>
+    <graphicData>
+      <texPath>Things/Buildings/Turret/PlasmaTurretTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+
+    </graphicData>
+	<comps> 
+		<li Class="CompProperties_Glower">
+		<glowRadius>2</glowRadius>
+		<glowColor>(46,161,228,0)</glowColor>
+		</li>
+	</comps>	
+    <description>Single-barreled plasma canon comfortablely mounted for your shooting pleasure.</description>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <statBases>
+	  <Mass>40</Mass>
+      <AccuracyTouch>0.98</AccuracyTouch>
+      <AccuracyShort>0.79</AccuracyShort>
+      <AccuracyMedium>0.70</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>0.35</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>rce_PlasmaTurretBullet</defaultProjectile>
+        <warmupTime>0.65</warmupTime>
+        <range>40</range>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>10</burstShotCount>
+        <soundCast>Shot_PlasmaTurret</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+ 
+  
+ </Defs> 
