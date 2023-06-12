@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="NECShipBase">
+    <defName>MSRTSHotBalloon</defName>
+    <label>Hot Air Balloon</label>
+    <description>A primitve hot air balloon.
+
+Passenger capacity: 4
+----------------------------
+Speed: Awful
+Fuel capacity: 300 Combustable
+Fuel efficiency: Awful
+----------------------------
+Cargo capacity: 400kg</description>
+    <graphicData>
+      <texPath>HotBalloon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <size>(4,4)</size>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>2400</WorkToBuild>
+      <Flammability>.8</Flammability>
+      <Mass>100</Mass>
+      <Beauty>15</Beauty>
+    </statBases>
+    <costList>
+      <Steel>200</Steel>
+      <WoodLog>600</WoodLog>
+      <Silver>100</Silver>
+      <Cloth>300</Cloth>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.5</restEffectiveness>  <!-- How well (1.0 = 100%) passengers can rest, eat, heal while aboard -->
+        <massCapacity>400</massCapacity> <!-- weight in kg -->
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>.75</travelSpeed> <!-- Vanilla drop pod is 25 speed, min 1, max 100 -->
+        <fuelPerTile>10</fuelPerTile> <!-- Drop pod cost is 2.25 per tile. min 1, max 6. Why'd we cap it at 6? I can't remember. -->
+        <minPassengers>1</minPassengers>
+        <maxPassengers>4</maxPassengers>
+        <spaceFaring>false</spaceFaring>  <!-- For save our ship 2 -->
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>300</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>500</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>MSRTS_HotBalloon</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <uiIconScale>0.75</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>2</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+
+
+  <ThingDef ParentName="NECShipBase">
+    <defName>MSRTSRaider</defName> <!-- defName must be unique, including with other mods so be creative -->
+    <label>Military Dirigible</label> <!-- name displayed ingame -->
+    <description>A small dirigible designed for aerial bombardment.
+
+Passenger cap: 1 - 4
+
+--Military--
+  Bombs: 4/4
+  Accuracy: Poor
+  Build: Strike Craft
+----------------------------
+Speed: Poor
+Fuel cap: 2000 Combustable
+Fuel efficiency: Poor
+----------------------------
+Cargo cap: 1000kg</description> <!-- description of course... -->
+    <graphicData>
+      <texPath>Raider</texPath> <!-- filepath starting from Textures folder, our textures our not organized so.. no file path can be noticed lol "-P"
+
+      Pfft. Organization. "-N" -->
+      <graphicClass>Graphic_Multi</graphicClass> <!-- graphic class can be left alone, it's how the game pulls _north, _east, _south textures -->
+      <drawSize>(8,8)</drawSize> <!-- how much the image is stretched out ingame -->
+    </graphicData>
+    <size>(3,6)</size> <!-- hitbox -->
+    <statBases>
+      <MaxHitPoints>350</MaxHitPoints> <!-- hitpoints of the building -->
+      <WorkToBuild>60000</WorkToBuild> <!-- how much work it costs to build, which is more like a base type, as more properties affect it, resulting in a different final number for construction -->
+      <Flammability>0.7</Flammability> <!-- how easy it is to catch on fire (duh) -->
+      <Mass>400</Mass> <!-- how much it weighs for a pawn to carry. My guess is they are light in this mod so pawns entering a map will throw it in their inventory rather than lose it, but i can check that later. -->
+      <Beauty>25</Beauty> <!-- beauty on overlap, and for pawns -->
+    </statBases>
+    <costList> <!-- Costs to build, the names are the defNames of items -->
+      <Steel>1000</Steel>
+      <Cloth>600</Cloth>
+      <Silver>800</Silver>
+      <WoodLog>2000</WoodLog>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <comps> <!-- required for sending as drop pod -->
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.75</restEffectiveness>
+        <massCapacity>1000</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS"> <!-- required for SRTS like functionality (ie. space ship reusable drop pod -->
+        <travelSpeed>2</travelSpeed>
+        <fuelPerTile>15</fuelPerTile>
+        <minPassengers>1</minPassengers>
+        <maxPassengers>4</maxPassengers>
+      	<spaceFaring>false</spaceFaring>
+      	<shuttleBayLanding>true</shuttleBayLanding>
+      </li>
+      <li Class="SRTS.CompProperties_BombsAway"> <!-- include this comp if you want it to be able to carpet bomb, remove this comp if you dont. Be aware you must also add a bomber skydropper def set -->
+        <numberBombs>4</numberBombs> <!-- num dropped per run -->
+		    <precisionBombingNumBombs>4</precisionBombingNumBombs> <!-- number of bombs dropped in precise drop -->
+        <radiusOfDrop>3</radiusOfDrop> <!-- how many cells out from the center the bombs may drop -->
+        <speed>.5</speed> <!-- How quickly the ship flies over. Default 1 -->
+		    <distanceBetweenDrops>5</distanceBetweenDrops> <!-- Distance in cells from when each bomb is dropped -->
+	  </li>
+      <li Class="CompProperties_Refuelable"> <!-- comp for allowing to fuel the srts, don't remove -->
+        <fuelCapacity>1000</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>500</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.25</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+    </comps>
+    <researchPrerequisites> <!-- research requirements -->
+      <li>MSRTS_Ship</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite> <!-- construction skill requirements -->
+    <uiIconScale>0.55</uiIconScale> <!-- UI scaling -->
+    <killedLeavings>
+      <ChunkSlagSteel>5</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+
+
+    <ThingDef ParentName="NECShipBase">
+    <defName>MSRTSMerchantShip</defName>
+    <label>Merchant Zeppelin</label>
+    <description>An advanced aerostat capable of relatively heavy payloads and long flights.
+
+Passenger cap: 2 - 16
+----------------------------
+Speed: Awful
+Fuel cap: 5,000 Combustible
+Fuel efficiency: Average
+----------------------------
+Cargo cap: 7,500kg</description>
+    <graphicData>
+      <texPath>Merchant</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(12,12)</drawSize>
+    </graphicData>
+    <size>(5,9)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>32000</WorkToBuild>
+      <Flammability>0.9</Flammability>
+      <Mass>1000</Mass>
+      <Beauty>25</Beauty>
+    </statBases>
+    <costList>
+      <Steel>2000</Steel>
+      <Cloth>1200</Cloth>
+      <Silver>1000</Silver>
+      <WoodLog>4000</WoodLog>
+      <ComponentIndustrial>20</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.5</restEffectiveness>
+        <massCapacity>5000</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>1.5</travelSpeed>
+        <fuelPerTile>10</fuelPerTile>
+        <minPassengers>2</minPassengers>
+        <maxPassengers>16</maxPassengers>
+        <spaceFaring>false</spaceFaring>
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>3000</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>2000</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.25</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>MSRTS_Ship</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <uiIconScale>0.75</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>8</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+
+
+</Defs>
