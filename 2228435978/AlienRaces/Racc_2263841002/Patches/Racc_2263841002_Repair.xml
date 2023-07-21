@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/BodyDef[defName="Racc"]/corePart/parts/li/def[text()="Tail"]</xpath>
+				<value>
+					<def>RaccTail</def>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="InstallRaccTail" or defName="RXInstallClothTail" or defName="InstallBionicRaccTail"]/appliedOnFixedBodyParts</xpath>
+				<value>
+					<appliedOnFixedBodyParts>
+						<li>RaccTail</li>
+					</appliedOnFixedBodyParts>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Racc"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li/bodyPart[text()="Tail"]</xpath>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Racc"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="Tail"]/bodyPart</xpath>
+					<value>
+						<bodyPart>RaccTail</bodyPart>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Racc"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="RaccTail"]/hediffGraphics</xpath>
+					<value>
+						<AdvancedBionicRaccTail>Things/Racc/Tails/RtailBionic</AdvancedBionicRaccTail>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Racc"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[path="Things/Racc/Tails/Rtail"]/bodyPart</xpath>
+					<value>
+						<bodyPart>RaccTail</bodyPart>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Racc"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="RaccTail"]/hediffGraphics</xpath>
+					<value>
+						<AdvancedBionicRaccTail>Things/Racc/Tails/RtailBionic</AdvancedBionicRaccTail>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName="BionicRaccTail"]/statBases/MarketValue</xpath>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName="ClothTail"]/statBases/MarketValue</xpath>
+	</Operation>
+
+</Patch>

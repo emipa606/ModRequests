@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/BodyDef[defName="Wolvx"]/corePart/parts/li/def[text()="Tail"]</xpath>
+				<value>
+					<def>WolvxTail</def>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="InstallWolvxTail" or defName="RXInstallClothTail" or defName="InstallBionicWolvxTail"]/appliedOnFixedBodyParts</xpath>
+				<value>
+					<appliedOnFixedBodyParts>
+						<li>WolvxTail</li>
+					</appliedOnFixedBodyParts>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Wolvx"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li/bodyPart[text()="Tail"]</xpath>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Wolvx"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="Tail"]/bodyPart</xpath>
+					<value>
+						<bodyPart>WolvxTail</bodyPart>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Wolvx"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="WolvxTail"]/hediffGraphics</xpath>
+					<value>
+						<AdvancedBionicWolvxTail>Things/Wolvx/Tails/WTailBionic</AdvancedBionicWolvxTail>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Wolvx"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[path="Things/Wolvx/Tails/WTail"]/bodyPart</xpath>
+					<value>
+						<bodyPart>WolvxTail</bodyPart>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Wolvx"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="WolvxTail"]/hediffGraphics</xpath>
+					<value>
+						<AdvancedBionicWolvxTail>Things/Wolvx/Tails/WTailBionic</AdvancedBionicWolvxTail>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName="BionicWolvxTail"]/statBases/MarketValue</xpath>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName="ClothTail"]/statBases/MarketValue</xpath>
+	</Operation>
+
+</Patch>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Prosthetics and Organ Engineering - Forked</li>
+			<li>Expanded Prosthetics, Implants and Augmentations</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPOE_OrganicOptimizing"]/appliedOnFixedBodyParts</xpath>
+					<value>
+						<li>MGDragonTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_AdvancedBionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>MGDragon_InstallAdvancedBionicTail</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/ingredients/li/filter/thingDefs</xpath>
+					<value>
+						<li>MGDragon_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>MGDragon_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MGDragon_InstallBionicTail"]/ingredients/li/filter/thingDefs[li="MGDragon_BionicTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MGDragon_InstallBionicTail"]/fixedIngredientFilter/thingDefs[li="MGDragon_BionicTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_BionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>MGDragon_InstallBionicTail</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAttributeSet">
+					<xpath>Defs/ThingDef[defName="MGDragon_BionicTail"]</xpath>
+					<attribute>ParentName</attribute>
+					<value>EPIA_DeclutterAlienTail</value>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/HediffDef[defName="MGDragon_BionicTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/HediffDef[defName="MGDragon_BionicTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/HediffDef[defName="MGDragon_BionicTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/HediffDef[defName="MGDragon_BionicTail"]/spawnThingOnRemoved</xpath>
+					<value>
+						<spawnThingOnRemoved>EPIA_BionicTail</spawnThingOnRemoved>
+					</value>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/RecipeDef[defName="MGDragon_InstallBionicTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="MGDragon_InstallBionicTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>MGDragon_BionicTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>MGDragon_BionicTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/RecipeDef[defName="MGDragon_InstallBionicTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>MGDragon_BionicTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>MGDragon_BionicTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="MGDragon_BionicTail"]/thingSetMakerTags</xpath>
+					<match Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="MGDragon_BionicTail"]/thingSetMakerTags</xpath>
+					</match>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/HediffDef[defName="MGDragon_AdvancedBionicTail" and @ParentName="addedPartAdvanced"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="MGDragon_InstallAdvancedBionicTail" and @ParentName="EPIASurgeryAdvancedBionic"]</xpath>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+</Patch>

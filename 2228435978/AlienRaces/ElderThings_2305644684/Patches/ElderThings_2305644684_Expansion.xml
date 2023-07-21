@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Prosthetics and Organ Engineering - Forked</li>
+			<li>Expanded Prosthetics, Implants and Augmentations</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPOE_OrganicOptimizing"]/appliedOnFixedBodyParts</xpath>
+					<value>
+						<li>ElderThing_WingFirst</li>
+						<li>ElderThing_WingSecond</li>
+						<li>ElderThing_WingThird</li>
+						<li>ElderThing_WingFourth</li>
+						<li>ElderThing_WingFifth</li>
+					</value>
+				</li>
+				<li Class="PatchOperationTest">
+					<xpath>Defs/RecipeDef[defName="ET_InstallBionicWing" and addsHediff="ET_BionicWing"]</xpath>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/HediffDef[defName="ET_Hediff_AdvancedBionicWing"]/addedPartProps/partEfficiency</xpath>
+					<value>
+						<partEfficiency>1</partEfficiency>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/HediffDef[defName="ET_Hediff_AdvancedBionicWing"]</xpath>
+					<value>
+						<stages>
+						  <li>
+							<capMods>
+							  <li>
+								<capacity>Moving</capacity>
+								<offset>0.25</offset>
+							  </li>
+							</capMods>
+						  </li>
+						</stages>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/HediffDef[defName="ET_Hediff_AdvancedBionicWing" and @ParentName="addedPartAdvanced"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/ThingDef[defName="ET_Item_AdvancedBionicWing" and @ParentName="EPIA_UpgradeBodyPartAdvancedBionicBase"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateET_Item_AdvancedBionicWing" and @ParentName="EPIA_RecipeUpgradeAdvanced"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="ET_InstallAdvancedBionicWing" and @ParentName="EPIASurgeryAdvancedBionic"]</xpath>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+</Patch>

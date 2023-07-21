@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/BodyDef[defName="Ferrex"]/corePart/parts/li/def[text()="Tail"]</xpath>
+				<value>
+					<def>FerrexTail</def>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="InstallFerrexTail" or defName="RXInstallClothTail" or defName="InstallBionicFerrexTail"]/appliedOnFixedBodyParts</xpath>
+				<value>
+					<appliedOnFixedBodyParts>
+						<li>FerrexTail</li>
+					</appliedOnFixedBodyParts>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Ferrex"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li/bodyPart[text()="Tail"]</xpath>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Ferrex"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="Tail"]/bodyPart</xpath>
+					<value>
+						<bodyPart>FerrexTail</bodyPart>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Ferrex"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="FerrexTail"]/hediffGraphics</xpath>
+					<value>
+						<AdvancedBionicFerrexTail>Things/Ferrex/Tails/FtailBionic</AdvancedBionicFerrexTail>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Ferrex"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[path="Things/Ferrex/Tails/Ftail"]/bodyPart</xpath>
+					<value>
+						<bodyPart>FerrexTail</bodyPart>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Alien_Ferrex"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[bodyPart="FerrexTail"]/hediffGraphics</xpath>
+					<value>
+						<AdvancedBionicFerrexTail>Things/Ferrex/Tails/FtailBionic</AdvancedBionicFerrexTail>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName="ClothTail"]/statBases/MarketValue</xpath>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName="BionicFerrexTail"]/statBases/MarketValue</xpath>
+	</Operation>
+
+</Patch>

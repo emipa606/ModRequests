@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Prosthetics and Organ Engineering - Forked</li>
+			<li>Expanded Prosthetics, Implants and Augmentations</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPOE_OrganicOptimizing"]/appliedOnFixedBodyParts</xpath>
+					<value>
+						<li>Moyo_Tail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_AdvancedBionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>InstallAdvancedBionicTail_Moyo</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/ingredients/li/filter/thingDefs</xpath>
+					<value>
+						<li>Moyo_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Moyo_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="InstallBionicTail_Moyo"]/ingredients/li/filter/thingDefs[li="Moyo_BionicTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="InstallBionicTail_Moyo"]/fixedIngredientFilter/thingDefs[li="Moyo_BionicTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_BionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>InstallBionicTail_Moyo</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAttributeSet">
+					<xpath>Defs/ThingDef[defName="Moyo_BionicTail"]</xpath>
+					<attribute>ParentName</attribute>
+					<value>EPIA_DeclutterAlienTail</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/HediffDef[defName="Moyo_BionicTail"]/spawnThingOnRemoved</xpath>
+					<value>
+						<spawnThingOnRemoved>EPIA_BionicTail</spawnThingOnRemoved>
+					</value>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/HediffDef[defName="Moyo_BionicTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/HediffDef[defName="Moyo_BionicTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/HediffDef[defName="Moyo_BionicTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/RecipeDef[defName="InstallBionicTail_Moyo"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="InstallBionicTail_Moyo"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>Moyo_BionicTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>Moyo_BionicTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/RecipeDef[defName="InstallBionicTail_Moyo"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>Moyo_BionicTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>Moyo_BionicTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="Moyo_BionicTail"]/thingSetMakerTags</xpath>
+					<match Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="Moyo_BionicTail"]/thingSetMakerTags</xpath>
+					</match>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Moyo_FakeTail"]/recipeMaker/recipeUsers</xpath>
+					<value>
+						<li>TableSimpleProsthetic</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/HediffDef[defName="Moyo_AdvancedBionicTail" and @ParentName="addedPartAdvanced"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="InstallAdvancedBionicTail_Moyo" and @ParentName="EPIASurgeryAdvancedBionic"]</xpath>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+</Patch>

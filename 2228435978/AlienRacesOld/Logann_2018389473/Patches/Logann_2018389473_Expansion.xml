@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Prosthetics and Organ Engineering - Forked</li>
+			<li>Expanded Prosthetics, Implants and Augmentations</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_AdvancedBionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>InstallAdvancedBionicWolvxTail</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/ingredients/li/filter/thingDefs</xpath>
+					<value>
+						<li>BionicWolvxTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>BionicWolvxTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="InstallBionicWolvxTail"]/ingredients/li/filter/thingDefs[li="BionicWolvxTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="InstallBionicWolvxTail"]/fixedIngredientFilter/thingDefs[li="BionicWolvxTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_BionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>InstallBionicWolvxTail</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAttributeSet">
+					<xpath>Defs/ThingDef[defName="BionicWolvxTail"]</xpath>
+					<attribute>ParentName</attribute>
+					<value>EPIA_DeclutterAlienTail</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/HediffDef[defName="BionicWolvxTail"]/spawnThingOnRemoved</xpath>
+					<value>
+						<spawnThingOnRemoved>EPIA_BionicTail</spawnThingOnRemoved>
+					</value>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/HediffDef[defName="BionicWolvxTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/HediffDef[defName="BionicWolvxTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/HediffDef[defName="BionicWolvxTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/RecipeDef[defName="InstallBionicWolvxTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="InstallBionicWolvxTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>BionicWolvxTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>BionicWolvxTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/RecipeDef[defName="InstallBionicWolvxTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>BionicWolvxTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>BionicWolvxTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="BionicWolvxTail"]/thingSetMakerTags</xpath>
+					<match Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="BionicWolvxTail"]/thingSetMakerTags</xpath>
+					</match>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/HediffDef[defName="AdvancedBionicWolvxTail" and @ParentName="addedPartAdvanced"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="InstallAdvancedBionicWolvxTail" and @ParentName="EPIASurgeryAdvancedBionic"]</xpath>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+</Patch>

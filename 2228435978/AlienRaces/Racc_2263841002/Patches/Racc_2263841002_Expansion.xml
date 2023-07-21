@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Prosthetics and Organ Engineering - Forked</li>
+			<li>Expanded Prosthetics, Implants and Augmentations</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_AdvancedBionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>InstallAdvancedBionicRaccTail</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/ingredients/li/filter/thingDefs</xpath>
+					<value>
+						<li>BionicRaccTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="EPIA_CreateAdvancedBionicTail"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>BionicRaccTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="InstallBionicRaccTail"]/ingredients/li/filter/thingDefs[li="BionicRaccTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="InstallBionicRaccTail"]/fixedIngredientFilter/thingDefs[li="BionicRaccTail"]</xpath>
+					<value>
+						<li>EPIA_BionicTail</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="EPIA_BionicTail"]/descriptionHyperlinks</xpath>
+					<value>
+						<RecipeDef>InstallBionicRaccTail</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAttributeSet">
+					<xpath>Defs/ThingDef[defName="BionicRaccTail"]</xpath>
+					<attribute>ParentName</attribute>
+					<value>EPIA_DeclutterAlienTail</value>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/HediffDef[defName="BionicRaccTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/HediffDef[defName="BionicRaccTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/HediffDef[defName="BionicRaccTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/HediffDef[defName="BionicRaccTail"]/spawnThingOnRemoved</xpath>
+					<value>
+						<spawnThingOnRemoved>EPIA_BionicTail</spawnThingOnRemoved>
+					</value>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/RecipeDef[defName="InstallBionicRaccTail"]/descriptionHyperlinks</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="InstallBionicRaccTail"]/descriptionHyperlinks</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>BionicRaccTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>BionicRaccTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/RecipeDef[defName="InstallBionicRaccTail"]</xpath>
+						<value>
+							<descriptionHyperlinks>
+								<ThingDef>BionicRaccTail</ThingDef>
+								<ThingDef>EPIA_BionicTail</ThingDef>
+								<HediffDef>BionicRaccTail</HediffDef>
+							</descriptionHyperlinks>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="BionicRaccTail"]/thingSetMakerTags</xpath>
+					<match Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="BionicRaccTail"]/thingSetMakerTags</xpath>
+					</match>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/HediffDef[defName="AdvancedBionicRaccTail" and @ParentName="addedPartAdvanced"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="InstallAdvancedBionicRaccTail" and @ParentName="EPIASurgeryAdvancedBionic"]</xpath>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+</Patch>
