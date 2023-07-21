@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Extended Storage</li>
+		</mods>
+		<match Class="PatchOperationFindMod">
+			<mods>
+				<li>Extended Storage Extended</li>
+			</mods>
+			<!--If ESE is loaded, then add two techs with the second having a prereq for the first-->
+			<match Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationInsert">
+						<xpath>/Defs/ResearchProjectDef[defName = "TS_Walls"]</xpath>
+						<value>
+							<ResearchProjectDef>
+								<defName>TS_ESE_StorageSolutions_Tribal</defName>
+								<label>basic storage solutions</label>
+								<description>Organization is helpful. Or so your researcher thought when he created these functional storage solutions...</description>
+								<baseCost>300</baseCost>
+								<techLevel>Neolithic</techLevel>
+								<prerequisites>
+									<li>TS_BasicFurniture</li>
+								</prerequisites>
+							</ResearchProjectDef>
+						</value>
+					</li>
+					<li Class="PatchOperationInsert">
+						<xpath>/Defs/ResearchProjectDef[defName = "TS_Walls"]</xpath>
+						<value>
+							<ResearchProjectDef>
+								<defName>TS_ES_StorageSolutions</defName>
+								<label>storage solutions</label>
+								<description>Tired of all the items laying about the village, your researcher has found a way to efficiently store all sorts of items using the advanced capabilities of the research bench.</description>
+								<baseCost>1000</baseCost>
+								<techLevel>Medieval</techLevel>
+								<prerequisites>
+									<li>TS_MethodicalResearch</li>
+									<li>TS_ESE_StorageSolutions_Tribal</li>
+								</prerequisites>
+								<requiredResearchBuilding>SimpleResearchBench</requiredResearchBuilding>
+							</ResearchProjectDef>
+						</value>
+					</li>
+				</operations>
+			</match>
+			<!-- If ESE is not loaded, then only load the tech for ES, without the prereq from ESE-->
+			<nomatch Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationInsert">
+						<xpath>/Defs/ResearchProjectDef[defName = "TS_Walls"]</xpath>
+						<value>
+							<ResearchProjectDef>
+								<defName>TS_ES_StorageSolutions</defName>
+								<label>storage solutions</label>
+								<description>Tired of all the items laying about the village, your researcher has found a way to efficiently store all sorts of items using the advanced capabilities of the research bench.</description>
+								<baseCost>1000</baseCost>
+								<techLevel>Medieval</techLevel>
+								<prerequisites>
+									<li>TS_MethodicalResearch</li>
+								</prerequisites>
+								<requiredResearchBuilding>SimpleResearchBench</requiredResearchBuilding>
+							</ResearchProjectDef>
+						</value>
+					</li>
+				</operations>
+			</nomatch>
+		</match>
+	</Operation>
+	
+</Patch>

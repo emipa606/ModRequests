@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+<!--The patches to make the thinking spot function like the research bench from Human Resources-->
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>[JPT] Human Resources</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!--<li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]/thingClass</xpath>
+                    <value>
+                        <thingClass>Building_WorkTable</thingClass>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]</xpath>
+                    <value>
+                        <inspectorTabs>
+                            <li>ITab_Bills</li>
+                        </inspectorTabs>
+                    </value>
+                </li>-->
+                <!--Need to add a study spot, because of an update on how the researching works-->
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs</xpath>
+                    <value>
+                        <ThingDef ParentName="BenchBase">
+                            <defName>TS_HR_StudySpot</defName>
+                            <label>study spot</label>
+                            <thingClass>Building_WorkTable</thingClass>
+                            <description>A place to document and learn technologies. Considered archaic, but it works.</description>
+                            <graphicData>
+                                <texPath>Things/Building/Production/CraftingSpot</texPath>
+                                <graphicClass>Graphic_Single</graphicClass>
+                                <drawSize>(1,1)</drawSize>
+                            </graphicData>
+                            <altitudeLayer>FloorEmplacement</altitudeLayer>
+                            <useHitPoints>False</useHitPoints>
+                            <statBases>
+                                <WorkToBuild>0</WorkToBuild>
+                                <ResearchSpeedFactor>0.35</ResearchSpeedFactor>
+                            </statBases>
+                            <size>(1,1)</size>
+                            <passability>Standable</passability>
+                            <designationCategory>Production</designationCategory>
+                            <hasInteractionCell>True</hasInteractionCell>
+                            <interactionCellOffset>(0,0,0)</interactionCellOffset>
+                            <surfaceType>Item</surfaceType>
+                            <inspectorTabs>
+                                <li>ITab_Bills</li>
+                            </inspectorTabs>
+                            <building>
+                                <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+                            </building>
+                            <comps>
+                                <li Class="CompProperties_AffectedByFacilities">
+                                    <linkableFacilities>
+                                        <li>BookShelf</li>
+                                        <li>TS_HR_PillarOfKnowledge</li>
+                                    </linkableFacilities>
+                                </li>
+                            </comps>
+                            <designationHotKey />
+                            <placeWorkers>
+                                <li>PlaceWorker_ShowFacilitiesConnections</li>
+                            </placeWorkers>
+                        </ThingDef>
+                    </value>
+                </li>
+                <!--Thinking Spot is not only the primitive's place to research, but also document and learn-->
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/WorkGiverDef[defName = "Research" or defName = "DocumentTech" or defName = "LearnTech"]/fixedBillGiverDefs</xpath>
+                    <value>
+                        <li>TS_ThinkingSpot</li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/RecipeDef[defName = "LearnTech" or defName = "DocumentTech"]/recipeUsers</xpath>
+                    <value>
+                        <li>TS_HR_StudySpot</li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/WorkGiverDef[defName = "DocumentTech" or defName = "LearnTech"]/fixedBillGiverDefs</xpath>
+                    <value>
+                        <li>TS_HR_StudySpot</li>
+                    </value>
+                </li>
+                <!--Decision tree for linking the TS to the bookshelf and pillar of knowledge-->
+                <li Class="PatchOperationConditional">
+                    <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]/comps</xpath>
+                    <match Class="PatchOperationConditional">
+                    <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]/comps/li/linkableFacilities</xpath>
+                        <nomatch Class="PatchOperationAdd">
+                            <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]/comps</xpath>
+                            <value>
+                                <li Class="CompProperties_AffectedByFacilities">
+                                    <linkableFacilities />
+                                </li>
+                            </value>
+                        </nomatch>
+                    </match>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]</xpath>
+                        <value>
+                            <comps>
+                                <li Class="CompProperties_AffectedByFacilities">
+                                    <linkableFacilities />
+                                </li>
+                            </comps>
+                        </value>
+                    </nomatch>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/ThingDef[defName = "TS_ThinkingSpot"]/comps/li/linkableFacilities</xpath>
+                    <value>
+                        <li>BookShelf</li>
+                        <li>TS_HR_PillarOfKnowledge</li>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+
+</Patch>

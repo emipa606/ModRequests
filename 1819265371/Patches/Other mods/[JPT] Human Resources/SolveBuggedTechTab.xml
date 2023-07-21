@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>[JPT] Human Resources</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs</xpath>
+                    <value>
+                        <ResearchProjectTagDef>
+                            <defName>TS_HR_NoBugStart</defName>
+                        </ResearchProjectTagDef>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs</xpath>
+                    <value>
+                        <ResearchProjectDef>
+                            <defName>TS_HR_NoBugTech</defName>
+                            <label>anti-bug only</label>
+                            <description>This is just a tech to prevent a bug when using [JPT] Human Resources. If this wasn't here, chances are that the tech tab on your pawns who know nothing would be bugged out, as they were during testing. I have contacted jptrrs, and he is looking into it, but in the meantime, this is the solution I came up with.</description>
+                            <baseCost>1</baseCost>
+                            <techLevel>Neolithic</techLevel>
+                            <tags>
+                                <li>TS_HR_NoBugStart</li>
+                            </tags>
+                        </ResearchProjectDef>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/ThingDef[defName = "SleepingSpot" or defName = "DoubleSleepingSpot" or defName = "AnimalSleepingSpot"]</xpath>
+                    <value>
+                        <researchPrerequisites>
+                            <li>TS_HR_NoBugTech</li>
+                        </researchPrerequisites>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/FactionDef[defName = "TS_PlayerColonyNoTech" or defName = "TS_PlayerTribeNoTech"]</xpath>
+                    <value>
+                        <startingResearchTags>
+                            <li>TS_HR_NoBugStart</li>
+                        </startingResearchTags>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>    
+
+</Patch>

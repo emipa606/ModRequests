@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>A RimWorld of Magic</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<!-- Removal -->
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_ArcaneConstruction" or defName = "TM_ArcaneCrafting" or defName = "TM_ArcaneApparel"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ResearchProjectDef/prerequisites/li[text() = "TM_ArcaneConstruction" or text() = "TM_ArcaneCrafting" or text() = "TM_ArcaneApparel"]</xpath>
+				</li>
+				<!--techLevel shift-->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_Enchanting" or defName = "TM_MagicScribing"]/techLevel</xpath>
+					<value>
+						<techLevel>Medieval</techLevel>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_AdvancedScribing" or defName = "TM_AdvancedEnchanting"]/techLevel</xpath>
+					<value>
+						<techLevel>Industrial</techLevel>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_ArcaneForging" or defName = "TM_ArcaneArtifacts" or defName = "TM_MasterScribing" or defName = "TM_ExpertEnchanting" or defName = "TM_Portals" or defName = "TM_ForgeReplication"]/techLevel</xpath>
+					<value>
+						<techLevel>Spacer</techLevel>
+					</value>
+				</li>
+				<!--Prereq change -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_PlantCultivation"]</xpath>
+					<value>
+						<prerequisites>
+							<li>TS_DomHerb</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_MagicyteRefining"]</xpath>
+					<value>
+						<prerequisites>
+							<li>DrugProduction</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef/prerequisites/li[text() = "TM_MagicyteRefining"]</xpath>
+					<value>
+						<li>TM_MagicCircle</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_ManaStorage"]/prerequisites</xpath>
+					<value>
+						<li>TM_MagicCircle</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_AdvancedEnchanting"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>TS_TM_MagicClothing</li>
+							<li>TS_TM_MagicWeapons</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_ExpertEnchanting"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>TS_TM_MagicArmour</li>
+							<li>TS_TM_AdvancedMagicWeapons</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_ArcaneForging" or defName = "TM_Portals"]/prerequisites</xpath>
+					<value>
+						<li>TM_ExpertEnchanting</li>
+						<li>TM_MasterScribing</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_ArcaneArtifacts"]/prerequisites</xpath>
+					<value>
+						<li>TM_ArcaneForging</li>
+					</value>
+				</li>
+				<!--Name change-->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_MagicCircle"]/label</xpath>
+					<value>
+						<label>magic</label>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_PlantCultivation"]/label</xpath>
+					<value>
+						<label>magical herbalism</label>
+					</value>
+				</li>
+				<!-- Description change -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_MagicCircle"]/description</xpath>
+					<value>
+						<description>To enter the realm of true magic, one must be knowledgeable in geometry. One might never know when sealing circles or other applications of magical geometry will be necessary.</description>
+					</value>
+				</li>
+				<!-- New techs -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ResearchProjectDef>
+							<defName>TS_TM_MagicClothing</defName>
+							<label>magic clothing</label>
+							<description>The discovery of enchantment led to your mages thinking about enchanted clothing. They teamed up with your tailor and came up with these new items.</description>
+							<baseCost>500</baseCost>
+							<techLevel>Medieval</techLevel>
+							<prerequisites>
+								<li>TS_Tailoring</li>
+								<li>TM_Enchanting</li>
+							</prerequisites>
+						</ResearchProjectDef>
+
+						<ResearchProjectDef>
+							<defName>TS_TM_MagicWeapons</defName>
+							<label>magic weapons</label>
+							<description>Blasting your enemies with fireballs is nice and all, but what if you could cast MORE fireballs?</description>
+							<baseCost>600</baseCost>
+							<techLevel>Medieval</techLevel>
+							<prerequisites>
+								<li>Smithing</li>
+								<li>TM_Enchanting</li>
+							</prerequisites>
+						</ResearchProjectDef>
+
+						<ResearchProjectDef>
+							<defName>TS_TM_AdvancedMagicWeapons</defName>
+							<label>advanced magic weapons</label>
+							<description>Burning your enemies with fireballs is lovely, but what if, instead, you could roast your enemies in an inferno conjured form the very depths of the plane of eternal fire?!</description>
+							<baseCost>1250</baseCost>
+							<techLevel>Industrial</techLevel>
+							<prerequisites>
+								<li>TM_AdvancedEnchanting</li>
+							</prerequisites>
+						</ResearchProjectDef>
+
+						<ResearchProjectDef>
+							<defName>TS_TM_MagicArmour</defName>
+							<label>magic armour</label>
+							<description>Having succeeded in creating magical clothing, your mages yearn for more power. They have now discovered the secrets to fabricating magic armour.</description>
+							<baseCost>1250</baseCost>
+							<techLevel>Industrial</techLevel>
+							<prerequisites>
+								<li>TM_AdvancedEnchanting</li>
+							</prerequisites>
+						</ResearchProjectDef>
+					</value>
+				</li>
+				<!-- Add required building -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ResearchProjectDef[defName = "TM_AdvancedScribing"]</xpath>
+					<value>
+						<requiredResearchBuilding>SimpleResearchBench</requiredResearchBuilding>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+	
+</Patch>
+
