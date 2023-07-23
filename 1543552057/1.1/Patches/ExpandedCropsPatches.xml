@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Add new recipes to vanilla RimWorld stoves                            -->
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName = "ElectricStove"]/recipes |
+           /Defs/ThingDef[defName = "FueledStove"]/recipes</xpath>
+    <value>
+      <li>TCookMealSalad</li>
+      <li>TCookMealSaladBulk</li>
+      <li>TCookMealTCSoup</li>
+      <li>TCookMealTCSoupBulk</li>
+    </value>
+  </Operation>
+
+
+
+  <!-- Allow stoves to be boosted by added kitchen cupboard -->
+  <!-- Thanks to dismar for fixing my original patch to be far more elegant and compatible! -->
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+    <xpath>*/ThingDef[defName = "ElectricStove"]/comps/li[contains(@Class,'CompProperties_AffectedByFacilities')]/linkableFacilities</xpath>
+      </li>
+      <li Class="PatchOperationAdd">
+    <xpath>*/ThingDef[defName = "ElectricStove"]/comps/li[contains(@Class,'CompProperties_AffectedByFacilities')]/linkableFacilities</xpath>
+        <value>
+            <li>TCupboard</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+    <xpath>*/ThingDef[defName = "ElectricStove"]/comps/li[contains(@Class,'CompProperties_AffectedByFacilities')]/linkableFacilities</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+    <xpath>*/ThingDef[defName = "ElectricStove"]/comps</xpath>
+        <value>
+        <li Class="CompProperties_AffectedByFacilities">
+          <linkableFacilities>
+            <li>TCupboard</li>
+          </linkableFacilities>
+        </li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+  
+  
+  
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+    <xpath>*/ThingDef[defName = "FueledStove"]/comps/li[contains(@Class,'CompProperties_AffectedByFacilities')]/linkableFacilities</xpath>
+      </li>
+      <li Class="PatchOperationAdd">
+    <xpath>*/ThingDef[defName = "FueledStove"]/comps/li[contains(@Class,'CompProperties_AffectedByFacilities')]/linkableFacilities</xpath>
+        <value>
+            <li>TCupboard</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+    <xpath>*/ThingDef[defName = "FueledStove"]/comps/li[contains(@Class,'CompProperties_AffectedByFacilities')]/linkableFacilities</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+    <xpath>*/ThingDef[defName = "FueledStove"]/comps</xpath>
+        <value>
+        <li Class="CompProperties_AffectedByFacilities">
+          <linkableFacilities>
+            <li>TCupboard</li>
+          </linkableFacilities>
+        </li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+</Patch>
