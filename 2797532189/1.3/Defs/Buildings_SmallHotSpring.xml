@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<JoyGiverDef>
+    <defName>BathSmallHotSpring</defName>
+    <giverClass>SmallHotSpring.JoyGiver_BathSmallHotSpring</giverClass>
+    <baseChance>5</baseChance>
+    <thingDefs>
+      <li>SmallHotSpring</li>
+    </thingDefs>
+    <jobDef>BathSmallHotSpring</jobDef>
+    <joyKind>Meditative</joyKind>
+  </JoyGiverDef>
+
+  <JobDef>
+    <defName>BathSmallHotSpring</defName>
+    <driverClass>SmallHotSpring.JobDriver_BathSmallHotSpring</driverClass>
+    <reportString>relaxing.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>4</joyMaxParticipants>
+    <joyKind>Meditative</joyKind>
+  </JobDef>
+
+    <HediffDef>
+    <defName>IntheSmallHotSpring</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Healing waters</label>
+	<description>The therapeutic waters of a hot spring allow the body to heal wounds faster and recover from illnesses more quickly. Pawns do not mind temperatures of either extreme while submerged in the hot spring's waters.</description>
+	<isBad>false</isBad>
+    <labelNoun>Healing waters</labelNoun>
+	<defaultLabelColor>(0.5, 0.5, 0.9)</defaultLabelColor>
+	<comps>
+
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ComfyTemperatureMax>50</ComfyTemperatureMax>
+          <ComfyTemperatureMin>-50</ComfyTemperatureMin>
+        </statOffsets>
+		<capMods>
+          	<li>
+            	<capacity>BloodFiltration</capacity>
+            	<offset>0.08</offset>
+          	</li>
+        	</capMods>
+       			<naturalHealingFactor>1.25</naturalHealingFactor>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>BathedInSmallHotSpring</defName>
+	<hediffClass>HediffWithComps</hediffClass>
+    <label>Residual rejuvenation</label>
+	<description>A recent soak in a hot spring accelerates the healing of wounds and recovery from illnesses for slightly over 24 hours after leaving the soothing waters.\n\n(The healing effects of this hediff are the same as the 'Healing waters' hediff. You do not need to constantly direct sick and/or injured pawns to repeatedly use the spring; a single visit per day is sufficient.)</description>
+	<isBad>false</isBad>
+    <labelNoun>Residual rejuvenation</labelNoun>
+	<maxSeverity>0.5</maxSeverity>
+	<defaultLabelColor>(0.5, 0.5, 0.9)</defaultLabelColor>
+	<comps>
+		<li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>-0.4</severityPerDay>
+		</li>
+    </comps>
+    		<stages>
+			<li>
+        		<capMods>
+          		<li>
+            		<capacity>BloodFiltration</capacity>
+            		<offset>0.08</offset>
+          		</li>
+        		</capMods>
+        			<naturalHealingFactor>1.25</naturalHealingFactor>
+      			</li>
+    		</stages>
+  </HediffDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>SmallHotSpring</defName>
+    <label>hot spring</label>
+    <description>A natural hot spring whose steaming waters act as a meditative joy source, help cleanse the body of illnesses, and assist in the healing of wounds. Built on top of a naturally occuring steam geyser.\n\n Up to 4 pawns can use it simultaneously.\n\nA large amount of clever excavation and painstakingly assembled stoneworks are required to allow the boiling hot waters deep underground to come to the surface as pure bathing water. Construction of this building requires an exceptionally high amount of labor. Average constructors will need several workdays in optimal conditions to complete this building. (Eight hours of labor at 100% work speed is about 333 work.)\n\nThis building can be manually used. Sick and/or injured pawns that are capable of moving on their own should be directed to use the spring once a day. Pawns incapable of moving cannot safely use the spring's waters without undue risk of drowning, and are thus forbidden.</description>
+    <thingClass>SmallHotSpring.SmallHotSpringBath</thingClass>
+    <rotatable>false</rotatable>	
+    <graphicData>
+      <texPath>Things/Building/smallhotspring</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>(6,4)</drawSize>
+      <shadowData>
+        <volume>(0.0, 0.0, 0.0)</volume>
+      </shadowData>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+	<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <pathCost>8</pathCost>
+	<tickerType>Normal</tickerType>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <blockWind>false</blockWind>
+    <fillPercent>1</fillPercent>
+    <blockLight>false</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <statBases>
+      <WorkToBuild>18000</WorkToBuild>
+      <MaxHitPoints>2000</MaxHitPoints>
+      <Flammability>0</Flammability>
+	  <Beauty>200</Beauty>
+	  <JoyGainFactor>1.4</JoyGainFactor>
+	  <BedRestEffectiveness>1.111</BedRestEffectiveness>
+	  <Comfort>1.0</Comfort>
+    </statBases>
+	<building>
+		<bed_healPerDay>10</bed_healPerDay>
+		<ai_chillDestination>true</ai_chillDestination>
+		<joyKind>Meditative</joyKind>
+    </building>
+    <size>(6,4)</size>
+    <designationCategory>Joy</designationCategory>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+	  <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+	  <costStuffCount>300</costStuffCount>
+    <costList>
+			<WoodLog>100</WoodLog>
+		</costList>
+	  <placeWorkers>
+      <li>PlaceWorker_OnSteamGeyser</li>
+    </placeWorkers>
+    <defaultPlacingRot>North</defaultPlacingRot>
+  </ThingDef>
+
+</Defs>
