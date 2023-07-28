@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef Name="LTF_Medbay_Base" ParentName="BuildingBase" Abstract="true">
+		<thingClass>Building_WorkTable</thingClass>
+
+		<descriptionHyperlinks>
+			<ThingDef>LTF_MediFuel</ThingDef>
+			<ThingDef>LTF_BlocksMediStone</ThingDef>
+		</descriptionHyperlinks>
+
+		<graphicData>
+			<texPath>Things/Building/MedBay/MedBay</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(3,3)</drawSize>
+		</graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+
+		<rotatable>false</rotatable>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Standable</passability>
+		<fillPercent>0.4</fillPercent>
+		
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+
+		<stuffCategories>
+			<li>Metallic</li>
+		</stuffCategories>
+
+		<surfaceType>Item</surfaceType>
+		<costStuffCount>150</costStuffCount>
+
+		<castEdgeShadows>true</castEdgeShadows>
+
+		<useHitPoints>True</useHitPoints>
+
+		<statBases>
+			<WorkToBuild>12000</WorkToBuild>
+			<MaxHitPoints>200</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<Cleanliness>.5</Cleanliness>
+			<Mass>150</Mass>
+		</statBases>
+
+		<size>(3,3)</size>
+
+		<designationCategory>Misc</designationCategory>
+		<canOverlapZones>false</canOverlapZones>
+
+		<hasInteractionCell>true</hasInteractionCell>
+		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+		<!-- <interactionCellOffset>(-1,0,1)</interactionCellOffset> -->
+
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<killedLeavings>
+			<ChunkSlagSteel>5</ChunkSlagSteel>
+			<Plasteel>3</Plasteel>
+			<ComponentIndustrial>1</ComponentIndustrial>
+			<LTF_BlocksMediStone>15</LTF_BlocksMediStone>
+			<Filth_MediFuel>10</Filth_MediFuel>
+			<Filth_RubbleMediStone>5</Filth_RubbleMediStone>
+		</killedLeavings>
+
+		<resourcesFractionWhenDeconstructed>.25</resourcesFractionWhenDeconstructed>
+
+		<filthLeaving>Filth_Blood</filthLeaving> 
+		<tickerType>Normal</tickerType>
+
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>0</explosiveRadius>
+				<explosiveExpandPerFuel>0.75</explosiveExpandPerFuel>
+
+				<explosiveDamageType>Flame</explosiveDamageType>
+
+				<destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+				<startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+				<preExplosionSpawnThingDef>Filth_MediFuel</preExplosionSpawnThingDef>
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<wickTicks>70~150</wickTicks>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>500</basePowerConsumption>
+				<shortCircuitInRain>true</shortCircuitInRain>
+
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			
+			<!-- <li><compClass>CompReportWorkSpeed</compClass></li> -->
+		</comps>
+
+		<inspectorTabs>
+			<li>LTF_MedBay.ITab_MedBay</li>
+		</inspectorTabs>
+
+		<designationHotKey>Misc5</designationHotKey>
+		
+		<!-- <placeWorkers> -->
+			<!-- <li>PlaceWorker_ShowFacilitiesConnections</li> -->
+			<!-- <li>PlaceWorker_ReportWorkSpeedPenalties</li> -->
+		<!-- </placeWorkers> -->
+
+		<uiIconScale>0.85</uiIconScale>
+	</ThingDef>
+
+	<!-- T1 Medbay -->
+	<ThingDef ParentName="LTF_Medbay_Base">
+		<defName>LTF_MedBay</defName>
+		<label>t1 medbay</label>
+
+		<description>A medical bay that will automatically tend and regenerate the premises's occupants.
+- Tending quality: from 40%, up to 100%
+- Regeneration max: 90%
+- 45% of the tending quality and 30% of the regen value depend on the building quality and the placebo effect induced by the therapeutic walls.
+- Medifuel consumption: 1.25 per tending quality point; 2 per regeneration point</description>
+
+		<descriptionHyperlinks>
+			<ResearchProjectDef>LTF_Research_MedBay_T1</ResearchProjectDef>
+		</descriptionHyperlinks>
+
+		<graphicData>
+			<texPath>Things/Building/MedBay/MedBay</texPath>
+		</graphicData>
+
+		<costList>
+			<Steel>50</Steel>
+			<Plasteel>50</Plasteel>
+
+			<LTF_BlocksMediStone>75</LTF_BlocksMediStone>
+
+			<MeleeWeapon_Gladius>1</MeleeWeapon_Gladius>
+			<ComponentIndustrial>5</ComponentIndustrial>
+		</costList>
+
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>1.0</fuelConsumptionRate>
+				<fuelCapacity>750.0</fuelCapacity>
+
+				<fuelFilter>
+					<thingDefs>
+						<li>LTF_MediFuel</li>
+					</thingDefs>
+				</fuelFilter>
+
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+			</li>
+
+			<li Class="LTF_MedBay.CompProperties_LTF_MedBay">
+				<debug>false</debug>
+
+				<tendingQualityRange>.4~.55</tendingQualityRange>
+				<tendingQualityQualityOffset>.25</tendingQualityQualityOffset>
+				<tendingQualityPlaceboOffset>.2</tendingQualityPlaceboOffset>
+
+				<regenMax>.6</regenMax>
+				<regenMaxQualityOffset>.15</regenMaxQualityOffset>
+				<regenMaxPlaceboOffset>.15</regenMaxPlaceboOffset>
+				<!-- <Nocebo>.1</Nocebo> -->
+
+				<fuelConsumptionPerRegenPoint>2</fuelConsumptionPerRegenPoint>
+				<fuelConsumptionPerTendingQuality>1.25</fuelConsumptionPerTendingQuality>
+
+				<regenerableHediffDef>
+					<li>Bite</li>
+					<li>Bruise</li>
+					<li>Burn</li>
+					<li>ChemicalBurn</li>
+					<li>Crush</li>
+					<li>Crack</li>
+					<li>Cut</li>
+					<li>Frostbite</li>
+					<li>Gunshot</li>
+					<li>Shredded</li>
+					<li>Scratch</li>
+					<li>Stab</li>
+					<li>SurgicalCut</li>
+				</regenerableHediffDef>
+			</li>
+			<li Class="CompProperties_Facility">
+				<statOffsets>
+					<MedicalTendQualityOffset>0.1</MedicalTendQualityOffset>
+					<ImmunityGainSpeedFactor>0.05</ImmunityGainSpeedFactor>
+					<SurgerySuccessChanceFactor>0.1</SurgerySuccessChanceFactor>
+				</statOffsets>
+
+				<maxSimultaneous>2</maxSimultaneous>
+				<mustBePlacedAdjacent>false</mustBePlacedAdjacent>
+			</li>
+		</comps>
+
+		<researchPrerequisites>
+			<li>LTF_Research_MedBay_T1</li>
+		</researchPrerequisites>
+
+		<constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+	</ThingDef>
+	<!-- T2 Medbay -->
+	<ThingDef ParentName="LTF_Medbay_Base">
+		<defName>LTF_T2MedBay</defName>
+		<label>t2 medbay</label>
+
+		<description>A medical bay that will automatically tend and regenerate the premises's occupants.
+- Tending quality: from 50%, up to 100%
+- Regeneration max: 95%
+- 35% of the tending quality and 25% of the regen value depend on the building quality and the placebo effect induced by the therapeutic walls.
+- Medifuel consumption: 1.5 per tending quality point; 2.25 per regeneration point</description>
+
+		<descriptionHyperlinks>
+			<ResearchProjectDef>LTF_Research_MedBay_T2</ResearchProjectDef>
+		</descriptionHyperlinks>
+
+		<graphicData>
+			<texPath>Things/Building/MedBay/MedBayT2</texPath>
+		</graphicData>
+
+		<costList>
+			<Steel>50</Steel>
+			<Plasteel>100</Plasteel>
+
+			<LTF_BlocksMediStone>100</LTF_BlocksMediStone>
+
+			<MeleeWeapon_Gladius>1</MeleeWeapon_Gladius>
+			<ComponentIndustrial>6</ComponentIndustrial>
+		</costList>
+
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>1.0</fuelConsumptionRate>
+				<fuelCapacity>1000.0</fuelCapacity>
+
+				<fuelFilter>
+					<thingDefs>
+						<li>LTF_MediFuel</li>
+					</thingDefs>
+				</fuelFilter>
+
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+			</li>
+
+			<li Class="LTF_MedBay.CompProperties_LTF_MedBay">
+				<debug>false</debug>
+
+				<tendingQualityRange>.5~.65</tendingQualityRange>
+				<tendingQualityQualityOffset>.2</tendingQualityQualityOffset>
+				<tendingQualityPlaceboOffset>.15</tendingQualityPlaceboOffset>
+
+				<regenMax>.7</regenMax>
+				<regenMaxQualityOffset>.15</regenMaxQualityOffset>
+				<regenMaxPlaceboOffset>.1</regenMaxPlaceboOffset>
+				<!-- <Nocebo>.1</Nocebo> -->
+
+				<fuelConsumptionPerRegenPoint>2.25</fuelConsumptionPerRegenPoint>
+				<fuelConsumptionPerTendingQuality>1.5</fuelConsumptionPerTendingQuality>
+
+				<regenerableHediffDef>
+					<li>Bite</li>
+					<li>Bruise</li>
+					<li>Burn</li>
+					<li>ChemicalBurn</li>
+					<li>Crush</li>
+					<li>Crack</li>
+					<li>Cut</li>
+					<li>Frostbite</li>
+					<li>Gunshot</li>
+					<li>Shredded</li>
+					<li>Scratch</li>
+					<li>Stab</li>
+					<li>SurgicalCut</li>
+				</regenerableHediffDef>
+			</li>
+			<li Class="CompProperties_Facility">
+				<statOffsets>
+					<MedicalTendQualityOffset>0.15</MedicalTendQualityOffset>
+					<ImmunityGainSpeedFactor>0.075</ImmunityGainSpeedFactor>
+					<SurgerySuccessChanceFactor>0.15</SurgerySuccessChanceFactor>
+				</statOffsets>
+
+				<maxSimultaneous>3</maxSimultaneous>
+				<mustBePlacedAdjacent>false</mustBePlacedAdjacent>
+			</li>
+		</comps>
+
+		<researchPrerequisites>
+			<li>LTF_Research_MedBay_T2</li>
+		</researchPrerequisites>
+
+		<constructionSkillPrerequisite>9</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<!-- T3 Medbay -->
+	<ThingDef ParentName="LTF_Medbay_Base">
+		<defName>LTF_T3MedBay</defName>
+		<label>t3 medbay</label>
+
+		<description>A medical bay that will automatically tend and regenerate the premises's occupants.
+- Tending quality: from 60%, up to 100%
+- Regeneration max: up to 100%
+- 25% of the tending quality and 20% of the regen value depend on the building quality and the placebo effect induced by the therapeutic walls.
+- Medifuel consumption: 1.75 per tending quality point; 2.5 per regeneration point.
+- Can heal mechanoids and bionic body parts.</description>
+
+		<descriptionHyperlinks>
+			<ResearchProjectDef>LTF_Research_MedBay_T3</ResearchProjectDef>
+		</descriptionHyperlinks>
+
+		<graphicData>
+			<texPath>Things/Building/MedBay/MedBayT3</texPath>
+		</graphicData>
+
+		<costList>
+			<Steel>50</Steel>
+			<Plasteel>150</Plasteel>
+
+			<LTF_BlocksMediStone>150</LTF_BlocksMediStone>
+
+			<MeleeWeapon_Gladius>1</MeleeWeapon_Gladius>
+			<ComponentIndustrial>7</ComponentIndustrial>
+		</costList>
+
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>1.0</fuelConsumptionRate>
+				<fuelCapacity>1250.0</fuelCapacity>
+
+				<fuelFilter>
+					<thingDefs>
+						<li>LTF_MediFuel</li>
+					</thingDefs>
+				</fuelFilter>
+
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+			</li>
+
+			<li Class="LTF_MedBay.CompProperties_LTF_MedBay">
+				<debug>false</debug>
+
+				<tendingQualityRange>.60~.75</tendingQualityRange>
+				<tendingQualityQualityOffset>.15</tendingQualityQualityOffset>
+				<tendingQualityPlaceboOffset>.1</tendingQualityPlaceboOffset>
+
+				<regenMax>.8</regenMax>
+				<regenMaxQualityOffset>.1</regenMaxQualityOffset>
+				<regenMaxPlaceboOffset>.1</regenMaxPlaceboOffset>
+				<!-- <Nocebo>.1</Nocebo> -->
+
+				<fuelConsumptionPerRegenPoint>2.5</fuelConsumptionPerRegenPoint>
+				<fuelConsumptionPerTendingQuality>1.75</fuelConsumptionPerTendingQuality>
+
+				<regeneratesBionics>true</regeneratesBionics>
+				<treatsMechanoids>true</treatsMechanoids>
+
+				<regenerableHediffDef>
+					<li>Bite</li>
+					<li>Bruise</li>
+					<li>Burn</li>
+					<li>ChemicalBurn</li>
+					<li>Crush</li>
+					<li>Crack</li>
+					<li>Cut</li>
+					<li>Frostbite</li>
+					<li>Gunshot</li>
+					<li>Shredded</li>
+					<li>Scratch</li>
+					<li>Stab</li>
+					<li>SurgicalCut</li>
+				</regenerableHediffDef>
+			</li>
+			<li Class="CompProperties_Facility">
+				<statOffsets>
+					<MedicalTendQualityOffset>0.2</MedicalTendQualityOffset>
+					<ImmunityGainSpeedFactor>0.1</ImmunityGainSpeedFactor>
+					<SurgerySuccessChanceFactor>0.2</SurgerySuccessChanceFactor>
+				</statOffsets>
+
+				<maxSimultaneous>4</maxSimultaneous>
+				<mustBePlacedAdjacent>false</mustBePlacedAdjacent>
+			</li>
+		</comps>
+
+		<researchPrerequisites>
+			<li>LTF_Research_MedBay_T3</li>
+		</researchPrerequisites>
+
+		<constructionSkillPrerequisite>11</constructionSkillPrerequisite>
+	</ThingDef>
+</Defs>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>LTF_MediFuel</defName>
+		<label>medifuel</label>
+		<description>The chemical formula of medifuel involves many ingredients which at first sight dont feel smart to mix up.
+The resulting product, if used without computer assistance, has mitigated results even if better than raw herbal medicine. Its true potency is displayed in combination with a medbay. It allows automatic tending and limb regeneration.
+It is as explosive as regular chemfuel and can be drunk for some ephemeral pleasure.</description>
+
+		<descriptionHyperlinks>
+			<ResearchProjectDef>LTF_Research_Medifuel</ResearchProjectDef>
+			<ThingDef>LTF_MedBay</ThingDef>
+			<ThingDef>LTF_T2MedBay</ThingDef>
+			<ThingDef>LTF_T3MedBay</ThingDef>
+			<ThingDef>LTF_ChunkMediStone</ThingDef>
+			<ThingDef>LTF_BlocksMediStone</ThingDef>
+			<ThingDef>MedicineHerbal</ThingDef>
+			<ThingDef>Neutroamine</ThingDef>
+			<ThingDef>Chemfuel</ThingDef>
+			<ThingDef>Meat_Megaspider</ThingDef>
+		</descriptionHyperlinks>
+		
+		<thingClass>Medicine</thingClass>
+		<thingCategories>
+			<li>Medicine</li>
+		</thingCategories>
+
+		<soundInteract>Interact_BeatFire</soundInteract>
+		<soundDrop>Corpse_Drop</soundDrop>
+		<uiIconForStackCount>1</uiIconForStackCount>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<stackLimit>150</stackLimit>
+
+		<tickerType>Normal</tickerType>
+
+		<graphicData>
+			<texPath>Things/Item/MediFuel</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+			<drawSize>0.85</drawSize>
+			<!-- color 
+			(.43,78,84) -
+			(111,199,214,170)
+			-->
+		</graphicData>
+
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<MarketValue>3</MarketValue>
+			<Mass>0.05</Mass>
+
+			<Flammability>1.8</Flammability>
+			<DeteriorationRate>1.5</DeteriorationRate>
+
+			<Nutrition>0.0025</Nutrition>
+			<FoodPoisonChanceFixedHuman>.001</FoodPoisonChanceFixedHuman>
+
+			<MedicalPotency>0.8</MedicalPotency>
+			<MedicalQualityMax>0.85</MedicalQualityMax>
+			
+			<WorkToMake>500</WorkToMake>
+		</statBases>
+
+		<techLevel>Industrial</techLevel>
+
+		<ingestible>
+			<foodType>Fluid, Processed, Liquor</foodType>
+			<joyKind>Chemical</joyKind>
+			<joy>0.15</joy>
+
+			<nurseable>true</nurseable>
+			<drugCategory>Social</drugCategory>
+			<ingestSound>Ingest_Beer</ingestSound>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+
+			<ingestCommandString>Drink {0}</ingestCommandString>
+			<ingestReportString>Drinking {0}.</ingestReportString>
+
+			<preferability>NeverForNutrition</preferability>
+			<maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+			<chairSearchRadius>8</chairSearchRadius>
+
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AlcoholHigh</hediffDef>
+					<severity>0.15</severity>
+					<toleranceChemical>Alcohol</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AlcoholTolerance</hediffDef>
+					<severity>0.016</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>1.1</explosiveRadius>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<explosiveExpandPerStackcount>0.037</explosiveExpandPerStackcount>
+				<startWickOnDamageTaken>
+					<li>Flame</li>
+				</startWickOnDamageTaken>
+
+				<startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+				<preExplosionSpawnThingDef>Filth_MediFuel</preExplosionSpawnThingDef>
+
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<wickTicks>70~150</wickTicks>
+			</li>
+			<li Class="CompProperties_Rottable">
+				<daysToRotStart>70</daysToRotStart>
+				<rotDestroys>true</rotDestroys>
+			</li>
+			<li Class="CompProperties_Drug">
+				<chemical>Alcohol</chemical>
+
+				<addictiveness>0.008</addictiveness>
+				<minToleranceToAddict>0.2</minToleranceToAddict>
+
+				<existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+
+				<needLevelOffset>1</needLevelOffset>
+				<listOrder>130</listOrder>
+			</li>
+		</comps>
+
+		<costList>
+			<MedicineHerbal>1</MedicineHerbal>
+			<Neutroamine>1</Neutroamine>
+			<Chemfuel>2</Chemfuel>
+			<Meat_Megaspider>1</Meat_Megaspider>
+		</costList>
+		
+		<recipeMaker>
+			<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+			<workSkill>Intellectual</workSkill>
+			
+			<recipeUsers>
+				<li>DrugLab</li>
+			</recipeUsers>
+			
+			<researchPrerequisite>LTF_Research_Medifuel</researchPrerequisite>
+			
+			<skillRequirements>
+				<Crafting>5</Crafting>
+				<Intellectual>3</Intellectual>
+			</skillRequirements>
+		</recipeMaker>
+	</ThingDef>
+
+</Defs>
