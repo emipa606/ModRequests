@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  
+  <!--======================== Stew Pot ==============================-->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>FT_StewPot</defName>
+    <label>Stew pot</label>
+    <description>A giant stew pot could mass-cooking stews by throwing nutrition into the pot from the food table.only work when fueled</description>
+	<thingClass>AOBAStew.Building_StewPot</thingClass>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Things/Building/FT_StewPot</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <statBases>
+      <WorkToBuild>1200</WorkToBuild>
+      <MaxHitPoints>800</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <building>
+      <isMealSource>true</isMealSource>
+      <wantsHopperAdjacent>true</wantsHopperAdjacent>
+      <nutritionCostPerDispense>0.3</nutritionCostPerDispense>
+      <soundDispense>DispensePaste</soundDispense>  <!--之後要改音效-->
+      <forceShowRoomStats>true</forceShowRoomStats>
+      <buildingTags>
+        <li>Production</li>
+      </buildingTags>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <comps>
+		<li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>15.0</fuelConsumptionRate>
+        <fuelCapacity>75.0</fuelCapacity>
+        <fuelConsumptionPerTickInRain>0.0012</fuelConsumptionPerTickInRain>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+		</li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>21</heatPerSecond>
+        <heatPushMaxTemperature>50</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.5</fireSize>
+        <offset>(0,0.25,-0.7)</offset><!--X  Z -->
+      </li>
+    </comps>
+    <size>(2,2)</size>
+	<stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>150</costStuffCount>
+    <costList>
+      <Steel>225</Steel>
+    </costList>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <socialPropernessMatters>true</socialPropernessMatters>
+	<interactionCellOffset>(0,0,2)</interactionCellOffset>
+    <hasInteractionCell>true</hasInteractionCell>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Production</designationCategory>
+    <canOverlapZones>false</canOverlapZones>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <researchPrerequisites>
+      <li>FT_StewPot</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>FT_FoodTable</defName>
+    <label>Food preparation table</label>
+    <description>Holds resources for use by stew pot.</description>
+    <thingClass>Building_Storage</thingClass>
+    <graphicData>
+      <texPath>Things/Building/FT_FoodTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <damageData>
+        <rect>(0.05,0.1,0.9,0.9)</rect>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <canOverlapZones>false</canOverlapZones>
+    <building>
+      <fixedStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+          <specialFiltersToDisallow>
+            <li>AllowPlantFood</li>
+          </specialFiltersToDisallow>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+          </categories>
+          <disallowedThingDefs>
+            <li>Meat_Human</li>
+            <li>Meat_Megaspider</li>
+          </disallowedThingDefs>
+        </filter>
+      </defaultStorageSettings>
+      <buildingTags>
+        <li>Production</li>
+      </buildingTags>
+    </building>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <castEdgeShadows>true</castEdgeShadows>
+    <statBases>
+      <WorkToBuild>300</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+    </statBases>
+	<stuffCategories>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>25</costStuffCount>
+    <tickerType>Never</tickerType>
+    <rotatable>true</rotatable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <designationCategory>Production</designationCategory>
+    <surfaceType>Item</surfaceType>
+    <placeWorkers>
+      <li>PlaceWorker_NextToHopperAccepter</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>FT_StewPot</li>
+    </researchPrerequisites>
+    <uiIconPath>Things/Building/FT_FoodTable</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+  </ThingDef>
+  
+   <ThingDef ParentName="BuildingBase">
+    <defName>FT_WaterVat</defName>
+    <label>Water vat</label>
+    <description>a vat of water which could be used to extinguish fire, ugly but slightly increase the cleanliness of the room,a smart mechanism is designed to automatically spray when there is flame around.</description>
+    <graphicData>
+      <texPath>Things/Building/WaterVat</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.25, 0.35, 0.25)</volume>
+        <offset>(0,0,-0.1)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.9</explosiveRadius>
+        <explosiveDamageType>Extinguish</explosiveDamageType>
+        <startWickHitPointsPercent>-1</startWickHitPointsPercent>
+        <startWickOnDamageTaken>
+          <li>Flame</li>
+        </startWickOnDamageTaken>
+        <postExplosionSpawnThingDef>Filth_Water</postExplosionSpawnThingDef>
+        <postExplosionSpawnChance>1</postExplosionSpawnChance>
+        <postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
+        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+        <explosionEffect>ExtinguisherExplosion</explosionEffect>
+      </li>
+      <li Class="CompProperties_Usable">
+        <useJob>TriggerFirefoamPopper</useJob>
+        <useLabel>Dump bucket</useLabel>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_StartWick</compClass>
+      </li>
+      <li Class="CompProperties_ProximityFuse">
+        <target>Fire</target>
+        <radius>2</radius>
+      </li>
+    </comps>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <constructEffect>ConstructWood</constructEffect>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>20</MaxHitPoints>
+      <WorkToBuild>150</WorkToBuild>
+      <Cleanliness>5</Cleanliness>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <fillPercent>0.10</fillPercent>
+    <costList>
+      <Steel>25</Steel>
+      <WoodLog>50</WoodLog>
+    </costList>
+    <specialDisplayRadius>2.9</specialDisplayRadius>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <pathCost>30</pathCost>
+    <passability>PassThroughOnly</passability>
+    <designationCategory>Misc</designationCategory>
+    <rotatable>false</rotatable>
+  </ThingDef>
+ 
+</Defs>	
