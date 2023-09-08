@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>Giddy-up! Core</li></mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- Frontier Association:
+						Cowboy, Sheriff: 50% chance of mount; Mounts are horses (90%) and donkeys (10%)
+						Townsperson, Trader: 30% chance of mount; Mounts are horses (90%) and donkeys (10%) -->
+				<li Class="PatchOperationAddModExtension">
+					<xpath>/Defs/PawnKindDef[defName="D9Cowboy" or defName="D9Sheriff"]</xpath>
+					<value>
+						<li Class="GiddyUpCore.CustomMountsPatch">
+							<mountChance>50</mountChance>
+							<possibleMounts>
+								<li>
+									<key>Horse</key>
+									<value>9</value>
+								</li>
+								<li>
+									<key>Donkey</key>
+									<value>1</value>
+								</li>
+							</possibleMounts>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAddModExtension">
+					<xpath>/Defs/PawnKindDef[defName="D9Townsperson" or defName="D9WTrader"]</xpath>
+					<value>
+						<li Class="GiddyUpCore.CustomMountsPatch">
+							<mountChance>30</mountChance>
+							<possibleMounts>
+								<li>
+									<key>Horse</key>
+									<value>9</value>
+								</li>
+								<li>
+									<key>Donkey</key>
+									<value>1</value>
+								</li>
+							</possibleMounts>
+						</li>
+					</value>
+				</li>
+				<!-- Slaver Aristocracy:
+						Elites, Traders, Dragoons: 100% mount chance, all horses
+						Enforcers: 75% mount chance, 95% horses, 5% donkeys -->
+				<li Class="PatchOperationAddModExtension">
+					<xpath>/Defs/PawnKindDef[defName="D9SElite" or defName="D9STrader" or defName="D9SlaverDragoon"]</xpath>
+					<value>
+						<li Class="GiddyUpCore.CustomMountsPatch">
+							<mountChance>100</mountChance>
+							<possibleMounts>
+								<li>
+									<key>Horse</key>
+									<value>9</value>
+								</li>
+							</possibleMounts>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAddModExtension">
+					<xpath>/Defs/PawnKindDef[defName="D9SEnforcer"]</xpath>
+					<value>
+						<li Class="GiddyUpCore.CustomMountsPatch">
+							<mountChance>75</mountChance>
+							<possibleMounts>
+								<li>
+									<key>Horse</key>
+									<value>19</value>
+								</li>
+								<li>
+									<key>Donkey</key>
+									<value>1</value>
+								</li>
+							</possibleMounts>
+						</li>
+					</value>
+				</li>
+				<!-- Bandidos -->
+				<!-- Add new Vaquero: 100% chance to be mounted, 85% horses, 15% donkeys -->
+				<li Class="PatchOperationInsert">
+					<xpath>/Defs/PawnKindDef[defName="D9Desperado"]</xpath>
+					<value>						
+						<PawnKindDef ParentName="D9BanditBase">
+							<defName>D9Vaquero</defName>
+							<label>vaquero</label>
+							<labelMale>vaquero</labelMale>
+							<labelFemale>vaquera</labelFemale>
+							<labelPlural>vaqueros</labelPlural>
+							<race>Human</race>
+							<combatPower>40</combatPower>
+							<weaponTags>
+							  <li>Revolver</li>
+							</weaponTags>
+							<apparelTags>
+							  <li>Western</li>
+							  <li>Bandana</li>
+							</apparelTags>
+							<modExtensions>
+								<li Class="GiddyUpCore.CustomMountsPatch">
+									<mountChance>100</mountChance>
+									<possibleMounts>
+										<li>
+											<key>Horse</key>
+											<value>17</value>
+										</li>
+										<li>
+											<key>Donkey</key>
+											<value>3</value>
+										</li>
+									</possibleMounts>
+								</li>
+							</modExtensions>
+					  </PawnKindDef>
+					</value>
+				</li>
+				<!-- All other PawnKinds in here: no mount chance, but if they somehow get one it's a horse -->
+				<li Class="PatchOperationAddModExtension">
+					<xpath>/Defs/PawnKindDef[defName="D9WShotgun" or defName="D9WSniper" or defName="D9WAuto" or defName="D9FarmerS" or defName="D9SlaverRegular" or defName="D9SlaverGrenadier" or defName="D9Villista" or defName="D9Desperado" or defName="D9Gunslinger" or defName="D9Raider"]</xpath>
+					<value>
+						<li Class="GiddyUpCore.CustomMountsPatch">
+							<mountChance>0</mountChance>
+							<possibleMounts>
+								<li>
+									<key>Horse</key>
+									<value>1</value>
+								</li>
+							</possibleMounts>
+						</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
