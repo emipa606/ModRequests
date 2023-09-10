@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- Human Embryo/Hugger Removal -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/ThingDef[defName = "Human"]/recipes</xpath>
+				<value>
+					<li>AvP_FaceHuggerRemoval</li>
+					<li>AvP_XenomorphImpregnationRemoval</li>
+					<li>AvP_NeomorphImpregnationRemoval</li>
+				</value>
+			</li>
+			<!--li Class="PatchOperationConditional">
+				<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Human"]/alienRace/raceRestriction</xpath>
+				<match Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Human"]/alienRace/raceRestriction/researchList/li/projects</xpath>
+					<value>
+						<li>AvP_USCM_CarapaceArmor</li>
+					</value>
+				</match>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Human"]/alienRace/raceRestriction</xpath>
+					<value>
+						<researchList>
+							<li>
+								<projects>
+									<li>AvP_USCM_CarapaceArmor</li>
+								</projects>
+							</li>
+						</researchList>
+					</value>
+				</nomatch>
+			</li-->
+		</operations>	
+	</Operation>
+	
+	<!-- AnimalThingBase Embryo/Hugger Removal -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/ThingDef[@Name = "AnimalThingBase"]/recipes</xpath>
+				<value>
+					<li>AvP_FaceHuggerRemoval</li>
+					<li>AvP_XenomorphImpregnationRemoval</li>
+					<li>AvP_NeomorphImpregnationRemoval</li>
+				</value>
+			</li>
+		</operations>	
+	</Operation>
+
+	<!-- Xenomorph Embryo Implantation -->	
+	<Operation Class="PatchOperationSequence">
+	<success>Always</success>
+		<operations>
+			<li Class="PatchOperationTest">
+				<xpath>/Defs/ThingDef[@Name = "AvP_XenomorphEmbryo"]</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+				  <RecipeDef ParentName="SurgeryFlesh">
+					<defName>AvP_XenomorphEmbryoImplantation</defName>
+					<label>implant xenomorph embyro</label>
+					<description>implant a xenomorph embyro.</description>
+					<workerClass>Recipe_InstallArtificialBodyPart</workerClass>
+					<jobString>Implanting xenomorph embyro.</jobString>
+					<workAmount>1300</workAmount>
+					<surgerySuccessChanceFactor>1.40</surgerySuccessChanceFactor>
+					<skillRequirements>
+					  <Medicine>3</Medicine>
+					</skillRequirements>
+					<ingredients>
+					  <li>
+						<filter>
+						  <categories>
+							<li>Medicine</li>
+						  </categories>
+						</filter>
+						<count>1</count>
+					  </li>
+
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AvP_XenomorphEmbryo</li>
+						  </thingDefs>
+						</filter>
+						<count>1</count>
+					  </li>
+
+					</ingredients>
+					<fixedIngredientFilter>
+					  <categories>
+						<li>Medicine</li>
+					  </categories>
+
+					  <thingDefs>
+						<li>AvP_XenomorphEmbryo</li>
+					  </thingDefs>
+
+					</fixedIngredientFilter>
+					<appliedOnFixedBodyParts>
+					  <li>Torso</li>
+					  <li>Body</li>
+					</appliedOnFixedBodyParts>
+					<addsHediff>AvP_XenomorphImpregnation</addsHediff>
+				  </RecipeDef>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/ThingDef[defName = "Human"]/recipes</xpath>
+				<value>
+					<li>AvP_XenomorphEmbryoImplantation</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/ThingDef[@Name = "AnimalThingBase"]/recipes</xpath>
+				<value>
+					<li>AvP_XenomorphEmbryoImplantation</li>
+				</value>
+			</li>
+		</operations>	
+	</Operation>
+	
+	<!-- Neomorph Embryo Implantation -->	
+	<Operation Class="PatchOperationSequence">
+	<success>Always</success>
+		<operations>
+			<li Class="PatchOperationTest">
+				<xpath>/Defs/ThingDef[@Name = "AvP_NeomorphEmbryo"]</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+				  <RecipeDef ParentName="SurgeryFlesh">
+					<defName>AvP_NeomorphEmbryoImplantation</defName>
+					<label>implant neoomorph embyro</label>
+					<description>implant a neomorph embyro.</description>
+					<workerClass>Recipe_InstallArtificialBodyPart</workerClass>
+					<jobString>Implanting neomorph embyro.</jobString>
+					<workAmount>1300</workAmount>
+					<surgerySuccessChanceFactor>1.40</surgerySuccessChanceFactor>
+					<skillRequirements>
+					  <Medicine>3</Medicine>
+					</skillRequirements>
+					<ingredients>
+					  <li>
+						<filter>
+						  <categories>
+							<li>Medicine</li>
+						  </categories>
+						</filter>
+						<count>1</count>
+					  </li>
+
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AvP_NeomorphEmbryo</li>
+						  </thingDefs>
+						</filter>
+						<count>1</count>
+					  </li>
+
+					</ingredients>
+					<fixedIngredientFilter>
+					  <categories>
+						<li>Medicine</li>
+					  </categories>
+
+					  <thingDefs>
+						<li>AvP_NeomorphEmbryo</li>
+					  </thingDefs>
+
+					</fixedIngredientFilter>
+					<appliedOnFixedBodyParts>
+					  <li>Torso</li>
+					  <li>Body</li>
+					</appliedOnFixedBodyParts>
+					<addsHediff>AvP_NeomorphImpregnation</addsHediff>
+				  </RecipeDef>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/ThingDef[defName = "Human"]/recipes</xpath>
+				<value>
+					<li>AvP_NeomorphEmbryoImplantation</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/ThingDef[@Name = "AnimalThingBase"]/recipes</xpath>
+				<value>
+					<li>AvP_NeomorphEmbryoImplantation</li>
+				</value>
+			</li>
+		</operations>	
+	</Operation>
+	
+</Patch>

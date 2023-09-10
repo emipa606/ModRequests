@@ -1,0 +1,647 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef ParentName="InfectionBase">
+    <defName>AvP_FaceHuggerInfection</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Facehugger</label>
+    <description>Facehugger</description>
+    <initialSeverity>0.01</initialSeverity>
+    <makesSickThought>true</makesSickThought>
+    <tendable>false</tendable>
+    <spawnThingOnRemoved>AvP_Xenomorph_FaceHugger</spawnThingOnRemoved>
+    <stages>
+      <li>
+        <label>pre impregnation</label>
+        <painOffset>0.2</painOffset>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.05</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <label>impregnation</label>
+				<partEfficiencyOffset>-0.25</partEfficiencyOffset>
+        <painOffset>0.2</painOffset>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.05</offset>
+			  </li>
+        </capMods>
+		<!--
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>AvP_XenomorphImpregnation</hediff>
+            <mtbDays>1</mtbDays> 
+            <partsToAffect>
+              <li>Torso</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+		-->
+      </li>
+      <li>
+        <minSeverity>0.45</minSeverity>
+        <label>post impregnation</label>
+        <painOffset>0.2</painOffset>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.05</offset>
+			  </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Discoverable">
+        <sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+        <discoverLetterLabel>Xenomorph Facehugger</discoverLetterLabel>
+        <discoverLetterText>[PAWN_nameDef]'s been attacked by a facehugger which has attached itself to [PAWN_possessive] face, paralyzing [PAWN_possessive], but keeping them alive. Something needs to be done about this, but any attempt to remove the creature could kill the host.</discoverLetterText>
+		<messageType>PawnDeath</messageType>
+		<letterType>NegativeEvent</letterType>
+      </li>
+	  <!--
+		<li Class="HediffCompProperties_Disappears">
+			<disappearsAfterTicks>
+			  <min>20000</min>
+			  <max>60000</max>
+			</disappearsAfterTicks>
+		</li>
+		-->
+		<li Class="AvP.HediffCompProperties_XenoFacehugger">
+		<severityPerDay>1</severityPerDay>
+		</li>
+		<li Class="AvP.HediffCompProperties_DrawImplant">
+        <compClass>AvP.HediffComp_DrawImplant</compClass>
+        <implantDrawerType>Head</implantDrawerType>
+		<!--
+		<implantGraphicPath>Things/Pawn/Xenomorph/Xenomorph_FaceHugger_Mask</implantGraphicPath>
+		-->
+		</li>
+    </comps>
+  </HediffDef>
+
+ 
+  <HediffDef ParentName="DiseaseBase">
+    <defName>AvP_XenomorphImpregnation</defName>
+    <hediffClass>AvP.XenoHediffWithComps</hediffClass>
+    <label>xenomorph embryo</label>
+    <description>xenomorph embryo</description>
+    <labelNoun>a xenomorph impregnation</labelNoun>
+    <initialSeverity>0.1</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <chanceToCauseNoPain>1</chanceToCauseNoPain>
+    <tendable>false</tendable>
+    <stages>
+      <li>
+        <label>post impregnation</label>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <label>early gestation</label>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>mid gestation</label>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <label>late gestation</label>
+      </li>
+      <li>
+        <minSeverity>0.99</minSeverity>
+        <label>pre burst</label>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <label>Gaping chest wound</label>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Discoverable">
+        <sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+        <discoverLetterLabel>Xenomorph impregnation</discoverLetterLabel>
+        <discoverLetterText>[PAWN_nameDef] shudders violently as the facehugger spasms momentairly.....its still attached......something must have happened.....</discoverLetterText>
+		<messageType>PawnDeath</messageType>
+		<letterType>NegativeEvent</letterType>
+      </li>
+		<li Class="AvP.HediffCompProperties_XenoSpawner">
+		<severityPerDay>1</severityPerDay>
+		<pawnKindDefs>
+			<li>AvP_Xenomorph_Queen</li>
+			<li>AvP_Xenomorph_Warrior</li>
+			<li>AvP_Xenomorph_Drone</li>
+			<li>AvP_Xenomorph_Runner</li>
+		</pawnKindDefs>
+		<pawnKindWeights>
+			<li>05</li>
+			<li>35</li>
+			<li>50</li>
+			<li>100</li>
+		</pawnKindWeights>
+		</li>
+    </comps>
+  </HediffDef>
+   
+  <HediffDef ParentName="DiseaseBase">
+    <defName>AvP_HiddenXenomorphImpregnation</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>xenomorph impregnation</label>
+    <description>xenomorph impregnation</description>
+    <labelNoun>a xenomorph impregnation</labelNoun>
+    <initialSeverity>0.1</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <chanceToCauseNoPain>1</chanceToCauseNoPain>
+    <tendable>false</tendable>
+    <stages>
+      <li>
+        <label>post impregnation</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <label>early gestation</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>mid gestation</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <label>late gestation</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.99</minSeverity>
+        <label>pre burst</label>
+        <becomeVisible>false</becomeVisible>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <label>Gaping chest wound</label>
+        <becomeVisible>true</becomeVisible>
+				<partEfficiencyOffset>-1.0</partEfficiencyOffset>
+        <painOffset>0.7</painOffset>
+        <destroyPart>true</destroyPart>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+		<li Class="AvP.HediffCompProperties_XenoSpawner">
+		<severityPerDay>0.5</severityPerDay>
+		<pawnKindDefs>
+			<li>AvP_Xenomorph_Queen</li>
+			<li>AvP_Xenomorph_Warrior</li>
+			<li>AvP_Xenomorph_Drone</li>
+			<li>AvP_Xenomorph_Runner</li>
+		</pawnKindDefs>
+		<pawnKindWeights>
+			<li>05</li>
+			<li>35</li>
+			<li>50</li>
+			<li>100</li>
+		</pawnKindWeights>
+		</li>
+    </comps>
+  </HediffDef>
+ 
+  <HediffDef ParentName="DiseaseBase">
+    <defName>AvP_NeomorphImpregnation</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>neomorph impregnation</label>
+    <description>neomorph impregnation</description>
+    <labelNoun>a neomorph impregnation</labelNoun>
+    <initialSeverity>0.1</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <chanceToCauseNoPain>1</chanceToCauseNoPain>
+    <tendable>false</tendable>
+    <stages>
+      <li>
+        <label>post impregnation</label>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.05</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <label>early gestation</label>
+        <vomitMtbDays>0.2</vomitMtbDays>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.15</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>mid gestation</label>
+        <vomitMtbDays>0.4</vomitMtbDays>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Hearing</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.2</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <label>late gestation</label>
+        <vomitMtbDays>0.7</vomitMtbDays>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Hearing</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.25</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.99</minSeverity>
+        <label>pre burst</label>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.75</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.75</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.75</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			  <li>
+				<capacity>Hearing</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.5</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <label>Gaping chest wound</label>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+		<li Class="AvP.HediffCompProperties_NeoSpawner">
+		<pawnKindDef>AvP_Xenomorph_Neomorph</pawnKindDef>
+		</li>
+		<li Class="HediffCompProperties_SeverityPerDay">
+		<severityPerDay>1</severityPerDay>
+		</li>
+    </comps>
+  </HediffDef>
+    
+  <HediffDef ParentName="DiseaseBase">
+    <defName>AvP_HiddenNeomorphImpregnation</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>neomorph impregnation</label>
+    <description>neomorph impregnation</description>
+    <labelNoun>a neomorph impregnation</labelNoun>
+    <initialSeverity>0.1</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <chanceToCauseNoPain>1</chanceToCauseNoPain>
+    <tendable>false</tendable>
+    <stages>
+      <li>
+        <label>post impregnation</label>
+        <becomeVisible>false</becomeVisible>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.01</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.05</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <label>early gestation</label>
+        <becomeVisible>false</becomeVisible>
+        <vomitMtbDays>0.2</vomitMtbDays>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.15</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>mid gestation</label>
+        <becomeVisible>false</becomeVisible>
+        <vomitMtbDays>0.4</vomitMtbDays>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Hearing</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.2</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <label>late gestation</label>
+        <becomeVisible>false</becomeVisible>
+        <vomitMtbDays>0.7</vomitMtbDays>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Hearing</capacity>
+				<offset>-0.2</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.25</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.99</minSeverity>
+        <label>pre burst</label>
+        <becomeVisible>false</becomeVisible>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.75</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.75</offset>
+			  </li>
+			  <li>
+				<capacity>Eating</capacity>
+				<offset>-0.75</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			  <li>
+				<capacity>Hearing</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			  <li>
+				<capacity>Breathing</capacity>
+				<offset>-0.5</offset>
+			  </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <label>Gaping chest wound</label>
+        <becomeVisible>true</becomeVisible>
+		<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<setMax>0.1</setMax>
+			  </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+		<li Class="AvP.HediffCompProperties_NeoSpawner">
+		<severityPerDay>0.3</severityPerDay>
+		<pawnKindDef>AvP_Xenomorph_Neomorph</pawnKindDef>
+		</li>
+    </comps>
+  </HediffDef>
+  
+  
+  <HediffDef ParentName="InjuryBase">
+    <defName>AvP_PostBurstWound</defName>
+    <label>gaping wound</label>
+    <labelNoun>a gaping wound</labelNoun>
+    <description>A Gaping wound that looks like its been shredded and torn from the inside out.</description>
+    <comps>
+	
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.0125</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <bleedRate>0.06</bleedRate>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Torn off</destroyedLabel>
+      <destroyedOutLabel>Torn out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+</Defs>

@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef Name="AvP_Building_Hive_Base" Abstract="True">
+    <category>Building</category>
+    <selectable>true</selectable>
+    <drawerType>MapMeshOnly</drawerType>
+    <filthLeaving>Filth_RubbleRock</filthLeaving>
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+	</ThingDef>
+
+  <ThingDef ParentName="AvP_Building_Hive_Base" Abstract="True">
+    <label>hivelike</label>
+    <description>If activated, it will spawn additional pawns and hivelikes over time.</description>
+    <thingClass>XenomorphHive</thingClass>
+    <graphicData>
+      <texPath>Things/Special/HiveNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>2.6</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>130</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+    </statBases>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <drawerType>RealtimeOnly</drawerType>
+    <killedLeavings>
+      <InsectJelly>30</InsectJelly>
+    </killedLeavings>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <comps>
+	  <!--
+      <li Class="CompProperties_SpawnerHiveLikes" />
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>InsectJelly</thingToSpawn>
+        <spawnCount>5</spawnCount>
+        <spawnIntervalRange>
+          <min>13000</min>
+          <max>15000</max>
+        </spawnIntervalRange>
+      </li>
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>GlowPod</thingToSpawn>
+        <spawnCount>1</spawnCount>
+        <spawnIntervalRange>
+          <min>30000</min>
+          <max>60000</max>
+        </spawnIntervalRange>
+        <spawnMaxAdjacent>1</spawnMaxAdjacent>
+        <saveKeysPrefix>pod</saveKeysPrefix>
+        <inheritFaction>true</inheritFaction>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <heatPerSecond>6</heatPerSecond>
+        <heatPushMaxTemperature>38</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_SpawnerFilth">
+        <filthDef>Filth_Slime</filthDef>
+        <spawnCountOnSpawn>10</spawnCountOnSpawn>
+        <spawnMtbHours>4</spawnMtbHours>
+        <spawnRadius>5</spawnRadius>
+      </li>
+      <li Class="CompProperties_MaintainableLike">
+        <ticksHealthy>60000</ticksHealthy>
+        <ticksNeedsMaintenance>40000</ticksNeedsMaintenance>
+        <damagePerTickRare>10</damagePerTickRare>
+      </li>
+	  -->
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="AvP_Building_Hive_Base">
+    <defName>AvP_Xenomorph_Hive</defName>
+    <label>large xenomorph tunnel</label>
+    <description>If activated, it will spawn additional pawns and hive over time.</description>
+    <thingClass>XenomorphHive</thingClass>
+	<modExtensions>
+		<li Class="XenomorphHiveExtension">
+			<Faction>AvP_Xenomorph</Faction>
+			<TunnelDef>AvP_Xenomorph_HiveSpawner</TunnelDef>
+			<TunnelDefchild>AvP_Xenomorph_TunnelSpawner</TunnelDefchild>
+			<HiveDefchild>AvP_Xenomorph_Hive_Child</HiveDefchild>
+			<PawnKinds>
+			  <!-- <li>AvP_Xenomorph_FaceHugger</li> -->
+			  <!-- <li>AvP_Xenomorph_Queen</li> -->
+			  <!-- <li>AvP_Xenomorph_Predalien</li> -->
+			  <!-- <li>AvP_Xenomorph_Neomorph</li> -->
+			  <li>AvP_Xenomorph_Warrior</li>
+			  <li>AvP_Xenomorph_Drone</li>
+			  <li>AvP_Xenomorph_Runner</li>
+			</PawnKinds>
+		</li>
+	</modExtensions>
+    <graphicData>
+      <texPath>Things/Special/HiveNode</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>2.6</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+    </statBases>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <drawerType>RealtimeOnly</drawerType>
+    <receivesSignals>true</receivesSignals>
+    <killedLeavings>
+		<AvP_Xenomorph_Hive_Slime>1</AvP_Xenomorph_Hive_Slime> 
+    </killedLeavings>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_XenomorphSpawnerHives" />
+      <li Class="CompProperties_XenomorphSpawner">
+        <thingToSpawn>AvP_EggXenomorphFertilized</thingToSpawn>
+        <spawnCount>1</spawnCount>
+        <spawnIntervalRange>
+          <min>1000</min>
+          <max>6000</max>
+        </spawnIntervalRange>
+      </li>
+	  <!--
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>GlowPod</thingToSpawn>
+        <spawnCount>1</spawnCount>
+        <spawnIntervalRange>
+          <min>30000</min>
+          <max>60000</max>
+        </spawnIntervalRange>
+        <spawnMaxAdjacent>1</spawnMaxAdjacent>
+        <saveKeysPrefix>pod</saveKeysPrefix>
+        <inheritFaction>true</inheritFaction>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <heatPerSecond>6</heatPerSecond>
+        <heatPushMaxTemperature>38</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_MaintainableLike">
+        <ticksHealthy>60000</ticksHealthy>
+        <ticksNeedsMaintenance>40000</ticksNeedsMaintenance>
+        <damagePerTickRare>10</damagePerTickRare>
+      </li>
+	  -->
+      <li Class="CompProperties_SelfhealHitpoints">
+        <ticksPerHeal>3000</ticksPerHeal> <!-- 60k ticks = 1 day, 20 hp per day -->
+      </li>
+	  
+      <li Class="CompProperties_SpawnerFilth">
+        <filthDef>AvP_Filth_Slime</filthDef>
+        <spawnCountOnSpawn>3</spawnCountOnSpawn>
+        <spawnMtbHours>4</spawnMtbHours>
+        <spawnRadius>5</spawnRadius>
+      </li>
+    <!--  <li Class="CompProperties_HiveExpand" /> -->
+      <li Class="CompProperties_HiveCreep" />
+      <li Class="CompProperties_HiveConversionRadius">
+		<radiusPerDayCurve>
+			<points>
+				<li>0,5</li>
+				<li>1.5,18</li>
+				<li>6,40</li>
+				<li>20,100</li>
+			</points>
+		</radiusPerDayCurve>
+		<harmFrequencyPerArea>0.015</harmFrequencyPerArea>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="AvP_Building_Hive_Base">
+    <defName>AvP_Xenomorph_Hive_Child</defName>
+    <label>small xenomorph tunnel</label>
+    <description>If activated, it will spawn additional pawns and hive over time.</description>
+    <thingClass>XenomorphHive</thingClass>
+	<modExtensions>
+		<li Class="XenomorphHiveExtension">
+			<Faction>AvP_Xenomorph</Faction>
+			<TunnelDef>AvP_Xenomorph_TunnelSpawner</TunnelDef>
+			<PawnKinds>
+			  <!-- <li>AvP_Xenomorph_FaceHugger</li> -->
+			  <!-- <li>AvP_Xenomorph_Queen</li> -->
+			  <!-- <li>AvP_Xenomorph_Predalien</li> -->
+			  <!-- <li>AvP_Xenomorph_Neomorph</li> -->
+			  <li>AvP_Xenomorph_Warrior</li>
+			  <li>AvP_Xenomorph_Drone</li>
+			  <li>AvP_Xenomorph_Runner</li>
+			</PawnKinds>
+		</li>
+	</modExtensions>
+    <graphicData>
+      <texPath>Things/Special/TunnelExit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>2.6</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+    </statBases>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <drawerType>RealtimeOnly</drawerType>
+    <killedLeavings>
+      <!-- <InsectJelly>30</InsectJelly> -->
+    </killedLeavings>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+    </placeWorkers>
+    <comps>
+	  <!--
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>AvP_EggXenomorphFertilized</thingToSpawn>
+        <spawnCount>5</spawnCount>
+        <spawnIntervalRange>
+          <min>13000</min>
+          <max>15000</max>
+        </spawnIntervalRange>
+      </li>
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>GlowPod</thingToSpawn>
+        <spawnCount>1</spawnCount>
+        <spawnIntervalRange>
+          <min>30000</min>
+          <max>60000</max>
+        </spawnIntervalRange>
+        <spawnMaxAdjacent>1</spawnMaxAdjacent>
+        <saveKeysPrefix>pod</saveKeysPrefix>
+        <inheritFaction>true</inheritFaction>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <heatPerSecond>6</heatPerSecond>
+        <heatPushMaxTemperature>38</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_MaintainableLike">
+        <ticksHealthy>60000</ticksHealthy>
+        <ticksNeedsMaintenance>40000</ticksNeedsMaintenance>
+        <damagePerTickRare>10</damagePerTickRare>
+      </li>
+      <li Class="CompProperties_MaintainableLike">
+        <ticksHealthy>60000</ticksHealthy>
+        <ticksNeedsMaintenance>40000</ticksNeedsMaintenance>
+        <damagePerTickRare>10</damagePerTickRare>
+      </li>
+      <li Class="CompProperties_MaintainableLike">
+        <ticksHealthy>60000</ticksHealthy>
+        <ticksNeedsMaintenance>40000</ticksNeedsMaintenance>
+        <damagePerTickRare>10</damagePerTickRare>
+      </li>
+	  -->
+      <li Class="CompProperties_SpawnerFilth">
+        <filthDef>AvP_Filth_Slime</filthDef>
+        <spawnCountOnSpawn>3</spawnCountOnSpawn>
+        <spawnMtbHours>4</spawnMtbHours>
+        <spawnRadius>5</spawnRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>AvP_Xenomorph_HiveSpawner</defName>
+    <label>xenomorph hive main</label>
+    <thingClass>XenomorphTunnelSpawner</thingClass>
+	<modExtensions>
+		<li Class="XenomorphTunnelSpawnerExtension">
+			<HiveDef>AvP_Xenomorph_Hive</HiveDef>
+			<!--
+			<Faction>OGChaosDeamonFaction</Faction>
+			<strikespreexplode>true</strikespreexplode>
+			<explodesprespawn>true</explodesprespawn>
+			<damageDef>EMP</damageDef>
+			<blastradius>5</blastradius>
+			-->
+		</li>
+	</modExtensions>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <alwaysFlee>true</alwaysFlee>
+  </ThingDef>
+  
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>AvP_Xenomorph_TunnelSpawner</defName>
+    <label>xenomorph hive child</label>
+    <thingClass>XenomorphTunnelSpawner</thingClass>
+	<modExtensions>
+		<li Class="XenomorphTunnelSpawnerExtension">
+			<HiveDef>AvP_Xenomorph_Hive_Child</HiveDef>
+			<!--
+			<Faction>OGChaosDeamonFaction</Faction>
+			<strikespreexplode>true</strikespreexplode>
+			<explodesprespawn>true</explodesprespawn>
+			<damageDef>EMP</damageDef>
+			<blastradius>5</blastradius>
+			-->
+		</li>
+	</modExtensions>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <alwaysFlee>true</alwaysFlee>
+  </ThingDef>
+  
+  <ThingDef ParentName="RockBase">
+    <defName>AvP_Xenomorph_Hive_Wall</defName>
+    <label>resin wall</label>
+    <description>Rock and other debries, packed tightly enough and bound in resin strong enough to hold up a roof.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Xenomorph/Linked/XenoResinWall_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+    </statBases>
+		<rotatable>true</rotatable>
+    <building>
+      <isNaturalRock>false</isNaturalRock>
+      <claimable>false</claimable>
+    </building>
+    <comps>
+	
+      <li Class="CompProperties_MaintainableLike">
+        <ticksHealthy>60000</ticksHealthy>
+        <ticksNeedsMaintenance>40000</ticksNeedsMaintenance>
+        <damagePerTickRare>10</damagePerTickRare>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseFilth">
+    <defName>AvP_Filth_Slime</defName>
+    <label>xenomorph slime</label>
+    <statBases>
+      <Beauty>-25</Beauty>
+      <Cleanliness>-5</Cleanliness>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Filth/Spatter</texPath>
+      <color>(130, 142, 120, 170)</color>
+    </graphicData>
+    <filth>
+      <rainWashes>false</rainWashes>
+      <cleaningWorkToReduceThickness>70</cleaningWorkToReduceThickness>
+      <canFilthAttach>true</canFilthAttach>
+    </filth>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseFilth">
+    <defName>AvP_Xenomorph_Hive_Slime</defName>
+    <label>xenomorph hive slime</label>
+    <statBases>
+      <Beauty>-25</Beauty>
+      <Cleanliness>-5</Cleanliness>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Filth/Spatter</texPath>
+      <color>(130, 142, 120, 170)</color>
+    </graphicData>
+    <filth>
+      <rainWashes>false</rainWashes>
+      <cleaningWorkToReduceThickness>10000</cleaningWorkToReduceThickness>
+      <canFilthAttach>true</canFilthAttach>
+    </filth>
+  </ThingDef>
+
+</Defs>

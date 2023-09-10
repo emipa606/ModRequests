@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThinkTreeDef>
+    <defName>RRY_SatisfyXenomorphNeeds</defName>
+    <thinkRoot Class="ThinkNode_ConditionalFullyGrown">
+      <subNodes>
+				
+				<!-- Face Hugger Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>RRY_Xenomorph_Queen</pawnKind>
+				  <subNodes>
+				  
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Idle</tagToGive>
+					  <subNodes>
+					  
+						<!-- Hunt 
+						<li Class="JobGiver_FacehuggerHunt" />
+						-->
+						
+						<!-- Exit 
+						<li Class="JobGiver_ExitMapRandom">
+						  <defaultLocomotion>Sprint</defaultLocomotion>
+						</li>
+						-->
+						
+						<!-- Wander -->
+						<li Class="JobGiver_WanderAnywhere">
+						  <maxDanger>Deadly</maxDanger>
+						  <ticksBetweenWandersRange>
+							<min>120</min>
+							<max>240</max>
+						  </ticksBetweenWandersRange>
+						</li>
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Drone Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>RRY_Xenomorph_Drone</pawnKind>
+				  <subNodes>
+				  
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Idle</tagToGive>
+					  <subNodes>
+					  
+						<!-- Idle -->
+						<li Class="ThinkNode_ConditionalAnyDownedInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_XenosKidnap" />
+						  </subNodes>
+						</li>
+						
+						<li Class="AbilityUserAI.JobGiver_AIAbilityUser"/>
+						
+						<li Class="JobGiver_XenomorphFightEnemies" />
+						
+						<!-- Wander -->
+						<li Class="JobGiver_WanderAnywhere">
+						  <maxDanger>Deadly</maxDanger>
+						  <ticksBetweenWandersRange>
+							<min>120</min>
+							<max>240</max>
+						  </ticksBetweenWandersRange>
+						</li>
+						
+					  </subNodes>
+					</li>
+					
+				  </subNodes>
+				</li>
+				
+			<!-- Idle -->
+			<li Class="ThinkNode_ConditionalNotPawnKind">
+			  <pawnKind>RRY_Xenomorph_FaceHugger</pawnKind>
+			  <subNodes>
+			  
+                <li Class="JobGiver_XenomorphManhunter" />
+				
+                <li Class="JobGiver_WanderAnywhere">
+                  <maxDanger>Deadly</maxDanger>
+                </li>
+				
+			  </subNodes>
+			</li>
+			
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef> 
+  
+ 
+  <ThinkTreeDef>
+    <defName>RRY_Xenommorph</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Keep lying down if we have to -->
+		<li Class="ThinkNode_ConditionalMustKeepLyingDown">
+			<subNodes>
+            <!-- Do a queued job if possible -->
+            <li Class="ThinkNode_QueuedJob">
+              <inBedOnly>true</inBedOnly>
+            </li>
+
+            <!-- Keep lying down -->
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+		
+        <!-- Downed -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateCritical</treeDef>
+        </li>
+		
+        <!-- Conditional Not Fully Grown -->
+        <li Class="ThinkNode_ConditionalNotGrown">
+          <subNodes>
+			<li Class="JobGiver_GetFoodXenomorph" />
+			<li Class="JobGiver_GetFoodXenomorph"> 
+			  <forceScanWholeMap>false</forceScanWholeMap>
+			</li>
+			<li Class="JobGiver_WanderHiveLike">
+				<maxDanger>Deadly</maxDanger>
+			</li>
+          </subNodes>
+        </li>
+		
+        <!-- Conditional Fully Grown -->
+        <li Class="ThinkNode_ConditionalFullyGrown">
+          <subNodes>
+			<!--
+			<li Class="JobGiver_GetFoodXenomorph" />
+			<li Class="JobGiver_GetFoodXenomorph"> 
+			  <minCategory>Fed</minCategory>
+			  <forceScanWholeMap>false</forceScanWholeMap>
+			</li>
+			-->
+			<!-- Face Hugger Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>RRY_Xenomorph_FaceHugger</pawnKind>
+				  <subNodes>
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Idle</tagToGive>
+					  <subNodes>
+						<!-- Hunt -->
+						<li Class="ThinkNode_ConditionalFacehuggerFertile">
+						  <subNodes>
+							<li Class="JobGiver_FacehuggerHunt" />
+						  </subNodes>
+						</li>
+						<!-- Exit -->
+						<li Class="JobGiver_GetFoodXenomorph" />
+						<!-- Wander -->
+						<li Class="JobGiver_WanderAnywhere">
+						  <maxDanger>Deadly</maxDanger>
+						  <ticksBetweenWandersRange>
+							<min>120</min>
+							<max>240</max>
+						  </ticksBetweenWandersRange>
+						</li>
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Royal Hugger Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>RRY_Xenomorph_RoyaleHugger</pawnKind>
+				  <subNodes>
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Idle</tagToGive>
+					  <subNodes>
+						<!-- Hunt -->
+						<li Class="ThinkNode_ConditionalFacehuggerFertile">
+						  <subNodes>
+							<li Class="JobGiver_FacehuggerHunt" />
+						  </subNodes>
+						</li>
+						<!-- Exit -->
+						<li Class="JobGiver_GetFoodXenomorph" />
+						<!-- Wander -->
+						<li Class="JobGiver_WanderAnywhere">
+						  <maxDanger>Deadly</maxDanger>
+						  <ticksBetweenWandersRange>
+							<min>120</min>
+							<max>240</max>
+						  </ticksBetweenWandersRange>
+						</li>
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+				
+				
+		<li Class="ThinkNode_ConditionalNotPawnKind">
+		  <pawnKind>RRY_Xenomorph_FaceHugger</pawnKind>
+		  <subNodes>
+				<!-- React to close melee threat -->
+				<li Class="JobGiver_ReactToCloseMeleeThreat" />
+				
+				<!-- Do a queued job -->
+				<li Class="ThinkNode_QueuedJob" />
+
+				<!-- Mental state non critical -->
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>MentalStateNonCritical</treeDef>
+				</li>
+
+				<!-- Forced goto -->
+				<li Class="ThinkNode_ConditionalForcedGoto">
+				  <subNodes>
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Misc</tagToGive>
+					  <subNodes>
+						<li Class="JobGiver_ForcedGoto" />
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Drone Gather Infectable Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>RRY_Xenomorph_Drone</pawnKind>
+				  <subNodes>
+						<li Class="ThinkNode_ConditionalAnyDownedInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_XenosKidnap" />
+						  </subNodes>
+						</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Drone Gather Infectable Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>RRY_Xenomorph_Predalien</pawnKind>
+				  <subNodes>
+						<li Class="ThinkNode_ConditionalAnyDownedInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_XenosKidnap" />
+							<li Class="JobGiver_PredalienImpregnate" />
+						  </subNodes>
+						</li>
+						<li Class="ThinkNode_ConditionalAnyInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_XenomorphHosthunter" />
+						  </subNodes>
+						</li>
+				  </subNodes>
+				</li>
+						
+				<!-- Lord -->	
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>LordDuty</treeDef>
+				</li>
+				
+				<!-- Lay eggs you need to -->
+				<li Class="JobGiver_LayXenoEgg" />
+				
+				<!-- Satisfy very urgent needs -->
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>RRY_SatisfyXenomorphNeeds</treeDef>
+				</li>
+				
+		  </subNodes>
+		</li>
+		
+          </subNodes>
+        </li>
+
+				
+        <!-- Idle -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Satisfy basic needs -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>RRY_SatisfyXenomorphNeeds</treeDef>
+        </li>
+		
+        <!-- Idle error -->
+        <li Class="JobGiver_IdleError"/>
+		
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+  <!--============= Dig out if I can't reach map edge ===========-->
+  
+  <ThinkTreeDef>
+    <defName>RRY_DigOutIfCannotReachMapEdge</defName>
+    <thinkRoot Class="ThinkNode_ConditionalCannotReachMapEdge">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Misc</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_ExitMapBest">
+              <defaultLocomotion>Walk</defaultLocomotion>
+              <forceCanDig>true</forceCanDig>
+              <canBash>true</canBash>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+</Defs>

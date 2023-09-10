@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="BuildingBase" Name="AvP_ShipPartBase" Abstract="True">
+	<thingClass>building_CrashedShipPart</thingClass>
+	<altitudeLayer>Building</altitudeLayer>
+    <pathCost>150</pathCost>
+    <blockWind>true</blockWind>
+    <passability>Impassable</passability>
+    <fillPercent>1.0</fillPercent>
+    <size>(6,3)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>-200</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <killedLeavings>
+      <Steel>10</Steel>
+      <Plasteel>25</Plasteel>
+      <ChunkSlagSteel>4</ChunkSlagSteel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </killedLeavings>
+    <rotatable>true</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <drawerType>MapMeshOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+			<claimable>false</claimable>
+			<soundAmbient>CrashedShipPart_Ambience</soundAmbient>
+      <roofCollapseDamageMultiplier>0.2</roofCollapseDamageMultiplier>
+    </building>
+    <comps>
+	
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="AvP_ShipPartBase">
+    <defName>AvP_Engineer_CrashedShipPart</defName>
+	<thingClass>Building_CrashedShipPart_CryptosleepCasket_Xenomorph</thingClass>
+    <label>Unknown Crashed Ship</label>
+    <description>A mysterious crashed piece of a spaceship. It may contain any manner of deadly defenders and exotic materials.</description>
+    <size>(5,3)</size>
+    <graphicData>
+      <texPath>Things/Buildings/Exotic/EngineerCrashedShipPart</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(6,6)</drawSize>
+			<shadowData>
+				<volume>(5.5, 1.0, 2.45)</volume>
+			</shadowData>
+    </graphicData>
+		<comps>
+			<li Class="CompProperties_GooSpread">
+				<radiusPerDayCurve>
+					<points>
+						<li>0,5</li>
+						<li>1.5,18</li>
+						<li>6,40</li>
+						<li>20,100</li>
+						<li>40,140</li>
+						<li>60,160</li>
+						<li>80,180</li>
+						<li>200,200</li>
+					</points>
+				</radiusPerDayCurve>
+			</li>
+			<li Class="CompProperties_PlantConversionRadius">
+				<!--
+				<radiusPerDayCurve>
+					<points>
+						<li>0,5</li>
+						<li>1.5,18</li>
+						<li>6,40</li>
+						<li>20,100</li>
+						<li>40,140</li>
+						<li>60,160</li>
+						<li>80,180</li>
+						<li>200,200</li>
+					</points>
+				</radiusPerDayCurve>
+				-->
+				<harmFrequencyPerArea>0.015</harmFrequencyPerArea>
+			</li>
+			<li Class="CompProperties_XenomorphSpawnerOnDamaged"> 
+			<Factions>
+			<li>AvP_Xenomorph</li>
+			</Factions>
+			</li>
+		</comps>
+  </ThingDef>
+
+  <ThingDef ParentName="AvP_ShipPartBase">
+    <defName>AvP_Xenomorph_CrashedShipPart</defName>
+	<thingClass>Building_CrashedShipPart_CryptosleepCasket_Xenomorph</thingClass>
+    <label>Unknown Crashed Ship</label>
+    <description>A mysterious crashed piece of a spaceship. It may contain any manner of deadly defenders and exotic materials.</description>
+    <size>(6,3)</size>
+    <graphicData>
+      <texPath>Things/Buildings/Exotic/CrashedXenosShipPart</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(6,3)</drawSize>
+      <shadowData><volume>(0.9, 1.0, 0.9)</volume></shadowData>
+      <damageData><rect>(0.5, 0.1, 5, 2.8)</rect></damageData>
+    </graphicData>
+		<comps>
+		  <li Class="CompProperties_CausesGameCondition">
+			<conditionDef>AvP_GiantSmokeCloud</conditionDef>
+			<worldRange>3</worldRange>
+		  </li>
+		  <li Class="CompProperties_ThrownFleckEmitter">
+			<fleck>Smoke</fleck>
+			<offsetMin>(-2,0,3)</offsetMin>
+			<offsetMax>(2,0,3)</offsetMax>
+			<emissionInterval>15</emissionInterval>
+			<burstCount>2</burstCount>
+			<scale>2~4</scale>
+			<rotationRate>-30~30</rotationRate>
+			<velocityX>-40~40</velocityX>
+			<velocityY>0.5~1</velocityY>
+			<colorA>(0.2,0.2,0.2,1)</colorA>
+			<colorB>(0.4,0.4,0.4,1)</colorB>
+		  </li>
+			<li Class="CompProperties_XenomorphSpawnerOnDamaged"> 
+				<Factions>
+					<li>AvP_Xenomorph</li>
+				</Factions>
+			</li>
+		</comps>
+  </ThingDef>
+
+  <GameConditionDef>
+    <defName>AvP_GiantSmokeCloud</defName>
+    <conditionClass>GameCondition_SmokeSpewer</conditionClass>
+    <label>giant smoke cloud</label>
+    <description>Smoke is spewing from a nearby crash site and is reducing sunlight in this region.</description>
+    <letterText>Smoke from a crash site has begun obscuring the sun.</letterText>
+    <canBePermanent>false</canBePermanent>
+  </GameConditionDef>
+<!--
+  <SitePartDef ParentName="ConditionCauserSitePartBase">
+    <defName>SmokeSpewer</defName>
+    <label>smoke spewer</label>
+    <description>A smoke spewer.</description>
+    <conditionCauserDef>SmokeSpewer</conditionCauserDef>
+  </SitePartDef>
+
+  <GenStepDef ParentName="ConditionCauserGenStepBase">
+    <defName>SmokeSpewer</defName>
+    <linkWithSite>SmokeSpewer</linkWithSite>
+  </GenStepDef>
+-->
+</Defs>

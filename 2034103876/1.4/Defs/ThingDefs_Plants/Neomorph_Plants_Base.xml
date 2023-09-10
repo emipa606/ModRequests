@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef Name="AvP_Plant_Base" Abstract="True">
+    <category>Plant</category>
+    <thingClass>Plant</thingClass>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <useHitPoints>True</useHitPoints>
+    <statBases>
+      <Flammability>10</Flammability>
+    </statBases>
+    <tickerType>Long</tickerType>
+    <selectable>true</selectable>
+    <neverMultiSelect>True</neverMultiSelect>
+    <drawerType>MapMeshOnly</drawerType>
+    <pathCostIgnoreRepeat>false</pathCostIgnoreRepeat>
+    <graphicData>
+			<graphicClass>Graphic_Random</graphicClass>
+			<shaderType>CutoutPlant</shaderType>
+    </graphicData>
+    <ingestible>
+      <foodType>Plant</foodType>
+      <preferability>DesperateOnly</preferability>
+		</ingestible>
+    <plant>
+			<fertilityMin>0.7</fertilityMin>
+			<fertilitySensitivity>1.0</fertilitySensitivity>
+      <soundHarvesting>Harvest_Standard</soundHarvesting>
+      <soundHarvestFinish>Harvest_Standard_Finish</soundHarvestFinish>
+      <sowWork>170</sowWork>
+      <harvestWork>250</harvestWork>
+      <visualSizeRange>
+        <min>0.7</min>
+        <max>1.50</max>
+      </visualSizeRange>
+      <topWindExposure>0.1</topWindExposure>
+    </plant>
+  </ThingDef>
+  
+  
+	<ThingDef ParentName="AvP_Plant_Base">
+		<defName>AvP_Plant_Neomorph_Fungus</defName>
+		<thingClass>AvP.Plant_Neomorph</thingClass>
+		<label>strange fungus</label>
+		<description>small, black, spherical, egg-like fungus sacks formed on the ground. When disturbed, these egg sacks would release a cloud of microscopic insect-like spores into the air.</description>
+		<statBases>
+				<MaxHitPoints>85</MaxHitPoints>
+				<Flammability>10</Flammability>
+				<Nutrition>0.05</Nutrition>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Plants/Neomorph_Spores</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<hideAtSnowDepth>0.5</hideAtSnowDepth>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AvP_NeomorphImpregnation</hediffDef>
+          <severity>0.001</severity>
+		</li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+	
+    </comps>
+		<plant>
+			<fertilityMin>0.05</fertilityMin>
+			<fertilitySensitivity>0.3</fertilitySensitivity>
+			<growDays>0.5</growDays>
+			<harvestWork>40</harvestWork>
+			<maxMeshCount>9</maxMeshCount>
+      <dieIfLeafless>false</dieIfLeafless>
+      <neverBlightable>true</neverBlightable>
+			<visualSizeRange>
+				<min>0.3</min>
+				<max>0.6</max>
+			</visualSizeRange>
+			<topWindExposure>0.4</topWindExposure>
+			<wildOrder>1</wildOrder>
+		</plant>
+	</ThingDef>
+	
+	<ThingDef Name="AvP_BaseGas" Abstract="True">
+		<thingClass>Gas</thingClass>
+		<label>gas</label>
+		<category>Gas</category>
+		<altitudeLayer>Gas</altitudeLayer>
+		<useHitPoints>false</useHitPoints>
+		<tickerType>Normal</tickerType>
+		<graphicData>
+			<graphicClass>Graphic_Gas</graphicClass>
+			<shaderType>Transparent</shaderType>
+		</graphicData>
+	</ThingDef>
+
+	<ThingDef ParentName="AvP_BaseGas">
+		<defName>AvP_Gas_Smoke</defName>
+		<label>smoke</label>
+		<graphicData>
+			<texPath>Things/Gas/Puff</texPath>
+			<drawSize>2.2</drawSize>
+			<color>(1.0,1.0,1.0,0.5)</color>
+		</graphicData>
+		<gas>
+			<expireSeconds>19~21</expireSeconds>
+			<!--blockTurretTracking>true</blockTurretTracking>
+			<accuracyPenalty>0.7</accuracyPenalty-->
+			<rotationSpeed>10</rotationSpeed>
+		</gas>
+	</ThingDef>
+	
+    <ThingDef Class="AvP.Thing_AddsHediffDef" ParentName="AvP_BaseGas">
+    <defName>AvP_Neomorph_Spores</defName>
+    <label>spore gas</label>
+    <graphicData>
+      <texPath>Things/Gas/Puff</texPath>
+      <drawSize>1</drawSize>
+      <color>(0.1,0.1,0.1,0.3)</color>
+    </graphicData>
+    <size>(1,1)</size>
+	<thingClass>AvP.Thing_AddsHediff</thingClass>
+	<addHediff>AvP_NeomorphImpregnation</addHediff>
+	<hediffAddChance>0.750</hediffAddChance>
+    <hediffSeverity>0.01</hediffSeverity>
+	<onlyAffectLungs>true</onlyAffectLungs> 
+    <gas>
+      <expireSeconds>
+        <min>35</min>
+        <max>50</max>
+      </expireSeconds>
+      <!--blockTurretTracking>true</blockTurretTracking>
+      <accuracyPenalty>0.4</accuracyPenalty-->
+      <rotationSpeed>10</rotationSpeed>
+	  
+    </gas>
+  </ThingDef>
+  
+	<ThingDef ParentName="AvP_Plant_Base">
+		<defName>AvP_Plant_Neomorph_Fungus_Hidden</defName>
+		<thingClass>AvP.Plant_Neomorph</thingClass>
+		<label>strange fungus</label>
+		<description>small, black, spherical, egg-like fungus sacks formed on the ground. When disturbed, these egg sacks would release a cloud of microscopic insect-like spores into the air.</description>
+		<statBases>
+				<MaxHitPoints>85</MaxHitPoints>
+				<Flammability>10</Flammability>
+				<Nutrition>0.15</Nutrition>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Plants/Neomorph_Spores</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<hideAtSnowDepth>0.5</hideAtSnowDepth>
+    <ingestible>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AvP_HiddenNeomorphImpregnation</hediffDef>
+          <severity>0.001</severity>
+		</li>
+      </outcomeDoers>
+	</ingestible>
+    <comps>
+	
+    </comps>
+		<plant>
+			<fertilityMin>0.05</fertilityMin>
+			<fertilitySensitivity>0.3</fertilitySensitivity>
+			<growDays>0.5</growDays>
+			<harvestWork>40</harvestWork>
+			<maxMeshCount>9</maxMeshCount>
+      <dieIfLeafless>false</dieIfLeafless>
+      <neverBlightable>true</neverBlightable>
+			<visualSizeRange>
+				<min>0.7</min>
+				<max>1.0</max>
+			</visualSizeRange>
+			<topWindExposure>0.4</topWindExposure>
+			<wildOrder>1</wildOrder>
+		</plant>
+	</ThingDef>
+	
+    <ThingDef Class="AvP.Thing_AddsHediffDef" ParentName="AvP_BaseGas">
+    <defName>AvP_Neomorph_Spores_Hidden</defName>
+    <label>strange gas</label>
+    <graphicData>
+      <texPath>Things/Gas/Puff</texPath>
+      <drawSize>2.5</drawSize>
+      <color>(0.1,0.1,0.1,0.2)</color>
+    </graphicData>
+	<thingClass>AvP.Thing_AddsHediff</thingClass>
+	<addHediff>AvP_HiddenNeomorphImpregnation</addHediff>
+	<hediffAddChance>0.750</hediffAddChance>
+    <hediffSeverity>0.01</hediffSeverity>
+	<onlyAffectLungs>true</onlyAffectLungs> 
+    <gas>
+      <expireSeconds>
+        <min>35</min>
+        <max>50</max>
+      </expireSeconds>
+      <!--blockTurretTracking>true</blockTurretTracking>
+      <accuracyPenalty>0.4</accuracyPenalty-->
+      <rotationSpeed>10</rotationSpeed>
+	  
+    </gas>
+  </ThingDef>
+  
+</Defs>

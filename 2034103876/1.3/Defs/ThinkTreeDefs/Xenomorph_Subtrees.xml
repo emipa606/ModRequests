@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <!--============= Satisfy Basic Needs ===========-->
+  <ThinkTreeDef>
+    <defName>AvP_Xenomorph_SatisfyNeeds</defName>
+    <thinkRoot Class="ThinkNode_ConditionalFullyGrown">
+      <subNodes>
+				
+				<!-- Face Hugger Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>AvP_Xenomorph_Queen</pawnKind>
+				  <subNodes>
+				  
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Idle</tagToGive>
+					  <subNodes>
+					  
+						<!-- Hunt 
+						<li Class="JobGiver_Xenomorph_FacehuggerHunt" />
+						-->
+						
+						<!-- Exit 
+						<li Class="JobGiver_ExitMapRandom">
+						  <defaultLocomotion>Sprint</defaultLocomotion>
+						</li>
+						-->
+						
+						<!-- Wander -->
+						<li Class="JobGiver_WanderAnywhere">
+						  <maxDanger>Deadly</maxDanger>
+						  <ticksBetweenWandersRange>
+							<min>120</min>
+							<max>240</max>
+						  </ticksBetweenWandersRange>
+						</li>
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Drone Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>AvP_Xenomorph_Drone</pawnKind>
+				  <subNodes>
+				  
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Idle</tagToGive>
+					  <subNodes>
+					  
+						<!-- Idle -->
+						<li Class="ThinkNode_ConditionalAnyDownedInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_Xenomorph_Kidnap" />
+						  </subNodes>
+						</li>
+						
+						<li Class="JobGiver_Xenomorph_AIFightEnemies" />
+						
+						<!-- Wander -->
+						<li Class="JobGiver_WanderAnywhere">
+						  <maxDanger>Deadly</maxDanger>
+						  <ticksBetweenWandersRange>
+							<min>120</min>
+							<max>240</max>
+						  </ticksBetweenWandersRange>
+						</li>
+						
+					  </subNodes>
+					</li>
+					
+				  </subNodes>
+				</li>
+				
+			<!-- Idle -->
+			<li Class="ThinkNode_ConditionalNotPawnKind">
+			  <pawnKind>AvP_Xenomorph_FaceHugger</pawnKind>
+			  <subNodes>
+			  
+                <li Class="JobGiver_Xenomorph_Manhunter" />
+				
+                <li Class="JobGiver_WanderAnywhere">
+                  <maxDanger>Deadly</maxDanger>
+                </li>
+				
+			  </subNodes>
+			</li>
+			
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef> 
+  
+  <!--============= Construct Hive ===========-->
+  <ThinkTreeDef>
+    <defName>AvP_Xenomorph_ConstructHive</defName>
+    <thinkRoot Class="ThinkNode_ConditionalXenomorphCannotReachHive">
+	<invert>true</invert>
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Misc</tagToGive>
+          <subNodes>
+			<li Class="JobGiver_Xenomorph_MineOutHive"> 
+			</li>
+			<li Class="JobGiver_Xenomorph_ClearHive_EggZone" />
+			<!-- Drone -->
+			<li Class="ThinkNode_ConditionalPawnKind">
+			  <pawnKind>AvP_Xenomorph_Drone</pawnKind>
+			  <subNodes>
+				<li Class="JobGiver_Xenomorph_ConstructHive"> 
+				</li>
+			  </subNodes>
+			</li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>  
+  
+  <!--============= Dig out if I can't reach map edge ===========-->
+  <ThinkTreeDef>
+    <defName>AvP_DigInIfCannotReachHive</defName>
+    <thinkRoot Class="ThinkNode_ConditionalXenomorphCannotReachHive">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Misc</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_Xenomorph_ForceGoToHive">
+              <defaultLocomotion>Walk</defaultLocomotion>
+              <forceCanDig>true</forceCanDig>
+              <canBash>true</canBash>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+  <!--============= Dig out if I can't reach map edge ===========-->
+  <ThinkTreeDef>
+    <defName>AvP_DigOutIfCannotReachMapEdge</defName>
+    <thinkRoot Class="ThinkNode_ConditionalCannotReachMapEdge">
+      <subNodes>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Misc</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_Xenomorph_ReachOutside">
+              <defaultLocomotion>Walk</defaultLocomotion>
+              <forceCanDig>true</forceCanDig>
+              <canBash>true</canBash>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+</Defs>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+	<AbilityUserAI.AbilityAIDef Name="BaseXenomorphAbilityAI" Abstract="True">
+		<maxRange>60.0</maxRange>
+		<tags>
+			<li>RRY_Xenomorph</li>
+		</tags>
+	</AbilityUserAI.AbilityAIDef>
+	
+
+	<!-- Xenomorph_Drone -->
+	<AbilityUserAI.AbilityUserAIProfileDef Name="RRY_Xenomorph_Drone_AbilityUserAI" Abstract="True">
+		<compAbilityUserClass>RRYautja.RRY_Xenomorph_AbilityUser</compAbilityUserClass>
+		<!-- Decision tree which helps pick ability to use. -->
+		<decisionTree>
+			<subNodes>
+				<!-- In combat -->
+				<li Class="AbilityUserAI.AbilityDecisionConditionalNode_InCombat">
+					<subNodes>
+						<li Class="AbilityUserAI.AbilityDecisionConditionalNode_UsingMeleeWeapon">
+							<subNodes>
+								<li Class="AbilityUserAI.AbilityDecisionConditionalNode_EnemyTargetDistance">
+									<maxDistance>18.0</maxDistance>
+									<minDistance>5.0</minDistance>
+									<subNodes>
+										<li Class="AbilityUserAI.AbilityDecisionNode_PickAbilityWithMatchingTags">
+											<tags>
+												<li>Offensive</li>
+											</tags>
+										</li>
+									</subNodes>
+								</li>
+								<!--
+								<li Class="AbilityUserAI.AbilityDecisionConditionalNode_EnemyTargetDistance">
+									<maxDistance>10.0</maxDistance>
+									<minDistance>3.0</minDistance>
+									<subNodes>
+										<li Class="AbilityUserAI.AbilityDecisionNode_PickAbilityWithMatchingTags">
+											<tags>
+												<li>Offensive</li>
+											</tags>
+										</li>
+									</subNodes>
+								</li>
+								<li Class="AbilityUserAI.AbilityDecisionConditionalNode_EnemyTargetDistance">
+									<maxDistance>3</maxDistance>
+									<subNodes>
+										<li Class="AbilityUserAI.AbilityDecisionNode_PickAbilityWithMatchingTags">
+											<tags>
+												<li>Melee</li>
+											</tags>
+										</li>
+									</subNodes>
+								</li>
+								-->
+							</subNodes>
+						</li>
+					</subNodes>
+				</li>
+				<!--
+				<li Class="AbilityUserAI.AbilityDecisionConditionalNode_InCombat">
+					<invert>true</invert>
+					<subNodes>
+						<li Class="AbilityUserAI.AbilityDecisionConditionalNode_CasterHealth">
+							<maxHealth>1</maxHealth>
+							<subNodes>
+								<li Class="AbilityUserAI.AbilityDecisionNode_PickAbilityWithMatchingTags">
+									<tags>
+										<li>Buff</li>
+									</tags>
+								</li>
+							</subNodes>
+						</li>
+					</subNodes>
+				</li>
+				-->
+			</subNodes>
+		</decisionTree>
+	</AbilityUserAI.AbilityUserAIProfileDef>
+
+	<!-- Xenomorph_Drone -->
+	<AbilityUserAI.AbilityUserAIProfileDef ParentName="RRY_Xenomorph_Drone_AbilityUserAI">
+		<defName>RRY_Xenomorph_DroneAUAI</defName>
+		<abilities>
+			<li>RRY_AbilityAI_SpitAcid</li>
+		</abilities>
+	</AbilityUserAI.AbilityUserAIProfileDef>
+	
+	<!-- Xenomorph_Drone Abilities 
+	<AbilityUserAI.AbilityAIDef ParentName="BaseXenomorphAbilityAI">
+		<defName>RRY_AbilityAI_SpitAcid</defName>
+		<ability>RRY_Ability_SpitAcid</ability>
+		<minRange>5.0</minRange>
+		<maxRange>18.0</maxRange>
+		<power>5</power>
+		<needSeeingTarget>true</needSeeingTarget>
+		<tags>
+			<li>Offensive</li>
+		</tags>
+	</AbilityUserAI.AbilityAIDef>
+	-->
+</Defs>
