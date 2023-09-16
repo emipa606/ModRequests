@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>MendAndRecycle</li>
+        </mods>
+
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+
+            <operations>
+                <!-- Change research project prereq from electricity to compclothing and smithing -->
+                <li Class="PatchOperationReplace">
+                    <xpath>Defs/ResearchProjectDef[defName="Mending"]/prerequisites</xpath>
+                    <value>
+                        <prerequisites>
+                            <li>ComplexClothing</li>
+                            <li>Smithing</li>
+                        </prerequisites>
+                    </value>
+                </li>
+                <li Class="PatchOperationReplace">
+                    <xpath>Defs/ResearchProjectDef[defName="Mending"]/techLevel</xpath>
+                    <value>
+                        <techLevel>Medieval</techLevel>
+                    </value>
+                </li>
+
+                <!-- Eliminate electricity need  and 'flickable' from mending bench -->
+                <li Class="PatchOperationRemove">
+                    <xpath>Defs/ThingDef[defName="TableMending"]/comps/li[3]</xpath>
+                </li>
+                <li Class="PatchOperationRemove">
+                    <xpath>Defs/ThingDef[defName="TableMending"]/comps/li[1]</xpath>
+                </li>
+
+                <!-- Add mending prereq before being able to craft mending kit -->
+                <li Class="PatchOperationInsert">
+                    <xpath>Defs/ThingDef[defName="MendingKit"]/thingCategories</xpath>
+                    <value>
+                        <researchPrerequisites>
+                            <li>Mending</li>
+                        </researchPrerequisites>
+                    </value>
+                </li>
+
+                <!-- Change complex mends to require machining -->
+                <li Class="PatchOperationInsert">
+                    <xpath>Defs/RecipeDef[defName="MendComplexApparel"]/label</xpath>
+                    <value>
+                        <researchPrerequisite>Machining</researchPrerequisite>
+                    </value>
+                </li>
+                <li Class="PatchOperationInsert">
+                    <xpath>Defs/RecipeDef[defName="MendComplexWeapon"]/label</xpath>
+                    <value>
+                        <researchPrerequisite>Machining</researchPrerequisite>
+                    </value>
+                </li>
+
+                <!--Change complex mend workAmount -->
+                <li Class="PatchOperationReplace">
+                    <xpath>Defs/RecipeDef[defName="MendComplexApparel"]/workAmount</xpath>
+                    <value>
+                        <workAmount>720</workAmount>
+                    </value>
+                </li>
+                <li Class="PatchOperationReplace">
+                    <xpath>Defs/RecipeDef[defName="MendComplexWeapon"]/workAmount</xpath>
+                    <value>
+                        <workAmount>720</workAmount>
+                    </value>
+                </li>
+
+                <!-- Make mend jobs take longer, due to no electricity -->
+                <li Class="PatchOperationReplace">
+                    <xpath>Defs/RecipeDef[defName="MendSimpleApparel"]/workAmount</xpath>
+                    <value>
+                        <workAmount>480</workAmount>
+                    </value>
+                </li>
+                <li Class="PatchOperationReplace">
+                    <xpath>Defs/RecipeDef[defName="MendSimpleWeapon"]/workAmount</xpath>
+                    <value>
+                        <workAmount>480</workAmount>
+                    </value>
+                </li>
+
+
+            </operations>
+        </match>
+    </Operation>
+
+</Patch>
