@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+		
+			<!-- Salt RecipeDef, HediffDef -->
+			<!-- Remove all single recipes, showHoursToRecover = true, severityPerDay -1 -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYSmellingSalts" or defName="MakeAYStomachSalts"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYSmellingSaltsHigh" or defName="AYStomachSaltsHigh"]/comps/li[@Class="HediffCompProperties_SeverityPerDay"]</xpath>
+				<value>
+					<li Class="HediffCompProperties_SeverityPerDay">
+						<severityPerDay>-1.0</severityPerDay>
+						<showHoursToRecover>true</showHoursToRecover>
+					</li>
+				</value>
+			</li>
+			<!--Smelling Salts - Consciousness 0.25 to 0.10 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYSmellingSaltsHigh"]/stages/li/capMods/li[2]/offset</xpath>
+				<value><offset>+0.10</offset></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="AYSmellingSalts"]/ingestible/outcomeDoers/li[@Class="IngestionOutcomeDoer_GiveHediff"]/severity</xpath>
+				<value><severity>0.33</severity></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYSmellingSaltsHigh"]/maxSeverity</xpath>
+				<value><maxSeverity>0.33</maxSeverity></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYSmellingSaltsHigh"]/initialSeverity</xpath>
+				<value><initialSeverity>0.33</initialSeverity></value>
+			</li>
+			
+			<!--Stomach Salts - Eating 1.25 to 1.10 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYStomachSaltsHigh"]/stages/li/capMods/li[2]/postFactor</xpath>
+				<value><postFactor>1.10</postFactor></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

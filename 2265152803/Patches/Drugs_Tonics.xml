@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!-- Tonic RecipeDef, HediffDef -->
+			<!-- Remove all single recipes, showHoursToRecover = true, severityPerDay -1 -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYFluTonic" or defName="MakeAYWillowTonic" or defName="MakeAYWormwoodTonic"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYFluTonicHigh" or defName="AYWillowTonicHigh" or defName="AYWormwoodTonicHigh"]/comps/li[@Class="HediffCompProperties_SeverityPerDay"]</xpath>
+				<value>
+					<li Class="HediffCompProperties_SeverityPerDay">
+						<severityPerDay>-1.0</severityPerDay>
+						<showHoursToRecover>true</showHoursToRecover>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Work normalized to 1500 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYFluTonic" or defName="MakeBulkAYWillowTonic" or defName="MakeBulkAYWormwoodTonic"]/workAmount</xpath>
+				<value><workAmount>1500</workAmount></value>
+			</li>
+			
+			<!--Flu Tonic - Remove garlic powder since we're turning it into a food, BloodFiltration 0.0 to 0.10 -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYFluTonic"]/ingredients/li[1]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYKaleLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>12</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYFluTonic"]/ingredients/li[2]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYGingerRoot</li>
+						  </thingDefs>
+						</filter>
+						<count>8</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYFluTonic"]/ingredients/li[3]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYNettleLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>10</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYFluTonic"]/ingredients/li[4]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYStarAniseFlowers</li>
+						  </thingDefs>
+						</filter>
+						<count>50</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYFluTonic"]/fixedIngredientFilter</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/HediffDef[defName="AYFluTonicHigh"]/stages/li</xpath>
+				<value>
+					<capMods>
+						<li>
+							<capacity>BloodFiltration</capacity>
+							<offset>+0.10</offset>
+						</li>
+					</capMods>
+				</value>
+			</li>
+
+			<!--Willow Tonic - BloodPumping 0.03/0.07 to 0.05/0.1, BloodFiltration 0.01/0.03 to 0.03/0.05 -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYWillowTonic"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYWhiteWillowBark</li>
+						  </thingDefs>
+						</filter>
+						<count>60</count>
+					  </li>
+				</value>
+			</li>	
+ 			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYWillowTonicHigh"]/stages/li[1]/capMods/li[1]/offset</xpath>
+				<value><offset>+0.05</offset></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYWillowTonicHigh"]/stages/li[1]/capMods/li[2]/offset</xpath>
+				<value><offset>+0.03</offset></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYWillowTonicHigh"]/stages/li[2]/capMods/li[1]/offset</xpath>
+				<value><offset>+0.10</offset></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYWillowTonicHigh"]/stages/li[2]/capMods/li[2]/offset</xpath>
+				<value><offset>+0.05</offset></value>
+			</li>
+
+			<!--Wormwood Tonic - BloodFiltration 0.02/0.04 to 0.04/0.06, Metabolism 0.0/0.0 to 0.04/0.06 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYWormwoodTonic"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYWormwoodLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>90</count>
+					  </li>
+				</value>
+			</li>	
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYWormwoodTonicHigh"]/stages/li[1]/capMods/li/offset</xpath>
+				<value><offset>+0.04</offset></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYWormwoodTonicHigh"]/stages/li[2]/capMods/li/offset</xpath>
+				<value><offset>+0.06</offset></value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/HediffDef[defName="AYWormwoodTonicHigh"]/stages/li[1]/capMods</xpath>
+				<value>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>+0.04</offset>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/HediffDef[defName="AYWormwoodTonicHigh"]/stages/li[2]/capMods</xpath>
+				<value>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>+0.06</offset>
+					</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

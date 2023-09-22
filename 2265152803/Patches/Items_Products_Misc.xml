@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+<!--Rebalance Misc RecipeDef-->
+	<Operation Class="PatchOperationSequence"> <!-- Absinthe - Real absinthe recipe uses 30g wormwood and 200g star anise (plus other ingredients, but not adding those), so we're going to change the recipe to 4 Wormword and 16 Anise. bump up the stackLimit to 50 -->
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYAbsinthe_High"]/comps/li[@Class="HediffCompProperties_SeverityPerDay"]</xpath>
+				<value>
+					<li Class="HediffCompProperties_SeverityPerDay">
+						<severityPerDay>-1.0</severityPerDay>
+						<showHoursToRecover>true</showHoursToRecover>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYAbsinthe_High"]/defaultLabelColor</xpath>
+				<value><defaultLabelColor>(0.23, 0.64, 0.52)</defaultLabelColor></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="AYAbsinthe"]/statBases/FoodPoisonChanceFixedHuman</xpath>
+				<value><FoodPoisonChanceFixedHuman>0.02</FoodPoisonChanceFixedHuman></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="AYAbsintheMash"]/stackLimit</xpath>
+				<value><stackLimit>50</stackLimit></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="Make_AYAbsintheMash"]/ingredients/li[1]/count</xpath>
+				<value><count>5</count></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="Make_AYAbsintheMash"]/ingredients/li[2]/count</xpath>
+				<value><count>15</count></value>
+			</li>
+			<li Class="PatchOperationRemove"> <!-- Ammonia Water, remove the Neutroamine recipes because OP. Drop treat hay workAmount -->
+				<xpath>Defs/RecipeDef[defName="MakeNeutroFromAmmonia"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeBulkNeutroFromAmmonia"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYAmmoniaHay"]/workAmount</xpath>
+				<value>
+					<workAmount>250</workAmount>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Calcium Carbonate - Remove egg recipe, require lime plaster blocks to make the floors to be consistent, change the recipe to crafting where it belongs -->
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonateFromEggs"]/recipeUsers</xpath>
+				<value> <recipeUsers><li>AYApothecaryTable</li></recipeUsers></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- MakeAYCalciumCarbonate -->
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonate"]/workSkill</xpath>
+				<value>
+					<workSkill>Crafting</workSkill>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonate"]/skillRequirements</xpath>
+				<value>
+					<skillRequirements><Crafting>5</Crafting></skillRequirements>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonate"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>GeneralLaborSpeed</workSpeedStat>		
+				</value>
+			</li>
+			
+			<li Class="PatchOperationReplace"> <!-- MakeAYCalciumCarbonateBlocks -->
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonateBlocks"]/workSkill</xpath>
+				<value>
+					<workSkill>Crafting</workSkill>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonateBlocks"]/skillRequirements</xpath>
+				<value>
+					<skillRequirements><Crafting>5</Crafting></skillRequirements>	
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYCalciumCarbonateBlocks"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>GeneralLaborSpeed</workSpeedStat>		
+				</value>
+			</li>
+			
+			<li Class="PatchOperationReplace"> <!-- TileAYPlaster & TileAYPlasterSalt -->
+				<xpath>Defs/TerrainDef[defName="TileAYPlaster"]/costList</xpath>
+				<value>
+						<costList><BlocksAYLimePlaster>5</BlocksAYLimePlaster></costList>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/TerrainDef[defName="TileAYPlasterSalt"]/costList</xpath>
+				<value>
+					<costList>
+						<AYSalt>20</AYSalt>
+						<BlocksAYLimePlaster>5</BlocksAYLimePlaster>
+					</costList>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationReplace"> <!-- Make_StoneBlocksAYLimePlaster -->
+				<xpath>Defs/RecipeDef[defName="Make_StoneBlocksAYLimePlaster"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYCalciumCarbonate</li>
+						  </thingDefs>
+						</filter>
+						<count>50</count>
+					  </li>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYTallow</li>
+						  </thingDefs>
+						</filter>
+						<count>10</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="Make_StoneBlocksAYLimePlaster"]/products</xpath>
+				<value>
+					<products><BlocksAYLimePlaster>25</BlocksAYLimePlaster></products>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!--AYCharcoal - Drop work to 500 from 1250 since we need to do this recipe often, add wood ash x5 -->
+				<xpath>Defs/RecipeDef[defName="MakeAYCharcoalFromBenches"]/workAmount</xpath>
+					<value><workAmount>500</workAmount></value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/RecipeDef[defName="MakeAYCharcoalFromBenches"]/products</xpath>
+					<value><AYWoodAshes>5</AYWoodAshes></value>
+			</li>
+			<li Class="PatchOperationRemove"> <!--AYCompost - Remove single recipe, remove nettle and kale leaves from bulk recipe -->
+				<xpath>Defs/RecipeDef[defName="MakeAYCompost"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYCompost"]/ingredients/li[2]/filter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>Hay</li>
+						<li>AYAmmoniaHay</li>
+						<li>AYWoodAshes</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYCompost"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>Hay</li>
+						<li>AYAmmoniaHay</li>
+						<li>AYWoodAshes</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Limewater -->
+				<xpath>Defs/RecipeDef[defName="MakeAYLimewaterFromCaCO3AY"]/ingredients//li[1]/filter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>AYCalciumCarbonate</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYLimewaterFromCaCO3AY"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>AYCalciumCarbonate</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYLimewaterFromCaCO3"]/ingredients//li[1]/filter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>AYCalciumCarbonate</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYLimewaterFromCaCO3"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>AYCalciumCarbonate</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- AYPreserveMix - Oh my god why are all these drug recipes on the stonecutter JFC, fixing to Crafting. -->
+				<xpath>Defs/RecipeDef[defName="MakeAYPreserveMix"]/workSkill</xpath>
+				<value>
+					<workSkill>Crafting</workSkill>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYPreserveMix"]/skillRequirements</xpath>
+				<value>
+					<skillRequirements><Crafting>1</Crafting></skillRequirements>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYPreserveMix"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>GeneralLaborSpeed</workSpeedStat>		
+				</value>
+			</li>
+			<!-- AYSalAmmoniac - These recipes are horribly imbalanced - just for reference, the default recipe is 25 wood->25 charcoal, gotta do that 8 times for 200 charcoal, then turned to into 100 Sal Ammoniac, which can turn into 100 Ammonia Water, then you need just 5 Ammonia Water and another 25 Charcoal to make 25 Ammonia Charcoal, only really used by the Passive Cooler (Ammonia)!!
+			So let's change it. Drop Sal Ammoniac recipe to 100 charcoal, plummet the work cost to 75%. And then why TF do we make 100 Sal Ammoniac just to use it 5 at a time? Cut the base recipe, and drop workAmount on the bulk to 75%. -->
+			<li Class="PatchOperationRemove"> 
+				<xpath>Defs/RecipeDef[defName="MakeSalAmmoniacFromCharcoal"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeBulkSalAmmoniacFromCharcoal"]/ingredients/li/count</xpath>
+				<value>
+					<count>100</count>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeBulkSalAmmoniacFromCharcoal"]/workAmount</xpath>
+				<value>
+					<workAmount>1750</workAmount>		
+				</value>
+			</li>
+			<li Class="PatchOperationRemove"> 
+				<xpath>Defs/RecipeDef[defName="MakeAmmoniaWaterFromSalAmmoniac"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeBulkAmmoniaWaterFromSalAmmoniac"]/workAmount</xpath>
+				<value>
+					<workAmount>1125</workAmount>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">  <!-- AYSalt - I'll be overriding anything touching salt with VCE salt in a separate patch, but let's assume people don't use it at first. Seriously THIS IS A CRAFTING RECIPE -->
+				<xpath>Defs/RecipeDef[defName="MakeAYSalt"]/workSkill</xpath>
+				<value>
+					<workSkill>Crafting</workSkill>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYSalt"]/skillRequirements</xpath>
+				<value>
+					<skillRequirements><Crafting>2</Crafting></skillRequirements>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYSalt"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>GeneralLaborSpeed</workSpeedStat>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYSaltBlocks"]/workSkill</xpath>
+				<value>
+					<workSkill>Crafting</workSkill>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYSaltBlocks"]/skillRequirements</xpath>
+				<value>
+					<skillRequirements><Crafting>3</Crafting></skillRequirements>		
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYSaltBlocks"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>GeneralLaborSpeed</workSpeedStat>		
+				</value>
+			</li>
+ 			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYSaltedMeatBarrel"]/fixedIngredientFilter/thingDefs</xpath>
+			</li>
+			<li Class="PatchOperationRemove"> <!-- AYTallow - I don't feel this should be in MeatRaw. I know why it's there, but it feels out of place. -->
+				<xpath>Defs/ThingDef[defName="AYTallow"]/thingCategories/li[text()="MeatRaw"]</xpath>
+			</li>
+			<li Class="PatchOperationRemove"> 
+				<xpath>Defs/RecipeDef[defName="MakeAYTallow"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- MakeAYPlasterPlanter -->
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterPlanter"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>BlocksAYLimePlaster</li>
+						  </thingDefs>
+						</filter>
+						<count>50</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterPlanter"]/fixedIngredientFilter</xpath>
+				<value><fixedIngredientFilter><thingDefs>BlocksAYLimePlaster</thingDefs></fixedIngredientFilter></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- MakeAYPlasterBirdBath -->
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterBirdBath"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>BlocksAYLimePlaster</li>
+						  </thingDefs>
+						</filter>
+						<count>100</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterBirdBath"]/fixedIngredientFilter</xpath>
+				<value><fixedIngredientFilter><thingDefs>BlocksAYLimePlaster</thingDefs></fixedIngredientFilter></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- MakeAYPlasterBat -->
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterBat"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>BlocksAYLimePlaster</li>
+						  </thingDefs>
+						</filter>
+						<count>50</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterBat"]/fixedIngredientFilter</xpath>
+				<value><fixedIngredientFilter><thingDefs>BlocksAYLimePlaster</thingDefs></fixedIngredientFilter></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- MakeAYPlasterLargeEdgy -->
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterLargeEdgy"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>BlocksAYLimePlaster</li>
+						  </thingDefs>
+						</filter>
+						<count>100</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterLargeEdgy"]/fixedIngredientFilter</xpath>
+				<value><fixedIngredientFilter><thingDefs>BlocksAYLimePlaster</thingDefs></fixedIngredientFilter></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- MakeAYPlasterLargeOwly -->
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterLargeOwly"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>BlocksAYLimePlaster</li>
+						  </thingDefs>
+						</filter>
+						<count>100</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYPlasterLargeOwly"]/fixedIngredientFilter</xpath>
+				<value><fixedIngredientFilter><thingDefs>BlocksAYLimePlaster</thingDefs></fixedIngredientFilter></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

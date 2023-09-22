@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!-- Tea RecipeDef, HediffDef-->
+			<!-- Remove all single recipes, showHoursToRecover = true, severityPerDay -1, change workSpeedStat to DrugCooking, workSkill to Cooking -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYGingerTea" or defName="MakeAYGinsengTea" or defName="MakeAYHenbaneTea" or defName="MakeAYKaleTea" or defName="MakeAYNettleTea" or defName="MakeAYQuinineTea" or defName="MakeAYTurmericTea"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYGingerTeaHigh" or defName="AYGinsengTeaHigh" or defName="AYHenbaneTeaHigh" or defName="AYKaleTeaHigh" or defName="AYNettleTeaHigh" or defName="AYQuinineTeaHigh" or defName="AYTurmericTeaHigh"]/comps/li[@Class="HediffCompProperties_SeverityPerDay"]</xpath>
+				<value>
+					<li Class="HediffCompProperties_SeverityPerDay">
+						<severityPerDay>-1.0</severityPerDay>
+						<showHoursToRecover>true</showHoursToRecover>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYGingerTea" or defName="MakeBulkAYGinsengTea" or defName="MakeBulkAYHenbaneTea" or defName="MakeBulkAYKaleTea" or defName="MakeBulkAYNettleTea" or defName="MakeBulkAYQuinineTea" or defName="MakeBulkAYTurmericTea"]/workSpeedStat</xpath>
+				<value><workSpeedStat>DrugCookingSpeed</workSpeedStat></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYGingerTea" or defName="MakeBulkAYGinsengTea" or defName="MakeBulkAYHenbaneTea" or defName="MakeBulkAYKaleTea" or defName="MakeBulkAYNettleTea" or defName="MakeBulkAYQuinineTea" or defName="MakeBulkAYTurmericTea"]/workSkill</xpath>
+				<value><workSkill>Cooking</workSkill></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYGingerTea" or defName="MakeBulkAYGinsengTea" or defName="MakeBulkAYHenbaneTea" or defName="MakeBulkAYKaleTea" or defName="MakeBulkAYNettleTea" or defName="MakeBulkAYQuinineTea" or defName="MakeBulkAYTurmericTea"]/skillRequirements</xpath>
+				<value><skillRequirements><Cooking>4</Cooking></skillRequirements></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Work normalized to 3000 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYGingerTea" or defName="MakeBulkAYGinsengTea" or defName="MakeBulkAYHenbaneTea" or defName="MakeBulkAYTurmericTea"]/workAmount</xpath>
+				<value><workAmount>3000</workAmount></value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Work normalized to 2000 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYKaleTea" or defName="MakeBulkAYNettleTea" or defName="MakeBulkAYQuinineTea"]/workAmount</xpath>
+				<value><workAmount>2000</workAmount></value>
+			</li>
+			<!--
+			4400
+			4575
+			4000
+			3000
+			3125
+			3000
+			4150
+			-->
+			<!--Ginger Tea - Metabolism 0.05 to 0.06, painFactor 0.95 to 1.0 -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYGingerTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYGingerRoot</li>
+						  </thingDefs>
+						</filter>
+						<count>20</count>
+					  </li>
+				</value>
+			</li>	
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYGingerTeaHigh"]/stages/li/capMods/li[1]/offset</xpath>
+				<value><offset>+0.06</offset></value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/HediffDef[defName="AYGingerTeaHigh"]/stages/li/painFactor</xpath>
+			</li>
+
+			<!--Ginseng Tea - baseMoodEffect 3 to 4 -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYGinsengTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYGinsengRoot</li>
+						  </thingDefs>
+						</filter>
+						<count>25</count>
+					  </li>
+				</value>
+			</li>	
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThoughtDef[defName="AYGinsengTea_Thought"]/stages/li/baseMoodEffect</xpath>
+				<value><baseMoodEffect>4</baseMoodEffect></value>
+			</li>
+
+			<!--Henbane Tea - painFactor 0.55/0.50 to 0.65/0.55, socialFightChanceFactor 1.25/1.5 to 1.15/1.4 -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYHenbaneTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYHenbaneLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>25</count>
+					  </li>
+				</value>
+			</li>	
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYHenbaneTeaHigh"]/stages/li[1]/painFactor</xpath>
+				<value><painFactor>0.65</painFactor></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYHenbaneTeaHigh"]/stages/li[2]/painFactor</xpath>
+				<value><painFactor>0.55</painFactor></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYHenbaneTeaHigh"]/stages/li[1]/socialFightChanceFactor</xpath>
+				<value><socialFightChanceFactor>1.15</socialFightChanceFactor></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYHenbaneTeaHigh"]/stages/li[2]/socialFightChanceFactor</xpath>
+				<value><socialFightChanceFactor>1.4</socialFightChanceFactor></value>
+			</li>
+			
+			<!--Kale Tea - ToxicSensitivity 0.02 to 0.05 , Blood Filtration 0.03 to 0.0 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYKaleTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYKaleLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>15</count>
+					  </li>
+				</value>
+			</li>	
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYKaleTeaHigh"]/stages/li/statOffsets/ToxicSensitivity</xpath>
+				<value><ToxicSensitivity>-0.05</ToxicSensitivity></value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/HediffDef[defName="AYKaleTeaHigh"]/stages/li/capMods</xpath>
+			</li>
+
+			<!--Nettle Tea - Breathing 0.03 to 0.05, Blood Filtration 0.02 to 0.0 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYNettleTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYNettleLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>25</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYNettleTeaHigh"]/stages/li/capMods/li[2]/offset</xpath>
+				<value><offset>+0.05</offset></value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/HediffDef[defName="AYNettleTeaHigh"]/stages/li/capMods/li[1]</xpath>
+			</li>
+
+			<!--Quinine Tea - Blood Filtration 0.20 to 0.10 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYQuinineTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYCinchonaBark</li>
+						  </thingDefs>
+						</filter>
+						<count>20</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYQuinineTeaHigh"]/stages/li/capMods/li/offset</xpath>
+				<value><offset>+0.10</offset></value>
+			</li>
+
+			<!--Turmeric Tea - painFactor 0.77 to 0.85 -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYTurmericTea"]/ingredients/li</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYTurmericRoot</li>
+						  </thingDefs>
+						</filter>
+						<count>25</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYTurmericTeaHigh"]/stages/li/painFactor</xpath>
+				<value><painFactor>0.85</painFactor></value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationFindMod"> <!-- Add tea to Stone_Campfire if Vanilla Furniture Expanded is loaded -->
+		<mods><li>Vanilla Furniture Expanded</li></mods>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/RecipeDef[defName="MakeBulkAYGingerTea" or defName="MakeBulkAYGinsengTea" or defName="MakeBulkAYHenbaneTea" or defName="MakeBulkAYKaleTea" or defName="MakeBulkAYNettleTea" or defName="MakeBulkAYQuinineTea" or defName="MakeBulkAYTurmericTea"]/recipeUsers</xpath>
+			<value><li>Stone_Campfire</li></value>
+		</match>
+	</Operation>
+</Patch>

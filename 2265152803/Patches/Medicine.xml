@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+<!--Reminder notes-->
+<!--I DO want to come back and look at this balance-->
+<!--Rebalance Medicine Defs - -->
+	<Operation Class="PatchOperationSequence"> <!--AYYarrowBandage-->
+		<operations>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYYarrowBandage"]/fixedIngredientFilter/thingDefs/li[text()="AYYarrowOil"]</xpath>
+			</li>
+			<li Class="PatchOperationFindMod"> <!--Use bandages if MedicalSupplements is loaded-->
+				<mods><li>Medical Supplements (Continued)</li></mods>
+				<match Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="MakeAYYarrowBandage"]/ingredients</xpath>
+					<value>
+						<ingredients>
+						  <li>
+							<filter>
+							  <thingDefs>
+								<li>MSBandage</li>
+							  </thingDefs>
+							</filter>
+							<count>5</count>
+						  </li>
+						  <li>
+							<filter>
+							  <thingDefs>
+								<li>AYYarrowMaterial</li>
+							  </thingDefs>
+							</filter>
+							<count>25</count>
+						  </li>
+						</ingredients>
+					</value>
+				</match>
+				<nomatch Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="MakeAYYarrowBandage"]/ingredients/li[2]</xpath>
+					<value>
+						  <li>
+							<filter>
+							  <thingDefs>
+								<li>AYYarrowMaterial</li>
+							  </thingDefs>
+							</filter>
+							<count>25</count>
+						  </li>
+					</value>
+				</nomatch>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationSequence"> 
+		<operations> <!-- AYTreatedMedHerb -->
+			<li Class="PatchOperationReplace"> <!-- Balance treated herbal meds down to 2 of each oil -->
+				<xpath>Defs/RecipeDef[defName="MakeAYTreatedMedHerb"]/ingredients/li[2]</xpath>
+				<value>
+					<li>
+						<filter>
+							<thingDefs>
+								<li>AYAloeLeaves</li>
+							</thingDefs>
+						</filter>
+						<count>10</count>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Balance treated herbal meds down to 2 of each oil -->
+				<xpath>Defs/RecipeDef[defName="MakeAYTreatedMedHerb"]/ingredients/li[3]</xpath>
+				<value>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>AYYarrowMaterial</li>
+						</thingDefs>
+					</filter>
+					<count>10</count>
+				</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeAYTreatedMedHerb"]/researchPrerequisite</xpath>
+				<value><researchPrerequisite>AYHerbsComplex</researchPrerequisite></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

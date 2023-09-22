@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!--Rebalance Elixir RecipeDef - Remove all single recipes, showHoursToRecover = true, severityPerDay -1 -->
+
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYElixirCalming" or defName="MakeAYElixirInciting" or defName="MakeAYElixirLucidity" or defName="MakeAYElixirSoothing"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYElixirCalmingHigh" or defName="AYElixirIncitingHigh" or defName="AYElixirLucidityHigh" or defName="AYElixirSoothingHigh"]/comps/li[@Class="HediffCompProperties_SeverityPerDay"]</xpath>
+				<value>
+					<li Class="HediffCompProperties_SeverityPerDay">
+						<severityPerDay>-1.0</severityPerDay>
+						<showHoursToRecover>true</showHoursToRecover>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationRemove"> <!-- This list is not needed -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYElixirCalming" or defName="MakeBulkAYElixirInciting" or defName="MakeBulkAYElixirLucidity" or defName="MakeBulkAYElixirSoothing"]/fixedIngredientFilter</xpath>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Work normalized to 6000 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYElixirCalming" or defName="MakeBulkAYElixirInciting" or defName="MakeBulkAYElixirLucidity" or defName="MakeBulkAYElixirSoothing"]/workAmount</xpath>
+				<value><workAmount>4500</workAmount></value>
+			</li>
+
+			<!--Elixir of Calming - baseMoodEffect 5 to 10-->
+			
+			<li Class="PatchOperationReplace"> <!-- AYStJohnsWortOil x15 -> AYStJohnsWortFlowers x150, x5/x35 | Work 1000+2600+2500+2500=8500 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYElixirCalming"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYStJohnsWortFlowers</li>
+						  </thingDefs>
+						</filter>
+						<count>105</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThoughtDef[defName="AYElixirCalming_Thought"]/stages/li/baseMoodEffect</xpath>
+				<value><baseMoodEffect>10</baseMoodEffect></value>
+			</li>
+
+			<!--Elicir of Inciting - painFactor 0.35 to 0.45, swap Blood Pumping for Filtration, swap Consciousness for Breathing -->
+
+			<li Class="PatchOperationReplace"> <!-- Henbane Oil x15 -> Henbane Leaves x150, x50 required per x5 | Work 1250+2600+2500+2500=8750 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYElixirInciting"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYHenbaneLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>150</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYElixirIncitingHigh"]/stages/li/painFactor</xpath>
+				<value><painFactor>0.45</painFactor></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYElixirIncitingHigh"]/stages/li/capMods/li[1]</xpath>
+				<value>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>+0.05</offset>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYElixirIncitingHigh"]/stages/li/capMods/li[2]</xpath>
+				<value>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>-0.05</offset>
+					</li>
+				</value>
+			</li>
+
+			<!--Elixir of Lucidity - painFactor 0.95 to 1.0, GlobalLearningFactor 0.12 to 0.15, ResearchSpeed 0.06 to 0.10 -->
+
+			<li Class="PatchOperationReplace"> <!-- Gingko Powder x200 -> Gingko Leaves x80, x40 required per x100 | Work 1000+2600+2600=6200 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYElixirLucidity"]/ingredients</xpath>
+				<value>
+					<ingredients>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYGinkgoLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>80</count>
+					  </li>
+					</ingredients>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYElixirLucidityHigh"]/stages/li/statOffsets</xpath>
+				<value>
+					<statOffsets>
+						<GlobalLearningFactor>+0.15</GlobalLearningFactor>
+						<ResearchSpeed>+0.10</ResearchSpeed>
+						<PsychicSensitivity>-0.15</PsychicSensitivity>
+					</statOffsets>
+				</value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/HediffDef[defName="AYElixirLucidityHigh"]/stages/li/painFactor</xpath>
+			</li>
+
+			<!--Elicir of Soothing, baseMoodEffect 2 to 5 -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThoughtDef[defName="AYElixirSoothing_Thought"]/stages/li/baseMoodEffect</xpath>
+				<value><baseMoodEffect>5</baseMoodEffect></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

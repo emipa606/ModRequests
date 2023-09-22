@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+<!--Check if VCE is loaded - then replace AYSalt. VCE_Salt is made on a factor of 1/10, so all recipes are rebalanced to 1/10th rounded up -->
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>Vanilla Cooking Expanded</li></mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_Salt"]/thingCategories</xpath>
+					<value><li>AYProducts</li></value>
+				</li>
+			
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="MakeAYSalt"]/recipeUsers</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="MakeAYSaltBlocks"]/recipeUsers</xpath>
+				</li>
+				<li Class="PatchOperationAdd"> <!-- Since I can't disable the bits -->
+					<xpath>Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>RefineAYSalt</defName>
+							<label>make salt (coarse rock salt)</label>
+							<description>Refines coarse rock salt into rock salt, suitable for use in food. (VCE)</description>
+							<jobString>Making salt.</jobString>
+							<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+							<effectWorking>Cook</effectWorking>
+							<soundWorking>Recipe_CookMeal</soundWorking>
+							<workAmount>300</workAmount>
+							<workSkill>Cooking</workSkill>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>AYSalt</li>
+										</thingDefs>
+									</filter>
+									<count>50</count>
+								</li>
+							</ingredients>
+							<products>
+								<VCE_Salt>5</VCE_Salt>
+							</products>
+							<skillRequirements>
+								<Cooking>3</Cooking>
+							</skillRequirements>
+							<recipeUsers>
+								<li>AYApothecaryTable</li>
+								<li>VCE_CondimentPrepTable</li>
+							</recipeUsers>
+							<researchPrerequisite>VCE_CondimentsResearch</researchPrerequisite>
+						</RecipeDef>
+					</value>
+				</li>
+				
+				<li Class="PatchOperationReplace"> <!-- Salt bucket -->
+					<xpath>Defs/ThingDef[defName="AYSalt_Bucket"]/costList</xpath>
+					<value>    
+						<costList>
+							<WoodLog>4</WoodLog>
+							<VCE_Salt>5</VCE_Salt>
+						</costList>
+					</value>
+				</li>
+				
+				<li Class="PatchOperationReplace"> <!-- Salted tiles -->
+					<xpath>Defs/TerrainDef[defName="TileAYPlasterSalt"]/costList</xpath>
+					<value>
+						<costList>
+							<VCE_Salt>2</VCE_Salt>
+							<BlocksAYLimePlaster>5</BlocksAYLimePlaster>
+						</costList>
+					</value>
+				</li>
+				
+				<li Class="PatchOperationReplace"> <!-- Salted Meat Barrels -->
+					<xpath>Defs/RecipeDef[defName="MakeAYSaltedMeatBarrel"]/ingredients/li[3]/filter/thingDefs/li</xpath>
+					<value><li>VCE_Salt</li></value>
+				</li>
+				
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="MakeAYSaltedMeatBarrel"]/ingredients/li[3]/count</xpath>
+					<value><count>5</count></value>
+				</li>
+				<!--<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="MakeAYSaltedMeatBarrel"]/fixedIngredientFilter/thingDefs/li[2]</xpath>
+					<value><li>VCE_Salt</li></value>
+				</li>-->
+			</operations>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>Vanilla Cooking Expanded</li></mods>
+		<match Class="PatchOperationFindMod">
+			<mods><li>Medical Supplements (Continued)</li></mods>
+			<match Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="MakeMSHydrochloricAcidFromAYSalt"]/ingredients/li[1]/filter/thingDefs/li</xpath>
+						<value><li>VCE_Salt</li></value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="MakeMSHydrochloricAcidFromAYSalt"]/ingredients/li[1]/count</xpath>
+						<value><count>4</count></value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="MakeMSHydrochloricAcidFromAYSalt"]/fixedIngredientFilter/thingDefs/li[1]</xpath>
+						<value><li>VCE_Salt</li></value>
+					</li>
+				</operations>
+			</match>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>Vanilla Cooking Expanded</li></mods>
+		<match Class="PatchOperationFindMod">
+			<mods><li>VGP Garden Gourmet</li></mods>
+			<match Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="RefineAYSaltToVGSalt"]/ingredients/li/filter/thingDefs</xpath>
+						<value><thingDefs><li>VCE_Salt</li></thingDefs></value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="RefineAYSaltToVGSalt"]/ingredients/li/count</xpath>
+						<value><count>2</count></value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="MakeMSHydrochloricAcidFromAYSalt"]/fixedIngredientFilter/thingDefs</xpath>
+						<value><thingDefs><li>VCE_Salt</li></thingDefs></value>
+					</li>
+				</operations>
+			</match>
+		</match>
+	</Operation>
+</Patch>

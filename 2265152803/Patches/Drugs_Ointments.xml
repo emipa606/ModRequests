@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!-- Ointment RecipeDef, HediffDef -->
+			<!-- Remove all single recipes, showHoursToRecover = true, severityPerDay -1 -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/RecipeDef[defName="MakeAYAloeCream" or defName="MakeAYLavenderBalm" or defName="MakeAYLavenderSoap" or defName="MakeAYScarCream" or defName="MakeAYYarrowCream"]/recipeUsers</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYAloeCreamHigh" or defName="AYLavenderBalmHigh" or defName="AYLavenderSoapHigh" or defName="AYScarCreamHigh" or defName="AYYarrowCreamHigh"]/comps/li[@Class="HediffCompProperties_SeverityPerDay"]</xpath>
+				<value>
+					<li Class="HediffCompProperties_SeverityPerDay">
+						<severityPerDay>-1.0</severityPerDay>
+						<showHoursToRecover>true</showHoursToRecover>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace"> <!-- Work normalized to 4000, except MakeBulkAYLavenderSoap at 2500 -->
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYAloeCream" or defName="MakeBulkAYLavenderBalm" or defName="MakeBulkAYScarCream" or defName="MakeBulkAYYarrowCream"]/workAmount</xpath>
+				<value><workAmount>4000</workAmount></value>
+			</li>
+			
+			<!-- 6250
+			8625
+			3750
+			8750
+			8000 -->
+
+			<!--Aloe Cream - Blood Filtration 0.03 to 0.0, painFactor 0.95 to 0.90, RegenHealVal 3 to 2. -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYAloeCream"]/ingredients/li[3]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYAloeLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>50</count>
+					  </li>
+				</value>
+			</li>		
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYAloeCreamHigh"]/comps/li[@Class="Apothecary.HediffCompProperties_AYRegen"]/RegenHealVal</xpath>
+				<value><RegenHealVal>2</RegenHealVal></value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/HediffDef[defName="AYAloeCreamHigh"]/stages/li/capMods</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYAloeCreamHigh"]/stages/li/painFactor</xpath>
+				<value><painFactor>0.90</painFactor></value>
+			</li>
+			
+			<!--Lavender Balm-->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYLavenderBalm"]/ingredients/li[2]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYLavenderFlowers</li>
+						  </thingDefs>
+						</filter>
+						<count>105</count>
+					  </li>
+				</value>
+			</li>	
+			
+			<!--Lavender Soap - remove Stoves from recipeUsers-->
+			
+			<li Class="PatchOperationReplace"> 
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYLavenderSoap"]/workAmount</xpath>
+				<value><workAmount>2500</workAmount></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYLavenderSoap"]/ingredients/li[2]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYLavenderFlowers</li>
+						  </thingDefs>
+						</filter>
+						<count>35</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYLavenderSoap"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+					<thingDefs>
+						<li>AYPotash</li>
+						<li>AYLimewater</li>
+					</thingDefs>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYLavenderSoap"]/recipeUsers</xpath>
+				<value><recipeUsers><li>AYApothecaryTable</li></recipeUsers></value>
+			</li>
+			
+			<!--Scar Cream - Blood Filtration 0.05 to 0.0, painFactor 0.90 to 0.85-->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYScarCream"]/ingredients/li[3]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYAloeLeaves</li>
+						  </thingDefs>
+						</filter>
+						<count>70</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYScarCream"]/ingredients/li[4]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYYarrowMaterial</li>
+						  </thingDefs>
+						</filter>
+						<count>50</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/HediffDef[defName="AYScarCreamHigh"]/stages/li/capMods</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYScarCreamHigh"]/stages/li/painFactor</xpath>
+				<value><painFactor>0.85</painFactor></value>
+			</li>
+			
+			<!--Yarrow Cream - painFactor 0.95 to 0.90-->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[defName="MakeBulkAYYarrowCream"]/ingredients/li[2]</xpath>
+				<value>
+					  <li>
+						<filter>
+						  <thingDefs>
+							<li>AYYarrowMaterial</li>
+						  </thingDefs>
+						</filter>
+						<count>75</count>
+					  </li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="AYYarrowCreamHigh"]/stages/li/painFactor</xpath>
+				<value><painFactor>0.90</painFactor></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>
