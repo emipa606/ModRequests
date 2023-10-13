@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<DamageDef>
+<label>bullet</label>
+<hediff>Burn</hediff>
+<workerClass>DamageWorker_AddInjury</workerClass>
+<externalViolence>true</externalViolence>
+<harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+<deathMessage>{0} has succomed to tiberium radiation.</deathMessage>
+<armorCategory>Sharp</armorCategory>
+<isRanged>true</isRanged>
+<makesAnimalsFlee>true</makesAnimalsFlee>
+	<additionalHediffs>
+		<li>
+			<hediff>Hypothermia</hediff>
+			<severityPerDamageDealt>0.015</severityPerDamageDealt>
+		</li>
+	</additionalHediffs>
+</DamageDef>
+
+	<ThingDef ParentName="KijinWeapon">
+		<defName>Kijin_PosionBow</defName>
+		<label>Kijin paralysis bow</label>
+		<description>Long ranged bow with paralyzing arrow, perfect for hunting</description>
+		<graphicData>
+			<texPath>Kijin/Item/Kijin_PoisonBow</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Bow_Recurve</soundInteract>
+		<statBases>
+			<WorkToMake>5000</WorkToMake>
+			<Mass>1.2</Mass>
+			<AccuracyTouch>0.65</AccuracyTouch>
+			<AccuracyShort>0.80</AccuracyShort>
+			<AccuracyMedium>0.90</AccuracyMedium>
+			<AccuracyLong>0.80</AccuracyLong>
+			<RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+		</statBases>
+
+		<!-- TAGS -->
+		<thingCategories>
+			<li>WeaponsRanged</li>
+		</thingCategories>
+		<weaponTags>
+			<li>KijinRanged</li>
+		</weaponTags>
+
+		<!-- COST -->
+		<recipeMaker>
+			<researchPrerequisite>KijinPoisonWeapons</researchPrerequisite>
+			<skillRequirements>
+				<Crafting>6</Crafting>
+			</skillRequirements>
+		</recipeMaker>
+		<costList>
+			<WoodLog>75</WoodLog>
+			<MedicineHerbal>25</MedicineHerbal>
+		</costList>
+
+		<!-- ATTACKS -->
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Kijin_PosionArrow</defaultProjectile>
+				<warmupTime>1.7</warmupTime>
+				<range>35</range>
+				<soundCast>Bow_Small</soundCast>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>shaft</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>point</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+	</ThingDef>
+
+	<!-- PROJECTILE -->
+	<ThingDef ParentName="BaseProjectileNeolithic">
+		<defName>Kijin_PosionArrow</defName>
+		<label>posion arrow</label>
+		<graphicData>
+			<texPath>Things/Projectile/Arrow_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>KijinPoison</damageDef>
+			<damageAmountBase>2</damageAmountBase>
+			<stoppingPower>1.5</stoppingPower>
+			<speed>55</speed>
+		</projectile>
+	</ThingDef>
+
+	<!-- DAMAGE -->
+	<DamageDef ParentName="Arrow">
+		<defName>KijinPoison</defName>
+		<label>paralysis</label>
+		<additionalHediffs>
+			<li>
+				<hediff>Kijin_hediff_PosionArrow</hediff>
+				<severityPerDamageDealt>0.1</severityPerDamageDealt>
+				<victimSeverityScaling>ToxicSensitivity</victimSeverityScaling>
+			</li>
+		</additionalHediffs>
+	</DamageDef>
+
+	<!-- HEDIFF -->
+	<HediffDef ParentName="InfectionBase">
+		<defName>Kijin_hediff_PosionArrow</defName>
+		<label>toxin</label>
+		<description>toxin</description>
+		<lethalSeverity>5</lethalSeverity>
+		<makesSickThought>true</makesSickThought>
+		<taleOnVisible>IllnessRevealed</taleOnVisible>
+		<tendable>true</tendable>
+		<comps>
+			<li Class="HediffCompProperties_Immunizable">
+				<immunityPerDayNotSick>-0.3</immunityPerDayNotSick>
+				<immunityPerDaySick>-0.5</immunityPerDaySick>
+				<severityPerDayNotImmune>-3</severityPerDayNotImmune>
+				<severityPerDayImmune>-5</severityPerDayImmune>
+			</li>
+			<li Class="HediffCompProperties_TendDuration">
+				<baseTendDurationHours>0</baseTendDurationHours>
+				<disappearsAtTotalTendQuality>1</disappearsAtTotalTendQuality>
+			</li>
+		</comps>
+
+		<!-- STAGE -->
+		<stages>
+			<li>
+				<label>initial</label>
+				<becomeVisible>false</becomeVisible>
+			</li>
+			<li>
+				<label>minor</label>
+				<minSeverity>0.1</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.05</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>moderate</label>
+				<minSeverity>0.4</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>serious</label>
+				<minSeverity>0.7</minSeverity>
+				<vomitMtbDays>5</vomitMtbDays>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.5</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.5</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.5</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>extreme</label>
+				<minSeverity>1.00</minSeverity>
+				<vomitMtbDays>1</vomitMtbDays>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<setMax>0.2</setMax>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.5</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.5</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+</Defs>
