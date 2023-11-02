@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <ThingDef Name="WDHeavyShellBase" ParentName="WDShellBase" Abstract="True">  
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>90</MarketValue>
+      <Mass>2.5</Mass>
+    </statBases>
+    <thingCategories>
+      <li>WDHeavyShells</li>
+    </thingCategories>
+  </ThingDef>    
+  
+  <ThingDef Name="WDMakeableHeavyShellBase" ParentName="WDHeavyShellBase" Abstract="True">
+    <recipeMaker>
+      <workSpeedStat>SmithingSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <workAmount>1200</workAmount>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+	  <researchPrerequisite>WDCannons</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+  
+  <!-- High-explosive -->
+
+  <ThingDef ParentName="WDMakeableHeavyShellBase">
+    <defName>Shell_WDheavyHighExplosive</defName>
+    <label>heavy high-explosive shell</label>
+    <description>A heavy shell filled with high explosives. Can be fired from long-range cannon. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsHeavy/ShellHeavy_HighExplosive</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>4.5</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <damageAmountBase>90</damageAmountBase>		
+        <explosiveExpandPerStackcount>0.5</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDLongRangeCannonHighExplosive</projectileWhenLoaded>
+    <costList>
+      <Steel>30</Steel>
+      <Chemfuel>20</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDLongRangeCannonHighExplosive</defName>
+    <label>long-range cannon high-explosive shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellHighExplosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>90</damageAmountBase>		  
+      <speed>55</speed>
+      <explosionRadius>4.5</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <!-- Incendiary -->
+
+  <ThingDef ParentName="WDMakeableHeavyShellBase">
+    <defName>Shell_WDHeavyIncendiary</defName>
+    <label>heavy incendiary shell</label>
+    <description>A heavy shell filled with flammable gel and a small explosive charge. Starts fires when detonated. Can be fired from long-range cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsHeavy/Shell_HeavyIncendiary</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.5</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDHeavyIncendiary</projectileWhenLoaded>
+    <costList>
+      <Steel>15</Steel>
+      <Chemfuel>30</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDHeavyIncendiary</defName>
+    <label>heavy incendiary shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellIncendiary</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>55</speed>
+      <explosionRadius>4.5</explosionRadius>
+      <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.25</preExplosionSpawnChance>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarIncendiary_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+    </projectile>
+  </ThingDef>
+
+  <!-- EMP -->
+
+  <ThingDef ParentName="WDMakeableHeavyShellBase">
+    <defName>Shell_WDHeavyEMP</defName>
+    <label>heavy EMP shell</label>
+    <description>A heavy shell filled with batteries and antennas, for generating an electromagnetic pulse when detonated. Electromagnetic pulses temporarily disable electrical devices and mechanoids. Can be fired from long-range cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsHeavy/Shell_HeavyEMP</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>12.9</explosiveRadius>
+        <damageAmountBase>250</damageAmountBase>	
+        <explosiveDamageType>EMP</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.5</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDHeavyEMP</projectileWhenLoaded>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDHeavyEMP</defName>
+    <label>heavy EMP shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellEMP</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>EMP</damageDef>
+      <damageAmountBase>250</damageAmountBase>	
+      <speed>55</speed>
+      <explosionRadius>15.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_EMP</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <!-- Firefoam -->
+
+  <ThingDef ParentName="WDMakeableHeavyShellBase">
+    <defName>Shell_WDHeavyFirefoam</defName>
+    <label>heavy firefoam shell</label>
+    <description>A pressurized heavy shell filled with fire-retardant foam. Can be fired from long-range cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsHeavy/Shell_HeavyFirefoam</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>10.9</explosiveRadius>
+        <explosiveDamageType>Extinguish</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.5</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <postExplosionSpawnThingDef>Filth_FireFoam</postExplosionSpawnThingDef>
+        <postExplosionSpawnChance>1</postExplosionSpawnChance>
+        <postExplosionSpawnThingCount>3</postExplosionSpawnThingCount>
+        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+        <explosionEffect>ExtinguisherExplosion</explosionEffect>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDHeavyFirefoam</projectileWhenLoaded>
+    <costList>
+      <Steel>30</Steel>
+    </costList>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDHeavyFirefoam</defName>
+    <label>heavy firefoam shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellFirefoam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Extinguish</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>55</speed>
+      <explosionRadius>12.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_EMP</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <postExplosionSpawnThingDef>Filth_FireFoam</postExplosionSpawnThingDef>
+      <postExplosionSpawnChance>1</postExplosionSpawnChance>
+      <postExplosionSpawnThingCount>3</postExplosionSpawnThingCount>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      <explosionEffect>ExtinguisherExplosion</explosionEffect>
+    </projectile>
+  </ThingDef>
+
+  <!-- Antigrain warhead -->
+
+  <ThingDef ParentName="WDHeavyShellBase">
+    <defName>Shell_WDHeavyAntigrainWarhead</defName>
+    <label>heavy antigrain warhead</label>
+    <description>An ultra-tech heavy warhead powered by a grain of antimatter. Usually used by spacecraft or glitterworld war machines, it creates a huge explosion and starts fires around the target. Can be fired from long-range cannons or installed as a trap.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsHeavy/Shell_HeavyAntigrainWarhead</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <tradeability>Sellable</tradeability>
+    <statBases>
+      <MarketValue>1500</MarketValue>
+    </statBases>
+    <thingSetMakerTags>
+      <li>RewardSpecial</li>
+    </thingSetMakerTags>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>16.9</explosiveRadius>
+        <explosiveDamageType>BombSuper</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.5</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <chanceToStartFire>0.22</chanceToStartFire>
+        <damageFalloff>true</damageFalloff>
+        <explosionEffect>GiantExplosion</explosionEffect>
+        <explosionSound>Explosion_GiantBomb</explosionSound>
+        <wickTicks>
+          <min>60</min>
+          <max>120</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDHeavyAntigrainWarhead</projectileWhenLoaded>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDHeavyAntigrainWarhead</defName>
+    <label>heavy antigrain warhead</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellAntigrainWarhead</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>BombSuper</damageDef>
+      <damageAmountBase>800</damageAmountBase>		  
+      <speed>55</speed>
+      <explosionRadius>21.9</explosionRadius>
+      <explosionChanceToStartFire>0.22</explosionChanceToStartFire>
+      <explosionDamageFalloff>true</explosionDamageFalloff>
+      <explosionEffect>GiantExplosion</explosionEffect>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_GiantBomb</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef> 
+  
+</Defs>

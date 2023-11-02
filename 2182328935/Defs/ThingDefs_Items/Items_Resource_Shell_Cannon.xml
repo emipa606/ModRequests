@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--COPY FROM WEMD'S EXPANDED ARTILLERY-->
+<Defs>
+  
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" Name="WDCannonShellBase" ParentName="WDShellBase" Abstract="True">  
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <MarketValue>35</MarketValue>
+      <Mass>1.25</Mass>
+    </statBases>
+    <thingCategories>
+      <li>WDCannonShells</li>
+    </thingCategories>
+  </ThingDef>    
+  
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" Name="WDMakeableCannonShellBase" ParentName="WDCannonShellBase" Abstract="True">
+    <recipeMaker>
+      <workSpeedStat>SmithingSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <workAmount>800</workAmount>
+      <!--targetCountAdjustment>5</targetCountAdjustment-->
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>WDCannons</researchPrerequisite>	 	  
+    </recipeMaker>
+  </ThingDef>
+  
+  <!-- High-explosive -->
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="WDMakeableCannonShellBase">
+    <defName>Shell_WDCannonHighExplosive</defName>
+    <label>cannon high-explosive shell</label>
+    <description>A shell filled with high explosives. Can be fired from cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsCannon/Shell_CannonHighExplosive</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>		
+        <damageAmountBase>50</damageAmountBase>			
+        <explosiveExpandPerStackcount>0.3</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDCannonHighExplosive</projectileWhenLoaded>
+    <costList>
+      <Steel>20</Steel>
+      <Chemfuel>10</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDCannonHighExplosive</defName>
+    <label>cannon high-explosive shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellHighExplosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>60</damageAmountBase>		  
+      <speed>60</speed>
+      <explosionRadius>3.5</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <!-- Incendiary -->
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="WDMakeableCannonShellBase">
+    <defName>Shell_WDCannonIncendiary</defName>
+    <label>cannon incendiary shell</label>
+    <description>A cannon shell filled with flammable gel and a small explosive charge. Starts fires when detonated. Can be fired from cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsCannon/Shell_CannonIncendiary</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.9</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.3</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDCannonIncendiary</projectileWhenLoaded>
+    <costList>
+      <Steel>10</Steel>
+      <Chemfuel>20</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDCannonIncendiary</defName>
+    <label>cannon incendiary shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellIncendiary</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>60</speed>
+      <explosionRadius>3.5</explosionRadius>
+      <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.25</preExplosionSpawnChance>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarIncendiary_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+    </projectile>
+  </ThingDef>
+
+  <!-- EMP -->
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="WDMakeableCannonShellBase">
+    <defName>Shell_WDCannonEMP</defName>
+    <label>cannon EMP shell</label>
+    <description>A cannon shell filled with batteries and antennas, for generating an electromagnetic pulse when detonated. Electromagnetic pulses temporarily disable electrical devices and mechanoids. Can be fired from cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsCannon/Shell_CannonEMP</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>6.9</explosiveRadius>	
+        <explosiveDamageType>EMP</explosiveDamageType>
+        <damageAmountBase>100</damageAmountBase>			
+        <explosiveExpandPerStackcount>0.3</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDCannonEMP</projectileWhenLoaded>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+  </ThingDef>
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDCannonEMP</defName>
+    <label>cannon EMP shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellEMP</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>EMP</damageDef>
+      <damageAmountBase>100</damageAmountBase>		  
+      <speed>60</speed>
+      <explosionRadius>8.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_EMP</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+
+  <!-- Firefoam -->
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="WDMakeableCannonShellBase">
+    <defName>Shell_WDCannonFirefoam</defName>
+    <label>cannon firefoam shell</label>
+    <description>A pressurized cannon shell filled with fire-retardant foam. Can be fired from cannons. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsCannon/Shell_CannonFirefoam</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>4.9</explosiveRadius>
+        <explosiveDamageType>Extinguish</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.3</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <postExplosionSpawnThingDef>Filth_FireFoam</postExplosionSpawnThingDef>
+        <postExplosionSpawnChance>1</postExplosionSpawnChance>
+        <postExplosionSpawnThingCount>3</postExplosionSpawnThingCount>
+        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+        <explosionEffect>ExtinguisherExplosion</explosionEffect>
+        <wickTicks>
+          <min>30</min>
+          <max>60</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDCannonFirefoam</projectileWhenLoaded>
+    <costList>
+      <Steel>20</Steel>
+    </costList>	
+  </ThingDef>
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDCannonFirefoam</defName>
+    <label>cannon firefoam shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellFirefoam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Extinguish</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>60</speed>
+      <explosionRadius>6.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_EMP</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <postExplosionSpawnThingDef>Filth_FireFoam</postExplosionSpawnThingDef>
+      <postExplosionSpawnChance>1</postExplosionSpawnChance>
+      <postExplosionSpawnThingCount>3</postExplosionSpawnThingCount>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      <explosionEffect>ExtinguisherExplosion</explosionEffect>
+    </projectile>
+  </ThingDef>
+
+  <!-- Antigrain warhead -->
+
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="WDCannonShellBase">
+    <defName>Shell_WDCannonAntigrainWarhead</defName>
+    <label>cannon antigrain warhead</label>
+    <description>An ultra-tech cannon warhead powered by a grain of antimatter. Usually used by spacecraft or glitterworld war machines, it creates a huge explosion and starts fires around the target. Can be fired from cannons or installed as a trap.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/Shell/ShellsCannon/Shell_CannonAntigrainWarhead</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <tradeability>Sellable</tradeability>
+    <statBases>
+      <MarketValue>900</MarketValue>
+    </statBases>
+    <thingSetMakerTags>
+      <li>RewardSpecial</li>
+    </thingSetMakerTags>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>8.9</explosiveRadius>
+        <explosiveDamageType>BombSuper</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.3</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <chanceToStartFire>0.22</chanceToStartFire>
+        <damageFalloff>true</damageFalloff>
+        <explosionEffect>GiantExplosion</explosionEffect>
+        <explosionSound>Explosion_GiantBomb</explosionSound>
+        <wickTicks>
+          <min>60</min>
+          <max>120</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Bullet_Shell_WDCannonAntigrainWarhead</projectileWhenLoaded>
+  </ThingDef>
+   
+  <ThingDef MayRequire="OskarPotocki.VFE.Pirates" ParentName="BaseBullet">
+    <defName>Bullet_Shell_WDCannonAntigrainWarhead</defName>
+    <label>cannon antigrain warhead</label>
+    <graphicData>
+      <texPath>Things/Projectile/ShellAntigrainWarhead</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>BombSuper</damageDef>
+      <damageAmountBase>400</damageAmountBase>		  
+      <speed>60</speed>
+      <explosionRadius>10.9</explosionRadius>
+      <explosionChanceToStartFire>0.22</explosionChanceToStartFire>
+      <explosionDamageFalloff>true</explosionDamageFalloff>
+      <explosionEffect>GiantExplosion</explosionEffect>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_GiantBomb</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>  
+  
+</Defs>
