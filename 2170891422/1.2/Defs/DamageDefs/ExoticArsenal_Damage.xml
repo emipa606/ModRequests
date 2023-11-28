@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Injuries -->
+	
+  <HediffDef ParentName="InjuryBase">
+    <defName>Energy_Burn</defName>
+    <label>burn</label>
+    <labelNoun>a burn</labelNoun>
+    <description>A burn.</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>tended</labelTendedWellInner>
+        <labelSolidTendedWell>tended</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.30</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>burn scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.01875</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Burned off</destroyedLabel>
+      <destroyedOutLabel>Burned out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+	
+	
+   <DamageDef>
+    <defName>Energy_Damage</defName>
+    <label>focused energy</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <deathMessage>{0} has been shot to death.</deathMessage>
+    <hediff>Energy_Burn</hediff>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Bullet</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+    <isRanged>true</isRanged>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+  </DamageDef>
+  
+    <DamageDef>
+    <defName>Shred_Damage</defName>
+    <label>shred</label>
+    <externalViolence>true</externalViolence>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been shot to death.</deathMessage>
+    <hediff>Torn_Damage</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+    <impactSoundType>Bullet</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+  </DamageDef>
+  
+  <HediffDef ParentName="InjuryBase">
+		<defName>Torn_Damage</defName>
+		<label>torn</label>
+    <labelNoun>a torn wound</labelNoun>
+    <description>A torn wound.</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.05</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>cut scar</permanentLabel>
+      </li>
+    </comps>
+		<injuryProps>
+			<painPerSeverity>0.025</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+			<bleedRate>0.03</bleedRate>
+			<canMerge>false</canMerge>
+			<destroyedLabel>Cut off</destroyedLabel>
+			<destroyedOutLabel>Cut out</destroyedOutLabel>
+		</injuryProps>
+	</HediffDef>
+	
+  <DamageDef Name="OberonArrow">
+    <defName>Oberon_damage</defName>
+    <label>bolt</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <deathMessage>{0} has been shot to death by an bolt.</deathMessage>
+    <hediff>Cut</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Bullet</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+    <isRanged>true</isRanged>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+	<additionalHediffs>
+      <li>
+        <hediff>OberonHigh</hediff>
+        <severityPerDamageDealt>0.02</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+  </DamageDef>
+	
+	
+   <HediffDef>
+    <defName>OberonHigh</defName>
+    <label>high on oberon</label>
+    <labelNoun>a oberon high</labelNoun>
+    <description>Active oberon in the bloodstream.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <restFallFactor>0.33</restFallFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.40</offset>
+          </li>
+		  <li>
+            <capacity>Sight</capacity>
+            <offset>-0.30</offset>
+          </li>
+        </capMods>
+            </li>
+      </stages>
+  </HediffDef>
+	
+</Defs>
