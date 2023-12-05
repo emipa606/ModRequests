@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>RC2_Tango</defName>
+    <label>tango</label>
+    <description>A synthetic super-painkiller, tango is a highly addictive drug with a high overdose chance - but boy does it do its job for those who need extreme pain relief. If used extremely sparingly, it can be relatively safe however - except for the overdose chance.</description>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <tickerType>Rare</tickerType>
+    <graphicData>
+      <texPath>RC2_Things/RC2_Drugs/Tango</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>26</MarketValue>
+      <Mass>0.005</Mass>
+      <DeteriorationRate>4</DeteriorationRate>
+      <Nutrition>0.05</Nutrition>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <baseIngestTicks>100</baseIngestTicks>
+      <chairSearchRadius>1</chairSearchRadius>
+      <preferability>NeverForNutrition</preferability>
+      <tasteThought>
+      </tasteThought>
+      <foodType>Processed</foodType>
+      <joy>0.5</joy>
+      <joyKind>Chemical</joyKind>
+      <nurseable>true</nurseable>
+      <drugCategory>Hard</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RC2_TangoHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>RC2_Tango</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RC2_TangoTolerance</hediffDef>
+          <severity>0.1</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MedicineProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>RC2_Tango</chemical>
+        <addictiveness>0.15</addictiveness>
+        <minToleranceToAddict>.10</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>30</listOrder>
+        <overdoseSeverityOffset>
+          <min>0.18</min>
+          <max>0.37</max>
+        </overdoseSeverityOffset>
+        <largeOverdoseChance>0.08</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef>
+    <defName>RC2_TangoHigh</defName>
+    <description>Tango is in the pawn's system, nullifying pain and reducing blood flow.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>tripping on tango</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painFactor>0.0</painFactor>
+        <capMods>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <postFactor>0.60</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  <ThoughtDef>
+    <defName>RC2_TangoHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RC2_TangoHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>tripping on tango</label>
+        <description>Thats the stuff.. yeah..</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <!-- Sunshine addiction -->
+  <ChemicalDef>
+    <defName>RC2_Tango</defName>
+    <label>tango</label>
+    <addictionHediff>RC2_TangoAddiction</addictionHediff>
+    <toleranceHediff>RC2_TangoTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>RC2_Chemical_Tango</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>tango</label>
+    <description>Because of a tango addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>25</listPriority>
+  </NeedDef>
+  <HediffDef>
+    <defName>RC2_TangoTolerance</defName>
+    <label>tango tolerance</label>
+    <description>Tango has built up in the pawn's system. They more often will go on drug binges the more is built in their system.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(179,86,132)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>RC2_Tango</chemical>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <minSeverity>0</minSeverity>
+        <becomeVisible>false</becomeVisible>
+        <label>small</label>
+      </li>
+      <li>
+        <minSeverity>0.20</minSeverity>
+        <label>small</label>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>120</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>0.50</minSeverity>
+        <label>large</label>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>60</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>0.80</minSeverity>
+        <label>massive</label>
+        <lifeThreatening>true</lifeThreatening>
+        <deathMtbDays>30</deathMtbDays>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>30</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageSevere</hediff>
+        <baseMtbDays>90</baseMtbDays>
+        <minSeverity>0.8</minSeverity>
+        <partsToAffect>
+          <li>Brain</li>
+        </partsToAffect>
+        <countToAffect>1</countToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+  <HediffDef ParentName="AddictionBase">
+    <defName>RC2_TangoAddiction</defName>
+    <description>the pawn now relies on Tango, and will become aggressive, tired, and less pain-resistant without regular dosages.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>tango addiction</label>
+    <causesNeed>RC2_Chemical_Tango</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-.03333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <restFallFactor>1.75</restFallFactor>
+        <painFactor>1.2</painFactor>
+        <vomitMtbDays>.5</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.80</postFactor>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>0.16</MentalBreakThreshold>
+          <RestRateMultiplier>-0.50</RestRateMultiplier>
+        </statOffsets>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>30</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>15</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  <ThoughtDef>
+    <defName>RC2_TangoWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RC2_TangoAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>tango withdrawal</label>
+        <description>Uuuuughghghghghghghghghghghggh.</description>
+        <baseMoodEffect>-20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

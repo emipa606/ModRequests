@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>RC2_Floxacine</defName>
+    <label>floxacine</label>
+    <description>This useful synthetic medicine greatly boosts the immune system for a short time when taken.  However, tolerance builds up extremely fast, and those with high tolerance suffer from liver problems down the line.  Still, if used in emergencies it's a useful drug to have around.</description>
+    <graphicData>
+      <texPath>RC2_Things/RC2_Drugs/Floxacine</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>18</MarketValue>
+      <Mass>0.1</Mass>
+      <DeteriorationRate>4</DeteriorationRate>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <baseIngestTicks>100</baseIngestTicks>
+      <chairSearchRadius>1</chairSearchRadius>
+      <!--<preferability>NeverForNutrition</preferability>
+      <foodType>Processed</foodType>-->
+      <nurseable>true</nurseable>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RC2_FloxacineHigh</hediffDef>
+          <severity>1</severity>
+          <toleranceChemical>RC2_Floxacine</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RC2_FloxacineTolerance</hediffDef>
+          <severity>0.34</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>PenoxycylineProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+      <MedicineHerbal>2</MedicineHerbal>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>RC2_Floxacine</chemical>
+        <listOrder>30</listOrder>
+        <overdoseSeverityOffset>
+          <min>0.08</min>
+          <max>0.14</max>
+        </overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef>
+    <defName>RC2_FloxacineHigh</defName>
+    <description>Floxacine boosts immunity almost completely. Taking floxacine too much can cause severe liver damage.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>floxacine</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <ImmunityGainSpeed>1.0</ImmunityGainSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  <!-- Floxacine addiction -->
+  <ChemicalDef>
+    <defName>RC2_Floxacine</defName>
+    <label>floxacine</label>
+    <addictionHediff>RC2_ShroomsAddiction</addictionHediff>
+    <toleranceHediff>RC2_FloxacineTolerance</toleranceHediff>
+  </ChemicalDef>
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>RC2_Chemical_Floxacine</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>floxacine</label>
+    <description>Please, just delete the addiction. They shouldn't need floxacine. Floxacine isn't addictive and this shoudn't have appeared.</description>
+    <listPriority>25</listPriority>
+  </NeedDef>
+  <HediffDef ParentName="DrugToleranceBase">
+    <description>The pawn has built up a tolerance to Floxacine. It can cause severe liver damage at high levels.</description>
+    <defName>RC2_FloxacineTolerance</defName>
+    <label>floxacine tolerance</label>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>RC2_Floxacine</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageSevere</hediff>
+        <baseMtbDays>60</baseMtbDays>
+        <minSeverity>0.75</minSeverity>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+        <countToAffect>1</countToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+  <HediffDef ParentName="AddictionBase">
+    <defName>RC2_FloxacineAddiction</defName>
+    <description>what are you doing with this? Floxacine isn't addictive.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>floxacine addiction</label>
+    <causesNeed>RC2_Chemical_Floxacine</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-500.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>5000</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  <ThoughtDef>
+    <defName>RC2_FloxacineWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RC2_FloxacineAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>Floxacine withdrawal</label>
+        <description>What? These aren't addictive silly! How'd the fuck you manage to get yourself addicted?!</description>
+        <baseMoodEffect>0.0</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>RC2_Dreamstick</defName>
+    <label>dreamstick</label>
+    <description>A carefully refined zopioid known for its medical uses, dreamsticks, as they are known on the Rim, are a combat pain reliever prized by soldiers and doctors alike.  By using a specially designed, one-use auto-injector, the drug can be safely and quickly injected to relieve pain quickly and relatively safely.  Useful for keeping a soldier in combat longer or helping get one to safety.  Be warned however, once it wears off the pain comes back stronger for a short time.</description>
+    <graphicData>
+      <texPath>RC2_Things/RC2_Drugs/Dreamstick</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>500</WorkToMake>
+      <MarketValue>20</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.05</joy>
+      <baseIngestTicks>50</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Hard</drugCategory>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+          <behind>true</behind>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Inject {0}</ingestCommandString>
+      <ingestReportString>Injecting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RC2_DreamstickHigh</hediffDef>
+          <severity>0.2</severity>
+          <toleranceChemical>RC2_Zopioid</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RC2_ZopioidTolerance</hediffDef>
+          <severity>0.02</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>RC2_ZopioidRefining</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <RC2_Zope>2</RC2_Zope>
+      <Neutroamine>1</Neutroamine>
+      <MedicineHerbal>1</MedicineHerbal>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>RC2_Zopioid</chemical>
+        <addictiveness>0.1</addictiveness>
+        <minToleranceToAddict>0.14</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>20</listOrder>
+        <overdoseSeverityOffset>
+          <min>0.05</min>
+          <max>0.10</max>
+        </overdoseSeverityOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+      </li>
+    </comps>
+  </ThingDef>
+  <HediffDef>
+    <defName>RC2_DreamstickHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>high on dreamstick</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <description>Dreamsticks reduce pain, manipulation, and moving at higher dosages. at the highest possible dosage, pawns are incapable of feeling pain.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>dreamstick level 1</label>
+        <restFallFactor>1.2</restFallFactor>
+        <painOffset>-0.1</painOffset>
+        <painFactor>0.8</painFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.85</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>.21</minSeverity>
+        <label>dreamstick level 2</label>
+        <restFallFactor>1.4</restFallFactor>
+        <painOffset>-0.2</painOffset>
+        <painFactor>0.6</painFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.7</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>.41</minSeverity>
+        <label>dreamstick level 3</label>
+        <restFallFactor>1.6</restFallFactor>
+        <painOffset>-0.3</painOffset>
+        <painFactor>0.4</painFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.55</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>.61</minSeverity>
+        <label>dreamstick level 4</label>
+        <restFallFactor>1.8</restFallFactor>
+        <painOffset>-0.4</painOffset>
+        <painFactor>0.2</painFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.4</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.80</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>.81</minSeverity>
+        <label>dreamstick level 5</label>
+        <restFallFactor>2.0</restFallFactor>
+        <painOffset>-0.5</painOffset>
+        <painFactor>0.0</painFactor>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.25</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.60</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  <ThoughtDef>
+    <defName>RC2_DreamstickHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RC2_DreamstickHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>dreamstick level 1</label>
+        <description>Ooh thats the stuff!</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>dreamstick level 2</label>
+        <description>Ooh I needed that. Let's go!</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+      <li>
+        <label>dreamstick level 3</label>
+        <description>Yeshhhhh....</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+      <li>
+        <label>dreamstick level 4</label>
+        <description>I'm starting to not be able to feel my body..</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+      <li>
+        <label>dreamstick level 5</label>
+        <description>Oh boy I can't feel shit but I'm still kickin'!</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>
