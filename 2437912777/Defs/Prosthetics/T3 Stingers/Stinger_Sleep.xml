@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Part -->    
+  
+  <ThingDef ParentName="BeeStingerT3Base">
+    <defName>Stinger_Sleep</defName>
+    <label>sleepy stinger</label>
+    <description>A small needle like stinger connected to a tube of anesthetic. The stinger medical properties can also be self administered aiding in self recovery. This quick recovery and non lethal sting makes it perfect for guards taking care of uncooperative "patients" awaiting surgery.</description>
+    <descriptionHyperlinks><RecipeDef>InstallStinger_Sleep</RecipeDef></descriptionHyperlinks>
+    <statBases>
+      <Mass>0.6</Mass>
+    </statBases>
+    <costList>
+      <MedicineUltratech>5</MedicineUltratech>
+	  <UraniumH>15</UraniumH>
+      <RB_Bee_Surgeon_Drone>1</RB_Bee_Surgeon_Drone>			
+    </costList>		
+  </ThingDef>
+
+<!-- Surgery -->  
+
+    <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>InstallStinger_Sleep</defName>
+    <label>install a sleepy stinger</label>
+    <description>Install sleep stinger.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Sleep</ThingDef></descriptionHyperlinks>
+    <jobString>Installing stinger.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Stinger_Sleep</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Stinger_Sleep</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Stinger</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>Stinger_Sleep</addsHediff>	
+  </RecipeDef>
+  
+<!-- Damage -->    
+  
+  <DamageDef ParentName="Sting">
+    <defName>Sting_Sleep</defName>
+    <label>sleep sting</label>
+    <additionalHediffs>
+      <li>
+        <hediff>Anesthetic</hediff>
+        <severityPerDamageDealt>0.8</severityPerDamageDealt>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
+    <impactSoundType>Toxic</impactSoundType>
+    <damageEffecter>Impact_Toxic</damageEffecter>
+  </DamageDef>
+	
+	<ToolCapacityDef>
+		<defName>Sting_Sleep</defName>
+		<label>sleep sting</label>
+	</ToolCapacityDef>	
+	
+<!-- Manuevar -->  	
+	
+	<ManeuverDef>
+		<defName>Sting_Sleep</defName>
+		<requiredCapacity>Sting_Sleep</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>Sting_Sleep</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+	
+<!-- Hediff -->  	
+	
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Stinger_Sleep</defName>
+    <label>sleepy stinger</label>
+    <labelNoun>a sleepy stinger</labelNoun>
+    <description>A stinger which causes "patients" to sleep.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Sleep</ThingDef></descriptionHyperlinks>
+		<stages>
+			<li>
+        <naturalHealingFactor>5</naturalHealingFactor>
+			</li>			
+		</stages>	
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+      <li>
+        <label>sleeping sting</label>
+        <capacities>
+          <li>Sting_Sleep</li>
+        </capacities>
+        <power>2</power>
+		<armorPenetration>0.3</armorPenetration>		
+        <cooldownTime>0.3</cooldownTime>
+      </li>  
+        </tools>
+      </li>
+    </comps>
+    <spawnThingOnRemoved>Stinger_Sleep</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+  </HediffDef>
+  
+</Defs>

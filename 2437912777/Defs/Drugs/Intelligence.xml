@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	  <ThingDef ParentName="DrugBase">
+    <defName>Intellegence_Drug</defName>
+    <label>shred of intellegence</label>
+    <description>A fragment of pure smarts brought into the physical realm as a gooey liquid by the big brains of intellectual bees. If consumed a creature can gain a shred of the bees all knowing power though this may lead to them becoming dislikable due to them acting better than everyone and eating more to sustain their brain. The subject will likely become addicted trying to not lose their brain folds.</description>
+    <descriptionHyperlinks>
+      <HediffDef>IntellectualHigh</HediffDef>
+      <HediffDef>IntellectualAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Items/Brain</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.88</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>100</MarketValue>
+      <Mass>0.05</Mass>
+      <DeteriorationRate>10</DeteriorationRate>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.80</joy>
+      <baseIngestTicks>100</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Hard</drugCategory>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>IntellectualHigh</hediffDef>
+          <severity>0.75</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Smartness</chemical>
+        <addictiveness>0.5</addictiveness>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>250</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>IntellectualHigh</defName>
+    <label>big brained</label>
+    <labelNoun>a gigantic, absolutely humongous brain</labelNoun>
+    <description>Their brain folds has increased by over 80%. Their intelligence has also expanded allowing them to use their bodies perfectly.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.00</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+          <hungerRateFactorOffset>3</hungerRateFactorOffset>	  
+				<statOffsets>
+		<MeleeHitChance>3</MeleeHitChance>
+		<MeleeDodgeChance>1.5</MeleeDodgeChance>	
+		<ShootingAccuracyPawn>3</ShootingAccuracyPawn>	
+		<ResearchSpeed>1.8</ResearchSpeed>	
+		<GlobalLearningFactor>8</GlobalLearningFactor>			
+		<SocialImpact>-1</SocialImpact>		
+		<PlantHarvestYield>3</PlantHarvestYield>
+		<AnimalGatherYield>3</AnimalGatherYield>	
+		<MiningYield>3</MiningYield>	
+						</statOffsets>		
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+              <offset>0.5</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+    <!-- Smart addiction -->
+
+  <ChemicalDef>
+    <defName>Smartness</defName>
+    <label>smartness</label>
+    <addictionHediff>IntellectualAddiction</addictionHediff>
+    <canBinge>true</canBinge>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_Smartness</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>Intelligence Boost</label>
+    <description>This person has gained a need for intelligence so they can be better than everyone else.</description>
+    <listPriority>40</listPriority>
+    <fallPerDay>1</fallPerDay>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>IntellectualAddiction</defName>
+    <label>Intellect need</label>
+    <description>The users brain is on burnout and working at the minimum capacity without more intelligence.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_Smartness</causesNeed>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>unmet</label>
+				<statOffsets>		
+		<SocialImpact>-2.5</SocialImpact>
+				</statOffsets>		
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.6</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+	
+</Defs>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Part -->    
+  
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>Stinger_Natural</defName>
+    <label>natural bee stinger</label>
+    <description>A bee stinger taken out of a bee girl. It still contains its poison sac and can be installed in case any of your bees lose their stinger.</description>
+    <descriptionHyperlinks><RecipeDef>InstallStinger</RecipeDef></descriptionHyperlinks>
+    <statBases>
+      <MarketValue>300</MarketValue>
+      <Mass>0.6</Mass>
+    </statBases>
+  </ThingDef>
+
+<!-- Surgery -->  
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartNaturalBase">
+    <defName>InstallStinger</defName>
+    <label>install natural stinger</label>
+    <description>Install a stinger.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Natural</ThingDef></descriptionHyperlinks>
+    <jobString>Installing stinger.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Stinger_Natural</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Stinger_Natural</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Stinger</li>
+    </appliedOnFixedBodyParts>
+  </RecipeDef>
+  
+<!-- Damage -->    
+  
+  	<DamageDef Name="Sting">
+		<defName>BeeSting</defName>
+		<label>bee sting</label>
+		<workerClass>DamageWorker_Stab</workerClass>
+		<externalViolence>true</externalViolence>
+		<deathMessage>{0} has been stung to death.</deathMessage>
+		<hediff>BeeSting</hediff>
+		<hediffSolid>Crack</hediffSolid>
+		<harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+		<impactSoundType>Slice</impactSoundType>
+		<armorCategory>Sharp</armorCategory>
+	</DamageDef>
+	
+	<ToolCapacityDef>
+		<defName>BeeSting</defName>
+		<label>bee sting</label>
+	</ToolCapacityDef>	
+	
+<!-- Manuevar -->  	
+	
+	<ManeuverDef>
+		<defName>BeeSting</defName>
+		<requiredCapacity>BeeSting</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>BeeSting</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+
+<!-- Hediff -->  	
+	
+  <HediffDef ParentName="InjuryBase">
+    <defName>BeeSting</defName>
+    <label>bee sting</label>
+    <labelNoun>a bee sting</labelNoun>
+    <description>A bee sting.</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>treated</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.10</infectionChance>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.013</painPerSeverity>
+      <bleedRate>0.005</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Cut off</destroyedLabel>
+      <destroyedOutLabel>Cut out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+  
+</Defs>

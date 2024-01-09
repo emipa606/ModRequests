@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Part -->    
+  
+  <ThingDef ParentName="BeeStingerT2Base">
+    <defName>Stinger_Alcohol</defName>
+    <label>alcoholic stinger</label>
+    <description>A bee stinger doused in alcohol, able to put alcohol in creatures bloodstreams through a sting. Perfect for alcoholics giving them the feeling of drunkeness without the liver failure.</description>
+    <descriptionHyperlinks><RecipeDef>InstallStinger_Alcohol</RecipeDef></descriptionHyperlinks>
+    <statBases>
+      <Mass>0.6</Mass>
+    </statBases>
+    <costList>
+      <Beer>10</Beer>
+	  <UraniumH>5</UraniumH>
+      <RB_Bee_Tipsy_Drone>1</RB_Bee_Tipsy_Drone>			
+    </costList>		
+  </ThingDef>
+
+<!-- Surgery -->  
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>InstallStinger_Alcohol</defName>
+    <label>install alcoholic stinger</label>
+    <description>Install a stinger.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Alcohol</ThingDef></descriptionHyperlinks>
+    <jobString>Installing stinger.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Stinger_Alcohol</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Stinger_Alcohol</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Stinger</li>
+    </appliedOnFixedBodyParts>
+	<addsHediff>Stinger_Alcohol</addsHediff>	
+  </RecipeDef>
+  
+<!-- Damage -->    
+  
+  <DamageDef ParentName="Sting">
+    <defName>Sting_Alcohol</defName>
+    <label>alcoholic sting</label>
+    <additionalHediffs>
+      <li>
+        <hediff>AlcoholHigh</hediff>
+        <severityPerDamageDealt>0.02</severityPerDamageDealt>
+        <victimSeverityScaling>ToxicSensitivity</victimSeverityScaling>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
+    <impactSoundType>Toxic</impactSoundType>
+    <damageEffecter>Impact_Toxic</damageEffecter>
+  </DamageDef>
+	
+	<ToolCapacityDef>
+		<defName>Sting_Alcohol</defName>
+		<label>alcoholic sting</label>
+	</ToolCapacityDef>	
+	
+<!-- Manuevar -->  	
+	
+	<ManeuverDef>
+		<defName>Sting_Alcohol</defName>
+		<requiredCapacity>Sting_Alcohol</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>Sting_Alcohol</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+
+<!-- Hediff -->  	
+	
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Stinger_Alcohol</defName>
+    <label>alcoholic stinger</label>
+    <labelNoun>an alcoholic stinger</labelNoun>
+    <description>A sting with an alcoholic venom.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Alcohol</ThingDef></descriptionHyperlinks>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+      <li>
+        <label>bee sting</label>
+        <capacities>
+          <li>Sting_Alcohol</li>
+        </capacities>
+        <power>15</power>
+        <cooldownTime>1</cooldownTime>
+      </li>
+        </tools>
+      </li>
+    </comps>
+    <stages>    
+      <li>
+      </li>  
+    </stages>	
+    <spawnThingOnRemoved>Stinger_Alcohol</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>AlcoholicSting</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>Stinger_Alcohol</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>    
+      <li>
+        <label>drunk</label>
+        <description>I feel so uninhibited and unafraid! This is a great time!</description>
+        <baseMoodEffect>20</baseMoodEffect>
+      </li>  
+    </stages>
+  </ThoughtDef>  
+  
+</Defs>

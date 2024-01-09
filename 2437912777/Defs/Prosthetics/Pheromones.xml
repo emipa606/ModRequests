@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <!-- Builder -->  
+	
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Jobs_BuilderBee</defName>
+    <label>Builder Bee</label>
+    <labelNoun>a pheromone</labelNoun>
+    <description>A pheromone tells this bee that its job is to build and repair its hive.</description>
+    <descriptionHyperlinks><ThingDef>Pheromones_Builder</ThingDef></descriptionHyperlinks>
+    <defaultLabelColor>(250,170,5)</defaultLabelColor>	
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+		<stages>
+			<li>
+				<statOffsets>
+					<ConstructionSpeed>1.75</ConstructionSpeed>
+					<ConstructSuccessChance>2</ConstructSuccessChance>
+					<CarryingCapacity>20</CarryingCapacity>
+						</statOffsets>
+			</li>
+		</stages>
+  </HediffDef>
+
+  <ThingDef ParentName="PheromoneBase">
+    <defName>Pheromones_Builder</defName>
+    <label>builder pheromones</label>
+    <description>A set of pheromones kept in an easy to spray bottle. These smells will tell the bee to build and repair its hive increasing its ability in this field.</description>
+    <descriptionHyperlinks>
+      <HediffDef>Jobs_BuilderBee</HediffDef>
+    </descriptionHyperlinks>
+	<graphicData>
+      <texPath>Things/Items/Perfume/Perfume</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>1.5</drawSize>
+      <color>(250,170,5)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>50</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.60</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Spray {0}</ingestCommandString>
+      <ingestReportString>Spraying {0}.</ingestReportString>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PheromoneHigh_B</hediffDef>
+          <severity>0.50</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>8000</listOrder>
+      </li>
+    </comps>	
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>PheromoneHigh_B</defName>
+    <label>pheromone high</label>
+    <labelNoun>high</labelNoun>
+    <description>A high caused by sniffing pheromones. It will lower consciousness for a day and will eventually give the bee its job in the hive, which is builder.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(250,170,5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>High</label>
+          <painFactor>0.9</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.8</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>Jobs_BuilderBee</hediff>
+              <mtbDays>1</mtbDays>
+              <partsToAffect>
+                <li>PheromoneSensor</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>  
+
+    <!-- HouseKeeper -->  
+  
+    <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Jobs_HousekeeperBee</defName>
+    <label>Housekeeper Bee</label>
+    <labelNoun>a pheromone</labelNoun>
+    <description>A pheromone tells this bee that its job is to keep the hive clean.</description>
+    <descriptionHyperlinks><ThingDef>Pheromones_Housekeeper</ThingDef></descriptionHyperlinks>
+    <defaultLabelColor>(70,0,255)</defaultLabelColor>	
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+		<stages>
+			<li>
+				<statOffsets>
+					<WorkSpeedGlobal>1.25</WorkSpeedGlobal>
+					<CarryingCapacity>75</CarryingCapacity>
+						</statOffsets>
+			</li>
+		</stages>	
+  </HediffDef>  
+
+  <ThingDef ParentName="PheromoneBase">
+    <defName>Pheromones_Housekeeper</defName>
+    <label>housekeeping pheromones</label>
+    <description>A set of pheromones kept in an easy to spray bottle. These smells will tell the bee to build and repair its hive increasing its ability in this field.</description>
+    <descriptionHyperlinks>
+      <HediffDef>Jobs_HousekeeperBee</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+      <texPath>Things/Items/Perfume/Perfume</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>1.5</drawSize>
+      <color>(70,0,255)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>50</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.60</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Spray {0}</ingestCommandString>
+      <ingestReportString>Spraying {0}.</ingestReportString>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PheromoneHigh_H</hediffDef>
+          <severity>0.50</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>8020</listOrder>
+      </li>
+    </comps>	
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>PheromoneHigh_H</defName>
+    <label>pheromone high</label>
+    <labelNoun>high</labelNoun>
+    <description>A high caused by sniffing pheromones. It will lower consciousness for a day and will eventually give the bee its job in the hive, which is housekeeping.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(70,0,255)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>High</label>
+          <painFactor>0.9</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.8</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>Jobs_HousekeeperBee</hediff>
+              <mtbDays>1</mtbDays>
+              <partsToAffect>
+                <li>PheromoneSensor</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>  
+
+      <!-- Nurse -->
+	  
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Jobs_NurseBee</defName>
+    <label>Nurse Bee</label>
+    <labelNoun>a pheromone</labelNoun>
+    <description>A pheromone tells this bee that its job is to take care of its fellow bees health and hunger.</description>
+    <descriptionHyperlinks><ThingDef>Pheromones_Nurse</ThingDef></descriptionHyperlinks>
+    <defaultLabelColor>(255,155,230)</defaultLabelColor>	
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+		<stages>
+			<li>
+				<statOffsets>
+					<MedicalTendSpeed>2</MedicalTendSpeed>
+					<MedicalTendQuality>1.2</MedicalTendQuality>
+					<CookSpeed>7.5</CookSpeed>
+						</statOffsets>
+			</li>
+		</stages>	
+  </HediffDef> 
+
+  <ThingDef ParentName="PheromoneBase">
+     <defName>Pheromones_Nurse</defName>
+    <label>nurse pheromones</label>
+    <description>A set of pheromones kept in an easy to spray bottle. These smells will tell the bee to build and repair its hive increasing its ability in this field.</description>
+    <descriptionHyperlinks>
+      <HediffDef>Jobs_NurseBee</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+      <texPath>Things/Items/Perfume/Perfume</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>1.5</drawSize>
+      <color>(255,155,230)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>50</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.60</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Spray {0}</ingestCommandString>
+      <ingestReportString>Spraying {0}.</ingestReportString>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PheromoneHigh_N</hediffDef>
+          <severity>0.50</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>8040</listOrder>
+      </li>
+    </comps>	
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>PheromoneHigh_N</defName>
+    <label>pheromone high</label>
+    <labelNoun>high</labelNoun>
+    <description>A high caused by sniffing pheromones. It will lower consciousness for a day and will eventually give the bee its job in the hive, which is nursing.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(255,155,230)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>High</label>
+          <painFactor>0.9</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.8</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>Jobs_NurseBee</hediff>
+              <mtbDays>1</mtbDays>
+              <partsToAffect>
+                <li>PheromoneSensor</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>   
+     
+	 <!-- Forager -->
+  
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Jobs_ForagerBee</defName>
+    <label>Forager Bee</label>
+    <labelNoun>a pheromone</labelNoun>
+    <description>A pheromone tells this bee that its job is to leave its hive and gather resources.</description>
+    <descriptionHyperlinks><ThingDef>Pheromones_Forager</ThingDef></descriptionHyperlinks>
+	    <defaultLabelColor>(40,145,15)</defaultLabelColor>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+		<stages>
+			<li>
+				<statOffsets>
+				<PlantWorkSpeed>2</PlantWorkSpeed>
+			    <ForagedNutritionPerDay>5</ForagedNutritionPerDay>			
+			    <PlantHarvestYield>3</PlantHarvestYield>
+				</statOffsets>
+			</li>
+		</stages>	
+  </HediffDef>  
+  
+  <ThingDef ParentName="PheromoneBase">
+    <defName>Pheromones_Forager</defName>
+    <label>forager pheromones</label>
+    <description>A set of pheromones kept in an easy to spray bottle. These smells will tell the bee to build and repair its hive increasing its ability in this field.</description>
+    <descriptionHyperlinks>
+      <HediffDef>Jobs_ForagerBee</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+      <texPath>Things/Items/Perfume/Perfume</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>1.5</drawSize>
+      <color>(40,145,15)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>50</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.60</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Spray {0}</ingestCommandString>
+      <ingestReportString>Spraying {0}.</ingestReportString>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PheromoneHigh_F</hediffDef>
+          <severity>0.50</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>8060</listOrder>
+      </li>
+    </comps>	
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>PheromoneHigh_F</defName>
+    <label>pheromone high</label>
+    <labelNoun>high</labelNoun>
+    <description>A high caused by sniffing pheromones. It will lower consciousness for a day and will eventually give the bee its job in the hive, which is foraging.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(40,145,15)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>High</label>
+          <painFactor>0.9</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.8</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>Jobs_ForagerBee</hediff>
+              <mtbDays>1</mtbDays>
+              <partsToAffect>
+                <li>PheromoneSensor</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef> 
+  
+      <!-- Guard -->
+	  
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Jobs_GuardBee</defName>
+    <label>Guard Bee</label>
+    <labelNoun>a pheromone</labelNoun>
+    <description>A pheromone tells this bee that its job is to help protect its hive .</description>
+    <descriptionHyperlinks><ThingDef>Pheromones_Guard</ThingDef></descriptionHyperlinks>
+    <defaultLabelColor>(250,10,40)</defaultLabelColor>	
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+		<stages>
+			<li>
+	<statOffsets>
+			<MeleeHitChance>20</MeleeHitChance>
+			<MeleeDodgeChance>90</MeleeDodgeChance>
+	</statOffsets>
+			</li>
+		</stages>		
+  </HediffDef>  
+
+  <ThingDef ParentName="PheromoneBase">
+    <defName>Pheromones_Guard</defName>
+    <label>guard pheromones</label>
+    <description>A set of pheromones kept in an easy to spray bottle. These smells will tell the bee to build and repair its hive increasing its ability in this field.</description>
+    <descriptionHyperlinks>
+      <HediffDef>Jobs_GuardBee</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+      <texPath>Things/Items/Perfume/Perfume</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>1.5</drawSize>
+      <color>(250,10,40)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>50</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.60</joy>
+      <nurseable>true</nurseable>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Spray {0}</ingestCommandString>
+      <ingestReportString>Spraying {0}.</ingestReportString>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PheromoneHigh_G</hediffDef>
+          <severity>0.50</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>8080</listOrder>
+      </li>
+    </comps>	
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>PheromoneHigh_G</defName>
+    <label>pheromone high</label>
+    <labelNoun>high</labelNoun>
+    <description>A high caused by sniffing pheromones. It will lower consciousness for a day and will eventually give the bee its job in the hive, which is guarding.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(250,10,40)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>High</label>
+          <painFactor>0.9</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.8</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>Jobs_GuardBee</hediff>
+              <mtbDays>1</mtbDays>
+              <partsToAffect>
+                <li>PheromoneSensor</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef> 
+
+      <!-- Misc -->
+
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>RemovePheromone</defName>
+    <label>remove pheromone</label>
+    <description>Remove traces of pheromones from the pheromone sensing part of the brain.</description>
+    <jobString>Removing Pheromones.</jobString>
+    <workerClass>Recipe_InstallNaturalBodyPart</workerClass>
+    <workAmount>1000</workAmount>
+    <skillRequirements>
+      <Medicine>2</Medicine>
+    </skillRequirements>
+    <recipeUsers>
+      <li>Human_BeeGirl</li>
+    </recipeUsers>
+    <surgerySuccessChanceFactor>5</surgerySuccessChanceFactor>	
+    <ingredients>
+      <li>
+        <filter><categories><li>Medicine</li></categories></filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>PheromoneSensor</li>
+    </appliedOnFixedBodyParts>
+  </RecipeDef>  
+  
+  <ThingDef Name="PheromoneBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <useHitPoints>true</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <selectable>true</selectable>
+    <statBases>
+      <MaxHitPoints>20</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <DeteriorationRate>2</DeteriorationRate>
+      <Beauty>1</Beauty>
+    </statBases>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>5</stackLimit>
+    <thingCategories>
+      <li>Drugs</li>
+    </thingCategories>
+    <tradeTags>
+      <li>Drugs</li>
+    </tradeTags>
+    <techHediffsTags>
+      <li>Simple</li>
+    </techHediffsTags>		
+    <alwaysHaulable>true</alwaysHaulable>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+    </comps>
+    <pathCost>14</pathCost>
+    <resourceReadoutPriority>Last</resourceReadoutPriority>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <ingestible>
+      <preferability>NeverForNutrition</preferability>
+      <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <chairSearchRadius>8</chairSearchRadius>
+    </ingestible>
+  </ThingDef>  
+  
+</Defs>
+

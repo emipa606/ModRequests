@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Part -->    
+  
+  <ThingDef ParentName="BeeStingerT2Base">
+    <defName>Stinger_Flame</defName>
+    <label>desert stinger</label>
+    <description>A stinger blessed with the power of desert sun. It is so hot that it cauterizes stings and sets people alight.</description>
+    <descriptionHyperlinks><RecipeDef>InstallStinger_Flame</RecipeDef></descriptionHyperlinks>
+    <statBases>
+      <Mass>0.6</Mass>
+    </statBases>
+    <costList>
+	  <UraniumH>5</UraniumH>
+      <RB_Bee_Desert_Drone>1</RB_Bee_Desert_Drone>			
+    </costList>		
+  </ThingDef>
+
+<!-- Surgery -->  
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>InstallStinger_Flame</defName>
+    <label>install desert stinger</label>
+    <description>Install a stinger.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Flame</ThingDef></descriptionHyperlinks>
+    <jobString>Installing stinger.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Stinger_Flame</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Stinger_Flame</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Stinger</li>
+    </appliedOnFixedBodyParts>
+	<addsHediff>Stinger_Flame</addsHediff>	
+  </RecipeDef>
+  
+<!-- Damage -->    
+	
+	<ToolCapacityDef>
+		<defName>SunSting</defName>
+		<label>sun sting</label>
+	</ToolCapacityDef>	
+	
+<!-- Manuevar -->  	
+	
+	<ManeuverDef>
+		<defName>SunSting</defName>
+		<requiredCapacity>SunSting</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>Flame</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+
+<!-- Hediff -->  	
+	
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Stinger_Flame</defName>
+    <label>desert stinger</label>
+    <labelNoun>a desert stinger</labelNoun>
+    <description>A stinger as hot as the desert sun.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Flame</ThingDef></descriptionHyperlinks>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+      <li>
+        <label>bee sting</label>
+        <capacities>
+          <li>SunSting</li>
+        </capacities>
+        <power>15</power>
+        <cooldownTime>1.1</cooldownTime>
+      </li>
+        </tools>
+      </li>
+    </comps>
+    <spawnThingOnRemoved>Stinger_Flame</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+  </HediffDef>
+  
+</Defs>

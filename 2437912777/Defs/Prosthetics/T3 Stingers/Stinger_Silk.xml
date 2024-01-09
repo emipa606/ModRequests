@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Part -->    
+  
+  <ThingDef ParentName="BeeStingerT3Base">
+    <defName>Stinger_Silk</defName>
+    <label>silky stinger</label>
+    <description>A strong speedy stinger connected to an infinite string of hyperweave. The sting doesn't actually do any damage but locks enemies in a stun for quite a while. The thread can also be used to easily cover bleeding wounds.</description>
+    <descriptionHyperlinks><RecipeDef>InstallStinger_Silk</RecipeDef></descriptionHyperlinks>
+    <statBases>
+      <Mass>0.6</Mass>
+    </statBases>
+    <costList>
+      <Hyperweave>5</Hyperweave>
+	  <UraniumH>15</UraniumH>
+      <RB_Bee_Hyper_Drone>1</RB_Bee_Hyper_Drone>			
+    </costList>		
+  </ThingDef>
+
+<!-- Surgery -->  
+
+    <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>InstallStinger_Silk</defName>
+    <label>install a silky stinger</label>
+    <description>Install silk stinger.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Silk</ThingDef></descriptionHyperlinks>
+    <jobString>Installing stinger.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Stinger_Silk</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Stinger_Silk</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Stinger</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>Stinger_Silk</addsHediff>	
+  </RecipeDef>
+  
+<!-- Damage -->    
+  
+	<ToolCapacityDef>
+		<defName>StringSting</defName>
+		<label>string sting</label>
+	</ToolCapacityDef>	
+	
+<!-- Manuevar -->  	
+	
+	<ManeuverDef>
+		<defName>StringSting</defName>
+		<requiredCapacity>StringSting</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>Stun</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+	
+
+<!-- Hediff -->  	
+	
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Stinger_Silk</defName>
+    <label>silky stinger</label>
+    <labelNoun>a silk stinger</labelNoun>
+    <description>A stinger with an infinite thread.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Silk</ThingDef></descriptionHyperlinks>
+		<stages>
+			<li>
+        <totalBleedFactor>0.10</totalBleedFactor>
+			</li>			
+		</stages>	
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+      <li>
+        <label>string sting</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>110</power>
+       <chanceFactor>0.5</chanceFactor>		
+		<armorPenetration>0.75</armorPenetration>		
+        <cooldownTime>0.4</cooldownTime>
+      </li>
+      <li>
+        <label>string sting</label>
+        <capacities>
+          <li>StringSting</li>
+        </capacities>
+        <power>60</power>
+        <cooldownTime>0.1</cooldownTime>
+      </li>
+        </tools>
+      </li>
+    </comps>
+    <spawnThingOnRemoved>Stinger_Silk</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+  </HediffDef>
+  
+</Defs>

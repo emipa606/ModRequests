@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Part -->    
+  
+  <ThingDef ParentName="BeeStingerT2Base">
+    <defName>Stinger_Midas</defName>
+    <label>midas stinger</label>
+    <description>A bee stinger with the midas touch, organic creature stung by it will turn gold. A symbol of high wealth and status, largely held by hive bishops as they leave as diplomatic envoys.</description>
+    <descriptionHyperlinks><RecipeDef>InstallStinger_Midas</RecipeDef></descriptionHyperlinks>
+    <statBases>
+      <Mass>0.6</Mass>
+    </statBases>
+    <costList>
+      <Gold>1</Gold>
+	  <UraniumH>5</UraniumH>
+      <RB_Bee_Aurum_Drone>1</RB_Bee_Aurum_Drone>			
+    </costList>	
+    <techHediffsTags>
+      <li>HighClassStinger</li>
+    </techHediffsTags>		
+  </ThingDef>
+
+<!-- Surgery -->  
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>InstallStinger_Midas</defName>
+    <label>install midas stinger</label>
+    <description>Install a stinger.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Midas</ThingDef></descriptionHyperlinks>
+    <jobString>Installing stinger.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Stinger_Midas</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Stinger_Midas</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Stinger</li>
+    </appliedOnFixedBodyParts>
+	<addsHediff>Stinger_Midas</addsHediff>	
+  </RecipeDef>
+  
+<!-- Damage -->    
+  
+  <DamageDef ParentName="Sting">
+    <defName>Sting_Midas</defName>
+    <label>golden sting</label>
+    <additionalHediffs>
+      <li>
+        <hediff>GoldenSting</hediff>
+        <severityPerDamageDealt>0.011</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+    <impactSoundType>Blunt</impactSoundType>
+  </DamageDef>
+	
+	<ToolCapacityDef>
+		<defName>Sting_Midas</defName>
+		<label>golden sting</label>
+	</ToolCapacityDef>	
+	
+<!-- Manuevar -->  	
+	
+	<ManeuverDef>
+		<defName>Sting_Midas</defName>
+		<requiredCapacity>Sting_Midas</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>Sting_Midas</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+
+<!-- Hediff -->  	
+	
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>Stinger_Midas</defName>
+    <label>midas stinger</label>
+    <labelNoun>a golden stinger</labelNoun>
+    <description>A golden stinger which turns all to gold.</description>
+    <descriptionHyperlinks><ThingDef>Stinger_Midas</ThingDef></descriptionHyperlinks>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+      <li>
+        <label>bee sting</label>
+        <capacities>
+          <li>Sting_Midas</li>
+        </capacities>
+        <power>18</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+        </tools>
+      </li>
+    </comps>
+		<stages>
+			<li>
+				<statOffsets>
+                <SocialImpact>0.2</SocialImpact>
+				</statOffsets>
+			</li>
+		</stages>		
+    <spawnThingOnRemoved>Stinger_Midas</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+  </HediffDef>
+  
+ 
+  
+  <HediffDef>
+    <defName>GoldenSting</defName>
+    <label>golden sting</label>
+    <labelNoun>the golden sting</labelNoun>
+    <description>A sting that slowly turns this person to gold.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(250,195,80)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>GoldenPart</hediff>
+              <mtbDays>0.6</mtbDays>
+        <canAffectAnyLivePart>true</canAffectAnyLivePart>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>  
+  
+</Defs>
