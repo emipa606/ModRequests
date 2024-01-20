@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>DrumBath</defName>
+    <label>Drumcan Bath</label>
+    <description>A barrel for bathing.</description>
+    <thingClass>DrumBath.Building_DrumBath</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Joy/DrumcanBath</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <damageData>
+        <rect>(0.05,0.1,0.9,0.9)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.75, 0.35, 0.33)</volume>
+      </shadowData>
+      <drawSize>(1.9,2)</drawSize>
+    </graphicData>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.90</fillPercent>
+    <pathCost>60</pathCost>
+    <thingCategories>
+      <li>BuildingsJoy</li>
+    </thingCategories>
+    <statBases>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>150</Mass>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Comfort>0.85</Comfort>
+    </statBases>
+    <size>(1,2)</size>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <costList>
+      <WoodLog>10</WoodLog>
+    </costList>
+    <building>
+      <ai_chillDestination>true</ai_chillDestination>
+    </building>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <designationCategory>Joy</designationCategory>
+    <tradeability>Sellable</tradeability>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>5.0</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelConsumptionPerTickInRain>0.0003</fuelConsumptionPerTickInRain>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>21</heatPerSecond>
+        <heatPushMaxTemperature>28</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.1</fireSize>
+        <offset>(0,0,-0.8)</offset>
+      </li>
+      <li Class="DrumBath.CompProperties_DrumBathZAdjuster">
+        <BaseOffsetZ>1.2</BaseOffsetZ>
+      </li>
+    </comps>
+
+  </ThingDef>
+
+	<!-- ========================================================= -->
+  <JoyGiverDef>
+    <defName>Joy_BathingAtDrumBath</defName>
+    <giverClass>DrumBath.JoyGiver_BathingAtDrumBath</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs>
+      <li>DrumBath</li>
+    </thingDefs>
+    <jobDef>Job_BathingAtDrumBath</jobDef>
+    <joyKind>JoyKind_BathingAtDrumBath</joyKind>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </JoyGiverDef>
+
+  <JobDef>
+    <defName>Job_BathingAtDrumBath</defName>
+    <driverClass>DrumBath.JobDriver_BathingAtDrumBath</driverClass>
+    <reportString>Relaxing on TargetA</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyKind>JoyKind_BathingAtDrumBath</joyKind>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JoyKindDef>
+    <defName>JoyKind_BathingAtDrumBath</defName>
+    <label>お風呂</label>
+  </JoyKindDef>
+
+	<!-- ========================================================= -->
+
+	<!--入浴バフ。label名や効果、適用時間は自由に変えて下さい-->
+  <HediffDef>
+    <defName>Hed_BathingAtDrumBath</defName>
+    <label>Refreshing in the bath</label>
+    <description>It's a nice hot water!</description>
+    <maxSeverity>1</maxSeverity>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1,0.8,0.8)</defaultLabelColor>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-8.0</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+        <li>
+          <label>Promote blood circulation in the bath</label>
+          <restFallFactor>0.95</restFallFactor>
+	  <statOffsets>
+            <ComfyTemperatureMin>-10</ComfyTemperatureMin>
+          </statOffsets>
+            <capMods>
+              <li>
+                <capacity>Metabolism</capacity>
+                <offset>0.20</offset>
+              </li>
+            </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+
+	<!--心情バフ。label名や効果は自由に変えて下さい-->
+  <ThoughtDef>
+    <defName>Thought_BathingAtDrumBath</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>Hed_BathingAtDrumBath</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>Refreshing in the bath</label>
+        <description>It's a nice hot water!</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+	<!--入浴中ポーン表示用-->
+  <HediffDef>
+    <defName>Hed_BathingAtDrumBathPassive</defName>
+    <label>Bathing</label>
+    <description>Bathing in a drum bath.</description>
+    <maxSeverity>1</maxSeverity>
+    <defaultLabelColor>(0.6,0.6,0.6)</defaultLabelColor>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <stages>
+        <li>
+          <becomeVisible>false</becomeVisible>
+	  <statOffsets>
+            <ComfyTemperatureMax>10</ComfyTemperatureMax>
+            <ComfyTemperatureMin>-20</ComfyTemperatureMin>
+            <Flammability>-1.0</Flammability>
+          </statOffsets>
+	</li>
+    </stages>
+  </HediffDef>
+
+</Defs>
