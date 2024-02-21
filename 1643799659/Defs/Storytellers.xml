@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+    <StorytellerDef Name="ShaggyStoryteller" Abstract="True">
+        <populationIntentFactorFromPopCurve>
+            <points>
+                <li>0,  8.0</li>
+                <li>1,  2.0</li>
+                <li>5,  1.0</li>
+                <li>9,  0.4</li>
+                <li>12, 0.0</li>
+                <li>20,-1.0</li>
+            </points>
+        </populationIntentFactorFromPopCurve>
+        <populationIntentFactorFromPopAdaptDaysCurve>
+            <points>
+                <li>( 0, 0)</li>
+                <li>(10, 1.00)</li>
+            </points>
+        </populationIntentFactorFromPopAdaptDaysCurve>
+        <pointsFactorFromDaysPassed>
+            <points>
+                <li>(10, 0.70)</li>
+                <li>(40, 1.00)</li>
+            </points>
+        </pointsFactorFromDaysPassed>
+        <adaptDaysMin>-20</adaptDaysMin>
+        <adaptDaysMax>50</adaptDaysMax>
+        <adaptDaysGameStartGraceDays>30</adaptDaysGameStartGraceDays>
+        <adaptDaysLossFromColonistLostByPostPopulation>
+            <points>
+                <li>( 0, 14)</li>         
+                <li>(6, 14)</li>
+                <li>(12, 28)</li>
+            </points>
+        </adaptDaysLossFromColonistLostByPostPopulation>
+        <adaptDaysLossFromColonistViolentlyDownedByPopulation>
+            <points>
+                <li>(1,  8)</li>
+                <li>(2,  6)</li>
+                <li>(3,  6)</li>
+                <li>(12, 5)</li>
+            </points>
+        </adaptDaysLossFromColonistViolentlyDownedByPopulation>
+        <adaptDaysGrowthRateCurve>
+            <points>
+                <li>(-30.01,6)</li>
+                <li>(-30,   3)</li>
+                <li>(-0.01, 3)</li>
+                <li>(0,     1)</li>
+                <li>(59.99, 1)</li>
+                <li>(60,    0.5)</li>
+                <li>(79.99, 0.5)</li>
+                <li>(80,   0.25)</li>
+            </points>
+        </adaptDaysGrowthRateCurve>
+        <pointsFactorFromAdaptDays>
+            <points>
+                <li>(-40, 0.40)</li>
+                <li>(  0, 0.80)</li>
+                <li>( 60, 1.20)</li>
+                <li>(120, 1.60)</li>
+            </points>
+        </pointsFactorFromAdaptDays>
+        <comps>
+            <li Class="StorytellerCompProperties_DeepDrillInfestation">
+                <baseMtbDaysPerDrill>20</baseMtbDaysPerDrill>
+                <allowedTargetTags>
+                    <li>Map_PlayerHome</li>
+                    <li>Map_TempIncident</li>
+                    <li>Map_Misc</li>
+                    <li>Map_RaidBeacon</li>
+                </allowedTargetTags>
+            </li>
+        </comps>
+    </StorytellerDef>
+
+    <StorytellerDef ParentName="ShaggyStoryteller">
+        <defName>Shaggy</defName>
+        <label>Shaggy, God of Destruction</label>
+        <description>Shaggy doesn't give a sh*t. He'll generate random events that will probably annihilate your colony, and he doesn't care if they make a story of triumph or utter hopelessness.\n\nWarning: He'll probably destroy your colony in pretty fast time so its not really an easy storyteller.</description>
+        <portraitLarge>Things/Storytellers/Shaggy</portraitLarge>
+        <portraitTiny>Things/Storytellers/ShaggyTiny</portraitTiny>
+        <listOrder>50</listOrder>
+        <comps>
+            <!-- Home all -->
+            <li Class="StorytellerCompProperties_RandomMain">
+                <allowedTargetTags>
+                    <li>Map_PlayerHome</li>
+                </allowedTargetTags>
+                <minDaysPassed>1</minDaysPassed>
+                <mtbDays>1.00</mtbDays>
+                <maxThreatBigIntervalDays>7</maxThreatBigIntervalDays>
+                <minIncChancePopulationIntentFactor>0.2</minIncChancePopulationIntentFactor>
+                <randomPointsFactorRange>0.5~1.5</randomPointsFactorRange>
+                <skipThreatBigIfRaidBeacon>true</skipThreatBigIfRaidBeacon>
+                <categoryWeights>
+                    <Misc>6.2</Misc>
+                    <ThreatBig>2.0</ThreatBig>
+                    <OrbitalVisitor>0.5</OrbitalVisitor>
+                    <FactionArrival>1.0</FactionArrival>
+                    <ThreatSmall>1.0</ThreatSmall>
+                    <ShipChunkDrop>0.5</ShipChunkDrop>
+                </categoryWeights>
+            </li>
+            <li Class="StorytellerCompProperties_OnOffCycle">
+        <category>ThreatBig</category>
+        <minDaysPassed>1</minDaysPassed>
+        <onDays>1.0</onDays>
+        <offDays>1.0</offDays>
+        <numIncidentsRange>1~1</numIncidentsRange>
+        <forceRaidEnemyBeforeDaysPassed>1</forceRaidEnemyBeforeDaysPassed>
+        <disallowedTargetTags>
+          <li>Map_RaidBeacon</li>
+        </disallowedTargetTags>
+      </li>
+            <li Class="StorytellerCompProperties_Disease">
+                <category>DiseaseHuman</category>
+                <minDaysPassed>0</minDaysPassed>
+            </li>
+            <li Class="StorytellerCompProperties_Disease">
+                <category>DiseaseAnimal</category>
+                <minDaysPassed>0</minDaysPassed>
+            </li>
+            <!-- Home special threats -->
+            <li Class="StorytellerCompProperties_OnOffCycle">
+                <category>RaidBeacon</category>
+                <allowedTargetTags>
+                    <li>Map_RaidBeacon</li>
+                </allowedTargetTags>
+                <onDays>0.5</onDays>
+                <offDays>0.5</offDays>
+                <minSpacingDays>0.04</minSpacingDays>
+                <applyRaidBeaconThreatMtbFactor>true</applyRaidBeaconThreatMtbFactor>
+                <numIncidentsRange>1~2</numIncidentsRange>
+            </li>
+            <!-- Ally/neutral interaction -->
+            <li Class="StorytellerCompProperties_FactionInteraction">
+                <incident>RaidFriendly</incident>
+                <baseIncidentsPerYear>10</baseIncidentsPerYear>
+                <minSpacingDays>0.4</minSpacingDays>
+                <fullAlliesOnly>true</fullAlliesOnly>
+                <minDanger>High</minDanger>
+            </li>
+            <!-- Caravan / temp map -->
+            <li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+                <category>Misc</category>
+                <allowedTargetTags>
+                    <li>Caravan</li>
+                    <li>Map_TempIncident</li>
+                </allowedTargetTags>
+            </li>
+            <li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+                <category>ThreatSmall</category>
+                <applyCaravanVisibility>true</applyCaravanVisibility>
+                <allowedTargetTags>
+                    <li>Caravan</li>
+                    <li>Map_TempIncident</li>
+                </allowedTargetTags>
+            </li>
+            <li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+                <category>ThreatBig</category>
+                <applyCaravanVisibility>true</applyCaravanVisibility>
+                <allowedTargetTags>
+                    <li>Caravan</li>
+                    <li>Map_TempIncident</li>
+                </allowedTargetTags>
+            </li>
+            <!-- World -->
+            <li Class="StorytellerCompProperties_JourneyOffer"/>
+            <li Class="StorytellerCompProperties_OnOffCycle">
+                <category>WorldQuest</category>
+                <allowedTargetTags>
+                    <li>World</li>
+                </allowedTargetTags>
+                <onDays>30</onDays>
+                <minSpacingDays>0.2</minSpacingDays>
+                <numIncidentsRange>4</numIncidentsRange>
+                <acceptFractionByDaysPassedCurve>
+                    <points>
+                        <li>(5, 0)</li>
+                        <li>(30, 1)</li>
+                    </points>
+                </acceptFractionByDaysPassedCurve>
+            </li>
+            <li Class="StorytellerCompProperties_CategoryMTB">
+                <category>Misc</category>
+                <allowedTargetTags>
+                    <li>World</li>
+                </allowedTargetTags>
+                <minDaysPassed>1</minDaysPassed>
+                <mtbDays>15</mtbDays>
+            </li>
+            <!-- Triggered -->
+            <li Class="StorytellerCompProperties_Triggered">
+                <incident>StrangerInBlackJoin</incident>
+                <delayTicks>180</delayTicks>
+            </li>
+        </comps>
+    </StorytellerDef>
+
+</Defs>
