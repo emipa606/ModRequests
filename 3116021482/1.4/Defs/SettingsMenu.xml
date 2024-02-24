@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+    <XmlExtensions.SlateDef Name="WSOT_OrbitalTraderTracker" Abstract="True">
+        <orbital>false</orbital>
+    </XmlExtensions.SlateDef>
+
+    <XmlExtensions.SlateDef Name="WSOT_StockGeneratorProperties" Abstract="True">
+        <prop></prop>
+    </XmlExtensions.SlateDef>
+
+    <XmlExtensions.SlateDef Name="WSOT_ItemSettingCounter" Abstract="True">
+        <counter>0</counter>
+        <counterTwo>0</counterTwo>
+    </XmlExtensions.SlateDef>
+
+    <XmlExtensions.SettingsMenuDef>
+        <defName>WealthScalingOrbitalTradersSettings</defName>
+        <modId>scalingorbitaltraders</modId>
+        <label>Wealth-Scaling Orbital Traders</label>
+        <settings>
+            <li Class="XmlExtensions.Setting.TabView">
+                <tabs>
+                    <li>
+                        <label>Defaults</label>
+                        <settings>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>Minimum wealth before orbital traders start increasing their amount of stock:</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.IntEntry">
+                                <key>scalingMinWealth</key>
+                                <defaultValue>80000</defaultValue>
+                                <multiplier>1000</multiplier>
+                                <min>0</min>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>Colony wealth required for traders to increase their stock by 100%, before falloff is applied.</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.IntEntry">
+                                <key>wealthPerStock</key>
+                                <defaultValue>160000</defaultValue>
+                                <multiplier>5000</multiplier>
+                                <min>1000</min>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Numeric">
+                                <key>scalingMaxMultiplier</key>
+                                <label>Absolute maximum percent extra stock:</label>
+                                <defaultValue>450</defaultValue>
+                                <min>-1</min>
+                                <max>1000000</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.GapLine"></li>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>Polynomial falloff. With 100% polynomial falloff, you need 4x the wealth to get double the extra stock.</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Slider">
+                                <key>wealthFalloffPolynomial</key>
+                                <defaultValue>100</defaultValue>
+                                <decimals>0</decimals>
+                                <label>Polynomial falloff: {wealthFalloffPolynomial}%</label>
+                                <min>0</min>
+                                <max>500</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Numeric">
+                                <key>wealthFalloffStartPolynomial</key>
+                                <label>Percent stock required for polynomial falloff to apply:</label>
+                                <defaultValue>100</defaultValue>
+                                <min>0</min>
+                                <max>1000000</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.GapLine"></li>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>Triangular falloff. Somewhere between polynomial and linear falloff.</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Slider">
+                                <key>wealthFalloffTriangular</key>
+                                <defaultValue>0</defaultValue>
+                                <decimals>0</decimals>
+                                <label>Triangular falloff: {wealthFalloffTriangular}%</label>
+                                <min>0</min>
+                                <max>500</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Numeric">
+                                <key>wealthFalloffStartTriangular</key>
+                                <label>Percent stock required for triangular falloff to apply:</label>
+                                <defaultValue>100</defaultValue>
+                                <min>0</min>
+                                <max>1000000</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.GapLine"></li>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>Linear falloff. Scales the amount of stock gained per wealth.</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Slider">
+                                <key>wealthFalloffLinear</key>
+                                <defaultValue>0</defaultValue>
+                                <decimals>0</decimals>
+                                <label>Linear falloff: {wealthFalloffLinear}%</label>
+                                <min>0</min>
+                                <max>100</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Numeric">
+                                <key>wealthFalloffStartLinear</key>
+                                <label>Percent stock required for linear falloff to apply:</label>
+                                <defaultValue>200</defaultValue>
+                                <min>0</min>
+                                <max>1000000</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.GapLine"></li>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>Test the extra stock provided by wealth here:</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.IntEntry">
+                                <key>wealthTest</key>
+                                <defaultValue>80000</defaultValue>
+                                <multiplier>5000</multiplier>
+                                <min>1000</min>
+                            </li>
+                            <li Class="WealthScalingOrbitalTraders.WealthText"/>
+                        </settings>
+                    </li>
+                    <li>
+                        <label>Per-Trader Options</label>
+                        <settings>
+                            <!-- Trader stuff gets patched here-->
+                        </settings>
+                    </li>
+                    <li>
+                        <label>Item Type Options</label>
+                        <settings>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>These multiply the final amount of extra stocked items matching the description. They are applied after all other scaling factors are calculated.</text>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Slider">
+                                <key>livingPawnScalingMult</key>
+                                <defaultValue>25</defaultValue>
+                                <decimals>0</decimals>
+                                <label>Scaling factor for living pawns sold by traders: {livingPawnScalingMult}%</label>
+                                <min>0</min>
+                                <max>400</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Slider">
+                                <key>geneScalingMult</key>
+                                <defaultValue>10</defaultValue>
+                                <decimals>0</decimals>
+                                <label>Scaling factor for genepacks: {geneScalingMult}%</label>
+                                <min>0</min>
+                                <max>400</max>
+                            </li>
+                            <li Class="XmlExtensions.Setting.Slider">
+                                <key>trainerScalingMult</key>
+                                <defaultValue>15</defaultValue>
+                                <decimals>0</decimals>
+                                <label>Scaling factor for psytrainers and skilltrainers: {trainerScalingMult}%</label>
+                                <min>0</min>
+                                <max>400</max>
+                            </li>
+                        </settings>
+                    </li>
+                    <li>
+                        <label>Stock Generator Options (WIP)</label>
+                        <settings>
+                            <li Class="XmlExtensions.Setting.Text">
+                                <text>This settings menu is currently a work in progress. It might partially work, but not fully.</text>
+                            </li>
+                            <!-- Item stuff gets patched here-->
+                        </settings>
+                    </li>
+                </tabs>
+            </li>
+        </settings>
+    </XmlExtensions.SettingsMenuDef>
+</Defs>

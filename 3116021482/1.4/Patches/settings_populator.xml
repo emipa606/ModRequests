@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="XmlExtensions.ForEach">
+        <xpath>Defs/TraderKindDef</xpath>
+        <storeIn>traderPath</storeIn>
+        <apply>
+            <Operation Class="XmlExtensions.AggregateValues">
+                <valueOperations>
+                    <Operation Class="XmlExtensions.CreateVariable">
+                        <value>{traderPath}/defName</value>
+                        <storeIn>traderDefName</storeIn>
+                        <fromXml>true</fromXml>
+                    </Operation>
+                </valueOperations>
+                <apply>
+                    <Operation Class="XmlExtensions.ConditionalInherited">
+                        <xpathDef>{traderPath}</xpathDef>
+                        <xpathLocal>orbital</xpathLocal>
+                        <caseTrue>
+                            <Operation Class="XmlExtensions.CreateVariable">
+                                <storeIn>setSlateOrbital</storeIn>
+                                <value>{traderPath}/orbital</value>
+                                <fromXml>true</fromXml>
+                                <apply>
+                                    <Operation Class="XMLExtensions.PatchOperationReplace">
+                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_OrbitalTraderTracker"]/orbital</xpath>
+                                        <value>
+                                            <orbital>{setSlateOrbital}</orbital>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </Operation>
+                        </caseTrue>
+                        <caseFalse>
+                            <Operation Class="XMLExtensions.PatchOperationReplace">
+                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_OrbitalTraderTracker"]/orbital</xpath>
+                                <value>
+                                    <orbital>false</orbital>
+                                </value>
+                            </Operation>
+                        </caseFalse>
+                    </Operation>
+
+                    <Operation Class="XmlExtensions.CreateVariable">
+                        <value>Defs/XmlExtensions.SlateDef[@Name="WSOT_OrbitalTraderTracker"]/orbital</value>
+                        <storeIn>traderIsOrbital</storeIn>
+                        <fromXml>true</fromXml>
+                        <apply>
+                            <Operation Class="XmlExtensions.UseSettings">
+                                <modId>scalingorbitaltraders</modId>
+                                <keys>
+                                    <li>scalingMinWealth</li>
+                                    <li>wealthPerStock</li>
+                                    <li>scalingMaxMultiplier</li>
+                                    <li>wealthFalloffPolynomial</li>
+                                    <li>wealthFalloffStartPolynomial</li>
+                                    <li>wealthFalloffTriangular</li>
+                                    <li>wealthFalloffStartTriangular</li>
+                                    <li>wealthFalloffLinear</li>
+                                    <li>wealthFalloffStartLinear</li>
+                                </keys>
+                                <defaultValues>
+                                    <li>80000</li>
+                                    <li>160000</li>
+                                    <li>450</li>
+                                    <li>100</li>
+                                    <li>100</li>
+                                    <li>0</li>
+                                    <li>100</li>
+                                    <li>0</li>
+                                    <li>200</li>
+                                </defaultValues>
+                                <apply>
+                                    <Operation Class="XmlExtensions.PatchOperationAdd">
+                                        <!-- might be jank? if there is a mod incompatibility with this (specifically if you are modifying the WSOT settings) let me know -->
+                                        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[2]/settings</xpath>
+                                        <value>
+
+
+                                            <li Class="XmlExtensions.Setting.Checkbox">
+                                                <label>Scale wealth of {traderDefName}?</label>
+                                                <key>applyTo_{traderDefName}</key>
+                                                <defaultValue>{traderIsOrbital}</defaultValue>
+                                            </li>
+                                            <li Class="XmlExtensions.Setting.ToggleableSettings">
+                                                <key>applyTo_{traderDefName}</key>
+                                                <caseTrue>
+                                                    <li Class="XmlExtensions.Setting.Checkbox">
+                                                        <label>Change wealth requirements for {traderDefName}?</label>
+                                                        <key>overrideReq_{traderDefName}</key>
+                                                        <defaultValue>false</defaultValue>
+                                                    </li>
+                                                    <li Class="XmlExtensions.Setting.ToggleableSettings">
+                                                        <key>overrideReq_{traderDefName}</key>
+                                                        <caseTrue>
+                                                            <li Class="XmlExtensions.Setting.Text">
+                                                                <text>Minimum wealth before {traderDefName}'s stock increases:</text>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.IntEntry">
+                                                                <key>scalingMinWealth_{traderDefName}</key>
+                                                                <defaultValue>{scalingMinWealth}</defaultValue>
+                                                                <multiplier>1000</multiplier>
+                                                                <min>0</min>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Text">
+                                                                <text>Colony wealth required for 100% extra stock for {traderDefName}:</text>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.IntEntry">
+                                                                <key>wealthPerStock_{traderDefName}</key>
+                                                                <defaultValue>{wealthPerStock}</defaultValue>
+                                                                <multiplier>5000</multiplier>
+                                                                <min>1000</min>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>scalingMaxMultiplier_{traderDefName}</key>
+                                                                <label>Max stock for {traderDefName}:</label>
+                                                                <defaultValue>{scalingMaxMultiplier}</defaultValue>
+                                                                <min>-1</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                        </caseTrue>
+                                                    </li>
+                                                    <li Class="XmlExtensions.Setting.Checkbox">
+                                                        <label>Override default scaling behavior for {traderDefName}?</label>
+                                                        <key>override_{traderDefName}</key>
+                                                        <defaultValue>false</defaultValue>
+                                                    </li>
+                                                    <li Class="XmlExtensions.Setting.ToggleableSettings">
+                                                        <key>override_{traderDefName}</key>
+                                                        <caseTrue>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>wealthFalloffStartPolynomial_{traderDefName}</key>
+                                                                <label>Minimum % stock for polynomial falloff:</label>
+                                                                <defaultValue>{wealthFalloffStartPolynomial}</defaultValue>
+                                                                <min>0</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Slider">
+                                                                <key>wealthFalloffPolynomial_{traderDefName}</key>
+                                                                <defaultValue>{wealthFalloffPolynomial}</defaultValue>
+                                                                <decimals>0</decimals>
+                                                                <label>Polynomial falloff: {wealthFalloffPolynomial_{traderDefName}}%</label>
+                                                                <min>0</min>
+                                                                <max>500</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>wealthFalloffStartTriangular_{traderDefName}</key>
+                                                                <label>Minimum % stock for triangular falloff:</label>
+                                                                <defaultValue>{wealthFalloffStartTriangular}</defaultValue>
+                                                                <min>0</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Slider">
+                                                                <key>wealthFalloffTriangular_{traderDefName}</key>
+                                                                <defaultValue>{wealthFalloffTriangular}</defaultValue>
+                                                                <decimals>0</decimals>
+                                                                <label>Triangular falloff: {wealthFalloffTriangular_{traderDefName}}%</label>
+                                                                <min>0</min>
+                                                                <max>500</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>wealthFalloffStartLinear_{traderDefName}</key>
+                                                                <label>Minimum % stock for linear falloff</label>
+                                                                <defaultValue>{wealthFalloffStartLinear}</defaultValue>
+                                                                <min>0</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Slider">
+                                                                <key>wealthFalloffLinear_{traderDefName}</key>
+                                                                <defaultValue>{wealthFalloffLinear}</defaultValue>
+                                                                <decimals>0</decimals>
+                                                                <label>Linear falloff: {wealthFalloffLinear_{traderDefName}}%</label>
+                                                                <min>0</min>
+                                                                <max>100</max>
+                                                            </li>
+                                                        </caseTrue>
+                                                    </li>
+                                                </caseTrue>
+                                            </li>
+                                            <li Class="XmlExtensions.Setting.GapLine"></li>
+
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </Operation>
+                        </apply>
+                    </Operation>
+                </apply>
+            </Operation>
+        </apply>
+    </Operation>
+
+    <!-- Populate items -->
+
+    <Operation Class="XmlExtensions.ForEach">
+        <xpath>Defs/TraderKindDef/stockGenerators/li</xpath>
+        <prefixLength>4</prefixLength>
+        <storeIn>generatorPath</storeIn>
+        <apply>
+            <Operation Class="XMLExtensions.PatchOperationReplace">
+                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_StockGeneratorProperties"]/prop</xpath>
+                <value>
+                    <prop></prop>
+                </value>
+            </Operation>
+            <Operation Class="XmlExtensions.GetAttribute">
+                <xpath>{generatorPath}</xpath>
+                <attribute>Class</attribute>
+                <storeIn>generatorClass</storeIn>
+                <apply>
+                    <Operation Class="XmlExtensions.ConditionalInherited">
+                        <xpathDef>{generatorPath}</xpathDef>
+                        <xpathLocal>thingDef</xpathLocal>
+                        <caseTrue>
+                            <Operation Class="XmlExtensions.CreateVariable">
+                                <value>{generatorPath}/thingDef</value>
+                                <storeIn>generatorThing</storeIn>
+                                <fromXml>true</fromXml>
+                                <apply>
+                                    <Operation Class="XMLExtensions.PatchOperationReplace">
+                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_StockGeneratorProperties"]/prop</xpath>
+                                        <value>
+                                            <prop>{generatorThing}</prop>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </Operation>
+                        </caseTrue>
+                    </Operation>
+                    <Operation Class="XmlExtensions.ConditionalInherited">
+                        <xpathDef>{generatorPath}</xpathDef>
+                        <xpathLocal>categoryDef</xpathLocal>
+                        <caseTrue>
+                            <Operation Class="XmlExtensions.CreateVariable">
+                                <value>{generatorPath}/categoryDef</value>
+                                <storeIn>generatorThing</storeIn>
+                                <fromXml>true</fromXml>
+                                <apply>
+                                    <Operation Class="XMLExtensions.PatchOperationReplace">
+                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_StockGeneratorProperties"]/prop</xpath>
+                                        <value>
+                                            <prop>{generatorThing}</prop>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </Operation>
+                        </caseTrue>
+                    </Operation>
+                    <Operation Class="XmlExtensions.ConditionalInherited">
+                        <xpathDef>{generatorPath}</xpathDef>
+                        <xpathLocal>tradeTag</xpathLocal>
+                        <caseTrue>
+                            <Operation Class="XmlExtensions.CreateVariable">
+                                <value>{generatorPath}/tradeTag</value>
+                                <storeIn>generatorThing</storeIn>
+                                <fromXml>true</fromXml>
+                                <apply>
+                                    <Operation Class="XMLExtensions.PatchOperationReplace">
+                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_StockGeneratorProperties"]/prop</xpath>
+                                        <value>
+                                            <prop>{generatorThing}</prop>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </Operation>
+                        </caseTrue>
+                    </Operation>
+                    <Operation Class="XmlExtensions.CreateVariable">
+                        <value>Defs/XmlExtensions.SlateDef[@Name="WSOT_StockGeneratorProperties"]/prop</value>
+                        <storeIn>generatorProp</storeIn>
+                        <fromXml>true</fromXml>
+                        <apply>
+                            <Operation Class="XmlExtensions.UseSettings">
+                                <modId>scalingorbitaltraders</modId>
+                                <keys>
+                                    <li>scalingMinWealth</li>
+                                    <li>wealthPerStock</li>
+                                    <li>scalingMaxMultiplier</li>
+                                    <li>wealthFalloffPolynomial</li>
+                                    <li>wealthFalloffStartPolynomial</li>
+                                    <li>wealthFalloffTriangular</li>
+                                    <li>wealthFalloffStartTriangular</li>
+                                    <li>wealthFalloffLinear</li>
+                                    <li>wealthFalloffStartLinear</li>
+                                </keys>
+                                <defaultValues>
+                                    <li>80000</li>
+                                    <li>160000</li>
+                                    <li>450</li>
+                                    <li>100</li>
+                                    <li>100</li>
+                                    <li>0</li>
+                                    <li>100</li>
+                                    <li>0</li>
+                                    <li>200</li>
+                                </defaultValues>
+                                <apply>
+                                    <Operation Class="XMLExtensions.PatchOperationAdd">
+                                        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings</xpath>
+                                        <value>
+                                            <li Class="XmlExtensions.Setting.Checkbox">
+                                                <label>Change {generatorClass}_{generatorProp} scaling?</label>
+                                                <key>{generatorClass}_{generatorProp}_Entry</key>
+                                                <defaultValue>false</defaultValue>
+                                            </li>
+                                            <li Class="XmlExtensions.Setting.ToggleableSettings">
+                                                <key>{generatorClass}_{generatorProp}_Entry</key>
+                                                <caseTrue>
+                                                    <li Class="XmlExtensions.Setting.Checkbox">
+                                                        <label>Change wealth requirements for {generatorClass}_{generatorProp}?</label>
+                                                        <key>itemOverrideReq_{generatorClass}_{generatorProp}_Entry</key>
+                                                        <defaultValue>false</defaultValue>
+                                                    </li>
+                                                    <li Class="XmlExtensions.Setting.ToggleableSettings">
+                                                        <key>itemOverrideReq_{generatorClass}_{generatorProp}_Entry</key>
+                                                        <caseTrue>
+                                                            <li Class="XmlExtensions.Setting.Text">
+                                                                <text>Minimum wealth before {generatorClass}_{generatorProp}'s stock increases:</text>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.IntEntry">
+                                                                <key>itemScalingMinWealth_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <defaultValue>{scalingMinWealth}</defaultValue>
+                                                                <multiplier>1000</multiplier>
+                                                                <min>0</min>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Text">
+                                                                <text>Colony wealth required for 100% extra stock for {generatorClass}_{generatorProp}:</text>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.IntEntry">
+                                                                <key>itemWealthPerStock_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <defaultValue>{wealthPerStock}</defaultValue>
+                                                                <multiplier>5000</multiplier>
+                                                                <min>1000</min>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>itemScalingMaxMultiplier_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <label>Max stock for {generatorClass}_{generatorProp}:</label>
+                                                                <defaultValue>{scalingMaxMultiplier}</defaultValue>
+                                                                <min>-1</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                        </caseTrue>
+                                                    </li>
+                                                    <li Class="XmlExtensions.Setting.Checkbox">
+                                                        <label>Override default scaling behavior for {generatorClass}_{generatorProp}?</label>
+                                                        <key>itemOverride_{generatorClass}_{generatorProp}_Entry</key>
+                                                        <defaultValue>false</defaultValue>
+                                                    </li>
+                                                    <li Class="XmlExtensions.Setting.ToggleableSettings">
+                                                        <key>itemOverride_{generatorClass}_{generatorProp}_Entry</key>
+                                                        <caseTrue>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>itemWealthFalloffStartPolynomial_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <label>Minimum % stock for polynomial falloff:</label>
+                                                                <defaultValue>{wealthFalloffStartPolynomial}</defaultValue>
+                                                                <min>0</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Slider">
+                                                                <key>itemWealthFalloffPolynomial_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <defaultValue>{wealthFalloffPolynomial}</defaultValue>
+                                                                <decimals>0</decimals>
+                                                                <label>Polynomial falloff: {itemWealthFalloffPolynomial_{generatorClass}_{generatorProp}_Entry}%</label>
+                                                                <min>0</min>
+                                                                <max>500</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>itemWealthFalloffStartTriangular_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <label>Minimum % stock for triangular falloff:</label>
+                                                                <defaultValue>{wealthFalloffStartTriangular}</defaultValue>
+                                                                <min>0</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Slider">
+                                                                <key>itemWealthFalloffTriangular_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <defaultValue>{wealthFalloffTriangular}</defaultValue>
+                                                                <decimals>0</decimals>
+                                                                <label>Triangular falloff: {itemWealthFalloffTriangular_{generatorClass}_{generatorProp}_Entry}%</label>
+                                                                <min>0</min>
+                                                                <max>500</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Numeric">
+                                                                <key>itemWealthFalloffStartLinear_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <label>Minimum % stock for linear falloff</label>
+                                                                <defaultValue>{wealthFalloffStartLinear}</defaultValue>
+                                                                <min>0</min>
+                                                                <max>1000000</max>
+                                                            </li>
+                                                            <li Class="XmlExtensions.Setting.Slider">
+                                                                <key>itemWealthFalloffLinear_{generatorClass}_{generatorProp}_Entry</key>
+                                                                <defaultValue>{wealthFalloffLinear}</defaultValue>
+                                                                <decimals>0</decimals>
+                                                                <label>Linear falloff: {itemWealthFalloffLinear_{generatorClass}_{generatorProp}_Entry}%</label>
+                                                                <min>0</min>
+                                                                <max>100</max>
+                                                            </li>
+                                                        </caseTrue>
+                                                    </li>
+                                                </caseTrue>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </Operation>
+                        </apply>
+                    </Operation>
+                </apply>
+            </Operation>
+        </apply>
+    </Operation>
+
+    <!-- Sanitize items list by removing duplicates -->
+
+    <Operation Class="XmlExtensions.PatchOperationSortList">
+        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings</xpath>
+        <xpathLocal>key</xpathLocal>
+        <nonNumeric>true</nonNumeric>
+    </Operation>
+
+    <Operation Class="XmlExtensions.ForEach">
+        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li</xpath>
+        <prefixLength>8</prefixLength>
+        <storeIn>pathToSetting</storeIn>
+        <apply>
+            <Operation Class="XmlExtensions.PatchOperationMath">
+                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counter</xpath>
+                <value>1</value>
+                <operation>+</operation>
+            </Operation>
+        </apply>
+    </Operation>
+
+    <Operation Class="XmlExtensions.CreateVariable">
+        <value>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counter</value>
+        <storeIn>counter</storeIn>
+        <fromXml>true</fromXml>
+        <apply>
+            <Operation Class="XmlExtensions.ForLoop">
+                <from>2</from>
+                <to>{counter}</to>
+                <increment>2</increment>
+                <storeIn>iter</storeIn>
+                <apply>
+                    <Operation Class="XmlExtensions.IfStatement">
+                        <condition Class="XmlExtensions.Boolean.Comparison">
+                            <value1>{iter}</value1>
+                            <fromXml1>false</fromXml1>
+                            <value2>{counter}</value2>
+                            <fromXml2>false</fromXml2>
+                            <relation>leq</relation>
+                        </condition>
+                        <caseTrue>
+                            <Operation Class="XmlExtensions.Conditional">
+                                <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{iter}]/key</xpath>
+                                <caseTrue>
+                                    <Operation Class="XmlExtensions.CreateVariable">
+                                        <value>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{iter}]/key</value>
+                                        <storeIn>settingKeyOne</storeIn>
+                                        <fromXml>true</fromXml>
+                                        <apply>
+                                            <Operation Class="XMLExtensions.PatchOperationSafeAdd">
+                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]</xpath>
+                                                <value>
+                                                    <cont></cont>
+                                                </value>
+                                            </Operation>
+                                            <Operation Class="XMLExtensions.PatchOperationSafeAdd">
+                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]</xpath>
+                                                <value>
+                                                    <skipCheck></skipCheck>
+                                                </value>
+                                            </Operation>
+                                            <Operation Class="XMLExtensions.PatchOperationSafeAdd">
+                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]</xpath>
+                                                <value>
+                                                    <skipToggle></skipToggle>
+                                                </value>
+                                            </Operation>
+                                            <Operation Class="XMLExtensions.PatchOperationSafeAddOrReplace">
+                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]</xpath>
+                                                <value>
+                                                    <counterTwo>{iter}</counterTwo>
+                                                </value>
+                                            </Operation>
+                                            <Operation Class="XmlExtensions.WhileLoop">
+                                                <condition Class="XmlExtensions.Boolean.And">
+                                                    <conditions>
+                                                         <li Class="XmlExtensions.Boolean.Conditional">
+                                                            <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/cont</xpath>
+                                                        </li>
+                                                        <li Class="XmlExtensions.Boolean.Comparison">
+                                                            <value1>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counterTwo</value1>
+                                                            <fromXml1>true</fromXml1>
+                                                            <value2>{counter}</value2>
+                                                            <fromXml2>false</fromXml2>
+                                                            <relation>leq</relation>
+                                                        </li>
+                                                    </conditions>
+                                                </condition>
+                                                <apply>
+                                                    <Operation Class="XmlExtensions.CreateVariable">
+                                                        <value>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counterTwo</value>
+                                                        <storeIn>counterTwo</storeIn>
+                                                        <fromXml>true</fromXml>
+                                                        <apply>
+                                                            <Operation Class="XmlExtensions.IfStatement">
+                                                                <condition Class="XmlExtensions.Boolean.Comparison">
+                                                                    <value1>{counterTwo}</value1>
+                                                                    <fromXml1>false</fromXml1>
+                                                                    <value2>{counter}</value2>
+                                                                    <fromXml2>false</fromXml2>
+                                                                    <relation>leq</relation>
+                                                                </condition>
+                                                                <caseTrue>
+                                                                    <Operation Class="XmlExtensions.Conditional">
+                                                                        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{counterTwo}]/key</xpath>
+                                                                        <caseTrue>
+                                                                            <Operation Class="XmlExtensions.CreateVariable">
+                                                                                <value>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{counterTwo}]/key</value>
+                                                                                <storeIn>settingKeyTwo</storeIn>
+                                                                                <fromXml>true</fromXml>
+                                                                                <apply>
+                                                                                    <Operation Class="XmlExtensions.IfStatement">
+                                                                                        <condition Class="XmlExtensions.Boolean.Comparison">
+                                                                                            <value1>{settingKeyOne}</value1>
+                                                                                            <fromXml1>false</fromXml1>
+                                                                                            <value2>{settingKeyTwo}</value2>
+                                                                                            <fromXml2>false</fromXml2>
+                                                                                            <relation>eq</relation>
+                                                                                            <nonNumeric>true</nonNumeric>
+                                                                                        </condition>
+                                                                                        <caseTrue>
+                                                                                            <Operation Class="XmlExtensions.ConditionalInherited">
+                                                                                                <xpathDef>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{counterTwo}]</xpathDef>
+                                                                                                <xpathLocal>label</xpathLocal>
+                                                                                                <caseTrue>
+                                                                                                    <Operation Class="XmlExtensions.Conditional">
+                                                                                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/skipCheck</xpath>
+                                                                                                        <caseTrue>
+                                                                                                            <Operation Class="XmlExtensions.PatchOperationSafeRemove">
+                                                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/skipCheck</xpath>
+                                                                                                            </Operation>
+                                                                                                            <Operation Class="XmlExtensions.PatchOperationMath">
+                                                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counterTwo</xpath>
+                                                                                                                <value>1</value>
+                                                                                                                <operation>+</operation>
+                                                                                                            </Operation>
+                                                                                                        </caseTrue>
+                                                                                                        <caseFalse>
+                                                                                                            <Operation Class="XmlExtensions.PatchOperationSafeRemove">
+                                                                                                                <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{counterTwo}]</xpath>
+                                                                                                            </Operation>
+                                                                                                        </caseFalse>
+                                                                                                    </Operation>
+                                                                                                </caseTrue>
+                                                                                                <caseFalse>
+                                                                                                    <Operation Class="XmlExtensions.Conditional">
+                                                                                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/skipToggle</xpath>
+                                                                                                        <caseTrue>
+                                                                                                            <Operation Class="XmlExtensions.PatchOperationSafeRemove">
+                                                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/skipToggle</xpath>
+                                                                                                            </Operation>
+                                                                                                            <Operation Class="XmlExtensions.PatchOperationMath">
+                                                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counterTwo</xpath>
+                                                                                                                <value>1</value>
+                                                                                                                <operation>+</operation>
+                                                                                                            </Operation>
+                                                                                                        </caseTrue>
+                                                                                                        <caseFalse>
+                                                                                                            <Operation Class="XmlExtensions.PatchOperationSafeRemove">
+                                                                                                                <xpath>Defs/XmlExtensions.SettingsMenuDef[defName="WealthScalingOrbitalTradersSettings"]/settings/li[1]/tabs/li[4]/settings/li[{counterTwo}]</xpath>
+                                                                                                            </Operation>
+                                                                                                        </caseFalse>
+                                                                                                    </Operation>
+                                                                                                </caseFalse>
+                                                                                            </Operation>
+                                                                                        </caseTrue>
+                                                                                        <caseFalse>
+                                                                                            <Operation Class="XmlExtensions.PatchOperationSafeRemove">
+                                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/cont</xpath>
+                                                                                            </Operation>
+                                                                                            <Operation Class="XmlExtensions.PatchOperationMath">
+                                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/counterTwo</xpath>
+                                                                                                <value>1</value>
+                                                                                                <operation>+</operation>
+                                                                                            </Operation>
+                                                                                        </caseFalse>
+                                                                                    </Operation>
+                                                                                </apply>
+                                                                            </Operation>
+                                                                        </caseTrue>
+                                                                        <caseFalse>
+                                                                             <Operation Class="XmlExtensions.PatchOperationSafeRemove">
+                                                                                <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]/cont</xpath>
+                                                                            </Operation>
+                                                                        </caseFalse>
+                                                                    </Operation>
+                                                                </caseTrue>
+                                                            </Operation>
+                                                        </apply>
+                                                    </Operation>
+                                                    <Operation Class="XmlExtensions.Conditional">
+                                                        <xpath>Defs/XmlExtensions.SlateDef[@Name="WSOT_ItemSettingCounter"]</xpath>
+                                                        <caseFalse>
+                                                            <Operation Class="XmlExtensions.Log">
+                                                                <text>ItemSettingCounter is getting nulled somehow</text>
+                                                            </Operation>
+                                                        </caseFalse>
+                                                    </Operation>
+                                                </apply>
+                                            </Operation>
+                                        </apply>
+                                    </Operation>
+                                </caseTrue>
+                            </Operation>
+                        </caseTrue>
+                    </Operation>
+                </apply>
+            </Operation>
+        </apply>
+    </Operation>
+
+
+</Patch>
