@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<AbilityCategoryDef>
+		<defName>Satyr</defName>
+		<displayOrder>1501</displayOrder>
+	</AbilityCategoryDef>
+	
+	<!--====================== AbilityBase ======================-->
+	<!-- Parent for all RBSF_Virtuoso Gene Abilities -->
+	
+	<AbilityDef Name="MelodicBase" Abstract="true">
+		<jobDef>CastAbilityOnThingWithoutWeaponInterruptible</jobDef>
+		<writeCombatLog>True</writeCombatLog>
+		<category>Satyr</category>
+		<statBases>
+			<Ability_Duration>0</Ability_Duration>
+			<Ability_EffectRadius>6</Ability_EffectRadius>
+		</statBases>
+		<targetRequired>false</targetRequired>
+		<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+		<showCastingProgressBar>false</showCastingProgressBar>
+		<comps>
+			<li Class="CompProperties_AbilityRequiresCapacity">
+				<capacity>Talking</capacity>
+			</li>
+		</comps>
+	</AbilityDef>
+	
+	<!--====================== Ability: Melodic Sonata ======================-->
+	<!-- Medium -->
+	
+	<AbilityDef ParentName="MelodicBase">
+		<defName>RBSF_MelodicSonata</defName>
+		<label>melodic sonata</label>
+		<description>The user performs an uplifting tune that’s guaranteed to put a smile on people’s faces. Anyone who hears this song will feel uplifted for a while.</description>
+		<iconPath>UI/GeneIcons/RBSF_Ability_Sonata</iconPath>
+		<displayOrder>53</displayOrder>
+		<cooldownTicksRange>0</cooldownTicksRange>
+		<aiCanUse>false</aiCanUse>
+		<hostile>false</hostile>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupEffecter>RBSF_MusicSonata</warmupEffecter>
+			<warmupTime>480</warmupTime>
+			<requireLineOfSight>false</requireLineOfSight>
+			<range>7</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Roos_Satyr_Xenotype.RBSF_CompProperties_AbilityMelodicSonata"/>
+		</comps>
+	</AbilityDef>
+
+	<!--====================== Heard Sonata ======================-->
+	<!-- Is a thought, not a hediff -->
+  
+	<ThoughtDef>
+		<defName>RBSF_HeardSonata</defName>
+		<validWhileDespawned>true</validWhileDespawned>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<durationDays>0.02</durationDays>
+		<stackLimit>1</stackLimit>
+		<stages>
+			<li>
+				<label>listening to a beautiful melody</label>
+				<description>That wonderful song makes me feel like everything is going to be okay.</description>
+				<baseMoodEffect>10</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<!--====================== Ability: Melodic Healing ======================-->
+	<!-- Medium -->
+	
+	<AbilityDef ParentName="MelodicBase">
+		<defName>RBSF_MelodicHealing</defName>
+		<label>melodic healing</label>
+		<description>The user plays an inspiring song of hope and joy. While this tune is played, anyone who hears this tune will heal much faster.</description>
+		<iconPath>UI/GeneIcons/RBSF_Ability_Healing</iconPath>
+		<displayOrder>51</displayOrder>
+		<cooldownTicksRange>0</cooldownTicksRange>
+		<aiCanUse>false</aiCanUse>
+		<hostile>false</hostile>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupEffecter>RBSF_MusicHealing</warmupEffecter>
+			<warmupTime>480</warmupTime>
+			<requireLineOfSight>false</requireLineOfSight>
+			<range>7</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Roos_Satyr_Xenotype.RBSF_CompProperties_AbilityMelodicHealing"/>
+		</comps>
+	</AbilityDef>
+	
+		
+	<HediffDef>
+		<defName>RBSF_HeardHealing</defName>
+		<label>heard a melodic healing song</label>
+		<labelNoun>healed</labelNoun>
+		<defaultLabelColor>(70, 130, 210)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<everCurableByItem>false</everCurableByItem>
+		<tendable>false</tendable>
+		<displayWound>false</displayWound>
+		<description>This pawn is experiencing accelerated healing due to being in the presence of a melodic healing song.</description>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>TraumaSavant</otherHediff>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-90</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<InjuryHealingFactor>0.3</InjuryHealingFactor>
+					<RestRateMultiplier>0.3</RestRateMultiplier>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>0.3</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>0.3</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>0.3</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<!--====================== Ability: Melodic Warcall ======================-->
+	<!-- Medium -->
+	
+	<AbilityDef ParentName="MelodicBase">
+		<defName>RBSF_MelodicWarcall</defName>
+		<label>melodic warcall</label>
+		<description>The user performs a foreboding war song to rally up nearby pawns. Pawns in range of this tune will have their accuracy and power boosted.</description>
+		<iconPath>UI/GeneIcons/RBSF_Ability_Warcall</iconPath>
+		<displayOrder>52</displayOrder>
+		<cooldownTicksRange>0</cooldownTicksRange>
+		<aiCanUse>false</aiCanUse>
+		<hostile>false</hostile>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupEffecter>RBSF_MusicWarcall</warmupEffecter>
+			<warmupTime>480</warmupTime>
+			<requireLineOfSight>false</requireLineOfSight>
+			<range>7</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Roos_Satyr_Xenotype.RBSF_CompProperties_AbilityMelodicWarcall"/>
+		</comps>
+	</AbilityDef>
+	
+	<HediffDef>
+		<defName>RBSF_HeardWarcall</defName>
+		<label>heard a melodic warcall</label>
+		<labelNoun>pumped</labelNoun>
+		<defaultLabelColor>(200, 15, 15)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<everCurableByItem>false</everCurableByItem>
+		<tendable>false</tendable>
+		<displayWound>false</displayWound>
+		<description>This pawn is primed for battle, thanks to the exhilarating sound of a nearby war song.</description>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>TraumaSavant</otherHediff>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-90</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<ShootingAccuracyPawn>1</ShootingAccuracyPawn>
+					<MeleeDodgeChance>0.5</MeleeDodgeChance>
+					<MeleeHitChance>0.5</MeleeHitChance>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<!--====================== Ability: Melodic Lullaby ======================-->
+	<!-- High -->
+
+	<AbilityDef ParentName="MelodicBase">
+		<defName>RBSF_MelodicLullaby</defName>
+		<label>melodic lullaby</label>
+		<description>The user plays a beautiful lullaby, bringing any pawns around them to their knees with exhaustion.</description>
+		<iconPath>UI/GeneIcons/RBSF_Ability_Lullaby</iconPath>
+		<displayOrder>50</displayOrder>
+		<cooldownTicksRange>0</cooldownTicksRange>
+		<aiCanUse>true</aiCanUse>
+		<hostile>true</hostile>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupEffecter>RBSF_MusicLullaby</warmupEffecter>
+			<warmupTime>480</warmupTime>
+			<requireLineOfSight>false</requireLineOfSight>
+			<range>7</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Roos_Satyr_Xenotype.RBSF_CompProperties_AbilityMelodicLullaby"/>
+		</comps>
+	</AbilityDef>
+	
+	<HediffDef>
+		<defName>RBSF_HeardLullaby</defName>
+		<label>heard a melodic lullaby</label>
+		<labelNoun>sleepy</labelNoun>
+		<defaultLabelColor>(160, 108, 189)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<everCurableByItem>false</everCurableByItem>
+		<tendable>false</tendable>
+		<displayWound>false</displayWound>
+		<description>This pawn is rapidly falling asleep due to the sound of a beautiful lullaby.</description>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>TraumaSavant</otherHediff>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-90</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<RestFallRateFactor>50</RestFallRateFactor>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<!--====================== Ability: Melodic Hymn ======================-->
+	<!-- High -->
+
+	<AbilityDef ParentName="MelodicBase">
+		<defName>RBSF_MelodicHymn</defName>
+		<label>melodic hymn</label>
+		<description>The user plays a beautiful, spiritual tune, aiding pawns around them in their meditation. As long as the song continues, nearby pawns will be able to meditate much faster.</description>
+		<iconPath>UI/GeneIcons/RBSF_Ability_Hymn</iconPath>
+		<displayOrder>50</displayOrder>
+		<cooldownTicksRange>0</cooldownTicksRange>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupEffecter>RBSF_MusicHymn</warmupEffecter>
+			<warmupTime>480</warmupTime>
+			<requireLineOfSight>false</requireLineOfSight>
+			<range>7</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Roos_Satyr_Xenotype.RBSF_CompProperties_AbilityMelodicHymn"/>
+		</comps>
+	</AbilityDef>
+	
+	<HediffDef>
+		<defName>RBSF_HeardHymn</defName>
+		<label>heard a melodic hymn</label>
+		<labelNoun>focus</labelNoun>
+		<defaultLabelColor>(240, 100, 166)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<everCurableByItem>false</everCurableByItem>
+		<tendable>false</tendable>
+		<displayWound>false</displayWound>
+		<description>This pawn can meditate much better thanks to the soothing song playing near them.</description>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>TraumaSavant</otherHediff>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-90</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<MeditationFocusGain>0.3</MeditationFocusGain>
+					<PsychicEntropyRecoveryRate>0.16</PsychicEntropyRecoveryRate>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	
+	<!--====================== Playing Tune HeDiff ======================-->
+	<!-- Applied to pawns using virtuoso ability -->
+		
+		
+	<HediffDef>
+		<defName>RBSF_PlayingTune</defName>
+		<label>playing a tune</label>
+		<defaultLabelColor>(237, 44, 109)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<everCurableByItem>false</everCurableByItem>
+		<tendable>false</tendable>
+		<displayWound>false</displayWound>
+		<description>This pawn is performing a melodic tune, exhausting them a little faster.</description>
+		<stages>
+			<li>
+				<statOffsets>
+					<RestFallRateFactor>1.5</RestFallRateFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-100</severityPerDay>
+			</li>
+		</comps>
+	</HediffDef>
+		
+		
+	<!--====================== Melodic Elegy ======================-->
+	<!-- High -->
+		
+	<AbilityDef ParentName="AbilityTouchBase">
+		<defName>RBSF_MelodicElegy</defName>
+		<label>melodic elegy</label>
+		<description>The pawn plays an ancient melody capable of resurrecting a fallen pawn. The melody is said to reperesent a duel between the pawn and the devil themselves; if they win, the corpse is restored. If they lose, however, the soul is purged from the body, leaving nothing but bile and ash behind.</description>
+		<iconPath>UI/GeneIcons/RBSF_Ability_Elegy</iconPath>
+		<cooldownTicksRange>6840000~7560000</cooldownTicksRange><!-- 1.9~2.1 years -->
+		<warmupMote>Mote_ResurrectAbility</warmupMote>
+		<warmupStartSound>RBSF_MelodicElegyStartup</warmupStartSound>
+		<category>Satyr</category>
+		<displayOrder>600</displayOrder>
+		<hostile>false</hostile>
+		<verbProperties>
+			<verbClass>Verb_CastAbilityTouch</verbClass>
+			<drawAimPie>false</drawAimPie>
+			<warmupEffecter>RBSF_MusicElegy</warmupEffecter>
+			<range>-1</range>
+			<warmupTime>9</warmupTime>
+
+			<targetParams>
+				<canTargetPawns>false</canTargetPawns>
+				<canTargetBuildings>false</canTargetBuildings>
+				<canTargetCorpses>true</canTargetCorpses>
+				<canTargetMechs>false</canTargetMechs>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Roos_Satyr_Xenotype.RBSF_CompProperties_Deal_With_the_Devil"/>
+		</comps>
+	</AbilityDef>
+
+</Defs>
