@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!--====================== Genetic HeDiffs ======================-->
+	<!-- HeDiffs added to pawns by minotaur genes -->
+	
+	<!--====================== See Red ======================-->
+	<!-- Applied to pawns who use the ability "See Red". Sends pawn into a very brief mental rage before incapacitating them for a while. -->
+	
+		<HediffDef>
+		<defName>HeDiffSeeRed</defName>
+		<label>seeing red</label>
+		<labelNoun>outrage</labelNoun>
+		<defaultLabelColor>(250, 150, 180)</defaultLabelColor>
+		<description>Total loss of physical restraint.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>1</initialSeverity>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.85</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_Effecter">
+				<stateEffecter>RBM_TerrifiedEffect</stateEffecter>
+			</li>
+			<li Class="HediffCompProperties_DisappearsOnDeath"/>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0</minSeverity>
+				<label>aftermath</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<setMax>0.1</setMax>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.89</minSeverity>
+				<label>exhausted</label>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.10</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.10</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.93</minSeverity>
+				<label>diminishing</label>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.10</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.25</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.96</minSeverity>
+				<label>intense</label>
+				<statOffsets>
+					<MeleeHitChance>15</MeleeHitChance>
+					<PainShockThreshold>2</PainShockThreshold>
+					<StaggerDurationFactor>-0.3</StaggerDurationFactor>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.50</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.80</offset>
+					</li>
+				</capMods>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Berserk</mentalState>
+						<mtbDays>0</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<!--====================== Estrous Heat ======================-->
+	<!-- Applied to pawns with the gene "Estrous Cycle" in Aprimay. PawnLovinMTB hours are adjusted in C#, but MentalBreakThreshold is adjusted in XML. -->
+		
+	<HediffDef>
+		<defName>EstrousHeat</defName>
+		<label>in heat</label>
+		<labelNoun>heat</labelNoun>
+		<defaultLabelColor>(250, 150, 180)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<everCurableByItem>false</everCurableByItem>
+		<tendable>false</tendable>
+		<displayWound>false</displayWound>
+		<description>This pawn is currently in heat.</description>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>Sterilized</otherHediff>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<MentalBreakThreshold>0.05</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<!-- Estrous Heat Thought -->
+
+	<ThoughtDef>
+		<defName>EstrousHeatThought</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>EstrousHeat</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<developmentalStageFilter>Adult</developmentalStageFilter>
+		<stages>
+			<li>
+				<label>in heat</label>
+				<description>Being in heat really affects my emotions.</description>
+				<baseMoodEffect>-3</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<!--====================== Unguligrade Legs ======================-->
+	<!-- Given to pawns with the "Unguligrade Legs" gene. -->
+	
+	<HediffDef ParentName="AddedBodyPartBase">
+		<defName>UnguligradeLegPart</defName>
+		<label>unguligrade leg</label>
+		<labelNoun>an unguligrade leg</labelNoun>
+		<description>An unguligrade leg with a cloven hoof, perfect for hotfooting it out of trouble, not-so-perfect for keeping the floor clean.</description>
+		<countsAsAddedPartOrImplant>false</countsAsAddedPartOrImplant>
+		<addedPartProps>
+			<solid>true</solid>
+			<partEfficiency>1</partEfficiency>
+		</addedPartProps>
+		<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>hoof</label>
+						<capacities>
+							<li>Blunt</li>
+						</capacities>
+						<power>8</power>
+						<cooldownTime>2</cooldownTime>
+						<soundMeleeHit>Pawn_Melee_Punch_HitPawn</soundMeleeHit>
+						<soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+					</li>
+				</tools>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0</minSeverity>
+				<statOffsets>
+					<StaggerDurationFactor>-0.13</StaggerDurationFactor>
+					<MoveSpeed>0.1</MoveSpeed>
+					<FilthRate>0.75</FilthRate>
+					<MeleeDodgeChance>2.5</MeleeDodgeChance>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+</Defs>

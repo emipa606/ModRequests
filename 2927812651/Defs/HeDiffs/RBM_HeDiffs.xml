@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+	<!--====================== Terrified ======================-->
+	<!-- Forced onto pawns affected by the gas cloud produced by the ability: SeeRed. -->
+	<!-- More Details: This primarily acts as a middleman to give pawns the mental state, RBM_TerrifiedFlee -->
+
+	<HediffDef>
+		<defName>HeDiffTerrified</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Terrified</label>
+		<labelNoun>terror</labelNoun>
+		<defaultLabelColor>(0.3, 0.7, 9)</defaultLabelColor>
+		<description>Abhorrent visions are haunting this pawn's mind, making them terrified.</description>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<makesSickThought>false</makesSickThought>
+		<tendable>false</tendable>
+		<makesAlert>false</makesAlert>
+		<maxSeverity>4.0</maxSeverity>
+		<isBad>true</isBad>
+		<initialSeverity>1</initialSeverity>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<disappearsAfterTicks>200</disappearsAfterTicks>
+				<showRemainingTime>false</showRemainingTime>
+			</li>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>HeDiffSeeRed</otherHediff>
+				<stages>2~</stages>
+				<mtbHours>0</mtbHours>
+			</li>
+		</comps>
+		<injuryProps>
+			<destroyedLabel>terrified</destroyedLabel>
+			<destroyedOutLabel>terrified</destroyedOutLabel>
+		</injuryProps>
+		<stages>
+			<li>
+				<minSeverity>0</minSeverity>
+				<label>terrified</label>
+				<mentalStateGivers>
+					<li>
+						<mentalState>RBM_TerrifiedFlee</mentalState>
+						<mtbDays>0</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+
+
+	<!--====================== Bruise (Sound) ======================-->
+	<!-- A minimally altered bruise HeDiff inflicted by the Tunbell. -->
+	<!-- More Details: Acts as an invisible middleman to give pawns the HeDiff, Ringing, specifically to their ears using the HediffGiver_Random Class. Melee weapons cannot inflict HeDiffs to specific body parts upon attack, just the body parts they are aimed at. It felt weird seeing pawns having 'ringing' in their legs, so this is the only way I could think to do it. -->
+
+	<HediffDef ParentName="InjuryBase">
+		<defName>BruiseSound</defName>
+		<label>bruise</label>
+		<labelNoun>a bruise</labelNoun>
+		<description>A bruise.</description>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<disappearsAfterTicks>10</disappearsAfterTicks>
+				<showRemainingTime>false</showRemainingTime>
+			</li>
+		</comps>
+		<injuryProps>
+			<painPerSeverity>0.0125</painPerSeverity>
+			<averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+			<canMerge>false</canMerge>
+			<destroyedLabel>Destroyed</destroyedLabel>
+		</injuryProps>
+		<stages>
+			<li>
+				<minSeverity>0.1</minSeverity>
+				<becomeVisible>false</becomeVisible>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>Ringing</hediff>
+						<partsToAffect>
+							<li>Ear</li>
+						</partsToAffect>
+						<countToAffect>2</countToAffect>
+					</li>
+				</hediffGivers>
+			</li>
+		</stages>
+	</HediffDef>
+
+
+	<!--====================== Ringing ======================-->
+	<!-- Inflicted by the Tunbell, using Bruisesound as a prompter for it to appear.-->
+	<!-- More Details: Pawns with this HeDiff will progressively get worse if untended, resulting in possible HearingLoss.-->
+	
+	<HediffDef>
+		<defName>Ringing</defName>
+		<label>ears ringing</label>
+		<labelNoun>ringing</labelNoun>
+		<defaultLabelColor>(274, 154, 45)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<tendable>true</tendable>
+		<displayWound>false</displayWound>
+		<labelNounPretty>{0} in the {1}</labelNounPretty>
+		<description>Untended, ringing ears can lead to permanent hearing loss.</description>
+		<comps>
+			<li Class="HediffCompProperties_TendDuration">
+				<severityPerDayTended>-500</severityPerDayTended>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>200</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<otherHediff>HearingLoss</otherHediff>
+				<mtbHours>0</mtbHours>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>minor</label>
+				<minSeverity>0.1</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Hearing</capacity>
+						<setMax>0.8</setMax>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>worsening</label>
+				<minSeverity>50</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Hearing</capacity>
+						<setMax>0.5</setMax>
+					</li>
+				</capMods>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>HearingLoss</hediff>
+						<mtbDays>0</mtbDays>
+						<partsToAffect>
+							<li>Ear</li>
+						</partsToAffect>
+						<countToAffect>2</countToAffect>
+					</li>
+				</hediffGivers>
+			</li>
+			<li>
+				<label>major</label>
+				<minSeverity>90</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Hearing</capacity>
+						<setMax>0.5</setMax>
+					</li>
+				</capMods>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>HearingLoss</hediff>
+						<mtbDays>0</mtbDays>
+						<partsToAffect>
+							<li>Ear</li>
+						</partsToAffect>
+						<countToAffect>2</countToAffect>
+					</li>
+				</hediffGivers>
+			</li>
+		</stages>
+		<injuryProps>
+			<painPerSeverity>0</painPerSeverity>
+			<averagePainPerSeverityPermanent>0</averagePainPerSeverityPermanent>
+			<bleedRate>0</bleedRate>
+			<canMerge>false</canMerge>
+		</injuryProps>
+	</HediffDef>
+	
+
+	
+	<!--====================== MidasTouch ======================-->
+	<!-- Given to pawns attacked with the Midaspear -->
+
+	<HediffDef>
+		<defName>MidasTouch</defName>
+		<label>midas touch</label>
+		<labelNoun>midas touch</labelNoun>
+		<hediffClass>HediffWithComps</hediffClass>
+		<description>Pawn and equipment will be turned to gold upon death.</description>
+		<descriptionHyperlinks>
+			<ThingDef>RBM_Midaspear</ThingDef>
+		</descriptionHyperlinks>
+		<comps>
+			<li Class="RBM_Minotaur.HediffCompProperties_MidasTouch">
+				<fleck>Fleck_Gold</fleck>
+				<moteCount>6</moteCount>
+				<moteOffsetRange>0.25~0.75</moteOffsetRange>
+				<filth>RBM_FilthGold</filth>
+				<sound>RBM_Midaspear_Hit</sound>
+				<goldAmount>50</goldAmount>
+				<destroyBody>true</destroyBody>
+				<destroyItems>true</destroyItems>
+			</li>
+			<li Class="HediffCompProperties_Disappears">
+				<showRemainingTime>True</showRemainingTime>
+				<disappearsAfterTicks>
+					<min>400</min>
+					<max>600</max>
+				</disappearsAfterTicks>
+			</li>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+				<discoverLetterLabel>Midas Touch</discoverLetterLabel>
+				<discoverLetterText>{0} is under the effects of Midas Touch. [PAWN_pronoun] will be turned into gold if [PAWN_pronoun] dies, along with all of [PAWN_possessive] posessions.</discoverLetterText>
+			</li>
+		</comps>
+
+		<stages>
+			<li>
+				<label>hidden</label>
+				<minSeverity>.001</minSeverity>
+				<becomeVisible>false</becomeVisible>
+			</li>
+			<li>
+				<label>active</label>
+				<minSeverity>.5</minSeverity>
+				<becomeVisible>true</becomeVisible>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.8</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+
+	</HediffDef>
+
+	<ThoughtDef>
+		<defName>MidasTouch</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>MidasTouch</hediff>
+		<validWhileDespawned>false</validWhileDespawned>
+		<stages>
+			<li>
+				<label>touched by midas</label>
+				<description>I'm being turned into gold!</description>
+				<baseMoodEffect>-12</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+</Defs>
