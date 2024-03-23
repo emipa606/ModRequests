@@ -200,18 +200,6 @@ namespace ArmorRacks.Things
             Scribe_Defs.Look(ref _PawnKindDef, "_PawnKindDef");
         }
 
-        public override void Draw()
-        {
-            DrawAt(DrawPos);
-            Comps_PostDraw();
-        }
-
-        public override void DrawAt(Vector3 drawLoc, bool flip = false)
-        {
-            base.DrawAt(drawLoc, flip);
-            ContentsDrawer.DrawAt(drawLoc);
-        }
-
         public void DropContents()
         {
             IntVec3 dropPos = new IntVec3(DrawPos);

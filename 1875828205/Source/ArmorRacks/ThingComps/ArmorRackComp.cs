@@ -89,6 +89,12 @@ namespace ArmorRacks.ThingComps
             }
             
         }
+
+        public override void PostDraw()
+        {
+            ArmorRack armorRack = this.parent as ArmorRack;
+            armorRack.ContentsDrawer.DrawAt(armorRack.DrawPos);
+        }
     }
 
 }

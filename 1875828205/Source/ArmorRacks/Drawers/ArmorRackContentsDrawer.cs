@@ -36,7 +36,7 @@ namespace ArmorRacks.Drawers
             Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.up);
             Vector3 vector3_1 = drawLoc;
             Vector3 vector3_2 = drawLoc;
-            Mesh mesh = MeshPool.humanlikeBodySet.MeshAt(ArmorRack.Rotation);
+            Mesh mesh = MeshPool.GetMeshSetForWidth(MeshPool.HumanlikeBodyWidth).MeshAt(ArmorRack.Rotation);
             if (ArmorRack.Rotation != Rot4.North)
             {
                 vector3_2.y += 7f / 256f;
@@ -70,17 +70,8 @@ namespace ArmorRacks.Drawers
             {
                 if (ApparelGraphics[index].sourceApparel.def.apparel.LastLayer == ApparelLayerDefOf.Overhead)
                 {
-                    if (!ApparelGraphics[index].sourceApparel.def.apparel.hatRenderedFrontOfFace)
-                    {
-                        Material mat = ApparelGraphics[index].graphic.MatAt(ArmorRack.Rotation);
-                        GenDraw.DrawMeshNowOrLater(mesh, loc1, quaternion, mat, false);
-                    }
-                    else
-                    {
-                        Material mat = ApparelGraphics[index].graphic.MatAt(ArmorRack.Rotation);
-                        loc2.y += !(ArmorRack.Rotation == Rot4.North) ? 9f / 256f : 1f / 256f;
-                        GenDraw.DrawMeshNowOrLater(mesh, loc2, quaternion, mat, false);
-                    }
+                    Material mat = ApparelGraphics[index].graphic.MatAt(ArmorRack.Rotation);
+                    GenDraw.DrawMeshNowOrLater(mesh, loc1, quaternion, mat, false);
                 }
                 else if (ApparelGraphics[index].sourceApparel.def.apparel.LastLayer == ApparelLayerDefOf.Shell)
                 {
