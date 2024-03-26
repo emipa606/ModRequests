@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef ParentName="BasePawn" Name="BaseGethArmature" Abstract="True">
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<statBases>
+			<Fertility MayRequire="Ludeon.RimWorld.Biotech">0</Fertility>
+			<PsychicSensitivity>0.5</PsychicSensitivity>
+			<ToxicResistance>1</ToxicResistance>
+			<ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+			<Flammability>0</Flammability>
+			<ComfyTemperatureMin>-100</ComfyTemperatureMin>
+			<ComfyTemperatureMax>250</ComfyTemperatureMax>
+			<MeatAmount>0</MeatAmount>
+			<ArmorRating_Heat>2.20</ArmorRating_Heat>
+		</statBases>
+		<receivesSignals>true</receivesSignals>
+		<race>
+			<fleshType>Mechanoid</fleshType>
+			<needsRest>false</needsRest>
+			<hasGenders>false</hasGenders>
+			<foodType>None</foodType>
+			<lifeExpectancy>2500</lifeExpectancy>
+			<bloodDef>FilthGethBlood</bloodDef>
+		</race>
+	</ThingDef>
+	<PawnKindDef Name="BaseGethArmatureKind" Abstract="True">
+		<defaultFactionType>GethConsensus</defaultFactionType>
+		<aiAvoidCover>true</aiAvoidCover>
+		<destroyGearOnDrop>true</destroyGearOnDrop>
+	</PawnKindDef>
+	<ThingDef ParentName="BaseGethArmature">
+		<defName>Geth_Armature</defName>
+		<label>geth armature</label>
+		<description>The Geth Armature is a mobile anti-vehicle and anti-personnel unit employed in high-risk areas, often dropped directly from a Geth Dropship. The unit consists of a quadruped "tank" or "walker" and is usually accompanied by Geth Rocket Troopers. Armed with superior firepower and a Siege Pulse assault cannon, this geth is easily a match for the armored vehicles of other races.</description>
+		<statBases>
+			<MoveSpeed>1.9</MoveSpeed>
+			<ArmorRating_Blunt>0.22</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.52</ArmorRating_Sharp>
+			<PsychicSensitivity>0.75</PsychicSensitivity>
+		</statBases>
+		<tools>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>8.5</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+		<race>
+			<intelligence>ToolUser</intelligence>
+			<thinkTreeMain>Mechanoid</thinkTreeMain>
+			<body>MechanicalTermite</body>
+			<baseBodySize>1.8</baseBodySize>
+			<baseHealthScale>4.42</baseHealthScale>
+			<deathActionWorkerClass>DeathActionWorker_BigExplosion</deathActionWorkerClass>
+			<lifeStageAges>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>0</minAge>
+					<soundWounded>Geth_Armature_Wounded</soundWounded>
+					<soundDeath>Geth_Armature_Death</soundDeath>
+					<soundCall>Geth_Armature_Aim</soundCall>
+				</li>
+			</lifeStageAges>
+			<soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+			<soundMeleeHitPawn>Pawn_Melee_MechanoidBash_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_MechanoidBash_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_MechanoidBash_Miss</soundMeleeMiss>
+		</race>
+		<butcherProducts>
+			<Steel>30</Steel>
+			<Plasteel>10</Plasteel>
+		</butcherProducts>
+		<modExtensions>
+			<li Class="PawnExtensions.ExtensionsDef">
+				<feelsNoPain>true</feelsNoPain>
+				<disableBreathMote>true</disableBreathMote>
+				<hediffOnDamage>
+					<li>
+						<damageDef>EMP</damageDef>
+						<hediff>GethEMPShutdown</hediff>
+					</li>
+				</hediffOnDamage>
+			</li>
+		</modExtensions>
+		<comps>
+			<li Class="PawnExtensions.CompProperties_PawnLink">
+				<hediff>GethLink</hediff>
+				<networkDef>GethNetwork</networkDef>
+				<statMaxLinked>GethLinkMaxLinked</statMaxLinked>
+				<statRange>GethLinkRangeBase</statRange>
+				<statRepeater>GethLinkRepeater</statRepeater>
+				<part>ArtificialBrain</part>
+			</li>
+		</comps>
+	</ThingDef>
+	<PawnKindDef ParentName="BaseGethArmatureKind">
+		<defName>Geth_Armature</defName>
+		<label>geth armature</label>
+		<race>Geth_Armature</race>
+		<combatPower>200</combatPower>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Geth/Armature</texPath>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>8</drawSize>
+					<shadowData>
+						<volume>(0.6, 0.8, 0.6)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<weaponMoney>9999~9999</weaponMoney>
+		<weaponTags>
+			<li>MechanoidGunHeavy</li>
+		</weaponTags>
+	</PawnKindDef>
+</Defs>

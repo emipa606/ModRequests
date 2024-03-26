@@ -1,0 +1,211 @@
+@include "../../Data/Core/Defs/Bodies"
+@outputPath "Defs/Bodies"
+
+Part BaseSolid:
+	solid = True
+	bleedRate = 0.0
+	alive = False
+	canSuggestAmputation = False
+	skinCovered = False
+
+Part BaseTissue:
+	bleedRate = 1
+	alive = False
+	canSuggestAmputation = False
+	skinCovered = False
+
+Part BaseCoolantSystem:
+	alive = False
+	canSuggestAmputation = False
+	skinCovered = False
+
+# Coolant system
+
+Part CoolantConduit(BaseCoolantSystem):
+	hitPoints = 15
+	bleedRate = 2.5
+	destroyableByDamage = False
+	tags = "GethCoolantConduit",
+
+Part CoolantPump(BaseCoolantSystem):
+	hitPoints = 16
+	tags = "GethCoolantPump",
+
+Part HeatExchanger(BaseCoolantSystem):
+	hitPoints = 25
+	tags = "GethHeatExchanger",
+
+	
+# Misc
+
+Part VisualReceptor(BaseSolid):
+	hitPoints = 15
+	tags = "SightSource", "GethSensor"
+	
+Part SoundReceptor(BaseSolid):
+	hitPoints = 16
+	tags = "HearingSource", "GethSensor"
+
+Part Speaker(BaseSolid):
+	hitPoints = 20
+	tags = "TalkingSource",
+
+Part Antenna(BaseSolid):
+	hitPoints = 20
+	tags = "GethLink",
+	
+Part BlueBox(BaseSolid):
+	hitPoints = 15
+	tags = "ConsciousnessSource",
+	permanentInjuryChanceFactor = 9999999
+	
+Part PowerCell(BaseSolid):
+	hitPoints = 20
+	tags = "GethPowerCell",
+	
+
+# Legs
+
+Part Leg(BaseTissue):
+	hitPoints = 25
+	tags = "MovingLimbCore",
+	
+Part Foot(BaseTissue):
+	hitPoints = 20
+	tags = "GethHeatExchanger", "MovingLimbSegment"
+
+Part Toe(BaseTissue):
+	hitPoints = 8
+	tags = "MovingLimbDigit",
+	
+Part UpperInternalLegStructure(BaseSolid):
+	hitPoints = 25
+	tags = "MovingLimbSegment",
+	
+Part LowerInternalLegStructure(BaseSolid):
+	hitPoints = 25
+	tags = "MovingLimbSegment",
+
+# Arms
+
+Part Arm(BaseTissue):
+	hitPoints = 30
+	tags = "ManipulationLimbCore",
+
+Part Shoulder(BaseTissue):
+	hitPoints = 30
+	tags = "ManipulationLimbSegment",
+
+Part Hand(BaseTissue):
+	hitPoints = 20
+	tags = "ManipulationLimbSegment",
+	
+Part Finger(BaseTissue):
+	hitPoints = 8
+	frostbiteVulnerability = 0.0000001
+	tags = "ManipulationLimbDigit",
+	
+Part UpperInternalArmStructure(BaseSolid):
+	hitPoints = 25
+	tags = "ManipulationLimbSegment",
+	
+Part LowerInternalArmStructure(BaseSolid):
+	hitPoints = 25
+	tags = "ManipulationLimbSegment",
+	
+# Other base parts
+
+Part Head(BaseTissue):
+	hitPoints = 25
+
+Part Torso(BaseTissue):
+	hitPoints = 50
+	
+Part InternalStructure(BaseSolid):
+	hitPoints = 30
+	
+# Records
+
+Record Head:
+	part = Head
+	coverage = 0.8
+	groups = "FullHead", "HeadAttackTool", "UpperHead"
+	allowParentGroups = False
+	parts:
+		VisualReceptor group = "Eyes" coverage = 0.1 
+		SoundReceptor["right"] coverage = 0.05 
+		SoundReceptor["left"] coverage = 0.05 
+		Speaker coverage = 0.05 
+
+Record Hand:
+	part = Hand
+	groups = "Hands", 1, PartDefLabel, 0
+	allowParentGroups = False
+	parts:
+		Finger["thumb"] rename coverage = 0.08
+		Finger["index"] coverage = 0.07
+		Finger["pinky"] rename coverage = 0.06
+
+Record Arm:
+	part = Arm
+	groups = "Arms",
+	allowParentGroups = False
+	parts:
+		LowerInternalArmStructure inside coverage = 0.1
+		UpperInternalArmStructure inside coverage = 0.1
+		Hand  coverage = 0.14
+
+Record Shoulder:
+	part = Shoulder
+	groups = "Shoulders",
+	allowParentGroups = False
+	parts:
+		Arm coverage = 0.77
+		
+Record Foot:
+	part = Foot
+	groups = "Feet",
+	allowParentGroups = False
+	parts:
+		Toe["big"] coverage = 0.09
+		Toe["second"] coverage = 0.09
+		Toe["pinky"] coverage = 0.06
+		
+Record Leg:
+	part = Leg
+	groups = "Legs",
+	allowParentGroups = False
+	parts:
+		UpperInternalLegStructure inside coverage = 0.1
+		LowerInternalLegStructure inside coverage = 0.1
+		CoolantConduit coverage = 0.02
+		Foot coverage = 0.1
+		
+Record Torso:
+	part = Torso
+	groups = "Torso",
+	parts:
+		Head top coverage = 0.075
+		Shoulder["left"] coverage = 0.12
+		Shoulder["right"] coverage = 0.12
+		Antenna coverage = 0.08
+		
+		InternalStructure inside coverage = 0.2
+		HeatExchanger["left"] inside top coverage = 0.05
+		HeatExchanger["right"] inside top coverage = 0.05
+		PowerCell inside coverage = 0.025
+		BlueBox inside coverage = 0.01
+		CoolantPump inside coverage = 0.02
+		CoolantConduit coverage = 0.03
+		
+		Waist bottom coverage = 0
+		Leg["left"] bottom coverage = 0.1
+		Leg["right"] bottom coverage = 0.1
+		
+Body Geth:
+	corePart = Torso
+	name = "Geth"
+	label = "geth"
+
+#@printBody Geth
+#@printBody Human
