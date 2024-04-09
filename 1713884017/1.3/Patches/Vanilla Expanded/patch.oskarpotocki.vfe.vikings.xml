@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Factions Expanded - Vikings</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Fenrir</defName>
+							<label>fenrir hide</label>
+							<graphicData>
+								<color>(236,236,236)</color>
+							</graphicData>
+							<statBases>
+								<MarketValue>5.6</MarketValue>
+							</statBases>
+						</ThingDef>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Lothurr</defName>
+							<label>lothurr hide</label>
+							<graphicData>
+								<color>(75,67,50)</color>
+							</graphicData>
+							<statBases>
+								<MarketValue>5.6</MarketValue>
+							</statBases>
+						</ThingDef>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Njorun</defName>
+							<label>Njorun hide</label>
+							<graphicData>
+								<color>(121,138,151)</color>
+							</graphicData>
+							<statBases>
+								<MarketValue>5.6</MarketValue>
+							</statBases>
+						</ThingDef>
+						
+						<!-- Add custom defs -->
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Fenrir</defName>
+							<thingDef>VFEV_Leather_Fenrir</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Fenrir</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Lothurr</defName>
+							<thingDef>VFEV_Leather_Lothurr</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Lothurr</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Njorun</defName>
+							<thingDef>VFEV_Leather_Njorun</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Njorun</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+					</value>
+				</li>
+				
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="VFEV_Leather_Fenrir"]</xpath>
+					<value>
+						<leatherDef>Hide_Fenrir</leatherDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="VFEV_Leather_Lothurr"]</xpath>
+					<value>
+						<leatherDef>Hide_Lothurr</leatherDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="VFEV_Leather_Njorun"]</xpath>
+					<value>
+						<leatherDef>Hide_Njorun</leatherDef>
+					</value>
+				</li>
+				<!-- Add the tanning vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+					<value>
+						<li>Owl_Leather_Fenrir</li>
+						<li>Owl_Leather_Lothurr</li>
+						<li>Owl_Leather_Njorun</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

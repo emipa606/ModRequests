@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Normal</success>
+		<operations>
+			<!-- VE Fishing: treasures addon -->
+			<li MayRequire="vanillaexpanded.vcefaddon" Class="PatchOperationReplace">
+				<success>Always</success>
+				<xpath>Defs/VCE_Fishing.FishDef[defName="VCEF_SpecialLeather_Heavy"]/thingDef</xpath>
+				<value>
+					<thingDef>Leather_Bear</thingDef>
+				</value>
+			</li>
+			<!-- HAR framework patch -->
+			<li MayRequire="erdelf.humanoidalienraces" Class="PatchOperationReplace">
+				<success>Always</success>
+				<xpath>Defs/AlienRace.ThingDef_AlienRace/race/leatherDef[text()="Leather_Wolf" or 
+					text()="Leather_Panthera" or 
+					text()="Leather_Camel" or 
+					text()="Leather_Pig" or 
+					text()="Leather_Elephant" or 
+					text()="Leather_Rhinoceros" or 
+					text()="Leather_Chinchilla" or 
+					text()="Leather_Fox" or 
+					text()="Leather_GuineaPig" or 
+				text()="Leather_Heavy"]</xpath>
+				<value>
+					<leatherDef>Hide_Plain</leatherDef>
+				</value>
+			</li>
+			<!-- Vegetable Garden -->
+			<li MayRequire="dismarzero.vgp.vgpvegetablegarden" Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Owl_MakeTanningLiquorFromFood"]/*[name()="ingredients" or name()="fixedIngredientFilter"]//thingDefs</xpath>
+				<value>
+					<li>Rawapple</li>
+					<li>Rawbanana</li>
+					<li>Rawgrape</li>
+					<li>Raworange</li>
+					<li>Rawpeach</li>
+					<li>Rawblueberry</li>
+					<li>Rawgooseberry</li>
+					<li>Rawcloudberry</li>
+					<li>RawBarley</li>
+				</value>
+			</li>
+			<!-- VFE Medieval removes VG grapes -->
+			<li MayRequire="oskarpotocki.vanillafactionsexpanded.medievalmodule" Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Owl_MakeTanningLiquorFromFood"]/*[name()="ingredients" or name()="fixedIngredientFilter"]//thingDefs/li[text()="Rawgrape"]</xpath>
+			</li>
+			<!-- RimCuisine -->
+			<li MayRequire="crustypeanut.rc2.core" Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Owl_MakeTanningLiquorFromFood"]/*[name()="ingredients" or name()="fixedIngredientFilter"]//thingDefs</xpath>
+				<value>
+					<li>RC2_RawApples</li>
+					<li>RC2_RawOrange</li>
+					<li>RC2_RawSoybean</li>
+					<li>RC2_RawFigs</li>
+					<li>RC2_RawPomegranates</li>
+					<li>RC2_RawBarley</li>
+					<li>RC2_RawCactusFruit</li>
+					<li>RC2_RawTeaLeaves</li>
+					<li>RC2_RawJuniperBerries</li>
+					<li>RC2_RawGrapes</li>
+				</value>
+			</li>
+			<!-- Vanilla Plants Expanded -->
+			<li MayRequire="vanillaexpanded.vplantse" Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Owl_MakeTanningLiquorFromFood"]/*[name()="ingredients" or name()="fixedIngredientFilter"]//thingDefs</xpath>
+				<value>
+					<li>VCE_RawPeach</li>
+					<li>VCE_RawApple</li>
+					<li>VCE_RawOrange</li>
+					<li>VCE_RawTomatoes</li>
+					<li>VCE_RawPlum</li>
+					<li>VCE_RawCherry</li>
+					<li>VCE_RawPear</li>
+					<li>VCE_RawBanana</li>
+					<li>VCE_RawOnion</li>
+					<li>VCE_Bearberry</li>
+				</value>
+			</li>
+			<!-- Vanilla Brewing Expanded -->
+			<li MayRequire="vanillaexpanded.vbrewecandt" Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Owl_MakeTanningLiquorFromFood"]/*[name()="ingredients" or name()="fixedIngredientFilter"]//thingDefs</xpath>
+				<value>
+					<li>VCE_RawLemon</li>
+				</value>
+			</li>
+			<!-- Expanded Woodwoking -->
+			<li MayRequire="adventurer.expandwoodwork" Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Owl_MakeTanningLiquorFromWood"]/ingredients/li[1]/*[name()="filter" and ../../../fixedIngredientFilter]</xpath>
+				<value>
+					<categories>
+						<li>WoodTypes</li>
+					</categories>
+				</value>
+			</li>
+			<!-- Combat extended -->
+			<li MayRequire="ceteam.combatextended" Class="PatchOperationSequence">
+				<success>Always</success>
+				<operations>
+					<li Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="Leather_Rawhide"]/statBases/*[name()="StuffPower_Armor_Sharp" or name()="StuffPower_Armor_Blunt" or name()="StuffPower_Armor_Heat"]
+						</xpath>
+					</li>
+					
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/ThingDef[defName="Leather_Rawhide"]/statBases</xpath>
+						<value>
+							<StuffPower_Armor_Sharp>0.018</StuffPower_Armor_Sharp>
+							<StuffPower_Armor_Blunt>0.015</StuffPower_Armor_Blunt>
+							<StuffPower_Armor_Heat>0.006</StuffPower_Armor_Heat>
+						</value>
+					</li>
+					
+					<li Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="Leather_Bear"]/statBases/StuffPower_Armor_Blunt</xpath>
+					</li>
+					<li Class="PatchOperationRemove">
+						<xpath>Defs/ThingDef[defName="Leather_Plain" or defName="Leather_Bluefur"]/statBases/*[name()="StuffPower_Armor_Sharp" or name()="StuffPower_Armor_Blunt"]</xpath>
+					</li>
+				</operations>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Frilleus</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>			
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Frilleus</defName>
+							<label>frilleus hide</label>
+							<graphicData>
+								<color>(200,215,255)</color>
+							</graphicData>
+						</ThingDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Frilleus</defName>
+							<thingDef>Leather_Frilleus</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Frilleus</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+					</value>
+				</li>
+				
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="Leather_Frilleus"]</xpath>
+					<value>
+						<leatherDef>Hide_Frilleus</leatherDef>
+					</value>
+				</li>
+				
+				<!-- Add the tanning vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+					<value>
+						<li>Owl_Leather_Frilleus</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

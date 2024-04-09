@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Magical Menagerie</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_LightMagical</defName>
+							<label>light magical hide</label>
+							<graphicData>
+								<color>(203,167,107)</color>
+							</graphicData>
+						</ThingDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_LightMagicalLeather</defName>
+							<thingDef>MM_LightMagicalLeather</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_LightMagical</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+						
+						
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_HeavyMagical</defName>
+							<label>heavy magical hide</label>
+							<graphicData>
+								<color>(66,62,49)</color>
+							</graphicData>
+						</ThingDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_HeavyMagicalLeather</defName>
+							<thingDef>MM_HeavyMagicalLeather</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_HeavyMagical</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+					</value>
+				</li>				
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef/race/leatherDef[text()="MM_LightMagicalLeather"]</xpath>
+					<value>
+						<leatherDef>Hide_LightMagical</leatherDef>
+					</value>
+				</li>				
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef/race/leatherDef[text()="MM_HeavyMagicalLeather"]</xpath>
+					<value>
+						<leatherDef>Hide_HeavyMagical</leatherDef>
+					</value>
+				</li>	
+				
+				<!-- Add the tannin vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+					<value>
+						<li>Owl_LightMagicalLeather</li>
+						<li>Owl_HeavyMagicalLeather</li>
+					</value>
+				</li>				
+			</operations>
+		</match>
+	</Operation>
+</Patch>

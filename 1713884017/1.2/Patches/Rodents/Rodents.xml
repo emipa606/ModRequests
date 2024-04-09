@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Rodents of Unusual Size</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>			
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Rat</defName>
+							<label>rat hide</label>
+							<graphicData>
+								<color>(115,110,100)</color>
+							</graphicData>
+						</ThingDef>
+					</value>
+				</li>
+				
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="Leather_Rat"]</xpath>
+					<value>
+						<leatherDef>Hide_Rat</leatherDef>
+					</value>
+				</li>
+				
+				<!-- add the prepared hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="PreparedHideBase">
+							<defName>Prepared_Hide_Rat</defName>
+							<label>prepared rat fur</label>
+						</ThingDef>
+					</value>
+				</li>
+				
+				<!-- add the recipes-->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<RecipeDef ParentName="PrepareHideBase">
+							<label>prepare rat hide</label>
+							<defName>Owl_PrepareRatHide</defName>
+							<ingredients>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Hide_Rat</li>
+										</thingDefs>
+									</filter>
+									<count>15</count>
+								</li>
+								<li>
+									<filter>
+										<thingDefs>
+											<li>Owl_TanningLiquor</li>
+										</thingDefs>
+									</filter>
+									<count>7</count>
+								</li>
+							</ingredients>
+							<fixedIngredientFilter>
+								<thingDefs>
+									<li>Hide_Rat</li>
+									<li>Owl_TanningLiquor</li>
+								</thingDefs>
+							</fixedIngredientFilter>
+							<products>
+								<Prepared_Hide_Rat>15</Prepared_Hide_Rat>
+							</products>
+						</RecipeDef>
+					</value>
+				</li>
+				
+				<!-- Add the tannin vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="UniversalFermenter.CompProperties_UniversalFermenter"]/processes</xpath>
+					<value>
+						<li>
+							<thingDef>Leather_Rat</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Prepared_Hide_Rat</li>
+								</thingDefs>
+							</ingredientFilter>
+							<maxCapacity>75</maxCapacity>
+							<processDays>1.5</processDays>
+							<temperatureIdeal>1~99</temperatureIdeal>
+							<temperatureSafe>-50~200</temperatureSafe>
+							<graphicSuffix>_full</graphicSuffix>
+							<usesQuality>false</usesQuality>
+						</li>
+					</value>
+				</li>
+				
+			</operations>
+		</match>
+	</Operation>
+</Patch>
+
+
+
+
+
+
+
+
+
+
+
+
+

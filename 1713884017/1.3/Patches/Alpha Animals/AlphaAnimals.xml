@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Alpha Animals</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Aerofleet</defName>
+							<label>aerofleet hide</label>
+							<graphicData>
+								<color>(108,157,177)</color>
+							</graphicData>
+						</ThingDef>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_ArcticLion</defName>
+							<label>arctic lion hide</label>
+							<graphicData>
+								<color>(127,129,154)</color>
+							</graphicData>
+						</ThingDef>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Gallatross</defName>
+							<label>gallatross hide</label>
+							<graphicData>
+								<color>(151,146,169)</color>
+							</graphicData>
+						</ThingDef>
+						
+						<!-- Add custom defs -->
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Aerofleet</defName>
+							<thingDef>AA_Leather_Aerofleet</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Aerofleet</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_ArcticLion_Leather</defName>
+							<thingDef>AA_ArcticLion_Leather</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_ArcticLion</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Gallatross</defName>
+							<thingDef>Leather_Gallatross</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Gallatross</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+					</value>
+				</li>
+				
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="AA_Leather_Aerofleet"]</xpath>
+					<value>
+						<leatherDef>Hide_Aerofleet</leatherDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="AA_ArcticLion_Leather"]</xpath>
+					<value>
+						<leatherDef>Hide_ArcticLion</leatherDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="Leather_Gallatross"]</xpath>
+					<value>
+						<leatherDef>Hide_Gallatross</leatherDef>
+					</value>
+				</li>
+				
+				<!-- Add the tanning vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+					<value>
+						<li>Owl_Leather_Aerofleet</li>
+						<li>Owl_ArcticLion_Leather</li>
+						<li>Owl_Leather_Gallatross</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

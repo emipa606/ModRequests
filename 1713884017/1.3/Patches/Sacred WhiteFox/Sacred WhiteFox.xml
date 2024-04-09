@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Sacred WhiteFox</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>			
+				<!-- add the new hides -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThingDef ParentName="HideBase">
+							<defName>Hide_Whitefox</defName>
+							<label>whitefox hide</label>
+							<graphicData>
+								<color>(250,250,250)</color>
+							</graphicData>
+						</ThingDef>
+						<ProcessorFramework.ProcessDef ParentName="Owl_LeatherProcessBase">
+							<defName>Owl_Leather_Whitefox</defName>
+							<thingDef>Leather_Whitefox</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>Hide_Whitefox</li>
+								</thingDefs>
+							</ingredientFilter>
+						</ProcessorFramework.ProcessDef>
+					</value>
+				</li>
+				
+				<!-- apply the new hides -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef/race/leatherDef[text()="Leather_Whitefox"]</xpath>
+					<value>
+						<leatherDef>Hide_Whitefox</leatherDef>
+					</value>
+				</li>
+				
+				<!-- Add the tannin vat data -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Owl_TanningVat"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+					<value>
+						<li>Owl_Leather_Whitefox</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
