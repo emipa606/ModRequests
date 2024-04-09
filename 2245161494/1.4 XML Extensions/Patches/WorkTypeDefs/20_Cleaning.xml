@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+  <!-- ============= Cleaning ============= -->
+
+  <Operation Class="XmlExtensions.UseSetting">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Textbox_description.Cleaning</key>
+    <defaultValue>Clear snow and clean the floor in the home area.</defaultValue>
+    <apply>
+      <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/WorkTypeDef[defName = "Cleaning"]/description</xpath>
+        <value>
+          <description>{SMJ_Textbox_description.Cleaning}</description>
+        </value>
+      </Operation>
+    </apply>
+  </Operation>
+
+  <Operation Class="XmlExtensions.OptionalPatch">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Checkbox.Cleaning</key>
+    <defaultValue>False</defaultValue>
+    <caseTrue>
+      
+  <!-- ============= Cleaning1 ============= -->
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Cleaning1</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Cleaning1</defName>
+    <labelShort>clean</labelShort>
+    <pawnLabel>Cleaner</pawnLabel>
+    <gerundLabel>cleaning</gerundLabel>
+    <description>Clear snow and clean the floor in the home area.</description>
+    <verb>Clean</verb>
+    <naturalPriority>200</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Cleaning</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Cleaning1</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Cleaning1</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Cleaning1</li>
+				  <li>SMJ_Textbox_description.SMJ_Cleaning1</li>
+				  <li>SMJ_Textbox_verb.SMJ_Cleaning1</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Cleaning1</li>
+                </keys>
+                <defaultValues>
+                  <li>clean1</li> <!-- labelShort -->
+				  <li>Cleaner</li> <!-- pawnLabel -->
+				  <li>cleaning</li> <!-- gerundLabel -->
+				  <li>Clear snow and clean the floor in the home area.</li> <!-- description -->
+				  <li>Clean</li> <!-- verb -->
+				  <li>200</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Cleaning1}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Cleaning1}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Cleaning1}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Cleaning1}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Cleaning1}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Cleaning1}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Cleaning1</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning1"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Cleansweeper"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Cleaning1</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Cleaning1>3</SMJ_Cleaning1>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+      
+  <!-- ============= Cleaning2 ============= -->
+  
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Cleaning2</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Cleaning2</defName>
+    <labelShort>clean</labelShort>
+    <pawnLabel>Cleaner</pawnLabel>
+    <gerundLabel>cleaning</gerundLabel>
+    <description>Clear snow and clean the floor in the home area.</description>
+    <verb>Clean</verb>
+    <naturalPriority>200</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Cleaning</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Cleaning2</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Cleaning2</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Cleaning2</li>
+				  <li>SMJ_Textbox_description.SMJ_Cleaning2</li>
+				  <li>SMJ_Textbox_verb.SMJ_Cleaning2</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Cleaning2</li>
+                </keys>
+                <defaultValues>
+                  <li>clean2</li> <!-- labelShort -->
+				  <li>Cleaner</li> <!-- pawnLabel -->
+				  <li>cleaning</li> <!-- gerundLabel -->
+				  <li>Clear snow and clean the floor in the home area.</li> <!-- description -->
+				  <li>Clean</li> <!-- verb -->
+				  <li>200</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Cleaning2}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Cleaning2}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Cleaning2}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Cleaning2}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Cleaning2}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Cleaning2}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Cleaning2</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Cleaning2"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Cleansweeper"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Cleaning2</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Cleaning2>3</SMJ_Cleaning2>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+    
+    </caseTrue>
+  </Operation>
+
+</Patch>

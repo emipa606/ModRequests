@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>[XND] Carpenter Tables (Continued)</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Normal</success>
+      <operations>
+
+        <li Class="PatchOperationConditional">
+        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs/li[label= "Mods"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs</xpath>
+            <value>
+              <li>
+			    <label>Mods</label>
+				<settings>
+				</settings>
+			  </li>
+            </value>
+        </nomatch>
+        </li>
+
+<!-- Settings -->
+
+<li Class="PatchOperationAdd">
+<xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs/li[label = "Mods"]/settings</xpath>
+  <value>
+  
+        <li Class="XmlExtensions.Setting.Text">
+          <text>[XND] Carpenter Tables (Continued)</text>
+		  <font>Medium </font>
+		  <anchor>Middle</anchor>
+        </li>
+        <li Class="XmlExtensions.Setting.SplitColumn">
+          <gapSize>30</gapSize>
+          <leftCol>
+            <li Class="XmlExtensions.Setting.SplitColumn">
+              <gapSize>30</gapSize>
+              <leftCol>
+                <li Class="XmlExtensions.Setting.Text">
+                  <text>DoBillsCarpentersTable</text>
+                  <font>Tiny</font>
+                </li>
+                <li Class="XmlExtensions.Setting.Numeric">
+                  <key>SMJ_Numeric_priorityInType.DoBillsCarpentersTable</key>
+                  <defaultValue>55</defaultValue>
+                  <label>priorityInType:</label>
+                  <min>0</min>
+                  <max>9999</max>
+                </li>
+                <li Class="XmlExtensions.Setting.RadioButtons">
+                  <key>SMJ_RadioButtons.DoBillsCarpentersTable</key>
+                  <defaultValue>Construction</defaultValue>
+                  <buttons>
+                    <li>
+                      <label>Default</label>
+                      <value>Construction</value>
+                    </li>
+                    <li>
+                      <label>Construction1</label>
+                      <value>SMJ_Construction1</value>
+                    </li>
+                    <li>
+                      <label>Construction2</label>
+                      <value>SMJ_Construction2</value>
+                    </li>
+                    <li>
+                      <label>Construction3</label>
+                      <value>SMJ_Construction3</value>
+                    </li>
+              </buttons>
+                </li>
+              </leftCol>
+              <rightCol />
+            </li>
+          </leftCol>
+          <rightCol />
+        </li>
+		<li Class="XmlExtensions.Setting.GapLine"/>
+		
+  </value>
+</li>
+
+        <li Class="PatchOperationAdd">
+        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li[2]/leftCol/li/actions</xpath>
+          <value>
+            <li Class="XmlExtensions.Action.SetSetting">
+              <key>SMJ_Numeric_priorityInType.DoBillsCarpentersTable</key>
+              <value>85</value>
+            </li>
+          </value>
+        </li>
+		
+<!-- Patches -->
+		
+		<li Class="XmlExtensions.UseSetting">
+          <modId>Yoann.SomeMoreJobs</modId>
+          <key>SMJ_RadioButtons.DoBillsCarpentersTable</key>
+          <defaultValue>Construction</defaultValue>
+          <apply>
+            <Operation Class="PatchOperationReplace">
+            <xpath>/Defs/WorkGiverDef[defName = "DoBillsCarpentersTable"]/workType</xpath>
+              <value>
+                <workType>{SMJ_RadioButtons.DoBillsCarpentersTable}</workType>
+              </value>
+            </Operation>
+          </apply>
+        </li>
+  
+        <li Class="XmlExtensions.UseSetting">
+          <modId>Yoann.SomeMoreJobs</modId>
+          <key>SMJ_Numeric_priorityInType.DoBillsCarpentersTable</key>
+          <defaultValue>55</defaultValue>
+          <apply>
+            <Operation Class="PatchOperationReplace">
+            <xpath>/Defs/WorkGiverDef[defName = "DoBillsCarpentersTable"]/priorityInType</xpath>
+              <value>
+                <priorityInType>{SMJ_Numeric_priorityInType.DoBillsCarpentersTable}</priorityInType>
+              </value>
+            </Operation>
+          </apply>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+  
+</Patch>

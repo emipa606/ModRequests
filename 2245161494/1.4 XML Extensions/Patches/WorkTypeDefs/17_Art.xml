@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+  <!-- ============= Art ============= -->
+
+  <Operation Class="XmlExtensions.UseSetting">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Textbox_description.Art</key>
+    <defaultValue>Create beautiful works of art from raw materials.</defaultValue>
+    <apply>
+      <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/WorkTypeDef[defName = "Art"]/description</xpath>
+        <value>
+          <description>{SMJ_Textbox_description.Art}</description>
+        </value>
+      </Operation>
+    </apply>
+  </Operation>
+
+  <Operation Class="XmlExtensions.OptionalPatch">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Checkbox.Art</key>
+    <defaultValue>False</defaultValue>
+    <caseTrue>
+      
+  <!-- ============= Art1 ============= -->
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Art1</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Art1</defName>
+    <labelShort>art</labelShort>
+    <pawnLabel>Artist</pawnLabel>
+    <gerundLabel>art</gerundLabel>
+    <description>Create beautiful works of art from raw materials.</description>
+    <verb>Do art at</verb>
+    <naturalPriority>430</naturalPriority>
+    <disabledForSlaves>true</disabledForSlaves>
+    <relevantSkills>
+      <li>Artistic</li>
+    </relevantSkills>
+    <workTags>
+      <li>Artistic</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Art1</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Art1</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Art1</li>
+				  <li>SMJ_Textbox_description.SMJ_Art1</li>
+				  <li>SMJ_Textbox_verb.SMJ_Art1</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Art1</li>
+                </keys>
+                <defaultValues>
+                  <li>art1</li> <!-- labelShort -->
+				  <li>Artist</li> <!-- pawnLabel -->
+				  <li>art</li> <!-- gerundLabel -->
+				  <li>Create beautiful works of art from raw materials.</li> <!-- description -->
+				  <li>Do art at</li> <!-- verb -->
+				  <li>430</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Art1}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Art1}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Art1}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Art1}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Art1}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Art1}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Art1</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Art1"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Fabricor"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Art1</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Art1>10</SMJ_Art1>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+    
+    </caseTrue>
+  </Operation>
+
+</Patch>

@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+  <!-- ============= Doctor ============= -->
+
+  <Operation Class="XmlExtensions.UseSetting">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Textbox_description.Doctor</key>
+    <defaultValue>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</defaultValue>
+    <apply>
+      <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/WorkTypeDef[defName = "Doctor"]/description</xpath>
+        <value>
+          <description>{SMJ_Textbox_description.Doctor}</description>
+        </value>
+      </Operation>
+    </apply>
+  </Operation>
+
+  <Operation Class="XmlExtensions.OptionalPatch">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Checkbox.Doctor</key>
+    <defaultValue>False</defaultValue>
+    <caseTrue>
+      
+  <!-- ============= Doctor1 ============= -->
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Doctor1</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+                    <defName>SMJ_Doctor1</defName>
+                    <labelShort>doctor</labelShort>
+                    <pawnLabel>Doctor</pawnLabel>
+                    <gerundLabel>doctoring</gerundLabel>
+                    <description>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</description>
+                    <verb>Care for</verb>
+                    <naturalPriority>1300</naturalPriority>
+                    <relevantSkills>
+                      <li>Medicine</li>
+                    </relevantSkills>
+                    <workTags>
+                      <li>Caring</li>
+                      <li>Commoner</li>
+                      <li>AllWork</li>
+                    </workTags>
+                  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Doctor1</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Doctor1</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Doctor1</li>
+				  <li>SMJ_Textbox_description.SMJ_Doctor1</li>
+				  <li>SMJ_Textbox_verb.SMJ_Doctor1</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Doctor1</li>
+                </keys>
+                <defaultValues>
+                  <li>doctor1</li> <!-- labelShort -->
+				  <li>Doctor</li> <!-- pawnLabel -->
+				  <li>doctoring</li> <!-- gerundLabel -->
+				  <li>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</li> <!-- description -->
+				  <li>Care for</li> <!-- verb -->
+				  <li>1300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Doctor1}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Doctor1}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Doctor1}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Doctor1}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Doctor1}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Doctor1}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Doctor1</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor1"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Paramedic"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Doctor1</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Doctor1>10</SMJ_Doctor1>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+      
+  <!-- ============= Doctor2 ============= -->
+  
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Doctor2</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+                    <defName>SMJ_Doctor2</defName>
+                    <labelShort>doctor</labelShort>
+                    <pawnLabel>Doctor</pawnLabel>
+                    <gerundLabel>doctoring</gerundLabel>
+                    <description>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</description>
+                    <verb>Care for</verb>
+                    <naturalPriority>1300</naturalPriority>
+                    <relevantSkills>
+                      <li>Medicine</li>
+                    </relevantSkills>
+                    <workTags>
+                      <li>Caring</li>
+                      <li>Commoner</li>
+                      <li>AllWork</li>
+                    </workTags>
+                  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Doctor2</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Doctor2</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Doctor2</li>
+				  <li>SMJ_Textbox_description.SMJ_Doctor2</li>
+				  <li>SMJ_Textbox_verb.SMJ_Doctor2</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Doctor2</li>
+                </keys>
+                <defaultValues>
+                  <li>doctor2</li> <!-- labelShort -->
+				  <li>Doctor</li> <!-- pawnLabel -->
+				  <li>doctoring</li> <!-- gerundLabel -->
+				  <li>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</li> <!-- description -->
+				  <li>Care for</li> <!-- verb -->
+				  <li>1300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Doctor2}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Doctor2}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Doctor2}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Doctor2}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Doctor2}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Doctor2}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Doctor2</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor2"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Paramedic"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Doctor2</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Doctor2>10</SMJ_Doctor2>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+  
+  <!-- ============= Doctor3 ============= -->
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Doctor3</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+                    <defName>SMJ_Doctor3</defName>
+                    <labelShort>doctor</labelShort>
+                    <pawnLabel>Doctor</pawnLabel>
+                    <gerundLabel>doctoring</gerundLabel>
+                    <description>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</description>
+                    <verb>Care for</verb>
+                    <naturalPriority>1300</naturalPriority>
+                    <relevantSkills>
+                      <li>Medicine</li>
+                    </relevantSkills>
+                    <workTags>
+                      <li>Caring</li>
+                      <li>Commoner</li>
+                      <li>AllWork</li>
+                    </workTags>
+                  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Doctor3</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Doctor3</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Doctor3</li>
+				  <li>SMJ_Textbox_description.SMJ_Doctor3</li>
+				  <li>SMJ_Textbox_verb.SMJ_Doctor3</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Doctor3</li>
+                </keys>
+                <defaultValues>
+                  <li>doctor3</li> <!-- labelShort -->
+				  <li>Doctor</li> <!-- pawnLabel -->
+				  <li>doctoring</li> <!-- gerundLabel -->
+				  <li>Treat the sick, bring them food, cheer them up, and perform assigned surgeries. Doctors will care for both colonists and prisoners.</li> <!-- description -->
+				  <li>Care for</li> <!-- verb -->
+				  <li>1300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Doctor3}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Doctor3}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Doctor3}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Doctor3}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Doctor3}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Doctor3}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Doctor3</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Doctor3"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Paramedic"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Doctor3</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Doctor3>10</SMJ_Doctor3>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+    
+    </caseTrue>
+  </Operation>
+
+</Patch>

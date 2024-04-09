@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Shoo!</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Normal</success>
+      <operations>
+
+        <li Class="PatchOperationConditional">
+        <xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs/li[label= "Mods"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs</xpath>
+            <value>
+              <li>
+			    <label>Mods</label>
+				<settings>
+				</settings>
+			  </li>
+            </value>
+        </nomatch>
+        </li>
+
+<!-- Settings -->
+
+<li Class="PatchOperationAdd">
+<xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs/li[label = "Mods"]/settings</xpath>
+  <value>
+  
+        <li Class="XmlExtensions.Setting.Text">
+          <text>Shoo!</text>
+		  <font>Medium </font>
+		  <anchor>Middle</anchor>
+        </li>
+        <li Class="XmlExtensions.Setting.SplitColumn">
+          <gapSize>30</gapSize>
+          <leftCol>
+            <li Class="XmlExtensions.Setting.SplitColumn">
+              <gapSize>30</gapSize>
+              <leftCol>
+                <li Class="XmlExtensions.Setting.Text">
+                  <text>Shoo</text>
+                  <font>Tiny</font>
+                </li>
+                <li Class="XmlExtensions.Setting.Numeric">
+                  <key>SMJ_Numeric_priorityInType.Shoo</key>
+                  <defaultValue>110</defaultValue>
+                  <label>priorityInType:</label>
+                  <min>0</min>
+                  <max>9999</max>
+                </li>
+                <li Class="XmlExtensions.Setting.RadioButtons">
+                  <key>SMJ_RadioButtons.Shoo</key>
+                  <defaultValue>Handling</defaultValue>
+                  <buttons>
+                    <li>
+                      <label>Default</label>
+                      <value>Handling</value>
+                    </li>
+                    <li>
+                      <label>Handling1</label>
+                      <value>SMJ_Handling1</value>
+                    </li>
+                    <li>
+                      <label>Handling2</label>
+                      <value>SMJ_Handling2</value>
+                    </li>
+                    <li>
+                      <label>Handling3</label>
+                      <value>SMJ_Handling3</value>
+                    </li>
+              </buttons>
+                </li>
+              </leftCol>
+              <rightCol />
+            </li>
+          </leftCol>
+          <rightCol />
+        </li>
+		<li Class="XmlExtensions.Setting.GapLine"/>
+		
+  </value>
+</li>
+		
+<!-- Patches -->
+		
+		<li Class="XmlExtensions.UseSetting">
+          <modId>Yoann.SomeMoreJobs</modId>
+          <key>SMJ_RadioButtons.Shoo</key>
+          <defaultValue>Handling</defaultValue>
+          <apply>
+            <Operation Class="PatchOperationReplace">
+            <xpath>/Defs/WorkGiverDef[defName = "Shoo"]/workType</xpath>
+              <value>
+                <workType>{SMJ_RadioButtons.Shoo}</workType>
+              </value>
+            </Operation>
+          </apply>
+        </li>
+  
+        <li Class="XmlExtensions.UseSetting">
+          <modId>Yoann.SomeMoreJobs</modId>
+          <key>SMJ_Numeric_priorityInType.Shoo</key>
+          <defaultValue>110</defaultValue>
+          <apply>
+            <Operation Class="PatchOperationReplace">
+            <xpath>/Defs/WorkGiverDef[defName = "Shoo"]/priorityInType</xpath>
+              <value>
+                <priorityInType>{SMJ_Numeric_priorityInType.Shoo}</priorityInType>
+              </value>
+            </Operation>
+          </apply>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+  
+</Patch>

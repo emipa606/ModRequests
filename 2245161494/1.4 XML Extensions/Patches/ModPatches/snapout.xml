@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Snap Out!</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Normal</success>
+			<operations>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs/li[label= "Mods"]</xpath>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs</xpath>
+						<value>
+							<li>
+								<label>Mods</label>
+								<settings>
+				</settings>
+							</li>
+						</value>
+					</nomatch>
+				</li>
+				<!-- Settings -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/XmlExtensions.SettingsMenuDef[defName = "Yoann.SomeMoreJobs"]/settings/li/tabs/li[label = "Mods"]/settings</xpath>
+					<value>
+						<li Class="XmlExtensions.Setting.Text">
+							<text>Snap Out!</text>
+							<font>Medium </font>
+							<anchor>Middle</anchor>
+						</li>
+						<li Class="XmlExtensions.Setting.SplitColumn">
+							<gapSize>30</gapSize>
+							<leftCol>
+								<li Class="XmlExtensions.Setting.SplitColumn">
+									<gapSize>30</gapSize>
+									<leftCol>
+										<li Class="XmlExtensions.Setting.Text">
+											<text>SnapOut_CalmPawnDownWorkgiver</text>
+											<font>Tiny</font>
+										</li>
+										<li Class="XmlExtensions.Setting.Numeric">
+											<key>SMJ_Numeric_priorityInType.SnapOut_CalmPawnDownWorkgiver</key>
+											<defaultValue>18</defaultValue>
+											<label>priorityInType:</label>
+											<min>0</min>
+											<max>9999</max>
+										</li>
+										<li Class="XmlExtensions.Setting.RadioButtons">
+											<key>SMJ_RadioButtons.SnapOut_CalmPawnDownWorkgiver</key>
+											<defaultValue>Warden</defaultValue>
+											<buttons>
+												<li>
+													<label>Default</label>
+													<value>Warden</value>
+												</li>
+												<li>
+													<label>Warden1</label>
+													<value>SMJ_Warden1</value>
+												</li>
+												<li>
+													<label>Warden2</label>
+													<value>SMJ_Warden2</value>
+												</li>
+												<li>
+													<label>Warden3</label>
+													<value>SMJ_Warden3</value>
+												</li>
+											</buttons>
+										</li>
+									</leftCol>
+									<rightCol/>
+								</li>
+							</leftCol>
+							<rightCol/>
+						</li>
+						<li Class="XmlExtensions.Setting.GapLine"/>
+					</value>
+				</li>
+				<!-- Patches -->
+				<li Class="XmlExtensions.UseSetting">
+					<modId>Yoann.SomeMoreJobs</modId>
+					<key>SMJ_RadioButtons.SnapOut_CalmPawnDownWorkgiver</key>
+					<defaultValue>Warden</defaultValue>
+					<apply>
+						<Operation Class="PatchOperationReplace">
+							<xpath>/Defs/WorkGiverDef[defName = "SnapOut_CalmPawnDownWorkgiver"]/workType</xpath>
+							<value>
+								<workType>{SMJ_RadioButtons.SnapOut_CalmPawnDownWorkgiver}</workType>
+							</value>
+						</Operation>
+					</apply>
+				</li>
+				<li Class="XmlExtensions.UseSetting">
+					<modId>Yoann.SomeMoreJobs</modId>
+					<key>SMJ_Numeric_priorityInType.SnapOut_CalmPawnDownWorkgiver</key>
+					<defaultValue>18</defaultValue>
+					<apply>
+						<Operation Class="PatchOperationReplace">
+							<xpath>/Defs/WorkGiverDef[defName = "SnapOut_CalmPawnDownWorkgiver"]/priorityInType</xpath>
+							<value>
+								<priorityInType>{SMJ_Numeric_priorityInType.SnapOut_CalmPawnDownWorkgiver}</priorityInType>
+							</value>
+						</Operation>
+					</apply>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

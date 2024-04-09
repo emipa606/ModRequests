@@ -1,0 +1,898 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+  <!-- ============= Hauling ============= -->
+
+  <Operation Class="XmlExtensions.UseSetting">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Textbox_description.Hauling</key>
+    <defaultValue>Carry things to where they need to be.</defaultValue>
+    <apply>
+      <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/WorkTypeDef[defName = "Hauling"]/description</xpath>
+        <value>
+          <description>{SMJ_Textbox_description.Hauling}</description>
+        </value>
+      </Operation>
+    </apply>
+  </Operation>
+
+  <Operation Class="XmlExtensions.OptionalPatch">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Checkbox.Hauling</key>
+    <defaultValue>False</defaultValue>
+    <caseTrue>
+      
+  <!-- ============= Hauling1 ============= -->
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling1</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling1</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling1</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling1</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling1</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling1</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling1</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling1</li>
+                </keys>
+                <defaultValues>
+                  <li>haul1</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling1}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling1}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling1}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling1}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling1}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling1}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling1</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling1"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling1</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling1>3</SMJ_Hauling1>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+      
+  <!-- ============= Hauling2 ============= -->
+  
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling2</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling2</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling2</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling2</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling2</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling2</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling2</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling2</li>
+                </keys>
+                <defaultValues>
+                  <li>haul2</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling2}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling2}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling2}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling2}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling2}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling2}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling2</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling2"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling2</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling2>3</SMJ_Hauling2>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+  
+  <!-- ============= Hauling3 ============= -->
+     
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling3</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling3</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling3</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling3</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling3</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling3</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling3</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling3</li>
+                </keys>
+                <defaultValues>
+                  <li>haul3</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling3}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling3}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling3}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling3}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling3}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling3}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling3</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling3"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling3</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling3>3</SMJ_Hauling3>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+  
+  <!-- ============= Hauling4 ============= --> 
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling4</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling4</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling4</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling4</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling4</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling4</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling4</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling4</li>
+                </keys>
+                <defaultValues>
+                  <li>haul4</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling4}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling4}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling4}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling4}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling4}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling4}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling4</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling4"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling4</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling4>3</SMJ_Hauling4>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+  
+  <!-- ============= Hauling5 ============= -->
+      
+	  <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling5</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling5</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling5</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling5</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling5</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling5</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling5</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling5</li>
+                </keys>
+                <defaultValues>
+                  <li>haul5</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling5}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling5}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling5}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling5}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling5}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling5}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling5</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling5"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling5</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling5>3</SMJ_Hauling5>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+  
+  <!-- ============= Hauling6 ============= -->
+      
+	  <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling6</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling6</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling6</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling6</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling6</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling6</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling6</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling6</li>
+                </keys>
+                <defaultValues>
+                  <li>haul6</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling6}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling6}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling6}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling6}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling6}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling6}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling6</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling6"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling6</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling6>3</SMJ_Hauling6>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+  
+  <!-- ============= Hauling7 ============= -->
+    
+	  <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_Hauling7</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_Hauling7</defName>
+    <labelShort>haul</labelShort>
+    <pawnLabel>Hauler</pawnLabel>
+    <gerundLabel>hauling</gerundLabel>
+    <description>Carry things to where they need to be.</description>
+    <verb>Haul</verb>
+    <naturalPriority>300</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_Hauling7</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_Hauling7</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_Hauling7</li>
+				  <li>SMJ_Textbox_description.SMJ_Hauling7</li>
+				  <li>SMJ_Textbox_verb.SMJ_Hauling7</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_Hauling7</li>
+                </keys>
+                <defaultValues>
+                  <li>haul7</li> <!-- labelShort -->
+				  <li>Hauler</li> <!-- pawnLabel -->
+				  <li>hauling</li> <!-- gerundLabel -->
+				  <li>Carry things to where they need to be.</li> <!-- description -->
+				  <li>Haul</li> <!-- verb -->
+				  <li>300</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_Hauling7}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_Hauling7}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_Hauling7}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_Hauling7}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_Hauling7}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_Hauling7}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_Hauling7</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_Hauling7"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Lifter"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_Hauling7</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_Hauling7>3</SMJ_Hauling7>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+	
+    </caseTrue>
+  </Operation>
+
+</Patch>

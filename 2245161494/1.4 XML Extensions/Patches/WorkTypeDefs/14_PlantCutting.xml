@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+  <!-- ============= PlantCutting ============= -->
+
+  <Operation Class="XmlExtensions.UseSetting">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Textbox_description.PlantCutting</key>
+    <defaultValue>Cut or harvest plants as designated.</defaultValue>
+    <apply>
+      <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/WorkTypeDef[defName = "PlantCutting"]/description</xpath>
+        <value>
+          <description>{SMJ_Textbox_description.PlantCutting}</description>
+        </value>
+      </Operation>
+    </apply>
+  </Operation>
+
+  <Operation Class="XmlExtensions.OptionalPatch">
+    <modId>Yoann.SomeMoreJobs</modId>
+    <key>SMJ_Checkbox.PlantCutting</key>
+    <defaultValue>False</defaultValue>
+    <caseTrue>
+      
+  <!-- ============= PlantCutting1 ============= -->
+      
+      <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>Yoann.SomeMoreJobs</modId>
+        <key>SMJ_Checkbox.SMJ_PlantCutting1</key>
+        <defaultValue>False</defaultValue>
+        <caseTrue>
+          <Operation Class="PatchOperationSequence">
+          <success>Normal</success>
+            <operations>
+            
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs</xpath>
+                <value>
+                  <WorkTypeDef>
+    <defName>SMJ_PlantCutting1</defName>
+    <labelShort>plant cut</labelShort>
+    <pawnLabel>Plant cutter</pawnLabel>
+    <gerundLabel>plant cutting</gerundLabel>
+    <description>Cut or harvest plants as designated.</description>
+    <verb>Cut</verb>
+    <naturalPriority>500</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <relevantSkills>
+      <li>Plants</li>
+    </relevantSkills>
+    <workTags>
+      <li>ManualSkilled</li>
+      <li>PlantWork</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+                </value>
+              </li>
+              
+              <li Class="XmlExtensions.UseSettings">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <keys>
+                  <li>SMJ_Textbox_labelShort.SMJ_PlantCutting1</li>
+				  <li>SMJ_Textbox_pawnLabel.SMJ_PlantCutting1</li>
+				  <li>SMJ_Textbox_gerundLabel.SMJ_PlantCutting1</li>
+				  <li>SMJ_Textbox_description.SMJ_PlantCutting1</li>
+				  <li>SMJ_Textbox_verb.SMJ_PlantCutting1</li>
+				  <li>SMJ_Numeric_naturalPriority.SMJ_PlantCutting1</li>
+                </keys>
+                <defaultValues>
+                  <li>plant cut1</li> <!-- labelShort -->
+				  <li>Plant cutter</li> <!-- pawnLabel -->
+				  <li>plant cutting</li> <!-- gerundLabel -->
+				  <li>Cut or harvest plants as designated.</li> <!-- description -->
+				  <li>Cut</li> <!-- verb -->
+				  <li>500</li> <!-- naturalPriority -->
+                </defaultValues>  
+                <apply>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]/labelShort</xpath>
+                    <value>
+                      <labelShort>{SMJ_Textbox_labelShort.SMJ_PlantCutting1}</labelShort>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]/pawnLabel</xpath>
+                    <value>
+                      <pawnLabel>{SMJ_Textbox_pawnLabel.SMJ_PlantCutting1}</pawnLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]/gerundLabel</xpath>
+                    <value>
+                      <gerundLabel>{SMJ_Textbox_gerundLabel.SMJ_PlantCutting1}</gerundLabel>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]/description</xpath>
+                    <value>
+                      <description>{SMJ_Textbox_description.SMJ_PlantCutting1}</description>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]/verb</xpath>
+                    <value>
+                      <verb>{SMJ_Textbox_verb.SMJ_PlantCutting1}</verb>
+                    </value>
+                  </Operation>
+				  <Operation Class="PatchOperationReplace">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]/naturalPriority</xpath>
+                    <value>
+                      <naturalPriority>{SMJ_Numeric_naturalPriority.SMJ_PlantCutting1}</naturalPriority>
+                    </value>
+                  </Operation>
+                </apply>
+              </li>
+        
+              <li Class="XmlExtensions.OptionalPatch">
+                <modId>Yoann.SomeMoreJobs</modId>
+                <key>SMJ_Checkbox_alwaysStartActive.SMJ_PlantCutting1</key>
+                <defaultValue>False</defaultValue>
+                <caseTrue>
+                <Operation Class="PatchOperationAdd">
+                  <xpath>/Defs/WorkTypeDef[defName = "SMJ_PlantCutting1"]</xpath>
+                    <value>
+                      <alwaysStartActive>true</alwaysStartActive>
+                    </value>
+                  </Operation>
+              </caseTrue>
+              </li>
+              
+              <li Class="PatchOperationInsert" MayRequire="ludeon.rimworld.biotech">
+              <xpath>/Defs/ThingDef[defName = "Mech_Agrihand"]/race/mechEnabledWorkTypes/li</xpath>
+                <value>
+                  <li>SMJ_PlantCutting1</li>
+                </value>
+              </li>
+              
+              <li Class="PatchOperationAdd">
+              <xpath>/Defs/ThingDef[defName = "Human"]/race/lifeStageWorkSettings</xpath>
+                <value>
+                  <SMJ_PlantCutting1>7</SMJ_PlantCutting1>
+                </value>
+              </li>
+            
+            </operations>
+          </Operation>
+        </caseTrue>
+      </Operation>
+    
+    </caseTrue>
+  </Operation>
+
+</Patch>
