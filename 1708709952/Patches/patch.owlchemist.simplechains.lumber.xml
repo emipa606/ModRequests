@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Normal</success>
+		<operations>
+			<!-- Make trees drop raw logs -->
+			<li Class="PatchOperationReplace">
+				<success>Always</success>
+				<xpath>Defs/ThingDef/plant/harvestedThingDef[text()="WoodLog"]</xpath>
+				<value>
+					<harvestedThingDef>Owl_WoodLog</harvestedThingDef>
+				</value>
+			</li>
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="WoodLog"]/*[name()="label" or name()="description" or name()="graphicData"]</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="WoodLog"]</xpath>
+				<value>
+					<label>lumber</label>
+					<description>Processed lumber can be used for a wide variety of construction and crafting applications, and is quick to work with.</description>
+					<graphicData>
+						<texPath>Things/Item/Resource/Owl_Lumber</texPath>
+						<graphicClass>Graphic_StackCount</graphicClass>
+						<color>(133,97,67)</color>
+					</graphicData>
+				</value>
+			</li>
+			
+			<!-- Setup the work giver to make the trestle work -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/WorkGiverDef[defName="DoBillsUseCraftingSpot"]/fixedBillGiverDefs</xpath>
+				<value>
+					<li>Owl_CarpentersTrestle</li>
+				</value>
+			</li>
+			
+			<!-- Several neolith bits of furniture can be made of logs -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[@Name="TableBase" or 
+					defName="Stool" or 
+					defName="Fence" or 
+					@Name="DoorBase" or 
+					defName="HorseshoesPin" or 
+					defName="PenMarker" or 
+					defName="MeleeWeapon_Club" or 
+					defName="MeleeWeapon_Spear" or 
+				defName="Apparel_WarMask" or @Name="NatureShrineBase"][stuffCategories]/stuffCategories</xpath>
+				<value>
+					<li>RawWoody</li>
+				</value>
+			</li>
+			
+			<!-- Biofuel refinery refine from wood shouldn't use lumber -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Make_ChemfuelFromWood"]//thingDefs</xpath>
+				<value>
+					<li>Owl_WoodLog</li>
+					<li>Owl_GreenLumber</li>
+					<li>Owl_Firewood</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/RecipeDef[defName="Make_ChemfuelFromWood"]</xpath>
+				<value>
+					<allowMixingIngredients>true</allowMixingIngredients>
+				</value>
+			</li>
+			
+			<!-- Wood log exceptions -->
+			<li Class="PatchOperationSetName">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ChristmasTree" or 
+					defName="SacrificialFlag" or 
+					defName="IncenseShrine" or 
+					defName="VFEArch_LogWall" or 
+					defName="VFEArch_LowFence" or 
+					defName="VFEArch_HedgeWall" or contains(label, "paper")]/costList/WoodLog</xpath>
+				<name>Owl_WoodLog</name>
+			</li>
+
+			<!-- Firewood exceptions -->
+			<li Class="PatchOperationSetName">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="Effigy" or 
+					defName="Pyre" or 
+					defName="VFEV_FuneralPyre" or 
+					defName="VFEM_WallTorchLamp" or 
+					defName="Stone_Campfire" or 
+					defName="Campfire" or 
+					defName="TorchLamp" or 
+					defName="Owl_Fencepost_TorchLamp"]/costList/WoodLog</xpath>
+				<name>Owl_Firewood</name>
+			</li>
+			
+			<!-- Ideology's dryads -->
+			<li MayRequire="Ludeon.RimWorld.Ideology" Class="PatchOperationSequence">
+				<success>Normal</success>
+				<operations>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ThingDef[defName="Dryad_Woodmaker"]/comps/li[@Class="CompProperties_Spawner"]/thingToSpawn</xpath>
+						<value>
+							<thingToSpawn>Owl_WoodLog</thingToSpawn>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ThingDef[defName="Dryad_Woodmaker"]/descriptionHyperlinks/ThingDef | Defs/GauranlenTreeModeDef[defName="Woodmaker"]/hyperlinks/ThingDef[text()="WoodLog"]</xpath>
+						<value>
+							<ThingDef>Owl_WoodLog</ThingDef>
+						</value>
+					</li>
+				</operations>
+			</li>
+			
+			<!-- Anything that used logs will now use firewood for fuel -->
+			<li Class="PatchOperationReplace">
+				<success>Always</success>
+				<xpath>Defs/ThingDef/comps/li[@Class="CompProperties_Refuelable"]/fuelFilter/thingDefs/li[text()="WoodLog"]</xpath>
+				<value>
+					<li>Owl_Firewood</li>
+				</value>
+			</li>
+			
+			<!-- Make Wood Fired Generator use logs instead of lumber -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="WoodFiredGenerator" or 
+					defName="VFE_PortableWoodFiredGenerator" or 
+					defName="VFE_IndustrialWoodFiredGenerator"]/comps/li[@Class="CompProperties_Refuelable"]/fuelFilter/thingDefs</xpath>
+				<value>
+					<li>Owl_WoodLog</li>
+				</value>
+			</li>
+			
+			<!-- Caravans sell logs -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/TraderKindDef[defName = "Caravan_Neolithic_BulkGoods" or defName = "Caravan_Outlander_BulkGoods" or defName = "Visitor_Neolithic_Standard" or defName = "Visitor_Outlander_Standard"]/stockGenerators</xpath>
+				<value>
+					<li Class="StockGenerator_SingleDef">
+						<thingDef>Owl_WoodLog</thingDef>
+						<countRange>250~400</countRange>
+					</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>
