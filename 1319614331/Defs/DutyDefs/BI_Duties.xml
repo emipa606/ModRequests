@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <DutyDef>
+    <defName>BI_DefendAndExpandHive</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="BetterInfestations.JobGiver_HiveDefense">
+          <needLOSToAcquireNonPawnTargets>true</needLOSToAcquireNonPawnTargets>
+          <targetAcquireRadius>30</targetAcquireRadius>
+          <chaseTarget>false</chaseTarget>
+        </li>
+        <li Class="BetterInfestations.ThinkNode_PerTick">
+          <ticks>30</ticks>
+          <subNodes>
+            <li Class="BetterInfestations.JobGiver_FightFire" />
+            <li Class="BetterInfestations.JobGiver_Hunt" />
+            <li Class="BetterInfestations.JobGiver_Gather" />
+            <li Class="BetterInfestations.JobGiver_Butcher" />
+            <li Class="BetterInfestations.JobGiver_SpawnHive" />
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_ChancePerHour_Constant">
+          <mtbHours>2.5</mtbHours>
+          <subNodes>
+            <li Class="BetterInfestations.JobGiver_MaintainHives" />
+          </subNodes>
+        </li>
+        <li Class="BetterInfestations.JobGiver_MaintainHives">
+          <onlyIfDamagingState>true</onlyIfDamagingState>
+        </li>
+        <li Class="ThinkNode_ConditionalBodySize">
+          <min>0.7</min>
+          <subNodes>
+            <li Class="BetterInfestations.ThinkNode_ConditionalHiveCanReproduce">
+              <subNodes>
+                <li Class="ThinkNode_ChancePerHour_InsectDigChance">
+                  <subNodes>
+                    <li Class="BetterInfestations.JobGiver_MineRandom" />
+                  </subNodes>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>SatisfyingNeeds</tagToGive>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="BetterInfestations.JobGiver_GetFood" />
+                <li Class="BetterInfestations.JobGiver_GetRest" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="BetterInfestations.JobGiver_WanderHive">
+          <maxDanger>Deadly</maxDanger>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+  <DutyDef>
+    <defName>BI_DefendHiveAggressively</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="BetterInfestations.JobGiver_HiveDefense">
+          <needLOSToAcquireNonPawnTargets>true</needLOSToAcquireNonPawnTargets>
+          <targetAcquireRadius>80</targetAcquireRadius>
+          <chaseTarget>false</chaseTarget>
+        </li>
+        <li Class="BetterInfestations.JobGiver_WanderHive">
+          <maxDanger>Deadly</maxDanger>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+  <DutyDef>
+    <defName>BI_HiveHunters</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="BetterInfestations.ThinkNode_PerTick">
+          <ticks>30</ticks>
+          <subNodes>
+            <li Class="BetterInfestations.JobGiver_FightFire" />
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>SatisfyingNeeds</tagToGive>
+          <subNodes>
+            <li Class="ThinkNode_PrioritySorter">
+              <subNodes>
+                <li Class="BetterInfestations.JobGiver_GetFood" />
+                <li Class="BetterInfestations.JobGiver_GetRest" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="BetterInfestations.JobGiver_Patrol" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>
