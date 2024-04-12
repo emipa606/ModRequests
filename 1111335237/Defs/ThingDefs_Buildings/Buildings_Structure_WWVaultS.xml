@@ -1,0 +1,536 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+	<ThingDef Name="WallBase" Abstract="True">
+		<category>Building</category>
+		<thingClass>Building</thingClass>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<selectable>true</selectable>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<repairEffect>Repair</repairEffect>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<!-- <filthLeaving>BuildingRubble</filthLeaving> -->
+	</ThingDef>
+
+  <!--========================= Doors =============================-->
+
+   <ThingDef ParentName="BuildingBase" Name="VaultDoorBase" Abstract="True">
+    <thingClass>Building_Door</thingClass>
+    <category>Building</category>
+    <altitudeLayer>DoorMoveable</altitudeLayer>
+    <fillPercent>1</fillPercent>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <selectable>true</selectable>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Structure</designationCategory>
+    <holdsRoof>true</holdsRoof>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <blockLight>true</blockLight>
+    <drawerType>RealtimeOnly</drawerType>
+    <building>
+		<isInert>true</isInert>
+		<canPlaceOverWall>true</canPlaceOverWall>
+		<soundDoorOpenPowered>Door_OpenPowered</soundDoorOpenPowered>
+		<soundDoorClosePowered>Door_ClosePowered</soundDoorClosePowered>
+		<soundDoorOpenManual>Door_OpenManual</soundDoorOpenManual>
+		<soundDoorCloseManual>Door_CloseManual</soundDoorCloseManual>
+		<blueprintClass>Blueprint_Door</blueprintClass>
+		<blueprintGraphicData>
+			<texPath>Things/Building/Door/Door_Blueprint</texPath>
+		</blueprintGraphicData>
+		<ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+  </ThingDef>
+
+<!-- Vault things, non-ruined -->
+ 
+  <ThingDef ParentName="VaultDoorBase">
+    <defName>VaultGearDoor</defName>
+    <label>vault gear door</label>
+    <description>A standard vault gear-style door. Able to sustain large amounts of heat and radiation, these '13 ton' doors don't break easily.</description>
+    <statBases>
+      <MaxHitPoints>4000</MaxHitPoints>
+      <WorkToMake>2000</WorkToMake>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Door/GearDoor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <!-- <rect>(0,0.1,1,0.8)</rect> -->
+		<enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Door/Geardoor_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>300</Steel> <!-- Was 110, now is 300 |OLD: Was 80, that plus 30 now -->
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>50</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <soundDoorOpenPowered>VaultDoorOpenPowered</soundDoorOpenPowered>
+      <soundDoorClosePowered>VaultDoorClosePowered</soundDoorClosePowered>
+      <soundDoorOpenManual>VaultDoorOpenManual</soundDoorOpenManual>
+      <soundDoorCloseManual>VaultDoorCloseManual</soundDoorCloseManual>
+    </building>
+    <researchPrerequisites>
+      <li>Electricity</li>
+      <li>VaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+    <ThingDef ParentName="VaultDoorBase">
+    <defName>VaultBlastDoor</defName>
+    <label>vault blast door</label>
+    <description>A heavy-duty door for use in the interiors of vaults. Typically found inside the entry area close to the exit.</description>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <WorkToMake>1000</WorkToMake>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Door/VaultBlastDoor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <!--  no damage marks because they don't move with the door
+        <rect>(0,0.12,1,0.76)</rect>-->
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Door/VaultBlastDoor_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>95</Steel> <!-- Was 60, was 110, now 95-->
+    </costList>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <soundDoorOpenManual>VaultBlastDoorOpen</soundDoorOpenManual>
+      <soundDoorCloseManual>VaultBlastDoorClose</soundDoorCloseManual>
+    </building>
+    <researchPrerequisites>
+      <li>VaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+  
+  <ThingDef ParentName="VaultDoorBase">
+    <defName>VaultVertDoor</defName>
+    <label>vault interior door</label>
+    <description>A door for use in the interiors of vaults.</description>
+    <statBases>
+      <MaxHitPoints>750</MaxHitPoints>
+      <WorkToMake>850</WorkToMake>
+      <Flammability>1</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Door/VaultVertDoor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <!--  no damage marks because they don't move with the door
+        <rect>(0,0.12,1,0.76)</rect>-->
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Door/VaultVertDoor_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>50</Steel> <!-- Was 25, now is 50-->
+    </costList>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <soundDoorOpenManual>VaultVertDoorOpen</soundDoorOpenManual>
+      <soundDoorCloseManual>VaultVertDoorClose</soundDoorCloseManual>
+    </building>
+    <researchPrerequisites>
+      <li>VaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!--========================= Vault Walls =============================-->
+
+
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>VaultWalls</defName>
+    <label>reinforced vault wall</label>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <description>An impassable, strong and heat-resistant wall, used for the external sides and the entrance of a vault shelter.</description>
+    <graphicData>
+      <texPath>Things/Building/Linked/Wall</texPath>
+      <color>(0.369, 0.369, 0.369)</color>
+      <graphicClass>Graphic_Appearances</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Wall</li>
+        <li>Rock</li>
+      </linkFlags>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+        <edgeTop>Damage/Edge</edgeTop>
+        <edgeBot>Damage/Edge</edgeBot>
+        <edgeLeft>Damage/Edge</edgeLeft>
+        <edgeRight>Damage/Edge</edgeRight>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Linked/WallSmooth_MenuIcon</uiIconPath>
+    <statBases>
+      <MaxHitPoints>4000</MaxHitPoints>
+      <WorkToMake>300</WorkToMake>
+      <Flammability>0</Flammability>
+    </statBases>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <tickerType>Never</tickerType>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <holdsRoof>true</holdsRoof>
+    <designationCategory>Structure</designationCategory>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <costList>
+      <Steel>150</Steel> <!--Was 250, stupidly unbalanced in the other way..! Was reccomended to change it to 150 |NOW THE OLD: Was 10, stupidly unbalanced! Now 250. |EVEN OLDER: Was 5, used other stuff too -->
+    </costList>
+    <building>
+		<isInert>true</isInert>
+		<blueprintGraphicData>
+		<texPath>Things/Building/Linked/Wall_Blueprint_Atlas</texPath>
+		</blueprintGraphicData>
+    </building>
+    <researchPrerequisites>
+      <li>VaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+<ThingDef ParentName="WallBase">
+    <defName>VaultIntWalls</defName>
+    <label>vault interior wall</label>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <description>A standard wall, used for the interior of a vault shelter's corridors.</description>
+    <graphicData>
+      <texPath>Things/Building/WallVault</texPath>
+	 <color>(1, 1, 1)</color>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Wall</li>
+        <li>Rock</li>
+      </linkFlags>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+        <edgeTop>Damage/Edge</edgeTop>
+        <edgeBot>Damage/Edge</edgeBot>
+        <edgeLeft>Damage/Edge</edgeLeft>
+        <edgeRight>Damage/Edge</edgeRight>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/WallVault_MenuIcon</uiIconPath>
+    <statBases>
+      <MaxHitPoints>350</MaxHitPoints>
+      <WorkToBuild>150</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <tickerType>Never</tickerType>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <holdsRoof>true</holdsRoof>
+    <designationCategory>Structure</designationCategory>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <building>
+		<isInert>true</isInert>
+		<blueprintGraphicData>
+		<texPath>Things/Building/Linked/Wall_Blueprint_Atlas</texPath>
+		</blueprintGraphicData>
+    </building>
+    <researchPrerequisites>
+      <li>VaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!-- Ruined Vault things -->
+
+
+  <ThingDef ParentName="VaultDoorBase">
+    <defName>RuinedVaultGearDoor</defName>
+    <label>ruined vault gear door</label>
+    <description>A standard ruined vault gear-style door. Able to sustain large amounts of heat and radiation, these '13 ton' doors don't break easily.</description>
+    <statBases>
+      <MaxHitPoints>4000</MaxHitPoints>
+      <WorkToMake>2000</WorkToMake>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Door/RuinedGearDoor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <!-- <rect>(0,0.1,1,0.8)</rect> -->
+		<enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Door/RuinedGeardoor_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <!-- <costStuffCount>30</costStuffCount> -->
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>50</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <soundDoorOpenPowered>VaultDoorOpenPowered</soundDoorOpenPowered>
+      <soundDoorClosePowered>VaultDoorClosePowered</soundDoorClosePowered>
+      <soundDoorOpenManual>VaultDoorOpenManual</soundDoorOpenManual>
+      <soundDoorCloseManual>VaultDoorCloseManual</soundDoorCloseManual>
+    </building>
+    <researchPrerequisites>
+      <li>Electricity</li>
+      <li>RuinedVaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+    <ThingDef ParentName="VaultDoorBase">
+    <defName>RuinedVaultBlastDoor</defName>
+    <label>ruined vault blast door</label>
+    <description>A heavy-duty door for use in the interiors of ruined vaults. Typically found inside the entry area close to the exit.</description>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <WorkToMake>1000</WorkToMake>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Door/RuinedVaultBlastDoor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <!--  no damage marks because they don't move with the door
+        <rect>(0,0.12,1,0.76)</rect>-->
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Door/RuinedVaultBlastDoor_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>95</Steel>
+    </costList>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <soundDoorOpenManual>VaultBlastDoorOpen</soundDoorOpenManual>
+      <soundDoorCloseManual>VaultBlastDoorClose</soundDoorCloseManual>
+    </building>
+    <researchPrerequisites>
+      <li>RuinedVaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+  
+  <ThingDef ParentName="VaultDoorBase">
+    <defName>RuinedVaultVertDoor</defName>
+    <label>ruined vault interior door</label>
+    <description>A door for use in the interiors of ruined vaults.</description>
+    <statBases>
+      <MaxHitPoints>750</MaxHitPoints>
+      <WorkToMake>850</WorkToMake>
+      <Flammability>1</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Door/RuinedVaultVertDoor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <!--  no damage marks because they don't move with the door
+        <rect>(0,0.12,1,0.76)</rect>-->
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Door/RuinedVaultVertDoor_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>50</Steel>
+    </costList>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <soundDoorOpenManual>RuinedVaultVertDoorOpen</soundDoorOpenManual>
+      <soundDoorCloseManual>RuinedVaultVertDoorClose</soundDoorCloseManual>
+    </building>
+    <researchPrerequisites>
+      <li>RuinedVaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+<!-- Ruined walls -->
+
+  <ThingDef ParentName="WallBase">
+    <defName>RuinedVaultWalls</defName>
+    <label>ruined reinforced vault wall</label>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <description>An impassable, strong and heat-resistant wall, used for the external sides and the entrance of a ruined vault shelter.</description>
+    <graphicData>
+      <texPath>Things/Building/WallRuinedReinVault</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Wall</li>
+        <li>Rock</li>
+      </linkFlags>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+        <edgeTop>Damage/Edge</edgeTop>
+        <edgeBot>Damage/Edge</edgeBot>
+        <edgeLeft>Damage/Edge</edgeLeft>
+        <edgeRight>Damage/Edge</edgeRight>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/WallRuinedReinVault_MenuIcon</uiIconPath>
+    <statBases>
+      <MaxHitPoints>4000</MaxHitPoints>
+      <WorkToMake>300</WorkToMake>
+      <Flammability>0</Flammability>
+    </statBases>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <tickerType>Never</tickerType>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <holdsRoof>true</holdsRoof>
+    <designationCategory>Structure</designationCategory>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <costList>
+      <Steel>150</Steel>
+    </costList>
+    <building>
+		<isInert>true</isInert>
+		<blueprintGraphicData>
+			<texPath>Things/Building/Linked/Wall_Blueprint_Atlas</texPath>
+		</blueprintGraphicData>
+    </building>
+    <researchPrerequisites>
+      <li>RuinedVaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+<ThingDef ParentName="WallBase">
+    <defName>RuinedVaultIntWalls</defName>
+    <label>ruined vault interior wall</label>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <description>A standard wall, used for the interior of a ruined vault shelter's corridors.</description>
+    <graphicData>
+      <texPath>Things/Building/WallRuinedVault</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Wall</li>
+        <li>Rock</li>
+      </linkFlags>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+        <edgeTop>Damage/Edge</edgeTop>
+        <edgeBot>Damage/Edge</edgeBot>
+        <edgeLeft>Damage/Edge</edgeLeft>
+        <edgeRight>Damage/Edge</edgeRight>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/RuinedWallVault_MenuIcon</uiIconPath>
+    <statBases>
+      <MaxHitPoints>350</MaxHitPoints>
+      <WorkToBuild>150</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <tickerType>Never</tickerType>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <holdsRoof>true</holdsRoof>
+    <designationCategory>Structure</designationCategory>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <building>
+		<isInert>true</isInert>
+		<blueprintGraphicData>
+			<texPath>Things/Building/Linked/Wall_Blueprint_Atlas</texPath>
+		</blueprintGraphicData>
+    </building>
+    <researchPrerequisites>
+      <li>RuinedVaultConstruction</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>
