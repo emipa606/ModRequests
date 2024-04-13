@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- Ranged Weapon Base -->
+	<ThingDef Name="OW_RangedWeaponOddity" Abstract="True" ParentName="BaseGun">
+		<techLevel>Ultra</techLevel>
+		<statBases>
+				<MaxHitPoints>250</MaxHitPoints>
+				<WorkToMake>70000</WorkToMake>
+				<MarketValue>2800</MarketValue>
+				<Mass>2</Mass>
+		</statBases>
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_Art">
+				<nameMaker>NamerArtWeaponGun</nameMaker>
+				<descriptionMaker>ArtDescription_WeaponGun</descriptionMaker>
+				<minQualityForArtistic>Normal</minQualityForArtistic>
+			</li>
+		</comps>
+		<relicChance>4</relicChance>
+		<smeltable>true</smeltable>
+		<burnableByRecipe>true</burnableByRecipe>
+		<weaponTags>
+			<li>OddityRanged</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>Ranged</li>
+		</weaponClasses>
+		<tradeability>Sellable</tradeability>
+		<thingSetMakerTags>
+			<li>RewardOddity</li>
+		</thingSetMakerTags>
+		
+		<!-- Crafting costs: can only be done with Oddity Fragments! -->
+		<costList>
+			<OC_OddityFragment>8</OC_OddityFragment>
+		</costList>
+		<recipeMaker>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Crafting</workSkill>
+			<effectWorking>Smith</effectWorking>
+			<soundWorking>Recipe_Smith</soundWorking>
+			<unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+			<skillRequirements>
+				<Crafting>12</Crafting>
+			</skillRequirements>
+			<recipeUsers Inherit="False">
+				<li>FabricationBench</li>
+			</recipeUsers>
+			<researchPrerequisite>OW_OddityRecombinationWeapon</researchPrerequisite>
+		</recipeMaker>
+	</ThingDef>
+	
+	<!-- Roulette -->
+	<ThingDef ParentName="BaseBullet">
+		<defName>OW_Bullet_Roulette</defName>
+		<label>roulette bullet</label>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>OW_BulletRoulette</damageDef>
+			<damageAmountBase>10</damageAmountBase>
+			<stoppingPower>1</stoppingPower>
+			<speed>55</speed>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="OW_RangedWeaponOddity">
+		<defName>OW_Gun_Roulette</defName>
+		<label>roulette</label>
+		<description>A highly modified revolver with a fanable hammer. The chamber has an unstable infusion mechanism that imbues its otherwise ordinary bullets with various properties. These will all assist in defeating the enemy, but it can be somewhat unreliable.\n\nRecorded effects include: target ignition, stuns, small explosions, increased damage, motor function impairment, and armor destruction.\n\nIt's also rumored the weapon can cause instant death, but this is unconfirmed.</description>
+		<graphicData>
+			<texPath>Things/Weapons/Oddity_Roulette</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<uiIconScale>1.5</uiIconScale>
+		<soundInteract>Interact_Revolver</soundInteract>
+		<techLevel>Industrial</techLevel>
+		<weaponClasses>
+			<li>RangedLight</li>
+			<li>ShortShots</li>
+		</weaponClasses>
+		<statBases>
+			<Mass>1.4</Mass>
+			<AccuracyTouch>0.85</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.40</AccuracyMedium>
+			<AccuracyLong>0.30</AccuracyLong>
+			<RangedWeapon_Cooldown>1.9</RangedWeapon_Cooldown>
+		</statBases>
+		<equippedStatOffsets>
+			<MentalBreakThreshold>-0.1</MentalBreakThreshold>
+		</equippedStatOffsets>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>OW_Bullet_Roulette</defaultProjectile>
+				<warmupTime>0.3</warmupTime>
+				<range>22.3</range>
+				<burstShotCount>3</burstShotCount>
+				<ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+				<soundCast>Shot_Revolver</soundCast>
+				<soundCastTail>GunTail_Light</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>grip</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+            <li Class="OdditiesWeapons.Oddities_ModExtension_RouletteRNG">
+				<instantKillChance>250</instantKillChance> <!-- 1 in (x) chance -->
+				<instantKillDamage>9999.9</instantKillDamage> <!-- in case you don't want to instantly kill the target...? -->
+				<fireSize>0.1</fireSize>
+				<stunDuration>1.5</stunDuration>
+				<blastRadius>3.4</blastRadius>
+				<blastDamage>10</blastDamage> <!-- explosion damage is an int. weird, i know -->
+				<extraDamage>15.0</extraDamage>
+				<statusIntensity>0.25</statusIntensity>
+            </li>
+        </modExtensions>
+	</ThingDef>
+	
+	<!-- Proboscis -->
+	<ThingDef ParentName="BaseBullet">
+		<defName>OW_Bullet_Proboscis</defName>
+		<label>lifeleech bullet</label>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>OW_BulletProboscis</damageDef>
+			<damageAmountBase>14</damageAmountBase>
+			<stoppingPower>1</stoppingPower>
+			<speed>75</speed>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="OW_RangedWeaponOddity">
+		<defName>OW_Gun_Proboscis</defName>
+		<label>proboscis</label>
+		<description>An assault rifle with biological components, taken from the remnants of an insectoid found on some far-off world. Shots fired from this rifle store blood from the target. Then, a system of insect-like drones will fly back and forth, mending the shooter's wounds and replacing lost blood with stolen material.\n\nWhile still effective as a weapon versus robotic targets, it is incapable of sucking blood from them.\n\nThanks to a front-mounted claw, this gun is also better than average at melee combat.</description>
+		<graphicData>
+			<texPath>Things/Weapons/Oddity_Proboscis</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		<techLevel>Industrial</techLevel>
+		<statBases>
+			<Mass>2.8</Mass>
+			<AccuracyTouch>0.70</AccuracyTouch>
+			<AccuracyShort>0.80</AccuracyShort>
+			<AccuracyMedium>0.85</AccuracyMedium>
+			<AccuracyLong>0.60</AccuracyLong>
+			<RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+		</statBases>
+		<equippedStatOffsets>
+			<MoveSpeed>0.10</MoveSpeed>
+			<ToxicSensitivity>-0.5</ToxicSensitivity>
+		</equippedStatOffsets>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>OW_Bullet_Proboscis</defaultProjectile>
+				<warmupTime>0.7</warmupTime>
+				<range>33.2</range>
+				<burstShotCount>2</burstShotCount>
+				<ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+				<soundCast>Shot_AssaultRifle</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>1.8</cooldownTime>
+			</li>
+			<li>
+				<label>claw</label>
+				<capacities>
+					<li>Cut</li>
+				</capacities>
+				<power>14</power>
+				<cooldownTime>1.8</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+            <li Class="OdditiesWeapons.Oddities_ModExtension_LifestealOnHit">
+				<healingAmount>1.0</healingAmount>
+				<healingAttempts>2</healingAttempts>
+            </li>
+			<li Class="OdditiesWeapons.Oddities_ModExtension_ProboscisBloodRestore">
+				<bloodAmount>0.03</bloodAmount>
+            </li>
+        </modExtensions>
+	</ThingDef>
+	
+	<!-- Momentum -->
+	<ThingDef ParentName="BaseBullet">
+		<defName>OW_Bullet_Momentum</defName>
+		<label>calibrator bullet</label>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Big</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>OW_BulletMomentum</damageDef>
+			<damageAmountBase>20</damageAmountBase>
+			<stoppingPower>1.5</stoppingPower>
+			<speed>110</speed>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="OW_RangedWeaponOddity">
+		<defName>OW_Gun_Momentum</defName>
+		<label>momentum</label>
+		<description>An exceptionally heavy sniper rifle with an on-board targeting AI. While slow and cumbersome to aim, once trained, the AI allows for rapid-fire of precision shots. Its design also minimizes recoil, allowing the user to move quickly after shooting.\n\nEach bullet fired is equipped with a tracker. Upon a successful hit, these bullets will transmit information to the gun, allowing it to dynamically callibrate to hit the target. This will boost aiming speed for some time.</description>
+		<graphicData>
+			<texPath>Things/Weapons/Oddity_Momentum</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		<techLevel>Spacer</techLevel>
+		<weaponClasses>
+			<li>LongShots</li>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<statBases>
+			<Mass>6.2</Mass>
+			<AccuracyTouch>0.45</AccuracyTouch>
+			<AccuracyShort>0.60</AccuracyShort>
+			<AccuracyMedium>0.88</AccuracyMedium>
+			<AccuracyLong>0.90</AccuracyLong>
+			<RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+		</statBases>
+		<equippedStatOffsets>
+			<MoveSpeed>-0.25</MoveSpeed>
+		</equippedStatOffsets>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>OW_Bullet_Momentum</defaultProjectile>
+				<warmupTime>4.5</warmupTime>
+				<range>44.9</range>
+				<soundCast>Shot_SniperRifle</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+            <li Class="OdditiesCore.Oddities_ModExtension_StatusSelfOnHit">
+				<hediffName>OW_MomentumRamp</hediffName>
+				<hediffAmount>0.15</hediffAmount>
+            </li>
+        </modExtensions>
+	</ThingDef>
+	
+	<!-- Stasis -->
+	<ThingDef ParentName="BaseBullet">
+		<defName>OW_Bullet_Stasis</defName>
+		<label>shotgun blast</label>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Shotgun</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>Bullet</damageDef>
+			<damageAmountBase>24</damageAmountBase>
+			<stoppingPower>3</stoppingPower>
+			<armorPenetrationBase>0.25</armorPenetrationBase>
+			<speed>64</speed>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="OW_RangedWeaponOddity">
+		<defName>OW_Gun_Stasis</defName>
+		<label>stasis</label>
+		<description>An unwieldy shotgun designed for the frontline, notable for its unusual design. The bulk of the weapon is dedicated to a gigantic foldable shield, resembling an umbrella. This heavy shield does much to block incoming assaults from bullets, but does little against blunt attacks.\n\nMaking use of the technology the Kronos was designed with, bullets that would be completely deflected the umbrella shield will be locked in time, before promptly being launched back at the enemy.\n\nAlso beyond stylish.</description>
+		<graphicData>
+			<texPath>Things/Weapons/Oddity_Stasis</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Shotgun</soundInteract>
+		<techLevel>Ultra</techLevel>
+		<weaponClasses>
+			<li>Ultratech</li>
+			<li>ShortShots</li>
+		</weaponClasses>
+		<statBases>
+			<Mass>4.8</Mass>
+			<AccuracyTouch>0.90</AccuracyTouch>
+			<AccuracyShort>0.95</AccuracyShort>
+			<AccuracyMedium>0.60</AccuracyMedium>
+			<AccuracyLong>0.40</AccuracyLong>
+			<RangedWeapon_Cooldown>0.85</RangedWeapon_Cooldown>
+		</statBases>
+		<equippedStatOffsets>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+			<MoveSpeed>-0.40</MoveSpeed>
+		</equippedStatOffsets>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>OW_Bullet_Stasis</defaultProjectile>
+				<warmupTime>0.75</warmupTime>
+				<range>16.4</range>
+				<soundCast>Shot_Shotgun</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+            <li Class="OdditiesCore.Oddities_ModExtension_RetaliateOnHit">
+				<counterMelee>False</counterMelee>
+				<counterRanged>True</counterRanged>
+				<counterOnDeflect>True</counterOnDeflect>
+				<counterExact>True</counterExact>
+				<counterType>Bullet</counterType>
+            </li>
+        </modExtensions>
+	</ThingDef>
+	
+	<!-- Heartstop -->
+	<ThingDef ParentName="BaseBullet">
+		<defName>OW_Bullet_Heartstop</defName>
+		<label>bullet</label>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Big</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>OW_BulletHeartstop</damageDef>
+			<damageAmountBase>17</damageAmountBase>
+			<stoppingPower>1.5</stoppingPower>
+			<armorPenetrationBase>0.40</armorPenetrationBase>
+			<speed>85</speed>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="OW_RangedWeaponOddity">
+		<defName>OW_Gun_Heartstop</defName>
+		<label>heartstop</label>
+		<description>An advanced marksman's rifle with exceptional accuracy and fire rate, fabricated from several interlocking plates of metal. An assassin's weapon, the Heartstop was designed to pick off targets before they even knew what hit them.\n\nWhen a bullet from the Heartstop connects with a target that has minimal injuries (90% Health or more), the damage will be massively amplified, and the target crippled. This will often kill the target in a single blow. In addition, due to its sturdy make, the Heartstop is a slightly better melee weapon than most other guns.</description>
+		<graphicData>
+			<texPath>Things/Weapons/Oddity_Heartstop</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		<techLevel>Spacer</techLevel>
+		<weaponClasses>
+			<li>LongShots</li>
+		</weaponClasses>
+		<statBases>
+			<Mass>3.7</Mass>
+			<AccuracyTouch>0.62</AccuracyTouch>
+			<AccuracyShort>0.87</AccuracyShort>
+			<AccuracyMedium>0.93</AccuracyMedium>
+			<AccuracyLong>0.87</AccuracyLong>
+			<RangedWeapon_Cooldown>1.4</RangedWeapon_Cooldown>
+		</statBases>
+		<equippedStatOffsets>
+			<MentalBreakThreshold>-0.05</MentalBreakThreshold>
+			<ShootingAccuracyPawn>2</ShootingAccuracyPawn>
+		</equippedStatOffsets>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>OW_Bullet_Heartstop</defaultProjectile>
+				<warmupTime>1.3</warmupTime>
+				<range>38.2</range>
+				<soundCast>Shot_BoltActionRifle</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>11</power>
+				<cooldownTime>1.8</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>11</power>
+				<cooldownTime>1.8</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+            <li Class="OdditiesWeapons.Oddities_ModExtension_HeartstopExecute">
+				<hpPercentToTrigger>0.9</hpPercentToTrigger>
+				<damageInstances>3</damageInstances>
+				<damageAmount>15</damageAmount>
+			</li>
+        </modExtensions>
+	</ThingDef>
+	
+	<!-- Tesla -->
+	<ThingDef ParentName="BaseProjectileNeolithic">
+		<defName>OW_Arrow_Tesla</defName>
+		<label>tesla bolt</label>
+		<graphicData>
+			<texPath>Things/Projectile/Arrow_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>OW_ArrowTesla</damageDef>
+			<damageAmountBase>24</damageAmountBase>
+			<stoppingPower>1.5</stoppingPower>
+			<armorPenetrationBase>0.5</armorPenetrationBase>
+			<speed>100</speed>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="OW_RangedWeaponOddity">
+		<defName>OW_Bow_Tesla</defName>
+		<label>tesla</label>
+		<description>A crossbow modified with rudimentary electrical generation capabilities, created by an insane medieval inventor who was put to death for the crime of "witchcraft". The artisan bolts of the weapon possess rudimentary batteries within them, capable of holding immense amounts of charge.\n\nWhen a bolt from the Tesla strikes the target, a pulse of electrical energy will shoot from the target, jumping to nearby foes and damaging them. These arcing bolts will also deal EMP damage, disabling mechanoids and shattering shields.</description>
+		<graphicData>
+			<texPath>Things/Weapons/Oddity_Tesla</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<uiIconScale>1.2</uiIconScale>
+		<soundInteract>Bow_Large</soundInteract>
+		<techLevel>Medieval</techLevel>
+		<statBases>
+			<Mass>2.9</Mass>
+			<AccuracyTouch>0.75</AccuracyTouch>
+			<AccuracyShort>0.85</AccuracyShort>
+			<AccuracyMedium>0.60</AccuracyMedium>
+			<AccuracyLong>0.45</AccuracyLong>
+			<RangedWeapon_Cooldown>2.5</RangedWeapon_Cooldown>
+		</statBases>
+		<equippedStatOffsets>
+			<WorkSpeedGlobal>0.1</WorkSpeedGlobal>
+			<MoveSpeed>0.1</MoveSpeed>
+			<GlobalLearningFactor>0.2</GlobalLearningFactor>
+		</equippedStatOffsets>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>OW_Arrow_Tesla</defaultProjectile>
+				<warmupTime>1.9</warmupTime>
+				<range>26.3</range>
+				<soundCast>Bow_Large</soundCast>
+			</li>
+		</verbs>
+		<tools>
+			<li>
+				<label>limb</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+            <li Class="OdditiesWeapons.Oddities_ModExtension_TeslaArcLightning">
+				<searchRadius>6.5</searchRadius>
+				<maximumBounces>10</maximumBounces>
+				<damageAmount>12.0</damageAmount>
+				<empAmount>30.0</empAmount>
+			</li>
+        </modExtensions>
+	</ThingDef>
+</Defs>
