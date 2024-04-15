@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.FindMod">
+		<mods>
+			<li>Medieval Overhaul</li>
+		</mods>
+		<caseTrue>
+			<!-- MENU INJECTION -->
+			<Operation Class="XmlExtensions.PatchOperationInsert">
+				<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="toggles"]</xpath>
+				<order>Append</order>
+				<value>
+					<li Class="XmlExtensions.Setting.Checkbox" MayRequire="dankpyon.medieval.overhaul">
+						<key>useMedievalOverhaul</key>
+						<label>Medieval Overhaul</label>
+						<defaultValue>true</defaultValue>
+					</li>
+				</value>
+			</Operation>
+			<!-- /MENU INJECTION -->
+			<Operation Class="XmlExtensions.OptionalPatch" MayRequire="dankpyon.medieval.overhaul">
+				<modId>majestic.framework</modId>
+				<key>useMedievalOverhaul</key>
+				<defaultValue>true</defaultValue>
+				<caseFalse/>
+				<caseTrue>
+					<!-- MAJESTIC PATCHES -->
+					<Operation Class="PatchOperationSequence">
+						<operations>
+							<li Class="XmlExtensions.PatchOperationAdd">
+								<success>Normal</success>
+								<xpath>Defs/ThingDef[defName="DankPyon_GreatIter" or defName="DankPyon_GreatFir" or defName="DankPyon_GreatWillow" or defName="DankPyon_TreeLylses" or defName="DankPyon_TreeScara"]</xpath>
+								<value>
+									<altitudeLayer>Pawn</altitudeLayer>
+								</value>
+							</li>
+							<!-- Reset default drawing layer to Pawn, to hide buildings, chunks and items. -->
+							<li Class="XmlExtensions.PatchOperationAddModExtension">
+								<xpath>Defs/ThingDef[defName="DankPyon_GreatOak" or defName="DankPyon_GreatIter" or defName="DankPyon_GreatFir" or defName="DankPyon_GreatWillow"]</xpath>
+								<value>
+									<li Class="MajesticFramework.PlantExtension">
+										<makeTransparent>true</makeTransparent>
+									</li>
+								</value>
+							</li>
+							<!-- Make them leafless -->
+							<li Class="XmlExtensions.PatchOperationRemove">
+								<xpath>Defs/ThingDef[defName="DankPyon_GreatOak" or defName="DankPyon_GreatIter" or defName="DankPyon_GreatFir" or defName="DankPyon_GreatWillow" or defName="DankPyon_TreeLylses" or defName="DankPyon_TreeScara"]/plant/leaflessGraphicPath</xpath>
+							</li>
+							<!--Give them new leaves-->
+							<li Class="XmlExtensions.PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="DankPyon_GreatOak" or defName="DankPyon_GreatIter" or defName="DankPyon_GreatWillow" or defName="DankPyon_TreeLylses" or defName="DankPyon_TreeScara"]/modExtensions/li[@Class="MajesticFramework.PlantExtension"]</xpath>
+								<value>
+									<makeLeafless>true</makeLeafless>
+								</value>
+							</li>
+							<!--Patch Skyfaller-->
+							<li Class="XmlExtensions.PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="DankPyon_GreatOak"]/altitudeLayer</xpath>
+								<success>Normal</success>
+								<value>
+									<altitudeLayer>Pawn</altitudeLayer>
+								</value>
+							</li>
+						</operations>
+					</Operation>
+					<!-- /MAJESTIC SETTINGS -->
+					<!-- CUSTOM GROUP -->
+					<Operation Class="PatchOperationInsert">
+						<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="modSlot"]</xpath>
+						<order>Prepend</order>
+						<value>
+							<li Class="XmlExtensions.Setting.Gap"/>
+							<li Class="XmlExtensions.Setting.Section">
+								<tag>dark</tag>
+								<settings>
+									<li Class="XmlExtensions.Setting.Text">
+										<text>&lt;b&gt;Dark Forest&lt;/b&gt; (Medieval Overhaul)</text>
+										<anchor>Middle</anchor>
+										<font>Medium</font>
+									</li>
+									<li Class="XmlExtensions.Setting.SplitColumn">
+										<tag>darkcol</tag>
+										<leftCol>
+
+										</leftCol>
+										<rightCol>
+
+										</rightCol>
+									</li>
+									<li Class="XmlExtensions.Setting.ResetSettings">
+										<label>Reset Dark Forest Size Settings</label>
+										<tag>resetsizedark</tag>
+										<confirm>false</confirm>
+										<keys>
+											<!-- INJECT RESET KEYS HERE -->
+										</keys>
+									</li>
+								</settings>
+							</li>
+						
+							<li Class="XmlExtensions.Setting.Gap"/>
+							<li Class="XmlExtensions.Setting.Section">
+								<tag>ancient</tag>
+								<settings>
+									<li Class="XmlExtensions.Setting.Text">
+										<text>&lt;b&gt;Ancient Forest&lt;/b&gt; (Medieval Overhaul)</text>
+										<anchor>Middle</anchor>
+										<font>Medium</font>
+									</li>
+									<li Class="XmlExtensions.Setting.SplitColumn">
+										<tag>ancientcol</tag>
+										<leftCol>
+
+										</leftCol>
+										<rightCol>
+
+										</rightCol>
+									</li>
+									<li Class="XmlExtensions.Setting.ResetSettings">
+										<label>Reset Ancient Forest Size Settings</label>
+										<tag>resetsizeancient</tag>
+										<confirm>false</confirm>
+										<keys>
+											<!-- INJECT RESET KEYS HERE -->
+										</keys>
+									</li>
+								</settings>
+							</li>
+						</value>
+					</Operation>
+					<!-- /CUSTOM GROUP -->
+					<!-- SETTINGS INJECTION -->
+					<Operation Class="XmlExtensions.ApplyPatch">
+						<patchName>MajesticFramework_SizePatch</patchName>
+						<arguments>
+							<li>lylses_size</li>
+							<li>Lylses Tree</li>
+							<li>DankPyon_TreeLylses</li>
+							<li>8.0</li>
+							<li>12.0</li>
+							<li>ancient</li>
+						</arguments>
+					</Operation>
+					<Operation Class="XmlExtensions.ApplyPatch">
+						<patchName>MajesticFramework_SizePatch</patchName>
+						<arguments>
+							<li>scara_size</li>
+							<li>Scara Tree</li>
+							<li>DankPyon_TreeScara</li>
+							<li>3.0</li>
+							<li>5.0</li>
+							<li>ancient</li>
+						</arguments>
+					</Operation>
+					<Operation Class="XmlExtensions.ApplyPatch">
+						<patchName>MajesticFramework_SizePatch</patchName>
+						<arguments>
+							<li>greatoak_size</li>
+							<li>Great Oak</li>
+							<li>DankPyon_GreatOak</li>
+							<li>8.0</li>
+							<li>12.0</li>
+							<li>dark</li>
+						</arguments>
+					</Operation>
+					<Operation Class="XmlExtensions.ApplyPatch">
+						<patchName>MajesticFramework_SizePatch</patchName>
+						<arguments>
+							<li>greatiter_size</li>
+							<li>Great Iter</li>
+							<li>DankPyon_GreatIter</li>
+							<li>8.0</li>
+							<li>12.0</li>
+							<li>dark</li>
+						</arguments>
+					</Operation>
+					<Operation Class="XmlExtensions.ApplyPatch">
+						<patchName>MajesticFramework_SizePatch</patchName>
+						<arguments>
+							<li>greatfir_size</li>
+							<li>Great Fir</li>
+							<li>DankPyon_GreatFir</li>
+							<li>3.0</li>
+							<li>5.0</li>
+							<li>dark</li>
+						</arguments>
+					</Operation>
+					<Operation Class="XmlExtensions.ApplyPatch">
+						<patchName>MajesticFramework_SizePatch</patchName>
+						<arguments>
+							<li>greatwillow_size</li>
+							<li>Great Willow</li>
+							<li>DankPyon_GreatWillow</li>
+							<li>6.0</li>
+							<li>9.0</li>
+							<li>dark</li>
+						</arguments>
+					</Operation>
+					
+					<!-- /SETTINGS INJECTION -->
+				</caseTrue>
+			</Operation>
+		</caseTrue>
+	</Operation>
+</Patch>

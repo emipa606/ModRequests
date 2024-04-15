@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<XmlExtensions.PatchDef Name="MajesticFramework_PatchSize" Abstract="True">
+		<parameters>
+			<li>size</li>			<!-- Name of size (no spaces) -->
+			<li>defName</li>			<!-- defName of size -->
+			<li>defaultMin</li>			<!-- Default min modifier -->
+			<li>defaultMax</li>			<!-- Default max modifier --></parameters>
+		<apply>
+			<Operation Class="XmlExtensions.OptionalPatch">
+				<modId>majestic.framework</modId>
+				<key>patch{size}</key>
+				<defaultValue>true</defaultValue>
+				<caseTrue>
+					<Operation Class="XmlExtensions.AggregateValues">
+						<valueOperations>							<!-- Load the max mood modifier -->
+							<Operation Class="XmlExtensions.UseSetting">
+								<modId>majestic.framework</modId>
+								<key>{size}max</key>
+								<defaultValue>{defaultMax}</defaultValue>
+							</Operation>							<!-- Load the min mood modifier -->
+							<Operation Class="XmlExtensions.UseSetting">
+								<modId>majestic.framework</modId>
+								<key>{size}min</key>
+								<defaultValue>{defaultMin}</defaultValue>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<storeIn>{size}maxmultiplier</storeIn>
+								<value>{{size}max}</value>
+								<value2>1</value2>
+								<operation>/</operation>
+							</Operation>							<!-- Convert min mood modifier to a multiplier -->
+							<Operation Class="XmlExtensions.CreateVariable">
+								<storeIn>{size}minmultiplier</storeIn>
+								<value>{{size}min}</value>
+								<value2>1</value2>
+								<operation>/</operation>
+							</Operation>
+							
+						</valueOperations>
+						<apply>							<!-- Some sizes already have a <parts> node, so using SafeAdd instead -->
+							<Operation Class="XmlExtensions.PatchOperationAdd">
+								<xpath> Defs/ThingDef[defName="{defName}"]</xpath>
+								<value>
+									<plant>
+										<visualSizeRange>{{size}minmultiplier}~{{size}maxmultiplier}</visualSizeRange>
+									</plant>
+								</value>
+							</Operation>
+						
+						</apply>
+					</Operation>
+				</caseTrue>
+			</Operation>
+		</apply>
+	</XmlExtensions.PatchDef>
+</Defs>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.FindMod">
+		<mods>
+			<li>VGP Vegetable Garden</li>
+		</mods>
+		<!-- MENU INJECTION -->
+		<caseTrue>
+			<Operation Class="XmlExtensions.PatchOperationInsert">
+				<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="toggles"]</xpath>
+				<order>Append</order>
+				<value>
+					<li Class="XmlExtensions.Setting.Checkbox" MayRequire="dismarzero.vgp.vgpvegetablegarden">
+						<key>useVGP</key>
+						<label>Override VGP Textures</label>
+						<defaultValue>true</defaultValue>
+					</li>
+				</value>
+			</Operation>
+			<!-- /MENU INJECTION -->
+			<Operation Class="XmlExtensions.OptionalPatch" MayRequire="dismarzero.vgp.vgpvegetablegarden">
+				<modId>majestic.framework</modId>
+				<key>useVGP</key>
+				<defaultValue>true</defaultValue>
+				<caseFalse/>
+				<caseTrue>
+					<!-- MAJESTIC PATCHES -->
+					<Operation Class="PatchOperationSequence">
+						<operations>
+							<!-- Forget the immature version -->
+							<li Class="PatchOperationRemove">
+								<success>Normal</success>
+								<xpath>/Defs/ThingDef[defName="Plant_TreeBamboo"]/plant/immatureGraphicPath</xpath>
+							</li>
+							<!-- Change the texture path back to vanilla location. -->
+							<li Class="XmlExtensions.PatchOperationReplace">
+								<success>Normal</success>
+								<xpath>Defs/ThingDef[defName="Plant_TreeBamboo"]/graphicData/texPath</xpath>
+								<value>
+									<texPath>Things/Plant/TreeBamboo</texPath>
+								</value>
+							</li>
+							<li Class="PatchOperationAddModExtension">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBamboo"]</xpath>
+								<value>
+									<li Class="MajesticFramework.PlantExtension">
+										<makeTransparent>true</makeTransparent>
+									</li>
+								</value>
+							</li>
+							<li Class="PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBamboo"]/modExtensions/li[@Class="MajesticFramework.PlantExtension"]</xpath>
+								<value>
+									<makeLeafless>false</makeLeafless>
+								</value>
+							</li>
+						</operations>
+					</Operation>
+				</caseTrue>
+			</Operation>
+		</caseTrue>
+	</Operation>
+</Patch>

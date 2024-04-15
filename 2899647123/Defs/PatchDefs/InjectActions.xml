@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<XmlExtensions.PatchDef Name="MajesticFramework_InjectActions" Abstract="True">
+		<parameters>
+			<li>size</li>
+			<!--Name of size (no spaces)-->
+			<li>defName</li>
+			<!--defName for the size-->
+			<li>defaultMin</li>
+			<!--Default min modifier-->
+			<li>defaultMax</li>
+			<!--Default max modifier-->
+		</parameters>
+		<apply>
+			<Operation Class="PatchOperationAdd">
+				<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]/postCloseActions</xpath>
+				<value>
+					<li Class="XmlExtensions.Action.ApplyOperations">
+						<apply>
+							<Operation Class="XmlExtensions.OptionalPatch">
+								<modId>majestic.framework</modId>
+								<key>patch{size}</key>
+								<defaultValue>true</defaultValue>
+								<caseTrue>
+									<!--The setting is set to true, so we need to add the StatPart with the new values-->
+									<Operation Class="XmlExtensions.AggregateValues">
+										<valueOperations>
+											<Operation Class="XmlExtensions.UseSetting">
+												<modId>majestic.framework</modId>
+												<key>{size}max</key>
+												<defaultValue>{defaultMax}</defaultValue>
+											</Operation>
+											<Operation Class="XmlExtensions.UseSetting">
+												<modId>majestic.framework</modId>
+												<key>{size}min</key>
+												<defaultValue>{defaultMin}</defaultValue>
+											</Operation>
+											<Operation Class="XmlExtensions.CreateVariable">
+												<storeIn>{size}maxmultiplier</storeIn>
+												<value>{{size}max}</value>
+												<value2>1</value2>
+												<operation>/</operation>
+											</Operation>
+											<Operation Class="XmlExtensions.CreateVariable">
+												<storeIn>{size}minmultiplier</storeIn>
+												<value>{{size}min}</value>
+												<value2>1</value2>
+												<operation>/</operation>
+											</Operation>
+										</valueOperations>
+										<apply>
+											<!--Use DefDatabase operations instead-->
+											<Operation Class="XmlExtensions.DefDatabaseConditional">
+												<objPath>ThingDef/[defName="{defName}"]/plant/visualSizeRange</objPath>
+												<caseTrue>
+													<!--If the StatPart exists already (if the user only changes the min/max values), then just update the numbers-->
+													<Operation Class="XmlExtensions.DefDatabaseOperationReplace">
+														<objPath>ThingDef/[defName="{defName}"]/plant/visualSizeRange</objPath>
+														<value>
+															<visualSizeRange>{{size}minmultiplier}~{{size}maxmultiplier}</visualSizeRange>
+														</value>
+													</Operation>
+												</caseTrue>
+												<caseFalse>
+													<!--If the StatPart does not exist (the user had previously disabled the setting), then add the StatPart-->
+													<Operation Class="XmlExtensions.DefDatabaseOperationAdd">
+														<objPath>ThingDef/[defName="{defName}"]/plant/</objPath>
+														<value>
+															<visualSizeRange>{{size}minmultiplier}~{{size}maxmultiplier}</visualSizeRange>
+														</value>
+													</Operation>
+												</caseFalse>
+											</Operation>
+										</apply>
+									</Operation>
+								</caseTrue>
+								<caseFalse>
+									<!--The setting is set to false, so we need to remove the StatPart-->
+									<Operation Class="XmlExtensions.DefDatabaseConditional">
+										<objPath>ThingDef/[defName="{defName}"]/plant/visualSizeRange</objPath>
+										<caseTrue>
+											<!--If the StatPart exists, remove it-->
+											<Operation Class="XmlExtensions.DefDatabaseOperationReplace">
+												<objPath>ThingDef/[defName="{defName}"]/plant/visualSizeRange</objPath>
+												<value>
+													<visualSizeRange>{defaultMin}~{defaultMax}</visualSizeRange>
+												</value>
+											</Operation>
+										</caseTrue>
+									</Operation>
+								</caseFalse>
+							</Operation>
+						</apply>
+					</li>
+				</value>
+			</Operation>
+		</apply>
+	</XmlExtensions.PatchDef>
+</Defs>

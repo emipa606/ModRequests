@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.FindMod">
+		<mods>
+			<li>ReGrowth: Aspen</li>
+		</mods>
+		<caseTrue>
+			<!-- MENU INJECTION -->
+			<Operation Class="XmlExtensions.PatchOperationInsert">
+				<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="toggles"]</xpath>
+				<order>Append</order>
+				<value>
+					<li Class="XmlExtensions.Setting.Checkbox" MayRequire="regrowth.botr.aspenforest">
+						<key>useReGrowthAspen</key>
+						<label>ReGrowth: Aspen</label>
+						<defaultValue>true</defaultValue>
+					</li>
+				</value>
+			</Operation>
+			<!-- /MENU INJECTION -->
+			<Operation Class="XmlExtensions.OptionalPatch" MayRequire="regrowth.botr.aspenforest">
+				<modId>majestic.framework</modId>
+				<key>useReGrowthAspen</key>
+				<defaultValue>true</defaultValue>
+				<caseFalse/>
+				<caseTrue>
+					<!-- MAJESTIC PATCHES -->
+					<Operation Class="PatchOperationSequence">
+						<operations>
+							<!-- Reset default drawing layer to Pawn, to hide buildings, chunks and items. -->
+							<li Class="XmlExtensions.PatchOperationAdd">
+								<success>Normal</success>
+								<xpath>Defs/ThingDef[defName="RG_Plant_TreeAspenRed" or defName="RG_Plant_TreeAspenYellow"]</xpath>
+								<value>
+									<altitudeLayer>Pawn</altitudeLayer>
+								</value>
+							</li>
+							<!-- Add a mod extension to mark it transparent -->
+							<li Class="XmlExtensions.PatchOperationAddModExtension">
+								<xpath>Defs/ThingDef[defName="RG_Plant_TreeAspenRed" or defName="RG_Plant_TreeAspenYellow"]</xpath>
+								<value>
+									<li Class="MajesticFramework.PlantExtension">
+										<makeTransparent>true</makeTransparent>
+									</li>
+								</value>
+							</li>
+							<li Class="XmlExtensions.PatchOperationRemove">
+								<xpath>Defs/ThingDef[defName="RG_Plant_TreeAspenRed" or defName="RG_Plant_TreeAspenYellow"]/plant/leaflessGraphicPath</xpath>
+							</li>
+							<!-- Make them leafless -->
+							<li Class="XmlExtensions.PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="RG_Plant_TreeAspenRed" or defName="RG_Plant_TreeAspenYellow"]/modExtensions/li[@Class="MajesticFramework.PlantExtension"]</xpath>
+								<value>
+									<makeLeafless>true</makeLeafless>
+								</value>
+							</li>
+						</operations>
+					</Operation>
+					<!-- /MAJESTIC PATCHES -->
+					<!-- CUSTOM GROUP -->
+					<Operation Class="PatchOperationInsert">
+						<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="modSlot"]</xpath>
+						<order>Prepend</order>
+						<value>
+							<li Class="XmlExtensions.Setting.GapLine"/>
+							<li Class="XmlExtensions.Setting.Section">
+								
+								<tag>aspen</tag>
+								<settings>
+									<li Class="XmlExtensions.Setting.Text">
+										<text>&lt;b&gt;Aspen Forest&lt;/b&gt; (ReGrowth: Aspen)</text>
+										<anchor>Middle</anchor>
+										<font>Medium</font>
+									</li>
+									<li Class="XmlExtensions.Setting.SplitColumn">
+										<tag>aspencol</tag>
+										<leftCol>
+
+										</leftCol>
+										<rightCol>
+
+										</rightCol>
+									</li>
+									<li Class="XmlExtensions.Setting.ResetSettings">
+												<label>Reset Aspen Size Settings</label>
+												<tag>resetsizeaspen</tag>
+												<confirm>false</confirm>
+												<keys>
+													<!-- INJECT RESET KEYS HERE -->
+												</keys>
+											</li>
+								</settings>
+							</li>
+						</value>
+					</Operation>
+					<!-- /CUSTOM GROUP -->
+					<!-- SIZE PRESETS -->
+					<Operation Class="XmlExtensions.UseSetting">
+						<modId>majestic.framework</modId>
+						<key>toggleResize</key>
+						<defaultValue>sizeVanilla</defaultValue>
+						<apply>
+							<Operation Class="XmlExtensions.PatchByCase">
+								<value>{toggleResize}</value>
+								<cases>
+									<!-- VANILLA SIZE -->
+									<li>
+										<value>sizeVanilla</value>
+										<apply>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>redaspen_size</li>
+													<li>Red Aspen Tree</li>
+													<li>RG_Plant_TreeAspenRed</li>
+													<li>1.3</li>
+													<li>2.0</li>
+													<li>aspen</li>
+												</arguments>
+											</Operation>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>yellowaspen_size</li>
+													<li>Yellow Aspen Tree</li>
+													<li>RG_Plant_TreeAspenYellow</li>
+													<li>1.3</li>
+													<li>2.0</li>
+													<li>aspen</li>
+												</arguments>
+											</Operation>
+										</apply>
+									</li>
+									<!-- /VANILLA SIZE -->
+									<!-- doubleVANILLA SIZE -->
+									<li>
+										<value>sizeVanilladouble</value>
+										<apply>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>redaspen_sizedouble</li>
+													<li>Red Aspen Tree</li>
+													<li>RG_Plant_TreeAspenRed</li>
+													<li>2.6</li>
+													<li>4.0</li>
+													<li>aspen</li>
+												</arguments>
+											</Operation>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>yellowaspen_sizedouble</li>
+													<li>Yellow Aspen Tree</li>
+													<li>RG_Plant_TreeAspenYellow</li>
+													<li>2.6</li>
+													<li>4.0</li>
+													<li>aspen</li>
+												</arguments>
+											</Operation>
+										</apply>
+									</li>
+									<!-- /doubleVANILLA SIZE -->
+								</cases>
+							</Operation>
+						</apply>
+					</Operation>
+					<!-- SIZE PRESETS -->
+				</caseTrue>
+			</Operation>
+		</caseTrue>
+		<caseFalse/>
+	</Operation>
+</Patch>

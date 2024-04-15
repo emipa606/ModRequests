@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<XmlExtensions.PatchDef Name="MajesticFramework_InjectSettings" Abstract="True">
+		<parameters>
+			<li>size</li>
+			<!--Name of size (no spaces)-->
+			<li>label</li>
+			<!--Label for settings menu-->
+			<li>defaultMin</li>
+			<!--Default min modifier-->
+			<li>defaultMax</li>
+			<!--Default max modifier-->
+			<li>treeTab</li>
+		</parameters>
+		<apply>
+			<!--Load the <col> value from the SlateDef-->
+			<Operation Class="XmlExtensions.CreateVariable">
+				<value>Defs/XmlExtensions.SlateDef[@Name="Majestic_Slate"]/col</value>
+				<fromXml>true</fromXml>
+				<storeIn>col</storeIn>
+				<apply>
+					<Operation Class="XmlExtensions.PatchByCase">
+						<value>{col}</value>
+						<cases>
+							<li>
+								<!--LeftCol case-->
+								<value>left</value>
+								<apply>
+									<Operation Class="XmlExtensions.PatchOperationAdd">
+										<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="{treeTab}col"]/leftCol</xpath>
+										<order>Append</order>
+										<value>
+											<!--Because we are prepending, we insert the settings in the opposite order-->
+											<li Class="XmlExtensions.Setting.Section">
+												<settings>
+													<li Class="XmlExtensions.Setting.Checkbox">
+														<label>{label}</label>
+														<key>patch{size}</key>
+														<tKey>majesticframework_{size}</tKey>
+														<highlight>true</highlight>
+													</li>
+													<li Class="XmlExtensions.Setting.Range">
+														<key>{size}min</key>
+														<key2>{size}max</key2>
+														<defaultValue>{defaultMin}~{defaultMax}</defaultValue>
+														<min>0.5</min>
+														<max>15</max>
+														<decimals>1</decimals>
+													</li>
+												</settings>
+											</li>
+										</value>
+									</Operation>
+									<Operation Class="XmlExtensions.PatchOperationAdd">
+										<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="resetsize{treeTab}"]/keys</xpath>
+										<order>Append</order>
+										<value>
+											<li>{size}min</li>
+											<li>{size}max</li>
+										</value>
+									</Operation>
+									<!--Insert into rightCol next time-->
+									<Operation Class="PatchOperationReplace">
+										<xpath>Defs/XmlExtensions.SlateDef[@Name="Majestic_Slate"]/col</xpath>
+										<value>
+											<col>right</col>
+										</value>
+									</Operation>
+								</apply>
+							</li>
+							<li>
+								<!--RightCol case-->
+								<value>right</value>
+								<apply>
+									<Operation Class="XmlExtensions.PatchOperationAdd">
+										<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="{treeTab}col"]/rightCol</xpath>
+										<order>Append</order>
+										<value>
+											<li Class="XmlExtensions.Setting.Section">
+												<settings>
+													<li Class="XmlExtensions.Setting.Checkbox">
+														<label>{label}</label>
+														<key>patch{size}</key>
+														<tKey>majesticframework_{size}</tKey>
+														<highlight>true</highlight>
+													</li>
+													<li Class="XmlExtensions.Setting.Range">
+														<key>{size}min</key>
+														<key2>{size}max</key2>
+														<defaultValue>{defaultMin}~{defaultMax}</defaultValue>
+														<min>.5</min>
+														<max>15</max>
+														<decimals>1</decimals>
+													</li>
+												</settings>
+											</li>
+										</value>
+									</Operation>
+									<Operation Class="XmlExtensions.PatchOperationAdd">
+										<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="resetsize{treeTab}"]/keys</xpath>
+										<order>Append</order>
+										<value>
+											<li>{size}min</li>
+											<li>{size}max</li>
+										</value>
+									</Operation>
+									<!--Insert into leftCol next time-->
+									<Operation Class="PatchOperationReplace">
+										<xpath>Defs/XmlExtensions.SlateDef[@Name="Majestic_Slate"]/col</xpath>
+										<value>
+											<col>left</col>
+										</value>
+									</Operation>
+								</apply>
+							</li>
+						</cases>
+					</Operation>
+				</apply>
+			</Operation>
+		</apply>
+	</XmlExtensions.PatchDef>
+</Defs>

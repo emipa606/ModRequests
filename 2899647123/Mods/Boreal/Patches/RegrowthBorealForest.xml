@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.FindMod">
+		<mods>
+			<li>ReGrowth: Boreal</li>
+		</mods>
+		<caseTrue>
+			<!-- MENU INJECTION -->
+			<Operation Class="XmlExtensions.PatchOperationInsert">
+				<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="toggles"]</xpath>
+				<order>Append</order>
+				<value>
+					<li Class="XmlExtensions.Setting.Checkbox" MayRequire="regrowth.botr.aspenforest">
+						<key>useReGrowthBoreal</key>
+						<label>ReGrowth: Boreal</label>
+						<defaultValue>true</defaultValue>
+					</li>
+				</value>
+			</Operation>
+			<!-- /MENU INJECTION -->
+			<Operation Class="XmlExtensions.OptionalPatch" MayRequire="regrowth.botr.borealforestexpansion">
+				<modId>majestic.framework</modId>
+				<key>useReGrowthBoreal</key>
+				<defaultValue>true</defaultValue>
+				<caseFalse/>
+				<caseTrue>
+					<!-- MAJESTIC PATCHES -->
+					<Operation Class="PatchOperationSequence">
+						<operations>
+							<!-- Reset default drawing layer to Pawn, to hide buildings, chunks and items. -->
+							<li Class="XmlExtensions.PatchOperationAdd">
+								<success>Normal</success>
+								<xpath>Defs/ThingDef[defName="RG_Plant_OrangeTreePine" or defName="RG_Plant_BlueTreePine" or defName="RG_Plant_LargeTreePine"]</xpath>
+								<value>
+									<altitudeLayer>Pawn</altitudeLayer>
+								</value>
+							</li>
+							<!-- Add a mod extension to mark it transparent -->
+							<li Class="XmlExtensions.PatchOperationAddModExtension">
+								<xpath>Defs/ThingDef[defName="RG_Plant_OrangeTreePine" or defName="RG_Plant_BlueTreePine" or defName="RG_Plant_LargeTreePine"]</xpath>
+								<value>
+									<li Class="MajesticFramework.PlantExtension">
+										<makeTransparent>true</makeTransparent>
+									</li>
+								</value>
+							</li>
+							<li Class="XmlExtensions.PatchOperationRemove">
+								<xpath>Defs/ThingDef[defName="RG_Plant_OrangeTreePine" or defName="RG_Plant_BlueTreePine" or defName="RG_Plant_LargeTreePine"]/plant/pollutedGraphicPath</xpath>
+							</li>
+							<!-- Make them leafless -->
+							<li Class="XmlExtensions.PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="RG_Plant_OrangeTreePine" or defName="RG_Plant_BlueTreePine" or defName="RG_Plant_LargeTreePine"]/modExtensions/li[@Class="MajesticFramework.PlantExtension"]</xpath>
+								<value>
+									<makePolluted>true</makePolluted>
+								</value>
+							</li>
+						</operations>
+					</Operation>
+					<!-- /MAJESTIC PATCHES -->
+					<!-- CUSTOM GROUP -->
+					<Operation Class="PatchOperationInsert">
+						<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="modSlot"]</xpath>
+						<order>Prepend</order>
+						<value>
+							<li Class="XmlExtensions.Setting.GapLine"/>
+							<li Class="XmlExtensions.Setting.Section">
+								<tag>boreal</tag>
+								<settings>
+									<li Class="XmlExtensions.Setting.Text">
+										<text>&lt;b&gt;Boreal Forest&lt;/b&gt; (ReGrowth: Boreal)</text>
+										<anchor>Middle</anchor>
+										<font>Medium</font>
+									</li>
+									<li Class="XmlExtensions.Setting.SplitColumn">
+										<tag>borealcol</tag>
+										<leftCol>
+
+										</leftCol>
+										<rightCol>
+
+										</rightCol>
+									</li>
+									<li Class="XmlExtensions.Setting.ResetSettings">
+										<label>Reset Boreal Size Settings</label>
+										<tag>resetsizeboreal</tag>
+										<confirm>false</confirm>
+										<keys>
+											<!-- INJECT RESET KEYS HERE -->
+										</keys>
+									</li>
+								</settings>
+							</li>
+						</value>
+					</Operation>
+					<!-- /CUSTOM GROUP -->
+					<!-- SIZE PRESETS -->
+					<Operation Class="XmlExtensions.UseSetting">
+						<modId>majestic.framework</modId>
+						<key>toggleResize</key>
+						<defaultValue>sizeVanilla</defaultValue>
+						<apply>
+							<Operation Class="XmlExtensions.PatchByCase">
+								<value>{toggleResize}</value>
+								<cases>
+									<!-- VANILLA SIZE -->
+									<li>
+										<value>sizeVanilla</value>
+										<apply>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>orangetreepine_size</li>
+													<li>Pine Tree, Orange</li>
+													<li>RG_Plant_OrangeTreePine</li>
+													<li>1.1</li>
+													<li>2.5</li>
+													<li>boreal</li>
+												</arguments>
+											</Operation>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>bluetreepine_size</li>
+													<li>Pine Tree, Blue</li>
+													<li>RG_Plant_BlueTreePine</li>
+													<li>1.3</li>
+													<li>2.5</li>
+													<li>boreal</li>
+												</arguments>
+											</Operation>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>largetreepine_size</li>
+													<li>Pine Tree, Large</li>
+													<li>RG_Plant_LargeTreePine</li>
+													<li>2.5</li>
+													<li>3.5</li>
+													<li>boreal</li>
+												</arguments>
+											</Operation>
+										</apply>
+									</li>
+									<!-- /VANILLA SIZE -->
+									<!-- doubleVANILLA SIZE -->
+									<li>
+										<value>sizeVanilladouble</value>
+										<apply>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>orangetreepine_size</li>
+													<li>Pine Tree, Orange</li>
+													<li>RG_Plant_OrangeTreePine</li>
+													<li>2.2</li>
+													<li>5.0</li>
+													<li>boreal</li>
+												</arguments>
+											</Operation>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>bluetreepine_size</li>
+													<li>Pine Tree, Blue</li>
+													<li>RG_Plant_BlueTreePine</li>
+													<li>2.6</li>
+													<li>5.0</li>
+													<li>boreal</li>
+												</arguments>
+											</Operation>
+											<Operation Class="XmlExtensions.ApplyPatch">
+												<patchName>MajesticFramework_SizePatch</patchName>
+												<arguments>
+													<li>largetreepine_size</li>
+													<li>Pine Tree, Large</li>
+													<li>RG_Plant_LargeTreePine</li>
+													<li>5.0</li>
+													<li>7.0</li>
+													<li>boreal</li>
+												</arguments>
+											</Operation>
+										</apply>
+									</li>
+									<!-- /doubleVANILLA SIZE -->
+								</cases>
+							</Operation>
+						</apply>
+					</Operation>
+					<!-- SIZE PRESETS -->
+					<!-- SETTINGS INJECTION -->
+					<!-- /SETTINGS INJECTION -->
+				</caseTrue>
+			</Operation>
+		</caseTrue>
+	</Operation>
+</Patch>
