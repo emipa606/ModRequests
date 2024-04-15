@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hi! Have a good time browsing and tweaking! 😉 -->
+<!-- Adjustments to fit new visuals. -->
+<Patch>
+	<Operation Class="XmlExtensions.UseSetting">
+		<modId>majestic.framework</modId>
+		<key>toggleTexturePack</key>
+		<defaultValue>useVanilla</defaultValue>
+		<apply>
+			<Operation Class="XmlExtensions.PatchByCase">
+				<value>{toggleTexturePack}</value>
+				<cases>
+					<li>
+						<value>useCMT</value>
+						<apply>
+							<Operation Class="XmlExtensions.FindMod">
+								<mods>
+									<li>Ideology</li>
+								</mods>
+								<caseTrue>
+									<Operation Class="PatchOperationSequence">
+										<operations>
+											<!-- Remove the instruction to use random textures.
+                Neither I want to draw variants, nor I want to duplicate textures to overwrite the vanilla ones. -->
+											<li Class="PatchOperationReplace">
+												<xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/graphicData/graphicClass</xpath>
+												<success>Normal</success>
+												<value>
+													<graphicClass>Graphic_Single</graphicClass>
+												</value>
+											</li>
+											<li Class="PatchOperationReplace">
+												<xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/graphicData/texPath</xpath>
+												<value>
+													<texPath>CMTPack/Plant/GauranlenTree</texPath>
+												</value>
+											</li>
+											<!-- Gauranlen tree size tweaks. -->
+											<!-- Gauranlen tree shadow adjustment. -->
+											<li Class="PatchOperationReplace">
+												<xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/graphicData/shadowData/volume</xpath>
+												<value>
+													<volume>(0.275, 2, 0.085)</volume>
+												</value>
+											</li>
+											<li Class="PatchOperationAdd">
+												<xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/graphicData/shadowData</xpath>
+												<value>
+													<offset>(0, 0, 0.0313)</offset>
+												</value>
+											</li>
+										</operations>
+									</Operation>
+								</caseTrue>
+							</Operation>
+						</apply>
+					</li>
+				</cases>
+			</Operation>
+		</apply>
+	</Operation>
+</Patch>
+<!-- This is the end. Now pet a dryad 👉🦍 -->

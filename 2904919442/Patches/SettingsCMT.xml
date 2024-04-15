@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- OPENING PATCH -->
+	<Operation Class="XmlExtensions.PatchOperationAdd">
+		<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="toggleTexture"]/buttons</xpath>
+		<value>
+			<li>
+				<label>Djeeshka's CMT Retexture</label>
+				<value>useCMT</value>
+				<tooltip>CMT Textures</tooltip>
+			</li>
+		</value>
+	</Operation>
+	
+	<!-- OPTIONAL OPTIONS -->
+	<Operation Class="XmlExtensions.PatchOperationAdd">
+		<xpath>Defs/XmlExtensions.SettingsMenuDef[modId="majestic.framework"]//li[tag="Misc"]/cases</xpath>
+		<order>Prepend</order>
+		<!-- GOTTA PUT SOMETHING HERE OR IT'LL DISPLAY HARMLESS(?) ERROR JUST PUT A GAP /SHRUG -->
+		<value>
+			<li>
+				<value>useCMT</value>
+				<settings>
+					<!-- <li Class="XmlExtensions.Setting.Gap"/> -->
+					<li Class="XmlExtensions.Setting.Checkbox">
+						<key>toggleAltTreePine</key>
+						<label>Use more vanilla-looking &lt;b&gt;[Pine]&lt;/b&gt; trees?</label>
+						<defaultValue>false</defaultValue>
+					</li>
+				</settings>
+			</li>
+		</value>
+	</Operation>
+	<!-- OPTIONAL OPTIONS -->
+	<!-- /OPENING PATCHES -->
+	<!-- PATCH SETTINGS -->
+	<Operation Class="XmlExtensions.UseSetting">
+		<modId>majestic.framework</modId>
+		<key>toggleTexturePack</key>
+		<defaultValue>useVanilla</defaultValue>
+		<apply>
+			<Operation Class="XmlExtensions.PatchByCase">
+				<value>{toggleTexturePack}</value>
+				<cases>
+					<!-- CMT Retexture -->
+					<li>
+						<!--Jacob's prize came in useful-->
+						<!-- MUST BE THE SAME AS ABOVE -->
+						<value>useCMT</value>
+						<apply>
+							<!-- Hi spaghetti my old friend -->
+							<!-- I've come to talk to you again -->
+							<!-- Thinner shadows -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeAnima" or defName="Plant_TreeBamboo" or defName="Plant_TreeBirch" or defName="Plant_TreeCecropia" or defName="Plant_TreeDrago" or defName="Plant_TreeDrago" or defName="Plant_TreeMaple" or defName="Plant_TreeOak" or defName="Plant_TreePalm" or defName="Plant_TreePine" or defName="Plant_TreePoplar" or defName="Plant_TreeTeak" or defName="Plant_TreeWillow" or defName="Plant_TreeCypress" or defName="Plant_TreeGauranlen"]/graphicData/shadowData/volume</xpath>
+								<success>Normal</success>
+								<value>
+									<volume>(0.1, 0.35, 0.1)</volume>
+								</value>
+							</Operation>
+							<!-- Remove the instruction to use random textures.
+                Neither I want to draw variants, nor I want to duplicate textures to overwrite the vanilla ones. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBamboo" or defName="Plant_TreeBirch" or defName="Plant_TreeCecropia" or defName="Plant_TreeDrago" or defName="Plant_TreeDrago" or defName="Plant_TreeMaple" or defName="Plant_TreeOak" or defName="Plant_TreePalm" or defName="Plant_TreePine" or defName="Plant_TreePoplar" or defName="Plant_TreeTeak" or defName="Plant_TreeWillow" or defName="Plant_TreeCypress"]/graphicData/graphicClass</xpath>
+								<success>Normal</success>
+								<value>
+									<graphicClass>Graphic_Single</graphicClass>
+								</value>
+							</Operation>
+							<!-- = = = TEMPERATE FOREST = = = -->
+							<!-- OAK TREE -->
+							<!-- Oak shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeOak"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.128, 1.000, 0.050)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeOak"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.2)</offset>
+								</value>
+							</Operation>
+							<!-- Oak random sprites. -->
+							<!-- <Operation Class="PatchOperationReplace"> -->
+							<!-- <xpath>Defs/ThingDef[defName="Plant_TreeOak"]/graphicData/graphicClass</xpath> -->
+							<!-- <value> -->
+							<!-- <graphicClass>Graphic_Random</graphicClass> -->
+							<!-- </value> -->
+							<!-- </Operation> -->
+							<!-- /OAK TREE -->
+							<!-- POPLAR TREE -->
+							<!-- Poplar shadow adjustment. -->
+							<Operation Class="PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="Plant_TreePoplar"]/graphicData</xpath>
+								<value>
+									<shadowData>
+										<volume>(0.061, 1.000, 0.050)</volume>
+										<offset>(-0.002, 0,-0.3)</offset>
+									</shadowData>
+								</value>
+							</Operation>
+							<!-- /POPLAR TREE -->
+							<!-- = = = /TEMPERATE FOREST = = = -->
+							<!-- = = = BOREAL FOREST = = = -->
+							<!-- BIRCH TREE -->
+							<!-- Birches, Pines and Maples shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBirch"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.061, 1.000, 0.050)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBirch"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.35)</offset>
+								</value>
+							</Operation>
+							<!-- /BIRCH TREE -->
+							<!-- PINE TREE -->
+							<!-- Pines shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreePine"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.061, 1.000, 0.050)</volume>
+								</value>
+							</Operation>
+							<!-- /PINE TREE -->
+							<!-- = = = /BOREAL FOREST = = = -->
+							<!-- = = = TEMPERATE SWAMP = = = -->
+							<!-- CYPRESS TREE -->
+							<!-- Cypress shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeCypress"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.160, 1.000, 0.070)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeCypress"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.1)</offset>
+								</value>
+							</Operation>
+							<!-- Cypress fall colour adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeCypress"]/graphicData/shaderParameters</xpath>
+								<value>
+									<shaderParameters>
+										<_FallColorSource>(0.457, 0.500, 0.277)</_FallColorSource>
+										<!-- main leaves color -->
+										<_FallColorDestination>/Other/TreeFallGradient_Cypress</_FallColorDestination>
+										<!-- custome colour gradient for color transition -->
+										<_FallTransitionRange>(0, 0.1)</_FallTransitionRange>
+										<!-- (FallColorBegin, FallColorEnd) colour falloff values, their effect can be seen in dev tweakvalues menu in game -->
+									</shaderParameters>
+								</value>
+							</Operation>
+							<!-- /CYPRESS TREE -->
+							<!-- MAPLE TREE -->
+							<!-- Maple shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeMaple"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.061, 1.000, 0.050)</volume>
+								</value>
+							</Operation>
+							<!-- Maple fall colour adjustment. -->
+							<Operation Class="PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="Plant_TreeMaple"]/graphicData</xpath>
+								<value>
+									<shaderParameters>
+										<_FallColorSource>(0.596, 0.298, 0.259)</_FallColorSource>
+										<!-- main leaves color -->
+										<_FallColorDestination>/Other/TreeFallGradient_Maple</_FallColorDestination>
+										<!-- custome colour gradient for color transition -->
+										<_FallTransitionRange>(0, 0.24)</_FallTransitionRange>
+										<!-- (FallColorBegin, FallColorEnd) colour falloff values, their effect can be seen in dev tweakvalues menu in game -->
+									</shaderParameters>
+								</value>
+							</Operation>
+							<!-- /MAPLE TREE -->
+							<!-- WILLOW TREE -->
+							<!-- Willow shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeWillow"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.100, 1.000, 0.050)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeWillow"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.25)</offset>
+								</value>
+							</Operation>
+							<!-- Willow fall colour adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeWillow"]/graphicData/shaderParameters</xpath>
+								<value>
+									<shaderParameters>
+										<_FallColorSource>(0.4313, 0.5098, 0.3725)</_FallColorSource>
+										<!-- main leaves color -->
+										<_FallColorDestination>/Other/TreeFallGradient_Willow</_FallColorDestination>
+										<!-- custome colour gradient for color transition -->
+										<_FallTransitionRange>(0, 0.15)</_FallTransitionRange>
+										<!-- (FallColorRangeBegin, FallColorRangeEnd) colour falloff values, their effect can be seen in dev tweakvalues menu in game -->
+									</shaderParameters>
+								</value>
+							</Operation>
+							<!-- /WILLOW TREE -->
+							<!-- = = = /TEMPERATE SWAMP = = = -->
+							<!-- = = = TROPICAL RAINFOREST = = = -->
+							<!-- BAMBOO TREE -->
+							<!-- Bamboo shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBamboo"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.1, 1.000, 0.08)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeBamboo"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.28)</offset>
+								</value>
+							</Operation>
+							<!-- /BAMBOO TREE -->
+							<!-- CECROPIA TREE -->
+							<!-- Cecropia shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeCecropia"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.030, 1.000, 0.030)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="Plant_TreeCecropia"]/graphicData/shadowData</xpath>
+								<value>
+									<offset>(0, 0,-0.45)</offset>
+								</value>
+							</Operation>
+							<!-- /CECROPIA TREE -->
+							<!-- PALM TREE -->
+							<!-- Palm shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreePalm"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.055, 1.000, 0.045)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreePalm"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.28)</offset>
+								</value>
+							</Operation>
+							<!-- /PALM TREE -->
+							<!-- TEAK TREE -->
+							<!-- Teak shadow adjustment. -->
+							<Operation Class="PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="Plant_TreeTeak"]/graphicData</xpath>
+								<value>
+									<shadowData>
+										<volume>(0.061, 1.000, 0.050)</volume>
+										<offset>(-0.002, 0,-0.3)</offset>
+									</shadowData>
+								</value>
+							</Operation>
+							<!-- /TEAK TREE -->
+							<!-- = = = /TROPICAL RAINFOREST = = = -->
+							<!-- = = = ARID SHRUBLAND = = = -->
+							<!-- DRAGO TREE -->
+							<!-- Drago shadow adjustment. -->
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeDrago"]/graphicData/shadowData/volume</xpath>
+								<value>
+									<volume>(0.15, 1.000, 0.050)</volume>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationReplace">
+								<xpath>Defs/ThingDef[defName="Plant_TreeDrago"]/graphicData/shadowData/offset</xpath>
+								<value>
+									<offset>(0, 0,-0.2)</offset>
+								</value>
+							</Operation>
+							<!-- /DRAGO TREE -->
+							<!-- SAGUARO CACTUS/ -->
+							<!-- = = = /ARID SHRUBLAND = = =  -->
+							<!-- /POPLAR TREE -->
+							
+						</apply>
+					</li>
+					<!-- /CMT Retexture -->
+					<!-- SHOW'S OVER GO HOME -->
+				</cases>
+			</Operation>
+		</apply>
+	</Operation>
+	<!-- /PATCH SETTINGS -->
+</Patch>
+		

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.FindMod">
+		<mods>
+			<li>VGP Vegetable Garden</li>
+		</mods>
+		<Operation Class="XmlExtensions.UseSetting">
+			<modId>majestic.framework</modId>
+			<key>toggleTexturePack</key>
+			<defaultValue>useVanilla</defaultValue>
+			<apply>
+				<Operation Class="XmlExtensions.PatchByCase">
+					<value>{toggleTexturePack}</value>
+					<cases>
+						<!-- /NO TOUCHY -->
+						<li>
+							<!-- MUST BE THE SAME AS BEFORE -->
+							<value>useCMT</value>
+							<apply>
+								<Operation Class="XmlExtensions.OptionalPatch" MayRequire="regrowth.botr.aspenforest">
+									<modId>majestic.framework</modId>
+									<key>useCMT</key>
+									<defaultValue>useVanilla</defaultValue>
+									<caseFalse/>
+									<caseTrue>
+										<Operation Class="XmlExtensions.PatchOperationSequence">
+											<operations>
+												<!-- Change the texture path back to vanilla location. -->
+												<li Class="XmlExtensions.PatchOperationReplace">
+													<success>Normal</success>
+													<xpath>Defs/ThingDef[defName="Plant_TreeBamboo"]/graphicData/texPath</xpath>
+													<value>
+														<texPath>CMTPack/Plant/TreeBamboo</texPath>
+													</value>
+												</li>
+											</operations>
+										</Operation>
+									</caseTrue>
+								</Operation>
+							</apply>
+						</li>
+					</cases>
+				</Operation>
+			</apply>
+		</Operation>
+	</Operation>
+</Patch>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hi! Have a good time browsing and tweaking! 😉 -->
+<!-- Adjustments to fit new visuals. -->
+<Patch>
+	<Operation Class="XmlExtensions.UseSetting">
+		<modId>majestic.framework</modId>
+		<key>toggleTexturePack</key>
+		<defaultValue>useBase</defaultValue>
+		<apply>
+			<Operation Class="XmlExtensions.PatchByCase">
+				<value>{toggleTexturePack}</value>
+				<cases>
+					<li>
+						<value>useCMT</value>
+						<apply>
+							<Operation Class="PatchOperationFindMod">
+								<mods>
+									<li>Royalty</li>
+								</mods>
+								<match Class="PatchOperationSequence">
+									<operations>
+										<!-- Remove the instruction to use random textures.
+                Neither I want to draw variants, nor I want to duplicate textures to overwrite the vanilla ones. -->
+										<li Class="PatchOperationReplace">
+											<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/graphicData/graphicClass</xpath>
+											<success>Normal</success>
+											<value>
+												<graphicClass>Graphic_Single</graphicClass>
+											</value>
+										</li>
+										<li Class="PatchOperationReplace">
+											<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/graphicData/texPath</xpath>
+											<value>
+												<texPath>CMTPack/Plant/TreeAnima</texPath>
+											</value>
+										</li>
+										<!-- Anima tree shadow adjustment. -->
+										<li Class="PatchOperationReplace">
+											<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/graphicData/shadowData/volume</xpath>
+											<value>
+												<volume>(0.291, 2, 0.085)</volume>
+											</value>
+										</li>
+										<li Class="PatchOperationReplace">
+											<xpath>Defs/ThingDef[defName="Plant_TreeAnima"]/graphicData/shadowData/offset</xpath>
+											<value>
+												<offset>(0.0097, 0, 0.0313)</offset>
+											</value>
+										</li>
+									</operations>
+								</match>
+							</Operation>
+						</apply>
+					</li>
+				</cases>
+			</Operation>
+		</apply>
+	</Operation>
+</Patch>
+<!-- This is the end. Have an anima-burger 👉🍔 -->
