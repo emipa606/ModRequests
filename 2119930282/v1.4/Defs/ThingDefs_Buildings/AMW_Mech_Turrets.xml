@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Automortar -->>
+
+<ThingDef Name="AMW_Turret_AutoMortarBase" ParentName="BuildingBase" Abstract="True">
+    <thingClass>Building_TurretGun</thingClass>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Buildings/Turrets/AMW_TurretBase</texPath>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.38,0.2,0.56375,0.8)</rect>
+        <cornerTL>Damage/Corner</cornerTL>
+      </damageData>
+      <shadowData>
+        <offset>(-0.13,-0.87,-0.1)</offset>
+        <volume>(0.5,0.4,1.05)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <size>(3,3)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>100</pathCost>
+    <fillPercent>0.8</fillPercent>
+    <tickerType>Normal</tickerType>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <costList>
+      <AMW_MechanoidPlates>425</AMW_MechanoidPlates>
+      <AMW_MechanoidCores>60</AMW_MechanoidCores>
+	  <AMW_MechanoidComponents>200</AMW_MechanoidComponents>
+	  <AMW_MechanoidMechanites>100</AMW_MechanoidMechanites>
+	  <AMW_MechanitePack>10</AMW_MechanitePack>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+	  <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>2000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <statBases>
+	  <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>20000</WorkToBuild>
+      <Mass>80</Mass>
+      <Beauty>2</Beauty>
+    </statBases>
+    <building>
+      <turretBurstWarmupTime>1.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>20.9</turretBurstCooldownTime>
+	  <buildingTags>
+        <li>Artillery</li>
+      </buildingTags>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>AMW_Salvaged_Mech_Tech</li>
+    </researchPrerequisites>
+    <uiIconScale>1.1</uiIconScale>
+  </ThingDef>
+  
+  <ThingDef ParentName="AMW_Turret_AutoMortarBase">
+    <defName>AMW_Turret_AutoMortar</defName>
+    <label>automated mortar complex</label>
+    <description>A fully automated mortar complex. Fires a volley of 3 explosive shells and does not require to be reloaded or manned in order to operate. However it requires a lot of power to manufacture shells quickly and it can only fire explosive shells.</description>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <building>
+      <turretGunDef>AMW_Gun_AAComplex</turretGunDef>
+    </building>
+  <uiIconPath>Things/Buildings/Turrets/AMW_AutoArtillery</uiIconPath>
+  <uiIconScale>1.2</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>AMW_Gun_AAComplex</defName>
+    <label>automated mortar complex</label>
+    <description>Automatic artillery unit.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_AutoArtillery</texPath>
+    </graphicData>
+    <!--<weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags> -->
+	<statBases>
+	<MaxHitPoints>400</MaxHitPoints>
+	</statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <warmupTime>1.0</warmupTime>
+		<defaultProjectile>Bullet_Shell_HighExplosive</defaultProjectile>
+        <forcedMissRadius>6.6</forcedMissRadius>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>20.9</minRange>
+        <range>500</range>
+		<ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>3</burstShotCount>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>28</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <!-- cannon turret -->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>AMW_Turret_AutoCannon</defName>
+    <label>auto-cannon</label>
+    <description>A powerful auto-cannon with medium-long range.</description>
+    <thingClass>Building_TurretGun</thingClass>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_TurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Things/Buildings/Turrets/AMW_AutoCannon</uiIconPath>
+    <uiIconScale>1.20</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+	<size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1200</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>200</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <AMW_MechanoidPlates>250</AMW_MechanoidPlates>
+      <AMW_MechanoidCores>50</AMW_MechanoidCores>
+	  <AMW_MechanoidComponents>150</AMW_MechanoidComponents>
+	  <AMW_MechanoidMechanites>50</AMW_MechanoidMechanites>
+	  <AMW_MechanitePack>10</AMW_MechanitePack>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <building>
+      <combatPower>250</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>AMW_Gun_AutoCannon</turretGunDef>
+      <turretBurstCooldownTime>3.05</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>AMW_Salvaged_Mech_Tech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>AMW_Bullet_AutoCannon</defName>
+    <label>auto-cannon bullet</label>
+    <graphicData>
+      <texPath>Things/Equipment/WeaponRanged/Projectiles/NomadShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>AMW_Gun_AutoCannon</defName>
+    <label>auto-cannon</label>
+    <description>AutoCannon head.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_AutoCannon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.50</AccuracyTouch>
+      <AccuracyShort>0.61</AccuracyShort>
+      <AccuracyMedium>0.81</AccuracyMedium>
+      <AccuracyLong>0.66</AccuracyLong>
+      <RangedWeapon_Cooldown>3.05</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>10</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>AMW_Bullet_AutoCannon</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>37.2</range>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>5</burstShotCount>
+        <soundCast>MediumLaser</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>15</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <!-- heavy turret -->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>AMW_Turret_HeavyTurret</defName>
+    <label>heavy turret</label>
+    <description>A heavy, dual barrel turret.</description>
+    <thingClass>Building_TurretGun</thingClass>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_TurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Things/Buildings/Turrets/AMW_HeavyRifle</uiIconPath>
+    <uiIconScale>1.20</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+	<size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <WorkToBuild>12000</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>2000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>200</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <AMW_MechanoidPlates>350</AMW_MechanoidPlates>
+      <AMW_MechanoidCores>80</AMW_MechanoidCores>
+	  <AMW_MechanoidComponents>250</AMW_MechanoidComponents>
+	  <AMW_MechanoidMechanites>100</AMW_MechanoidMechanites>
+	  <AMW_MechanitePack>15</AMW_MechanitePack>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <building>
+      <combatPower>350</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>AMW_Gun_HeavyTurret</turretGunDef>
+      <turretBurstCooldownTime>5.75</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>AMW_Salvaged_Mech_Tech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>AMW_Bullet_HeavyTurret</defName>
+    <label>double bullets</label>
+    <graphicData>
+      <texPath>Things/Equipment/WeaponRanged/Projectiles/DoubleRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <speed>80</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>AMW_Gun_HeavyTurret</defName>
+    <label>heavy turret</label>
+    <description>Heavy turret head.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_HeavyRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.30</AccuracyTouch>
+      <AccuracyShort>0.41</AccuracyShort>
+      <AccuracyMedium>0.75</AccuracyMedium>
+      <AccuracyLong>0.56</AccuracyLong>
+      <RangedWeapon_Cooldown>5.75</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>10</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>AMW_Bullet_HeavyTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>46.7</range>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>14</burstShotCount>
+        <soundCast>SmallLaser</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>15</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+    <!-- cryo turret -->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>AMW_Turret_CryoTurret</defName>
+    <label>cryogen turret</label>
+    <description>Cryogen turret. Causes severe pain and can quickly put people into pain shock. Useless against mechanoids or beings that cannot feel pain.</description>
+    <thingClass>Building_TurretGun</thingClass>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_TurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Things/Buildings/Turrets/AMW_CryoCannon</uiIconPath>
+    <uiIconScale>1.20</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+	<size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <WorkToBuild>10000</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1200</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>200</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <AMW_MechanoidPlates>200</AMW_MechanoidPlates>
+      <AMW_MechanoidCores>40</AMW_MechanoidCores>
+	  <AMW_MechanoidComponents>320</AMW_MechanoidComponents>
+	  <AMW_MechanoidMechanites>160</AMW_MechanoidMechanites>
+	  <AMW_MechanitePack>15</AMW_MechanitePack>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <building>
+      <combatPower>250</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>AMW_Gun_CryoTurret</turretGunDef>
+      <turretBurstCooldownTime>7.25</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>AMW_Salvaged_Mech_Tech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>AMW_Gun_CryoTurret</defName>
+    <label>cryogen turret</label>
+    <description>Cryogen turret head.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_CryoCannon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.10</AccuracyTouch>
+      <AccuracyShort>0.61</AccuracyShort>
+      <AccuracyMedium>0.55</AccuracyMedium>
+      <AccuracyLong>0.36</AccuracyLong>
+      <RangedWeapon_Cooldown>7.25</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>10</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_CryoLiquid</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>34.8</range>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+		<forcedMissRadius>2.4</forcedMissRadius>
+        <burstShotCount>9</burstShotCount>
+        <soundCast>SmallLaser</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>15</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+    <!-- rocket turret -->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>AMW_Turret_RocketTurret</defName>
+    <label>rocket turret</label>
+    <description>Heavy rocket turret. Fires a salvo of 5 rockets at long range, but consumes loads of power.</description>
+    <thingClass>Building_TurretGun</thingClass>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_TurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Things/Buildings/Turrets/AMW_RocketCannon</uiIconPath>
+    <uiIconScale>1.20</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+	<size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <WorkToBuild>16000</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>3000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>200</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <AMW_MechanoidPlates>400</AMW_MechanoidPlates>
+      <AMW_MechanoidCores>150</AMW_MechanoidCores>
+	  <AMW_MechanoidComponents>400</AMW_MechanoidComponents>
+	  <AMW_MechanoidMechanites>250</AMW_MechanoidMechanites>
+	  <AMW_MechanitePack>25</AMW_MechanitePack>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>13</constructionSkillPrerequisite>
+    <building>
+      <combatPower>500</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>AMW_Gun_RocketTurret</turretGunDef>
+      <turretBurstCooldownTime>8.05</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>AMW_Salvaged_Mech_Tech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>AMW_Bullet_RocketTurret</defName>
+    <label>energy rocket</label>
+    <graphicData>
+      <texPath>Things/Equipment/WeaponRanged/Projectiles/EnergyShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>0.7</drawSize>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+	<flyOverhead>true</flyOverhead>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>18</damageAmountBase>
+      <explosionRadius>3.85</explosionRadius>
+      <speed>35</speed>
+      <stoppingPower>2.5</stoppingPower>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>AMW_Gun_RocketTurret</defName>
+    <label>rocket turret</label>
+    <description>Rocket turret head.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_RocketCannon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>2.4</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.20</AccuracyTouch>
+      <AccuracyShort>0.31</AccuracyShort>
+      <AccuracyMedium>0.35</AccuracyMedium>
+      <AccuracyLong>0.36</AccuracyLong>
+      <RangedWeapon_Cooldown>8.05</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>10</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>AMW_Bullet_RocketTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>38.6</range>
+		<forcedMissRadius>3.2</forcedMissRadius>
+        <ticksBetweenBurstShots>14</ticksBetweenBurstShots>
+        <burstShotCount>5</burstShotCount>
+        <soundCast>HeavyLaunch</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>22</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+     <!-- lotus cannon turret -->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>AMW_Turret_LotusTurret</defName>
+    <label>lotus turret</label>
+    <description>Heavy gauss-like turret. Fires single, super charged shot over very long range. Consumes loads of power.</description>
+    <thingClass>Building_TurretGun</thingClass>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_TurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Things/Buildings/Turrets/AMW_LotusCannon</uiIconPath>
+    <uiIconScale>1.20</uiIconScale>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+	<size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <WorkToBuild>14000</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>3000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>200</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <costList>
+      <AMW_MechanoidPlates>300</AMW_MechanoidPlates>
+      <AMW_MechanoidCores>120</AMW_MechanoidCores>
+	  <AMW_MechanoidComponents>250</AMW_MechanoidComponents>
+	  <AMW_MechanoidMechanites>225</AMW_MechanoidMechanites>
+	  <AMW_MechanitePack>20</AMW_MechanitePack>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>13</constructionSkillPrerequisite>
+    <building>
+      <combatPower>400</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>AMW_Gun_LotusTurret</turretGunDef>
+      <turretBurstCooldownTime>6.25</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>AMW_Salvaged_Mech_Tech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>AMW_Bullet_LotusTurret</defName>
+    <label>energy bolt</label>
+    <graphicData>
+      <texPath>Things/Equipment/WeaponRanged/Projectiles/LotusBolt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>0.8</drawSize>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+	<flyOverhead>true</flyOverhead>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>26</damageAmountBase>
+      <explosionRadius>4.35</explosionRadius>
+      <speed>60</speed>
+      <stoppingPower>3.0</stoppingPower>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>AMW_Gun_LotusTurret</defName>
+    <label>lotus turret</label>
+    <description>Lotus turret head.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Turrets/AMW_LotusCannon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.99</AccuracyTouch>
+      <AccuracyShort>0.99</AccuracyShort>
+      <AccuracyMedium>0.99</AccuracyMedium>
+      <AccuracyLong>0.99</AccuracyLong>
+      <RangedWeapon_Cooldown>6.25</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>10</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>AMW_Bullet_LotusTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>51.2</range>
+		<forcedMissRadius>0.2</forcedMissRadius>
+        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>HeavyLaunch</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>28</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>
