@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Wake Up  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WakeUpDrip</defName>
+    <label>wake-up IV autoinjector</label>
+    <labelNoun>an IV autoinjector with wake-up</labelNoun>
+    <comps>
+    	<li>
+    		<compClass>Autoinjectors.IV_Drips_WakeUp</compClass>
+    	</li>
+    </comps>
+    <description>An installed IV autoinjector containing wake-up.</description>
+    <descriptionHyperlinks><ThingDef>WakeUpDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>WakeUpDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>WakeUpDrip</defName>
+    <label>wake-up IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of wake-up the moment a given pawn's rest hits 0.</description>
+    <descriptionHyperlinks><RecipeDef>InstallWakeUpDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/wakeupdrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <WakeUpExtract>1</WakeUpExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallWakeUpDrip</defName>
+    <label>install wake-up IV autoinjector.</label>
+    <description>Install a wake-up IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>WakeUpDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing wake-up IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WakeUpDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WakeUpDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WakeUpDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveWakeUpDrip</defName>
+    <label>remove wake-up IV autoinjector</label>
+    <description>Remove the wake-up IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>WakeUpDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing wake-up IV autoinjector.</jobString>
+    <removesHediff>WakeUpDrip</removesHediff>
+  </RecipeDef>
+
+
+<!-- Handheld -->
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>HandWakeUp</defName>
+    <label>handheld wake-up autoinjector</label>
+    <description>A handheld autoinjector filled with wake-up, fully fulfills a pawns need for rest, however the high lasts longer, and the need for rest is slowed more. Unfortunately this form of the drug is far more addictive than the normal form.</description>
+    <descriptionHyperlinks>
+      <HediffDef>WakeUpHighMed</HediffDef>
+      <HediffDef>WakeUpAddiction</HediffDef>
+      <HediffDef>HeartAttack</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handwakeup</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>67.4</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.40</joy>
+      <drugCategory>Hard</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>WakeUpHighMed</hediffDef>
+          <severity>1.00</severity>
+          <toleranceChemical>WakeUp</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>1.0</offset>
+          <toleranceChemical>WakeUp</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>WakeUpTolerance</hediffDef>
+          <severity>0.05</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Work</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <WakeUpExtract>1</WakeUpExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>WakeUp</chemical>
+        <addictiveness>0.02</addictiveness>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>210</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.005</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>WakeUpHighMed</defName>
+    <label>high on refined wake-up</label>
+    <labelNoun>a wake-up high</labelNoun>
+    <description>Refined wake-up in the bloodstream, leading to greatly increased conciousness, work speed, movement speed, and a greatly slowed rest rate.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <restFallFactor>0.5</restFallFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.3</offset>
+            </li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.3</offset>
+            </li>
+          </capMods>
+          <statOffsets>
+            <WorkSpeedGlobal>0.5</WorkSpeedGlobal>
+            <MeditationFocusGain MayRequire="Ludeon.RimWorld.Royalty">0.2</MeditationFocusGain>
+          </statOffsets>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>HeartAttack</hediff>
+              <mtbDays>120</mtbDays>
+              <partsToAffect>
+                <li>Heart</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>WakeUpHighMed</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>WakeUpHighMed</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>refined wake-up high</label>
+        <description>I feel like I've just found a coffee shop, and cleaned them out.</description>
+        <baseMoodEffect>22</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+<!-- advanced -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>WakeUpDripMed</defName>
+    <label>advanced wake-up IV autoinjector</label>
+    <labelNoun>an advanced IV autoinjector with wake-up</labelNoun>
+    <comps>
+      <li>
+        <compClass>Autoinjectors.IV_Drips_WakeUpMed</compClass>
+      </li>
+    </comps>
+    <description>An installed advanced IV autoinjector containing wake-up.</description>
+    <descriptionHyperlinks><ThingDef>WakeUpDripMed</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>WakeUpDripMed</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>WakeUpDripMed</defName>
+    <label>advanced wake-up IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of refined wake-up the moment a given pawn's rest hits 0.</description>
+    <descriptionHyperlinks><RecipeDef>InstallWakeUpDripMed</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/wakeupdrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <Steel>20</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <WakeUpExtract>1</WakeUpExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>AdvAutoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallWakeUpDripMed</defName>
+    <label>install advanced wake-up IV autoinjector.</label>
+    <description>Install an advanced wake-up IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>WakeUpDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Installing advanced wake-up IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WakeUpDripMed</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WakeUpDripMed</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>WakeUpDripMed</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveWakeUpDripMed</defName>
+    <label>remove advanced wake-up IV autoinjector</label>
+    <description>Remove the advanced wake-up IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>WakeUpDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Removing the advanced wake-up IV autoinjector.</jobString>
+    <removesHediff>WakeUpDripMed</removesHediff>
+  </RecipeDef>
+</Defs>

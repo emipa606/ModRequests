@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Flake  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>FlakeDrip</defName>
+    <label>flake IV autoinjector</label>
+    <labelNoun>an IV autoinjector with flake</labelNoun>
+    <comps>
+    	<li>
+    		<compClass>Autoinjectors.IV_Drips_Flake</compClass>
+    	</li>
+    </comps>
+    <description>An installed IV autoinjector containing flake.</description>
+    <descriptionHyperlinks><ThingDef>FlakeDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>FlakeDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>FlakeDrip</defName>
+    <label>flake IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of flake the moment a given pawn's mood drops below the extreme mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallFlakeDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/flakedrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <FlakeExtract>1</FlakeExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallFlakeDrip</defName>
+    <label>install flake IV autoinjector.</label>
+    <description>Install a flake IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>FlakeDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing flake IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FlakeDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>FlakeDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>FlakeDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveFlakeDrip</defName>
+    <label>remove flake IV autoinjector</label>
+    <description>Remove the flake IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>FlakeDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing flake IV autoinjector.</jobString>
+    <removesHediff>FlakeDrip</removesHediff>
+  </RecipeDef>
+
+
+<!-- Handheld -->
+
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>HandFlake</defName>
+    <label>handheld flake autoinjector</label>
+    <description>A handheld flake autoinjector, functions with far more of a positive mood effect than normal flake, but doesn't last quite as long, and is more addictive.</description>
+    <descriptionHyperlinks>
+      <HediffDef>FlakeHigh</HediffDef>
+      <HediffDef>PsychiteTolerance</HediffDef>
+      <HediffDef>PsychiteAddiction</HediffDef>
+      <HediffDef>ChemicalDamageSevere</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handflake</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>37.8</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.50</joy>
+      <drugCategory>Hard</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FlakeHighMed</hediffDef>
+          <severity>1.0</severity>
+          <toleranceChemical>Psychite</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PsychiteTolerance</hediffDef>
+          <severity>0.175</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Hard</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <FlakeExtract>1</FlakeExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Psychite</chemical>
+        <addictiveness>0.05</addictiveness>
+        <existingAddictionSeverityOffset>0.30</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>110</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.015</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>FlakeHighMed</defName>
+    <label>high on a flake autoinjector</label>
+    <labelNoun>a flake high from an autoinjector</labelNoun>
+    <description>Active, refined, flake in the bloodstream. Generates an incredibly euphoric, debilitating high.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>0.5</painFactor>
+          <restFallFactor>0.33</restFallFactor>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>FlakeHighMed</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>FlakeHighMed</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on refined flake</label>
+        <description>Life is lovely. It's a wonder I can walk right now.</description>
+        <baseMoodEffect>45</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+<!-- advanced -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>FlakeDripMed</defName>
+    <label>advanced flake IV autoinjector</label>
+    <labelNoun>an advanced IV autoinjector with flake</labelNoun>
+    <comps>
+      <li>
+        <compClass>Autoinjectors.IV_Drips_FlakeMed</compClass>
+      </li>
+    </comps>
+    <description>An installed advanced IV autoinjector containing flake.</description>
+    <descriptionHyperlinks><ThingDef>FlakeDripMed</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>FlakeDripMed</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>FlakeDripMed</defName>
+    <label>advanced flake IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of refined flake the moment a given pawn's mood drops below the extreme mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallFlakeDripMed</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/flakedrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <Steel>20</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <FlakeExtract>1</FlakeExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>AdvAutoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallFlakeDripMed</defName>
+    <label>install advanced flake IV autoinjector.</label>
+    <description>Install an advanced flake IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>FlakeDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Installing an advanced flake IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FlakeDripMed</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>FlakeDripMed</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>FlakeDripMed</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveFlakeDripMed</defName>
+    <label>remove advanced flake IV autoinjector</label>
+    <description>Remove the advanced flake IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>FlakeDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Removing the advanced flake IV autoinjector.</jobString>
+    <removesHediff>FlakeDripMed</removesHediff>
+  </RecipeDef>
+</Defs>

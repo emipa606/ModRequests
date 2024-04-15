@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Ambrosia  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>AmbrosiaDrip</defName>
+    <label>ambrosia IV autoinjector</label>
+    <labelNoun>an IV autoinjector with ambrosia</labelNoun>
+    <comps>
+    	<li>
+    		<compClass>Autoinjectors.IV_Drips_Ambrosia</compClass>
+    	</li>
+    </comps>
+    <description>An installed IV autoinjector containing ambrosia.</description>
+    <descriptionHyperlinks><ThingDef>AmbrosiaDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>AmbrosiaDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>AmbrosiaDrip</defName>
+    <label>ambrosia IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of ambrosia the moment a given pawn's mood drops below the major mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallAmbrosiaDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/ambrosiadrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <AmbrosiaExtract>1</AmbrosiaExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallAmbrosiaDrip</defName>
+    <label>install ambrosia IV autoinjector.</label>
+    <description>Install a ambrosia IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AmbrosiaDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing ambrosia IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>AmbrosiaDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>AmbrosiaDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>AmbrosiaDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveAmbrosiaDrip</defName>
+    <label>remove ambrosia IV autoinjector</label>
+    <description>Remove the ambrosia IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AmbrosiaDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing ambrosia IV autoinjector.</jobString>
+    <removesHediff>AmbrosiaDrip</removesHediff>
+  </RecipeDef>
+
+
+<!-- Handheld -->
+
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>HandAmbrosia</defName>
+    <label>handheld ambrosia autoinjector</label>
+    <description>A handheld autoinjector filled with ambrosia, which lifts a pawns mood a moderate amount. Slightly more addictive than the normal form.</description>
+    <descriptionHyperlinks>
+      <HediffDef>AmbrosiaHighMed</HediffDef>
+      <HediffDef>AmbrosiaAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handambrosia</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>47.4</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.50</joy>
+      <drugCategory>Social</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AmbrosiaHighMed</hediffDef>
+          <severity>1.00</severity>
+          <toleranceChemical>Ambrosia</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AmbrosiaTolerance</hediffDef>
+          <severity>0.065</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Social</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <AmbrosiaExtract>1</AmbrosiaExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Ambrosia</chemical>
+        <addictiveness>0.010</addictiveness>
+        <minToleranceToAddict>0.15</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>30</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>AmbrosiaHighMed</defName>
+    <label>strong ambrosia warmth</label>
+    <description>Refined ambrosia chemicals in the bloodstream. It lifts the mood fairly strongly.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.25</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li/>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>AmbrosiaHighMed</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>AmbrosiaHighMed</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>strong ambrosia warmth</label>
+        <description>That ambrosia makes me feel great! Nothing can get me down.</description>
+        <baseMoodEffect>9</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+<!-- Advanced -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>AmbrosiaDripMed</defName>
+    <label>advanced ambrosia IV autoinjector</label>
+    <labelNoun>an advanced IV autoinjector with ambrosia</labelNoun>
+    <comps>
+      <li>
+        <compClass>Autoinjectors.IV_Drips_AmbrosiaMed</compClass>
+      </li>
+    </comps>
+    <description>An installed advanced IV autoinjector containing ambrosia.</description>
+    <descriptionHyperlinks><ThingDef>AmbrosiaDripMed</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>AmbrosiaDripMed</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>AmbrosiaDripMed</defName>
+    <label>advanced ambrosia IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of refined ambrosia the moment a given pawn's mood drops below the major mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallAmbrosiaDripMed</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/ambrosiadrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <Steel>20</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <AmbrosiaExtract>1</AmbrosiaExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>AdvAutoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallAmbrosiaDripMed</defName>
+    <label>install advanced ambrosia IV autoinjector.</label>
+    <description>Install an advanced ambrosia IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AmbrosiaDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Installing advanced ambrosia IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>AmbrosiaDripMed</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>AmbrosiaDripMed</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>AmbrosiaDripMed</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveAmbrosiaDripMed</defName>
+    <label>remove advanced ambrosia IV autoinjector</label>
+    <description>Remove the advanced ambrosia IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AmbrosiaDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Removing the advanced ambrosia IV autoinjector.</jobString>
+    <removesHediff>AmbrosiaDripMed</removesHediff>
+  </RecipeDef>
+</Defs>

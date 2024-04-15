@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Alcohol  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>AlcoholDrip</defName>
+    <label>alcohol IV autoinjector</label>
+    <labelNoun>an IV autoinjector with alcohol</labelNoun>
+    <comps>
+    	<li>
+    		<compClass>Autoinjectors.IV_Drips_Alcohol</compClass>
+    	</li>
+    </comps>
+    <description>An installed IV autoinjector containing alcohol.</description>
+    <descriptionHyperlinks><ThingDef>AlcoholDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>AlcoholDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>AlcoholDrip</defName>
+    <label>alcohol IV autoinjector</label>
+    <description>An arm implant which automatically applies a (very large) dose of alcohol the moment a given pawn's mood drops below the major mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallAlcoholDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/beerdrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <AlcoholExtract>1</AlcoholExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallAlcoholDrip</defName>
+    <label>install alcohol IV autoinjector.</label>
+    <description>Install a alcohol IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AlcoholDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing alcohol IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>AlcoholDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>AlcoholDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>AlcoholDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveAlcoholDrip</defName>
+    <label>remove alcohol IV autoinjector</label>
+    <description>Remove the alcohol IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AlcoholDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing alcohol IV autoinjector.</jobString>
+    <removesHediff>AlcoholDrip</removesHediff>
+  </RecipeDef>
+
+
+<!-- Handheld -->
+
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>HandAlcohol</defName>
+    <label>handheld alcohol autoinjector</label>
+    <description>A handheld autoinjector filled with alcohol, has a moderate mood effect, and is hangover free!. More addictive than normal alcohol.</description>
+    <descriptionHyperlinks>
+      <HediffDef>AlcoholHighMed</HediffDef>
+      <HediffDef>AlcoholTolerance</HediffDef>
+      <HediffDef>AlcoholAddiction</HediffDef>
+      <HediffDef>Cirrhosis</HediffDef>
+      <HediffDef>ChemicalDamageModerate</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handbeer</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>43.4</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.50</joy>
+      <drugCategory>Social</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AlcoholHighMed</hediffDef>
+          <severity>1.00</severity>
+          <toleranceChemical>Alcohol</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AlcoholTolerance</hediffDef>
+          <severity>0.035</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Social</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <AlcoholExtract>1</AlcoholExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.010</addictiveness>
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>AlcoholHighMed</defName>
+    <label>medically induced intoxication</label>
+    <description>Refined alcohol chemicals in the bloodstream. It lifts the mood fairly strongly, at the cost of being more likely to vomit and start social fights.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <socialFightChanceFactor>4.0</socialFightChanceFactor>
+        <vomitMtbDays>0.33</vomitMtbDays>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.25</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>AlcoholHighMed</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>AlcoholHighMed</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>medically induced intoxication</label>
+        <description>I went from sober to smashed instantly! That autoinjector is a party in a tube.</description>
+        <baseMoodEffect>18</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+<!-- advanced -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>AlcoholDripMed</defName>
+    <label>advanced alcohol IV autoinjector</label>
+    <labelNoun>an advanced IV autoinjector with alcohol</labelNoun>
+    <comps>
+      <li>
+        <compClass>Autoinjectors.IV_Drips_AlcoholMed</compClass>
+      </li>
+    </comps>
+    <description>An installed advanced IV autoinjector containing alcohol.</description>
+    <descriptionHyperlinks><ThingDef>AlcoholDripMed</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>AlcoholDripMed</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>AlcoholDripMed</defName>
+    <label>advanced alcohol IV autoinjector</label>
+    <description>An arm implant which automatically applies a (very large) dose of refined alcohol the moment a given pawn's mood drops below the major mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallAlcoholDripMed</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/beerdrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <Steel>20</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <AlcoholExtract>1</AlcoholExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>AdvAutoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallAlcoholDripMed</defName>
+    <label>install an advanced alcohol IV autoinjector.</label>
+    <description>Install an advanced alcohol IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AlcoholDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Installing advanced alcohol IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>AlcoholDripMed</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>AlcoholDripMed</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>AlcoholDripMed</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveAlcoholDripMed</defName>
+    <label>remove advanced alcohol IV autoinjector</label>
+    <description>Remove the advanced alcohol IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>AlcoholDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Removing the advanced alcohol IV autoinjector.</jobString>
+    <removesHediff>AlcoholDripMed</removesHediff>
+  </RecipeDef>
+
+</Defs>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Morphine  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>MorphineDrip</defName>
+    <label>morphine IV autoinjector</label>
+    <labelNoun>an IV autoinjector with morphine</labelNoun>
+    <comps>
+    	<li>
+    		<compClass>Autoinjectors.IV_Drips_Morphine</compClass>
+    	</li>
+    </comps>
+    <description>An installed IV autoinjector containing morphine.</description>
+    <descriptionHyperlinks><ThingDef>MorphineDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>MorphineDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>MorphineDrip</defName>
+    <label>morphine IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of morphine the moment a given pawn's pain exceeds the pain shock threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallMorphineDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/morphinedrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <MorphineExtract>1</MorphineExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallMorphineDrip</defName>
+    <label>install morphine IV autoinjector.</label>
+    <description>Install a morphine IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>MorphineDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing morphine IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MorphineDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>MorphineDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>MorphineDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveMorphineDrip</defName>
+    <label>remove morphine IV autoinjector</label>
+    <description>Remove the morphine IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>MorphineDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing morphine IV autoinjector.</jobString>
+    <removesHediff>MorphineDrip</removesHediff>
+  </RecipeDef>
+
+  <HediffDef>
+    <defName>MorphineHigh</defName>
+    <label>high on morphine</label>
+    <labelNoun>a morphine high</labelNoun>
+    <description>Active morphine in the bloodstream. Eliminates all pain. Also generates a strong (and addictive) euphoric effect.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>0.0</painFactor>
+          <restFallFactor>0.6</restFallFactor>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>MorphineHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>MorphineHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>morphine</label>
+        <description>I feel so light and free! I can't feel a thing!</description>
+        <baseMoodEffect>23</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+<!-- Handheld -->
+
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>HandMorphine</defName>
+    <label>handheld morphine autoinjector</label>
+    <description>A handheld autoinjector, loaded with morphine, which temporarily blocks all pain, and produces a moderate positive mood effect.</description>
+    <descriptionHyperlinks>
+      <HediffDef>MorphineHigh</HediffDef>
+      <HediffDef>PsychiteTolerance</HediffDef>
+      <HediffDef>PsychiteAddiction</HediffDef>
+      <HediffDef>ChemicalDamageSevere</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handmorphine</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>400</WorkToMake>
+      <MarketValue>168.9</MarketValue>
+      <Mass>0.05</Mass>
+      <DeteriorationRate>6</DeteriorationRate>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.40</joy>
+      <baseIngestTicks>210</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Use {0}</ingestCommandString>
+      <ingestReportString>Using {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>MorphineHigh</hediffDef>
+          <severity>1.00</severity>
+          <toleranceChemical>Psychite</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>PsychiteTolerance</hediffDef>
+          <severity>0.09</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Morphine</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+      <workSkill>Intellectual</workSkill>
+      <skillRequirements>
+        <Intellectual>4</Intellectual>
+      </skillRequirements>
+      <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <MorphineExtract>1</MorphineExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Psychite</chemical>
+        <addictiveness>0.02</addictiveness>
+        <minToleranceToAddict>0.10</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>110</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

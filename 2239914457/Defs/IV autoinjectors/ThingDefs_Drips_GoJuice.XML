@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Go Juice  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>GoJuiceDrip</defName>
+    <label>go-juice IV autoinjector</label>
+    <labelNoun>an IV autoinjector with go-juice</labelNoun>
+    <comps>
+        <li>
+            <compClass>Autoinjectors.IV_Drips_GoJuice</compClass>
+        </li>
+    </comps>
+    <description>An installed IV autoinjector containing go-juice.</description>
+    <descriptionHyperlinks><ThingDef>GoJuiceDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>GoJuiceDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>GoJuiceDrip</defName>
+    <label>go-juice IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of go-juice the moment a given pawn's pain exceeds the pain shock threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallGoJuiceDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/gojuicedrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <GoJuiceExtract>1</GoJuiceExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallGoJuiceDrip</defName>
+    <label>install go-juice IV autoinjector.</label>
+    <description>Install a go-juice IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>GoJuiceDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing go-juice IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>GoJuiceDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>GoJuiceDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>GoJuiceDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveGoJuiceDrip</defName>
+    <label>remove go-juice IV autoinjector</label>
+    <description>Remove the go-juice IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>GoJuiceDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing go-juice IV autoinjector.</jobString>
+    <removesHediff>GoJuiceDrip</removesHediff>
+  </RecipeDef>
+
+
+<!-- Handheld -->
+
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>HandGoJuice</defName>
+    <label>handheld go juice autoinjector</label>
+    <description>Refined go-juice in an autoinjector. Much, much, much stronger than normal go juice, but lasts a shorter length of time.</description>
+    <descriptionHyperlinks>
+      <HediffDef>GoJuiceHigh</HediffDef>
+      <HediffDef>GoJuiceAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handgojuice</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>128.6</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.50</joy>
+      <drugCategory>Hard</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>GoJuiceHighMed</hediffDef>
+          <severity>1.0</severity>
+          <toleranceChemical>GoJuice</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.5</offset>
+          <toleranceChemical>GoJuice</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+          <offset>0.15</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Work</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <GoJuiceExtract>1</GoJuiceExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>GoJuice</chemical>
+        <addictiveness>0.026</addictiveness>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>200</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.005</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>GoJuiceHighMed</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>high on refined go-juice</label>
+    <labelNoun>a refined go-juice high</labelNoun>
+    <description>Refined go-juice in the bloodstream. Much, much, much stronger than normal go juice, but lasts a shorter length of time.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.40</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>0.1</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.50</offset>
+            </li>
+            <li>
+              <capacity>Sight</capacity>
+              <offset>0.75</offset>
+            </li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.60</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>GoJuiceHighMed</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>GoJuiceHighMed</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on a go-juice autoinjector</label>
+        <description>I feel pumped but steady. I can send a dozen bullets flying before they even see me.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+<!-- Advanced -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>GoJuiceDripMed</defName>
+    <label>advanced go-juice IV autoinjector</label>
+    <labelNoun>an advanced IV autoinjector with go-juice</labelNoun>
+    <comps>
+        <li>
+            <compClass>Autoinjectors.IV_Drips_GoJuiceMed</compClass>
+        </li>
+    </comps>
+    <description>An installed IV autoinjector containing go-juice.</description>
+    <descriptionHyperlinks><ThingDef>GoJuiceDripMed</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>GoJuiceDripMed</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>GoJuiceDripMed</defName>
+    <label>advanced go-juice IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of refined go-juice the moment a given pawn's pain exceeds the pain shock threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallGoJuiceDripMed</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/gojuicedrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <Steel>20</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <GoJuiceExtract>1</GoJuiceExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>AdvAutoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallGoJuiceDripMed</defName>
+    <label>install an advanced go-juice IV autoinjector.</label>
+    <description>Install an advanced go-juice IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>GoJuiceDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Installing an advanced go-juice IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>GoJuiceDripMed</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>GoJuiceDripMed</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>GoJuiceDripMed</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveGoJuiceDripMed</defName>
+    <label>remove an advanced go-juice IV autoinjector</label>
+    <description>Remove the advanced go-juice IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>GoJuiceDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Removing advanced go-juice IV autoinjector.</jobString>
+    <removesHediff>GoJuiceDripMed</removesHediff>
+  </RecipeDef>
+</Defs>

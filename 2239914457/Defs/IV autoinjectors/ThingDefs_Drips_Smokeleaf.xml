@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+    <!-- Smokeleaf  Drip -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>SmokeleafDrip</defName>
+    <label>smokeleaf IV autoinjector</label>
+    <labelNoun>an IV autoinjector with smokeleaf</labelNoun>
+    <comps>
+    	<li>
+    		<compClass>Autoinjectors.IV_Drips_Smokeleaf</compClass>
+    	</li>
+    </comps>
+    <description>An installed IV autoinjector containing smokeleaf.</description>
+    <descriptionHyperlinks><ThingDef>SmokeleafDrip</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>SmokeleafDrip</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>SmokeleafDrip</defName>
+    <label>smokeleaf IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of smokeleaf the moment a given pawn's mood drops below the major mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallSmokeleafDrip</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/smokeleafdrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <SmokeleafExtract>1</SmokeleafExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>Autoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallSmokeleafDrip</defName>
+    <label>install smokeleaf IV autoinjector.</label>
+    <description>Install a smokeleaf IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>SmokeleafDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Installing smokeleaf IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>SmokeleafDrip</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>SmokeleafDrip</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>SmokeleafDrip</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveSmokeleafDrip</defName>
+    <label>remove smokeleaf IV autoinjector</label>
+    <description>Remove the smokeleaf IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>SmokeleafDrip</ThingDef></descriptionHyperlinks>
+    <jobString>Removing smokeleaf IV autoinjector.</jobString>
+    <removesHediff>SmokeleafDrip</removesHediff>
+  </RecipeDef>
+
+
+<!-- Handheld -->
+
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>HandSmokeleaf</defName>
+    <label>handheld smokeleaf autoinjector</label>
+    <description>Smokeleaf concentrate loaded into an autoinjector. The same mood increase as normal smokeleaf, but without much of the hit to consciousness or movement speed. Tolerance, and thereby dependency, does build notably faster than traditional smokeleaf joints, and pawns get hungrier even faster.</description>
+    <descriptionHyperlinks>
+      <HediffDef>SmokeleafHighMed</HediffDef>
+      <HediffDef>SmokeleafTolerance</HediffDef>
+      <HediffDef>SmokeleafAddiction</HediffDef>
+      <HediffDef>Carcinoma</HediffDef>
+      <HediffDef>Asthma</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Hand/handsmokeleaf</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>33.4</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.50</joy>
+      <drugCategory>Social</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SmokeleafHighMed</hediffDef>
+          <severity>1.0</severity>
+          <toleranceChemical>Smokeleaf</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SmokeleafTolerance</hediffDef>
+          <severity>0.075</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Social</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>2</Steel>
+      <SmokeleafExtract>1</SmokeleafExtract>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Smokeleaf</chemical>
+        <addictiveness>0.020</addictiveness>
+        <minToleranceToAddict>0.15</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.06</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>20</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>SmokeleafHighMed</defName>
+    <label>synthesized smokeleaf</label>
+    <labelNoun>a synthesized smokeleaf high</labelNoun>
+    <description>Smokeleaf's active in the bloodstream, but it's been distilled and injected.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+          <painOffset>-0.2</painOffset>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.05</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SmokeleafHighMed</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SmokeleafHighMed</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>synthetic smokeleaf high</label>
+        <description>I'm, absolutely... cooked.</description>
+        <baseMoodEffect>13</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+<!-- advanced -->
+
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>SmokeleafDripMed</defName>
+    <label>advanced smokeleaf IV autoinjector</label>
+    <labelNoun>an advanced IV autoinjector with smokeleaf</labelNoun>
+    <comps>
+      <li>
+        <compClass>Autoinjectors.IV_Drips_SmokeleafMed</compClass>
+      </li>
+    </comps>
+    <description>An installed advanced IV autoinjector containing smokeleaf.</description>
+    <descriptionHyperlinks><ThingDef>SmokeleafDripMed</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>SmokeleafDripMed</spawnThingOnRemoved>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartDripMakeableBase">
+    <defName>SmokeleafDripMed</defName>
+    <label>advanced smokeleaf IV autoinjector</label>
+    <description>An arm implant which automatically applies a dose of refined smokeleaf the moment a given pawn's mood drops below the major mental break threshold.</description>
+    <descriptionHyperlinks><RecipeDef>InstallSmokeleafDripMed</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
+    <graphicData>
+      <texPath>Things/Item/Drips/smokeleafdrip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <Steel>20</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <SmokeleafExtract>1</SmokeleafExtract>
+    </costList>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <recipeMaker>
+      <researchPrerequisite>AdvAutoinjection</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>InstallSmokeleafDripMed</defName>
+    <label>install advanced smokeleaf IV autoinjector.</label>
+    <description>Install an advanced smokeleaf IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>SmokeleafDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Installing advanced smokeleaf IV autoinjector.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>SmokeleafDripMed</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>SmokeleafDripMed</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Arm</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>SmokeleafDripMed</addsHediff>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>RemoveSmokeleafDripMed</defName>
+    <label>remove advanced smokeleaf IV autoinjector</label>
+    <description>Remove the advanced smokeleaf IV autoinjector.</description>
+    <descriptionHyperlinks><ThingDef>SmokeleafDripMed</ThingDef></descriptionHyperlinks>
+    <jobString>Removing the advanced smokeleaf IV autoinjector.</jobString>
+    <removesHediff>SmokeleafDripMed</removesHediff>
+  </RecipeDef>
+</Defs>
