@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!--Motes-->
+	<ThingDef ParentName="MoteBase"
+			  Name="BMU_UpgraderMoteBase"
+			  Abstract="True">
+		<thingClass>MoteAttached</thingClass>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<mote>
+			<fadeInTime>0.35</fadeInTime>
+			<fadeOutTime>0.35</fadeOutTime>
+			<solidTime>999999</solidTime>
+			<needsMaintenance>True</needsMaintenance>
+			<fadeOutUnmaintained>True</fadeOutUnmaintained>
+		</mote>
+		<graphicData>
+			<graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+			<color>(1.0, 0.3, 0.2, 0.85)</color>
+			<shaderType>MoteSubcoreEncoder</shaderType>
+			<shaderParameters>
+				<_ScanSpeed>2</_ScanSpeed>
+				<_ScanPow>14</_ScanPow>
+			</shaderParameters>
+		</graphicData>
+	</ThingDef>
+	<ThingDef ParentName="BMU_UpgraderMoteBase">
+		<defName>MechUpgraderGlowLight_North</defName>
+		<graphicData>
+			<texPath>Things/Upgrader_Light/MechUpgradePod_light_mote_north</texPath>
+			<drawSize>(2, 2)</drawSize>
+		</graphicData>
+	</ThingDef>
+	<ThingDef ParentName="BMU_UpgraderMoteBase">
+		<defName>MechUpgraderGlowLight_South</defName>
+		<graphicData>
+			<texPath>Things/Upgrader_Light/MechUpgradePod_light_mote_south</texPath>
+			<drawSize>(2, 2)</drawSize>
+		</graphicData>
+	</ThingDef>
+	<ThingDef ParentName="BMU_UpgraderMoteBase">
+		<defName>MechUpgraderGlowLight_East</defName>
+		<graphicData>
+			<texPath>Things/Upgrader_Light/MechUpgradePod_light_mote_east</texPath>
+			<drawSize>(2, 2)</drawSize>
+		</graphicData>
+	</ThingDef>
+	<ThingDef ParentName="BMU_UpgraderMoteBase">
+		<defName>MechUpgraderGlowLight_West</defName>
+		<graphicData>
+			<texPath>Things/Upgrader_Light/MechUpgradePod_light_mote_west</texPath>
+			<drawSize>(2, 2)</drawSize>
+			<shaderParameters>
+				<_FlipHorizontally>1</_FlipHorizontally>
+			</shaderParameters>
+		</graphicData>
+	</ThingDef>
+
+<!--MarkerHediff-->
+
+	<HediffDef ParentName="DiseaseBase">
+		<defName>BMU_SelectedForUpgrade</defName>
+		<label>SelectedForUpgrade</label>
+		<description>You're not supposed to see this :Y</description>
+		<initialSeverity>1</initialSeverity>	
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<disappearsAfterTicks>5000</disappearsAfterTicks>
+				<showRemainingTime>true</showRemainingTime>
+			</li>
+		</comps>
+	</HediffDef>
+
+
+	<!--WorkGiver-->
+
+	<WorkGiverDef>
+		<defName>EnterMechUpgradePod</defName>
+		<label>enter mechanoid upgrader</label>
+		<giverClass>WorkGiver_EnterMechUpgrader</giverClass>
+		<verb>enter</verb>
+		<gerund>entering</gerund>
+		<priorityInType>85</priorityInType>
+		<requiredCapacities>
+			<li>Moving</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>CarryToMechUpgradePod</defName>
+		<label>carry mechanoid upgrader</label>
+		<giverClass>WorkGiver_CarryToMechUpgraderr</giverClass>
+		<workType>Hauling</workType>
+		<verb>carry</verb>
+		<gerund>carrying</gerund>
+		<priorityInType>50</priorityInType>
+		<canBeDoneByMechs>true</canBeDoneByMechs>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+	<WorkGiverDef ParentName="HaulToBase">
+		<defName>HaulToMechanoidUpgradePod</defName>
+		<label>haul resources to mechanoid upgrader</label>
+		<giverClass>WorkGiver_HaulToMechanoidUpgrader</giverClass>
+	</WorkGiverDef>
+
+	<!-- Building Base-->
+	<ThingDef Abstract="True"
+			  Name="MechUpgradePodBase_Light"
+			  ParentName="BuildingBase">
+		<thingClass>Building_MechUpgrader</thingClass>
+		<!--Building_MechUpgrader_weapon-->
+		<label>mech upgrader</label>
+		<description>A mechanoid upgrade assembly and installation device tailored for light and medium class mechanoids. By controlling a mechanoid’s self-repair mechanites along with a small swarm of its own it is able to improve or install additional features onto a selected mechanoid in a process similar to that of a mech gestator.\n\nA single mechanoid can repeatedly undergo the same upgrade cycle in order to further strengthen it.</description>
+		<graphicData>
+			<texPath>Things/Upgrader_Light/MechUpgradePod_light_closed</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<shadowData>
+				<volume>(3, 2, 1.9)</volume>
+			</shadowData>
+		</graphicData>
+		<statBases>
+			<WorkToBuild>8000</WorkToBuild>
+			<MaxHitPoints>250</MaxHitPoints>
+			<Mass>25</Mass>
+			<Flammability>0.5</Flammability>
+		</statBases>
+		<costList>
+			<Steel>80</Steel>
+			<Plasteel>15</Plasteel>
+			<ComponentSpacer>2</ComponentSpacer>
+			<PowerfocusChip>1</PowerfocusChip>
+		</costList>
+		<interactionCellOffset>(0,0,2)</interactionCellOffset>
+		<clearBuildingArea>false</clearBuildingArea>
+		<pathCost>50</pathCost>
+		<containedPawnsSelectable>true</containedPawnsSelectable>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<fillPercent>0.3</fillPercent>
+		<uiOrder>2430</uiOrder>
+		<canOverlapZones>false</canOverlapZones>
+		<size>(2,2)</size>
+		<hasInteractionCell>true</hasInteractionCell>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>300</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_EmptyStateGraphic_BMU">
+				<graphicData>
+					<texPath>Things/Upgrader_Light/MechUpgradePod_light</texPath>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>(2, 2)</drawSize>
+				</graphicData>
+			</li>
+			<!--Is this a hacky and dumb way of doing this? Yes-->
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Standard</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs a standard mechanoid upgrade.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_Default</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_Default</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Sharp Armor</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs a sharp armor upgrade.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_ArmorSharp</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_ArmorSharp</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Blunt Armor</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs a blunt armor upgrade.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_ArmorBlunt</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_ArmorBlunt</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Impact Dampener</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves defense.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_ImpactDampener</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_ArmorGeneral</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Melee Combat</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves melee combat capabilities.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_CombatMelee</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_MeleeCombat</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Ranged Combat</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves ranged combat capabilities.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_CombatRanged</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_RangedCombat</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Energy Efficiency</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves energy efficiency.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_EnergyEfficiency</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_EnergyEfficiency</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Jump Pack</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs a jump launcher.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_JumpPack</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_JumpPack</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Work Speed</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves work speed.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_WorkSpeed</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_WorkSpeed</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Speed</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves movement speed.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_Speed</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_Speed</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Self Repair</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that allows a mechanoid to repair itself.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_SelfRepair</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_SelfRepair</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Processing Power</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that improves data collection and processing.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_ProcessingPower</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_ProcessingPower</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: EMP Shield</buttonName>
+				<buttonDescription>Switch the current mode to one that assembles and installs an upgrade that reduces the effects of EMP attacks.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_EMPResistance</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_EMPResistance</uiIconPath>
+			</li>
+			<li Class="CompPropertiesSwapBuilding_BMU">
+				<buttonName>Mode: Maintenance</buttonName>
+				<buttonDescription>Switch the current mode to one that performs maintenance, resulting in a temporary boost.</buttonDescription>
+				<buildingSwap>MechanoidUpgradePod_LightMedium_Maintenance</buildingSwap>
+				<uiIconPath>UI/Gizmos/BMU_SwitchMode_DeAger</uiIconPath>
+			</li>
+
+			<li Class="CompPropertiesRepeatCycle_BMU">
+				<buttonName>Auto-Prime</buttonName>
+				<buttonDescription>Automatically prepare the upgrader for another upgrade cycle.</buttonDescription>
+				<uiIconPath>UI/Gizmos/BMU_RepeatUpgrade</uiIconPath>
+				
+				<secondbuttonName>Auto-Select: Single</secondbuttonName>
+				<secondbuttonDescription>Automatically select the previous mechanoid for the next upgrade cycle until it is fully upgraded.</secondbuttonDescription>
+				<seconduiIconPath>UI/Gizmos/BMU_RepeatMech_Single</seconduiIconPath>
+				
+				<thirdbuttonName>Auto-Select: Random</thirdbuttonName>
+				<thirdbuttonDescription>Automatically select a random viable mechanoid for the next upgrade cycle.</thirdbuttonDescription>
+				<thirduiIconPath>UI/Gizmos/BMU_RepeatMech_Random</thirduiIconPath>
+
+				<filterbuttonName_ExtraFilter>Advanced Filters</filterbuttonName_ExtraFilter>
+				<filterbuttonDescription_ExtraFilter>Enable advanced filters for the auto-selection process.</filterbuttonDescription_ExtraFilter>
+				<filteruiIconPath_ExtraFilter>UI/Gizmos/BMU_RepeatMech_Filter_AdvancedFilters</filteruiIconPath_ExtraFilter>
+				
+				<filterbuttonName_Primary>Disallow Light</filterbuttonName_Primary>
+				<filterbuttonDescription_Primary>Disallow light weight class mechanoids from the auto-selection process.</filterbuttonDescription_Primary>
+				<filteruiIconPath_Primary>UI/Gizmos/BMU_RepeatMech_Filter_Light</filteruiIconPath_Primary>
+
+				<filterbuttonName_Secondary>Disallow Medium</filterbuttonName_Secondary>
+				<filterbuttonDescription_Secondary>Disallow medium weight class mechanoids from the auto-selection process.</filterbuttonDescription_Secondary>
+				<filteruiIconPath_Secondary>UI/Gizmos/BMU_RepeatMech_Filter_Medium</filteruiIconPath_Secondary>
+
+				<filterbuttonName_CombatMelee>Disallow Melee</filterbuttonName_CombatMelee>
+				<filterbuttonDescription_CombatMelee>Disallow melee combat mechanoids from the auto-selection process.</filterbuttonDescription_CombatMelee>
+				<filteruiIconPath_CombatMelee>UI/Gizmos/BMU_RepeatMech_Filter_Melee</filteruiIconPath_CombatMelee>
+
+				<filterbuttonName_CombatRanged>Disallow Ranged</filterbuttonName_CombatRanged>
+				<filterbuttonDescription_CombatRanged>Disallow ranged combat mechanoids from the auto-selection process.</filterbuttonDescription_CombatRanged>
+				<filteruiIconPath_CombatRanged>UI/Gizmos/BMU_RepeatMech_Filter_Ranged</filteruiIconPath_CombatRanged>
+
+				<filterbuttonName_Worker>Disallow Worker</filterbuttonName_Worker>
+				<filterbuttonDescription_Worker>Disallow worker mechanoids from the auto-selection process.</filterbuttonDescription_Worker>
+				<filteruiIconPath_Worker>UI/Gizmos/BMU_RepeatMech_Filter_Worker</filteruiIconPath_Worker>
+			</li>
+
+
+		</comps>
+		<tickerType>Normal</tickerType>
+		<drawerType>MapMeshAndRealTime</drawerType>
+	</ThingDef>
+	<!--Chunk-->
+	<ThingCategoryDef>
+		<defName>BMU_MechanoidUpgradeSlag</defName>
+		<label>mechanoid upgrade slag</label>
+		<parent>Chunks</parent>
+		<iconPath>Things/Items/BMU_UpgradeSlag/BMU_UpgradeSlagA</iconPath>
+		<resourceReadoutRoot>true</resourceReadoutRoot>
+	</ThingCategoryDef>
+	<ThingDef Name="BMU_UpgradeChunkBase"
+			  Abstract="True">
+		<category>Item</category>
+		<thingClass>Thing</thingClass>
+		<altitudeLayer>Item</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<fillPercent>0.50</fillPercent>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<Flammability>0</Flammability>
+			<Beauty>-9</Beauty>
+			<Cleanliness>-1</Cleanliness>
+		</statBases>
+		<selectable>true</selectable>
+		<pathCost>42</pathCost>
+		<pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>
+		<drawerType>MapMeshOnly</drawerType>
+		<randomizeRotationOnSpawn>true</randomizeRotationOnSpawn>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<designateHaulable>true</designateHaulable>
+		<stackLimit>10</stackLimit>
+		<tradeability>None</tradeability>
+	</ThingDef>
+	<!--SmeltRecipe-->
+	<RecipeDef Name="BMU_UpgradeSalvagingBase"
+			   Abstract="True">
+		<jobString>Salvaging mech stuff.</jobString>
+		<workAmount>1750</workAmount>
+		<!--<efficiencyStat>ButcheryMechanoidEfficiency</efficiencyStat>-->
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>BMU_MechanoidUpgradeSlag</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>BMU_MechanoidUpgradeSlag</li>
+			</categories>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<RecipeDef ParentName="BMU_UpgradeSalvagingBase">
+		<defName>BMU_SalvageUpgradeSlags</defName>
+		<label>smelt metal from mech upgrade slag</label>
+		<description>Break down metal slag obtained from a destroyed mechanoid in order to recover valuable resources.</description>
+		<jobString>Smelting metal from mechanoid slag.</jobString>
+		<recipeUsers>
+			<li>ElectricSmelter</li>
+		</recipeUsers>
+		<specialProducts>
+			<li>Smelted</li>
+		</specialProducts>
+		<effectWorking>Smelt</effectWorking>
+		<soundWorking>Recipe_Smelt</soundWorking>
+	</RecipeDef>
+</Defs>

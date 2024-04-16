@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!--Building-->
+	<ThingDef ParentName="MechUpgradePodBase_Light">
+		<defName>MechanoidUpgradePod_LightMedium_EnergyEfficiency</defName>
+		<building>
+			<subcoreScannerOutputDef>Wastepack</subcoreScannerOutputDef>
+			<subcoreScannerStartEffect>SubcoreSoftscanner_Start</subcoreScannerStartEffect>
+			<subcoreScannerWorking>SubcoreSoftscanner_Working</subcoreScannerWorking>
+			<subcoreScannerComplete>SubcoreSoftscanner_Complete</subcoreScannerComplete>
+			<subcoreScannerHediff>BMU_MechBoost_Armor_LightMedium_EnergyEfficiency</subcoreScannerHediff>
+			<subcoreScannerTicks>90000</subcoreScannerTicks>
+			<!--36 hours-->
+			<ai_chillDestination>false</ai_chillDestination>
+			<buildingTags>
+				<li>Biotech</li>
+			</buildingTags>
+			<subcoreScannerFixedIngredients>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Plasteel</li>
+						</thingDefs>
+					</filter>
+					<count>12</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Steel</li>
+						</thingDefs>
+					</filter>
+					<count>70</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>ComponentSpacer</li>
+						</thingDefs>
+					</filter>
+					<count>1</count>
+				</li>
+			</subcoreScannerFixedIngredients>
+		</building>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+		<comps>
+			<li Class="CompProperties_MechUpgraderExtraProps">
+				<ForWeightClass>Light</ForWeightClass>
+				<ForWeightClassSecondary>Medium</ForWeightClassSecondary>
+				<WeightMultiplier>2</WeightMultiplier>
+				<WeightMultiplierString>2</WeightMultiplierString>
+				<!--affects stuff like the amount of wastepacks produced and....that's kinda it-->
+				<ModeLabel>Energy Efficiency</ModeLabel>
+			</li>
+		</comps>
+	</ThingDef>
+	<!--Hediff-->
+	<HediffDef>
+		<defName>BMU_MechBoost_Armor_LightMedium_EnergyEfficiency</defName>
+		<label>energy efficiency upgrade</label>
+		<description>A specialized upgrade that improves a mechanoid’s power efficiency while also reducing the amount of wastepacks it produces during charging.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(161,206,243)</defaultLabelColor>
+		<stages>
+			<li>
+				<label>level 1</label>
+				<minSeverity>1</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>0.9</MechEnergyUsageFactor>
+					<WastepacksPerRecharge>0.85</WastepacksPerRecharge>
+					<MechEnergyLossPerHP>0.8</MechEnergyLossPerHP>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 2</label>
+				<minSeverity>2</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>0.8</MechEnergyUsageFactor>
+					<WastepacksPerRecharge>0.70</WastepacksPerRecharge>
+					<MechEnergyLossPerHP>0.6</MechEnergyLossPerHP>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 3</label>
+				<minSeverity>3</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>0.7</MechEnergyUsageFactor>
+					<WastepacksPerRecharge>0.55</WastepacksPerRecharge>
+					<MechEnergyLossPerHP>0.4</MechEnergyLossPerHP>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 4</label>
+				<minSeverity>4</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>0.6</MechEnergyUsageFactor>
+					<WastepacksPerRecharge>0.40</WastepacksPerRecharge>
+					<MechEnergyLossPerHP>0.2</MechEnergyLossPerHP>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 5</label>
+				<minSeverity>5</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>0.5</MechEnergyUsageFactor>
+					<WastepacksPerRecharge>0.25</WastepacksPerRecharge>
+					<MechEnergyLossPerHP>0.0</MechEnergyLossPerHP>
+				</statFactors>
+			</li>
+		</stages>
+		<initialSeverity>1</initialSeverity>
+		<minSeverity>1</minSeverity>
+		<maxSeverity>5</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_DisappearsOnDeathAndSpawnItem_BMU">
+				<itemToSpawn>BMU_UpgradeChunk_EnergyEfficiency</itemToSpawn>
+			</li>
+		</comps>
+	</HediffDef>
+	<!--Chunk-->
+	<ThingDef ParentName="BMU_UpgradeChunkBase">
+		<defName>BMU_UpgradeChunk_EnergyEfficiency</defName>
+		<label>energy efficiency mech upgrade slag</label>
+		<description>An amalgamation of melted, smashed-up metals, broken-down components and inactive mechanites. While completely useless in its current form, the valuable metals within it can be separated and recovered with proper tools.</description>
+		<graphicData>
+			<texPath>Things/Items/BMU_UpgradeSlag</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<statBases>
+			<Mass>14</Mass>
+		</statBases>
+		<soundDrop>ChunkSlag_Drop</soundDrop>
+		<stackLimit>10</stackLimit>
+		<thingCategories>
+			<li>BMU_MechanoidUpgradeSlag</li>
+		</thingCategories>
+		<smeltable>true</smeltable>
+		<smeltProducts>
+			<Steel>57</Steel>
+			<Plasteel>16</Plasteel>
+			<!--Extra base resources from a broken-down advanced component: 32 steel, 10 plasteel and 3 gold, roughly 60-75% of the base cost-->
+			<Gold>2</Gold>
+		</smeltProducts>
+	</ThingDef>
+
+</Defs>

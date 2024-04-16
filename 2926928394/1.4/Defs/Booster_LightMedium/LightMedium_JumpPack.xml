@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!--Todo: emergency repair- an ability that gives super fast healing for a little bit, increases power consumption, long cooldown
+Also jump packs for light/medium mechs-->
+	<!--Building-->
+	<ThingDef ParentName="MechUpgradePodBase_Light">
+		<defName>MechanoidUpgradePod_LightMedium_JumpPack</defName>
+		<building>
+			<subcoreScannerOutputDef>Wastepack</subcoreScannerOutputDef>
+			<subcoreScannerStartEffect>SubcoreSoftscanner_Start</subcoreScannerStartEffect>
+			<subcoreScannerWorking>SubcoreSoftscanner_Working</subcoreScannerWorking>
+			<subcoreScannerComplete>SubcoreSoftscanner_Complete</subcoreScannerComplete>
+			<subcoreScannerHediff>BMU_MechBoost_Armor_LightMedium_JumpPack</subcoreScannerHediff>
+			<subcoreScannerTicks>120000</subcoreScannerTicks>
+			<!--48 hours-->
+			<ai_chillDestination>false</ai_chillDestination>
+			<buildingTags>
+				<li>Biotech</li>
+			</buildingTags>
+			<subcoreScannerFixedIngredients>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Plasteel</li>
+						</thingDefs>
+					</filter>
+					<count>48</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Chemfuel</li>
+						</thingDefs>
+					</filter>
+					<count>120</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Uranium</li>
+						</thingDefs>
+					</filter>
+					<count>25</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>ComponentSpacer</li>
+						</thingDefs>
+					</filter>
+					<count>2</count>
+				</li>
+			</subcoreScannerFixedIngredients>
+		</building>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+		<comps>
+			<li Class="CompProperties_MechUpgraderExtraProps">
+				<ForWeightClass>Light</ForWeightClass>
+				<ForWeightClassSecondary>Medium</ForWeightClassSecondary>
+				<WeightMultiplier>3</WeightMultiplier>
+				<WeightMultiplierString>3</WeightMultiplierString>
+				<!--affects stuff like the amount of wastepacks produced and....that's kinda it-->
+				<ModeLabel>Jump Pack</ModeLabel>
+				<OnlyOneLevel>true</OnlyOneLevel>
+			</li>
+		</comps>
+	</ThingDef>
+	<!--Hediff-->
+	<HediffDef>
+		<defName>BMU_MechBoost_Armor_LightMedium_JumpPack</defName>
+		<label>jump pack upgrade</label>
+		<description>A specialized upgrade tailored for light and medium class mechanoids that allows the unit to temporarily take flight for a short range. Can store multiple charges.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(161,206,243)</defaultLabelColor>
+		<stages>
+			<li>
+				<minSeverity>1</minSeverity>
+			</li>
+		</stages>
+		<initialSeverity>1</initialSeverity>
+		<minSeverity>1</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_DisappearsOnDeathAndSpawnItem_BMU">
+				<itemToSpawn>BMU_UpgradeChunk_JumpPack</itemToSpawn>
+			</li>
+			<li Class="HediffCompProperties_GiveAbility">
+				<abilityDef>LongjumpMech_UpgradePod</abilityDef>
+			</li>
+		</comps>
+	</HediffDef>
+	<AbilityDef ParentName="LongJumpMech">
+		<defName>LongjumpMech_UpgradePod</defName>
+		<label>jump launcher</label>
+		<description>Jump to a distant location using a built-in jump launcher.</description>
+		<displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+		<charges>4</charges>
+		<cooldownTicksRange>30000</cooldownTicksRange>
+		<!-- 12h -->
+		<hostile>false</hostile>
+		<verbProperties>
+			<range>12</range>
+			<minRange>5</minRange>
+			<warmupEffecter>JumpMechWarmupEffect</warmupEffecter>
+			<requireLineOfSight>true</requireLineOfSight>
+			<flightEffecterDef>JumpMechFlightEffect</flightEffecterDef>
+			<flyWithCarriedThing>true</flyWithCarriedThing>
+			<soundLanding>JumpMechLand</soundLanding>
+			<soundCast Inherit="False" />
+		</verbProperties>
+		<jobDef>CastJump</jobDef>
+	</AbilityDef>
+	<!--Chunk-->
+	<ThingDef ParentName="BMU_UpgradeChunkBase">
+		<defName>BMU_UpgradeChunk_JumpPack</defName>
+		<label>jump pack mech upgrade slag</label>
+		<description>An amalgamation of melted, smashed-up metals, broken-down components and inactive mechanites. While completely useless in its current form, the valuable metals within it can be separated and recovered with proper tools.</description>
+		<graphicData>
+			<texPath>Things/Items/BMU_UpgradeSlag</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<statBases>
+			<Mass>14</Mass>
+		</statBases>
+		<soundDrop>ChunkSlag_Drop</soundDrop>
+		<stackLimit>10</stackLimit>
+		<thingCategories>
+			<li>BMU_MechanoidUpgradeSlag</li>
+		</thingCategories>
+		<smeltable>true</smeltable>
+		<smeltProducts>
+			<Steel>56</Steel>
+			<Plasteel>53</Plasteel>
+			<!--Extra base resources from a broken-down advanced component: 32 steel, 10 plasteel and 3 gold, roughly 60-75% of the base cost-->
+			<Gold>4</Gold>
+			<Chemfuel>97</Chemfuel>
+		</smeltProducts>
+	</ThingDef>
+</Defs>

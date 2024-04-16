@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!--Todo: emergency repair- an ability that gives super fast healing for a little bit, increases power consumption, long cooldown
+Also jump packs for light/medium mechs-->
+	<!--Building-->
+	<ThingDef ParentName="MechUpgradePodBase_Heavy">
+		<defName>MechanoidUpgradePod_HeavyUltraHeavy_SelfRepair</defName>
+		<building>
+			<subcoreScannerOutputDef>Wastepack</subcoreScannerOutputDef>
+			<subcoreScannerStartEffect>SubcoreSoftscanner_Start</subcoreScannerStartEffect>
+			<subcoreScannerWorking>SubcoreSoftscanner_Working</subcoreScannerWorking>
+			<subcoreScannerComplete>SubcoreSoftscanner_Complete</subcoreScannerComplete>
+			<subcoreScannerHediff>BMU_MechBoost_Armor_HeavyUltraHeavy_SelfRepair</subcoreScannerHediff>
+			<subcoreScannerTicks>120000</subcoreScannerTicks>
+			<ai_chillDestination>false</ai_chillDestination>
+			<buildingTags>
+				<li>Biotech</li>
+			</buildingTags>
+			<subcoreScannerFixedIngredients>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Plasteel</li>
+						</thingDefs>
+					</filter>
+					<count>32</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Steel</li>
+						</thingDefs>
+					</filter>
+					<count>90</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>Uranium</li>
+						</thingDefs>
+					</filter>
+					<count>44</count>
+				</li>
+				<li>
+					<filter>
+						<thingDefs>
+							<li>ComponentSpacer</li>
+						</thingDefs>
+					</filter>
+					<count>2</count>
+				</li>
+			</subcoreScannerFixedIngredients>
+		</building>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+		<comps>
+			<li Class="CompProperties_MechUpgraderExtraProps">
+				<ForWeightClass>Heavy</ForWeightClass>
+				<ForWeightClassSecondary>UltraHeavy</ForWeightClassSecondary>
+				<WeightMultiplier>2</WeightMultiplier>
+				<WeightMultiplierString>2</WeightMultiplierString>
+				<!--affects stuff like the amount of wastepacks produced and....that's kinda it-->
+				<ModeLabel>Self Repair</ModeLabel>
+			</li>
+		</comps>
+	</ThingDef>
+	<!--Hediff-->
+	<HediffDef>
+		<defName>BMU_MechBoost_Armor_HeavyUltraHeavy_SelfRepair</defName>
+		<label>self repair upgrade</label>
+		<description>An advanced mechanoid upgrade that activates and stimulates a mechanoid’s normally dormant self-repair mechanites. A skilled mechanitor is still required in order to replace any fully destroyed or otherwise missing components.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(161,206,243)</defaultLabelColor>
+		<stages>
+			<li>
+				<label>level 1</label>
+				<minSeverity>1</minSeverity>
+			</li>
+			<li>
+				<label>level 2</label>
+				<minSeverity>2</minSeverity>
+			</li>
+			<li>
+				<label>level 3</label>
+				<minSeverity>3</minSeverity>
+			</li>
+			<li>
+				<label>level 4</label>
+				<minSeverity>4</minSeverity>
+			</li>
+			<li>
+				<label>level 5</label>
+				<minSeverity>5</minSeverity>
+			</li>
+		</stages>
+		<initialSeverity>1</initialSeverity>
+		<minSeverity>1</minSeverity>
+		<maxSeverity>5</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_DisappearsOnDeathAndSpawnItem_BMU">
+				<itemToSpawn>BMU_UpgradeChunk_SelfRepair</itemToSpawn>
+			</li>
+		<li Class="HediffCompProperties_HealMechanoidWounds">
+				<!--	<mtbHeal>500</mtbHeal>-->
+				<mtbHeal>30000</mtbHeal>
+				<hitPointsPerHeal>10</hitPointsPerHeal>
+				<!--"amount" of heals is multiplied by severity-->
+			</li>
+			<li Class="HediffCompProperties_GiveAbility">
+				<abilityDef>BMU_SelfRepairAbility_Large</abilityDef>
+			</li>
+		</comps>
+	</HediffDef>
+	<!--Ability-->
+	<AbilityGroupDef>
+		<defName>BMU_SelfRepair</defName>
+		<cooldownTicks>180000</cooldownTicks>
+	</AbilityGroupDef>
+	<AbilityDef>
+		<defName>BMU_SelfRepairAbility_Large</defName>
+		<label>Emergency Self Repair</label>
+		<description>Stimulate this mechanoid’s mechanites in order to rapidly repair damages at the cost of an increased energy drain.</description>
+		<iconPath>UI/Gizmos/Ability_EmergencyRepair</iconPath>
+		<warmupSound>OrbitalTargeter_Aiming</warmupSound>
+		<jobDef>CastAbilityOnThing</jobDef>
+		<targetRequired>False</targetRequired>
+		<canUseAoeToGetTargets>False</canUseAoeToGetTargets>
+		<warmupMoteSocialSymbol>UI/Gizmos/BMU_SwitchMode_ProcessingPower</warmupMoteSocialSymbol>
+		<stunTargetWhileCasting>True</stunTargetWhileCasting>
+		<showPsycastEffects>False</showPsycastEffects>
+		<displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+		<groupDef>BMU_SelfRepair</groupDef>
+		<hotKey>Misc12</hotKey>
+		<uiOrder>3</uiOrder>
+		<statBases>
+			<Ability_Duration>125</Ability_Duration>
+		</statBases>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupTime>2.0</warmupTime>
+			<drawAimPie>False</drawAimPie>
+			<requireLineOfSight>False</requireLineOfSight>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+				<canTargetPawns>false</canTargetPawns>
+				<canTargetBuildings>false</canTargetBuildings>
+				<canTargetAnimals>false</canTargetAnimals>
+				<canTargetHumans>false</canTargetHumans>
+				<canTargetMechs>false</canTargetMechs>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilityGiveHediff_MechSelfRepair">
+				<compClass>CompAbilityEffect_GiveHediff_MechSelfRepair</compClass>
+				<hediffDef>BMU_MechBoost_Armor_HeavyUltraHeavy_SelfRepair_EmergencyRepair</hediffDef>
+				<onlyBrain>False</onlyBrain>
+				<onlyApplyToSelf>True</onlyApplyToSelf>
+				<replaceExisting>true</replaceExisting>
+				<hediffDefToMatch>BMU_MechBoost_Armor_HeavyUltraHeavy_SelfRepair</hediffDefToMatch>
+			</li>
+		</comps>
+	</AbilityDef>
+	<!--AbilityEffect-->
+	<HediffDef>
+		<defName>BMU_MechBoost_Armor_HeavyUltraHeavy_SelfRepair_EmergencyRepair</defName>
+		<label>self repair upgrade ability</label>
+		<description>An advanced mechanoid upgrade that activates and stimulates a mechanoid’s normally dormant self-repair mechanites. A skilled mechanitor is still required in order to replace any fully destroyed or otherwise missing components.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(161,206,243)</defaultLabelColor>
+		<stages>
+			<li>
+				<label>level 1</label>
+				<minSeverity>1</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>5</MechEnergyUsageFactor>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 2</label>
+				<minSeverity>2</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>5</MechEnergyUsageFactor>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 3</label>
+				<minSeverity>3</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>5</MechEnergyUsageFactor>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 4</label>
+				<minSeverity>4</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>5</MechEnergyUsageFactor>
+				</statFactors>
+			</li>
+			<li>
+				<label>level 5</label>
+				<minSeverity>5</minSeverity>
+				<statFactors>
+					<MechEnergyUsageFactor>5</MechEnergyUsageFactor>
+				</statFactors>
+			</li>
+		</stages>
+		<initialSeverity>1</initialSeverity>
+		<minSeverity>1</minSeverity>
+		<maxSeverity>5</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_DisappearsOnDeathAndSpawnItem_BMU">
+				<itemToSpawn>BMU_UpgradeChunk_SelfRepair</itemToSpawn>
+			</li>
+			<li Class="HediffCompProperties_HealMechanoidWounds">
+				<!--	<mtbHeal>500</mtbHeal>-->
+				<mtbHeal>500</mtbHeal> <!--once every 1/5 of an hour-->
+				<hitPointsPerHeal>10</hitPointsPerHeal>
+				<!--"amount" of heals is multiplied by severity-->
+			</li>
+			<li Class="HediffCompProperties_Disappears">
+				<showRemainingTime>false</showRemainingTime>
+			</li>
+		</comps>
+	</HediffDef>
+	
+</Defs>
