@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+	<Operation Class="PatchOperationReplace">
+	  <xpath>Defs/SurgeryOutcomeEffectDef[defName="SurgeryOutcomeBase"]/comps/li[@Class="SurgeryOutcomeComp_ClampToRange"]/range</xpath>
+	  <value>
+		<range>0~1.0</range>
+	  </value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+	  <xpath>Defs/SurgeryOutcomeEffectDef[defName="SurgeryOutcomeBase"]/outcomes</xpath>
+	  <value>
+		<outcomes>
+		  <li Class="SurgeryOutcomeSuccess" />
+		  <li Class="SurgeryOutcome_Death">
+			<failure>true</failure>
+			<applyEffectsToPart>true</applyEffectsToPart>
+			<letterLabel>Surgery failed on {PATIENT_labelShort}</letterLabel>
+			<letterText>{SURGEON_labelShort} has committed a fatal error while operating on {PATIENT_labelShort} because of the special challenges of: {RECIPE_label}.</letterText>
+		  </li>
+		  <li Class="SurgeryOutcome_Failure">
+			<chance>0.2</chance>
+			<totalDamage>10</totalDamage>
+			<applyEffectsToPart>true</applyEffectsToPart>
+			<letterLabel>Surgery with complications on {PATIENT_labelShort}</letterLabel>
+			<letterText>{SURGEON_labelShort} has completed the surgery with complications on {PATIENT_labelShort} ({RECIPE_label}).</letterText>
+		  </li>
+		  <li Class="BetterSurgery.SurgeryOutcome_FailureWithInfection">
+			<chance>0.2</chance>
+			<failure>true</failure>
+			<totalDamage>20</totalDamage>
+			<applyEffectsToPart>true</applyEffectsToPart>
+			<letterLabel>Surgery failed on {PATIENT_labelShort}</letterLabel>
+			<letterText>{SURGEON_labelShort} has failed catastrophically while operating on {PATIENT_labelShort} ({RECIPE_label}).</letterText>
+		  </li>
+		  <li Class="SurgeryOutcome_FailureWithHediff"  MayRequire="Ludeon.RimWorld.Biotech">
+			<chance>0.03</chance>
+			<failedHediff>Sterilized</failedHediff>
+			<applyToRecipes>
+			  <li MayRequire="Ludeon.RimWorld.Biotech">ImplantIUD</li>
+			  <li MayRequire="Ludeon.RimWorld.Biotech">RemoveIUD</li>
+			</applyToRecipes>
+			<failure>true</failure>
+			<totalDamage>10</totalDamage>
+			<applyEffectsToPart>true</applyEffectsToPart>
+			<letterLabel>Surgery failed on {PATIENT_labelShort}: Sterilized</letterLabel>
+			<letterText>{SURGEON_labelShort} has failed while operating on {PATIENT_labelShort} ({RECIPE_label}), leaving {PATIENT_objective} sterile.</letterText>
+		  </li>
+		  <li Class="SurgeryOutcome_FailureWithHediff"  MayRequire="Ludeon.RimWorld.Biotech">
+			<chance>0.05</chance>
+			<failedHediff>Sterilized</failedHediff>
+			<applyToRecipes>
+			  <li MayRequire="Ludeon.RimWorld.Biotech">Vasectomy</li>
+			  <li MayRequire="Ludeon.RimWorld.Biotech">ReverseVasectomy</li>
+			</applyToRecipes>
+			<failure>true</failure>
+			<totalDamage>10</totalDamage>
+			<applyEffectsToPart>true</applyEffectsToPart>
+			<letterLabel>Surgery failed on {PATIENT_labelShort}: Sterilized</letterLabel>
+			<letterText>{SURGEON_labelShort} has failed while operating on {PATIENT_labelShort} ({RECIPE_label}), leaving {PATIENT_objective} sterile.</letterText>
+		  </li>	
+		  <li Class="SurgeryOutcome_Failure">
+			<failure>true</failure>
+			<chance>1</chance>
+			<totalDamage>10</totalDamage>
+			<applyEffectsToPart>true</applyEffectsToPart>
+			<letterLabel>Surgery failed on {PATIENT_labelShort}</letterLabel>
+			<letterText>{SURGEON_labelShort} has failed in a minor way while operating on {PATIENT_labelShort} ({RECIPE_label}).</letterText>
+		  </li>	
+		</outcomes>
+	  </value>
+	</Operation>
+</Patch>
