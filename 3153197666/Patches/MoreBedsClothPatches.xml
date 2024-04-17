@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Handle beds with a costlist -->
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName = "Bed"]/costList</xpath>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "Bed"]/costList</xpath>
+        <value>
+          <Cloth>12</Cloth>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName = "DoubleBed"]/costList</xpath>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "DoubleBed"]/costList</xpath>
+        <value>
+          <Cloth>18</Cloth>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName = "RoyalBed"]/costList</xpath>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "RoyalBed"]/costList</xpath>
+        <value>
+          <Cloth>24</Cloth>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName = "HospitalBed"]/costList</xpath>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "HospitalBed"]/costList</xpath>
+        <value>
+          <Cloth>12</Cloth>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+
+
+  <!-- Handle beds without a costlist (skip royal beds, they always have one)-->
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName = "Bed"]/costList</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "Bed"]</xpath>
+        <value>
+          <costList>
+            <Cloth>12</Cloth>
+          </costList>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName = "DoubleBed"]/costList</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName = "DoubleBed"]</xpath>
+        <value>
+          <costList>
+            <Cloth>18</Cloth>
+          </costList>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+
+
+  <!-- Add new bed flavours to satisfy needs of titled Roylaty DLC pawns -->
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/RoyalTitleDef[defName="Esquire" or defName="Knight" or defName="Praetor"]/bedroomRequirements//li[contains(@Class, "RoomRequirement_ThingAnyOf")]/things</xpath>
+        <value>
+          <li>DoubleBedRed</li>
+          <li>DoubleBedYellow</li>
+          <li>DoubleBedGreen</li>
+          <li>DoubleBedBlue</li>
+          <li>DoubleBedPurple</li>
+          <li>RoyalBedRed</li>
+          <li>RoyalBedYellow</li>
+          <li>RoyalBedGreen</li>
+          <li>RoyalBedBlue</li>
+          <li>RoyalBedPurple</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/RoyalTitleDef[defName="Baron" or defName="Duke" or defName="Consul" or defName="Stellarch" or defName="Emperor"]/bedroomRequirements//li[contains(@Class, "RoomRequirement_ThingAnyOf")]/things</xpath>
+        <value>
+          <li>RoyalBedRed</li>
+          <li>RoyalBedYellow</li>
+          <li>RoyalBedGreen</li>
+          <li>RoyalBedBlue</li>
+          <li>RoyalBedPurple</li>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+
+
+  <!-- Compatibility for MoreFurniture -->
+  <!-- +++++++++++++++++++++++++++++++ -->
+  <Operation Class="PatchOperationFindMod">
+    <success>Always</success>
+    <mods>
+      <li>More Furniture [1.0]</li>
+      <li>More Furniture [1.1 + 1.2]</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[@Name = "TBedBase" or @Name = "TDoubleBedBase" or @Name = "TRoyalBedBase"]/comps/li[@Class = "CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>
+      <value>
+        <li>Anon2Dresser</li>
+        <li>Anon2EndTable</li>
+        <li>Anon2EndTableLight</li>
+        <li>Anon2RoyalEndTable</li>
+        <li>Anon2RoyalEndTableLight</li>
+      </value>
+    </match>
+  </Operation>
+
+
+
+  <!-- Compatibility for Vanilla Furniture Expanded -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++ -->
+  <Operation Class="PatchOperationFindMod">
+    <success>Always</success>
+    <mods>
+      <li>Vanilla Furniture Expanded</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[@Name = "TBedBase" or @Name = "TDoubleBedBase" or @Name = "TRoyalBedBase"]/comps/li[@Class = "CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>
+      <value>
+        <li>Table_LightEndTable</li>
+        <li>Table_Wardrobe</li>
+        <li>Table_RoyalEndTable</li>
+        <li>Table_RoyalDresser</li>
+      </value>
+    </match>
+  </Operation>
+
+  <!-- Compatibility for Vanilla Furniture Expanded - Spacer Module -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <Operation Class="PatchOperationFindMod">
+    <success>Always</success>
+    <mods>
+      <li>Vanilla Furniture Expanded - Spacer Module</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[@Name = "TBedBase" or @Name = "TDoubleBedBase" or @Name = "TRoyalBedBase"]/comps/li[@Class = "CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>
+      <value>
+        <li>Table_IlluminatedEndTable</li>
+        <li>Table_IlluminatedDresser</li>
+      </value>
+    </match>
+  </Operation>
+</Patch>
