@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef Name="NecronoidWeaponBase" ParentName="BaseGun" Abstract="True">
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <relicChance>0</relicChance>
+    <graphicData>
+      <drawSize>0.65</drawSize>
+    </graphicData>
+    <!--<equippedDistanceOffset >-0.14</equippedDistanceOffset >-->
+    <tools>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.6</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef Name="NecronoidWeaponRanged" ParentName="NecronoidWeaponBase" Abstract="True">
+    <weaponClasses>
+      <li>Ranged</li>
+    </weaponClasses>
+  </ThingDef>
+  
+  <!-- Plague Spewer -->
+
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_PlagueSpewer</defName>
+    <label>plague spewer</label>
+    <description>A living armament made of human flesh and bones. Unlike every armaments used by the necronoids, this weapon has a special organ that produces plague-infested bile and launching it against organic enemies, which deals shredded damage and inflicting the plague at the same time.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/PlagueSpewer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>1.3, 1.3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>45</equippedAngleOffset>
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>1.5</Mass>
+      <AccuracyTouch>0.90</AccuracyTouch>
+      <AccuracyShort>0.90</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>      
+    </statBases>
+    <weaponTags>
+      <li>PlagueSpewer</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+		<ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
+        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
+        <defaultProjectile>Bullet_PlagueProj</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>30.9</range>
+		<!--<ticksBetweenBurstShots>2</ticksBetweenBurstShots>-->
+        <burstShotCount>1</burstShotCount>
+		<minRange>4.9</minRange>
+        <soundCast>Shot_Necronoid_Shotgun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_PlagueProj</defName>
+    <label>plague bullet</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/Projectile_Green</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>95</speed>
+	  <extraDamages>
+		 <li>
+          <amount>10</amount>
+          <chance>0.001</chance>
+          <def>PlagueBile</def>
+         </li>
+      </extraDamages>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Boneshard Rifle -->
+  
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_BoneshardRifle</defName>
+    <label>boneshard rifle</label>
+    <description>A living armament mainly used by fetid soldiers. The boneshard rifle possess a special organ that produces bones, shaping it into shards, and lacing it with necronoid infection. Once fired, the boneshards can deal moderate amounts of shredded damage alongside inflicting the necronoid infection in an open wound.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/BoneshardRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>1.3, 1.3</drawSize>
+    </graphicData>
+	<!--<equippedAngleOffset>45</equippedAngleOffset>-->
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>4.6</Mass>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.64</AccuracyShort>
+      <AccuracyMedium>0.55</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>2.00</RangedWeapon_Cooldown>  
+    </statBases>
+    <weaponTags>
+      <li>BoneshardRifle</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+		<ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
+        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
+        <defaultProjectile>Bullet_BoneshardRifle</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>30.9</range>
+		<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>5</burstShotCount>
+		<minRange>4.9</minRange>
+        <soundCast>Shot_Necronoid_Pistol</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_BoneshardRifle</defName>
+    <label>infected boneshard</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/Projectile_Infected</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>8</damageAmountBase>
+	  <armorPenetrationBase>0.15</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>95</speed>
+	  <extraDamages>
+		 <li>
+          <amount>10</amount>
+          <chance>0.001</chance>
+          <def>NecronoidRangeDamage</def>
+         </li>
+      </extraDamages>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Boneshard Shotgun -->
+  
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_BoneshardShotgun</defName>
+    <label>boneshard shotgun</label>
+    <description>A living armament mainly used by fetid soldiers, and a shotgun variant of the boneshard rifle.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/BoneshardLauncher</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>1.3, 1.3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>45</equippedAngleOffset>
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>4.6</Mass>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.64</AccuracyShort>
+      <AccuracyMedium>0.55</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>2.00</RangedWeapon_Cooldown>   
+    </statBases>
+    <weaponTags>
+      <li>BoneshardShotgun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+		<ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
+        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
+        <defaultProjectile>Bullet_BoneshardRifle</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>20.9</range>
+		<ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <burstShotCount>7</burstShotCount>
+		<minRange>4.9</minRange>
+        <soundCast>Shot_Necronoid_Shotgun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <!-- Boneshard Cannon -->
+  
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_BoneshardAutoCannon</defName>
+    <label>boneshard auto cannon</label>
+    <description>A living heavy weapon wielded exclusively by the bloated ogres. The boneshard auto cannon serves as a heavy weapon for the necronoids, dealing massive amounts of damage with the ability to inflict the necromoid infection in every shot.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/OgreCannon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>2.0, 2.0</drawSize>
+    </graphicData>
+	<!--<equippedAngleOffset>45</equippedAngleOffset>-->
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>20</Mass>
+      <AccuracyTouch>0.90</AccuracyTouch>
+      <AccuracyShort>0.90</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>      
+    </statBases>
+    <weaponTags>
+      <li>BoneshardCannon</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_BoneshardAutoCannon</defaultProjectile>
+        <warmupTime>3</warmupTime>
+        <range>50.9</range>
+		<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+        <burstShotCount>15</burstShotCount>
+		<minRange>4.9</minRange>
+        <soundCast>Shot_Necronoid_Shotgun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_BoneshardAutoCannon</defName>
+    <label>infected boneshard</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/Projectile_Infected</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>TransparentPostLight</shaderType>
+	  <drawSize>(1.5, 3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+	  <armorPenetrationBase>0.30</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>95</speed>
+	  <extraDamages>
+		 <li>
+          <amount>10</amount>
+          <chance>0.001</chance>
+          <def>NecronoidRangeDamage</def>
+         </li>
+      </extraDamages>
+    </projectile>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <thingClass>Projectile_Explosive</thingClass>
+    <defName>Bullet_BoneshardCannon</defName>
+    <label>infected warhead</label>
+    <graphicData>
+      <drawSize>(2.0, 2.0)</drawSize>
+      <texPath>Things/Misc/Bullets/Projectile_Green</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>InfectiousBomb</damageDef>
+      <speed>65</speed>
+      <explosionRadius>7.9</explosionRadius>
+	  <!--<postExplosionGasType>RotStink</postExplosionGasType>-->
+	  <ai_IsIncendiary>true</ai_IsIncendiary>
+      <arcHeightFactor>0.2</arcHeightFactor>
+      <shadowSize>0.6</shadowSize>
+      <screenShakeFactor>0.1</screenShakeFactor>	  
+    </projectile>
+  </ThingDef>
+  
+  <!--====================================== New Weapons =========================================-->
+  
+  <!-- Boneshard Charge Rifle -->
+  
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_AdvancedBoneshardRifle</defName>
+    <label>advanced boneshard rifle</label>
+    <description>An advanced living armament mainly used by fetid marines. The advanced boneshard rifle is basically the standard charge rifle used by humanity, but with slightly better accuracy and increased shot count.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/BoneshardChargeRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>1.3, 1.3</drawSize>
+    </graphicData>
+	<!--<equippedAngleOffset>45</equippedAngleOffset>-->
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>4.6</Mass>
+      <AccuracyTouch>0.65</AccuracyTouch>
+      <AccuracyShort>0.74</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.55</AccuracyLong>
+      <RangedWeapon_Cooldown>2.00</RangedWeapon_Cooldown>  
+    </statBases>
+    <weaponTags>
+      <li>ADVBoneshardRifle</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+		<ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
+        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
+        <defaultProjectile>Bullet_ADVBoneshardRifle</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>25.9</range>
+		<ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <burstShotCount>4</burstShotCount>
+		<minRange>4.9</minRange>
+        <soundCast>Shot_Necronoid_Pistol</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_ADVBoneshardRifle</defName>
+    <label>infected boneshard</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/Projectile_Infected</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>15</damageAmountBase>
+	  <armorPenetrationBase>0.35</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>95</speed>
+	  <extraDamages>
+		 <li>
+          <amount>10</amount>
+          <chance>0.001</chance>
+          <def>NecronoidRangeDamage</def>
+         </li>
+      </extraDamages>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Boneshard Avenger -->
+  
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_BoneshardRapidBlaster</defName>
+    <label>boneshard avenger</label>
+    <description>A living heavy armament mainly used by elite necronoids, and a minigun variant of the boneshard rifle.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/BoneshardGatling</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>1.3, 1.3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>45</equippedAngleOffset>
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>15</Mass>
+      <AccuracyTouch>0.15</AccuracyTouch>
+      <AccuracyShort>0.25</AccuracyShort>
+      <AccuracyMedium>0.25</AccuracyMedium>
+      <AccuracyLong>0.18</AccuracyLong>
+      <RangedWeapon_Cooldown>2.3</RangedWeapon_Cooldown>   
+    </statBases>
+    <weaponTags>
+      <li>BoneshardAvenger</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+		<ai_AvoidFriendlyFireRadius>6</ai_AvoidFriendlyFireRadius>
+        <ai_RangedAlawaysShootGroundBelowTarget>true</ai_RangedAlawaysShootGroundBelowTarget>
+        <defaultProjectile>Bullet_BoneshardAvenger</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>30.9</range>
+		<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>25</burstShotCount>
+		<minRange>4.9</minRange>
+        <soundCast>Shot_Necronoid_Pistol</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_BoneshardAvenger</defName>
+    <label>infected boneshard</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/Projectile_Infected</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+	  <armorPenetrationBase>0.15</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>95</speed>
+	   <extraDamages>
+		 <li>
+          <amount>10</amount>
+          <chance>0.001</chance>
+          <def>NecronoidRangeDamage</def>
+         </li>
+      </extraDamages>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Boneshard Sniper Rifle -->
+  
+  <ThingDef ParentName="NecronoidWeaponRanged">
+    <defName>Gun_BoneshardSniperRifle</defName>
+    <label>boneshard sniper rifle</label>
+    <description>A living armament mainly used by elite necronoids, and a sniper variant of the boneshard rifle.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/BoneshardSniperRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>1.3, 1.3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>45</equippedAngleOffset>
+    <statBases>
+      <MarketValue>1000</MarketValue>
+      <Mass>8</Mass>
+      <AccuracyTouch>0.65</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>2.7</RangedWeapon_Cooldown> 
+    </statBases>
+    <weaponTags>
+      <li>BoneshardSniper</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_BoneshardSniper</defaultProjectile>
+        <warmupTime>1.7</warmupTime>
+        <range>45.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_Necronoid_Pistol</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_BoneshardSniper</defName>
+    <label>infected boneshard</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/Projectile_Infected</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>30</damageAmountBase>
+	  <armorPenetrationBase>0.35</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>95</speed>
+	  <extraDamages>
+		 <li>
+          <amount>10</amount>
+          <chance>0.001</chance>
+          <def>NecronoidRangeDamage</def>
+         </li>
+      </extraDamages>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Boss Melee Weapons -->
+  
+  <ThingDef Name="NecroMeleeWeapon" ParentName="BaseWeapon" Abstract="True">
+    <tradeability>None</tradeability>
+    <destroyOnDrop>true</destroyOnDrop>
+    <relicChance>1.0</relicChance>
+    <graphicData>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef Name="NecroCQC" ParentName="NecroMeleeWeapon" Abstract="True">
+    <weaponClasses>
+      <li>Melee</li>
+    </weaponClasses>
+  </ThingDef>
+  
+  <ThingDef ParentName="NecroCQC">
+    <defName>Melee_FleshCleaver</defName>
+    <label>flesh cleaver</label>
+    <description>A giant clever made of flesh. This unholy blade contains an organ that releases concentrated dosage of the necronoid infection, which is capable of inflicting the necrotion with a higher severity.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/GreatFleshKnife</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>3, 3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>-65</equippedAngleOffset>
+    <statBases>
+      <MarketValue>2000</MarketValue>
+      <Mass>49</Mass>
+    </statBases>
+	<meleeHitSound>Strike_FleshCleaver</meleeHitSound>
+	<equippedStatOffsets>	
+    </equippedStatOffsets>
+    <weaponTags>
+      <li>FleshCleaver</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>15</power>
+        <cooldownTime>1.0</cooldownTime>
+		<armorPenetration>0.85</armorPenetration>		
+		<extraMeleeDamages>
+          <li>
+            <def>NecronoidMajorCutDamage</def>
+            <amount>10</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+	  <li>
+        <label>blade tip</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>1.0</cooldownTime>
+		<armorPenetration>0.65</armorPenetration>
+		<extraMeleeDamages>
+          <li>
+            <def>Stun</def>
+            <amount>9</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+	  <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>1.5</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+  
+  <ThingDef ParentName="NecroCQC">
+    <defName>Melee_ExecutionerAxe</defName>
+    <label>executioner's axe</label>
+    <description>A giant axe and hammer hybrid that claimed thousands of heads. Both heavy and incredibly sharp, it can cut down heavily armored foes like cutting butter with a butter knife, and can easily bash some skulls using the hammer head. This weapon is mainly weilded by the executioner ghoul.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/GreatAxe</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>3, 3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>-65</equippedAngleOffset>
+    <statBases>
+      <MarketValue>2000</MarketValue>
+      <Mass>65</Mass>
+    </statBases>
+	<meleeHitSound>Strike_ExecutionerAxe</meleeHitSound>
+	<equippedStatOffsets>	
+    </equippedStatOffsets>
+    <weaponTags>
+      <li>GreatAxe</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>17</power>
+        <cooldownTime>2.5</cooldownTime>
+		<armorPenetration>1.20</armorPenetration>		
+		<extraMeleeDamages>
+          <li>
+            <def>Stun</def>
+            <amount>9</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+	  <li>
+        <label>hammer head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>2.5</cooldownTime>
+		<armorPenetration>1.20</armorPenetration>
+		<extraMeleeDamages>
+          <li>
+            <def>Stun</def>
+            <amount>9</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+	  <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>1.5</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+  
+  <ThingDef ParentName="NecroCQC">
+    <defName>Melee_BloodLetterMace</defName>
+    <label>blood letter mace</label>
+    <description>A giant mace with spikes made of hardened blood. This weapon is capable of causing excessive bleeding, where a single scratch can be deadly if not treated immediately. This weapon is mainly weilded by the bloodletter ghoul.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/BloodLetter</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>3, 3</drawSize>
+    </graphicData>
+	<equippedAngleOffset>-65</equippedAngleOffset>
+    <statBases>
+      <MarketValue>2000</MarketValue>
+      <Mass>55</Mass>
+    </statBases>
+	<meleeHitSound>Strike_BloodLetterMace</meleeHitSound>
+	<equippedStatOffsets>	
+    </equippedStatOffsets>
+    <weaponTags>
+      <li>BloodLetter</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>mace spike</label>
+        <capacities>
+          <li>BloodLetter</li>
+        </capacities>
+        <power>17</power>
+        <cooldownTime>2.5</cooldownTime>
+		<armorPenetration>0.95</armorPenetration>		
+		<extraMeleeDamages>
+          <li>
+            <def>Stun</def>
+            <amount>9</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+	  <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>1.5</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+  
+  <ToolCapacityDef>
+    <defName>BloodLetter</defName>
+    <label>blood letter stab</label>
+  </ToolCapacityDef>
+  
+  <ManeuverDef>
+    <defName>BloodLetterz</defName>
+    <requiredCapacity>BloodLetter</requiredCapacity>
+    <verb>
+      <verbClass>Verb_MeleeAttackDamage</verbClass>
+      <meleeDamageDef>BloodLetter_Stab</meleeDamageDef>
+    </verb>
+    <logEntryDef>MeleeAttack</logEntryDef>
+    <combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+    <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+    <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+    <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <ThingDef ParentName="NecroCQC">
+    <defName>Melee_SteelSaw</defName>
+    <label>butcher's steel saw</label>
+    <description>An industrial tool that was used to cut steel bars. This once humble industrial tool now serves a dark purpose, where is being used to cut innocent beings into mince meat. This weapon is mainly weilded by the bloodletter ghoul.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Enemy_Weapons/SteelSaw_Butcher</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>2.5, 2.5</drawSize>
+    </graphicData>
+	<equippedAngleOffset>-25</equippedAngleOffset>
+    <statBases>
+      <MarketValue>2000</MarketValue>
+      <Mass>55</Mass>
+    </statBases>
+	<meleeHitSound>Strike_SteelSaw</meleeHitSound>
+	<equippedStatOffsets>	
+    </equippedStatOffsets>
+    <weaponTags>
+      <li>SteelSaw_Butcher</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>saw blade</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>1.5</cooldownTime>
+		<armorPenetration>0.75</armorPenetration>		
+		<extraMeleeDamages>
+          <li>
+            <def>Stun</def>
+            <amount>9</amount>
+          </li>
+        </extraMeleeDamages>
+      </li>
+	  <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>1.5</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

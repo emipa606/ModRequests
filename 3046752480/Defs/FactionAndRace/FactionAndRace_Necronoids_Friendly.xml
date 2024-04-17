@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkGiverDef>
+    <defName>DoctorTendToOtherEntities</defName>
+    <label>tend to other entities</label>
+    <giverClass>WorkGiver_TendOther</giverClass>
+    <workType>Doctor</workType>
+    <verb>tend to</verb>
+    <gerund>tending to</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <priorityInType>50</priorityInType>
+    <prioritizeSustains>true</prioritizeSustains>
+    <tendToAnimalsOnly>false</tendToAnimalsOnly>
+    <canBeDoneByMechs>true</canBeDoneByMechs>
+  </WorkGiverDef>
+  
+  <ThingDef Name="BaseNecroPawn" Abstract="True">
+    <thingClass>Pawn</thingClass>
+    <category>Pawn</category>
+    <selectable>true</selectable>
+    <containedPawnsSelectable>true</containedPawnsSelectable>
+    <containedItemsSelectable>true</containedItemsSelectable>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>Pawn</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <hasTooltip>true</hasTooltip>
+    <soundImpactDefault>BulletImpact_Flesh</soundImpactDefault>
+    <statBases>
+      <Mass>60</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <inspectorTabs>
+      <li>ITab_Pawn_Health</li>
+      <li>ITab_Pawn_Gear</li>
+      <li>ITab_Pawn_Log</li>
+    </inspectorTabs>
+	<thingCategories>
+      <li>Animals</li>
+    </thingCategories>
+    <comps>
+      <li>
+        <compClass>CompAttachBase</compClass>
+      </li>
+    </comps>
+    <drawGUIOverlay>true</drawGUIOverlay>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseNecroPawn" Name="BasePlayerNecronoid" Abstract="True">
+      <statBases>
+        <PsychicSensitivity>0</PsychicSensitivity>
+        <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+        <ComfyTemperatureMax>100</ComfyTemperatureMax>
+		<ArmorRating_Heat>0</ArmorRating_Heat>
+		<Flammability>6.0</Flammability>
+		<ToxicResistance>2.0</ToxicResistance>
+		<NecrotionResistance>2.0</NecrotionResistance>
+		<NecrotionEnvironmentResistance>2.0</NecrotionEnvironmentResistance>
+      </statBases>	  
+      <race>
+        <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+		<thinkTreeMain>Animal</thinkTreeMain>
+        <intelligence>ToolUser</intelligence>
+        <needsRest>false</needsRest>
+        <hasGenders>false</hasGenders>
+		<!--<baseHungerRate>0.35</baseHungerRate>-->
+        <foodType>None</foodType>
+        <lifeExpectancy>1500</lifeExpectancy>
+		<trainability>None</trainability>
+		<!--<giveNonToolUserBeatFireVerb>true</giveNonToolUserBeatFireVerb>-->
+        <!--<dutyBoss>CauseChaos</dutyBoss>-->
+        <!--<wildness>0.80</wildness>-->
+		<!--<nameGenerator>NamerAnimalGenericMale</nameGenerator>
+        <manhunterOnTameFailChance>0.30</manhunterOnTameFailChance>
+        <manhunterOnDamageChance>1.0</manhunterOnDamageChance>-->
+        <leatherDef>Leather_Human</leatherDef>
+        <hediffGiverSets>
+			<li>MutationsFriendly</li>
+		</hediffGiverSets> 		
+      </race>
+	  <comps>
+      </comps>
+	  <butcherProducts>
+		<Necro_AntigenOrgan>1</Necro_AntigenOrgan>
+      </butcherProducts>
+	  <!--<ingredient>
+        <mergeCompatibilityTags>
+          <li>HumanMeat</li>
+        </mergeCompatibilityTags>
+      </ingredient>
+	  <killedLeavingsPlayerHostile>
+	    <Necro_Meat>4</Necro_Meat>
+      </killedLeavingsPlayerHostile>-->
+	  <damageMultipliers>
+        <li>
+          <damageDef>Cleansing</damageDef>
+          <multiplier>4</multiplier>
+        </li>
+		<li>
+          <damageDef>CleansingGreater</damageDef>
+          <multiplier>7</multiplier>
+        </li>
+		<li>
+          <damageDef>CleansingBlast</damageDef>
+          <multiplier>20</multiplier>
+        </li>
+      </damageMultipliers>
+    </ThingDef>
+	
+	<PawnKindDef Name="BasePlayerNecronoidKind" Abstract="True">
+      <defaultFactionType>PlayerColony</defaultFactionType>
+	  <forceNormalGearQuality>true</forceNormalGearQuality>
+	  <minGenerationAge MayRequire="Ludeon.Rimworld.Biotech">200</minGenerationAge>
+    </PawnKindDef>
+	
+	<!-- Flesh Marine -->
+	
+	<ThingDef ParentName="BasePlayerNecronoid">
+      <defName>Necronoid_FleshMarine</defName>
+      <label>flesh marine</label>
+      <description>A reprogrammed necronoid entity that was used to defend key points of interests in well developed civilizations. This flesh marine is friendly towards humanoids and it's expendable, where they can be mass produced and used to defend colonies throughout the rim, though the downside is that it can only defend the biomass that it came from and it can't be ordered to directly attack hostiles.</description>
+      <statBases>
+        <MoveSpeed>2.7</MoveSpeed>
+		<Flammability>0</Flammability>
+        <ArmorRating_Sharp>1.06</ArmorRating_Sharp>
+        <ArmorRating_Blunt>0.45</ArmorRating_Blunt>
+        <ArmorRating_Heat>2.00</ArmorRating_Heat>
+		<NecrotionResistance>2.0</NecrotionResistance>
+		<NecrotionEnvironmentResistance>2.0</NecrotionEnvironmentResistance>
+      </statBases>
+	  <comps Inherit="False">
+		<li Class="CompProperties_ProjectileInterceptor">
+          <radius>1</radius>
+          <interceptGroundProjectiles>true</interceptGroundProjectiles>
+          <color>(1.0, 0.0, 0.1)</color>
+          <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+          <activeSound>BulletShield_Ambience</activeSound>
+          <hitPoints>280</hitPoints>
+          <hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
+          <chargeDurationTicks>5400</chargeDurationTicks>
+          <drawWithNoSelection>True</drawWithNoSelection>
+          <disarmedByEmpForTicks>1500</disarmedByEmpForTicks>
+          <gizmoTipKey>ProjectileInterceptorTip</gizmoTipKey>
+        </li>
+		 <li Class="CompProperties_MechPowerCell">
+          <totalPowerTicks>420000</totalPowerTicks>
+        </li>
+      </comps>
+	  <butcherProducts>
+        <Necro_Meat>15</Necro_Meat>
+      </butcherProducts>
+      <tools>
+        <li>
+          <label>left fist</label>
+          <capacities>
+			<li>NecronoidCut</li>
+          </capacities>
+          <power>14</power>
+          <cooldownTime>1.7</cooldownTime>
+          <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+          <surpriseAttack>
+            <extraMeleeDamages>
+              <li>
+                <def>Stun</def>
+                <amount>19</amount>
+              </li>
+            </extraMeleeDamages>
+          </surpriseAttack>
+        </li>
+        <li>
+          <label>right fist</label>
+          <capacities>
+			<li>NecronoidCut</li>
+          </capacities>
+          <power>19</power>
+          <cooldownTime>1.7</cooldownTime>
+          <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+          <surpriseAttack>
+            <extraMeleeDamages>
+              <li>
+                <def>Stun</def>
+                <amount>14</amount>
+              </li>
+            </extraMeleeDamages>
+          </surpriseAttack>
+        </li>
+        <li>
+          <label>head</label>
+          <capacities>
+            <li>NecronoidStab</li>
+          </capacities>
+          <power>10</power>
+          <cooldownTime>1.9</cooldownTime>
+          <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+          <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+        </li>
+      </tools>
+      <race>
+        <body>Human</body>
+        <baseBodySize>1.0</baseBodySize>
+        <baseHealthScale>1.0</baseHealthScale>
+		<makesFootprints>true</makesFootprints>
+		<useMeatFrom>Human</useMeatFrom>
+        <lifeStageAges>
+          <li>
+            <def>AnimalAdult</def>
+            <minAge>0.1</minAge>
+            <soundWounded>Pawn_Ghoul_Wounded</soundWounded>
+            <soundDeath>Pawn_Ghoul_Death</soundDeath>
+            <soundCall>Pawn_Ghoul_Call</soundCall>
+			<soundAngry>Pawn_Ghoul_Angry</soundAngry>
+          </li>
+        </lifeStageAges>
+        <soundCallIntervalRange>
+          <min>600</min>
+          <max>1200</max>
+        </soundCallIntervalRange>
+        <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+        <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+        <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+      </race>
+    </ThingDef>
+	
+	<PawnKindDef ParentName="BasePlayerNecronoidKind">
+      <defName>Necronoid_FleshMarine</defName>
+      <label>flesh marine</label>
+	  <labelPlural>flesh marines</labelPlural>
+      <race>Necronoid_FleshMarine</race>
+      <combatPower>350</combatPower>
+	  <forceNoDeathNotification>true</forceNoDeathNotification>
+      <lifeStages>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Monsters_Friendly/FetidMarine_Friendly/FetidMarine_Friendly</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.7</drawSize>
+            <shadowData>
+              <volume>(0.5, 0.5, 0.5)</volume>
+            </shadowData>
+          </bodyGraphicData>
+        </li>
+      </lifeStages>
+	  <apparelMoney>
+        <min>-10</min>
+        <max>-10</max>
+      </apparelMoney>
+	  <weaponMoney>
+        <min>5000</min>
+        <max>5000</max>
+      </weaponMoney>
+	  <weaponTags>
+	    <li>ADVBoneshardRifle</li>
+		<li>BoneshardAvenger</li>
+		<li>BoneshardSniper</li>
+		<li>BoneshardRifle</li>
+      </weaponTags>
+    </PawnKindDef>
+
+</Defs>

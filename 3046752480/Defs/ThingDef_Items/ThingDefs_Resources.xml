@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Food -->
+  
+  <ThingDef Name="NecroRawFoodBase" Abstract="True" ParentName="OrganicProductBase">
+    <label>Base necrotic food properties</label>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>4</daysToRotStart>
+        <rotDestroys>True</rotDestroys>
+      </li>
+    </comps>
+    <statBases>
+      <Nutrition>0.10</Nutrition>
+    </statBases>
+    <ingestible>
+      <foodType>Meat</foodType>
+      <preferability>DesperateOnly</preferability>
+      <ingestEffect>EatMeat</ingestEffect>
+      <ingestSound>RawMeat_Eat</ingestSound>     
+    </ingestible>
+    <thingCategories>
+      <li>MeatRaw</li>
+    </thingCategories>
+  </ThingDef>
+  
+  <ThingDef ParentName="NecroRawFoodBase">
+    <defName>Necro_Meat</defName>
+    <label>necro meat</label>
+    <description>Raw meat that came from butchered necronoids, apparently an infected by-product during the process of butchering. These slabs of meat is obviously being disposed of, due to its side effect of infecting any living being with the necronoid infection once consumed, but some individuals use this as a tool for toture and warcrimes.</description>
+    <tradeability>None</tradeability>
+    <graphicData>
+      <texPath>Things/Resources/Food/NecroMeat</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>1</Mass>
+      <MarketValue>0.5</MarketValue>
+    </statBases>
+    <ingestible>
+      <specialThoughtDirect>AteRawFood</specialThoughtDirect>
+	  <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Necronoid_Infection</hediffDef>
+          <severity>0.25</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>
+  
+  <ThingDef ParentName="NecroRawFoodBase">
+    <defName>Necro_AntigenOrgan</defName>
+    <label>antigen organ</label>
+    <description>A unique organ which contains antigens that combats the necronoid infection. According to analysis, these oragans are used to balance the necronoid infection inside a necronoid, preventing it from overwhelming the host and preserve the body for long periods of time. This organ is a vital ingredient in creating vaccines against the necronoid infection.</description>
+    <tradeability>None</tradeability>
+    <graphicData>
+      <texPath>Things/Resources/Necro_Parts/NecroOrgan</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>1</Mass>
+      <MarketValue>2.5</MarketValue>
+    </statBases>
+    <ingestible>
+      <specialThoughtDirect>AteRawFood</specialThoughtDirect>
+	  <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Necrotion_PartialResistance</hediffDef>
+          <!--<severity>0.25</severity>-->
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>
+  
+  <!-- Army Rations -->
+  
+  <ThingDef ParentName="MealBase">
+    <defName>ArmyRation</defName>
+    <label>army ration</label>
+    <description>A widely known food item used by militaries of well developed civilizations. The ration contains a variety of preserved meats and vegetables, canned goods, some salted biscuits, and breads. Although pre-cooked and packaged, it can still be edible for longer periods of time, which is perfect for long term military campaigns.</description>
+    <graphicData>
+      <texPath>Things/Resources/Food/ArmyRations</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+	<descriptionHyperlinks>
+      <HediffDef>RationHigh</HediffDef>
+    </descriptionHyperlinks>
+	<tradeability>Buyable</tradeability>
+    <statBases>
+      <DeteriorationRate>0.25</DeteriorationRate>
+      <MarketValue>30</MarketValue>
+      <Mass>0.3</Mass>
+      <WorkToMake>450</WorkToMake>
+      <Nutrition>0.9</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealSimple</preferability>
+      <optimalityOffsetHumanlikes>-5</optimalityOffsetHumanlikes>
+      <optimalityOffsetFeedingAnimals>-10</optimalityOffsetFeedingAnimals>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+	  <tasteThought>AteArmyRation</tasteThought>
+	  <outcomeDoers>
+		<li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RationHigh</hediffDef>
+          <severity>0.5</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <allowedArchonexusCount>40</allowedArchonexusCount>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>RationHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>ration high</label>
+    <labelNoun>a ration high</labelNoun>
+    <description>A benefitial effect after eating an army ration.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.75</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+		  <hungerRateFactor>0.75</hungerRateFactor>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>AteArmyRation</defName>
+    <durationDays>1</durationDays>
+    <stages>
+      <li>
+        <label>ate an army ration</label>
+        <description>Hm! Delicious, though it'll be great if I re-heat the army ration.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+    <replaceThoughts>
+      <li>AteLavishMeal</li>
+    </replaceThoughts>
+  </ThoughtDef>
+  
+  <!-- Army Ration Meal -->
+  
+  <ThingDef Name="MealArmyRationBase" ParentName="MealCookedIngredientless" Abstract="True">
+    <statBases>
+      <MarketValue>50</MarketValue>
+      <WorkToMake>900</WorkToMake>
+      <Nutrition>0.9</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealLavish</preferability>
+      <tasteThought>AteArmyRationMeal</tasteThought>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+	  <outcomeDoers>
+		<li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RationMealHigh</hediffDef>
+          <severity>0.5</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+  </ThingDef>
+
+  <ThingDef ParentName="MealArmyRationBase">
+    <defName>ArmyRationMeal</defName>
+    <label>army ration meal</label>
+    <description>A delicious meal made by reheating an army ration. Very fulfilling which reduces hunger rate temporarily.</description>
+    <graphicData>
+      <texPath>Things/Resources/Food/ARMeal</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+	<descriptionHyperlinks>
+      <HediffDef>RationMealHigh</HediffDef>
+    </descriptionHyperlinks>
+    <comps>
+      <li Class="CompProperties_Ingredients">
+        <splitTransferableFoodKind>true</splitTransferableFoodKind>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>RationMealHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>ration meal high</label>
+    <labelNoun>a ration high</labelNoun>
+    <description>A benefitial effect after eating an army ration meal.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.75</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+		  <hungerRateFactor>0.25</hungerRateFactor>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>AteArmyRationMeal</defName>
+    <durationDays>1</durationDays>
+    <stages>
+      <li>
+        <label>ate an army ration meal</label>
+        <description>Oh yeah, that hits the spot!</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+    <replaceThoughts>
+      <li>AteLavishMeal</li>
+    </replaceThoughts>
+  </ThoughtDef>
+  
+  <!-- Necro Meat Skewers -->
+  
+  <ThingDef Name="NecroSkewerBase" ParentName="MealCookedIngredientless" Abstract="True">
+    <statBases>
+      <MarketValue>10</MarketValue>
+      <WorkToMake>450</WorkToMake>
+      <Nutrition>0.9</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealSimple</preferability>
+      <tasteThought>AteNecroMeatSkewers</tasteThought>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+    </ingestible>
+  </ThingDef>
+
+  <ThingDef ParentName="NecroSkewerBase">
+    <defName>NecroMeatSkewers</defName>
+    <label>necro meat skewers</label>
+    <description>A delicious meat skewers made from necronoid meat.</description>
+    <graphicData>
+      <texPath>Things/Resources/Food/NecroSkewers</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Ingredients">
+        <splitTransferableFoodKind>true</splitTransferableFoodKind>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThoughtDef>
+    <defName>AteNecroMeatSkewers</defName>
+    <durationDays>1</durationDays>
+    <stages>
+      <li>
+        <label>ate a necro meat skewers</label>
+        <description>Hm.... It tastes good for some reason.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Custom Mech Beacon -->
+  
+  <ThingDef ParentName="ArtifactBase">
+    <defName>CustomMechBeacon</defName>
+    <label>modified mech beacon</label>
+    <description>A mechanoid artifact that was modified by an unknown outlader. Upon using it, the artifact will send a frequency where modified mechs will immediately converge in your area via transport pod, ready to serve their new master. Be warned, the mech will arrive un-controlled, so make sure you have a mechlink installed in you.</description>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Beauty>-4</Beauty>
+      <Mass>1</Mass>
+      <MarketValue>5500</MarketValue>
+      <DeteriorationRate>0</DeteriorationRate>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Resources/Artifacts/Beacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.20</drawSize>
+    </graphicData>
+	<tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseArtifact</useJob>
+        <useLabel>Activate {0_label}</useLabel>
+      </li>
+	  <li Class="CompProperties_Targetable">
+        <compClass>CompTargetable_AllPawnsOnTheMap</compClass>
+        <psychicSensitiveTargetsOnly>true</psychicSensitiveTargetsOnly>
+        <doCameraShake>true</doCameraShake>
+        <fleckOnTarget>PsycastPsychicEffect</fleckOnTarget>
+        <fleckOnUsed>PsycastAreaEffect</fleckOnUsed>
+        <fleckOnUsedScale>10</fleckOnUsedScale>
+      </li>
+      <li>
+        <compClass>CompTargetEffect_MoodBoost</compClass>
+      </li>
+      <li Class="CompProperties_UseEffectArtifact">
+        <sound>PsychicSoothePulserCast</sound>
+      </li>
+      <li Class="CompProperties_UseEffectGiveQuest">
+        <quest>ModifiedMechArrival</quest>
+        <skipIfMechlinkAlreadySentMechs>true</skipIfMechlinkAlreadySentMechs>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <QuestScriptDef>
+    <defName>ModifiedMechArrival</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <isRootSpecial>true</isRootSpecial>
+    <autoAccept>true</autoAccept>
+    <defaultHidden>true</defaultHidden>
+    <questContentRules>
+      <rulesStrings>
+        <li>arrivalLetterLabel->Modified mechanoid have arrived</li>
+        <li>arrivalLetterText->A [mech_label] has dropped from orbit in response to the activated mech beacon.\n\nIt seems to arrive uncontrolled, and will wander around until someone takes control of it, but it seems to be eager to serve its new master.</li>
+      </rulesStrings>
+    </questContentRules>
+    <root Class="QuestNode_Root_MechanitorStartingMech">
+      <mechTypes>
+        <li>Mech_CourierSix</li>
+		<li>Mech_CentipedeSheriff</li>
+		<li>Mech_GunSlinger</li>
+      </mechTypes>
+    </root>
+  </QuestScriptDef>
+  
+  <!-- Supply Sack -->
+  
+  <ThingDef ParentName="ResourceBase" Name="SupplySack" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <stackLimit>1</stackLimit>
+    <useHitPoints>true</useHitPoints>   
+	<tradeability>None</tradeability>
+  </ThingDef>
+
+  <ThingDef ParentName="SupplySack">
+    <defName>Supply_Sack</defName>
+    <label>sack of supplies</label>
+    <description>A sack full of useful supplies, containing a mobile gas cooker, chemfuel, army rations, medicines, components, a custom mech beacon, and a note.</description>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>10.0</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Resources/ResourceSack/Sack</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>2.5</drawSize>
+    </graphicData>
+	<thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+	<killedLeavings>
+	  <MobileGasCooker>1</MobileGasCooker>
+	  <Chemfuel>100</Chemfuel>
+	  <Apparel_GasMask>1</Apparel_GasMask>
+	  <ArmyRation>60</ArmyRation>
+	  <MedicineIndustrial>30</MedicineIndustrial>
+      <ComponentIndustrial>20</ComponentIndustrial>
+	  <Vaccine_AntiNecrotion>10</Vaccine_AntiNecrotion>
+	  <PaperNote>1</PaperNote>
+    </killedLeavings>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Open Sack</useLabel>
+		<useDuration>650</useDuration>
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf">
+        <delayTicks>0</delayTicks>
+        <spawnLeavings>true</spawnLeavings>
+      </li>
+    </comps>
+	<tickerType>Normal</tickerType>
+    <!--<filthLeaving>Filth_MachineBits</filthLeaving>-->
+  </ThingDef>
+  
+  <!-- Note -->
+  
+  <ThingDef ParentName="ResourceBase">
+      <defName>PaperNote</defName>
+      <label>note</label>
+      <description>It appears to be a note written for you, it reads......\n\nDear Outlander\n\nHey! You are finally awake. You may not know me, and apparently it is for the best, but I left you some few supplies inside the sack and some weapons outside the sack, please pay no mind the crude design of the weapons and properly arm yourself.\n\nI bet you are confused on why you are recieving these, but you're gonna need it, because in 7 days, those "things" will come after you, and they will never stop. No matter what happens, don't panic. Establish yourself asap and build lots of traps, but no matter what you do, do not fight them in melee range, because you'll get infected if you do. If that happens, use the vaccines inside the sack, because if you leave it be, you're fucked.\n\nAlways remember to wear your gasmask at all times, since necrotion fallout can randomly appear in your region, and if you're exposed on it for too long, you'll become permanently paralyzed where you'll basically become a sitting duck.\n\nThis is all I can do for you, the rest is up to you. Good luck!\n\nBM</description>
+      <graphicData>
+        <texPath>Things/Resources/Note/Note</texPath>
+        <graphicClass>Graphic_Single</graphicClass>
+      </graphicData>
+	  <soundInteract>Metal_Drop</soundInteract>
+      <soundDrop>Standard_Drop</soundDrop>
+	  <tickerType>Normal</tickerType>
+      <stackLimit>1</stackLimit>
+      <healthAffectsPrice>false</healthAffectsPrice>
+      <statBases>
+        <MaxHitPoints>20</MaxHitPoints>
+        <MarketValue>1</MarketValue>
+        <Mass>0.001</Mass>
+        <Flammability>2.0</Flammability>
+        <DeteriorationRate>0.1</DeteriorationRate>
+      </statBases>
+      <burnableByRecipe>false</burnableByRecipe>
+      <thingCategories>
+        <li>ItemsMisc</li>
+      </thingCategories>
+    </ThingDef>
+
+  <!-- Misc Stuff -->
+
+  <ThingDef>
+        <thingClass>ThingWithComps</thingClass>
+		<defName>Parasite</defName>
+        <label>parasite</label>
+        <description>contains parasites.</description>
+        <graphicData>
+            <texPath>Things/Item/Health/HealthItem</texPath>
+            <color>(155,165,148)</color>
+            <graphicClass>Graphic_Single</graphicClass>
+            <drawSize>0.80</drawSize>
+        </graphicData>
+        <tickerType>Normal</tickerType>
+		<comps>
+          <li>
+              <compClass>Necro.SpawnParasites</compClass>
+          </li>
+        </comps>
+  </ThingDef>
+
+</Defs>
