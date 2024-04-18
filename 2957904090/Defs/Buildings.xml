@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <DesignatorDropdownGroupDef>
+    <defName>VNPE_BedConnectors</defName>
+    <label>bed connectors</label>
+  </DesignatorDropdownGroupDef>
+
+  <ThingDef Name="VNPE_BedConnector" ParentName="BuildingBase">
+    <designationCategory>VCHE_PipeNetworks</designationCategory>
+    <defName>VNPE_BedConnector</defName>
+    <label>universal bed connector</label>
+    <description>Connects any underlying bed or enterable building to VNPE, hemogen and hygiene networks.</description>
+    <graphicData>
+      <texPath>ConnectedBed/BedConnector</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <clearBuildingArea>false</clearBuildingArea>
+    <altitudeLayer>PawnUnused</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.2</fillPercent>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <WorkToBuild>6000</WorkToBuild>
+      <Mass>12</Mass>
+      <Flammability>0.8</Flammability>
+    </statBases>
+    <costList>
+      <ComponentIndustrial>1</ComponentIndustrial>
+      <Steel>25</Steel>
+      <Plasteel>25</Plasteel>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <isEdifice>false</isEdifice>
+    </building>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <designatorDropdown>VNPE_BedConnectors</designatorDropdown>
+    <comps>
+      <li MayRequire="VanillaExpanded.VNutrientE" Class="PipeSystem.CompProperties_Resource">
+        <pipeNet>VNPE_NutrientPasteNet</pipeNet>
+      </li>
+      <li MayRequire="vanillaracesexpanded.sanguophage" Class="PipeSystem.CompProperties_Resource">
+        <pipeNet>VRE_HemogenNet</pipeNet>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>35</basePowerConsumption>
+      </li>
+      <li Class="DubsBadHygiene.CompProperties_Pipe" MayRequire="Dubwise.DubsBadHygiene">
+        <mode>Sewage</mode>
+      </li>
+      <li Class="zed_0xff.VNPE.CompProperties_BedConnector" />
+    </comps>
+    <tickerType>Rare</tickerType>
+    <researchPrerequisites>
+      <li>HospitalBed</li>
+      <li>NutrientPaste</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <uiOrder>2021</uiOrder>
+    <uiIconScale>0.75</uiIconScale>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <placeWorkers>
+      <li>zed_0xff.VNPE.PlaceWorker_BedConnector</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ThingDef ParentName="VNPE_BedConnector">
+    <defName>VNPE_LoftBedConnector</defName>
+    <label>universal loft bed connector</label>
+    <description>Absolutely the same as the non-loft one, just different height visually. Perfectly fits Loft beds from the mod of the same name.</description>
+    <graphicData>
+      <drawOffset>(0,0,0.5)</drawOffset>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="HospitalBed">
+    <defName>VNPE_ConnectedBed</defName>
+    <label>connected bed</label>
+    <description>A hospital bed with integrated nutrient paste dripper, hemogen network connection and hygiene facilities.</description>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Bed/HospitalBed</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <statBases>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>40</Mass>
+    </statBases>
+    <comps>
+      <li MayRequire="VanillaExpanded.VNutrientE" Class="PipeSystem.CompProperties_Resource">
+        <pipeNet>VNPE_NutrientPasteNet</pipeNet>
+      </li>
+      <li MayRequire="vanillaracesexpanded.sanguophage" Class="PipeSystem.CompProperties_Resource">
+        <pipeNet>VRE_HemogenNet</pipeNet>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>25</basePowerConsumption>
+      </li>
+      <li Class="DubsBadHygiene.CompProperties_Pipe" MayRequire="Dubwise.DubsBadHygiene">
+        <mode>Sewage</mode>
+      </li>
+      <li Class="zed_0xff.VNPE.CompProperties_BedConnector">
+        <graphicData>
+          <texPath>ConnectedBed/BedConnector</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <drawSize>(2, 2)</drawSize>
+          <!-- 6 = AltitudeLayer.PawnRope - AltitudeLayer.Building  -->
+          <drawOffsetNorth>(0,   6,-0.5)</drawOffsetNorth>
+          <drawOffsetSouth>(0,   6, 0.5)</drawOffsetSouth>
+          <drawOffsetEast>(-0.5, 6, 0)</drawOffsetEast>
+          <drawOffsetWest>( 0.5, 6, 0)</drawOffsetWest>
+        </graphicData>
+      </li>
+    </comps>
+    <costStuffCount>110</costStuffCount>
+    <costList>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>HospitalBed</li>
+      <li>NutrientPaste</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <designationCategory>VCHE_PipeNetworks</designationCategory>
+    <tickerType>Rare</tickerType>
+    <uiIconPath>ConnectedBed/ConnectedBed_Icon</uiIconPath>
+    <uiOrder>2020</uiOrder>
+  </ThingDef>
+</Defs>
