@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+    <!-- Space Marine Armour -->
+    <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>rhinogwpatch</modId>
+        <key>toggle.spacemarine.armour</key>
+        <!--By default, apply the patch-->
+        <defaultValue>true</defaultValue>
+        <caseTrue>
+
+            <!-- Fix Space Marine apparel -->
+            <Operation Class="PatchOperationReplace">
+                <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]/apparelRequired</xpath>
+                <value>
+                    <apparelRequired Inherit="False">
+                        <li>GW_SM_AquillaArmor</li>
+                        <li>GW_SM_AquillaHelmet_Simple</li>
+                        <li>GW_SM_AquillaShoulderPads_TypeA</li>
+                        <li>GW_SM_AquillaBackpack</li>
+                        <li>GW_SM_FibroVest</li>
+                    </apparelRequired>
+                </value>
+            </Operation>
+
+            <Operation Class="PatchOperationReplace">
+                <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]/apparelTags</xpath>
+                <value>
+                    <apparelTags Inherit="False">
+                        <li>GW_Aquilla</li>
+                        <li>GW_SM_OnSkin</li>
+                    </apparelTags>
+                </value>
+            </Operation>
+
+
+            <!-- Primaris -->
+            <Operation Class="XmlExtensions.PatchOperationAddOrReplace">
+                <xpath>/Defs/PawnKindDef[@Name = "PrimarisMarineBasePawn"]</xpath>
+                <value>
+                    <apparelRequired Inherit="False">
+                        <li>GW_SM_TacticusArmor</li>
+                        <li>GW_SM_TacticusHelmet_Simple</li>
+                        <li>GW_SM_TacticusShoulderPads_TypeA</li>
+                        <li>GW_SM_TacticusBackpack</li>
+                        <li>GW_SM_FibroVest</li>
+                    </apparelRequired>
+                </value>
+            </Operation>
+            <Operation Class="XmlExtensions.PatchOperationAddOrReplace">
+                <xpath>/Defs/PawnKindDef[@Name = "PrimarisMarineBasePawn"]</xpath>
+                <value>
+                    <apparelTags Inherit="False">
+                        <li>GW_Tacticus</li>
+                        <li>GW_SM_OnSkin</li>
+                    </apparelTags>
+                </value>
+            </Operation>
+
+            <!-- Custodes 
+                Inherit apparel etc from Primaris
+            -->
+
+            <!-- Primarch 
+                Currently set to tacticus with laurels
+            -->
+            <Operation Class="XmlExtensions.PatchOperationAddOrReplace">
+                <xpath>/Defs/PawnKindDef[defName = "BEWH_LordCommander"]</xpath>
+                <value>
+                    <apparelRequired Inherit="False">
+                        <li>GW_SM_TacticusArmor</li>
+                        <li>GW_SM_TacticusHelmet_Laurels</li>
+                        <li>GW_SM_TacticusShoulderPads_TypeD</li>
+                        <li>GW_SM_TacticusBackpack</li>
+                        <li>GW_SM_FibroVest</li>
+                    </apparelRequired>
+                </value>
+            </Operation>
+            <Operation Class="XmlExtensions.PatchOperationAddOrReplace">
+                <xpath>/Defs/PawnKindDef[defName = "BEWH_LordCommander"]</xpath>
+                <value>
+                    <apparelTags Inherit="False">
+                        <li>GW_Tacticus</li>
+                        <li>GW_SM_OnSkin</li>
+                    </apparelTags>
+                </value>
+            </Operation>
+
+
+            
+
+            <!-- Grimworld Armour Painting -->
+            <Operation Class="XmlExtensions.UseSetting">
+                <modId>rhinogwpatch</modId>
+                <key>toggle.spacemarine.armourtype</key>
+                <defaultValue>1</defaultValue>
+                <apply>
+                    <Operation Class="XmlExtensions.PatchByCase">
+                        <value>{toggle.spacemarine.armourtype}</value>
+                        <cases>
+                            <!-- Ultramarines (Default) -->
+                            <li>
+                                <value>1</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(56, 93, 162)</colorA>
+                                                    <colorB>(56, 93, 162)</colorB>
+                                                    <colorC>(192, 157, 88)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Black Templars -->
+                            <li>
+                                <value>2</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(57, 56, 61)</colorA>
+                                                    <colorB>(255, 255, 255)</colorB>
+                                                    <colorC>(192, 157, 88)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Blood Ravens -->
+                            <li>
+                                <value>3</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(133, 39, 39)</colorA>
+                                                    <colorB>(133, 39, 39)</colorB>
+                                                    <colorC>(69, 68, 75)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Carcharodons -->
+                            <li>
+                                <value>4</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(211, 211, 211)</colorA>
+                                                    <colorB>(211, 211, 211)</colorB>
+                                                    <colorC>(69, 68, 75)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Imperial Fists -->
+                            <li>
+                                <value>5</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(250, 176, 67)</colorA>
+                                                    <colorB>(250, 176, 67)</colorB>
+                                                    <colorC>(180, 65, 74)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Iron Hands -->
+                            <li>
+                                <value>6</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(57, 56, 61)</colorA>
+                                                    <colorB>(57, 56, 61)</colorB>
+                                                    <colorC>(255, 255, 255)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Legion of the Damned -->
+                            <li>
+                                <value>7</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(183, 42, 42)</colorA>
+                                                    <colorB>(16, 97, 56)</colorB>
+                                                    <colorC>(16, 97, 56)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Minotaurs -->
+                            <li>
+                                <value>8</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(57, 56, 61)</colorA>
+                                                    <colorB>(57, 56, 61)</colorB>
+                                                    <colorC>(57, 56, 61)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Raven Guard -->
+                            <li>
+                                <value>9</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(57, 56, 61)</colorA>
+                                                    <colorB>(57, 56, 61)</colorB>
+                                                    <colorC>(183, 184, 187)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Salamanders -->
+                            <li>
+                                <value>10</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(6, 136, 71)</colorA>
+                                                    <colorB>(6, 136, 71)</colorB>
+                                                    <colorC>(192, 157, 88)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- Space Wolves -->
+                            <li>
+                                <value>11</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(126, 170, 194)</colorA>
+                                                    <colorB>(126, 170, 194)</colorB>
+                                                    <colorC>(192, 157, 88)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+                            <!-- White Scars -->
+                            <li>
+                                <value>12</value> 
+                                <apply>
+                                    <Operation Class="PatchOperationAddModExtension">
+                                        <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                                        <value>
+                                            <li Class="GW4KArmor.DefaultPaletteExtension">
+                                                <defaultPalette>
+                                                    <colorA>(255, 255, 255)</colorA>
+                                                    <colorB>(255, 255, 255)</colorB>
+                                                    <colorC>(180, 65, 74)</colorC>
+                                                </defaultPalette>
+                                            </li>
+                                        </value>
+                                    </Operation>
+                                </apply>
+                            </li>
+
+
+                        </cases>
+                    </Operation>
+                </apply>
+            </Operation>
+
+        </caseTrue>
+    </Operation>
+
+    <!-- Space Marine Weapons -->
+    <Operation Class="XmlExtensions.OptionalPatch">
+        <modId>rhinogwpatch</modId>
+        <key>toggle.spacemarine.weapons</key>
+        <!--By default, apply the patch-->
+        <defaultValue>true</defaultValue>
+        <caseTrue>
+
+            <!-- Space Marine Weapons -->
+            <Operation Class="PatchOperationReplace">
+                <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]/weaponTags</xpath>
+                <value>
+                    <weaponTags>
+                        <li>GW_SM_RangedHeavy</li>
+                    </weaponTags>
+                </value>
+            </Operation>
+
+            <!-- CE Ammo/Sidearm Stuff
+            <Operation Class="PatchOperationAddModExtension">
+                <xpath>/Defs/PawnKindDef[@Name = "SpaceMarineBasePawn"]</xpath>
+                <value>
+                    <li Class="CombatExtended.LoadoutPropertiesExtension" MayRequire="ceteam.combatextended">
+                        <primaryMagazineCount>
+                            <min>3</min>
+                            <max>5</max>
+                        </primaryMagazineCount>
+                        <sidearms>
+                            <li>
+                                <generateChance>1</generateChance>
+                                <sidearmMoney>
+                                    <min>1000</min>
+                                    <max>2000</max>
+                                </sidearmMoney>
+                                <weaponTags>
+                                    <li>GW_SM_Melee</li>
+                                </weaponTags>
+                            </li>
+                        </sidearms>
+                    </li>
+                </value>
+            </Operation> -->
+
+        </caseTrue>
+    </Operation>
+
+</Patch>
