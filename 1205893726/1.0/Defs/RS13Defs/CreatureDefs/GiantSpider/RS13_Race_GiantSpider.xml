@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef Abstract="True" ParentName="RS13_AnimalThingBase" Name="RS13_BaseSpider">
+    <statBases>
+      <ToxicSensitivity>0</ToxicSensitivity>
+      <ComfyTemperatureMax>60</ComfyTemperatureMax>
+    </statBases>
+    <race>
+      <fleshType>Insectoid</fleshType>
+      <bloodDef>Filth_BloodInsect</bloodDef>
+      <meatColor>(160,168,139)</meatColor>
+      <meatMarketValue>0.5</meatMarketValue>
+      <foodType>OmnivoreAnimal, AnimalProduct</foodType>
+      <manhunterOnDamageChance>0.5</manhunterOnDamageChance>
+      <manhunterOnTameFailChance>0.1</manhunterOnTameFailChance>
+    </race>
+  </ThingDef>
+  
+  <ThingDef ParentName="RS13_BaseSpider">
+    <defName>RS13_AnimalThing_GiantSpider</defName>
+    <label>Giant Spider</label>
+    <description>Giant spiders that grow from spiderlings, spread webs and attack anyone they encounter, causing brute damage from the hit and toxin damage from the venom they inflict. Changelings have the ability to infest the station with spiderlings that will grow into these.</description>
+    <statBases>
+      <MoveSpeed>4</MoveSpeed>
+      <ComfyTemperatureMin>-70</ComfyTemperatureMin>
+      <MarketValue>500</MarketValue>
+      <LeatherAmount>0</LeatherAmount>
+      <ArmorRating_Blunt>0.18</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.20</ArmorRating_Sharp>
+    </statBases>
+    <tools>
+	<li>
+        <label>venomous fangs</label>
+        <capacities>
+          <li>ToxicBite</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+    </tools>
+    <race>
+      <intelligence>ToolUser</intelligence>
+      <body>RS13_Body_GiantSpider</body>
+      <baseHungerRate>0.35</baseHungerRate>
+      <baseBodySize>1.2</baseBodySize>
+      <baseHealthScale>1.5</baseHealthScale>
+      <gestationPeriodDays>4</gestationPeriodDays>
+      <meatLabel>insect meat</meatLabel>
+      <wildness>0.95</wildness>
+      <lifeExpectancy>6</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>RS13_LifeStage_GiantSpiderBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>RS13_LifeStage_GiantSpiderJuvenile</def>
+          <minAge>0.03</minAge>
+        </li>
+        <li>
+          <def>RS13_LifeStage_GiantSpiderAdult</def>
+          <minAge>0.2</minAge>
+          <soundWounded>Pawn_BigInsect_Pain</soundWounded>
+          <soundDeath>Pawn_BigInsect_Death</soundDeath>
+          <soundCall>Pawn_BigInsect_Call</soundCall>
+          <soundAngry>Pawn_BigInsect_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+    </race>
+    <comps>
+      <li Class="CompProperties_EggLayer">
+        <eggFertilizedDef>RS13_SpawnEgg_GiantSpider</eggFertilizedDef>
+		<eggUnfertilizedDef>RS13_SpawnEgg_GiantSpider</eggUnfertilizedDef>
+        <eggFertilizationCountMax>1</eggFertilizationCountMax>
+        <eggLayIntervalDays>0.5</eggLayIntervalDays>
+        <eggProgressUnfertilizedMax>1</eggProgressUnfertilizedMax>
+        <eggCountRange>1</eggCountRange>
+      </li>
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>RS13_Building_Web</thingToSpawn>
+        <spawnCount>1</spawnCount>
+        <spawnIntervalRange>
+          <min>5000</min>
+          <max>5000</max>
+        </spawnIntervalRange>
+        <spawnMaxAdjacent>5</spawnMaxAdjacent>
+        <inheritFaction>true</inheritFaction>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <PawnKindDef ParentName="RS13_AnimalKindBase">
+    <defName>RS13_AnimalKind_GiantSpider</defName>
+    <label>Giant Spider</label>
+    <race>RS13_AnimalThing_GiantSpider</race>
+    <combatPower>50</combatPower>
+    <canArriveManhunter>false</canArriveManhunter>
+    <ecoSystemWeight>0.50</ecoSystemWeight>
+    <lifeStages>
+      <li>
+	    <label>Spiderling</label>
+        <bodyGraphicData>
+          <texPath>Creatures/GiantSpider/spiderling</texPath>
+          <drawSize>1</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Creatures/GiantSpider/spiderlingdead</texPath>
+          <drawSize>1</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+	    <label>Juvenile Giant Spider</label>
+        <bodyGraphicData>
+          <texPath>Creatures/GiantSpider/giantspider</texPath>
+          <drawSize>1</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Creatures/GiantSpider/giantspiderdead</texPath>
+          <drawSize>1</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Creatures/GiantSpider/giantspider</texPath>
+          <drawSize>1</drawSize>
+          <shadowData>
+            <volume>(0.5, 0.7, 0.43)</volume>
+            <offset>(0,0,-0.1)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Creatures/GiantSpider/giantspiderdead</texPath>
+          <drawSize>1</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+</Defs>

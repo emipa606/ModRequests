@@ -1,0 +1,552 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Building_APC</defName>
+    <label>APC</label>
+    <description>APC's control local power distribution, functioning as a focal point where all machines draw power from the grid.</description>
+    <thingClass>Rimstation13.RS13_Building_PowerSwitch</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Buildings/Machines/APC/apc</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+    </graphicData>
+    <building>
+      <isEdifice>false</isEdifice>
+	  <canPlaceOverWall>true</canPlaceOverWall>
+	  <ai_chillDestination>false</ai_chillDestination>
+    </building>
+	<placeWorkers>
+		<li>Rimstation13.RS13_PlaceWorker_OnWall</li>
+		<li>Rimstation13.RS13_PlaceWorker_RoomInRot</li>
+	</placeWorkers> 
+	 <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+	<thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+	<minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <altitudeLayer>Item</altitudeLayer>
+    <passability>Standable</passability>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <WorkToBuild>200</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>-2</Beauty>
+	  <Mass>5</Mass>
+    </statBases>
+    <placingDraggableDimensions>0</placingDraggableDimensions>
+    <costList>
+      <RS13_Resource_Circuit_PowerControlModule>1</RS13_Resource_Circuit_PowerControlModule>
+      <RS13_Resource_Processed_Cable>5</RS13_Resource_Processed_Cable>
+	  <RS13_SteelSheet>5</RS13_SteelSheet>
+    </costList>
+    <comps>
+	  <li Class="CompProperties_Battery">
+        <storedEnergyMax>5000</storedEnergyMax>
+        <efficiency>1</efficiency>
+        <shortCircuitInRain>true</shortCircuitInRain>
+        <transmitsPower>true</transmitsPower>
+      </li>
+	  <li Class="CompProperties_Flickable"/>
+    </comps>
+	<clearBuildingArea>false</clearBuildingArea>
+	<defaultPlacingRot>North</defaultPlacingRot>
+    <rotatable>true</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <tickerType>Normal</tickerType>
+    <designationCategory>Power</designationCategory>
+    <constructEffect>ConstructMetal</constructEffect>
+  </ThingDef>
+
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_PortableGenerator</defName>
+    <label>Portable Generator</label>
+    <description>A Portable Generator that creates a small amount of power by burning refined Plasma.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/Machines/PortableGenerator/portgen</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(1.93,1,1.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+	<thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+	<minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>150</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>1.0</fillPercent>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Beauty>-20</Beauty>
+	  <Mass>20</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(1,1)</size>
+    <costList>
+      <RS13_SteelSheet>5</RS13_SteelSheet>
+      <RS13_Resource_Processed_Cable>5</RS13_Resource_Processed_Cable>
+      <RS13_Resource_Circuit_PortableGenerator>1</RS13_Resource_Circuit_PortableGenerator>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-800</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>2</fuelConsumptionRate>
+        <fuelCapacity>50.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>RS13_PlasmaSheet</li>
+          </thingDefs>
+        </fuelFilter>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(80,112,180,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>6</heatPerSecond>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>0</explosiveRadius>
+        <explosiveExpandPerFuel>0.95</explosiveExpandPerFuel>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+        <startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+        <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+        <preExplosionSpawnChance>1</preExplosionSpawnChance>
+        <wickTicks>
+          <min>70</min>
+          <max>150</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Power</designationCategory>
+    <constructEffect>ConstructMetal</constructEffect>
+  </ThingDef>
+
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_SMESUnit</defName>
+    <label>SMES Unit</label>
+    <description>Stores electricity for later use. Charged batteries explode when exposed to rain or fire.</description>
+    <thingClass>Rimstation13.RS13_Building_Battery</thingClass>
+    <graphicData>
+      <texPath>Buildings/Machines/SMES/smes</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+	<building>
+		<allowWireConnection>false</allowWireConnection>
+	</building>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>70</pathCost>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.40</fillPercent>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>800</WorkToBuild>
+      <Mass>20</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>-15</Beauty>
+    </statBases>
+    <size>(1,1)</size>
+    <costList>
+      <RS13_SteelSheet>10</RS13_SteelSheet>
+      <RS13_Resource_Processed_SteelRod>4</RS13_Resource_Processed_SteelRod>
+      <RS13_Resource_Processed_Cable>6</RS13_Resource_Processed_Cable>
+      <RS13_Resource_Circuit_SMESUnit>1</RS13_Resource_Circuit_SMESUnit>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Battery">
+        <storedEnergyMax>200000</storedEnergyMax>
+        <efficiency>0.4</efficiency>
+        <shortCircuitInRain>true</shortCircuitInRain>
+        <transmitsPower>true</transmitsPower>
+      </li>
+	  <li Class="CompProperties_Flickable"/>
+    </comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Power</designationCategory>
+    <staticSunShadowHeight>0.2</staticSunShadowHeight>
+    <constructEffect>ConstructMetal</constructEffect>
+    <canOverlapZones>false</canOverlapZones>
+  </ThingDef>
+
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machines_Power_SolarPanel</defName>
+    <label>Solar Panel</label>
+    <description>Produces electricity from sunlight. Does not work in the dark or under artificial light.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/Machines/Solar/solarpanel</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(1,1,1)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0,0.6,4,2.8)</rect>
+      </damageData>
+    </graphicData>
+	<building>
+		<allowWireConnection>false</allowWireConnection>
+	</building>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>70</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+	<minifiedDef>RS13_MinifiedThing</minifiedDef>
+	<thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>0.7</Flammability>
+	  <Mass>10</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <size>(1,1)</size>
+    <costList>
+      <RS13_SteelSheet>5</RS13_SteelSheet>
+      <RS13_GlassSheet>10</RS13_GlassSheet>
+      <RS13_Resource_Processed_SteelRod>4</RS13_Resource_Processed_SteelRod>
+      <RS13_Resource_Processed_Cable>6</RS13_Resource_Processed_Cable>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>Rimstation13.RS13_CompPowerPlantSolar</compClass>
+        <basePowerConsumption>-1</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Power</designationCategory>
+    <constructEffect>ConstructMetal</constructEffect>
+  </ThingDef>
+  
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_ParticleAccelerator</defName>
+    <label>Particle Accelerator</label>
+    <description>Uses charged particles to feed a Singularity, increasing its radiation output and size. Has unfortunate effects on any organics in the radius. A power level of zero maintains the singularity at its current size.</description>
+    <thingClass>Rimstation13.RS13_Building_ParticleAccelerator</thingClass>
+    <graphicData>
+      <texPath>Buildings/Machines/ParticleAccelerator/particleaccelerator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,4)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+	<building>
+		<allowWireConnection>false</allowWireConnection>
+	</building>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>70</pathCost>
+    <placeWorkers>
+      <li>Rimstation13.RS13_PlaceWorker_ParticleAccelerator</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <rotatable>true</rotatable>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.40</fillPercent>
+    <tickerType>Normal</tickerType>
+    <minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>800</WorkToBuild>
+      <Mass>20</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>-15</Beauty>
+    </statBases>
+    <size>(3,4)</size>
+    <costList>
+      <RS13_SteelSheet>200</RS13_SteelSheet>
+    </costList>
+    <comps>
+	  <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+      <li Class="Rimstation13.RS13_CompProperties_ParticleAccelerator">
+      </li>
+	  <li Class="CompProperties_Flickable"/>
+	  <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>RS13_Machine_Power_RadiationCollector</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <staticSunShadowHeight>0.2</staticSunShadowHeight>
+    <constructEffect>ConstructMetal</constructEffect>
+    <canOverlapZones>false</canOverlapZones>
+  </ThingDef>
+  
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_FieldGenerator</defName>
+    <label>Plasma Field Generator</label>
+    <description>Field Generators generate beams of plasma designed to contain the destructive power of a singularity.</description>
+    <thingClass>Rimstation13.RS13_Building_FieldGenerator</thingClass>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Buildings/Machines/FieldGenerator/fieldgenerator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.3, 1.0, 0.3)</volume>
+      </shadowData>
+    </graphicData>
+    <castEdgeShadows>false</castEdgeShadows>
+    <placeWorkers>
+      <li>Rimstation13.RS13_PlaceWorker_FieldGenerator</li>
+    </placeWorkers>
+    <minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.6</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>0.0</Flammability>
+      <Mass>20</Mass>
+    </statBases>
+    <building>
+      <allowAutoroof>false</allowAutoroof>
+    </building>
+    <holdsRoof>false</holdsRoof>
+    <size>(1,1)</size>
+    <costList>
+      <RS13_SteelSheet>50</RS13_SteelSheet>
+    </costList>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(-1,0,-1)</interactionCellOffset>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Power</designationCategory>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>false</shortCircuitInRain>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+	<li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(5,240,240,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_Beam</defName>
+    <label>Beam</label>
+    <description>A beam of energy.</description>
+    <thingClass>Rimstation13.RS13_Building_Beam</thingClass>
+    <category>Projectile</category> <!-- To avoid wiping items when being spawned (like a freshly uninstalled pylon). -->
+    <graphicData>
+      <texPath>Buildings/Machines/FieldGenerator/beam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <passability>Impassable</passability>
+    <tickerType>Normal</tickerType>
+    <selectable>false</selectable>
+    <fillPercent>0.0</fillPercent>
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <Flammability>0.0</Flammability>
+    </statBases>
+    <holdsRoof>false</holdsRoof>
+    <building>
+      <isInert>true</isInert>
+      <isEdifice>false</isEdifice>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <allowAutoroof>false</allowAutoroof>
+    </building>
+    <size>(1,1)</size>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+	<comps>
+		<li Class="CompProperties_Glower">
+			<glowRadius>2</glowRadius>
+			<glowColor>(5,240,240,0)</glowColor>
+		</li>
+	</comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_RadiationCollector</defName>
+    <label>Radiation Collector</label>
+    <description>Radiation Collectors absorb radiation from the Singularity to generate power, the more collectors you have the faster the Singularity dissipates.</description>
+    <thingClass>Rimstation13.RS13_Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/Machines/RadiationCollector/radcollector</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(1.93,1,1.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+	<thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+	<minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>150</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>1.0</fillPercent>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Beauty>-20</Beauty>
+	  <Mass>20</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(1,1)</size>
+    <costList>
+      <RS13_SteelSheet>100</RS13_SteelSheet>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>Rimstation13.RS13_CompRadiationCollector</compClass>
+        <basePowerConsumption>-1</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>2</fuelConsumptionRate>
+        <fuelCapacity>50.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>RS13_PlasmaSheet</li>
+          </thingDefs>
+        </fuelFilter>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(80,112,180,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>6</heatPerSecond>
+      </li>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>6</maxSimultaneous>
+        <maxDistance>8</maxDistance>
+      </li>
+    </comps>
+	<placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+  </ThingDef>
+  
+  <ThingDef ParentName="RS13_BuildingBase">
+    <defName>RS13_Machine_Power_SingularityGenerator</defName>
+    <label>Singularity Generator</label>
+    <description>Generates a highly dangerous, volatile and mobile tear in space-time. Be sure to contain it with beam walls before releasing, unless you have a fetish for destruction.</description>
+    <thingClass>Rimstation13.RS13_Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/Machines/SingularityGenerator/singularitygenerator</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(1.93,1,1.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+	<thingCategories>
+      <li>BuildingsPower</li>
+    </thingCategories>
+	<minifiedDef>RS13_MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>150</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>1.0</fillPercent>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Beauty>0</Beauty>
+	  <Mass>20</Mass>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(1,1)</size>
+    <costList>
+      <RS13_SteelSheet>100</RS13_SteelSheet>
+    </costList>
+	<comps>
+		<li Class="Rimstation13.RS13_CompProperties_CompSingularityGenerator">
+			<delay>5</delay>
+			<explodes>True</explodes>
+			<explodeRadius>1</explodeRadius>
+			<explosiveDamageType>Flame</explosiveDamageType>
+			<damageAmount>20</damageAmount>
+		</li>
+	</comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+  </ThingDef>
+  
+</Defs>
