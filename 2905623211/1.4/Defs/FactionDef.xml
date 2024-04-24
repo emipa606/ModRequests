@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <FactionDef Name="DevDesigner_FactionBase" Abstract="True" ParentName="FactionBase">
+    <pawnSingular>elf</pawnSingular>
+    <pawnsPlural>elves</pawnsPlural>
+    <categoryTag>Medieval</categoryTag>
+    <listOrderPriority>40</listOrderPriority>
+    <settlementGenerationWeight>1</settlementGenerationWeight>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <canMakeRandomly>true</canMakeRandomly>
+    <canStageAttacks>true</canStageAttacks>
+    <canSiege>false</canSiege>
+    <techLevel>Medieval</techLevel>
+
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Tribal</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <hidden>false</hidden>
+    <settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
+    <allowedArrivalTemperatureRange>-40~45</allowedArrivalTemperatureRange>
+
+    <disallowedMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudism</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Blindsight</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">HumanPrimacy</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">MaleSupremacy</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">FemaleSupremacy</li>
+    </disallowedMemes>
+    <disallowedPrecepts>
+      <li MayRequire="Ludeon.RimWorld.Ideology">IdeoDiversity_Exalted</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">IdeoDiversity_Respected</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">IdeoDiversity_Approved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">IdeoDiversity_Standard</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">BodyMod_Approved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">SleepAccelerator_Preferred</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">NeuralSupercharge_Preferred</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">AgeReversal_Demanded</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Slavery_Abhorrent</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Slavery_Horrible</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Slavery_Disapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Execution_Abhorrent</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Execution_Horrible</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">ApparelDesired_Strong_Subordinate</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">ApparelDesired_Soft_Subordinate</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_Mandatory</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_Mandatory</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_CoveringAnythingButGroinDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_CoveringAnythingButGroinDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_UncoveredGroinDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_UncoveredGroinDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_UncoveredGroinOrChestDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_UncoveredGroinOrChestDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_UncoveredGroinChestOrHairDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_UncoveredGroinChestOrHairDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_UncoveredGroinChestHairOrFaceDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_UncoveredGroinChestHairOrFaceDisapproved</li>
+    </disallowedPrecepts>
+    <structureMemeWeights>
+      <Structure_TheistEmbodied MayRequire="Ludeon.RimWorld.Ideology">1</Structure_TheistEmbodied>
+    </structureMemeWeights>
+
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(0,35)</li>
+        <li>(70, 50)</li>
+        <li>(700, 100)</li>
+        <li>(1300, 150)</li>
+        <li>(100000, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+    <raidCommonalityFromPointsCurve>
+      <points>
+        <li>(0, 1)</li> <!--Constant 1 at all points levels-->
+      </points>
+    </raidCommonalityFromPointsCurve>
+
+    <raidLootMaker>TribeRaidLootMaker</raidLootMaker>
+    <caravanTraderKinds>
+      <li>Caravan_Neolithic_BulkGoods</li>
+      <li>Caravan_Neolithic_WarMerchant</li>
+      <li>Caravan_Neolithic_Slaver</li>
+      <li>Caravan_Neolithic_ShamanMerchant</li>
+    </caravanTraderKinds>
+    <visitorTraderKinds>
+      <li>Visitor_Neolithic_Standard</li>
+    </visitorTraderKinds>
+    <baseTraderKinds>
+      <li>Base_Neolithic_Standard</li>
+    </baseTraderKinds>
+  </FactionDef>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- DevDesigner_WoodElvesFaction -->
+  <FactionDef ParentName="DevDesigner_FactionBase">
+    <defName>DevDesigner_WoodElvesFaction</defName>
+    <label>Wood elves</label>
+    <description>A small wood elf clan.</description>
+    <leaderTitle>spellsinger</leaderTitle>
+    <factionIconPath>UI/WoodElvesIcon</factionIconPath>
+    <basicMemberKind>DevDesigner_WoodElves_Penitent</basicMemberKind>
+    <allowedCultures>
+      <li>DevDesinger_WoodElves_Culture</li>
+    </allowedCultures>
+    <factionNameMaker>DevDesigner_WoodElves_NamerFaction</factionNameMaker>
+    <settlementNameMaker>DevDesigner_WoodElves_NamerSettlement</settlementNameMaker>
+
+    <xenotypeSet>
+      <xenotypeChances>
+        <DevDesigner_XenotypeWoodElves MayRequire="Ludeon.RimWorld.Biotech">1</DevDesigner_XenotypeWoodElves>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <permanentEnemy>false</permanentEnemy>
+    <hostileToFactionlessHumanlikes>false</hostileToFactionlessHumanlikes>
+
+    <colorSpectrum>
+      <li>(117,145,97)</li>
+      <li>(66,83,58)</li>
+    </colorSpectrum>
+
+    <fixedLeaderKinds>
+      <li>DevDesigner_WoodElves_Shaman</li>
+    </fixedLeaderKinds>
+
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">TreeConnection</li>
+    </requiredMemes>
+
+    <maxConfigurableAtWorldCreation>4</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>60</configurationListOrderPriority>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>160</commonality>
+        <options>
+          <DevDesigner_WoodElves_Archer>1</DevDesigner_WoodElves_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_WoodElves_Archer>60</DevDesigner_WoodElves_Archer>
+          <DevDesigner_WoodElves_Guard>25</DevDesigner_WoodElves_Guard>
+          <DevDesigner_WoodElves_Bladedancer>15</DevDesigner_WoodElves_Bladedancer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_WoodElves_Bladedancer>40</DevDesigner_WoodElves_Bladedancer>
+          <DevDesigner_WoodElves_Guard>30</DevDesigner_WoodElves_Guard>
+          <DevDesigner_WoodElves_StagKnigth>20</DevDesigner_WoodElves_StagKnigth>
+          <DevDesigner_WoodElves_Archer>10</DevDesigner_WoodElves_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>150</commonality>
+        <options>
+          <DevDesigner_WoodElves_Bladedancer>1</DevDesigner_WoodElves_Bladedancer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <DevDesigner_WoodElves_Archer>25</DevDesigner_WoodElves_Archer>
+          <DevDesigner_WoodElves_Guard>25</DevDesigner_WoodElves_Guard>
+          <DevDesigner_WoodElves_Bladedancer>24</DevDesigner_WoodElves_Bladedancer>
+          <DevDesigner_WoodElves_StagKnigth>25</DevDesigner_WoodElves_StagKnigth>
+          <DevDesigner_WoodElves_Shaman>1</DevDesigner_WoodElves_Shaman>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <DevDesigner_WoodElves_Trader>1</DevDesigner_WoodElves_Trader>
+        </traders>
+        <carriers>
+          <DevDesigner_AncientDeer>6</DevDesigner_AncientDeer>
+        </carriers>
+        <guards>
+          <DevDesigner_WoodElves_Archer>25</DevDesigner_WoodElves_Archer>
+          <DevDesigner_WoodElves_Guard>35</DevDesigner_WoodElves_Guard>
+          <DevDesigner_WoodElves_Bladedancer>25</DevDesigner_WoodElves_Bladedancer>
+          <DevDesigner_WoodElves_StagKnigth>10</DevDesigner_WoodElves_StagKnigth>
+          <DevDesigner_WoodElves_Shaman>5</DevDesigner_WoodElves_Shaman>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <DevDesigner_WoodElves_Archer>25</DevDesigner_WoodElves_Archer>
+          <DevDesigner_WoodElves_Guard>35</DevDesigner_WoodElves_Guard>
+          <DevDesigner_WoodElves_Bladedancer>24</DevDesigner_WoodElves_Bladedancer>
+          <DevDesigner_WoodElves_StagKnigth>15</DevDesigner_WoodElves_StagKnigth>
+          <DevDesigner_WoodElves_Shaman>1</DevDesigner_WoodElves_Shaman>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement_RangedOnly</kindDef>
+        <options>
+          <DevDesigner_WoodElves_Archer>50</DevDesigner_WoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_WoodElves_Archer>1</DevDesigner_WoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_WoodElves_Archer>1</DevDesigner_WoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_WoodElves_Archer>1</DevDesigner_WoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_WoodElves_Penitent>1</DevDesigner_WoodElves_Penitent>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- DevDesigner_SavageWoodElvesFaction -->
+  <FactionDef ParentName="DevDesigner_FactionBase">
+    <defName>DevDesigner_SavageWoodElvesFaction</defName>
+    <label>savage Wood elves</label>
+    <description>A small wood elf clan.</description>
+    <leaderTitle>spellsinger</leaderTitle>
+    <factionIconPath>UI/WoodElvesIcon</factionIconPath>
+    <basicMemberKind>DevDesigner_SavageWoodElves_Penitent</basicMemberKind>
+    <allowedCultures>
+      <li>DevDesinger_WoodElves_Culture</li>
+    </allowedCultures>
+    <factionNameMaker>DevDesigner_WoodElves_NamerFaction</factionNameMaker>
+    <settlementNameMaker>DevDesigner_WoodElves_NamerSettlement</settlementNameMaker>
+
+    <xenotypeSet>
+      <xenotypeChances>
+        <DevDesigner_XenotypeWoodElves MayRequire="Ludeon.RimWorld.Biotech">1</DevDesigner_XenotypeWoodElves>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <naturalEnemy>true</naturalEnemy>
+    <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
+
+    <colorSpectrum>
+      <li>(134,45,45)</li>
+    </colorSpectrum>
+
+    <fixedLeaderKinds>
+      <li>DevDesigner_SavageWoodElves_Shaman</li>
+    </fixedLeaderKinds>
+
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Supremacist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
+    </requiredMemes>
+
+    <maxConfigurableAtWorldCreation>4</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>60</configurationListOrderPriority>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>160</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>1</DevDesigner_SavageWoodElves_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>60</DevDesigner_SavageWoodElves_Archer>
+          <DevDesigner_SavageWoodElves_Guard>25</DevDesigner_SavageWoodElves_Guard>
+          <DevDesigner_SavageWoodElves_Bladedancer>15</DevDesigner_SavageWoodElves_Bladedancer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Bladedancer>40</DevDesigner_SavageWoodElves_Bladedancer>
+          <DevDesigner_SavageWoodElves_Guard>30</DevDesigner_SavageWoodElves_Guard>
+          <DevDesigner_SavageWoodElves_StagKnigth>20</DevDesigner_SavageWoodElves_StagKnigth>
+          <DevDesigner_SavageWoodElves_Archer>10</DevDesigner_SavageWoodElves_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>150</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Bladedancer>1</DevDesigner_SavageWoodElves_Bladedancer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>25</DevDesigner_SavageWoodElves_Archer>
+          <DevDesigner_SavageWoodElves_Guard>25</DevDesigner_SavageWoodElves_Guard>
+          <DevDesigner_SavageWoodElves_Bladedancer>24</DevDesigner_SavageWoodElves_Bladedancer>
+          <DevDesigner_SavageWoodElves_StagKnigth>25</DevDesigner_SavageWoodElves_StagKnigth>
+          <DevDesigner_SavageWoodElves_Shaman>1</DevDesigner_SavageWoodElves_Shaman>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <DevDesigner_SavageWoodElves_Trader>1</DevDesigner_SavageWoodElves_Trader>
+        </traders>
+        <carriers>
+          <DevDesigner_AncientDeer>6</DevDesigner_AncientDeer>
+        </carriers>
+        <guards>
+          <DevDesigner_SavageWoodElves_Archer>25</DevDesigner_SavageWoodElves_Archer>
+          <DevDesigner_SavageWoodElves_Guard>35</DevDesigner_SavageWoodElves_Guard>
+          <DevDesigner_SavageWoodElves_Bladedancer>25</DevDesigner_SavageWoodElves_Bladedancer>
+          <DevDesigner_SavageWoodElves_StagKnigth>10</DevDesigner_SavageWoodElves_StagKnigth>
+          <DevDesigner_SavageWoodElves_Shaman>5</DevDesigner_SavageWoodElves_Shaman>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>25</DevDesigner_SavageWoodElves_Archer>
+          <DevDesigner_SavageWoodElves_Guard>35</DevDesigner_SavageWoodElves_Guard>
+          <DevDesigner_SavageWoodElves_Bladedancer>24</DevDesigner_SavageWoodElves_Bladedancer>
+          <DevDesigner_SavageWoodElves_StagKnigth>15</DevDesigner_SavageWoodElves_StagKnigth>
+          <DevDesigner_SavageWoodElves_Shaman>1</DevDesigner_SavageWoodElves_Shaman>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement_RangedOnly</kindDef>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>50</DevDesigner_SavageWoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>1</DevDesigner_SavageWoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>1</DevDesigner_SavageWoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Archer>1</DevDesigner_SavageWoodElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_SavageWoodElves_Penitent>1</DevDesigner_SavageWoodElves_Penitent>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- DevDesigner_DarkElvesFaction -->
+  <FactionDef ParentName="DevDesigner_FactionBase">
+    <defName>DevDesigner_DarkElvesFaction</defName>
+    <label>Dark elves</label>
+    <description>A small dark elf coven.</description>
+    <leaderTitle>Witch King</leaderTitle>
+    <factionIconPath>UI/DarkElvesIcon</factionIconPath>
+    <basicMemberKind>DevDesigner_DarkElves_Penitent</basicMemberKind>
+    <factionNameMaker>DevDesigner_DarkElves_NamerFaction</factionNameMaker>
+    <settlementNameMaker>DevDesigner_DarkElves_NamerSettlement</settlementNameMaker>
+    <allowedCultures>
+      <li>DevDesinger_DarkElves_Culture</li>
+    </allowedCultures>
+
+    <xenotypeSet>
+      <xenotypeChances>
+        <DevDesigner_XenotypeDarkElves MayRequire="Ludeon.RimWorld.Biotech">1</DevDesigner_XenotypeDarkElves>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <permanentEnemy>false</permanentEnemy>
+    <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
+
+    <colorSpectrum>
+      <li>(63,53,85)</li>
+    </colorSpectrum>
+
+    <fixedLeaderKinds>
+      <li>DevDesigner_DarkElves_Morathi</li>
+    </fixedLeaderKinds>
+
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
+    </requiredMemes>
+
+    <maxConfigurableAtWorldCreation>4</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>60</configurationListOrderPriority>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>160</commonality>
+        <options>
+          <DevDesigner_DarkElves_Dreadspear>50</DevDesigner_DarkElves_Dreadspear>
+          <DevDesigner_DarkElves_Darkshard>50</DevDesigner_DarkElves_Darkshard>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_DarkElves_DarkRider>100</DevDesigner_DarkElves_DarkRider>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_DarkElves_Dreadspear>50</DevDesigner_DarkElves_Dreadspear>
+          <DevDesigner_DarkElves_Darkshard>50</DevDesigner_DarkElves_Darkshard>
+          <DevDesigner_DarkElves_DarkRider>20</DevDesigner_DarkElves_DarkRider>
+          <DevDesigner_DarkElves_ColdOneKnight>30</DevDesigner_DarkElves_ColdOneKnight>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>150</commonality>
+        <options>
+          <DevDesigner_DarkElves_Witch>1</DevDesigner_DarkElves_Witch>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <DevDesigner_DarkElves_BlackGuard>25</DevDesigner_DarkElves_BlackGuard>
+          <DevDesigner_DarkElves_Dreadspear>25</DevDesigner_DarkElves_Dreadspear>
+          <DevDesigner_DarkElves_Witch>24</DevDesigner_DarkElves_Witch>
+          <DevDesigner_DarkElves_Darkshard>25</DevDesigner_DarkElves_Darkshard>
+          <DevDesigner_DarkElves_Sorceress>1</DevDesigner_DarkElves_Sorceress>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <DevDesigner_DarkElves_Trader>1</DevDesigner_DarkElves_Trader>
+        </traders>
+        <carriers>
+          <DevDesigner_AncientDeer>6</DevDesigner_AncientDeer>
+        </carriers>
+        <guards>
+          <DevDesigner_DarkElves_Dreadspear>25</DevDesigner_DarkElves_Dreadspear>
+          <DevDesigner_DarkElves_BlackGuard>35</DevDesigner_DarkElves_BlackGuard>
+          <DevDesigner_DarkElves_Witch>25</DevDesigner_DarkElves_Witch>
+          <DevDesigner_DarkElves_ColdOneKnight>10</DevDesigner_DarkElves_ColdOneKnight>
+          <DevDesigner_DarkElves_Sorceress>5</DevDesigner_DarkElves_Sorceress>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <DevDesigner_DarkElves_Dreadspear>25</DevDesigner_DarkElves_Dreadspear>
+          <DevDesigner_DarkElves_Darkshard>35</DevDesigner_DarkElves_Darkshard>
+          <DevDesigner_DarkElves_Witch>24</DevDesigner_DarkElves_Witch>
+          <DevDesigner_DarkElves_ColdOneKnight>15</DevDesigner_DarkElves_ColdOneKnight>
+          <DevDesigner_DarkElves_Sorceress>1</DevDesigner_DarkElves_Sorceress>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement_RangedOnly</kindDef>
+        <options>
+          <DevDesigner_DarkElves_Darkshard>50</DevDesigner_DarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_DarkElves_Darkshard>1</DevDesigner_DarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_DarkElves_Darkshard>1</DevDesigner_DarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_DarkElves_Darkshard>1</DevDesigner_DarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_DarkElves_Penitent>1</DevDesigner_DarkElves_Penitent>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- DevDesigner_RoughDarkElvesFaction -->
+  <FactionDef ParentName="DevDesigner_FactionBase">
+    <defName>DevDesigner_RoughDarkElvesFaction</defName>
+    <label>rough Dark elves</label>
+    <description>A small dark elf coven.</description>
+    <leaderTitle>Witch King</leaderTitle>
+    <factionIconPath>UI/DarkElvesIcon</factionIconPath>
+    <basicMemberKind>DevDesigner_RoughDarkElves_Penitent</basicMemberKind>
+    <factionNameMaker>DevDesigner_DarkElves_NamerFaction</factionNameMaker>
+    <settlementNameMaker>DevDesigner_DarkElves_NamerSettlement</settlementNameMaker>
+    <allowedCultures>
+      <li>DevDesinger_DarkElves_Culture</li>
+    </allowedCultures>
+
+    <xenotypeSet>
+      <xenotypeChances>
+        <DevDesigner_XenotypeDarkElves MayRequire="Ludeon.RimWorld.Biotech">1</DevDesigner_XenotypeDarkElves>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <naturalEnemy>true</naturalEnemy>
+    <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
+
+    <colorSpectrum>
+      <li>(134,45,45)</li>
+    </colorSpectrum>
+
+    <fixedLeaderKinds>
+      <li>DevDesigner_RoughDarkElves_Morathi</li>
+    </fixedLeaderKinds>
+
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
+    </requiredMemes>
+
+    <maxConfigurableAtWorldCreation>4</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>60</configurationListOrderPriority>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>160</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Dreadspear>50</DevDesigner_RoughDarkElves_Dreadspear>
+          <DevDesigner_RoughDarkElves_Darkshard>50</DevDesigner_RoughDarkElves_Darkshard>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_DarkRider>100</DevDesigner_RoughDarkElves_DarkRider>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Dreadspear>50</DevDesigner_RoughDarkElves_Dreadspear>
+          <DevDesigner_RoughDarkElves_Darkshard>50</DevDesigner_RoughDarkElves_Darkshard>
+          <DevDesigner_RoughDarkElves_DarkRider>20</DevDesigner_RoughDarkElves_DarkRider>
+          <DevDesigner_RoughDarkElves_ColdOneKnight>30</DevDesigner_RoughDarkElves_ColdOneKnight>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>150</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Witch>1</DevDesigner_RoughDarkElves_Witch>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <DevDesigner_RoughDarkElves_BlackGuard>25</DevDesigner_RoughDarkElves_BlackGuard>
+          <DevDesigner_RoughDarkElves_Dreadspear>25</DevDesigner_RoughDarkElves_Dreadspear>
+          <DevDesigner_RoughDarkElves_Witch>24</DevDesigner_RoughDarkElves_Witch>
+          <DevDesigner_RoughDarkElves_Darkshard>25</DevDesigner_RoughDarkElves_Darkshard>
+          <DevDesigner_RoughDarkElves_Sorceress>1</DevDesigner_RoughDarkElves_Sorceress>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <DevDesigner_RoughDarkElves_Trader>1</DevDesigner_RoughDarkElves_Trader>
+        </traders>
+        <carriers>
+          <DevDesigner_AncientDeer>6</DevDesigner_AncientDeer>
+        </carriers>
+        <guards>
+          <DevDesigner_RoughDarkElves_Dreadspear>25</DevDesigner_RoughDarkElves_Dreadspear>
+          <DevDesigner_RoughDarkElves_BlackGuard>35</DevDesigner_RoughDarkElves_BlackGuard>
+          <DevDesigner_RoughDarkElves_Witch>25</DevDesigner_RoughDarkElves_Witch>
+          <DevDesigner_RoughDarkElves_ColdOneKnight>10</DevDesigner_RoughDarkElves_ColdOneKnight>
+          <DevDesigner_RoughDarkElves_Sorceress>5</DevDesigner_RoughDarkElves_Sorceress>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <DevDesigner_RoughDarkElves_Dreadspear>25</DevDesigner_RoughDarkElves_Dreadspear>
+          <DevDesigner_RoughDarkElves_Darkshard>35</DevDesigner_RoughDarkElves_Darkshard>
+          <DevDesigner_RoughDarkElves_Witch>24</DevDesigner_RoughDarkElves_Witch>
+          <DevDesigner_RoughDarkElves_ColdOneKnight>15</DevDesigner_RoughDarkElves_ColdOneKnight>
+          <DevDesigner_RoughDarkElves_Sorceress>1</DevDesigner_RoughDarkElves_Sorceress>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement_RangedOnly</kindDef>
+        <options>
+          <DevDesigner_RoughDarkElves_Darkshard>50</DevDesigner_RoughDarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Darkshard>1</DevDesigner_RoughDarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Darkshard>1</DevDesigner_RoughDarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Darkshard>1</DevDesigner_RoughDarkElves_Darkshard>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughDarkElves_Penitent>1</DevDesigner_RoughDarkElves_Penitent>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- DevDesigner_HighElvesFaction -->
+  <FactionDef ParentName="DevDesigner_FactionBase">
+    <defName>DevDesigner_HighElvesFaction</defName>
+    <label>High elves</label>
+    <description>A small high elf colony.</description>
+    <leaderTitle>Phoenix King</leaderTitle>
+    <factionIconPath>UI/HighElvesIcon</factionIconPath>
+    <basicMemberKind>DevDesigner_HighElves_Penitent</basicMemberKind>
+    <allowedCultures>
+      <li>DevDesinger_HighElves_Culture</li>
+    </allowedCultures>
+    <factionNameMaker>DevDesigner_HighElves_NamerFaction</factionNameMaker>
+    <settlementNameMaker>DevDesigner_WoodElves_NamerSettlement</settlementNameMaker>
+
+    <xenotypeSet>
+      <xenotypeChances>
+        <DevDesigner_XenotypeHighElves MayRequire="Ludeon.RimWorld.Biotech">1</DevDesigner_XenotypeHighElves>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <permanentEnemy>false</permanentEnemy>
+    <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
+
+    <colorSpectrum>
+      <li>(46,85,134)</li>
+    </colorSpectrum>
+
+    <fixedLeaderKinds>
+      <li>DevDesigner_HighElves_Alarielle</li>
+    </fixedLeaderKinds>
+
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Loyalist</li>
+    </requiredMemes>
+
+    <maxConfigurableAtWorldCreation>4</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>60</configurationListOrderPriority>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>160</commonality>
+        <options>
+          <DevDesigner_HighElves_Spearman>50</DevDesigner_HighElves_Spearman>
+          <DevDesigner_HighElves_Archer>50</DevDesigner_HighElves_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_HighElves_ShadowWarrior>100</DevDesigner_HighElves_ShadowWarrior>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_HighElves_Spearman>25</DevDesigner_HighElves_Spearman>
+          <DevDesigner_HighElves_Archer>25</DevDesigner_HighElves_Archer>
+          <DevDesigner_HighElves_WhiteLion>50</DevDesigner_HighElves_WhiteLion>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>150</commonality>
+        <options>
+          <DevDesigner_HighElves_Archer>70</DevDesigner_HighElves_Archer>
+          <DevDesigner_HighElves_DragonPrince>30</DevDesigner_HighElves_DragonPrince>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <DevDesigner_HighElves_Spearman>25</DevDesigner_HighElves_Spearman>
+          <DevDesigner_HighElves_Archer>25</DevDesigner_HighElves_Archer>
+          <DevDesigner_HighElves_DragonPrince>24</DevDesigner_HighElves_DragonPrince>
+          <DevDesigner_HighElves_WhiteLion>25</DevDesigner_HighElves_WhiteLion>
+          <DevDesigner_HighElves_Lord>1</DevDesigner_HighElves_Lord>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <DevDesigner_HighElves_Trader>1</DevDesigner_HighElves_Trader>
+        </traders>
+        <carriers>
+          <DevDesigner_AncientDeer>6</DevDesigner_AncientDeer>
+        </carriers>
+        <guards>
+          <DevDesigner_HighElves_Spearman>25</DevDesigner_HighElves_Spearman>
+          <DevDesigner_HighElves_Archer>25</DevDesigner_HighElves_Archer>
+          <DevDesigner_HighElves_DragonPrince>24</DevDesigner_HighElves_DragonPrince>
+          <DevDesigner_HighElves_WhiteLion>25</DevDesigner_HighElves_WhiteLion>
+          <DevDesigner_HighElves_Lord>1</DevDesigner_HighElves_Lord>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <DevDesigner_HighElves_Spearman>20</DevDesigner_HighElves_Spearman>
+          <DevDesigner_HighElves_Archer>20</DevDesigner_HighElves_Archer>
+          <DevDesigner_HighElves_DragonPrince>24</DevDesigner_HighElves_DragonPrince>
+          <DevDesigner_HighElves_WhiteLion>25</DevDesigner_HighElves_WhiteLion>
+          <DevDesigner_HighElves_ShadowWarrior>10</DevDesigner_HighElves_ShadowWarrior>
+          <DevDesigner_HighElves_Lord>1</DevDesigner_HighElves_Lord>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement_RangedOnly</kindDef>
+        <options>
+          <DevDesigner_HighElves_Archer>70</DevDesigner_HighElves_Archer>
+          <DevDesigner_HighElves_ShadowWarrior>30</DevDesigner_HighElves_ShadowWarrior>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_HighElves_Archer>1</DevDesigner_HighElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_HighElves_Archer>1</DevDesigner_HighElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_HighElves_Archer>1</DevDesigner_HighElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_HighElves_Penitent>1</DevDesigner_HighElves_Penitent>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- DevDesigner_RoughHighElvesFaction -->
+  <FactionDef ParentName="DevDesigner_FactionBase">
+    <defName>DevDesigner_RoughHighElvesFaction</defName>
+    <label>rough High elves</label>
+    <description>A small high elf colony.</description>
+    <leaderTitle>Phoenix King</leaderTitle>
+    <factionIconPath>UI/HighElvesIcon</factionIconPath>
+    <basicMemberKind>DevDesigner_RoughHighElves_Penitent</basicMemberKind>
+    <allowedCultures>
+      <li>DevDesinger_HighElves_Culture</li>
+    </allowedCultures>
+    <factionNameMaker>DevDesigner_HighElves_NamerFaction</factionNameMaker>
+    <settlementNameMaker>DevDesigner_WoodElves_NamerSettlement</settlementNameMaker>
+
+    <xenotypeSet>
+      <xenotypeChances>
+        <DevDesigner_XenotypeHighElves MayRequire="Ludeon.RimWorld.Biotech">1</DevDesigner_XenotypeHighElves>
+      </xenotypeChances>
+    </xenotypeSet>
+
+    <naturalEnemy>true</naturalEnemy>
+    <hostileToFactionlessHumanlikes>true</hostileToFactionlessHumanlikes>
+
+    <colorSpectrum>
+      <li>(134,45,45)</li>
+    </colorSpectrum>
+
+    <fixedLeaderKinds>
+      <li>DevDesigner_RoughHighElves_Alarielle</li>
+    </fixedLeaderKinds>
+
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Loyalist</li>
+    </requiredMemes>
+
+    <maxConfigurableAtWorldCreation>4</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>60</configurationListOrderPriority>
+
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>160</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Spearman>50</DevDesigner_RoughHighElves_Spearman>
+          <DevDesigner_RoughHighElves_Archer>50</DevDesigner_RoughHighElves_Archer>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_ShadowWarrior>100</DevDesigner_RoughHighElves_ShadowWarrior>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Spearman>25</DevDesigner_RoughHighElves_Spearman>
+          <DevDesigner_RoughHighElves_Archer>25</DevDesigner_RoughHighElves_Archer>
+          <DevDesigner_RoughHighElves_WhiteLion>50</DevDesigner_RoughHighElves_WhiteLion>
+        </options>
+      </li>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>150</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Archer>70</DevDesigner_RoughHighElves_Archer>
+          <DevDesigner_RoughHighElves_DragonPrince>30</DevDesigner_RoughHighElves_DragonPrince>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <DevDesigner_RoughHighElves_Spearman>25</DevDesigner_RoughHighElves_Spearman>
+          <DevDesigner_RoughHighElves_Archer>25</DevDesigner_RoughHighElves_Archer>
+          <DevDesigner_RoughHighElves_DragonPrince>24</DevDesigner_RoughHighElves_DragonPrince>
+          <DevDesigner_RoughHighElves_WhiteLion>25</DevDesigner_RoughHighElves_WhiteLion>
+          <DevDesigner_RoughHighElves_Lord>1</DevDesigner_RoughHighElves_Lord>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <DevDesigner_RoughHighElves_Trader>1</DevDesigner_RoughHighElves_Trader>
+        </traders>
+        <carriers>
+          <DevDesigner_AncientDeer>6</DevDesigner_AncientDeer>
+        </carriers>
+        <guards>
+          <DevDesigner_RoughHighElves_Spearman>25</DevDesigner_RoughHighElves_Spearman>
+          <DevDesigner_RoughHighElves_Archer>25</DevDesigner_RoughHighElves_Archer>
+          <DevDesigner_RoughHighElves_DragonPrince>24</DevDesigner_RoughHighElves_DragonPrince>
+          <DevDesigner_RoughHighElves_WhiteLion>25</DevDesigner_RoughHighElves_WhiteLion>
+          <DevDesigner_RoughHighElves_Lord>1</DevDesigner_RoughHighElves_Lord>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <DevDesigner_RoughHighElves_Spearman>20</DevDesigner_RoughHighElves_Spearman>
+          <DevDesigner_RoughHighElves_Archer>20</DevDesigner_RoughHighElves_Archer>
+          <DevDesigner_RoughHighElves_DragonPrince>24</DevDesigner_RoughHighElves_DragonPrince>
+          <DevDesigner_RoughHighElves_WhiteLion>25</DevDesigner_RoughHighElves_WhiteLion>
+          <DevDesigner_RoughHighElves_ShadowWarrior>10</DevDesigner_RoughHighElves_ShadowWarrior>
+          <DevDesigner_RoughHighElves_Lord>1</DevDesigner_RoughHighElves_Lord>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement_RangedOnly</kindDef>
+        <options>
+          <DevDesigner_RoughHighElves_Archer>70</DevDesigner_RoughHighElves_Archer>
+          <DevDesigner_RoughHighElves_ShadowWarrior>30</DevDesigner_RoughHighElves_ShadowWarrior>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Miners</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Archer>1</DevDesigner_RoughHighElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Hunters</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Archer>1</DevDesigner_RoughHighElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Loggers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Archer>1</DevDesigner_RoughHighElves_Archer>
+        </options>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <kindDef>Farmers</kindDef>
+        <commonality>1</commonality>
+        <options>
+          <DevDesigner_RoughHighElves_Penitent>1</DevDesigner_RoughHighElves_Penitent>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+</Defs>
