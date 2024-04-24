@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>DevDesigner_VFEM_BloodWine</defName>
+    <label>blood wine</label>
+    <description>Made with a secret blend of grapes and blood, this rich and full-bodied red wine is sure to please even the most discerning palates. Sip it slowly and savor the taste of the forbidden.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/BloodWine</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <equippedAngleOffset>-150</equippedAngleOffset>
+    <rotatable>false</rotatable>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>40</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+      <Nutrition>0.08</Nutrition>
+    </statBases>
+
+    <ingestible>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.26</joy>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AlcoholHigh</hediffDef>
+          <severity>0.25</severity>
+          <toleranceChemical>Alcohol</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AlcoholTolerance</hediffDef>
+          <severity>0.021</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <equipmentType>Primary</equipmentType>
+    <techLevel>Medieval</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Alcohol</chemical>
+        <addictiveness>0.010</addictiveness>
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+      <li Class="VFEMedieval.CompProperties_IngestedThoughtFromQuality">
+        <ingestedThought>DevDesigner_VFEM_DrankBloodWine</ingestedThought>
+      </li>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+    </comps>
+    <tools>
+      <li>
+        <label>bottle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>neck</label>
+        <capacities>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <modExtensions>
+      <li Class="VFECore.ThingDefExtension">
+        <usableWithShields>true</usableWithShields>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>DevDesigner_VFEM_BloodMust</defName>
+    <label>blood grape must</label>
+    <description>Crushed grapes with blood. Needs to undergo fermentation in order to become blood wine.</description>
+
+    <graphicData>
+      <texPath>Things/Item/Resource/BloodGrapeMust/BloodGrapeMust</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <statBases>
+      <DeteriorationRate>1.0</DeteriorationRate>
+      <MarketValue>5.5</MarketValue>
+      <Mass>0.8</Mass>
+      <Flammability>0.2</Flammability>
+      <MaxHitPoints>60</MaxHitPoints>
+    </statBases>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>5</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>DevDesigner_VFEM_Make_BloodMustWine</defName>
+    <label>make blood grape must</label>
+    <description>Make must from grapes and blood.</description>
+    <jobString>Making blood must.</jobString>
+    <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Brewing</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <workAmount>1000</workAmount>
+    <targetCountAdjustment>1</targetCountAdjustment>
+    <recipeUsers>
+      <li>Brewery</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VFEM_RawGrapes</li>
+          </thingDefs>
+        </filter>
+        <count>25</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HemogenPack</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>VFEM_RawGrapes</li>
+        <li>HemogenPack</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <DevDesigner_VFEM_BloodMust>5</DevDesigner_VFEM_BloodMust>
+    </products>
+  </RecipeDef>
+
+  <ProcessorFramework.ProcessDef>
+    <defName>DevDesigner_VFEM_BloodWine</defName>
+    <thingDef>DevDesigner_VFEM_BloodWine</thingDef>
+    <ingredientFilter>
+      <thingDefs>
+        <li>DevDesigner_VFEM_BloodMust</li>
+      </thingDefs>
+    </ingredientFilter>
+    <capacityFactor>1.0</capacityFactor>
+    <efficiency>0.4</efficiency>
+    <usesTemperature>true</usesTemperature>
+    <temperatureSafe>-1.0~32.0</temperatureSafe>
+    <temperatureIdeal>7.0~32.0</temperatureIdeal>
+    <ruinedPerDegreePerHour>2.5</ruinedPerDegreePerHour>
+    <usesQuality>true</usesQuality>
+    <qualityDays>(1, 3, 8, 14, 20, 50, 120)</qualityDays>
+  </ProcessorFramework.ProcessDef>
+
+</Defs>
