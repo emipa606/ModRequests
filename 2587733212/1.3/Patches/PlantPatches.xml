@@ -1,0 +1,181 @@
+﻿<Patch>
+
+	<!--
+	Plants made cultivable by Wild Cultivation:
+	(changed)
+	- Agave*
+	- Grass*%
+	- Tall grass*%
+	
+	(added)
+	- Astragalus
+	- Brambles
+	- Bush
+	- Clivia
+	- Low shrubs
+	- Pinchusion cactus*
+	- Saguaro cactus
+	- Glowstool
+	- Agarilux*
+	- Bryolux
+	
+	*also made cultivable by Vegetable Garden Project
+	%also made cultivable by Vanilla Plants Expanded
+	-->
+
+	<!--
+	Change healroot spawn chance 
+	
+	Fertile Planet adds its own spawn chance without checking, which can cause
+	lifeless tropical rainforests and swamps.
+	-->
+
+	<Operation Class="PatchOperationFindMod">
+		<success>Always</success>
+		<mods>
+			<li>Fertile Planet</li>
+		</mods>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<!-- Tropical rainforest -->
+				<li Class="PatchOperationRemove">
+					<success>Always</success>
+					<xpath>Defs/BiomeDef[defName = "TropicalRainforest"]/wildPlants/Plant_HealrootWild</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/BiomeDef[defName = "TropicalRainforest"]/wildPlants</xpath>
+					<value>
+						<Plant_HealrootWild>0.01</Plant_HealrootWild>
+					</value>
+				</li>
+				
+				<!-- Tropical swamp -->
+				<li Class="PatchOperationRemove">
+					<success>Always</success>
+					<xpath>Defs/BiomeDef[defName = "TropicalSwamp"]/wildPlants/Plant_HealrootWild</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/BiomeDef[defName = "TropicalSwamp"]/wildPlants</xpath>
+					<value>
+						<Plant_HealrootWild>0.01</Plant_HealrootWild>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+	<!-- Make agave plantable -->
+
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant/growDays</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant/harvestYield</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant/harvestWork</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant/sowMinSkill</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant/sowWork</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<success>Always</success>
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant/sowTags</xpath>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName = "Plant_Agave"]/plant</xpath>
+		<value>
+			<growDays>9</growDays>
+			<harvestYield>7</harvestYield>
+			<harvestWork>375</harvestWork>
+			<sowMinSkill>6</sowMinSkill>
+			<sowWork>340</sowWork>
+			<sowTags>
+				<li>Ground</li>
+				<li>Hydroponic</li>
+			</sowTags>
+		</value>
+	</Operation>
+
+	<!--
+	Make the following cultivable:
+	- Grass
+	- Tall grass
+	- Pincushion cactus
+	
+	(VGP adds its own patch, so avoid duplicate XML node and entries in growing menu)
+	(VPE adds tall grass and grass as well. but not pincushion cactus)
+	-->
+	
+	
+	<!--
+	if NOT VGP:
+		add pincushion cactus
+	if NOT (VGP OR VPE):
+		add tall grass
+		add grass
+	-->
+
+	<Operation Class="PatchOperationFindMod">
+		<success>Always</success>
+		<mods>
+			<li>VGP Vegetable Garden</li>
+		</mods>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<!-- Pincushion cactus -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName = "PlantCultivatedPincushionCactus"]/plant/sowTags</xpath>
+					<value>
+						<li>Ground</li>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	
+	</Operation>
+
+	<Operation Class="PatchOperationFindMod">
+		<success>Always</success>
+		<mods>
+			<li>VGP Vegetable Garden</li>
+			<li>Vanilla Plants Expanded</li>
+		</mods>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<!-- Tall grass -->
+				<li Class="PatchOperationRemove">
+					<success>Always</success>
+					<xpath>Defs/ThingDef[defName = "Plant_TallGrass"]/plant/sowTags</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName = "Plant_TallGrass"]/plant</xpath>
+					<value>
+						<sowTags>
+							<li>Ground</li>
+						</sowTags> 
+					</value>
+				</li>
+				
+				<!-- Grass -->
+				<li Class="PatchOperationRemove">
+					<success>Always</success>
+					<xpath>Defs/ThingDef[defName = "Plant_Grass"]/plant/sowTags</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName = "Plant_Grass"]/plant</xpath>
+					<value>
+						<sowTags>
+							<li>Ground</li>
+						</sowTags> 
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+</Patch>

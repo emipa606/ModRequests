@@ -1,0 +1,101 @@
+﻿<Patch>
+	<!-- Tinctoria -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/SeedsPlease.SeedDef[defName = "Seed_Tinctoria"]/sources</xpath>
+				<value>
+					<li>PlantWild_Tinctoria</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	<!-- Add recipe list to PlantProcessingTable if it does not exist already -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationTest">
+				<xpath>Defs/ThingDef[defName = "PlantProcessingTable"]/recipes</xpath>
+				<success>Invert</success>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName = "PlantProcessingTable"]</xpath>
+				<value>
+					<recipes/>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	<!-- Add extract Tinctoria seed recipe -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName = "PlantProcessingTable"]/recipes</xpath>
+				<value>
+					<li>ExtractSeed_Tinctoria</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	<!-- If using SeedsPlease: Lite, We need to change the harvested product -->
+	<Operation Class="PatchOperationFindMod">
+		<success>Normal</success>
+		<mods>
+			<li>SeedsPlease: Lite</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<success>Always</success>
+					<xpath>Defs/ThingDef[defName = "PlantWild_Tinctoria"]/plant/harvestedThingDef</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName = "PlantWild_Tinctoria"]/plant</xpath>
+					<value>
+						<harvestedThingDef>RawTinctoria</harvestedThingDef>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+	
+	<!-- If using SeedsPlease: Lite, We need to change the harvested product for Cloth to RawCotton -->
+	<Operation Class="PatchOperationFindMod">
+		<success>Normal</success>
+		<mods>
+			<li>SeedsPlease: Lite</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationRemove">
+					<success>Always</success>
+					<xpath>Defs/ThingDef[defName = "PlantWildCotton"]/plant/harvestedThingDef</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName = "PlantWildCotton"]/plant</xpath>
+					<value>
+						<harvestedThingDef>RawCotton</harvestedThingDef>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+	
+	<!-- Need to add as patch, otherwise Seed_Tinctoria will be null def. -->
+	<Operation Class="PatchOperationFindMod">
+		<success>Always</success>
+		<mods>
+			<li>SeedsPlease: Lite</li>
+		</mods>
+		<match Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName = "ExtractSeed_Tinctoria"]/products</xpath>
+			<value>
+				<products>
+					<Seed_Tinctoria>1</Seed_Tinctoria>
+				</products>
+			</value>
+		</match>
+	</Operation>
+</Patch>
