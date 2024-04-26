@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="ApparelMakeableBase"> <!-- EMP UTILITY ON BELT-->
+		<defName>HALCYZOM_Thunderpound</defName>
+		<label>HZ Thunderpound</label>
+		<description>A clunky, somewhat unwieldy handheld cannon designed to launch specialized shells that explode in a potent burst of electromagnetic energy. It can temporarily overload both electronic and biological systems, making it effective at stunning and incapacitating mechanoids and animals, all while bypassing potential adaptation by mechanoid units due to the chaotic, frequency-varying nature of the electromagnetic burst.
+\n\nOriginally designed as a proof-of-concept for a battery delivery system by a drunken machinist, it was then converted into a tool for mineral scanning due to its potent electromagnetic echo. Consequently, when it was scaled down to a handheld version, it was found out that it had great potential as an EMP-based interference tool, and is able to assemble its munitions from industrial-grade components.
+\n\nSurprisingly, it has been used in medical trials to treat concussions with varying degrees of success.</description>
+		<techLevel>Ultra</techLevel>
+		<graphicData>
+			<texPath>Apparel/PulseBelt</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		<generateCommonality>0.3</generateCommonality>
+		
+		<thingCategories> <!-- TAGS -->
+			<li>ApparelUtility</li>
+		</thingCategories>
+		
+		<apparel>
+			<countsAsClothingForNudity>false</countsAsClothingForNudity>
+			<careIfWornByCorpse>false</careIfWornByCorpse>
+			<careIfDamaged>false</careIfDamaged>
+			<wearPerDay>0</wearPerDay>
+			<bodyPartGroups>
+				<li>Torso</li>
+			</bodyPartGroups>
+			<layers>
+				<li>Belt</li>
+			</layers>
+			<tags>
+				<li>HALCYZOM_Thunderpound</li>
+				<li>HALCYZOM_Apparel</li>
+			</tags>
+		</apparel>
+		
+		<tradeTags>
+			<li>HALCYZOM_Weapon</li>
+		</tradeTags>		
+		
+		<statBases> <!-- STATS -->
+			<WorkToMake>30000</WorkToMake>
+			<Mass>7</Mass>
+			<Flammability>0.4</Flammability>
+			<EquipDelay>3</EquipDelay>
+		</statBases>
+		
+		<costList> <!-- RECIPE -->
+			<Steel>75</Steel>
+			<Plasteel>75</Plasteel>
+			<ComponentSpacer>3</ComponentSpacer>
+			<ComponentIndustrial>15</ComponentIndustrial>
+		</costList>
+		<smeltable>true</smeltable>		
+		<recipeMaker>
+		    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Crafting</workSkill>
+			<effectWorking>Smith</effectWorking>
+			<soundWorking>Recipe_Smith</soundWorking>
+			<skillRequirements>
+				<Crafting>8</Crafting>
+			</skillRequirements>
+		    <recipeUsers Inherit="False">
+				<li>FabricationBench</li>
+			</recipeUsers>
+			<researchPrerequisite>Fabrication</researchPrerequisite>
+		</recipeMaker>
+		
+		<comps> <!-- COMPS; ALLOWS FOR APPAREL TO FOLLOW RELOAD SYSTEM, REQUIRES ONE COMPONENT PER CHARGE -->
+			<li Class="CompProperties_Reloadable">
+				<maxCharges>5</maxCharges>
+				<ammoDef>ComponentIndustrial</ammoDef>
+				<ammoCountPerCharge>1</ammoCountPerCharge>
+				<baseReloadTicks>180</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>ES-shell</chargeNoun>
+				<displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+			</li>
+		</comps>
+		
+		<verbs> <!-- ACTIONS -->
+			<li>
+				<label>launch ES-shell</label>
+				<verbClass>Verb_LaunchProjectileStatic</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<onlyManualCast>True</onlyManualCast>
+				<minRange>1</minRange>
+				<range>23.9</range>
+				<forcedMissRadius>1.9</forcedMissRadius>
+				<warmupTime>4</warmupTime>
+				<noiseRadius>4</noiseRadius>
+				<ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+				<soundCast>Shot_IncendiaryLauncher</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>14</muzzleFlashScale>
+				<drawHighlightWithLineOfSight>true</drawHighlightWithLineOfSight>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+				<defaultProjectile>HZ_ES-Shell</defaultProjectile>
+				<rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+			</li>
+		</verbs>
+	</ThingDef>
+	
+	<ThingDef ParentName="BaseBullet"> <!-- EMP PROJECTILE -->
+		<defName>HZ_ES-Shell</defName>
+		<label>electroshock shell</label>
+		<graphicData>
+			<texPath>Projectile/PulseBullet</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<speed>40</speed>
+			<damageDef>Electroshock_AE</damageDef> <!-- CUSTOM DMG TYPE GIVES UNIVERSAL STUN -->
+			<damageAmountBase>25</damageAmountBase>
+			<explosionRadius>4</explosionRadius>
+			<ai_IsIncendiary>false</ai_IsIncendiary>
+			<arcHeightFactor>0.5</arcHeightFactor>
+			<shadowSize>0.6</shadowSize>
+		</projectile>
+	</ThingDef>
+	
+</Defs>
