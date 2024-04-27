@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+	Each Human and Animal have a "combatPower"
+	2 Pawns with similar "combatPower" and weight will have the same chance to spawn
+	Also, Factions have a "maxPawnCostPerTotalPointsCurve", who defines the chance of powerful pawn to spawn, example:
+	_big animals will have less to no chance to spawn with few raid points
+	_big animals will have more chance to spawn with lot raid points
+	The raid points are egal to all "combatPower" additionnate together
+	"combatPower" of humans seems to slightly change, from weapon/apparels (~40to140) maybe?
+	The game check for faction, raid strategy, then pawnGroup, by commonality
+-->
+
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Normal</success>
+		<operations>
+
+			<!-- OutlanderFactionBase -->
+
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/FactionDef[@Name="OutlanderFactionBase"]/pawnGroupMakers/li[kindDef="Combat"]</xpath>
+				<value>
+					<commonality>75</commonality>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/FactionDef[@Name="OutlanderFactionBase"]/pawnGroupMakers</xpath>
+				<value>
+					<!-- Raid Classic -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>15</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Villager>5</Villager> <!-- 45 -->
+							<Town_Guard>10</Town_Guard> <!-- 60 -->
+							<Grenadier_Destructive>1.5</Grenadier_Destructive> <!-- 70 -->
+							<Mercenary_Slasher>7</Mercenary_Slasher> <!-- 140 -->
+							<Mercenary_Gunner>10</Mercenary_Gunner> <!-- 85 -->
+							<Mercenary_Elite>10</Mercenary_Elite> <!-- 130 -->
+							<Town_Councilman>10</Town_Councilman> <!-- 40 -->
+							<Husky>5</Husky> <!-- 75 -->
+							<LabradorRetriever>5</LabradorRetriever> <!-- 70 -->
+						</options>
+					</li>
+					<!-- Raid Animal -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>10</commonality>
+						<disallowedStrategies>
+							<li>ImmediateAttackFriendly</li>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Town_Guard>10</Town_Guard> <!-- 60 -->
+							<Grenadier_Destructive>1.5</Grenadier_Destructive> <!-- 70 -->
+							<Mercenary_Gunner>10</Mercenary_Gunner> <!-- 85 -->
+							<Town_Councilman>10</Town_Councilman> <!-- 40 -->
+							<Husky>20</Husky> <!-- 75 -->
+							<LabradorRetriever>20</LabradorRetriever> <!-- 70 -->
+							<Boomalope>1.5</Boomalope> <!-- 80 -->
+						</options>
+					</li>
+				</value>
+			</li>
+			
+			<!-- PirateBandBase -->
+			
+			<li Class="PatchOperationReplace">
+				<xpath>/Defs/FactionDef[@Name="PirateBandBase"]/pawnGroupMakers/li[commonality="100"]/commonality</xpath>
+				<value>
+					<commonality>70</commonality>
+				</value>
+			</li>
+
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/FactionDef[@Name="PirateBandBase"]/pawnGroupMakers</xpath>
+				<value>
+					<!-- Raid Classic -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>30</commonality>
+						<options>
+							<Drifter>10</Drifter> <!-- 35 -->
+							<Thrasher>3</Thrasher> <!-- 50 -->
+							<Scavenger>10</Scavenger> <!-- 50 -->
+							<Pirate>10</Pirate> <!-- 65 -->
+							<Grenadier_EMP>0.25</Grenadier_EMP> <!-- 55 -->
+							<Grenadier_Smoke>0.25</Grenadier_Smoke> <!-- 55 -->
+							<Grenadier_Destructive>2</Grenadier_Destructive> <!-- 70 -->
+							<Mercenary_Gunner>10</Mercenary_Gunner> <!-- 85 -->
+							<Mercenary_Heavy>6</Mercenary_Heavy> <!-- 140 -->
+							<Mercenary_Slasher>3</Mercenary_Slasher> <!-- 140 -->
+							<Mercenary_Sniper>7</Mercenary_Sniper> <!-- 110 -->
+							<Mercenary_Elite>10</Mercenary_Elite> <!-- 130 -->
+							<PirateBoss>5</PirateBoss> <!-- 130 -->
+							<Megascarab>50</Megascarab> <!-- 40 -->
+							<Cobra>10</Cobra> <!-- 65 -->
+						</options>
+					</li>
+					<!-- Raid Animal -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>20</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Scavenger>10</Scavenger> <!-- 50 -->
+							<Pirate>10</Pirate> <!-- 65 -->
+							<Grenadier_EMP>0.25</Grenadier_EMP> <!-- 55 -->
+							<Grenadier_Smoke>0.25</Grenadier_Smoke> <!-- 55 -->
+							<Grenadier_Destructive>2</Grenadier_Destructive> <!-- 70 -->
+							<Mercenary_Gunner>10</Mercenary_Gunner> <!-- 85 -->
+							<Mercenary_Sniper>7</Mercenary_Sniper> <!-- 110 -->
+							<PirateBoss>5</PirateBoss> <!-- 130 -->
+							<Megascarab>50</Megascarab> <!-- 40 -->
+							<Cobra>40</Cobra> <!-- 65 -->
+							<Bear_Grizzly>2</Bear_Grizzly> <!-- 200 -->
+							<Bear_Polar>2</Bear_Polar> <!-- 200 -->
+							<Boomrat>2.5</Boomrat> <!-- 55 -->
+						</options>
+					</li>
+				</value>
+			</li>
+			
+			<!-- Empire - Royalty -->
+			
+			<li Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
+				<xpath>/Defs/FactionDef[defName="Empire"]/pawnGroupMakers/li[commonality="100"]/commonality</xpath>
+				<value>
+					<commonality>70</commonality>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
+				<xpath>/Defs/FactionDef[defName="Empire"]/pawnGroupMakers/li[commonality="10"]/commonality</xpath>
+				<value>
+					<commonality>7.5</commonality>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Royalty">
+				<xpath>/Defs/FactionDef[defName="Empire"]/pawnGroupMakers</xpath>
+				<value>
+					<!-- Raid Classic -->
+					<li>
+						<!-- Normal fights -->
+						<kindDef>Combat</kindDef>
+						<commonality>15</commonality>
+						<options>
+							<Empire_Fighter_Trooper>5</Empire_Fighter_Trooper> <!-- 65 -->
+							<Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary> <!-- 100 -->
+							<Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract> <!-- 100 -->
+							<Empire_Fighter_Champion>4</Empire_Fighter_Champion> <!-- 100 -->
+							<Warg>1.5</Warg> <!-- 160 -->
+						</options>
+					</li>
+					<li>
+						<!-- breach fights -->
+						<kindDef>Combat</kindDef>
+						<commonality>1.5</commonality>
+						<options>
+							<Empire_Fighter_Grenadier>2</Empire_Fighter_Grenadier> <!-- 65 -->
+							<Empire_Fighter_Trooper>5</Empire_Fighter_Trooper> <!-- 65 -->
+							<Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary> <!-- 100 -->
+							<Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract> <!-- 100 -->
+							<Empire_Fighter_Champion>4</Empire_Fighter_Champion> <!-- 100 -->
+							<Warg>1.5</Warg> <!-- 160 -->
+						</options>
+					</li>
+					<!-- Raid Animal -->
+					<li>
+						<!-- Normal fights -->
+						<kindDef>Combat</kindDef>
+						<commonality>10</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Empire_Fighter_Trooper>5</Empire_Fighter_Trooper> <!-- 65 -->
+							<Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary> <!-- 100 -->
+							<Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract> <!-- 100 -->
+							<Warg>6</Warg> <!-- 160 -->
+							<YorkshireTerrier>1</YorkshireTerrier> <!-- 30 -->
+							<Thrumbo>0.01</Thrumbo> <!-- 500 -->
+						</options>
+					</li>
+					<li>
+						<!-- breach fights -->
+						<kindDef>Combat</kindDef>
+						<commonality>1</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Empire_Fighter_Grenadier>2</Empire_Fighter_Grenadier> <!-- 65 -->
+							<Empire_Fighter_Trooper>5</Empire_Fighter_Trooper> <!-- 65 -->
+							<Empire_Fighter_Janissary>3.5</Empire_Fighter_Janissary> <!-- 100 -->
+							<Empire_Fighter_Cataphract>2</Empire_Fighter_Cataphract> <!-- 100 -->
+							<Warg>6</Warg> <!-- 160 -->
+							<YorkshireTerrier>1</YorkshireTerrier> <!-- 30 -->
+							<Thrumbo>0.01</Thrumbo> <!-- 500 -->
+						</options>
+					</li>
+				</value>
+			</li>
+			
+			<!-- OutlanderRoughPig - Biotech -->
+
+			<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+				<xpath>/Defs/FactionDef[defName="OutlanderRoughPig"]/pawnGroupMakers/li[kindDef="Combat"]</xpath>
+				<value>
+					<commonality>75</commonality>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+				<xpath>/Defs/FactionDef[defName="OutlanderRoughPig"]/pawnGroupMakers</xpath>
+				<value>
+					<!-- Raid Classic -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>15</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Villager_Pig>5</Villager_Pig>
+							<Town_Guard_Pig>10</Town_Guard_Pig>
+							<Grenadier_Destructive>10</Grenadier_Destructive>
+							<Mercenary_Slasher>10</Mercenary_Slasher>
+							<Mercenary_Gunner_Pig>7</Mercenary_Gunner_Pig>
+							<Mercenary_Elite_Pig>10</Mercenary_Elite_Pig>
+							<Town_Councilman_Pig>10</Town_Councilman_Pig>
+							<Husky>5</Husky> <!-- 75 -->
+							<LabradorRetriever>5</LabradorRetriever> <!-- 70 -->
+						</options>
+					</li>
+					<!-- Raid Animal -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>10</commonality>
+						<disallowedStrategies>
+							<li>ImmediateAttackFriendly</li>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Town_Guard_Pig>10</Town_Guard_Pig>
+							<Grenadier_Destructive>10</Grenadier_Destructive>
+							<Mercenary_Gunner_Pig>7</Mercenary_Gunner_Pig>
+							<Town_Councilman_Pig>10</Town_Councilman_Pig>
+							<Husky>20</Husky> <!-- 75 -->
+							<LabradorRetriever>20</LabradorRetriever> <!-- 70 -->
+							<Boomalope>1.5</Boomalope> <!-- 80 -->
+						</options>
+					</li>
+				</value>
+			</li>
+			
+			<!-- PirateWaster - Biotech -->
+			
+			<li Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Biotech">
+				<xpath>/Defs/FactionDef[defName="PirateWaster"]/pawnGroupMakers/li[commonality="100"]/commonality</xpath>
+				<value>
+					<commonality>70</commonality>
+				</value>
+			</li>
+
+			<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+				<xpath>/Defs/FactionDef[defName="PirateWaster"]/pawnGroupMakers</xpath>
+				<value>
+					<!-- Raid Classic -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>30</commonality>
+						<options>
+							<Drifter>10</Drifter> <!-- 35 -->
+							<Thrasher>3</Thrasher> <!-- 50 -->
+							<Scavenger>10</Scavenger> <!-- 50 -->
+							<Pirate>10</Pirate> <!-- 65 -->
+							<Grenadier_Tox>2</Grenadier_Tox> <!-- 55 -->
+							<Grenadier_Destructive>0.25</Grenadier_Destructive> <!-- 70 -->
+							<Mercenary_GunnerTox>10</Mercenary_GunnerTox> <!-- 85 -->
+							<Mercenary_Gunner>5</Mercenary_Gunner> <!-- 85 -->
+							<Mercenary_HeavyTox>6</Mercenary_HeavyTox> <!-- 140 -->
+							<Mercenary_Heavy>1</Mercenary_Heavy> <!-- 140 -->
+							 <Mercenary_SlasherTox>3</Mercenary_SlasherTox>
+							<Mercenary_Slasher>1</Mercenary_Slasher> <!-- 140 -->
+							<Mercenary_Sniper>7</Mercenary_Sniper> <!-- 110 -->
+							<Mercenary_EliteTox>5</Mercenary_EliteTox> <!-- 130 -->
+							<Mercenary_Elite>1</Mercenary_Elite> <!-- 130 -->
+							<PirateBossTox>5</PirateBossTox> <!-- 130 -->
+							<WasteRat>60</WasteRat> <!-- 40 -->
+						</options>
+					</li>
+					<!-- Raid Animal -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>20</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Scavenger>10</Scavenger> <!-- 50 -->
+							<Pirate>10</Pirate> <!-- 65 -->
+							<Grenadier_Tox>2</Grenadier_Tox> <!-- 55 -->
+							<Grenadier_Destructive>0.25</Grenadier_Destructive> <!-- 70 -->
+							<Mercenary_GunnerTox>10</Mercenary_GunnerTox> <!-- 85 -->
+							<Mercenary_Gunner>5</Mercenary_Gunner> <!-- 85 -->
+							<Mercenary_Sniper>7</Mercenary_Sniper> <!-- 110 -->
+							<PirateBossTox>5</PirateBossTox> <!-- 130 -->
+							<WasteRat>90</WasteRat> <!-- 40 -->
+							<Toxalope>10</Toxalope> <!-- 80 -->
+						</options>
+					</li>
+				</value>
+			</li>
+			
+			<!-- TribeBase -->
+
+			<li Class="PatchOperationReplace">
+				<xpath>/Defs/FactionDef[@Name="TribeBase"]/pawnGroupMakers/li[commonality="100"]/commonality</xpath>
+				<value>
+					<commonality>63</commonality>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/FactionDef[@Name="TribeBase"]/pawnGroupMakers</xpath>
+				<value>
+					<!-- Raid Classic -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>7</commonality>
+						<options>
+							<Tribal_Penitent>5</Tribal_Penitent> <!-- 40 -->
+							<Tribal_Warrior>5</Tribal_Warrior> <!-- 50 -->
+							<Tribal_Archer>10</Tribal_Archer> <!-- 45 -->
+							<Tribal_Hunter>10</Tribal_Hunter> <!-- 60 -->
+							<Tribal_HeavyArcher>10</Tribal_HeavyArcher> <!-- 75 -->
+							<Tribal_Berserker>5</Tribal_Berserker> <!-- 65 -->
+							<Tribal_ChiefRanged>3</Tribal_ChiefRanged> <!-- 85 -->
+							<Tribal_ChiefMelee>1.5</Tribal_ChiefMelee> <!-- 85 -->
+							<Monkey>5</Monkey> <!-- 35 -->
+						</options>
+					</li>
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>20</commonality>
+						<options>
+							<Tribal_Penitent>5</Tribal_Penitent> <!-- 40 -->
+							<Tribal_Warrior>5</Tribal_Warrior> <!-- 50 -->
+							<Tribal_Archer>10</Tribal_Archer> <!-- 45 -->
+							<Tribal_Hunter>10</Tribal_Hunter> <!-- 60 -->
+							<Tribal_HeavyArcher>10</Tribal_HeavyArcher> <!-- 75 -->
+							<Tribal_Berserker>5</Tribal_Berserker> <!-- 65 -->
+							<Tribal_ChiefRanged>3</Tribal_ChiefRanged> <!-- 85 -->
+							<Tribal_ChiefMelee>1.5</Tribal_ChiefMelee> <!-- 85 -->
+							<Wolf_Timber>3</Wolf_Timber> <!-- 75 -->
+						</options>
+					</li>
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>10</commonality>
+						<options>
+							<Tribal_Penitent>5</Tribal_Penitent> <!-- 40 -->
+							<Tribal_Warrior>5</Tribal_Warrior> <!-- 50 -->
+							<Tribal_Archer>10</Tribal_Archer> <!-- 45 -->
+							<Tribal_Hunter>10</Tribal_Hunter> <!-- 60 -->
+							<Tribal_HeavyArcher>10</Tribal_HeavyArcher> <!-- 75 -->
+							<Tribal_Berserker>5</Tribal_Berserker> <!-- 65 -->
+							<Tribal_ChiefRanged>3</Tribal_ChiefRanged> <!-- 85 -->
+							<Tribal_ChiefMelee>1.5</Tribal_ChiefMelee> <!-- 85 -->
+							<Wolf_Arctic>3</Wolf_Arctic> <!-- 75 -->
+						</options>
+					</li>
+					<!-- Raid Animal -->
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>8</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Tribal_Archer>10</Tribal_Archer> <!-- 45 -->
+							<Tribal_Hunter>10</Tribal_Hunter> <!-- 60 -->
+							<Tribal_HeavyArcher>10</Tribal_HeavyArcher> <!-- 75 -->
+							<Tribal_ChiefRanged>5</Tribal_ChiefRanged> <!-- 85 -->
+							<Megasloth>0.05</Megasloth> <!-- 280 -->
+							<Lynx>5</Lynx> <!-- 80 -->
+							<Wolf_Arctic>6</Wolf_Arctic> <!-- 75 -->
+							<Fox_Arctic>15</Fox_Arctic> <!-- 45 -->
+						</options>
+					</li>
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>8</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Tribal_Archer>10</Tribal_Archer> <!-- 45 -->
+							<Tribal_Hunter>10</Tribal_Hunter> <!-- 60 -->
+							<Tribal_HeavyArcher>10</Tribal_HeavyArcher> <!-- 75 -->
+							<Tribal_ChiefRanged>5</Tribal_ChiefRanged> <!-- 85 -->
+							<Elephant>0.05</Elephant> <!-- 260 -->
+							<Panther>1.5</Panther> <!-- 120 -->
+							<Wolf_Timber>6</Wolf_Timber> <!-- 75 -->
+							<Fox_Red>15</Fox_Red> <!-- 45 -->
+						</options>
+					</li>
+					<li>
+						<kindDef>Combat</kindDef>
+						<commonality>8</commonality>
+						<disallowedStrategies>
+							<li>StageThenAttack</li>
+							<li>Siege</li>
+						</disallowedStrategies>
+						<options>
+							<Tribal_Archer>10</Tribal_Archer> <!-- 45 -->
+							<Tribal_Hunter>10</Tribal_Hunter> <!-- 60 -->
+							<Tribal_HeavyArcher>10</Tribal_HeavyArcher> <!-- 75 -->
+							<Tribal_ChiefRanged>5</Tribal_ChiefRanged> <!-- 85 -->
+							<Rhinoceros>0.05</Rhinoceros> <!-- 270 -->
+							<Cougar>1.5</Cougar> <!-- 120 -->
+							<Wolf_Timber>6</Wolf_Timber> <!-- 75 -->
+							<Fox_Fennec>15</Fox_Fennec> <!-- 45 -->
+						</options>
+					</li>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+</Patch>
