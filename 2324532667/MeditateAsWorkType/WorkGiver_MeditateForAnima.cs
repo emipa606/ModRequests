@@ -14,20 +14,37 @@ namespace MeditateAsWorkType
     {
         public override Job NonScanJob(Pawn pawn)
         {
-            if (MeditationUtility.CanMeditateNow(pawn))
+            bool shouldMeditate = MeditationFocusDefOf.Natural.CanPawnUse(pawn) && MeditationUtility.CanMeditateNow(pawn);
+            if (shouldMeditate)
             {
-                return GetAnimaMeditationJob(pawn);
+                Job meditationJob = GetAnimaMeditationJob(pawn);
+                return meditationJob;
             }
             return null;
         }
 
-        public static Job GetAnimaMeditationJob(Pawn pawn)
+        public static Job GetAnimaMeditationJob(Pawn pawn, bool forJoy = false)
         {
             MeditationSpotAndFocus meditationSpotAndFocus = FindAnimaMeditationSpot(pawn);
             if (meditationSpotAndFocus.IsValid)
             {
-                Job job = JobMaker.MakeJob(JobDefOf.Meditate, meditationSpotAndFocus.spot, null, meditationSpotAndFocus.focus);
-                job.ignoreJoyTimeAssignment = true;
+                Building_Throne t;
+                Job job;
+                if ((t = (meditationSpotAndFocus.focus.Thing as Building_Throne)) != null)
+                {
+                    job = JobMaker.MakeJob(JobDefOf.Reign, t, null, t);
+                }
+                else
+                {
+                    JobDef def = JobDefOf.Meditate;
+                    IdeoFoundation_Deity ideoFoundation_Deity;
+                    if (forJoy && ModsConfig.IdeologyActive && pawn.Ideo != null && (ideoFoundation_Deity = (pawn.Ideo.foundation as IdeoFoundation_Deity)) != null && ideoFoundation_Deity.DeitiesListForReading.Any())
+                    {
+                        def = JobDefOf.MeditatePray;
+                    }
+                    job = JobMaker.MakeJob(def, meditationSpotAndFocus.spot, null, meditationSpotAndFocus.focus);
+                }
+                job.ignoreJoyTimeAssignment = !forJoy;
                 return job;
             }
             return null;
@@ -35,46 +52,87 @@ namespace MeditateAsWorkType
 
         public static MeditationSpotAndFocus FindAnimaMeditationSpot(Pawn pawn)
         {
+            float num = float.MinValue;
             LocalTargetInfo spot = LocalTargetInfo.Invalid;
             LocalTargetInfo focus = LocalTargetInfo.Invalid;
-            if (!ModLister.RoyaltyInstalled)
+            if (!ModLister.CheckRoyalty("Psyfocus"))
             {
-                Log.ErrorOnce("Psyfocus meditation is a Royalty-specific game system. If you want to use this code please check ModLister.RoyaltyInstalled before calling it.", 657324);
                 return new MeditationSpotAndFocus(spot, focus);
             }
-            Thing animaTree = pawn.Map.listerThings.ThingsOfDef(DefDatabase<ThingDef>.GetNamed("Plant_TreeAnima")).FirstOrDefault();
-            if (animaTree != null)
+            Room ownedRoom = pawn.ownership.OwnedRoom;
+            foreach (LocalTargetInfo item in AllAnimaMeditationSpotCandidates(pawn))
             {
-                CompMeditationFocus compMeditationFocus = animaTree.TryGetComp<CompMeditationFocus>();
-                if (compMeditationFocus != null && compMeditationFocus.CanPawnUse(pawn))
+                if (pawn.CanReserveAndReach(item, PathEndMode.OnCell, pawn.NormalMaxDanger()) && MeditationUtility.SafeEnvironmentalConditions(pawn, item.Cell, pawn.Map) && item.Cell.Standable(pawn.Map) && !item.Cell.IsForbidden(pawn))
                 {
-                    if (pawn.HasPsylink && animaTree.GetStatValueForPawn(StatDefOf.MeditationFocusStrength, pawn) > float.Epsilon)
+                    float num2 = 1f / Mathf.Max(item.Cell.DistanceToSquared(pawn.Position), 0.1f);
+                    LocalTargetInfo localTargetInfo = (item.Thing is Building_Throne) ? ((LocalTargetInfo)item.Thing) : MeditationUtility.BestFocusAt(item, pawn);
+                    if (pawn.HasPsylink && localTargetInfo.IsValid)
                     {
-                        spot = MeditationUtility.MeditationSpotForFocus(animaTree, pawn);
-                        focus = animaTree;
-                        return new MeditationSpotAndFocus(spot, focus);
+                        num2 += localTargetInfo.Thing.GetStatValueForPawn(StatDefOf.MeditationFocusStrength, pawn) * 100f;
                     }
-                    else
+                    Room room = item.Cell.GetRoom(pawn.Map);
+                    if (room != null && ownedRoom == room)
                     {
-                        Area area = pawn.playerSettings.AreaRestriction;
-                        IntVec3 c2 = RCellFinder.RandomWanderDestFor(
-                            pawn,
-                            animaTree.Position,
-                            4,
-                            delegate (Pawn p, IntVec3 c, IntVec3 r)
-                            {
-                                return c.Standable(p.Map) && c.GetDoor(p.Map) == null && (area == null || area[c]);
-                            },
-                            pawn.NormalMaxDanger()
-                        );
-                        if (c2.IsValid && (area == null || area[c2]))
+                        num2 += 1f;
+                    }
+                    Building building;
+                    if (item.Thing != null && (building = (item.Thing as Building)) != null)
+                    {
+                        Pawn assignedPawn = building.GetAssignedPawn();
+                        if (assignedPawn == null || assignedPawn == pawn)
                         {
-                            return new MeditationSpotAndFocus(c2, null);
+                            num2 += (assignedPawn == null) ? 50 : 100;
+
+                            if (building.def == ThingDefOf.MeditationSpot)
+                            {
+                                num2 += 100;
+                            }
                         }
+                    }
+                    if (room != null && ModsConfig.IdeologyActive && room.Role == RoomRoleDefOf.WorshipRoom)
+                    {
+                        num2 += 100f;
+                        foreach (Thing containedAndAdjacentThing in room.ContainedAndAdjacentThings)
+                        {
+                            num2 += containedAndAdjacentThing.GetStatValue(StatDefOf.StyleDominance);
+                        }
+                    }
+                    if (num2 > num)
+                    {
+                        spot = item;
+                        focus = localTargetInfo;
+                        num = num2;
                     }
                 }
             }
             return new MeditationSpotAndFocus(spot, focus);
+        }
+
+        public static IEnumerable<LocalTargetInfo> AllAnimaMeditationSpotCandidates(Pawn pawn, bool allowFallbackSpots = true)
+        {
+            Map map = pawn.Map;
+            List<Thing> trees = map.listerThings.ThingsOfDef(ThingDefOf.Plant_TreeAnima);
+            foreach (Thing tree in trees)
+            {
+                if (tree.TryGetComp<DiminishingGrassComp>()?.IsCurrentPenaltyAllowable() ?? false)
+                {
+                    foreach (IntVec3 cell in GenRadial.RadialCellsAround(tree.Position, MeditationUtility.FocusObjectSearchRadius, false))
+                    {
+                        if (cell.Standable(map))
+                        {
+                            Thing meditationSpot = cell.GetFirstThing(map, ThingDefOf.MeditationSpot);
+                            if (meditationSpot != null)
+                            {
+                                yield return meditationSpot;
+                            }
+                            else
+                            {
+                                yield return cell;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
