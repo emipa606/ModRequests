@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>	
+
+ <!-- <TraitDef> -->
+    <!-- <defName>AMP_PilotTrait</defName> -->
+    <!-- <commonality>0</commonality> -->
+	<!-- <disabledWorkTags> -->
+	<!-- <li>Cooking</li> -->
+	<!-- <li>Animals</li> -->
+	<!-- <li>Artistic</li> -->
+	<!-- <li>Intellectual</li> -->
+	<!-- </disabledWorkTags> -->
+    <!-- <degreeDatas> -->
+      <!-- <li> -->
+        <!-- <label>exoskeleton piloting</label> -->
+        <!-- <description>{PAWN_nameDef} is piloting an exoskeleton, so {PAWN_nameDef} is unable to do some work that requires a precision operation, and also can't eat and rest well inside the cockpit.</description> -->
+      <!-- </li> -->
+    <!-- </degreeDatas> -->
+    <!-- <modExtensions> -->
+        <!-- <li Class="VFECore.TraitExtension"> -->
+            <!-- <painFactor>0</painFactor> -->
+        <!-- </li> -->
+    <!-- </modExtensions> -->
+  <!-- </TraitDef> -->
+
+ <ThingDef ParentName="BuildingBase">
+    <defName>AMP_Disabled</defName>
+    <label>wreckage</label>
+    <description>a destroyed AMP, can restore some useful resource.</description>    
+    <thingClass>Building_WorkTable</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Things/AMPSuit/AMP</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+	  <drawSize>(3, 3)</drawSize>	
+      <damageData>
+        <rect>(0.2,0,0.6,0.1)</rect>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <tickerType>Never</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>0</WorkToBuild>
+      <Flammability>0</Flammability>
+    </statBases>
+    <selectable>true</selectable>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0.25</resourcesFractionWhenDeconstructed>
+  </ThingDef>
+  
+ <ApparelLayerDef>
+    <defName>WalkerGearLayer</defName>
+    <label>core</label>
+    <drawOrder>900</drawOrder>
+  </ApparelLayerDef>
+
+  <ThingDef Name="AMP_AMPCoreBase" Abstract="True">
+    <thingClass>WalkerGear.WalkerGear_Core</thingClass>
+    <category>Item</category>
+    <selectable>True</selectable>
+    <pathCost>0</pathCost>
+    <generateCommonality>0</generateCommonality>
+    <tradeability>None</tradeability>
+    <useHitPoints>False</useHitPoints>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+		<shaderType>Transparent</shaderType>
+		<graphicClass>Graphic_Single</graphicClass>
+		<texPath>Things/None</texPath>
+    </graphicData>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <Mass>0</Mass>
+      <WorkToMake>0</WorkToMake>
+      <Flammability>0</Flammability>
+      <ArmorRating_Heat>1.6</ArmorRating_Heat>
+      <Insulation_Cold>50</Insulation_Cold>
+      <Insulation_Heat>50</Insulation_Heat>
+    </statBases>
+    <equippedStatOffsets>        <!--吃飯效率高-,休息效率高-,攻擊迴避率高-,挖礦速度中+,採收效率中+,射擊精度低+ ,不可燃,毒物敏感度-90% ,心靈敏感度-75%-->
+      <Flammability>-1</Flammability>
+      <WorkSpeedGlobal>0.75</WorkSpeedGlobal>
+	  
+	  <PsychicSensitivity>-0.25</PsychicSensitivity>
+	  <ToxicSensitivity>-1</ToxicSensitivity>
+	  
+	  <MedicalTendSpeed>-1</MedicalTendSpeed>
+	  <ToxicSensitivity>-1</ToxicSensitivity>
+	  
+      <RestRateMultiplier>-0.9</RestRateMultiplier>
+      <MeleeDodgeChance>-1.5</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>True</alwaysHaulable>
+    <comps>
+		<li><compClass>CompColorable</compClass></li>
+		<li Class="CompProperties_Forbiddable"/>
+		<li>
+        <!--禁止物品形式-->
+        <compClass>WalkerGear.CompNoItemMode</compClass>
+      </li>
+    </comps>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>	
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <layers>
+        <li>WalkerGearLayer</li>
+      </layers>
+    </apparel>
+	<modExtensions>
+		<li Class="VFECore.ApparelExtension">
+			<!-- <traitsOnEquip> -->
+				<!-- <li>AMP_PilotTrait</li> -->
+			<!-- </traitsOnEquip> -->
+			<carryingCapacity>1000</carryingCapacity>
+			<pawnCapacityMinLevels>
+				<li>
+					<capacity>Moving</capacity>
+					<minLevel>0.8</minLevel>
+				</li>
+				<li>
+					<capacity>Manipulation</capacity>
+					<minLevel>0.8</minLevel>
+				</li>
+			</pawnCapacityMinLevels>
+		</li>
+	</modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase" Name="AMP_AMPBuildingBase" Abstract="True">
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <useHitPoints>true</useHitPoints>
+    <designationCategory>Security</designationCategory>
+	<defaultPlacingRot>South</defaultPlacingRot>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <rotatable>true</rotatable>
+    <tickerType>Normal</tickerType>
+    <size>(2,2)</size>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <statBases>
+      <Flammability>0</Flammability>
+      <SellPriceFactor>1.0</SellPriceFactor>
+      <Mass>300</Mass>	
+      <WorkToMake>10000</WorkToMake>
+    </statBases>
+    <graphicData>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <building>
+      <isEdifice>false</isEdifice>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <alwaysDeconstructible>false</alwaysDeconstructible>
+      <deconstructible>false</deconstructible>
+    </building>
+	<colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+			<weight>10</weight>
+          	<only>(127,127,127)</only>
+        </li>
+      </options>
+    </colorGenerator>
+    <comps>
+		<li>
+		<compClass>CompColorable</compClass>
+		</li>
+		<li Class="CompProperties_Explosive">
+			<wickTicks>240</wickTicks>
+			<explosiveRadius>2.9</explosiveRadius>
+			<explosiveDamageType>Bomb</explosiveDamageType>
+			<chanceNeverExplodeFromDamage>0.1</chanceNeverExplodeFromDamage>
+		</li>
+		<li Class="CompProperties_UseEffect">
+			<compClass>WalkerGear.CompUseEffect_GetIntoGear</compClass>
+		</li>
+		<li Class="CompProperties_Usable">
+			<useJob>AMP_GetIn</useJob>
+			<useLabel>pilot exoskeleton</useLabel>
+		</li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>AMP_GetIn</defName>
+    <driverClass>JobDriver_UseItem</driverClass>
+    <reportString>pilot exoskeleton</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <joyDuration>500</joyDuration><!--Tick-->
+  </JobDef>
+  
+  <!--==========================================================================Model 1-->
+  
+   <WalkerGear.WalkerGearDef>
+    <defName>AMP_Exoskeleton</defName>
+    <health>150</health>
+    <shield>150</shield>
+	<movespeed>8</movespeed>
+	<shieldGraphic>
+		<offSet>(0,0.031,0)</offSet>
+	    <graphicData>
+			<texPath>Things/AMPSuit_Shield/AMP</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>		
+			<drawSize>(3, 3)</drawSize>		
+		</graphicData>
+	</shieldGraphic>
+    <frontGraphic>
+		<offSet>(0,0.03,0)</offSet>
+	    <graphicData>
+			<texPath>Things/AMPSuit/AMP</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>		
+			<drawSize>(3, 3)</drawSize>			
+		</graphicData>
+	</frontGraphic>
+    <backGraphic>
+		<offSet>(0,0,0)</offSet>
+	    <graphicData>
+			<texPath>Things/AMPSuit_Back/AMP</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(3, 3)</drawSize>	
+		</graphicData>		
+	</backGraphic>
+    <weapon>AMP_Dagger</weapon>
+    <equipWeapon>true</equipWeapon>
+    <core>AMP_Core</core>
+    <building>AMP_Exoskeleton_Building</building>
+	<wreckage>AMP_Disabled</wreckage>
+	<sufferEMP>true</sufferEMP>
+	<sufferStun>true</sufferStun>
+    <selfExplosive>
+      <amount>20</amount>
+      <radius>5</radius>
+      <damageDef>Bomb</damageDef>
+    </selfExplosive>
+  </WalkerGear.WalkerGearDef>
+
+ <ThingDef ParentName="AMP_AMPCoreBase">
+    <defName>AMP_Core</defName>
+    <label>Amplified Mobility Platform</label>
+    <description>Amplified Mobility Platform, aka AMP suit, A manned robotic platform common in the early space colonization era.</description>
+    <comps>
+      <li Class="WalkerGear.CompProperties_WalkerGearBuilding">
+        <walkerGearDef>AMP_Exoskeleton</walkerGearDef>
+      </li>
+    </comps>
+	<!-- <apparel> -->
+	  <!-- <tags> -->
+		<!-- <li>AMP_MechSuitCivil</li> -->
+	  <!-- </tags> -->
+	<!-- </apparel> -->
+	<equippedStatOffsets>
+		<MeleeHitChance>0.25</MeleeHitChance>
+		<MeleeDodgeChance>-0.25</MeleeDodgeChance><!--更容易受擊-->
+	</equippedStatOffsets>		
+  </ThingDef>
+
+  <ThingDef ParentName="AMP_AMPBuildingBase">
+    <defName>AMP_Exoskeleton_Building</defName>
+    <label>Amplified Mobility Platform(Inactive)</label>
+    <description>Amplified Mobility Platform, aka AMP suit, A manned robotic platform common in the early space colonization era.</description>
+    <graphicData>
+      <texPath>Things/AMPSuit_Building/AMP</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <researchPrerequisites>
+      <li>AMP_Core</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <SellPriceFactor>1.0</SellPriceFactor>
+      <Mass>150</Mass>
+      <WorkToMake>10000</WorkToMake>
+    </statBases>
+    <comps>
+      <li Class="WalkerGear.CompProperties_WalkerGearBuilding">
+        <walkerGearDef>AMP_Exoskeleton</walkerGearDef>
+      </li>
+    </comps>
+	<constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+	<costList>
+		<Steel>450</Steel>
+		<Uranium>150</Uranium>
+		<ComponentIndustrial>30</ComponentIndustrial>
+		<ComponentSpacer>5</ComponentSpacer>
+	</costList>
+  </ThingDef>
+ 
+  <!--==========================================================================Model 2 , with Gun-->
+  
+   <WalkerGear.WalkerGearDef>
+    <defName>AMP_Exoskeleton_B</defName>
+    <health>200</health>
+    <shield>200</shield>
+	<movespeed>8</movespeed>
+	<shieldGraphic>
+		<offSet>(0,0.031,0)</offSet>
+	    <graphicData>
+			<texPath>Things/AMPSuit_Shield/AMP</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>		
+			<drawSize>(3, 3)</drawSize>		
+		</graphicData>
+	</shieldGraphic>
+    <frontGraphic>
+		<offSet>(0,0.03,0)</offSet>
+	    <graphicData>
+			<texPath>Things/AMPSuit/AMP</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>		
+			<drawSize>(3, 3)</drawSize>			
+		</graphicData>
+	</frontGraphic>
+    <backGraphic>
+		<offSet>(0,0,0)</offSet>
+	    <graphicData>
+			<texPath>Things/AMPSuit_Back/AMP</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(3, 3)</drawSize>	
+		</graphicData>		
+	</backGraphic>
+     <weapon>AMP_Rifle</weapon>
+    <equipWeapon>false</equipWeapon>
+    <core>AMP_Core_B</core>
+    <building>AMP_Exoskeleton_Building_B</building>
+	<wreckage>AMP_Disabled</wreckage>
+	<sufferEMP>true</sufferEMP>
+	<sufferStun>true</sufferStun>
+    <selfExplosive>
+      <amount>20</amount>
+      <radius>5</radius>
+      <damageDef>Bomb</damageDef>
+    </selfExplosive>
+  </WalkerGear.WalkerGearDef>
+
+ <ThingDef ParentName="AMP_AMPCoreBase">
+    <defName>AMP_Core_B</defName>
+    <label>Armed Amplified Mobility Platform</label>
+    <description>Amplified Mobility Platform, aka AMP suit, A manned robotic platform common in the early space colonization era. \n\ this is a military model equiped with a GAU-90 autocannon.</description>
+    <comps>
+      <li Class="WalkerGear.CompProperties_WalkerGearBuilding">
+        <walkerGearDef>AMP_Exoskeleton_B</walkerGearDef>
+      </li>
+    </comps>
+	<apparel>
+	  <tags>
+		<li>AMP_MechSuitMilitary</li>
+	  </tags>
+	</apparel>
+	<equippedStatOffsets>
+		<MeleeHitChance>0.25</MeleeHitChance>
+		<MeleeDodgeChance>-0.25</MeleeDodgeChance><!--更容易受擊-->
+	</equippedStatOffsets>		
+  </ThingDef>
+
+  <ThingDef ParentName="AMP_AMPBuildingBase">
+    <defName>AMP_Exoskeleton_Building_B</defName>
+    <label>Armed Amplified Mobility Platform(Inactive)</label>
+    <description>Amplified Mobility Platform, aka AMP suit, A manned robotic platform common in the early space colonization era. \n\ this is a military model equiped with a GAU-90 autocannon.</description>
+    <graphicData>
+      <texPath>Things/AMPSuit_Building/AMP_B</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <researchPrerequisites>
+      <li>AMP_Rifle</li>
+    </researchPrerequisites>
+	<colorGenerator Class="ColorGenerator_Options">
+      <options>
+		<li>
+			<weight>60</weight>
+          	<only>(95,101,90)</only>
+        </li>
+		<li>
+			<weight>10</weight>
+          	<only>(54,50,51)</only>
+        </li>
+		<li>
+			<weight>10</weight>
+          	<only>(96,91,59)</only>
+        </li>
+      </options>
+    </colorGenerator>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <SellPriceFactor>1.0</SellPriceFactor>
+      <Mass>250</Mass>
+      <WorkToMake>10000</WorkToMake>
+    </statBases>
+    <comps>
+      <li Class="WalkerGear.CompProperties_WalkerGearBuilding">
+        <walkerGearDef>AMP_Exoskeleton_B</walkerGearDef>
+      </li>
+    </comps>
+	<constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+	<costList>
+		<Steel>700</Steel>
+		<Uranium>200</Uranium>
+		<ComponentIndustrial>35</ComponentIndustrial>
+		<ComponentSpacer>5</ComponentSpacer>
+	</costList>
+  </ThingDef>
+ 
+ 
+</Defs>	
