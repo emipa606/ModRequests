@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Patch>
+    <Operation Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="VFE_Turret_AutoMortar"]</xpath>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="VFE_Turret_AutoMortar"]/comps/li[@Class="CompProperties_Refuelable"]</xpath>
+                    <value>
+                        <li Class="AutoMortarShellChoice.CompProperties_AutoChangeProj">
+                            <MaxShells>5</MaxShells>
+                            <ReloadTime>3</ReloadTime>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/ThingDef[defName="VFE_Turret_AutoMortar"]/building</xpath>
+                    <value>
+                        <fixedStorageSettings>
+                            <filter>
+                                <categories>
+                                    <li>MortarShells</li>
+                                </categories>
+                            </filter>
+                        </fixedStorageSettings>
+                        <defaultStorageSettings>
+                            <filter>
+                                <categories>
+                                    <li>MortarShells</li>
+                                </categories>
+                                <disallowedThingDefs>
+                                    <li>Shell_Firefoam</li>
+                                    <li>Shell_AntigrainWarhead</li>
+                                </disallowedThingDefs>
+                            </filter>
+                        </defaultStorageSettings>
+                    </value>
+                </li>
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="VFE_AutoMortar"]/verbs/li/verbClass</xpath>
+                    <value>
+                        <verbClass>AutoMortarShellChoice.Verb_Auto</verbClass>
+                    </value>
+                </li>
+                <li Class="PatchOperationRemove">
+                    <xpath>/Defs/ThingDef[defName="VFE_AutoMortar"]/verbs/li/consumeFuelPerShot</xpath>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>
