@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+ 
+ 	<MVCF.ModDef>
+	<defName>HLVR_HalfLife</defName>
+	<label>Half-Life Mod</label>
+	<description>Adding animal ranged attacks for Half-Life creatures</description>
+	<Features>
+		<RangedAnimals>true</RangedAnimals>
+		<HediffVerbs>true</HediffVerbs>
+		<IntegratedToggle>true</IntegratedToggle>
+	</Features>
+	</MVCF.ModDef>
+ 
+  <ThingDef ParentName="BaseInsect">
+    <defName>Monster_Snark</defName>
+    <label>snark</label>
+    <description>Small insectoid creatures that make squeaky noises. They look cute, are incredibly hostile and will attack anything in sight. Snarks are filled with pressurized acid solution and will explode on death dealing damage to nearby objects. Their lifespan is limited and will die after a few seconds on their own.</description>
+    <statBases>
+      <MoveSpeed>4.6</MoveSpeed>
+      <MarketValue>1</MarketValue>
+      <ComfyTemperatureMin>-15</ComfyTemperatureMin>
+    </statBases>
+    <tools>
+      <li>
+        <label>beak</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>1</power>
+        <cooldownTime>1</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+      </li>
+    </tools>
+	<comps>
+		<li Class="HLVR.CompProperties_InitialManhunter"/>
+		<li Class="AnimalBehaviours.CompProperties_DieAfterPeriod">
+			<timeToDieInTicks>5000</timeToDieInTicks>
+			<effect>true</effect>
+			<effectFilth>Filth_BloodInsect</effectFilth>
+		</li>
+	</comps>
+        <race>
+      <body>BeetleLike</body>
+	  <deathActionWorkerClass>DeathActionWorker_SnarkExplosion</deathActionWorkerClass>
+      <baseBodySize>0.05</baseBodySize>
+      <baseHungerRate>0.01</baseHungerRate>
+      <baseHealthScale>0.2</baseHealthScale>
+      <useMeatFrom>Megaspider</useMeatFrom>
+      <wildness>1</wildness>
+      <lifeExpectancy>1</lifeExpectancy>
+	  <canBePredatorPrey>false</canBePredatorPrey>
+      <lifeStageAges>
+        <li>
+          <def>EusocialInsectLarva</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>EusocialInsectJuvenile</def>
+          <minAge>0.03</minAge>
+        </li>
+        <li>
+          <def>EusocialInsectAdult</def>
+          <minAge>0.4</minAge>
+		  <soundWounded>Monster_Snark_Wounded</soundWounded>
+          <soundDeath>Monster_Snark_Death</soundDeath>
+          <soundCall>Monster_Snark_Idle</soundCall>
+          <soundAngry>Monster_Snark_Angry</soundAngry>
+		</li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+  </ThingDef>
+
+ <PawnKindDef ParentName="AnimalKindBase">
+    <defName>Monster_Snark</defName>
+    <label>snark</label>
+    <race>Monster_Snark</race>
+    <combatPower>1</combatPower>
+    <ecoSystemWeight>0.01</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Snark/snark</texPath>
+          <drawSize>0.5</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>0.5</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Snark/snark</texPath>
+          <drawSize>0.7</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>0.7</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Snark/snark</texPath>
+          <drawSize>0.7</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>0.7</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+   <DamageDef>
+    <defName>HLVR_AcidBomb</defName>
+    <label>acid bomb</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has died in an explosion.</deathMessage>
+    <hediff>VEF_AcidBurn</hediff>
+    <hediffSolid>VEF_AcidBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <defaultDamage>1</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>1</buildingDamageFactor>
+    <plantDamageFactor>2</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+    <explosionCellMote>Mote_BlastDry</explosionCellMote>
+    <explosionColorCenter>(166, 209, 123)</explosionColorCenter>
+    <explosionColorEdge>(162, 242, 111)</explosionColorEdge>
+    <soundExplosion>Monster_Snark_Explode</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  
+  <HediffDef>
+    <defName>HLVR_SnarkDecay</defName>
+    <label>pressure buildup</label>
+    <labelNoun>pressure buildup</labelNoun>
+    <description>Buildup of acid pressure within the creature. It will pop, killing the creature when it reaches critical point.</description>
+    <hediffClass>Hediff_HeartAttack</hediffClass>
+    <defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
+    <initialSeverity>0.5</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <stages>
+      <li>
+        <label>fatal</label>
+        <minSeverity>1</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  
+   <ThingDef ParentName="BaseInsect">
+    <defName>Monster_Snarknest</defName>
+    <label>snark nest</label>
+    <description>A strange adaptation of the snark. This "nest" contains a bunch of snarks ready to pop out and suicide against whatever may cause harm to it. It will wander around aimlessly and harmlessly unless provoked.</description>
+    <statBases>
+      <MoveSpeed>0.5</MoveSpeed>
+      <MarketValue>1</MarketValue>
+      <ComfyTemperatureMin>-15</ComfyTemperatureMin>
+    </statBases>
+    <tools>
+      <li>
+        <label>beak</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>1</power>
+        <cooldownTime>1</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+      </li>
+    </tools>
+        <race>
+      <body>BeetleLike</body>
+      <baseBodySize>0.05</baseBodySize>
+      <baseHungerRate>0.00</baseHungerRate>
+      <baseHealthScale>0.001</baseHealthScale>
+      <useMeatFrom>Megaspider</useMeatFrom>
+      <wildness>1</wildness>
+      <lifeExpectancy>10</lifeExpectancy>
+	  <deathActionWorkerClass>DeathActionWorker_SnarkNestPop</deathActionWorkerClass>
+	  <canBePredatorPrey>false</canBePredatorPrey>
+	  <manhunterOnTameFailChance>0.0</manhunterOnTameFailChance>
+      <manhunterOnDamageChance>0.0</manhunterOnDamageChance>
+	  <wildBiomes>
+		<TemperateForest>0.01</TemperateForest>
+		<TemperateSwamp>0.04</TemperateSwamp>
+		<BorealForest>0</BorealForest>
+		<Tundra>0</Tundra>
+		<ColdBog>0</ColdBog>
+		<IceSheet>0</IceSheet>
+		<TropicalRainforest>0.2</TropicalRainforest>
+		<TropicalSwamp>0.2</TropicalSwamp>
+		<AridShrubland>0.2</AridShrubland>
+		<Desert>0.2</Desert>
+		<ExtremeDesert>0.05</ExtremeDesert>
+	  </wildBiomes>
+      <lifeStageAges>
+        <li>
+          <def>EusocialInsectLarva</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>EusocialInsectJuvenile</def>
+          <minAge>0.03</minAge>
+        </li>
+        <li>
+          <def>EusocialInsectAdult</def>
+          <minAge>0.4</minAge>
+		</li>
+
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+    </race>
+  </ThingDef>
+
+ <PawnKindDef ParentName="AnimalKindBase">
+    <defName>Monster_Snarknest</defName>
+    <label>snark nest</label>
+    <race>Monster_Snarknest</race>
+    <combatPower>1</combatPower>
+    <ecoSystemWeight>0.01</ecoSystemWeight>
+   <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Snarknest/snarknest</texPath>
+          <drawSize>1</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>1</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Snarknest/snarknest</texPath>
+          <drawSize>1.25</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>1.25</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Snarknest/snarknest</texPath>
+          <drawSize>1.5</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>1.5</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+    
+</Defs>
