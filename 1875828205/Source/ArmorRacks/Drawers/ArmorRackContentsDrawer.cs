@@ -54,7 +54,9 @@ namespace ArmorRacks.Drawers
             for (int index = 0; index < ApparelGraphics.Count; ++index)
             {
                 if (ApparelGraphics[index].sourceApparel.def.apparel.LastLayer != ApparelLayerDefOf.Shell &&
-                    ApparelGraphics[index].sourceApparel.def.apparel.LastLayer != ApparelLayerDefOf.Overhead)
+                    ApparelGraphics[index].sourceApparel.def.apparel.LastLayer != ApparelLayerDefOf.Overhead &&
+                    ApparelGraphics[index].sourceApparel.def.apparel.LastLayer != ApparelLayerDefOf.Belt
+                    )
                 {
                     Material mat = ApparelGraphics[index].graphic.MatAt(ArmorRack.Rotation);
                     GenDraw.DrawMeshNowOrLater(mesh, loc, quaternion, mat, false);
@@ -63,7 +65,6 @@ namespace ArmorRacks.Drawers
             }
             
             Vector3 loc1 = loc + vector3_3;
-            Vector3 loc2 = loc + vector3_3;
             loc1.y += 1f / 32f;
 
             for (int index = 0; index < ApparelGraphics.Count; ++index)
@@ -77,6 +78,17 @@ namespace ArmorRacks.Drawers
                 {
                     Material mat = ApparelGraphics[index].graphic.MatAt(ArmorRack.Rotation);
                     GenDraw.DrawMeshNowOrLater(mesh, loc, quaternion, mat, false);
+                }
+                else if (ApparelGraphics[index].sourceApparel.def.apparel.LastLayer == ApparelLayerDefOf.Belt)
+                {
+                    Vector3 beltloc = loc;
+                    beltloc.y = ArmorRack.Rotation == Rot4.South ? drawLoc.y : loc.y + 1f / 32f;
+                    Vector2 vector2_1 = ApparelGraphics[index].sourceApparel.def.apparel.wornGraphicData.BeltOffsetAt(ArmorRack.Rotation, ArmorRack.BodyTypeDef);
+                    Vector2 vector2_2 = ApparelGraphics[index].sourceApparel.def.apparel.wornGraphicData.BeltScaleAt(ArmorRack.Rotation, ArmorRack.BodyTypeDef);
+                    Matrix4x4 matrix = Matrix4x4.Translate(beltloc) * Matrix4x4.Rotate(quaternion) * Matrix4x4.Translate(new Vector3(vector2_1.x, 0.0f, vector2_1.y)) * Matrix4x4.Scale(new Vector3(vector2_2.x, 1f, vector2_2.y));
+                    Material mat = ApparelGraphics[index].graphic.MatAt(ArmorRack.Rotation);
+                    GenDraw.DrawMeshNowOrLater(mesh, matrix, mat, false);
+                    loc.y += 2f / 32f;
                 }
             }
         }

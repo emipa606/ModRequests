@@ -18,15 +18,20 @@ namespace ArmorRacks.ThingComps
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            if (parent is Pawn pawn && pawn.Map != null)
+            if (parent is Pawn pawn)
             {
-                var racks = pawn.Map.listerBuildings.AllBuildingsColonistOfClass<ArmorRack>();
+                var racks = Find.CurrentMap.listerBuildings.AllBuildingsColonistOfClass<ArmorRack>();
                 foreach (var rack in racks)
                 {
                     var c = rack.GetComp<CompAssignableToPawn_ArmorRacks>();
                     if (c.AssignedPawns.Contains(pawn))
                     {
-                        yield return new ArmorRackUseCommand(rack, pawn);
+                        var command = new ArmorRackUseCommand(rack, pawn);
+                        if (pawn.health.Downed)
+                        {
+                            command.Disable("IsIncapped".Translate(pawn.LabelShort, pawn));
+                        }
+                        yield return command;
                     }
                 }
             }

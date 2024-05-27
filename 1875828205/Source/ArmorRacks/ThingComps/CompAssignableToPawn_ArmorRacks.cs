@@ -14,7 +14,7 @@ namespace ArmorRacks.ThingComps
         {
             if (this.assignedPawns.Contains(pawn))
                 return;
-            var racks = pawn.Map.listerBuildings.AllBuildingsColonistOfClass<ArmorRack>();
+            var racks = Find.CurrentMap.listerBuildings.AllBuildingsColonistOfClass<ArmorRack>();
             foreach (var rack in racks)
             {
                 var c = rack.GetComp<CompAssignableToPawn_ArmorRacks>();
@@ -26,7 +26,7 @@ namespace ArmorRacks.ThingComps
 
         public override bool AssignedAnything(Pawn pawn)
         {
-            var racks = pawn.Map.listerBuildings.AllBuildingsColonistOfClass<ArmorRack>();
+            var racks = Find.CurrentMap.listerBuildings.AllBuildingsColonistOfClass<ArmorRack>();
             foreach (var rack in racks)
             {
                 var c = rack.GetComp<CompAssignableToPawn_ArmorRacks>();

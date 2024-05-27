@@ -11,6 +11,11 @@ namespace ArmorRacks.Jobs
 {
     public class JobDriverTransferToRack : JobDriver_WearRackBase
     {
+        public bool TransferSetForced()
+        {
+            return LoadedModManager.GetMod<ArmorRacksMod>().GetSettings<ArmorRacksModSettings>().TransferSetForced;
+        }
+        
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             AddFailCondition(delegate
@@ -72,6 +77,11 @@ namespace ArmorRacks.Jobs
                         if (ApparelUtility.HasPartsToWear(pawn, leftoverApparel.def) && pawn.apparel.CanWearWithoutDroppingAnything(leftoverApparel.def))
                         {
                             pawn.apparel.Wear(leftoverApparel);
+                            if (TransferSetForced())
+                            {
+                                pawn.outfits.forcedHandler.SetForced(leftoverApparel, true);
+                            }
+                            
                         }
                         else
                         {

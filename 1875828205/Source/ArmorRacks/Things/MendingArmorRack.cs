@@ -5,9 +5,20 @@ namespace ArmorRacks.Things
 {
     public class MendingArmorRack : MechanizedArmorRack
     {
-        public static int RareTicksPerMend = 40;
         public int TickCounter = 0;
+        private int? RareTicksPerMendCached;
 
+        public int RareTicksPerMend
+        {
+            get
+            {
+                if (RareTicksPerMendCached == null)
+                {
+                    RareTicksPerMendCached = LoadedModManager.GetMod<ArmorRacksMod>().GetSettings<ArmorRacksModSettings>().RareTicksPerMend;
+                }
+                return (int) RareTicksPerMendCached;
+            }
+        }
         public override void TickRare()
         {
             var power = GetComp<CompPowerTrader>();
@@ -15,7 +26,7 @@ namespace ArmorRacks.Things
             {
                 TickCounter++;
             }
-            if (TickCounter == RareTicksPerMend)
+            if (TickCounter >= RareTicksPerMend)
             {
                 MendContents();
                 TickCounter = 0;
@@ -33,5 +44,12 @@ namespace ArmorRacks.Things
                 }
             }
         }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref TickCounter, "ArmorRackTickCounter");
+        }
+        
     }
 }
