@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Base Class for all mechanical surgeries that applies to appropriate mechanicals -->
+    <RecipeDef Name="MHC_surgeryMechanicalBase" Abstract="True">
+        <effectWorking>Repair</effectWorking>
+        <soundWorking>Recipe_Machining</soundWorking>
+        <workSpeedStat>MHC_MechanicalOperationSpeed</workSpeedStat>
+        <workSkill>Crafting</workSkill>
+        <workSkillLearnFactor>16</workSkillLearnFactor>
+        <anesthetize>false</anesthetize>
+        <recipeUsers /> <!-- XML patches add individual races that want to use the surgeries that inherit from this class. -->
+    </RecipeDef>
+
+	<!-- Surgery to remove body parts from mechanical units -->
+	<RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_RemoveMechanicalBodyPart</defName>
+		<label>Remove part</label>
+		<description>Removes body part.</description>
+		<workerClass>MechHumanlikes.Recipe_RemoveMechanicalPart</workerClass>
+		<jobString>Removing body part.</jobString>
+		<workAmount>2000</workAmount>
+    	<isViolation>true</isViolation>
+		<surgerySuccessChanceFactor>2.5</surgerySuccessChanceFactor>
+		<skillRequirements>
+			<Crafting>4</Crafting>
+		</skillRequirements>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>Medicine</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>MHC_PartPack</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>Medicine</li>
+			</categories>
+			<thingDefs>
+				<li>MHC_PartPack</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<!-- Surgery to shutdown any incapacitated mechanical unit -->
+    <RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_MechanicalShutdown</defName>
+		<label>Shut down central core</label>
+		<description>Shuts down a mechanical unit to render it completely non-functioning and deceased.</description>
+		<workerClass>Recipe_ExecuteByCut</workerClass>
+		<jobString>Shutting down mechanical unit.</jobString>
+		<workAmount>800</workAmount>
+		<surgerySuccessChanceFactor>5</surgerySuccessChanceFactor>
+		<hideBodyPartNames>true</hideBodyPartNames>
+        <isViolation>true</isViolation>
+		<targetsBodyPart>false</targetsBodyPart>
+	</RecipeDef>
+
+	<!-- Surgery to restore body parts in mechanical units -->
+	<RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_RestoreBodyPartMechanical</defName>
+		<label>Restore part</label>
+		<description>Restores a particular body part.</description>
+		<workerClass>MechHumanlikes.Recipe_RestoreMechanicalPart</workerClass>
+		<jobString>Restoring body part.</jobString>
+		<workAmount>1400</workAmount>
+		<skillRequirements>
+			<Crafting>4</Crafting>
+		</skillRequirements>
+	  	<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>MHC_PartPack</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+    	</ingredients>
+    	<fixedIngredientFilter>
+			<thingDefs>
+				<li>MHC_PartPack</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<!-- Surgery to repaint mechanical units -->
+	<RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_RepaintMechanical</defName>
+		<label>Repaint</label>
+		<description>Changes the paint color of a mechanical unit.</description>
+		<workerClass>MechHumanlikes.Recipe_PaintMechanicalUnit</workerClass>
+		<jobString>Painting mechanical unit.</jobString>
+		<workAmount>400</workAmount>
+	  	<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Steel</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+    	</ingredients>
+    	<fixedIngredientFilter>
+			<thingDefs>
+				<li>Steel</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<!-- Surgery to increase the maintenance level of a unit to a certain extent. -->
+	<RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_DoEmergencyMaintenance</defName>
+		<label>Do makeshift maintenance</label>
+		<description>Use parts to repair severe maintenance flaws. Since maintenance is primarily an internal activity, this can only bring it to 40%.</description>
+		<workerClass>MechHumanlikes.Recipe_DoEmergencyMaintenance</workerClass>
+		<jobString>Restoring body part.</jobString>
+		<workAmount>800</workAmount>
+		<skillRequirements>
+			<Crafting>6</Crafting>
+		</skillRequirements>
+	  	<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>MHC_PartPack</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+    	</ingredients>
+    	<fixedIngredientFilter>
+			<thingDefs>
+				<li>MHC_PartPack</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<!-- Surgery to reprogram drones to serve the colony -->
+    <RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_ReprogramDrone</defName>
+		<label>take command of drone</label>
+		<description>A straightforward but delicate operation, taking command of drones to suit the colony's purposes is an excellent way to strengthen capabilities. However, the previous owners may have installed safeguards against such operations, so there is a high risk of death should it fail.</description>
+		<workerClass>MechHumanlikes.Recipe_CommandDrone</workerClass>
+		<jobString>Taking command of drone.</jobString>
+		<workAmount>5000</workAmount>
+		<skillRequirements>
+            <Crafting>6</Crafting>
+        </skillRequirements>
+		<surgerySuccessChanceFactor>0.8</surgerySuccessChanceFactor>
+		<deathOnFailedSurgeryChance>0.4</deathOnFailedSurgeryChance>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>Medicine</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>Medicine</li>
+			</categories>
+		</fixedIngredientFilter>
+		<addsHediff>MHC_Restarting</addsHediff>
+	</RecipeDef>
+
+	<!-- Reboot, akin to anesthetic but requiring no medicine -->
+    <RecipeDef ParentName="MHC_surgeryMechanicalBase">
+		<defName>MHC_RebootUnit</defName>
+		<label>Reboot unit</label>
+		<description>An exceedingly straightforward operation to restart the unit, without any side effects or consequences.</description>
+        <workerClass>MechHumanlikes.Recipe_RebootUnit</workerClass>
+        <jobString>Rebooting unit.</jobString>
+		<workAmount>1000</workAmount>
+        <workSkillLearnFactor>0</workSkillLearnFactor>
+        <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>Medicine</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>Medicine</li>
+			</categories>
+		</fixedIngredientFilter>
+		<addsHediff>MHC_Restarting</addsHediff>
+	</RecipeDef>
+
+    <!-- Injecting coolant into a mechanical unit -->
+    <RecipeDef>
+        <defName>MHC_CoolantInjection</defName>
+        <label>inject coolant</label>
+        <description>Manually replenish a pawn's coolant reserves by injecting from a pack. This does not replace lost coolant in the chassis, but is essential for replenishing that lost quantity over time from the reserves.</description>
+        <jobString>injecting coolant into TargetA.</jobString>
+        <effectWorking>Repair</effectWorking>
+        <soundWorking>Recipe_Machining</soundWorking>
+        <workSpeedStat>MHC_MechanicalOperationSpeed</workSpeedStat>
+        <workSkill>Crafting</workSkill>
+        <workSkillLearnFactor>2</workSkillLearnFactor>
+        <workAmount>800</workAmount>
+        <hideBodyPartNames>true</hideBodyPartNames>
+        <targetsBodyPart>false</targetsBodyPart>
+        <anesthetize>false</anesthetize>
+        <workerClass>MechHumanlikes.Recipe_SurgicallyFulfillMechNeed</workerClass>
+        <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+        <ingredients>
+            <li>
+                <filter>
+                    <thingDefs>
+                        <li>MHC_CoolantPack</li>
+                    </thingDefs>
+                </filter>
+            </li>
+        </ingredients>
+        <fixedIngredientFilter>
+            <thingDefs>
+                <li>MHC_CoolantPack</li>
+            </thingDefs>
+        </fixedIngredientFilter>
+    </RecipeDef>
+
+    <!-- Injecting lubricant into a mechanical unit -->
+    <RecipeDef>
+        <defName>MHC_LubricantInjection</defName>
+        <label>inject lubricant</label>
+        <description>Manually replenish a pawn's lubricant reserves by injecting from a pack. This does not replace lost lubricant in the chassis, but is essential for replenishing that lost quantity over time from the reserves.</description>
+        <jobString>injecting lubricant into TargetA.</jobString>
+        <effectWorking>Repair</effectWorking>
+        <soundWorking>Recipe_Machining</soundWorking>
+        <workSpeedStat>MHC_MechanicalOperationSpeed</workSpeedStat>
+        <workSkill>Crafting</workSkill>
+        <workSkillLearnFactor>2</workSkillLearnFactor>
+        <workAmount>800</workAmount>
+        <hideBodyPartNames>true</hideBodyPartNames>
+        <targetsBodyPart>false</targetsBodyPart>
+        <anesthetize>false</anesthetize>
+        <workerClass>MechHumanlikes.Recipe_SurgicallyFulfillMechNeed</workerClass>
+        <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+        <ingredients>
+            <li>
+                <filter>
+                    <thingDefs>
+                        <li>MHC_LubricationPack</li>
+                    </thingDefs>
+                </filter>
+            </li>
+        </ingredients>
+        <fixedIngredientFilter>
+            <thingDefs>
+                <li>MHC_LubricationPack</li>
+            </thingDefs>
+        </fixedIngredientFilter>
+    </RecipeDef>
+
+</Defs>
