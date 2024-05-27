@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BasePawn" Name="SZMechNeko" Abstract="True">
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <statBases>
+      <PsychicSensitivity>0</PsychicSensitivity>
+      <ToxicSensitivity>0</ToxicSensitivity>
+      <Flammability>0</Flammability>
+      <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+      <ComfyTemperatureMax>250</ComfyTemperatureMax>
+      <MeatAmount>0</MeatAmount>
+      <ArmorRating_Heat>2.00</ArmorRating_Heat>
+      <IncomingDamageFactor>0.7</IncomingDamageFactor>
+      <MeleeDodgeChance>8</MeleeDodgeChance>
+    </statBases>
+    <receivesSignals>true</receivesSignals>
+    <race>
+      <fleshType>Mechanoid</fleshType>
+      <needsRest>false</needsRest>
+      <hasGenders>false</hasGenders>
+      <foodType>None</foodType>
+      <lifeExpectancy>2500</lifeExpectancy>
+      <bloodDef>Filth_MachineBits</bloodDef>
+    </race>
+    <comps>
+      <li Class="CompProperties_CanBeDormant" />
+      <li Class="CompProperties_WakeUpDormant">
+        <wakeUpOnDamage>true</wakeUpOnDamage>
+        <anyColonistCloseCheckRadius>30</anyColonistCloseCheckRadius>
+        <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+      </li>
+    </comps>
+    <damageMultipliers>
+      <li>
+        <damageDef>EMP</damageDef>
+        <multiplier>0.3</multiplier>
+      </li>
+    </damageMultipliers>
+  </ThingDef>
+  <PawnKindDef Name="SZMechNekoKind" Abstract="True">
+    <defaultFactionType>SZMechNeko_AutoFactory</defaultFactionType>
+    <aiAvoidCover>true</aiAvoidCover>
+    <destroyGearOnDrop>true</destroyGearOnDrop>
+  </PawnKindDef>
+  <!-- Walker (alpha/gamma) base -->
+  <ThingDef ParentName="SZMechNeko" Name="SZMechNekoWalker" Abstract="True">
+    <statBases>
+      <MoveSpeed>4.9</MoveSpeed>
+      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+      <IncomingDamageFactor>0.6</IncomingDamageFactor>
+    </statBases>
+    <race>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Mechanoid</thinkTreeMain>
+      <baseBodySize>1.0</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+    </race>
+  </ThingDef>
+  <!--gamma - fast mid-range shooter -->
+  <ThingDef ParentName="SZMechNekoWalker">
+    <defName>SZMechNeko_Gamma</defName>
+    <label>type - gamma</label>
+    <description>Fast human-sized combat mechanoids built for medium and long-range combat. Their bodies are light, making them vulnerable targets at close range - especially in melee combat.</description>
+    <tools>
+      <li>
+        <label>left fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Lancer</body>
+      <baseHealthScale>0.8</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+    </race>
+    <comps>
+      <li Class="SZMechNeko.CompProperties_PawnShield">
+        <energyMax>0.1</energyMax>
+        <rechargeRate>0.005</rechargeRate>
+        <drawSize>1.4</drawSize>
+      </li>
+    </comps>
+    <butcherProducts>
+      <SZMechNeko_OrganicAlloy>17</SZMechNeko_OrganicAlloy>
+      <SZMechNeko_NekoEar>2</SZMechNeko_NekoEar>
+      <SZMechNeko_NekoComponent>2</SZMechNeko_NekoComponent>
+      <SZMechNeko_EnergyCube>4</SZMechNeko_EnergyCube>
+    </butcherProducts>
+  </ThingDef>
+  <PawnKindDef ParentName="SZMechNekoKind">
+    <defName>SZMechNeko_Gamma</defName>
+    <label>type-gamma</label>
+    <race>SZMechNeko_Gamma</race>
+    <combatPower>185</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>AutomechNeko/Pawn/MechNekoGamma</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.65</drawSize>
+          <shadowData>
+            <volume>(0.8, 1.8, 0.8)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>SZMechNekoGamma</li>
+    </weaponTags>
+  </PawnKindDef>
+  <!--alpha - fast melee -->
+  <ThingDef ParentName="SZMechNekoWalker">
+    <defName>SZMechNeko_Alpha</defName>
+    <label>type - alpha</label>
+    <description>Fast, spindly, human-sized combat mechanoids specializing in rapid approach and close-range combat. Their bodies are covered in points and blades, but their mostly use two arm blades to lop off limbs or gut their victims alive.</description>
+    <tools>
+      <li>
+        <label>left blade</label>
+        <capacities>
+          <li>Cut</li>
+          <li>Stab</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftBlade</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+        <extraMeleeDamages>
+          <li>
+            <def>Flame</def>
+            <amount>5</amount>
+            <chance>0.6</chance>
+          </li>
+        </extraMeleeDamages>
+      </li>
+      <li>
+        <label>right blade</label>
+        <capacities>
+          <li>Cut</li>
+          <li>Stab</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightBlade</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+        <extraMeleeDamages>
+          <li>
+            <def>Flame</def>
+            <amount>5</amount>
+            <chance>0.6</chance>
+          </li>
+        </extraMeleeDamages>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Scyther</body>
+      <baseHealthScale>1</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+    </race>
+    <comps>
+      <li Class="SZMechNeko.CompProperties_PawnShield">
+        <energyMax>0.1</energyMax>
+        <rechargeRate>0.008</rechargeRate>
+        <drawSize>1.4</drawSize>
+      </li>
+    </comps>
+    <statBases>
+      <MeleeDodgeChance>25</MeleeDodgeChance>
+    </statBases>
+    <butcherProducts>
+      <SZMechNeko_OrganicAlloy>17</SZMechNeko_OrganicAlloy>
+      <SZMechNeko_NekoEar>2</SZMechNeko_NekoEar>
+      <SZMechNeko_NekoComponent>2</SZMechNeko_NekoComponent>
+      <SZMechNeko_EnergyCube>4</SZMechNeko_EnergyCube>
+    </butcherProducts>
+  </ThingDef>
+  <PawnKindDef ParentName="SZMechNekoKind">
+    <defName>SZMechNeko_Alpha</defName>
+    <label>type - alpha</label>
+    <race>SZMechNeko_Alpha</race>
+    <combatPower>195</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>AutomechNeko/Pawn/MechNekoAlpha</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.65</drawSize>
+          <shadowData>
+            <volume>(0.8, 1.8, 0.8)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>0~0</weaponMoney>
+    <defendPointRadius>0</defendPointRadius>
+    <weaponTags></weaponTags>
+  </PawnKindDef>
+  <!--xi - fast close-range shooter -->
+  <ThingDef ParentName="SZMechNekoWalker">
+    <defName>SZMechNeko_Xi</defName>
+    <label>type - xi</label>
+    <description>todo</description>
+    <statBases>
+      <MoveSpeed>6.2</MoveSpeed>
+      <IncomingDamageFactor>0.8</IncomingDamageFactor>
+      <PawnTrapSpringChance>0</PawnTrapSpringChance>
+    </statBases>
+    <tools>
+      <li>
+        <label>front left leg</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>front right leg</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Pikeman</body>
+      <baseBodySize>0.4</baseBodySize>
+      <baseHealthScale>0.5</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+      <lifeStageAges Inherit="False">
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Pikeman_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Pikeman_Death</soundDeath>
+          <soundCall>Pawn_Mech_Pikeman_Call</soundCall>
+        </li>
+      </lifeStageAges>
+    </race>
+    <comps>
+      <li Class="SZMechNeko.CompProperties_PawnShield">
+        <energyMax>0.05</energyMax>
+        <rechargeRate>0.002</rechargeRate>
+        <drawSize>0.6</drawSize>
+      </li>
+    </comps>
+    <butcherProducts>
+      <SZMechNeko_OrganicAlloy>6</SZMechNeko_OrganicAlloy>
+      <SZMechNeko_NekoEar>1</SZMechNeko_NekoEar>
+      <SZMechNeko_NekoComponent>1</SZMechNeko_NekoComponent>
+      <SZMechNeko_EnergyCube>1</SZMechNeko_EnergyCube>
+    </butcherProducts>
+  </ThingDef>
+  <PawnKindDef ParentName="SZMechNekoKind">
+    <defName>SZMechNeko_Xi</defName>
+    <label>type - xi</label>
+    <labelPlural>type - xi</labelPlural>
+    <race>SZMechNeko_Xi</race>
+    <combatPower>65</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>AutomechNeko/Pawn/MechNekoXi</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>0.85</drawSize>
+          <shadowData>
+            <volume>(0.3, 0.5, 0.3)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>SZMechNekoXi</li>
+    </weaponTags>
+    <defendPointRadius>50</defendPointRadius>
+  </PawnKindDef>
+  <!--mega - heavy melee-->
+  <ThingDef ParentName="SZMechNekoWalker">
+    <defName>SZMechNeko_Mega</defName>
+    <label>type - mega</label>
+    <description>todo</description>
+    <statBases>
+      <MoveSpeed>3.1</MoveSpeed>
+      <IncomingDamageFactor>0.5</IncomingDamageFactor>
+      <ArmorRating_Blunt>0.3</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.3</ArmorRating_Sharp>
+      <MeleeDodgeChance>18</MeleeDodgeChance>
+    </statBases>
+    <tools>
+      <li>
+        <label>left blade</label>
+        <capacities>
+          <li>Cut</li>
+          <li>SZMechNeko_StabWithBomb</li>
+        </capacities>
+        <power>30</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftBlade</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right blade</label>
+        <capacities>
+          <li>Cut</li>
+          <li>SZMechNeko_StabWithBomb</li>
+        </capacities>
+        <power>30</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightBlade</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>35</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Scyther</body>
+      <baseBodySize>1.8</baseBodySize>
+      <baseHealthScale>3.6</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+    </race>
+    <comps>
+      <li Class="SZMechNeko.CompProperties_PawnShield">
+        <energyMax>0.3</energyMax>
+        <rechargeRate>0.01</rechargeRate>
+        <drawSize>2.3</drawSize>
+        <activingHediff>SZMechNeko_SpeedUp</activingHediff>
+      </li>
+    </comps>
+    <butcherProducts>
+      <SZMechNeko_OrganicAlloy>34</SZMechNeko_OrganicAlloy>
+      <SZMechNeko_NekoEar>2</SZMechNeko_NekoEar>
+      <SZMechNeko_NekoComponent>3</SZMechNeko_NekoComponent>
+      <SZMechNeko_EnergyCube>8</SZMechNeko_EnergyCube>
+      <SZMechNeko_NekoCore>1</SZMechNeko_NekoCore>
+    </butcherProducts>
+  </ThingDef>
+  <PawnKindDef ParentName="SZMechNekoKind">
+    <defName>SZMechNeko_Mega</defName>
+    <label>type - maga</label>
+    <race>SZMechNeko_Mega</race>
+    <combatPower>599</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>AutomechNeko/Pawn/MechNekoMega</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>2.8</drawSize>
+          <shadowData>
+            <volume>(1.4, 2.3, 1.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>0~0</weaponMoney>
+    <defendPointRadius>0</defendPointRadius>
+    <weaponTags></weaponTags>
+  </PawnKindDef>
+  <!--omega - boss-->
+  <ThingDef ParentName="SZMechNekoWalker">
+    <defName>SZMechNeko_Omega</defName>
+    <label>type - omega</label>
+    <description>todo</description>
+    <statBases>
+      <MoveSpeed>3.9</MoveSpeed>
+      <IncomingDamageFactor>0.3</IncomingDamageFactor>
+      <ArmorRating_Blunt>0.4</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.4</ArmorRating_Sharp>
+      <AimingDelayFactor>0.7</AimingDelayFactor>
+      <MeleeDodgeChance>25</MeleeDodgeChance>
+    </statBases>
+    <tools>
+      <li>
+        <label>left blade</label>
+        <capacities>
+          <li>Cut</li>
+          <li>SZMechNeko_StabWithBomb</li>
+        </capacities>
+        <power>38</power>
+        <cooldownTime>1.8</cooldownTime>
+        <linkedBodyPartsGroup>LeftBlade</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right blade</label>
+        <capacities>
+          <li>Cut</li>
+          <li>SZMechNeko_StabWithBomb</li>
+        </capacities>
+        <power>38</power>
+        <cooldownTime>1.8</cooldownTime>
+        <linkedBodyPartsGroup>RightBlade</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>40</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>Scyther</body>
+      <baseBodySize>2.2</baseBodySize>
+      <baseHealthScale>3.6</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+    </race>
+    <comps>
+      <li Class="SZMechNeko.CompProperties_IEDSpawn">
+        <IEDdef>TrapIED_HighExplosive</IEDdef>
+      </li>
+      <li Class="SZMechNeko.CompProperties_PawnShield">
+        <energyMax>0.5</energyMax>
+        <rechargeRate>0.02</rechargeRate>
+        <drawSize>3.2</drawSize>
+        <activingHediff>SZMechNeko_SpeedUp</activingHediff>
+        <teleOnBreak>true</teleOnBreak>
+      </li>
+    </comps>
+    <butcherProducts>
+      <SZMechNeko_OrganicAlloy>57</SZMechNeko_OrganicAlloy>
+      <SZMechNeko_NekoEar>2</SZMechNeko_NekoEar>
+      <SZMechNeko_NekoComponent>7</SZMechNeko_NekoComponent>
+      <SZMechNeko_EnergyCube>19</SZMechNeko_EnergyCube>
+      <SZMechNeko_NekoCore>2</SZMechNeko_NekoCore>
+    </butcherProducts>
+  </ThingDef>
+  <PawnKindDef ParentName="SZMechNekoKind">
+    <defName>SZMechNeko_Omega</defName>
+    <label>type - omega</label>
+    <race>SZMechNeko_Omega</race>
+    <combatPower>1380</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>AutomechNeko/Pawn/MechNekoOMega</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3.75</drawSize>
+          <shadowData>
+            <volume>(2, 3.4, 2)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~99999</weaponMoney>
+    <defendPointRadius>40</defendPointRadius>
+    <weaponTags>
+      <li>SZMechNekoOmega</li>
+    </weaponTags>
+  </PawnKindDef>
+</Defs>
