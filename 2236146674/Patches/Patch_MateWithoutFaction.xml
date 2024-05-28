@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Add mating outside of the conditional per-faction one -->
+	<Operation Class="PatchOperationInsert">
+		<xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[@Class="ThinkNode_Subtree" and treeDef="SatisfyBasicNeeds"]</xpath>
+		<order>Append</order>
+		<value>
+			<li Class="ThinkNode_ChancePerHour_Mate">
+              <subNodes>
+                <li Class="ThinkNode_Tagger">
+                  <tagToGive>SatisfyingNeeds</tagToGive>
+                  <subNodes>
+                    <li Class="JobGiver_Mate" />
+                  </subNodes>
+                </li>
+              </subNodes>
+            </li>
+		</value>
+	</Operation>
+	<!-- Remove the conditional per-faction node, for consistency -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>/Defs/ThinkTreeDef[defName="Animal"]/thinkRoot/subNodes/li[@Class="ThinkNode_ConditionalHasFaction"]/subNodes/li[@Class="ThinkNode_ChancePerHour_Mate"]</xpath>
+	</Operation>
+</Patch>
