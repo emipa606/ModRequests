@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="XmlExtensions.ForEach">
+		<xpath>/Defs/ThingDef[@ParentName = "AnimalThingBase"]/race/lifeExpectancy</xpath>
+		<apply>
+			<Operation Class="XmlExtensions.CreateVariable">
+				<storeIn>lifeExpectancy0675</storeIn>
+				<value>{DEF}/race/lifeExpectancy</value>
+				<value2>0.675</value2>
+				<fromXml>true</fromXml>
+				<operation>*</operation>
+				<apply>
+					<Operation Class="XmlExtensions.CreateVariable">
+						<storeIn>lifeExpectancy075</storeIn>
+						<value>{DEF}/race/lifeExpectancy</value>
+						<value2>0.75</value2>
+						<fromXml>true</fromXml>
+						<operation>*</operation>
+						<apply>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<storeIn>lifeExpectancy0875</storeIn>
+								<value>{DEF}/race/lifeExpectancy</value>
+								<value2>0.875</value2>
+								<fromXml>true</fromXml>
+								<operation>*</operation>
+								<apply>
+									<Operation Class="XmlExtensions.CreateVariable">
+										<storeIn>lifeExpectancy1</storeIn>
+										<value>{DEF}/race/lifeExpectancy</value>
+										<!-- <value2>1</value2> -->
+										<fromXml>true</fromXml>
+										<!-- <operation>*</operation> -->
+										<apply>
+											<Operation Class="XmlExtensions.CreateVariable">
+												<storeIn>lifeExpectancy1125</storeIn>
+												<value>{DEF}/race/lifeExpectancy</value>
+												<value2>1.125</value2>
+												<fromXml>true</fromXml>
+												<operation>*</operation>
+												<apply>
+													<Operation Class="XmlExtensions.CreateVariable">
+														<storeIn>lifeExpectancy125</storeIn>
+														<value>{DEF}/race/lifeExpectancy</value>
+														<value2>1.25</value2>
+														<fromXml>true</fromXml>
+														<operation>*</operation>
+														<apply>
+															<Operation Class="XmlExtensions.PatchOperationSafeAdd">
+																<xpath>{DEF}/race</xpath>
+																<value>
+																	<ageGenerationCurve>
+																		<points>
+																			<li>(0,0)</li>
+																			<!-- it's the start of the curve (default value is 0.05*lifeExpectancy) -->
+																			<li>(0.001,100)</li>
+																			<!-- it allow babies to spawn (default value is 0.1*lifeExpectancy) -->
+																			<li>({lifeExpectancy0675},100)</li>
+																			<!-- For this line and following, you need to do first value*lifeExpectancy of the Animal (0.675*15 for Mufallo) -->
+																			<li>({lifeExpectancy075},30)</li>
+																			<li>({lifeExpectancy0875},18)</li>
+																			<li>({lifeExpectancy1},10)</li>
+																			<li>({lifeExpectancy1125},3)</li>
+																			<li>({lifeExpectancy125},0)</li>
+																		</points>
+																	</ageGenerationCurve>
+																</value>
+															</Operation>
+														</apply>
+													</Operation>
+												</apply>
+											</Operation>
+										</apply>
+									</Operation>
+								</apply>
+							</Operation>
+						</apply>
+					</Operation>
+				</apply>
+			</Operation>
+		</apply>
+	</Operation>
+</Patch>
