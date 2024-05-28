@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<RitualPatternDef>
+		<defName>Blessing</defName>
+		<nameMaker>NamerBlessing</nameMaker>
+		<alwaysStartAnytime>true</alwaysStartAnytime>
+		<ritualObligationTargetFilter>RitualSpotOrAltar</ritualObligationTargetFilter>
+		<ritualExpectedDesc>{MEMBERS} can hold divine channeling sessions to let a deity bestow blessings on one of their worshippers.</ritualExpectedDesc>
+		<ritualBehavior>Blessing</ritualBehavior>
+		<ritualOutcomeEffect>Blessing</ritualOutcomeEffect>
+		<tags>
+			<li>BlessingCeremony</li>
+		</tags>
+		<patternGroupTag>BlessingCeremony</patternGroupTag>
+		<mergeGizmosForObligations>true</mergeGizmosForObligations>
+	</RitualPatternDef>
+
+	<RitualBehaviorDef>
+		<defName>Blessing</defName>
+		<durationTicks>5000</durationTicks>
+		<spectatorsLabel>Spectators</spectatorsLabel>
+		<spectatorGerund>participate</spectatorGerund>
+		<workerClass>PorousBoat.WorshipSacrifice.RitualBehaviorWorker_Blessing</workerClass>
+		<roles>
+			<li Class="RitualRoleTag">
+				<label>channeler</label>
+				<tag>Leader</tag>
+				<id>leader</id>
+				<precept>IdeoRole_Leader</precept>
+				<missingDesc>the person to channel a higher power</missingDesc>
+				<required>True</required>
+				<maxCount>1</maxCount>
+				<countsAsParticipant>False</countsAsParticipant>
+				<allowChild>False</allowChild>
+				<mustBeAbleToReachTarget>True</mustBeAbleToReachTarget>
+			</li>
+			<li Class="PorousBoat.WorshipSacrifice.RitualRoleBlessee">
+				<label>blessee</label>
+				<id>blessee</id>
+				<required>True</required>
+				<missingDesc>the person to receive the blessing</missingDesc>
+				<maxCount>1</maxCount>
+				<countsAsParticipant>False</countsAsParticipant>
+				<allowChild>True</allowChild>
+			</li>
+		</roles>
+		<stages>
+			<li Class="RitualStage_InteractWithRole">
+				<targets>
+					<li>
+						<pawnId>leader</pawnId>
+						<targetId>blessee</targetId>
+					</li>
+				</targets>
+				<defaultDuty>Spectate</defaultDuty>
+				<failTriggers>
+					<li Class="StageFailTrigger_TargetPawnUnreachable">
+						<takerId>leader</takerId>
+						<takeeId>blessee</takeeId>
+						<desc>Blessee is not reachable.</desc>
+					</li>
+				</failTriggers>
+				<endTriggers>
+					<li Class="StageEndTrigger_RolesArrived">
+						<roleIds>
+							<li>leader</li>
+						</roleIds>
+						<clearTag>true</clearTag>
+					</li>
+				</endTriggers>
+				<roleBehaviors>
+					<li>
+						<roleId>leader</roleId>
+						<dutyDef>DeliverPawnToCell</dutyDef>
+						<customPositions>
+							<li Class="RitualPosition_OnInteractionCell">
+								<offset>(-1,0,0)</offset>
+								<facing>South</facing>
+							</li>
+						</customPositions>
+					</li>
+					<li>
+						<roleId>target</roleId>
+						<dutyDef>Idle</dutyDef>
+					</li>
+				</roleBehaviors>
+			</li>
+			<li>
+				<defaultDuty>Spectate</defaultDuty>
+				<essential>True</essential>
+				<endTriggers>
+					<li Class="StageEndTrigger_RolesArrived">
+						<roleIds>
+							<li>leader</li>
+						</roleIds>
+						<clearTag>true</clearTag>
+					</li>
+				</endTriggers>
+				<roleBehaviors>
+					<li>
+						<roleId>leader</roleId>
+						<dutyDef>ArriveToCell</dutyDef>
+						<customPositions>
+							<li Class="RitualPosition_Lectern">
+								<maxDistanceToFocus>5</maxDistanceToFocus>
+							</li>
+							<li Class="RitualPosition_OnInteractionCell">
+								<facing>West</facing>
+							</li>
+						</customPositions>
+					</li>
+					<li>
+						<roleId>blessee</roleId>
+						<dutyDef>Idle</dutyDef>
+					</li>
+				</roleBehaviors>
+			</li>
+			<li>
+				<defaultDuty>Spectate</defaultDuty>
+				<endTriggers>
+					<li Class="StageEndTrigger_DurationPercentage">
+						<percentage>0.3</percentage>
+					</li>
+				</endTriggers>
+				<roleBehaviors>
+					<li>
+						<roleId>leader</roleId>
+						<dutyDef>SpeakOnCellFacingSpectators</dutyDef>
+						<speakerInteraction>Speech_Blessing</speakerInteraction>
+						<customPositions>
+							<li Class="RitualPosition_Lectern">
+								<maxDistanceToFocus>5</maxDistanceToFocus>
+							</li>
+								<li Class="RitualPosition_OnInteractionCell">
+								<facing>West</facing>
+							</li>
+						</customPositions>
+					</li>
+					<li>
+						<roleId>blessee</roleId>
+						<dutyDef>Idle</dutyDef>
+					</li>
+				</roleBehaviors>
+			</li>
+			<li Class="RitualStage_InteractWithRole">
+				<targetId>blessee</targetId>
+				<defaultDuty>Spectate</defaultDuty>
+				<essential>True</essential>
+				<endTriggers>
+					<li Class="StageEndTrigger_DurationPercentage">
+						<percentage>0.5</percentage>
+					</li>
+				</endTriggers>
+				<roleBehaviors>
+				<li>
+				<roleId>leader</roleId>
+				<dutyDef>Bless</dutyDef>
+				</li>
+				<li>
+				<roleId>blessee</roleId>
+				<dutyDef>Idle</dutyDef>
+				</li>
+				</roleBehaviors>
+			</li>
+			<li>
+				<defaultDuty>Spectate</defaultDuty>
+				<endTriggers>
+					<li Class="StageEndTrigger_DurationPercentage">
+						<percentage>0.2</percentage>
+					</li>
+				</endTriggers>
+				<postAction Class="RitualStageAction_ClearTag">
+					<roleId>leader</roleId>
+					<tag>Arrived</tag>
+				</postAction>
+				<roleBehaviors>
+					<li>
+						<roleId>leader</roleId>
+						<dutyDef>SpeakOnCellFacingSpectators</dutyDef>
+						<speakerInteraction>Speech_Blessing</speakerInteraction>
+						<customPositions>
+							<li Class="RitualPosition_Lectern">
+								<maxDistanceToFocus>5</maxDistanceToFocus>
+							</li>
+							<li Class="RitualPosition_OnInteractionCell">
+								<facing>West</facing>
+							</li>
+						</customPositions>
+					</li>
+					<li>
+						<roleId>blessee</roleId>
+						<dutyDef>Idle</dutyDef>
+					</li>
+				</roleBehaviors>
+			</li>
+		</stages>
+	</RitualBehaviorDef>
+
+	<RitualOutcomeEffectDef>
+		<defName>Blessing</defName>
+		<description>A blessing will be granted on the receiver. Depending on the ritual quality, participants will get between {MINMOOD} and {MAXMOOD} mood for {MOODDAYS} days.</description>
+		<workerClass>PorousBoat.WorshipSacrifice.RitualOutcomeEffectWorker_Blessing</workerClass>
+		<allowAttachableOutcome>false</allowAttachableOutcome>
+		<comps>
+			<li Class="RitualOutcomeComp_RoomStat">
+				<label>room impressiveness</label>
+				<statDef>Impressiveness</statDef>
+				<curve>
+					<points>
+						<li>0, -0.1</li>
+						<li>50, 0.05</li>
+						<li>120, 0.1</li>
+					</points>
+				</curve>
+			</li>
+			<li Class="RitualOutcomeComp_ParticipantCount">
+				<label>participant count</label>
+				<curve>
+					<points>
+						<li>(1, -0.1)</li>
+						<li>(4, 0)</li>
+						<li>(7, 0.05)</li>
+						<li>(10, 0.1)</li>
+					</points>
+				</curve>
+			</li>
+			<li Class="RitualOutcomeComp_RitualTargetDefs">
+				<defs>
+					<li>Ideogram</li>
+				</defs>
+				<allowAltars>true</allowAltars>
+				<autoApplyInClassicMode>true</autoApplyInClassicMode>
+				<label>started at altar or ideogram</label>
+				<qualityOffset>0.2</qualityOffset>
+				<expectedThingLabelTip>an altar or an ideogram</expectedThingLabelTip>
+			</li>
+			<li Class="PorousBoat.WorshipSacrifice.RitualOutcomeComp_PawnWorship">
+				<label>avg. colony worship</label>
+				<curve>
+					<points>
+						<li>(0.6, -0.4)</li>
+						<li>(0.7, 0.7)</li>
+						<li>(0.8, 0.8)</li>
+						<li>(0.95, 0.9)</li>
+					</points>
+				</curve>
+			</li>
+		</comps>
+		<outcomeChances>
+			<li>
+				<label>Awkward</label>
+				<chance>0.15</chance>
+				<memory>AwkwardBlessing</memory>
+				<positivityIndex>-1</positivityIndex>
+				<description>The {0} was awkward. The speech dragged on about unrelated topics, and people were too distracted to really commune with any higher powers.</description> 
+			</li>
+			<li>
+				<label>Satisfying</label>
+				<chance>0.65</chance>
+				<memory>SatisfyingBlessing</memory>
+				<positivityIndex>1</positivityIndex>
+				<description>The {0} was satisfying. There was energy in the room and our deity blessed one of our people.</description>
+			</li>
+			<li>
+				<label>Spectacular</label>
+				<chance>0.2</chance>
+				<memory>SpectacularBlessing</memory>
+				<positivityIndex>2</positivityIndex>
+				<description>The {0} was spectacular!. The very ground was shaking, I could almost feel the presence of our deity in that very room!</description>
+			</li>
+		</outcomeChances>
+	</RitualOutcomeEffectDef>
+
+	<DutyDef>
+		<defName>Bless</defName>
+		<hook>HighPriority</hook>
+		<socialModeMax>Off</socialModeMax>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="PorousBoat.WorshipSacrifice.JobGiver_Bless" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+	<RulePackDef>
+		<defName>NamerBlessing</defName>
+		<rulePack>
+			<rulesStrings>
+				<li>r_ritualName(p=2)->[memeAdjective] [blessing]</li>
+				<li>r_ritualName->[blessing] of [keyDeity]</li>
+				<li>r_ritualName->[keyDeity]'s favor</li>
+				<li>r_ritualName->[blessing] of [memeConcept]</li>
+				<li>r_ritualName->[blessing] of [chosenIdeoName]</li>
+
+				<li>blessing->blessing</li>
+				<li>blessing->transcendance</li>
+				<li>blessing->absolution</li>
+				<li>blessing->ascendance</li>
+				<li>blessing->bestowal</li>
+			</rulesStrings>
+		</rulePack>
+	</RulePackDef>
+</Defs>
