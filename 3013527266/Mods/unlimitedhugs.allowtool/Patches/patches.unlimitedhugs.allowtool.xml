@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- #region MJobs_PriorityHauling -->
+
+  <Operation Class="ManyJobs.PatchOps.IfWorkTypeIsEnabled">
+    <workType>MJobs_PriorityHauling</workType>
+    <operations>
+
+      <li Class="PatchOperationConditional">
+        <xpath>Defs/WorkTypeDef[defName = "HaulingUrgent"]/visible</xpath>
+        <match Class="PatchOperationReplace">
+          <xpath>Defs/WorkTypeDef[defName = "HaulingUrgent"]/visible</xpath>
+          <value>
+            <visible>false</visible>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>Defs/WorkTypeDef[defName = "HaulingUrgent"]</xpath>
+          <value>
+            <visible>false</visible>
+          </value>
+        </nomatch>
+      </li>
+
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/WorkGiverDef[defName = "HaulUrgently"]/workType</xpath>
+        <value>
+          <workType>MJobs_PriorityHauling</workType>
+        </value>
+      </li>
+
+    </operations>
+  </Operation>
+
+  <!-- #endregion -->
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/WorkTypeDef[defName = "FinishingOff"]/naturalPriority</xpath>
+    <value>
+      <naturalPriority>1167</naturalPriority>
+    </value>
+  </Operation>
+
+</Patch>
