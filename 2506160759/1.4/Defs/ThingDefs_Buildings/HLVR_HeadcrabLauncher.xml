@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+<ThingDef ParentName="BaseArtilleryBuilding">
+    <defName>Turret_HeadcrabLauncher</defName>
+    <label>headcrab shell launcher</label>
+    <description>A manned launcher designed to fire special headcrab-filled cannisters over long distance.</description>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>4.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+    </comps>
+	<graphicData>
+      <texPath>Things/Building/Security/HeadcrabShellLauncher_base</texPath>
+    </graphicData>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <building>
+      <turretGunDef>Artillery_HeadcrabLauncher</turretGunDef>
+      <buildingTags>
+        <li>Artillery_BaseDestroyer</li>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+  <uiIconPath>Things/Building/Security/HeadcrabShellLauncher_gun</uiIconPath>
+  <uiIconScale>0.9</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseArtilleryWeapon">
+    <defName>Artillery_HeadcrabLauncher</defName>
+    <label>headcrab shell launcher</label>
+    <description>Headcrab shell launcher.</description>
+    <graphicData>
+      <texPath>Things/Building/Security/HeadcrabShellLauncher_gun</texPath>
+    </graphicData>
+    <weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <warmupTime>4.0</warmupTime>
+        <forcedMissRadius>13</forcedMissRadius>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>29.9</minRange>
+        <range>500</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>HeadcrabShell_Launch</soundCast>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+			<li>Shell_Headcrab</li>
+		  </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+    </building>
+  </ThingDef>
+  
+  <ThingDef ParentName="MakeableShellBase">
+    <defName>Shell_Headcrab</defName>
+    <label>headcrab cannister</label>
+    <description>A metal pod filled with headcrabs ready to pop out and wreak havoc on people near the impact site.</description>
+    <graphicData>
+      <texPath>Things/Item/HeadcrabShellItem</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectileWhenLoaded>Bullet_Shell_Headcrab</projectileWhenLoaded>
+    <costList>
+      <Steel>25</Steel>
+      <Chemfuel>15</Chemfuel>
+	  <Neutroamine>5</Neutroamine>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>Mortars</researchPrerequisite>
+    </recipeMaker>
+	<thingCategories>
+      <li>HeadcrabShells</li>
+    </thingCategories>
+    <tradeTags>
+      <li>MortarShell</li>
+    </tradeTags>
+  </ThingDef>
+  
+  <ThingCategoryDef>
+      <defName>HeadcrabShells</defName>
+      <label>mortar shells</label>
+      <parent>Manufactured</parent>
+      <iconPath>UI/Icons/ThingCategories/MortarShells</iconPath>
+   </ThingCategoryDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Shell_Headcrab</defName>
+    <label>headcrab shell</label>
+    <graphicData>
+      <texPath>Things/HeadcrabShellProjectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+	  <drawSize>2.0</drawSize>
+    </graphicData>
+    <thingClass>HLVRMonsters.Projectile_HeadcrabShell</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <!-- damage amount is the damage def default -->
+      <speed>41</speed>
+      <explosionRadius>2.9</explosionRadius>
+      <flyOverhead>true</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>HeadcrabShell_Impact</soundExplode>
+      <soundImpactAnticipate>HeadcrabShell_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+  </ThingDef>
+  
+  <SoundDef>
+    <defName>HeadcrabShell_Launch</defName>  
+    <context>MapOnly</context>  
+    <maxSimultaneous>1</maxSimultaneous>  
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Building/HeadcrabShell/Launch</clipFolderPath>
+          </li>
+        </grains>      
+        <pitchRange>1.0~1.2</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  
+    <SoundDef>
+    <defName>HeadcrabShell_PreImpact</defName>  
+    <context>MapOnly</context>  
+    <maxSimultaneous>1</maxSimultaneous>  
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Building/HeadcrabShell/Incoming</clipFolderPath>
+          </li>
+        </grains>      
+        <volumeRange>28.82353~37.05883</volumeRange>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+      </li>
+    </subSounds>
+  </SoundDef>
+  
+    <SoundDef>
+    <defName>HeadcrabShell_Explode</defName>  
+    <context>MapOnly</context>  
+    <maxSimultaneous>1</maxSimultaneous>  
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Building/HeadcrabShell/Impact</clipFolderPath>
+          </li>
+        </grains>      
+        <volumeRange>67.05882~72.94118</volumeRange>      
+        <pitchRange>0.9~1.0</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>HLVR_HeadcrabShellImpacted</defName>
+	<thingClass>HLVRMonsters.HeadcrabShellLanded</thingClass>
+    <label>headcrab cannister</label>
+    <description>Impacted headcrab cannister. Watch out for crabs!</description>
+    <category>Building</category>
+	<tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Things/Building/HeadcrabShellImpact</texPath>
+      <graphicClass>Graphic_Random</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>42</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.50</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1300</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>-20</Beauty>
+      <WorkToBuild>12000</WorkToBuild>
+    </statBases>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <killedLeavings>
+      <ChunkSlagSteel>3</ChunkSlagSteel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </killedLeavings>
+    <building>
+      <claimable>false</claimable>
+      <alwaysDeconstructible>true</alwaysDeconstructible>
+    </building>
+    <selectable>true</selectable>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <drawerType>MapMeshOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+  </ThingDef>
+  
+</Defs>
