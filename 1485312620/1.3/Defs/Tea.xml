@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <ThingDef ParentName="PlantBase">
+    <defName>Plant_SyrTea</defName>
+    <label>tea plant</label>
+    <description>A green, leafy plant yielding tea leaves. These leaves can be brewed into a tasty beverage.</description>
+    <graphicData>
+      <texPath>Things/Plant/SyrTeaPlant</texPath>
+	    <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<statBases>
+		<MaxHitPoints>120</MaxHitPoints>
+		<Nutrition>0.2</Nutrition>
+	</statBases>
+	<selectable>true</selectable>
+    <neverMultiSelect>false</neverMultiSelect>
+	<pathCost>10</pathCost>
+    <plant>
+      <harvestedThingDef>SyrRawTea</harvestedThingDef>
+      <harvestYield>5</harvestYield>
+      <growDays>6</growDays>
+      <dieIfLeafless>true</dieIfLeafless>
+      <harvestTag>Standard</harvestTag>
+      <sowTags>
+      <li>Ground</li>
+      <li>Hydroponic</li>
+      </sowTags>
+      <visualSizeRange>0.5~1.1</visualSizeRange>
+      <topWindExposure>0.1</topWindExposure>
+      <purpose>Health</purpose>
+      <immatureGraphicPath>Things/Plant/SyrTeaPlantImmature</immatureGraphicPath>
+    </plant>
+  </ThingDef>
+
+  <ThingDef ParentName="RoughPlantBase">
+    <defName>SyrRawTea</defName>
+    <label>tea leaves</label>
+    <description>Raw tea leaves. Best prepared as a beverage.</description>
+    <graphicData>
+		<texPath>Things/Item/Resource/PlantFoodRaw/RawTea</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>2</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>30</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+    <thingCategories>
+      <li>PlantMatter</li>
+    </thingCategories>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+    </ingestible>
+  </ThingDef>
+  
+  <ThingDef ParentName="DrugBase">
+    <defName>SyrTea</defName>
+    <label>tea</label>
+    <description>A delicious hot cup of tea. It helps staying calm, reducing the effects of stress. This means less food consumption and more joy during recreation.</description>
+	<graphicData>
+	<texPath>Things/Item/Drug/SyrTea</texPath>
+	<graphicClass>Graphic_StackCount</graphicClass>
+	</graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>300</WorkToMake>
+      <MarketValue>15</MarketValue>
+      <Mass>0.05</Mass>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+	  <preferability>NeverForNutrition</preferability>
+      <chairSearchRadius>16</chairSearchRadius>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Luxury</joyKind>
+      <joy>0.3</joy>
+      <baseIngestTicks>240</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.2,0,0.2)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.2,0,0)</offset>
+        </east>
+        <south>
+          <offset>(-0.2,0,-0.2)</offset>
+        </south>
+        <west>
+          <offset>(-0.2,0,0)</offset>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="CoffeeAndTea.IngestionOutcomeDoer_CoffeeAndTea">
+          <hediffDefAdd>SyrTeaHigh</hediffDefAdd>
+          <hediffDefRemove>SyrCoffeeHigh</hediffDefRemove>
+          <severity>0.35</severity>
+          <toleranceChemical>SyrCaffeine</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SyrCaffeineTolerance</hediffDef>
+          <severity>0.03</severity>
+		      <divideByBodySize>true</divideByBodySize>
+		    </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Food</need>
+          <offset>0.1</offset>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.05</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>SyrCaffeine</chemical>
+        <addictiveness>0.03</addictiveness>
+        <minToleranceToAddict>0.30</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.05</existingAddictionSeverityOffset>
+        <needLevelOffset>0.5</needLevelOffset>
+        <listOrder>8</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+ <HediffDef>
+    <defName>SyrTeaHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>tea</label>
+    <description>A positive effect on learning and a reduction of hunger rate caused by the ingestion of tea.</description>
+    <labelNoun>effects of tea</labelNoun>
+    <defaultLabelColor>(1,0.5,0)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>calm</label>
+          <hungerRateFactor>0.8</hungerRateFactor>
+          <statOffsets>
+            <GlobalLearningFactor>0.2</GlobalLearningFactor>
+          </statOffsets>
+        </li>
+      </stages>
+  </HediffDef>
+  
+</Defs>

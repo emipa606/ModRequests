@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <ChemicalDef>
+    <defName>SyrCaffeine</defName>
+    <label>caffeine</label>
+    <addictionHediff>SyrCaffeineAddiction</addictionHediff>
+    <toleranceHediff>SyrCaffeineTolerance</toleranceHediff>
+	  <canBinge>false</canBinge>
+    <onGeneratedAddictedToleranceChance>0.0</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_SyrCaffeine</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>caffeine</label>
+    <description>Because of a caffeine addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>100</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>SyrCaffeineTolerance</defName>
+    <label>caffeine tolerance</label>
+    <description>A built-up tolerance to caffeine. The more severe this tolerance is, the more caffeine it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.05</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>SyrCaffeine</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="AddictionBase">
+    <defName>SyrCaffeineAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>caffeine addiction</label>
+  <description>A chemical addiction to caffeine. Long-term presence of caffeine has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of caffeine, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <causesNeed>Chemical_SyrCaffeine</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <restFallFactorOffset>0.2</restFallFactorOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>SyrCaffeineWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SyrCaffeineAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>caffeine withdrawal</label>
+        <description>I'm tired and unfocused. Why can't I have a cup of coffee?</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>

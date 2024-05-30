@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>SyrHotChocolate</defName>
+    <label>hot chocolate</label>
+    <description>A delicious cup of hot chocolate. Raises the mood and provides warmth, the latter you might not want, depending on where you live.</description>
+	<graphicData>
+	<texPath>Things/Item/Drug/SyrHotChocolate</texPath>
+	<graphicClass>Graphic_StackCount</graphicClass>
+	</graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>300</WorkToMake>
+      <MarketValue>8</MarketValue>
+      <Mass>0.05</Mass>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+	  <preferability>NeverForNutrition</preferability>
+      <chairSearchRadius>16</chairSearchRadius>
+      <foodType>Fluid, Processed</foodType>
+      <joyKind>Luxury</joyKind>
+      <joy>0.5</joy>
+      <baseIngestTicks>240</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.2,0,0.2)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.2,0,0)</offset>
+        </east>
+        <south>
+          <offset>(-0.2,0,-0.2)</offset>
+        </south>
+        <west>
+          <offset>(-0.2,0,0)</offset>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SyrHotChocolateHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Food</need>
+          <offset>0.2</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>9</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>SyrHotChocolateHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>hot chocolate</label>
+    <description>A positive effect on the mood caused by the ingestion of hot chocolate. Makes colder temperatures more tolerable, but warm temperatures less tolerable.</description>
+    <labelNoun>effects of hot chocolate</labelNoun>
+    <defaultLabelColor>(0.5,0.25,0.125)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-2.0</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>warmth</label>
+          <statOffsets>
+            <ComfyTemperatureMin>-5</ComfyTemperatureMin>
+            <ComfyTemperatureMax>-5</ComfyTemperatureMax>
+          </statOffsets>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SyrHotChocolateHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SyrHotChocolateHigh</hediff>
+    <stages>
+      <li>
+        <label>hot chocolate</label>
+        <description>I had a tasty cup of hot chocolate.</description>
+        <baseMoodEffect>9</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>
