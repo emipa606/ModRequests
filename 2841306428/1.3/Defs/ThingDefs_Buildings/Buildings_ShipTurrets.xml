@@ -1,0 +1,2264 @@
+<Defs>
+
+  <ThingDef ParentName="BaseWeapon" Name="CEC_ArtilleryTurret" Abstract="True">
+    <destroyOnDrop>True</destroyOnDrop>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <canGenerateDefaultDesignator>false</canGenerateDefaultDesignator>
+    <tradeability>None</tradeability>
+    <useHitPoints>false</useHitPoints>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <weaponTags Inherit="False">
+    </weaponTags>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase" Name="CEC_ArtilleryBase" Abstract="True">
+    <thingClass>Building_ShipTurret</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <tickerType>Normal</tickerType>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>CEC_Category</designationCategory>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>120</Mass>
+      <Beauty>0</Beauty>
+      <RangedWeapon_DamageMultiplier>1.0</RangedWeapon_DamageMultiplier>
+    </statBases>
+    <building>
+      <shipPart>true</shipPart>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+    <uiIconScale>1.0</uiIconScale>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  
+  <HediffDef ParentName="InjuryBase">
+    <defName>CEC_TurbolaserBurn</defName>
+    <label>turbolaser burn</label>
+    <description>A turbolaser burn.</description>
+    <labelNoun>a turbolaser burn</labelNoun>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.20</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>turbolaser burn scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.01875</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Burned off</destroyedLabel>
+      <destroyedOutLabel>Burned out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <HediffDef ParentName="InjuryBase">
+    <defName>CEC_LaserCannonBurn</defName>
+    <label>laser cannon burn</label>
+    <description>A laser cannon burn.</description>
+    <labelNoun>a laser cannon burn</labelNoun>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>sutured</labelTendedWellInner>
+        <labelSolidTendedWell>set</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.20</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>laser cannon burn scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.01875</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Burned off</destroyedLabel>
+      <destroyedOutLabel>Burned out</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+
+  
+  <DesignatorDropdownGroupDef>
+    <defName>CEC_Turbolaser_Dropdown</defName>
+  </DesignatorDropdownGroupDef>
+
+  <DesignatorDropdownGroupDef>
+    <defName>CEC_LaserCannon_Dropdown</defName>
+  </DesignatorDropdownGroupDef>
+
+  <DesignatorDropdownGroupDef>
+    <defName>CEC_TorpedoLauncher_Dropdown</defName>
+  </DesignatorDropdownGroupDef>
+
+
+  <!--=========Turbolaser=========-->
+  <ThingDef ParentName="CEC_ArtilleryBase" Name="CEC_ArtilleryBase_Turbolaser" Abstract="True">
+    <designatorDropdown>CEC_Turbolaser_Dropdown</designatorDropdown>
+    <comps>
+      <li Class="CompProperties_ShipHeat">
+        <compClass>CompShipHeatSource</compClass>
+        <heatPerPulse>30</heatPerPulse>
+        <energyToFire>0</energyToFire>
+        <maxRange>160</maxRange>
+        <projectileSpeed>4</projectileSpeed>
+        <pointDefense>false</pointDefense>
+        <threat>30</threat>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>7.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="PipeSystem.CompProperties_RefillWithPipes">
+        <pipeNet>O21_OR_TibannaNetwork</pipeNet>
+        <thing>O21_OR_Tibanna</thing>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <shortCircuitInRain>false</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until dry</fuelLabel>
+        <fuelGizmoLabel>Tibanna gas</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: No tibanna gas</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>O21_OR_Tibanna</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>120</fuelCapacity>
+        <fuelMultiplier>0.5</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+    <building>
+      <turretBurstWarmupTime>0.5</turretBurstWarmupTime>
+      <turretBurstCooldownTime>20.0</turretBurstCooldownTime>
+    </building>
+    <costList>
+      <O21_OR_Durasteel>460</O21_OR_Durasteel>
+      <O21_OR_ComponentHypertech>16</O21_OR_ComponentHypertech>
+    </costList>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>22000</WorkToBuild>
+    </statBases>
+    <altitudeLayer>WorldClipper</altitudeLayer>
+  </ThingDef>
+
+  
+  <!--3x3-->
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserA</defName>
+    <label>dual turbolaser (charger c70 retrofit)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/ChargerC70Retrofit_TurretBase1</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserA</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/ChargerC70Retrofit_Turret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_CC70R_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserA</defName>
+    <label>dual turbolaser (charger c70 retrofit)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/ChargerC70Retrofit_Turret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserB</defName>
+    <label>dual turbolaser (cr90 corvette)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserB</turretGunDef>
+      <turretTopDrawSize>5</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/CR90Corvette_Turret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_CR90_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserB</defName>
+    <label>dual turbolaser (cr90 corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/CR90Corvette_Turret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserC</defName>
+    <label>dual turbolaser (css1 star shuttle)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserC</turretGunDef>
+      <turretTopDrawSize>10</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/CSS1StarShuttle_Turret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_CSS1SS_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserC</defName>
+    <label>dual turbolaser (css1 star shuttle)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/CSS1StarShuttle_Turret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserD</defName>
+    <label>dual turbolaser (sphyrna-class corvette)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/SphyrnaClassCorvette_TurretBase3</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserD</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/SphyrnaClassCorvette_Turret3</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_SCC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserD</defName>
+    <label>dual turbolaser (sphyrna-class corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/SphyrnaClassCorvette_Turret3</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserG</defName>
+    <label>dual turbolaser (sphyrna-class corvette)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/SphyrnaClassCorvette_TurretBase1</texPath>
+      <drawSize>(8,8)</drawSize>
+    </graphicData>
+    <size>(4,4)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserG</turretGunDef>
+      <turretTopDrawSize>8</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/SphyrnaClassCorvette_Turret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_SCC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserG</defName>
+    <label>dual turbolaser (sphyrna-class corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/SphyrnaClassCorvette_Turret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  <!--New-3x3-->
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserH</defName>
+    <label>dual turbolaser (pelta-class frigate)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets2/PeltaClassCruiserTurretBase2</texPath>
+      <drawSize>(8.33,8.33)</drawSize>
+    </graphicData>
+    <size>(5,5)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserH</turretGunDef>
+      <turretTopDrawSize>9</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/PeltaClassCruiserTurret2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_PCF_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserH</defName>
+    <label>dual turbolaser (pelta-class frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets2/PeltaClassCruiserTurret2</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserI</defName>
+    <label>dual turbolaser (arquitens-class cruiser)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets2/ImpArquitensClassCruiserTurretBase1</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserI</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/ImpArquitensClassCruiserTurret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IACLC_Turrets</li>
+    </researchPrerequisites>
+    <altitudeLayer>WorldClipper</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserI</defName>
+    <label>dual turbolaser (arquitens-class cruiser)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets2/ImpArquitensClassCruiserTurret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserGreen</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserGreen</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserJ</defName>
+    <label>dual turbolaser (arquitens-class cruiser)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets2/RepArquitensClassCruiserTurretBase1</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserJ</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/RepArquitensClassCruiserTurret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_RACLC_Turrets</li>
+    </researchPrerequisites>
+    <altitudeLayer>WorldClipper</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserJ</defName>
+    <label>dual turbolaser (arquitens-class cruiser)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets2/RepArquitensClassCruiserTurret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserK</defName>
+    <label>dual turbolaser (venator-class star destroyer)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets2/VenatorClassStarDestroyerTurretBase1</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserK</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/VenatorClassStarDestroyerTurret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_VCSD_Turrets</li>
+    </researchPrerequisites>
+    <altitudeLayer>WorldClipper</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserK</defName>
+    <label>dual turbolaser (venator-class star destroyer)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets2/VenatorClassStarDestroyerTurret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserL</defName>
+    <label>dual turbolaser (venator-class star destroyer)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets2/VenatorClassStarDestroyerTurret2</texPath>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <size>(4,4)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserL</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/VenatorClassStarDestroyerTurret2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_VCSD_Turrets</li>
+    </researchPrerequisites>
+    <altitudeLayer>Filth</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserL</defName>
+    <label>dual turbolaser (venator-class star destroyer)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  
+  <!--5x2-->
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserEL</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/DP20Frigate_TurretLeft2</texPath>
+      <drawSize>(7,2)</drawSize>
+    </graphicData>
+    <size>(5,2)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserEL</turretGunDef>
+      <turretTopDrawSize>1</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20Frigate_TurretLeft2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserEL</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserER</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/DP20Frigate_TurretRight2</texPath>
+      <drawSize>(7,2)</drawSize>
+    </graphicData>
+    <size>(5,2)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserER</turretGunDef>
+      <turretTopDrawSize>1</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20Frigate_TurretRight2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserER</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserFL</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/DP20Frigate_TurretLeft3</texPath>
+      <drawSize>(7,2)</drawSize>
+    </graphicData>
+    <size>(5,2)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserFL</turretGunDef>
+      <turretTopDrawSize>1</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20Frigate_TurretLeft3</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserFL</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Turbolaser">
+    <defName>CEC_ShipTurretBase_TurbolaserFR</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <graphicData>
+      <texPath>Turrets/DP20Frigate_TurretRight3</texPath>
+      <drawSize>(7,2)</drawSize>
+    </graphicData>
+    <size>(5,2)</size>
+    <building>
+      <turretGunDef>CEC_ShipTurret_TurbolaserFR</turretGunDef>
+      <turretTopDrawSize>1</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20Frigate_TurretRight3</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_TurbolaserFR</defName>
+    <label>dual turbolaser (dp20 frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <defaultProjectile>CEC_Bullet_TurbolaserRed</defaultProjectile>
+        <spawnDef>CEC_Proj_TurbolaserRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  <!--Bullets/Projectiles + Damage-->
+  <!--red-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_TurbolaserRed</defName>
+    <label>ionized bolt</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>120</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_TurbolaserRed</defName>
+    <label>ionized bolt</label>
+    <thingClass>Projectile_ExplosiveShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>4.9</explosionRadius>
+      <damageDef>CEC_Damage_TurbolaserRed</damageDef>
+      <speed>120</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef Name="CEC_Damage_TurbolaserRed">
+    <defName>CEC_Damage_TurbolaserRed</defName>
+    <label>turbolaser</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been vaporized by turbolaser.</deathMessage>
+    <hediff>CEC_TurbolaserBurn</hediff>
+    <hediffSolid>CEC_TurbolaserBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>160</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>4</buildingDamageFactor>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>25</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  <!--blue-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_TurbolaserBlue</defName>
+    <label>ionized bolt</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Blue</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>120</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_TurbolaserBlue</defName>
+    <label>ionized bolt</label>
+    <thingClass>Projectile_ExplosiveShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Blue</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>4.9</explosionRadius>
+      <damageDef>CEC_Damage_TurbolaserBlue</damageDef>
+      <speed>120</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef Name="CEC_Damage_TurbolaserBlue">
+    <defName>CEC_Damage_TurbolaserBlue</defName>
+    <label>turbolaser</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been vaporized by turbolaser.</deathMessage>
+    <hediff>CEC_TurbolaserBurn</hediff>
+    <hediffSolid>CEC_TurbolaserBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>160</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>4</buildingDamageFactor>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>25</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  <!--green-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_TurbolaserGreen</defName>
+    <label>ionized bolt</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Green</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>120</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_TurbolaserGreen</defName>
+    <label>ionized bolt</label>
+    <thingClass>Projectile_ExplosiveShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Green</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>4.9</explosionRadius>
+      <damageDef>CEC_Damage_TurbolaserGreen</damageDef>
+      <speed>120</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef Name="CEC_Damage_TurbolaserGreen">
+    <defName>CEC_Damage_TurbolaserGreen</defName>
+    <label>turbolaser</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been vaporized by turbolaser.</deathMessage>
+    <hediff>CEC_TurbolaserBurn</hediff>
+    <hediffSolid>CEC_TurbolaserBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>160</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>4</buildingDamageFactor>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>25</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  
+  <!--=========Laser Cannon=========-->
+  <ThingDef ParentName="CEC_ArtilleryBase" Name="CEC_ArtilleryBase_LaserCannon" Abstract="True">
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <comps>
+      <li Class="CompProperties_ShipHeat">
+        <compClass>CompShipHeatSource</compClass>
+        <heatPerPulse>20</heatPerPulse>
+        <energyToFire>0</energyToFire>
+        <maxRange>100</maxRange>
+        <projectileSpeed>4</projectileSpeed>
+        <pointDefense>true</pointDefense>
+        <threat>25</threat>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>6.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="PipeSystem.CompProperties_RefillWithPipes">
+        <pipeNet>O21_OR_TibannaNetwork</pipeNet>
+        <thing>O21_OR_Tibanna</thing>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <shortCircuitInRain>false</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until dry</fuelLabel>
+        <fuelGizmoLabel>Tibanna gas</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: No tibanna gas</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>O21_OR_Tibanna</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>120</fuelCapacity>
+        <fuelMultiplier>0.5</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+    <building>
+      <turretBurstWarmupTime>0.5</turretBurstWarmupTime>
+      <turretBurstCooldownTime>15.0</turretBurstCooldownTime>
+    </building>
+    <costList>
+      <O21_OR_Durasteel>420</O21_OR_Durasteel>
+      <O21_OR_ComponentHypertech>12</O21_OR_ComponentHypertech>
+    </costList>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>22000</WorkToBuild>
+    </statBases>
+    <altitudeLayer>WorldClipper</altitudeLayer>
+  </ThingDef>
+  
+
+  <!--3x3-->
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonA</defName>
+    <label>dual laser cannon (charger c70 retrofit)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets/ChargerC70Retrofit_Turret2</texPath>
+      <drawSize>(10,10)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonA</turretGunDef>
+      <turretTopDrawSize>10</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/ChargerC70Retrofit_Turret2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_CC70R_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonA</defName>
+    <label>dual laser cannon (charger c70 retrofit)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>2</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonB</defName>
+    <label>laser cannon (cr90 corvette)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets/CR90Corvette_TurretBase2</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonB</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/CR90Corvette_Turret2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_CR90_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonB</defName>
+    <label>laser cannon (cr90 corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/CR90Corvette_Turret2</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>1</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonRed</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonC</defName>
+    <label>quad laser cannon (dp20 frigate)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets/DP20Frigate_TurretBase4</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonC</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20Frigate_Turret4</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonC</defName>
+    <label>quad laser cannon (dp20 frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/DP20Frigate_Turret4</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>4</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonRed</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonD</defName>
+    <label>dual laser cannon (gozanti-class cruiser)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets/GozantiClassCruiser_TurretBase1</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonD</turretGunDef>
+      <turretTopDrawSize>6</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/GozantiClassCruiser_Turret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IGGC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonD</defName>
+    <label>dual laser cannon (gozanti-class cruiser)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/GozantiClassCruiser_Turret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>2</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonGreen</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonGreen</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonE</defName>
+    <label>dual laser cannon (ipv2c stealth corvette)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets/IPV2CStealthCorvette_TurretBase1</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonE</turretGunDef>
+      <turretTopDrawSize>5</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/IPV2CStealthCorvette_Turret1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IPV2SC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonE</defName>
+    <label>dual laser cannon (ipv2c stealth corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/IPV2CStealthCorvette_Turret1</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>2</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  <!--New-3x3-->
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonF</defName>
+    <label>quad laser cannon (arquitens-class light cruiser)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets2/RepArquitensClassCruiserTurret2</texPath>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonF</turretGunDef>
+      <turretTopDrawSize>5</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/RepArquitensClassCruiserTurret2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_RACLC_Turrets</li>
+    </researchPrerequisites>
+    <altitudeLayer>Filth</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonF</defName>
+    <label>quad laser cannon (arquitens-class light cruiser</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>4</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonBlue</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonBlue</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonG</defName>
+    <label>quad laser cannon (arquitens-class light cruiser)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(3,3)</size>
+    <graphicData>
+      <texPath>Turrets2/ImpArquitensClassCruiserTurret2</texPath>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonG</turretGunDef>
+      <turretTopDrawSize>5</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/ImpArquitensClassCruiserTurret2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IACLC_Turrets</li>
+    </researchPrerequisites>
+    <altitudeLayer>Filth</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonG</defName>
+    <label>quad laser cannon (arquitens-class light cruiser</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>4</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonGreen</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonGreen</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+
+
+  <!--5x2-->
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonFL</defName>
+    <label>laser cannon (sphyrna-class corvette)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(5,2)</size>
+    <graphicData>
+      <texPath>Turrets/SphyrnaClassCorvette_TurretLeft2</texPath>
+      <drawSize>(7,2)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonFL</turretGunDef>
+      <turretTopDrawSize>3</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/SphyrnaClassCorvette_TurretLeft2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_SCC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonFL</defName>
+    <label>laser cannon (sphyrna-class corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>1</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonRed</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonFR</defName>
+    <label>laser cannon (sphyrna-class corvette)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(5,2)</size>
+    <graphicData>
+      <texPath>Turrets/SphyrnaClassCorvette_TurretRight2</texPath>
+      <drawSize>(7,2)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonFR</turretGunDef>
+      <turretTopDrawSize>3</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/SphyrnaClassCorvette_TurretRight2</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_SCC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonFR</defName>
+    <label>laser cannon (sphyrna-class corvette)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>1</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonRed</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  <!--New-1x7-->
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonGL</defName>
+    <label>laser cannon (pelta-class frigate)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(7,1)</size>
+    <graphicData>
+      <texPath>Turrets2/PeltaClassCruiserTurretLeft1</texPath>
+      <drawSize>(7,1)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonGL</turretGunDef>
+      <turretTopDrawSize>3</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/PeltaClassCruiserTurretLeft1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_PCF_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonGL</defName>
+    <label>laser cannon (pelta-class frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>1</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonRed</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonGR</defName>
+    <label>laser cannon (pelta-class frigate)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A large automatic blaster turret. It runs on Tibanna and must be kept fueled.</description>
+    <size>(7,1)</size>
+    <graphicData>
+      <texPath>Turrets2/PeltaClassCruiserTurretRight1</texPath>
+      <drawSize>(7,1)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonGR</turretGunDef>
+      <turretTopDrawSize>3</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets2/PeltaClassCruiserTurretRight1</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_PCF_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonGR</defName>
+    <label>laser cannon (pelta-class frigate)</label>
+    <description>A self-loading large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>1</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonRed</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonRed</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <!--TIE Fighters-->
+  <ThingDef ParentName="CEC_ArtilleryBase_LaserCannon">
+    <defName>CEC_ShipTurretBase_LaserCannonTIE</defName>
+    <label>two laser cannons (TIE fighter)</label>
+    <designatorDropdown>CEC_LaserCannon_Dropdown</designatorDropdown>
+    <description>A docked TIE fighter. It runs on Tibanna and must be kept fueled.</description>
+    <size>(5,4)</size>
+    <graphicData>
+      <texPath>Turrets/TIEFighter_Turret</texPath>
+      <drawSize>(5,4)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_LaserCannonTIE</turretGunDef>
+      <turretTopDrawSize>5</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/TIEFighter_Turret</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IGGC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_LaserCannonTIE</defName>
+    <label>two laser cannons (ipv2c stealth corvetteTIE fighter)</label>
+    <description>A self-loading large-bore cannon designed to attach to a docked TIE fighter.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>2</burstShotCount>
+        <defaultProjectile>CEC_Bullet_LaserCannonGreen</defaultProjectile>
+        <spawnDef>CEC_Proj_LaserCannonGreen</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>6</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  
+  <!--Bullets/Projectiles + Damage-->
+  <!--red-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_LaserCannonRed</defName>
+    <label>ionized bolt</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>140</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_LaserCannonRed</defName>
+    <label>ionized bolt</label>
+    <thingClass>Projectile_ExplosiveShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Red</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>3.9</explosionRadius>
+      <damageDef>CEC_Damage_LaserCannonRed</damageDef>
+      <speed>140</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef Name="CEC_Damage_LaserCannonRed">
+    <defName>CEC_Damage_LaserCannonRed</defName>
+    <label>laser cannon</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been vaporized by laser cannon.</deathMessage>
+    <hediff>CEC_LaserCannonBurn</hediff>
+    <hediffSolid>CEC_LaserCannonBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>100</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>4</buildingDamageFactor>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>25</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  <!--blue-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_LaserCannonBlue</defName>
+    <label>ionized bolt</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Blue</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>140</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_LaserCannonBlue</defName>
+    <label>ionized bolt</label>
+    <thingClass>Projectile_ExplosiveShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Blue</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>3.9</explosionRadius>
+      <damageDef>CEC_Damage_LaserCannonBlue</damageDef>
+      <speed>140</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef Name="CEC_Damage_LaserCannonBlue">
+    <defName>CEC_Damage_LaserCannonBlue</defName>
+    <label>laser cannon</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been vaporized by laser cannon.</deathMessage>
+    <hediff>CEC_LaserCannonBurn</hediff>
+    <hediffSolid>CEC_LaserCannonBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>100</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>4</buildingDamageFactor>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>25</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  <!--green-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_LaserCannonGreen</defName>
+    <label>ionized bolt</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Green</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>100</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_LaserCannonGreen</defName>
+    <label>ionized bolt</label>
+    <thingClass>Projectile_ExplosiveShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Green</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>3.9</explosionRadius>
+      <damageDef>CEC_Damage_LaserCannonGreen</damageDef>
+      <speed>140</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef Name="CEC_Damage_LaserCannonGreen">
+    <defName>CEC_Damage_LaserCannonGreen</defName>
+    <label>laser cannon</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} has been vaporized by laser cannon.</deathMessage>
+    <hediff>CEC_LaserCannonBurn</hediff>
+    <hediffSolid>CEC_LaserCannonBurn</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>100</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.10</defaultArmorPenetration>
+    <buildingDamageFactor>4</buildingDamageFactor>
+    <plantDamageFactor>4</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>25</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+  
+
+  <!--=========Torpedo Launcher=========-->
+  <ThingDef ParentName="CEC_ArtilleryBase" Name="CEC_ArtilleryBase_Torpedo" Abstract="True">
+    <designatorDropdown>CEC_TorpedoLauncher_Dropdown</designatorDropdown>
+    <comps>
+      <li Class="CompProperties_ShipHeat">
+        <compClass>CompShipHeatSource</compClass>
+        <heatPerPulse>30</heatPerPulse>
+        <energyToFire>0</energyToFire>
+        <maxRange>200</maxRange>
+        <projectileSpeed>1</projectileSpeed>
+        <pointDefense>false</pointDefense>
+        <threat>40</threat>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>6.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+        <shortCircuitInRain>false</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until empty</fuelLabel>
+        <fuelGizmoLabel>Proton torpedos</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: No proton torpedos</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>CEC_Shell_ProtonTorpedo</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>20</fuelCapacity>
+        <fuelMultiplier>20</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+    <building>
+      <turretBurstWarmupTime>0.5</turretBurstWarmupTime>
+      <turretBurstCooldownTime>35.0</turretBurstCooldownTime>
+    </building>
+    <costList>
+      <O21_OR_Durasteel>420</O21_OR_Durasteel>
+      <O21_OR_ComponentHypertech>12</O21_OR_ComponentHypertech>
+    </costList>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>22000</WorkToBuild>
+    </statBases>
+    <altitudeLayer>WorldClipper</altitudeLayer>
+  </ThingDef>
+
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Torpedo">
+    <defName>CEC_ShipTurretBase_TorpedoAL</defName>
+    <label>torpedo launcher (DP20 frigate)</label>
+    <description>A docked TIE bomber. Fires individual proton shells.</description>
+    <size>(8,8)</size>
+    <graphicData>
+      <texPath>Turrets/DP20FrigateTorpedoLeft</texPath>
+      <drawSize>(8,8)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_Torpedo</turretGunDef>
+      <turretTopDrawSize>10</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20FrigateTorpedoLeft</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Torpedo">
+    <defName>CEC_ShipTurretBase_TorpedoAR</defName>
+    <label>torpedo launcher (DP20 frigate)</label>    
+    <description>A large automatic torpedo launcher. Fires individual proton shells.</description>
+    <size>(8,8)</size>
+    <graphicData>
+      <texPath>Turrets/DP20FrigateTorpedoRight</texPath>
+      <drawSize>(8,8)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_Torpedo</turretGunDef>
+      <turretTopDrawSize>10</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20FrigateTorpedoRight</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_DP20F_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Torpedo">
+    <defName>CEC_ShipTurretBase_TorpedoB</defName>
+    <label>torpedo launcher (IPV2C stealth corvette)</label>
+    <description>A large automatic torpedo launcher. Fires individual proton shells.</description>
+    <size>(9,7)</size>
+    <graphicData>
+      <texPath>Turrets/IPV2StealthCorvetteTorpedo</texPath>
+      <drawSize>(13,7)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_Torpedo</turretGunDef>
+      <turretTopDrawSize>10</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/DP20FrigateTorpedoLeft</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IPV2SC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="CEC_ArtilleryBase_Torpedo">
+    <defName>CEC_ShipTurretBase_TorpedoC</defName>
+    <label>torpedo launcher (TIE bomber)</label>
+    <description>A large automatic torpedo launcher. Fires individual proton shells.</description>
+    <size>(5,4)</size>
+    <graphicData>
+      <texPath>Turrets/TIEBomber_Turret</texPath>
+      <drawSize>(5,4)</drawSize>
+    </graphicData>
+    <building>
+      <turretGunDef>CEC_ShipTurret_Torpedo</turretGunDef>
+      <turretTopDrawSize>10</turretTopDrawSize>
+    </building>
+    <uiIconPath>Turrets/TIEBomber_Turret</uiIconPath>
+    <researchPrerequisites>
+      <li>CEC_IGGC_Turrets</li>
+    </researchPrerequisites>
+  </ThingDef>
+  
+  
+  <ThingDef ParentName="CEC_ArtilleryTurret">
+    <defName>CEC_ShipTurret_Torpedo</defName>
+    <label>torpedo launcher</label>
+    <description>A large-bore cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Turrets/Empty</texPath>
+    </graphicData>
+    <verbs>
+      <li>
+        <burstShotCount>2</burstShotCount>
+        <defaultProjectile>CEC_Bullet_Topredo</defaultProjectile>
+        <spawnDef>CEC_Proj_Topredo</spawnDef>
+        <label>fire ionized bolt</label>
+        <verbClass>Verb_LaunchProjectileShip</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <warmupTime>4.0</warmupTime>
+        <noiseRadius>10</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>O21_Shot_BlasterBolt</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <requireLineOfSight>false</requireLineOfSight>
+        <!--<consumeFuelPerShot>1</consumeFuelPerShot>-->
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <!--Bullets/Projectiles + Damage-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>CEC_Bullet_Topredo</defName>
+    <label>proton torpedo</label>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Purple</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_SoSFake</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <speed>80</speed>
+      <explosionRadius>0</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+    </projectile>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <seeThroughFog>true</seeThroughFog>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>CEC_Proj_Topredo</defName>
+    <label>proton torpedo</label>
+    <thingClass>Projectile_TorpedoShipCombat</thingClass>
+    <graphicData>
+      <texPath>Turrets/ShipBullet_Purple</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>6.9</explosionRadius>
+      <damageDef>CEC_Damage_Torpedo</damageDef>
+      <speed>80</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef ParentName="Bomb">
+    <defName>CEC_Damage_Torpedo</defName>
+    <defaultDamage>500</defaultDamage>
+    <defaultStoppingPower>2.0</defaultStoppingPower>
+    <defaultArmorPenetration>1.30</defaultArmorPenetration>
+  </DamageDef>
+  
+  
+  <!--Item-->
+  <ThingDef ParentName="ResourceBase">
+    <defName>CEC_Shell_ProtonTorpedo</defName>
+    <label>proton torpedo</label>
+    <description>A torpedo filled with high explosives. Can be fired from torpedo launchers. Explodes when damaged.</description>
+    <graphicData>
+      <texPath>Turrets/Shell_ProtonTorpedo</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <tickerType>Normal</tickerType>
+    <stackLimit>25</stackLimit>
+    <techLevel>Spacer</techLevel>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>70</MarketValue>
+      <Mass>25</Mass>
+      <Flammability>0.8</Flammability>
+      <DeteriorationRate>1.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <workAmount>1600</workAmount>
+      <targetCountAdjustment>5</targetCountAdjustment>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>O21_OR_BasicFabricator</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>CEC_Basics</researchPrerequisite>
+    </recipeMaker>
+    <costList>
+      <O21_OR_Durasteel>25</O21_OR_Durasteel>
+      <O21_OR_Tibanna>30</O21_OR_Tibanna>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.4</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>30~60</wickTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>
