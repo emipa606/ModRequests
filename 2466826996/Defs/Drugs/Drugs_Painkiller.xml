@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>FF_Painkiller</defName>
+    <label>painkiller</label>
+    <description>An analgesic that dulls sensation, providing relief from physical pain. Overuse may cause addiction and serious side effects.</description>
+    <techLevel>Industrial</techLevel>
+    <graphicData>
+      <texPath>Things/Item/Drug/Painkiller</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>1200</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.05</Mass>
+      <DeteriorationRate>6</DeteriorationRate>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FF_PainkillerHigh</hediffDef>
+          <severity>0.6</severity>
+          <toleranceChemical>FF_Painkiller</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>FF_PainkillerTolerance</hediffDef>
+          <severity>0.025</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>FF_PainkillerProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+	  <skillRequirements>
+	    <Crafting>4</Crafting>
+		<Intellectual>4</Intellectual>
+	  </skillRequirements>
+    </recipeMaker>
+    <costList>
+      <MedicineHerbal>1</MedicineHerbal>
+      <PsychoidLeaves>2</PsychoidLeaves>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>FF_Painkiller</chemical>
+        <addictiveness>0.010</addictiveness>
+        <minToleranceToAddict>0.20</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>120</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>FF_PainkillerHigh</defName>
+    <label>painkiller high</label>
+    <description>Painkiller in the bloodstream. It dulls sensation and relieves pain.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.4</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>mild</label>
+        <painFactor>0.8</painFactor>
+      </li>
+      <li>
+        <label>moderate</label>
+        <minSeverity>0.4</minSeverity>
+        <painFactor>0.7</painFactor>
+        <painOffset>-0.2</painOffset>
+      </li>
+      <li>
+        <label>strong</label>
+        <minSeverity>0.8</minSeverity>
+        <painFactor>0.5</painFactor>
+        <painOffset>-0.35</painOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ChemicalDef>
+    <defName>FF_Painkiller</defName>
+    <label>painkiller</label>
+    <addictionHediff>FF_PainkillerAddiction</addictionHediff>
+    <toleranceHediff>FF_PainkillerTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.2</onGeneratedAddictedToleranceChance>
+    <generateAddictionGenes>false</generateAddictionGenes>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>FF_Chemical_Painkiller</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>painkiller</label>
+    <description>Because of a painkiller dependence, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>25</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>FF_PainkillerTolerance</defName>
+    <label>painkiller tolerance</label>
+    <description>A built-up tolerance to painkiller. The more severe this tolerance is, the more painkiller it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.02</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>FF_Painkiller</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Asthma</hediff>
+        <baseMtbDays>240</baseMtbDays>
+        <minSeverity>0.80</minSeverity>
+        <partsToAffect>
+          <li>Lung</li>
+        </partsToAffect>
+        <countToAffect>2</countToAffect>
+      </li>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Cirrhosis</hediff>
+        <baseMtbDays>240</baseMtbDays>
+        <minSeverity>0.80</minSeverity>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+        <countToAffect>1</countToAffect>
+      </li>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageSevere</hediff>
+        <baseMtbDays>240</baseMtbDays>
+        <minSeverity>0.80</minSeverity>
+        <partsToAffect>
+          <li>Kidney</li>
+        </partsToAffect>
+        <countToAffect>1</countToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>FF_PainkillerAddiction</defName>
+    <label>painkiller dependence</label>
+    <description>An addiction to painkiller.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>FF_Chemical_Painkiller</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.05</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>withdrawal</label>
+        <vomitMtbDays>0.7</vomitMtbDays>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.1</offset>
+            </li>
+          </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
