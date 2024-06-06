@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+    <!-- Painswitch -->
+    <HediffDef ParentName="ImplantHediffBase">
+        <defName>Turn_Painswitch</defName>
+        <label>painswitch</label>
+        <labelNoun>a painswitch</labelNoun>
+        <description>An installed painswitch.</description>
+        <descriptionHyperlinks><ThingDef>Turn_Painswitch</ThingDef></descriptionHyperlinks>
+
+        <spawnThingOnRemoved>Turn_Painswitch</spawnThingOnRemoved>
+
+        <stages>
+            <!-- An empty stage is necessary, otherwise it will jump to the first available stage regardless of minSeverity -->
+            <li/>
+            <li>
+                <minSeverity>0.95</minSeverity>
+                <capMods>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <setMax>0.1</setMax>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+
+        <comps>
+            <li Class="CF.HediffCompProperties_SeverityFromPain"/>
+        </comps>
+    </HediffDef>
+
+    <ThingDef ParentName="BodyPartBionicImperialBase">
+        <defName>Turn_Painswitch</defName>
+        <label>painswitch</label>
+        <description>A neural implant that reads incoming pain signals from the body. If the user is experiencing an overwheliming amount of pain, the painswitch will place them into a coma, even if the brain's pain center is currently dulled to pain.\n\nThe painswitch was designed as a compliment to the painstopper, after countless marines died by attempting to operate with lethal injuries.</description>
+        <descriptionHyperlinks>
+            <RecipeDef>Turn_InstallPainswitch</RecipeDef>
+            <ThingDef>Painstopper</ThingDef>
+        </descriptionHyperlinks>
+
+        <graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		
+		<thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+		
+		<costList>
+			<Plasteel>5</Plasteel>
+			<Turn_ComponentMedical>1</Turn_ComponentMedical>
+		</costList>
+		
+		<recipeMaker>
+			<researchPrerequisite>Turn_CompatibilityImplants</researchPrerequisite>
+		</recipeMaker>
+    </ThingDef>
+
+    <RecipeDef ParentName="SurgeryInstallImplantBase">
+        <defName>Turn_InstallPainswitch</defName>
+        <label>install painswitch</label>
+        <description>Install a painswitch.</description>
+        <descriptionHyperlinks>
+            <ThingDef>Turn_Painswitch</ThingDef>
+            <HediffDef>Turn_Painswitch</HediffDef>
+        </descriptionHyperlinks>
+        <jobString>Installing painswitch.</jobString>
+
+        <ingredients>
+            <li>
+                <filter>
+                    <thingDefs>
+                        <li>Turn_Painswitch</li>
+                    </thingDefs>
+                </filter>
+                <count>1</count>
+            </li>
+        </ingredients>
+        <fixedIngredientFilter>
+            <thingDefs>
+                <li>Turn_Painswitch</li>
+            </thingDefs>
+        </fixedIngredientFilter>
+
+        <appliedOnFixedBodyParts>
+            <li>Brain</li>
+        </appliedOnFixedBodyParts>
+        <addsHediff>Turn_Painswitch</addsHediff>
+    </RecipeDef>
+
+    <RecipeDef ParentName="SurgeryRemoveImplantBase">
+        <defName>Turn_RemovePainswitch</defName>
+        <label>remove painswitch</label>
+        <description>Remove an installed painswitch.</description>
+        <descriptionHyperlinks>
+            <ThingDef>Turn_Painswitch</ThingDef>
+            <HediffDef>Turn_Painswitch</HediffDef>
+        </descriptionHyperlinks>
+        <jobString>Removing painswitch.</jobString>
+        <removesHediff>Turn_Painswitch</removesHediff>
+    </RecipeDef>
+
+</Defs>

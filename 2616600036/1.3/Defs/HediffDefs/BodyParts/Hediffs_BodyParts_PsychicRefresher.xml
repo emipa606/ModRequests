@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+    <!--Meditative refresher-->
+
+    <HediffDef ParentName="ImplantHediffBase">
+        <defName>Turn_PsychicRefresher</defName>
+        <label>meditative refresher</label>
+        <labelNoun>a meditative refresher</labelNoun>
+        <description>An installed meditative refresher.</description>
+        <descriptionHyperlinks><ThingDef>Turn_PsychicRefresher</ThingDef></descriptionHyperlinks>
+
+        <spawnThingOnRemoved>Turn_PsychicRefresher</spawnThingOnRemoved>
+
+        <stages>
+            <li>
+                <label>idle</label>
+            </li>
+            <li>
+                <minSeverity>0.6</minSeverity>
+                <label>active</label>
+                <restFallFactorOffset>-0.8</restFallFactorOffset>
+            </li>
+        </stages>
+
+        <comps>
+            <li Class="SimplyMoreImplants.HediffCompProperties_SeverityFromJob">
+                <jobs>
+                    <li>
+                        <key>Reign</key>
+                        <value>1</value>
+                    </li>
+                    <li>
+                        <key>Meditate</key>
+                        <value>1</value>
+                    </li>
+                </jobs>
+                <!-- Pawn must be on throne/spot to recieve bonus -->
+                <requiredTargets><li>A</li></requiredTargets>
+                <minTargetDist>1</minTargetDist>
+            </li>
+        </comps>
+    </HediffDef>
+
+    <ThingDef ParentName="BodyPartBionicImperialBase">
+        <defName>Turn_PsychicRefresher</defName>
+        <label>meditative refresher</label>
+        <description>A brain implant that reduces "unnecessary" neurological activity while the user meditates. As long as the user is meditating, they will require less sleep, and will therefore have more time to meditate.</description>
+        <descriptionHyperlinks><RecipeDef>Turn_InstallPsychicRefresher</RecipeDef></descriptionHyperlinks>
+
+        <graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		
+		<thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+
+        <!-- Prevent world pawns from having this implant to avoid any overhead from ticking it. -->
+        <techHediffsTags Inherit="false"/>
+		
+		<costList>
+			<Plasteel>5</Plasteel>
+            <Gold>4</Gold> <!-- x10 = 40 gold -->
+			<Turn_ComponentMedical>2</Turn_ComponentMedical>
+            <ComponentIndustrial>4</ComponentIndustrial>
+		</costList>
+		
+		<recipeMaker>
+			<researchPrerequisite>Turn_PsycasterImplants</researchPrerequisite>
+		</recipeMaker>
+    </ThingDef>
+
+    <RecipeDef ParentName="SurgeryInstallImplantBase">
+        <defName>Turn_InstallPsychicRefresher</defName>
+        <label>install mediative refresher</label>
+        <description>Install a meditative refresher.</description>
+        <descriptionHyperlinks>
+            <ThingDef>Turn_PsychicRefresher</ThingDef>
+            <HediffDef>Turn_PsychicRefresher</HediffDef>
+        </descriptionHyperlinks>
+        <jobString>Installing meditative refresher</jobString>
+
+        <ingredients>
+            <li>
+                <filter>
+                    <thingDefs>
+                        <li>Turn_PsychicRefresher</li>
+                    </thingDefs>
+                </filter>
+                <count>1</count>
+            </li>
+        </ingredients>
+        <fixedIngredientFilter>
+            <thingDefs>
+                <li>Turn_PsychicRefresher</li>
+            </thingDefs>
+        </fixedIngredientFilter>
+
+        <appliedOnFixedBodyParts>
+            <li>Brain</li>
+        </appliedOnFixedBodyParts>
+        <addsHediff>Turn_PsychicRefresher</addsHediff>
+    </RecipeDef>
+
+    <RecipeDef ParentName="SurgeryRemoveImplantBase">
+        <defName>Turn_RemovePsychicRefresher</defName>
+        <label>remove meditative refresher</label>
+        <description>Remove an installed meditative refresher.</description>
+        <descriptionHyperlinks>
+            <ThingDef>Turn_PsychicRefresher</ThingDef>
+            <HediffDef>Turn_PsychicRefresher</HediffDef>
+        </descriptionHyperlinks>
+        <jobString>Removing meditative refresher.</jobString>
+        <removesHediff>Turn_PsychicRefresher</removesHediff>
+    </RecipeDef>
+
+</Defs>

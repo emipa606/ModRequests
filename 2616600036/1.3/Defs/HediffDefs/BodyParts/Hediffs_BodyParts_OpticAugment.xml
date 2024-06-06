@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Ophthalmic Augment -->
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>Turn_OpticAugment</defName>
+		<label>ophthalmic augment</label>
+		<labelNoun>an ophthalmic augment</labelNoun>
+		<description>An installed ophthalmic augment.</description>
+		<descriptionHyperlinks><ThingDef>Turn_OpticAugment</ThingDef></descriptionHyperlinks>
+		
+		<spawnThingOnRemoved>Turn_OpticAugment</spawnThingOnRemoved>
+		
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.05</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<GeneralLaborSpeed>0.10</GeneralLaborSpeed>
+				</statOffsets>
+			</li>
+		</stages>
+		
+		<comps>
+			<li Class="CF.HediffCompProperties_SeverityFromSkill">
+				<skills>
+					<li>Crafting</li>
+					<li>Artistic</li>
+				</skills>
+				<minSkill>8</minSkill>
+			</li>
+			<li Class="CF.HediffCompProperties_CraftedQualityOffset">
+				<stages>
+					<li>
+						<!-- set it to something very low, so it's always triggered if minSkill is met. -->
+						<minSeverity>0.01</minSeverity>
+						<offset>1</offset>
+					</li>
+					<li>
+						<!-- Skill Average of 16 -->
+						<minSeverity>0.8</minSeverity>
+						<offset>2</offset>
+					</li>
+				</stages>
+				<percentChance>0.2</percentChance>
+			</li>
+			<li Class="HediffCompProperties_ReactOnDamage">
+				<damageDefIncoming>EMP</damageDefIncoming>
+				<createHediff>Turn_OpticShock</createHediff>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<ThingDef ParentName="BodyPartBionicImperialBase">
+		<defName>Turn_OpticAugment</defName>
+		<label>ophthalmic augment</label>
+		<description>An implant installed in the optic center of the brain. It consists of an optical enhancement capable of seeing colors that the human mind cannot comprehend, and a neural augment that allows these colors to be comprehended. This augment will increase the quality of goods crafted by its user, but only if they are already skilled at their job.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>Turn_InstallOpticAugment</RecipeDef>
+		</descriptionHyperlinks>
+		
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(118,48,189)</color>
+		</graphicData>
+		
+		<thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+		
+		<costList>
+			<Plasteel>20</Plasteel>
+			<Turn_ComponentMedical>2</Turn_ComponentMedical>
+			<ComponentSpacer>2</ComponentSpacer>
+		</costList>
+		
+		<recipeMaker>
+			<researchPrerequisite>Turn_QualityImplants</researchPrerequisite>
+		</recipeMaker>
+	</ThingDef>
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>Turn_InstallOpticAugment</defName>
+		<label>install ophthalmic augment</label>
+		<description>Install an ophthalmic augment.</description>
+		<descriptionHyperlinks>
+			<ThingDef>Turn_OpticAugment</ThingDef>
+			<HediffDef>Turn_OpticAugment</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing ophthalmic augment.</jobString>
+		
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Turn_OpticAugment</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Turn_OpticAugment</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>Turn_OpticAugment</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryRemoveImplantBase">
+		<defName>Turn_RemoveOpticAugment</defName>
+		<label>remove ophthalmic augment</label>
+		<description>Remove an installed ophthalmic augment.</description>
+		<descriptionHyperlinks>
+			<ThingDef>Turn_OpticAugment</ThingDef>
+			<HediffDef>Turn_OpticAugment</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Removing ophthalmic augment.</jobString>
+		<removesHediff>Turn_OpticAugment</removesHediff>
+	</RecipeDef>
+
+</Defs>
