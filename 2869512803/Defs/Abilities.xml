@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	
+	<AbilityDef>
+        <defName>WP_KyokatanaAbility2</defName>
+        <label>Searing Rush</label>
+        <description>Steady your weapon for a moment to superheat the blade, before going forth to render the oppositions' armor useless.</description>
+        <iconPath>UI/PowerDash</iconPath>
+        <cooldownTicksRange>1500</cooldownTicksRange>
+		<aiCanUse>true</aiCanUse>
+		<verbProperties>
+			<verbClass>VFECore.Abilities.Verb_CastAbilityCuttingDash</verbClass>
+			<label>jump</label>
+			<hasStandardCommand>true</hasStandardCommand>
+			<warmupTime>2</warmupTime>
+			<range>9.9</range>
+			<soundCast>Dash_Whoosh</soundCast>
+			<requireLineOfSight>true</requireLineOfSight>
+			<targetParams>
+				<canTargetPawns>false</canTargetPawns>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<!-- <comps> -->
+			<!-- <li Class="VFECore.Abilities.CompProperties_CuttingDash"> -->
+				<!-- <compClass>VFECore.Abilities.CompAbilityEffect_CuttingDash</compClass> -->
+				<!-- <range>9.9</range> -->
+			<!-- </li> -->
+		<!-- </comps> -->
+    </AbilityDef>
+	
+	<ThingDef ParentName="PawnFlyerBase">
+		<defName>WP_CuttingDashFlyer</defName>
+		<thingClass>VFECore.Abilities.PawnFlyer_KyokatanaDash</thingClass>
+		<pawnFlyer>
+			<flightDurationMin>0.5</flightDurationMin>
+			<flightSpeed>50</flightSpeed>
+		</pawnFlyer>
+	</ThingDef>
+	
+    <AbilityDef>
+        <defName>WP_VoltrenderAbility</defName>
+        <label>Voltaic Blitz</label>
+        <description>Bear down on your enemies with a flurry of slashes that leaves them reeling and weakened for a merciless finisher.</description>
+        <iconPath>UI/Combo</iconPath>
+        <cooldownTicksRange>600</cooldownTicksRange>
+		<statBases>
+		  <Ability_Duration>120</Ability_Duration>
+		</statBases>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<hasStandardCommand>true</hasStandardCommand>
+			<targetable>false</targetable>
+			<warmupTime>0.3</warmupTime>
+			<range>0</range>
+			<muzzleFlashScale>9</muzzleFlashScale>
+			<targetParams>
+			  <canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilityGiveHediff">
+				<compClass>CompAbilityEffect_GiveHediff</compClass>
+				<hediffDef>WP_VoltaicComboHD</hediffDef>
+				<applyToSelf>true</applyToSelf>
+				<onlyApplyToSelf>true</onlyApplyToSelf>
+				<severity>5</severity>
+			</li>
+		</comps>
+    </AbilityDef>
+	
+    <AbilityDef>
+        <defName>WP_CrustbreakerAbility</defName>
+        <label>Tectonic Crash</label>
+        <description>Slam the tectonic head of your hammer into the earth, using the very ground you stand on to throw your adversaries onto the ground, or into their graves.</description>
+        <iconPath>UI/CrustBreak</iconPath>
+        <cooldownTicksRange>600</cooldownTicksRange>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<hasStandardCommand>true</hasStandardCommand>
+			<warmupTime>0.3</warmupTime>
+			<range>9.9</range>
+			<soundCast>WP_CrustbreakerSound</soundCast>
+			<muzzleFlashScale>9</muzzleFlashScale>
+			<targetParams>
+			  <canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilitySprayLiquid">
+				<projectileDef>WP_ProjectileTectonicShrapnel</projectileDef>
+				<numCellsToHit>15</numCellsToHit>
+			</li>
+			<li Class="VFECore.Abilities.CompProperties_AbilityConeShoot">
+				<damageDef>WP_ShockwaveDD</damageDef>
+				<angle>30</angle>
+				<range>6.9</range>		<!--necessary even if you have range in the verbProperties but lets you make a shorter/longer cone-->
+				<propagationSpeed>0.3</propagationSpeed>
+				<damage>7</damage>
+				<lineWidthEnd>5</lineWidthEnd>
+				<chanceToStartFire>0</chanceToStartFire>
+				<!--you can also spawn things and not deal damage if you want-->
+				<!--look at the source code for more info-->
+			 </li>
+		</comps>
+    </AbilityDef>
+	
+	<FleckDef ParentName="FleckBase_Thrown">
+		<defName>MoteComboSlash</defName>
+		<graphicData>
+		  <texPath>Effects/Slash</texPath>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		
+		  <fadeOutTime>0.7</fadeOutTime>
+		  <growthRate>0</growthRate>
+		
+	</FleckDef>
+	
+	<FleckDef ParentName="FleckBase_Thrown">
+		<defName>MoteComboBlast</defName>
+		<graphicData>
+		  <texPath>Effects/EnergyBurst</texPath>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		
+		  <fadeOutTime>0.7</fadeOutTime>
+		  <growthRate>0</growthRate>
+		
+	</FleckDef>
+	
+	<ThingDef ParentName="BaseBullet">
+		<defName>WP_ProjectileTectonicShockwave</defName>
+		<label>shockwave</label>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+			<texPath>Effects/Shockwave</texPath>
+			<shaderType>TransparentPostLight</shaderType>
+			<color>(1,1,1,0.5)</color>
+		</graphicData>
+		<projectile>
+			<damageDef>WP_ShockwaveDD</damageDef>
+			<speed>40</speed>
+			<damageAmountBase>10</damageAmountBase>
+			<armorPenetrationBase>2</armorPenetrationBase>
+		</projectile>
+	</ThingDef>
+	
+	<ThingDef ParentName="BaseBullet">
+		<defName>WP_ProjectileTectonicShrapnel</defName>
+		<label>tectonic shrapnel</label>
+		<thingClass>Projectile_Explosive</thingClass>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+			<texPath>Effects/Shrapnel</texPath>
+			<shaderType>TransparentPostLight</shaderType>
+			<color>(1,1,1,1)</color>
+		</graphicData>
+		<projectile>
+			<damageDef>Bomb</damageDef>
+			<speed>50</speed>
+			<damageAmountBase>10</damageAmountBase>
+			<armorPenetrationBase>2</armorPenetrationBase>
+			<explosionRadius>0.9</explosionRadius>
+		</projectile>
+	</ThingDef>
+	
+	<DamageDef ParentName="BluntBase" Name="WP_ShockwaveDD">
+		<defName>WP_ShockwaveDD</defName>
+		<deathMessage>{0} has been smashed to death.</deathMessage>
+		<label>shockwave</label>
+		<workerClass>VFECore.DamageWorker_PushBackAttackMelee</workerClass>
+		<explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+		<explosionHeatEnergyPerCell>5</explosionHeatEnergyPerCell>
+		<explosionCellFleck>BlastDry</explosionCellFleck>
+		<explosionColorCenter>(1, 0.5, 0.3)</explosionColorCenter>
+		<explosionColorEdge>(0.6, 0.5, 0.4)</explosionColorEdge>
+		<soundExplosion>Explosion_Bomb</soundExplosion>
+		<combatLogRules>Damage_Bomb</combatLogRules>
+		<modExtensions>
+			<li Class="VFECore.DamageExtension">
+				<pushBackDistance>5</pushBackDistance>
+				<soundOnDamage>ThrowGrenade</soundOnDamage>
+			</li>
+		</modExtensions>
+	</DamageDef>
+	
+	<DamageDef ParentName="CutBase">
+		<defName>WP_VoltrenderDD</defName>
+		<label>voltrend</label>
+		<workerClass>AnimalBehaviours.DamageWorker_ExtraDamageMechanoids</workerClass>
+		<additionalHediffs>
+		  <li>
+			<hediff>WP_VoltrenderHeartAttackGiver</hediff>
+			<severityPerDamageDealt>0.015</severityPerDamageDealt>
+			<victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+		  </li>
+		</additionalHediffs>
+	</DamageDef>
+	
+	<HediffDef>
+		<defName>WP_VoltaicAttackSpeedHD</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>Voltaic Attack Speed</label>
+		<description>Manages attack speed through the Voltrender's combo ability.</description>
+		<defaultLabelColor>(0.2,0.8,1)</defaultLabelColor>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<makesSickThought>false</makesSickThought>
+		<tendable>false</tendable>
+		<makesAlert>false</makesAlert>
+		<maxSeverity>5.0</maxSeverity>
+		<isBad>false</isBad>
+		<initialSeverity>.5</initialSeverity>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<disappearsAfterTicks>1</disappearsAfterTicks>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+				<statFactors>
+					<VEF_MeleeAttackSpeedFactor>2</VEF_MeleeAttackSpeedFactor>
+				</statFactors>
+			</li>
+			<li>
+				<minSeverity>1</minSeverity>
+				<becomeVisible>false</becomeVisible>
+				<statFactors>
+					<VEF_MeleeAttackSpeedFactor>0.5</VEF_MeleeAttackSpeedFactor>
+				</statFactors>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>WP_VoltrenderHeartAttackGiver</defName>
+		<label>voltrender's shock</label>
+		<hediffClass>HediffWithComps</hediffClass>
+		<description>Getting struck by a Voltrender several times causes heart attacks.</description>
+		<comps>
+		  <li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>-24</severityPerDay>
+		  </li>
+		</comps>
+		<hediffGivers>
+		  <li Class="HediffGiver_RandomDrugEffect">
+			<hediff>HeartAttack</hediff>
+			<severityToMtbDaysCurve>
+			  <points>
+				<li>(0.5, 99999)</li>
+				<li>(2, 10)</li>
+				<li>(5, 0.1)</li>
+				<li>(10, 0.01)</li>
+			  </points>
+			</severityToMtbDaysCurve>
+			<partsToAffect>
+			  <li>Heart</li>
+			</partsToAffect>
+		  </li>
+		</hediffGivers>
+		<stages><li><becomeVisible>false</becomeVisible></li></stages>	
+	</HediffDef>
+	
+	<ToolCapacityDef>
+		<defName>VoltaicSlash</defName>
+		<label>slash</label>
+	</ToolCapacityDef>
+	  
+	<ManeuverDef>
+		<defName>VoltaicSlash</defName>
+		<requiredCapacity>VoltaicSlash</requiredCapacity>
+		<verb>
+		  <verbClass>VFECore.Abilities.Verb_VoltaicMaybeCombo</verbClass>
+		  <meleeDamageDef>WP_VoltrenderDD</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+	
+	<SoundDef>
+		<defName>WP_CrustbreakerSound</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+		  <li>
+			<onCamera>True</onCamera>
+			<grains>
+			  <li Class="AudioGrain_Folder">
+				<clipFolderPath>Abilities/CrustbreakerSound</clipFolderPath>
+			  </li>
+			</grains>
+			<volumeRange>100</volumeRange>
+			<pitchRange>1</pitchRange>
+		  </li>
+		</subSounds>
+	</SoundDef>
+	
+	<SoundDef>
+		<defName>Dash_Whoosh</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+		  <li>
+			<onCamera>True</onCamera>
+			<grains>
+			  <li Class="AudioGrain_Folder">
+				<clipFolderPath>Abilities/KyokatanaSound</clipFolderPath>
+			  </li>
+			</grains>
+			<volumeRange>100</volumeRange>
+			<pitchRange>1</pitchRange>
+		  </li>
+		</subSounds>
+	</SoundDef>
+	
+	<!--Sort everything into actual files
+	Need to make AbilityIfSeverityAbove remove the ability if hediff is removed; just an override? read VEF stuff-->
+  
+</Defs>

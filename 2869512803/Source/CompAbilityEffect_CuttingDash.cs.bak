@@ -1,0 +1,145 @@
+using System.Collections.Generic;
+using RimWorld;
+using RimWorld.Planet;
+using Verse;
+using UnityEngine;
+using VFECore.Abilities;
+
+namespace VFECore.Abilities
+{
+	// public class CompAbilityEffect_CuttingDash : CompAbilityEffect
+	// {
+		// public CompProperties_CuttingDash CompProp => (CompProperties_CuttingDash)props;
+
+		// public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
+		// {
+			// Map map = parent.pawn.Map;
+			// PawnFlyer jumpingPawn = (PawnFlyer_KyokatanaDash)PawnFlyer.MakeFlyer(DefDatabase<ThingDef>.GetNamed("WP_CuttingDashFlyer"), parent.pawn, target.Cell, EffecterDefOf.ControlMech, SoundDefOf.Execute_Cut);
+			// GenSpawn.Spawn(jumpingPawn, parent.pawn.Position, map);
+			// base.Apply(target, dest);
+		// }
+	// }
+	
+	// public class CompProperties_CuttingDash : CompProperties_AbilityEffect
+	// {
+		// public float range = 9.9f;
+	// }
+	
+	// public class Verb_CastAbilityCuttingDash: Verb_CastAbilityJump
+	// {
+		// protected override bool TryCastShot()
+		// {
+			// if (base.TryCastShot())
+			// {
+				// return DoCuttingDash(CasterPawn, currentTarget, verbProps);
+			// }
+			// return false;
+		// }
+		
+		// public static bool DoCuttingDash(Pawn pawn, LocalTargetInfo currentTarget, VerbProperties verbProps)
+		// {
+			// if (!ModLister.CheckRoyaltyOrBiotech("Jumping"))
+			// {
+				// return false;
+			// }
+			// IntVec3 position = pawn.Position;
+			// IntVec3 cell = currentTarget.Cell;
+			// Map map = pawn.Map;
+			// PawnFlyer pawnFlyer = PawnFlyer.MakeFlyer(DefDatabase<ThingDef>.GetNamed("WP_CuttingDashFlyer"), pawn, cell, verbProps.flightEffecterDef, verbProps.soundLanding);
+			// if (pawnFlyer != null)
+			// {
+				// GenSpawn.Spawn(pawnFlyer, cell, map);
+				// return true;
+			// }
+			// return false;
+		// }
+	// }
+	
+	public class Verb_CastAbilityCuttingDash : Verb_CastAbilityJump
+    {
+        protected override float EffectiveRange => 9.9f;
+
+        protected override bool TryCastShot()
+        {
+            if (!ModLister.RoyaltyInstalled)
+            {
+                Log.ErrorOnce(
+                    "Items with jump capability are a Royalty-specific game system. If you want to use this code please check ModLister.RoyaltyInstalled before calling it. See rules on the Ludeon forum for more info.",
+                    550187797);
+                return false;
+            }
+
+            var casterPawn = CasterPawn;
+
+            var cell = casterPawn.Position;
+            var map = casterPawn.Map;
+            var pawnFlyer = PawnFlyer.MakeFlyer(WP_DefOf.WP_CuttingDashFlyer, casterPawn, currentTarget.Cell, EffecterDefOf.ButcherMechanoid, null);
+            if (pawnFlyer != null)
+            {
+				ability.StartCooldown(def.cooldownTicksRange.RandomInRange);
+                GenSpawn.Spawn(pawnFlyer, currentTarget.Cell, map);
+                return true;
+            }
+            return false;
+        }
+    }
+
+	
+	public class PawnFlyer_KyokatanaDash : PawnJumper
+    {
+		public List<string> HitPawns = new List<string>();
+		//need to erase the list on landing/starting flight
+        //public override Vector3 DrawPos => base.Position.ToVector3();
+
+        // public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        // {
+            // base.SpawnSetup(map, respawningAfterLoad);
+            // if (!respawningAfterLoad)
+            // {
+                // var a = 0.5f;
+                // ticksFlightTime = a.SecondsToTicks();
+                // ticksFlying = 0;
+            // }
+        // }
+
+        //public override void DrawAt(Vector3 drawLoc, bool flip = false)
+        //{
+            //FlyingPawn.Drawer.renderer.RenderPawnAt(base.Position, direction);
+        //}
+
+        public override void Tick()
+        {
+			SearchForTargets(base.Position, 2.9f, Map, FlyingPawn);
+            base.Tick();
+        }
+		
+		public void SearchForTargets(IntVec3 center, float radius, Map map, Pawn pawn)
+        {      
+            IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(center, radius, true);
+            foreach (IntVec3 curCell in targets)
+            {
+                //FleckMaker.ThrowDustPuff(curCell, map, .2f);
+                if (curCell.InBounds(map) && curCell.IsValid)
+                {
+                    Pawn victim = curCell.GetFirstPawn(map);
+                    if (victim != null && victim.Faction != pawn.Faction)
+                    {
+						if (!(HitPawns.Contains(victim.GetUniqueLoadID())))
+                        {
+							damageEntities(victim, null, 15, WP_DefOf.WP_WhiteHotBurn);           
+							HitPawns.Add(victim.GetUniqueLoadID());	//we store the ID of everything hit so that we won't hit twice (or, more accurately, once each tick)
+						}
+                    }
+                }
+            }
+        }
+		
+		public void damageEntities(Pawn victim, BodyPartRecord hitPart, int amt, DamageDef type)
+        {
+            DamageInfo dinfo;
+            dinfo = new DamageInfo(type, amt, 2, (float)-1, this.FlyingPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            dinfo.SetAllowDamagePropagation(false);
+            victim.TakeDamage(dinfo);
+        }
+    }
+}
