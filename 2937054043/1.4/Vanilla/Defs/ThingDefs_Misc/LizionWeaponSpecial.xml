@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionFlameThrower</defName>
+		<label>plasma flame</label>
+		<randomizeRotationOnSpawn>true</randomizeRotationOnSpawn>
+		<graphicData>
+			<texPath>Things/Gas/Puff</texPath>
+			<drawSize>(1.4,1.4)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasmaFlamer</damageDef>
+			<damageAmountBase>5</damageAmountBase>
+			<armorPenetrationBase>0.20</armorPenetrationBase>
+			<speed>40</speed>
+			<stoppingPower>0.5</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>4</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.1</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>5</fadeOutExpandMultiplier>
+				<shouldStartFire>true</shouldStartFire>
+				<chanceOfFire>0.2</chanceOfFire>
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionFireExtinguisher</defName>
+		<thingClass>BillDoorsFramework.DisintegratingProjectileExplosive</thingClass>
+		<label>lizion gas</label>
+		<randomizeRotationOnSpawn>true</randomizeRotationOnSpawn>
+		<graphicData>
+			<texPath>Things/Gas/Puff</texPath>
+			<drawSize>(1.4,1.4)</drawSize>
+			<color>(225,225,225)</color>
+		</graphicData>
+		<projectile>
+			<speed>25</speed>
+			<damageDef>LizionExplosion</damageDef>
+			<damageAmountBase>1</damageAmountBase>
+			<explosionRadius>1.5</explosionRadius>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.1</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>5</fadeOutExpandMultiplier>
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaFlameThrower</defName>
+		<label>lizion plasmathrower</label>
+		<description>Designed to spray out a continuous stream of energized plasma, unleashing a lizionic inferno onto enemies and probably friendlies, the F58A2 sustained plasma emitter is uncapable of using standarized lizion cells. Instead it requires a specialized lizion gas tank backpack to operate.\n\nWhile republic military doctorine explictly banned such usage, it's said that by turning off the lizion energizer, this weapon can be modified to unleash a jet of near absolute zero, unflammable lizion gas, capable of acting as a fire extinguisher. However it is useless against self-combusting materials like prometheum.</description>
+		<generateAllowChance>0.5</generateAllowChance>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaFlamethrower</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>20000</WorkToMake>
+			<Mass>8.5</Mass>
+			<AccuracyTouch>0.83</AccuracyTouch>
+			<AccuracyShort>0.7</AccuracyShort>
+			<AccuracyMedium>0.42</AccuracyMedium>
+			<AccuracyLong>0.35</AccuracyLong>
+			<RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+		</statBases>
+		<recipeMaker>
+			<researchPrerequisites Inherit="false">
+				<li>BiofuelRefining</li>
+			</researchPrerequisites>
+			<recipeUsers>
+				<li>FabricationBench</li>
+			</recipeUsers>
+		</recipeMaker>
+		<costList>
+			<Steel>30</Steel>
+			<Jade>20</Jade>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionFlameThrower</defaultProjectile>
+				<warmupTime>2</warmupTime>
+				<burstShotCount>10</burstShotCount>
+				<ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+				<range>7.9</range>
+				<soundCast>BDP_HissOneShot</soundCast>
+				<muzzleFlashScale>12</muzzleFlashScale>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>1</ammoConsumption>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>150</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>150</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+
+
+	<ThingDef ParentName="BaseMakeableGun">
+		<defName>BDP_FireExtinguisher</defName>
+		<label>liquid lizion fire extinguisher</label>
+		<description>This republic standard issue 10000 Credit worth insulated pressurized container is capable of storing a decent amount of cryogenic lizion, gasify it in the nozzle and expel it away as a stream of extremely cold, fast and nonflammable lizion gas when the handle is pushed. Usually used as firefighting equipment around delicate devices that would otherwise get destroyed from water or firefoam. However the seemly benefit of no residue also means it can't prevent re-ignition of flammable materials, most notably prometheum.\n\nWait, you realized you can't sell this for 10000 silver? Shhhhhh-----</description>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_FireExtinguisher</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<onGroundRandomRotateAngle>0</onGroundRandomRotateAngle>
+		</graphicData>
+		<uiIconPath>Things/Weapons/BDP_FireExtinguisherIcon</uiIconPath>
+		<soundInteract>Interact_ChargeRifle</soundInteract>
+		<statBases>
+			<WorkToMake>4000</WorkToMake>
+			<Mass>5.5</Mass>
+			<AccuracyTouch>0.83</AccuracyTouch>
+			<AccuracyShort>0.7</AccuracyShort>
+			<AccuracyMedium>0.42</AccuracyMedium>
+			<AccuracyLong>0.35</AccuracyLong>
+			<RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+		</statBases>
+		<costList>
+			<Steel>30</Steel>
+			<Plasteel>5</Plasteel>
+			<ComponentIndustrial>1</ComponentIndustrial>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionFireExtinguisher</defaultProjectile>
+				<warmupTime>2</warmupTime>
+				<burstShotCount>10</burstShotCount>
+				<ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+				<range>10.9</range>
+				<soundCast>BDP_HissOneShot</soundCast>
+				<muzzleFlashScale>12</muzzleFlashScale>
+				<forcedMissRadius>0.1</forcedMissRadius>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>1</ammoConsumption>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>100</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>100</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>BDP_FireExtinguisher</li>
+		</weaponTags>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+		</modExtensions>
+		<tools>
+			<li>
+				<label>body</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<recipeMaker>
+			<researchPrerequisites Inherit="false">
+				<li>BiofuelRefining</li>
+			</researchPrerequisites>
+			<recipeUsers>
+				<li>FabricationBench</li>
+			</recipeUsers>
+		</recipeMaker>
+	</ThingDef>
+</Defs>

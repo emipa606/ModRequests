@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingCategoryDef>
+		<defName>AmmoCategory_LizionCell</defName>
+		<label>lizion plasma cell</label>
+		<parent>AmmoAdvanced</parent>
+		<iconPath>UI/Icons/ThingCategories/CaliberPlasmaMedium</iconPath>
+	</ThingCategoryDef>
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>BDP_Plasma</defName>
+		<label>standard plasma</label>
+		<labelShort>standard</labelShort>
+		<description>Energized and superheated plasma state lizion accelerated with magnetic field.</description>
+		<advanced>true</advanced>
+	</CombatExtended.AmmoCategoryDef>
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>BDP_PlasmaIncendiary</defName>
+		<label>incendiary plasma</label>
+		<labelShort>incendiary</labelShort>
+		<description>Energized and superheated plasma state lizion with prometheum content, ignites target in addition to thermal damage.</description>
+		<advanced>true</advanced>
+	</CombatExtended.AmmoCategoryDef>
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>BDP_PlasmaInert</defName>
+		<label>inert plasma</label>
+		<labelShort>inert</labelShort>
+		<description>Energized plasma state lizion accelerated with magnetic field, does not burn target but deal blunt damage instead.</description>
+		<advanced>true</advanced>
+	</CombatExtended.AmmoCategoryDef>
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>BDP_PlasmaOvercharged</defName>
+		<label>overcharged plasma</label>
+		<labelShort>overcharged</labelShort>
+		<description>Superenergized,hyperheated high pressure plasma state lizion accelerated with magnetic field, causes tremendous damage but can't hit the broad side of a barn.</description>
+		<advanced>true</advanced>
+	</CombatExtended.AmmoCategoryDef>
+
+	<!-- ==================== Ammo ========================== -->
+	<ThingDef ParentName="ResourceBase">
+		<defName>BDP_EmptyLizionCell</defName>
+		<label>empty lizion cell</label>
+		<description>Specialized canisters designed to hold lizion gas and feed them into plasma weapons. Combat data showed an estimated 90% recovery rate of spent canisters.</description>
+		<graphicData>
+			<texPath>Things/Ammo/LizionSmall/Empty</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<soundInteract>Metal_Drop</soundInteract>
+		<soundDrop>Standard_Drop</soundDrop>
+		<stackLimit>750</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Beauty>-5</Beauty>
+			<Flammability>0.2</Flammability>
+			<DeteriorationRate>2</DeteriorationRate>
+			<Mass>0.01</Mass>
+			<Bulk>0.02</Bulk>
+		</statBases>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" Name="SmallLizionCellBase" ParentName="SpacerSmallAmmoBase" Abstract="true">
+		<statBases>
+			<Mass>0.012</Mass>
+			<Bulk>0.02</Bulk>
+		</statBases>
+		<tradeTags>
+			<li>CE_AutoEnableTrade</li>
+		</tradeTags>
+		<thingCategories>
+			<li>AmmoCategory_LizionCell</li>
+		</thingCategories>
+		<graphicData>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" ParentName="SmallLizionCellBase">
+		<defName>Ammo_LizionCellNormal</defName>
+		<label>standard lizion cell</label>
+		<description>A lizion cell that perfectly fall within Pan-Humanoid Republic WP-4028-3 protocol, does not contain any non-standard addictives and does not exceed safe pressure.</description>
+		<statBases>
+			<MarketValue>2.88</MarketValue>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Ammo/LizionSmall/Normal</texPath>
+		</graphicData>
+		<ammoClass>BDP_Plasma</ammoClass>
+		<comps>
+			<li Class="CombatExtended.CompProperties_ExplosiveCE">
+				<damageAmountBase>20</damageAmountBase>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<explosiveRadius>0.5</explosiveRadius>
+				<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			</li>
+			<li Class="CombatExtended.CompProperties_Fragments">
+				<fragments>
+					<Fragment_Large>2</Fragment_Large>
+					<Fragment_Small>8</Fragment_Small>
+				</fragments>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" ParentName="SmallLizionCellBase">
+		<defName>Ammo_LizionCellIncendiary</defName>
+		<label>incendiary lizion cell</label>
+		<description>A lizion cell with prometheum content, ignites target on impact.</description>
+		<generateAllowChance>0.5</generateAllowChance>
+		<statBases>
+			<MarketValue>3.28</MarketValue>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Ammo/LizionSmall/Incendiary</texPath>
+		</graphicData>
+		<ammoClass>BDP_PlasmaIncendiary</ammoClass>
+		<tradeTags>
+			<li>CE_AutoEnableCrafting_FabricationBench</li>
+		</tradeTags>
+		<comps>
+			<li Class="CombatExtended.CompProperties_ExplosiveCE">
+				<explosiveDamageType>PrometheumFlame</explosiveDamageType>
+				<explosiveRadius>1</explosiveRadius>
+				<preExplosionSpawnThingDef>FilthPrometheum</preExplosionSpawnThingDef>
+				<damageAmountBase>20</damageAmountBase>
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			</li>
+			<li Class="CombatExtended.CompProperties_Fragments">
+				<fragments>
+					<Fragment_Large>2</Fragment_Large>
+					<Fragment_Small>8</Fragment_Small>
+				</fragments>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" ParentName="SmallLizionCellBase">
+		<defName>Ammo_LizionCellInert</defName>
+		<label>inert lizion cell</label>
+		<description>A less pressurized lizion cell, less lethal than a standard cell but good when you want somebody downed alive.</description>
+		<generateAllowChance>0</generateAllowChance>
+		<statBases>
+			<MarketValue>2.78</MarketValue>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Ammo/LizionSmall/Inert</texPath>
+		</graphicData>
+		<ammoClass>BDP_PlasmaInert</ammoClass>
+		<comps>
+			<li Class="CombatExtended.CompProperties_ExplosiveCE">
+				<damageAmountBase>5</damageAmountBase>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<explosiveRadius>0.5</explosiveRadius>
+				<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			</li>
+			<li Class="CombatExtended.CompProperties_Fragments">
+				<fragments>
+					<Fragment_Small>4</Fragment_Small>
+				</fragments>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" ParentName="SmallLizionCellBase">
+		<defName>Ammo_LizionCellOvercharged</defName>
+		<label>overcharged lizion cell</label>
+		<description>A dangerously overpressurized lizion cell, while it packs more punch, the extra pressure inteferes with plasma chamber injection, disrupts projectile trajectory and hurts accuracy a lot. Rapid decompressurization at higher than standard pressure almost always render this cell unusable for recycling.</description>
+		<generateAllowChance>0.1</generateAllowChance>
+		<statBases>
+			<MarketValue>3.28</MarketValue>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Ammo/LizionSmall/Overcharged</texPath>
+		</graphicData>
+		<ammoClass>BDP_PlasmaOvercharged</ammoClass>
+		<comps>
+			<li Class="CombatExtended.CompProperties_ExplosiveCE">
+				<damageAmountBase>40</damageAmountBase>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<explosiveRadius>2</explosiveRadius>
+				<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			</li>
+			<li Class="CombatExtended.CompProperties_Fragments">
+				<fragments>
+					<Fragment_Large>4</Fragment_Large>
+					<Fragment_Small>16</Fragment_Small>
+				</fragments>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<!-- ==================== Recipes ========================== -->
+
+	<RecipeDef>
+		<defName>MakeEmptyLizionCell</defName>
+		<label>make empty lizion cells</label>
+		<description>Craft 100 empty lizion gas cells.</description>
+		<jobString>Making empty lizion cells.</jobString>
+		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<effectWorking>Cook</effectWorking>
+		<soundWorking>Recipe_Machining</soundWorking>
+		<workAmount>3800</workAmount>
+		<unfinishedThingDef>UnfinishedAmmo</unfinishedThingDef>
+		<recipeUsers>
+			<li>TableMachining</li>
+			<li>FabricationBench</li>
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Jade</li>
+					</thingDefs>
+				</filter>
+				<count>2</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Plasteel</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>ComponentIndustrial</li>
+					</thingDefs>
+				</filter>
+				<count>2</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Jade</li>
+				<li>Plasteel</li>
+				<li>ComponentIndustrial</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<BDP_EmptyLizionCell>100</BDP_EmptyLizionCell>
+		</products>
+		<researchPrerequisite>BiofuelRefining</researchPrerequisite>
+		<skillRequirements>
+			<Crafting>8</Crafting>
+		</skillRequirements>
+		<workSkill>Crafting</workSkill>
+	</RecipeDef>
+
+	<RecipeDef ParentName="ChargeAmmoRecipeBase">
+		<defName>MakeAmmo_LizionCellIncendiary</defName>
+		<label>fill incendiary lizion cells</label>
+		<description>Fill 100 incendiary lizion cells.</description>
+		<jobString>Filling incendiary lizion cells.</jobString>
+		<workAmount>600</workAmount>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Ammo_LizionCellNormal</li>
+					</thingDefs>
+				</filter>
+				<count>100</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Prometheum</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Ammo_LizionCellNormal</li>
+				<li>Prometheum</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<Ammo_LizionCellIncendiary>100</Ammo_LizionCellIncendiary>
+		</products>
+	</RecipeDef>
+
+	<RecipeDef>
+		<defName>VentLizionCells</defName>
+		<label>vent lizion cells</label>
+		<description>Vent 100 lizion cells to make them available for refilling. 10% of them will be damaged in thr process.</description>
+		<jobString>Venting lizion cells.</jobString>
+		<effectWorking>LizionCoolerLow</effectWorking>
+		<soundWorking>HissSmall</soundWorking>
+		<workAmount>1000</workAmount>
+		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<allowMixingIngredients>true</allowMixingIngredients>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Ammo_LizionCellNormal</li>
+						<li>Ammo_LizionCellIncendiary</li>
+						<li>Ammo_LizionCellInert</li>
+						<li>Ammo_LizionCellOvercharged</li>
+					</thingDefs>
+				</filter>
+				<count>100</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Ammo_LizionCellNormal</li>
+				<li>Ammo_LizionCellIncendiary</li>
+				<li>Ammo_LizionCellInert</li>
+				<li>Ammo_LizionCellOvercharged</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<BDP_EmptyLizionCell>90</BDP_EmptyLizionCell>
+		</products>
+		<recipeUsers Inherit="false">
+			<li>CraftingSpot</li>
+		</recipeUsers>
+	</RecipeDef>
+</Defs>

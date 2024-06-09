@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>RunAndGun</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAddModExtension">
+					<xpath>Defs/ThingDef[defName="BDP_PlasmaLMG" or defName="BDP_PlasmaSniper" or defName="BDP_PlasmaCannon"]</xpath>
+					<value>
+						<li Class="RunAndGun.DefModExtension_SettingDefaults">
+							<weaponForbidden>true</weaponForbidden>
+						</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThinkTreeDef[defName="MainColonistBehaviorCore"]/thinkRoot/subNodes/li[@Class="ThinkNode_PrioritySorter"]/subNodes</xpath>
+		<value>
+			<li Class="BDsPlasmaWeapon.JobGiver_DropExtinguisher" />
+			<li Class="BDsPlasmaWeapon.JobGiver_ReloadFromFiller"/>
+		</value>
+	</Operation>
+
+
+	<Operation Class="PatchOperationInsert">
+		<xpath>Defs/ThinkTreeDef[defName="Humanlike"]/thinkRoot/subNodes/li[subNodes/li[tagToGive="DraftedOrder"]]/subNodes/li[1]/subNodes/li[@Class="JobGiver_MoveToStandable"]</xpath>
+		<value>
+			<li Class="BDsPlasmaWeapon.JobGiver_ExtinguishFireWithWeapon" />
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="WastepackAtomizer"]</xpath>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="WastepackAtomizer"]/comps</xpath>
+			<value>
+				<li Class="BDsPlasmaWeapon.CompProperties_AtomzierLizion">
+					<pipeNet>BDP_LizionNetwork</pipeNet>
+					<ProductionPerAtomize>100</ProductionPerAtomize>
+				</li>
+			</value>
+		</match>
+	</Operation>
+</Patch>

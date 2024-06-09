@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<DesignatorDropdownGroupDef>
+		<defName>Group_PlasmaTurrets</defName>
+		<label>plasma turrets</label>
+	</DesignatorDropdownGroupDef>
+
+	<!--==================== Dual turret =========================-->
+	<CombatExtended.AmmoSetDef>
+		<defName>AmmoSet_LizionPipedSniper</defName>
+		<label>lizion gas</label>
+		<ammoTypes>
+			<Gas_Lizion>Projectile_LizionSniperNormal</Gas_Lizion>
+		</ammoTypes>
+	</CombatExtended.AmmoSetDef>
+
+	<ThingDef ParentName="TurretAutoBase">
+		<defName>BDP_Turret_Plasma</defName>
+		<label>dual lizion blaster turret</label>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<specialDisplayRadius>67.9</specialDisplayRadius>
+		<tradeability>None</tradeability>
+		<graphicData>
+			<texPath>Things/Building/PlasmaTurret_Base</texPath>
+			<drawSize>(1.8,1.8)</drawSize>
+			<drawOffset>(0,0,-0.1)</drawOffset>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurret_Icon</uiIconPath>
+		<statBases>
+			<WorkToBuild>80000</WorkToBuild>
+			<MaxHitPoints>600</MaxHitPoints>
+			<Mass>20</Mass>
+			<Bulk>25</Bulk>
+			<AimingAccuracy>0.5</AimingAccuracy>
+			<ShootingAccuracyTurret>1</ShootingAccuracyTurret>
+			<Flammability>0</Flammability>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<fillPercent>0.95</fillPercent>
+		<description>Automatic turret equipped with two lizion plasma blasters.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<costList>
+			<Steel>325</Steel>
+			<Plasteel>140</Plasteel>
+			<ComponentIndustrial>20</ComponentIndustrial>
+			<ComponentSpacer>4</ComponentSpacer>
+			<Jade>50</Jade>
+		</costList>
+		<building>
+			<turretGunDef>BDP_PlasmaTurretGun</turretGunDef>
+			<ai_combatDangerous>true</ai_combatDangerous>
+			<turretTopDrawSize>5</turretTopDrawSize>
+		</building>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>950</basePowerConsumption>
+			</li>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<compClass>BDsPlasmaWeapon.CompTurretPipedDualMode</compClass>
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+			</li>
+			<li>
+				<compClass>BDsPlasmaWeapon.CompTurretFixForAmmo</compClass>
+			</li>
+		</comps>
+		<size>(2,2)</size>
+		<placeWorkers Inherit="false">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<thingCategories IsNull="true"/>
+		<researchPrerequisites>
+			<li>CE_ChargeTurret</li>
+		</researchPrerequisites>
+		<damageMultipliers>
+			<li>
+				<damageDef>RangedStab</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Arrow</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>ArrowHighVelocity</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Bullet</damageDef>
+				<multiplier>0.5</multiplier>
+			</li>
+			<li>
+				<damageDef>Cut</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Poke</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Stab</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Scratch</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>ScratchToxic</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Bite</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>ToxicBite</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Flame</damageDef>
+				<multiplier>0</multiplier>
+			</li>
+		</damageMultipliers>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseAutoTurretGun">
+		<defName>BDP_PlasmaTurretGun</defName>
+		<label>dual lizion blaster</label>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_Turret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>Two lizion blasters attached to a turret mount.</description>
+		<soundInteract>Interact_ChargeRifle</soundInteract>
+		<statBases>
+			<MarketValue>2000</MarketValue>
+			<SightsEfficiency>1</SightsEfficiency>
+			<ShotSpread>0.08</ShotSpread>
+			<SwayFactor>0.72</SwayFactor>
+			<RangedWeapon_Cooldown>0.36</RangedWeapon_Cooldown>
+			<BDP_CasingReturn>0.8</BDP_CasingReturn>
+		</statBases>
+		<verbs>
+			<li Class="CombatExtended.VerbPropertiesCE">
+				<recoilAmount>1.1</recoilAmount>
+				<verbClass>BDsPlasmaWeapon.Verb_ShootWithCasingReturn</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionSniperNormal</defaultProjectile>
+				<warmupTime>1.3</warmupTime>
+				<range>67.9</range>
+				<ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+				<ammoConsumedPerShotCount>4</ammoConsumedPerShotCount>
+				<burstShotCount>10</burstShotCount>
+				<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<recoilPattern>Mounted</recoilPattern>
+				<stopBurstWithoutLos>false</stopBurstWithoutLos>
+				<ignorePartialLoSBlocker>true</ignorePartialLoSBlocker>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="CombatExtended.CompProperties_AmmoUser">
+				<magazineSize>400</magazineSize>
+				<reloadTime>7.8</reloadTime>
+				<ammoSet>AmmoSet_LizionCellSniper</ammoSet>
+			</li>
+			<li Class="BDsPlasmaWeapon.CompProperties_SecondaryAmmo">
+				<secondaryAmmoProps>
+					<magazineSize>100</magazineSize>
+					<reloadTime>7.8</reloadTime>
+					<ammoSet>AmmoSet_LizionPipedSniper</ammoSet>
+				</secondaryAmmoProps>
+				<secondaryVerb>
+					<recoilAmount>1.1</recoilAmount>
+					<verbClass>CombatExtended.Verb_ShootCE</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionSniperNormal</defaultProjectile>
+					<warmupTime>1.3</warmupTime>
+					<range>67.9</range>
+					<ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+					<ammoConsumedPerShotCount>4</ammoConsumedPerShotCount>
+					<burstShotCount>10</burstShotCount>
+					<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>9</muzzleFlashScale>
+					<recoilPattern>Mounted</recoilPattern>
+					<stopBurstWithoutLos>false</stopBurstWithoutLos>
+					<ignorePartialLoSBlocker>true</ignorePartialLoSBlocker>
+				</secondaryVerb>
+				<mainWeaponLabel>BDP_TurretAmmoMode</mainWeaponLabel>
+				<secondaryWeaponLabel>BDP_TurretPipeMode</secondaryWeaponLabel>
+				<description>BDP_TurretDesc</description>
+				<mainCommandIcon>UI/Icons/FireModes/PlasmaTurret_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/PlasmaTurret_On</secondaryCommandIcon>
+				<showSecondaryAmmoStat>false</showSecondaryAmmoStat>
+			</li>
+			<li Class="BDsPlasmaWeapon.CompProperties_CasingReturn">
+				<casingThingDef>BDP_EmptyLizionCell</casingThingDef>
+				<casingAmount>4</casingAmount>
+				<overchargeDamageChance>1</overchargeDamageChance>
+				<overchargeDamageMultiplier>25</overchargeDamageMultiplier>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<!--==================== Heavy turret =========================-->
+
+
+	<CombatExtended.AmmoSetDef>
+		<defName>AmmoSet_LizionPipedHeavy</defName>
+		<label>lizion gas</label>
+		<ammoTypes>
+			<Gas_Lizion>Projectile_LizionHeavyNormal</Gas_Lizion>
+		</ammoTypes>
+	</CombatExtended.AmmoSetDef>
+
+	<ThingDef ParentName="TurretAutoBase">
+		<defName>BDP_Turret_Plasmaheavy</defName>
+		<label>heavy lizion turret</label>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<specialDisplayRadius>67.9</specialDisplayRadius>
+		<tradeability>None</tradeability>
+		<graphicData>
+			<texPath>Things/Building/PlasmaTurret_Base</texPath>
+			<drawSize>(1.8,1.8)</drawSize>
+			<drawOffset>(0,0,-0.1)</drawOffset>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurretHeavy_icon</uiIconPath>
+		<statBases>
+			<WorkToBuild>80000</WorkToBuild>
+			<MaxHitPoints>600</MaxHitPoints>
+			<Mass>20</Mass>
+			<Bulk>25</Bulk>
+			<AimingAccuracy>0.5</AimingAccuracy>
+			<ShootingAccuracyTurret>1</ShootingAccuracyTurret>
+			<Flammability>0</Flammability>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<fillPercent>0.95</fillPercent>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>1250</basePowerConsumption>
+			</li>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<compClass>BDsPlasmaWeapon.CompTurretPipedDualMode</compClass>
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+			</li>
+			<li>
+				<compClass>BDsPlasmaWeapon.CompTurretFixForAmmo</compClass>
+			</li>
+		</comps>
+		<description>Automatic turret equipped with a heavy lizion cannon.</description>
+		<costList>
+			<Steel>325</Steel>
+			<Plasteel>140</Plasteel>
+			<ComponentIndustrial>20</ComponentIndustrial>
+			<ComponentSpacer>4</ComponentSpacer>
+			<Jade>50</Jade>
+		</costList>
+		<building>
+			<turretGunDef>BDP_PlasmaTurretGunHeavy</turretGunDef>
+			<ai_combatDangerous>true</ai_combatDangerous>
+			<turretTopDrawSize>5</turretTopDrawSize>
+		</building>
+		<size>(2,2)</size>
+		<placeWorkers Inherit="false">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<thingCategories IsNull="true"/>
+		<researchPrerequisites>
+			<li>CE_ChargeTurret</li>
+		</researchPrerequisites>
+		<damageMultipliers>
+			<li>
+				<damageDef>RangedStab</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Arrow</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>ArrowHighVelocity</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Bullet</damageDef>
+				<multiplier>0.5</multiplier>
+			</li>
+			<li>
+				<damageDef>Cut</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Poke</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Stab</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Scratch</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>ScratchToxic</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Bite</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>ToxicBite</damageDef>
+				<multiplier>0.2</multiplier>
+			</li>
+			<li>
+				<damageDef>Flame</damageDef>
+				<multiplier>0</multiplier>
+			</li>
+		</damageMultipliers>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseAutoTurretGun">
+		<defName>BDP_PlasmaTurretGunHeavy</defName>
+		<label>heavy lizion blaster</label>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_TurretHeavy</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>A single heavy lizion blaster cannon attached to a turret mount.</description>
+		<soundInteract>Interact_ChargeRifle</soundInteract>
+		<statBases>
+			<MarketValue>2000</MarketValue>
+			<SightsEfficiency>2.36</SightsEfficiency>
+			<ShotSpread>0.01</ShotSpread>
+			<SwayFactor>1.14</SwayFactor>
+			<RangedWeapon_Cooldown>0.36</RangedWeapon_Cooldown>
+			<BDP_CasingReturn>0.6</BDP_CasingReturn>
+		</statBases>
+		<verbs>
+			<li Class="CombatExtended.VerbPropertiesCE">
+				<recoilAmount>1.1</recoilAmount>
+				<verbClass>BDsPlasmaWeapon.Verb_ShootWithCasingReturn</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionHeavyNormal</defaultProjectile>
+				<warmupTime>2.3</warmupTime>
+				<range>67.9</range>
+				<minRange>7.9</minRange>
+				<ticksBetweenBurstShots>20</ticksBetweenBurstShots>
+				<ammoConsumedPerShotCount>20</ammoConsumedPerShotCount>
+				<burstShotCount>3</burstShotCount>
+				<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<recoilPattern>Mounted</recoilPattern>
+				<stopBurstWithoutLos>false</stopBurstWithoutLos>
+				<ignorePartialLoSBlocker>true</ignorePartialLoSBlocker>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="CombatExtended.CompProperties_AmmoUser">
+				<magazineSize>600</magazineSize>
+				<reloadTime>7.8</reloadTime>
+				<ammoSet>AmmoSet_LizionCellHeavy</ammoSet>
+			</li>
+			<li Class="BDsPlasmaWeapon.CompProperties_SecondaryAmmo">
+				<secondaryAmmoProps>
+					<magazineSize>100</magazineSize>
+					<reloadTime>7.8</reloadTime>
+					<ammoSet>AmmoSet_LizionPipedHeavy</ammoSet>
+				</secondaryAmmoProps>
+				<secondaryVerb>
+					<recoilAmount>1.1</recoilAmount>
+					<verbClass>CombatExtended.Verb_ShootCE</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionHeavyNormal</defaultProjectile>
+					<warmupTime>2.3</warmupTime>
+					<range>67.9</range>
+					<minRange>7.9</minRange>
+					<ticksBetweenBurstShots>20</ticksBetweenBurstShots>
+					<ammoConsumedPerShotCount>20</ammoConsumedPerShotCount>
+					<burstShotCount>3</burstShotCount>
+					<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>9</muzzleFlashScale>
+					<recoilPattern>Mounted</recoilPattern>
+					<stopBurstWithoutLos>false</stopBurstWithoutLos>
+					<ignorePartialLoSBlocker>true</ignorePartialLoSBlocker>
+				</secondaryVerb>
+				<mainWeaponLabel>BDP_TurretAmmoMode</mainWeaponLabel>
+				<secondaryWeaponLabel>BDP_TurretPipeMode</secondaryWeaponLabel>
+				<description>BDP_TurretDesc</description>
+				<mainCommandIcon>UI/Icons/FireModes/PlasmaTurret_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/PlasmaTurret_On</secondaryCommandIcon>
+				<showSecondaryAmmoStat>false</showSecondaryAmmoStat>
+			</li>
+			<li Class="BDsPlasmaWeapon.CompProperties_CasingReturn">
+				<casingThingDef>BDP_EmptyLizionCell</casingThingDef>
+				<casingAmount>20</casingAmount>
+				<overchargeDamageChance>0.7</overchargeDamageChance>
+				<overchargeDamageMultiplier>10</overchargeDamageMultiplier>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<!--==================== Small turret =========================-->
+	<CombatExtended.AmmoSetDef>
+		<defName>AmmoSet_LizionPipedRifle</defName>
+		<label>lizion gas</label>
+		<ammoTypes>
+			<Gas_Lizion>Projectile_LizionRifleNormal</Gas_Lizion>
+		</ammoTypes>
+	</CombatExtended.AmmoSetDef>
+
+	<ThingDef ParentName="TurretAutoBase">
+		<defName>BDP_Turret_PlasmaSmall</defName>
+		<label>small lizion turret</label>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<specialDisplayRadius>47.9</specialDisplayRadius>
+		<graphicData>
+			<texPath>Things/Building/BDP_PlasmTurret_SmallBase</texPath>
+			<drawSize>(2.3,2.3)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurretSmall_Icon</uiIconPath>
+		<statBases>
+			<WorkToBuild>48000</WorkToBuild>
+			<MaxHitPoints>140</MaxHitPoints>
+			<Mass>20</Mass>
+			<Bulk>25</Bulk>
+			<AimingAccuracy>0.5</AimingAccuracy>
+			<ShootingAccuracyTurret>1</ShootingAccuracyTurret>
+			<Flammability>0</Flammability>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<fillPercent>0.5</fillPercent>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>200</basePowerConsumption>
+			</li>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<compClass>BDsPlasmaWeapon.CompTurretPipedDualMode</compClass>
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+			</li>
+			<li>
+				<compClass>BDsPlasmaWeapon.CompTurretFixForAmmo</compClass>
+			</li>
+		</comps>
+		<description>Automatic turret equipped with a lizion plasma machinegun.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<costList>
+			<Steel>65</Steel>
+			<Plasteel>30</Plasteel>
+			<ComponentIndustrial>12</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>15</Jade>
+		</costList>
+		<building>
+			<turretGunDef>BDP_PlasmaTurretGunSmall</turretGunDef>
+			<ai_combatDangerous>true</ai_combatDangerous>
+			<turretTopDrawSize>1.5</turretTopDrawSize>
+		</building>
+		<size>(1,1)</size>
+		<placeWorkers Inherit="false">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<researchPrerequisites>
+			<li>CE_ChargeTurret</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseAutoTurretGun">
+		<defName>BDP_PlasmaTurretGunSmall</defName>
+		<label>small lizion blaster</label>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>Lizion plasma machinegun attached to a turret mount.</description>
+		<soundInteract>Interact_ChargeRifle</soundInteract>
+		<statBases>
+			<MarketValue>2000</MarketValue>
+			<SightsEfficiency>1</SightsEfficiency>
+			<ShotSpread>0.08</ShotSpread>
+			<SwayFactor>0.72</SwayFactor>
+			<RangedWeapon_Cooldown>0.36</RangedWeapon_Cooldown>
+			<BDP_CasingReturn>0.9</BDP_CasingReturn>
+		</statBases>
+		<verbs>
+			<li Class="CombatExtended.VerbPropertiesCE">
+				<verbClass>BDsPlasmaWeapon.Verb_ShootWithCasingReturn</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionRifleNormal</defaultProjectile>
+				<warmupTime>1.2</warmupTime>
+				<burstShotCount>6</burstShotCount>
+				<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+				<ammoConsumedPerShotCount>2</ammoConsumedPerShotCount>
+				<range>47.9</range>
+				<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<recoilAmount>0.8</recoilAmount>
+				<muzzleFlashScale>12</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="CombatExtended.CompProperties_AmmoUser">
+				<magazineSize>200</magazineSize>
+				<reloadTime>4.8</reloadTime>
+				<ammoSet>AmmoSet_LizionCellRifle</ammoSet>
+			</li>
+			<li Class="BDsPlasmaWeapon.CompProperties_SecondaryAmmo">
+				<secondaryAmmoProps>
+					<magazineSize>100</magazineSize>
+					<reloadTime>7.8</reloadTime>
+					<ammoSet>AmmoSet_LizionPipedRifle</ammoSet>
+				</secondaryAmmoProps>
+				<secondaryVerb>
+					<verbClass>CombatExtended.Verb_ShootCE</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionRifleNormal</defaultProjectile>
+					<warmupTime>1.2</warmupTime>
+					<burstShotCount>6</burstShotCount>
+					<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+					<ammoConsumedPerShotCount>2</ammoConsumedPerShotCount>
+					<range>47.9</range>
+					<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<recoilAmount>0.8</recoilAmount>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</secondaryVerb>
+				<mainWeaponLabel>BDP_TurretAmmoMode</mainWeaponLabel>
+				<secondaryWeaponLabel>BDP_TurretPipeMode</secondaryWeaponLabel>
+				<description>BDP_TurretDesc</description>
+				<mainCommandIcon>UI/Icons/FireModes/PlasmaTurret_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/PlasmaTurret_On</secondaryCommandIcon>
+				<showSecondaryAmmoStat>false</showSecondaryAmmoStat>
+			</li>
+			<li Class="BDsPlasmaWeapon.CompProperties_CasingReturn">
+				<casingThingDef>BDP_EmptyLizionCell</casingThingDef>
+				<casingAmount>2</casingAmount>
+				<overchargeDamageChance>0.7</overchargeDamageChance>
+				<overchargeDamageMultiplier>1</overchargeDamageMultiplier>
+			</li>
+		</comps>
+	</ThingDef>
+</Defs>

@@ -1,0 +1,1120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef Name="BaseLizionWeapon" ParentName="BaseHumanMakeableGun" Abstract="true">
+		<tickerType>Normal</tickerType>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_ChargeRifle</soundInteract>
+		<recipeMaker>
+			<researchPrerequisite>ChargedShot</researchPrerequisite>
+			<recipeUsers Inherit="False">
+				<li>FabricationBench</li>
+			</recipeUsers>
+		</recipeMaker>
+	</ThingDef>
+
+
+	<ThingDef Name="BaseLizionBullet" ParentName="BaseBullet" Abstract="true">
+		<thingClass>BillDoorsFramework.DisintegratingProjectile</thingClass>
+		<label>plasma bolt</label>
+		<graphicData>
+			<texPath>Things/Projectile/Lizionic/Projectile_Normal</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+	</ThingDef>
+
+	<ThingDef Name="BaseLizionBulletOC" ParentName="BaseBullet" Abstract="true">
+		<thingClass>BillDoorsFramework.DisintegratingProjectileExplosive</thingClass>
+		<label>plasma bolt</label>
+		<graphicData>
+			<texPath>Things/Projectile/Lizionic/Projectile_Overcharged</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<color>(200,200,0)</color>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+	</ThingDef>
+
+	<!-- LMG and Rifle-->
+
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionRifleNormal</defName>
+		<graphicData>
+			<drawSize>(1.4,1.5)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>12</damageAmountBase>
+			<armorPenetrationBase>0.25</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>1</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>9</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBulletOC">
+		<defName>Projectile_LizionRifleOvercharged</defName>
+		<graphicData>
+			<drawSize>(1.4,1.5)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>18</damageAmountBase>
+			<armorPenetrationBase>0.375</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>2</stoppingPower>
+			<explosionRadius>0.5</explosionRadius>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>24</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.5</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>3</fadeOutExpandMultiplier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaLMG</defName>
+		<label>lizion plasma machinegun</label>
+		<description>MG38A general purpose machinegun is a heavy lizion plasma accelerator developed by Pan-Humanoid Republic Arsenals. Gulping lizion gas cells and inaccurately spray out energized plasma, this machinegun will suppress anyone within its limited range until the cells run dry.</description>
+		<generateAllowChance>0.5</generateAllowChance>
+		<equippedAngleOffset>45</equippedAngleOffset>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaLMG</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>55000</WorkToMake>
+			<Mass>13.5</Mass>
+			<AccuracyTouch>0.83</AccuracyTouch>
+			<AccuracyShort>0.7</AccuracyShort>
+			<AccuracyMedium>0.42</AccuracyMedium>
+			<AccuracyLong>0.35</AccuracyLong>
+			<RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+		</statBases>
+		<costList>
+			<Steel>80</Steel>
+			<Plasteel>40</Plasteel>
+			<ComponentIndustrial>5</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>50</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionRifleNormal</defaultProjectile>
+				<warmupTime>2</warmupTime>
+				<burstShotCount>10</burstShotCount>
+				<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+				<range>20.9</range>
+				<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>2</ammoConsumption>
+				<overchargeDamageChance>0.5</overchargeDamageChance>
+				<overchargeDamageMultiplier>8</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>500</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>150</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionRifleOvercharged</defaultProjectile>
+					<warmupTime>2</warmupTime>
+					<burstShotCount>10</burstShotCount>
+					<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+					<range>20.9</range>
+					<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</verbProps>
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaNormalMF</def>
+				<drawSize>(1.2,1.2)</drawSize>
+				<offsets>
+					<li>(0.7,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaCarbine</defName>
+		<label>lizion plasma carbine</label>
+		<description>Originally designed to be a submachinegun, the AR32C carbine proved too bulky as a sidearm and was instead converted into full power rifle to compensate for the failing assault rifle project of the republic arsenal.</description>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaCarbine</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>36000</WorkToMake>
+			<Mass>4.6</Mass>
+			<AccuracyTouch>0.60</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.65</AccuracyMedium>
+			<AccuracyLong>0.55</AccuracyLong>
+			<RangedWeapon_Cooldown>1.70</RangedWeapon_Cooldown>
+		</statBases>
+		<soundInteract>Interact_AssaultRifle</soundInteract>
+		<costList>
+			<Steel>55</Steel>
+			<Plasteel>25</Plasteel>
+			<ComponentIndustrial>4</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>30</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionRifleNormal</defaultProjectile>
+				<warmupTime>1.5</warmupTime>
+				<burstShotCount>3</burstShotCount>
+				<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+				<range>25.9</range>
+				<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>2</ammoConsumption>
+				<overchargeDamageChance>0.5</overchargeDamageChance>
+				<overchargeDamageMultiplier>8</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>200</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>100</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionRifleOvercharged</defaultProjectile>
+					<warmupTime>1.5</warmupTime>
+					<burstShotCount>3</burstShotCount>
+					<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+					<range>25.9</range>
+					<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</verbProps>
+
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedLight</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaNormalMF</def>
+				<drawSize>(1.2,1.2)</drawSize>
+				<offsets>
+					<li>(0.55,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<!-- Pistol and SMG-->
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionPistolNormal</defName>
+		<graphicData>
+			<drawSize>(0.8,0.5)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>7</damageAmountBase>
+			<armorPenetrationBase>0.10</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>0.5</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>5</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionPistolOvercharged</defName>
+		<graphicData>
+			<drawSize>(0.8,0.5)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>15</damageAmountBase>
+			<armorPenetrationBase>0.15</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>1</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>12</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.5</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>3</fadeOutExpandMultiplier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaPistol</defName>
+		<label>lizion plasma pistol</label>
+		<description>P3066 compact sidearm is a light lizion plasma accelerator developed by Pan-Humanoid Republic Arsenals.</description>
+		<generateAllowChance>0.5</generateAllowChance>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaPistol</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>17500</WorkToMake>
+			<Mass>1.90</Mass>
+			<AccuracyTouch>0.80</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.40</AccuracyMedium>
+			<AccuracyLong>0.30</AccuracyLong>
+			<RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+		</statBases>
+		<soundInteract>Interact_Autopistol</soundInteract>
+		<costList>
+			<Steel>20</Steel>
+			<Plasteel>30</Plasteel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>10</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionPistolNormal</defaultProjectile>
+				<warmupTime>0.4</warmupTime>
+				<range>20.9</range>
+				<soundCast>BDP_Shot_PlasmaSmall</soundCast>
+				<soundCastTail>GunTail_Light</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>1</ammoConsumption>
+				<overchargeDamageChance>0.5</overchargeDamageChance>
+				<overchargeDamageMultiplier>5</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>80</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>50</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionPistolOvercharged</defaultProjectile>
+					<warmupTime>0.4</warmupTime>
+					<range>20.9</range>
+					<soundCast>BDP_Shot_PlasmaSmall</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</verbProps>
+
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedLight</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaShortMF</def>
+				<drawSize>(1.5,1)</drawSize>
+				<offsets>
+					<li>(0.25,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaSMG</defName>
+		<label>lizion plasma SMG</label>
+		<description>The designers of MP19 are probably too affected by those filthy elves in 3HST limited that they come up with this bullpup abnormity, but never less this is the only design that fullfilled the republic army's requirement for sidearm.</description>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaSMG</texPath>
+		</graphicData>
+
+		<statBases>
+			<WorkToMake>36000</WorkToMake>
+			<Mass>3.0</Mass>
+			<AccuracyTouch>0.85</AccuracyTouch>
+			<AccuracyShort>0.65</AccuracyShort>
+			<AccuracyMedium>0.35</AccuracyMedium>
+			<AccuracyLong>0.20</AccuracyLong>
+			<RangedWeapon_Cooldown>1.65</RangedWeapon_Cooldown>
+		</statBases>
+		<soundInteract>Interact_SMG</soundInteract>
+		<costList>
+			<Steel>45</Steel>
+			<Plasteel>25</Plasteel>
+			<ComponentIndustrial>4</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>25</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionPistolNormal</defaultProjectile>
+				<warmupTime>1</warmupTime>
+				<range>18.9</range>
+				<burstShotCount>3</burstShotCount>
+				<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+				<soundCast>BDP_Shot_PlasmaSmall</soundCast>
+				<soundCastTail>GunTail_Light</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>1</ammoConsumption>
+				<overchargeDamageChance>0.5</overchargeDamageChance>
+				<overchargeDamageMultiplier>5</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>150</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>80</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionPistolOvercharged</defaultProjectile>
+					<warmupTime>1</warmupTime>
+					<burstShotCount>3</burstShotCount>
+					<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+					<range>18.9</range>
+					<soundCast>BDP_Shot_PlasmaSmall</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</verbProps>
+
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedLight</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaShortFastMF</def>
+				<drawSize>(1.5,1)</drawSize>
+				<offsets>
+					<li>(0.42,0.03)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<!-- Sniper -->
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionSniperNormal</defName>
+		<graphicData>
+			<drawSize>(3,2)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>27</damageAmountBase>
+			<armorPenetrationBase>0.3</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>1.5</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>19</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBulletOC">
+		<defName>Projectile_LizionSniperOvercharged</defName>
+		<graphicData>
+			<drawSize>(3,2)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>54</damageAmountBase>
+			<armorPenetrationBase>0.45</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>3</stoppingPower>
+			<explosionRadius>1</explosionRadius>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>42</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.5</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>3</fadeOutExpandMultiplier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaSniper</defName>
+		<label>lizion plasma sniper</label>
+		<description>M19 precise rifle is a heavy lizion plasma accelerator developed by Pan-Humanoid Republic Arsenals.</description>
+		<equippedAngleOffset>45</equippedAngleOffset>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaSniper</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>50500</WorkToMake>
+			<Mass>10.0</Mass>
+			<AccuracyTouch>0.50</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.86</AccuracyMedium>
+			<AccuracyLong>0.88</AccuracyLong>
+			<RangedWeapon_Cooldown>2.3</RangedWeapon_Cooldown>
+		</statBases>
+		<costList>
+			<Steel>70</Steel>
+			<Plasteel>40</Plasteel>
+			<ComponentIndustrial>4</ComponentIndustrial>
+			<ComponentSpacer>2</ComponentSpacer>
+			<Jade>30</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionSniperNormal</defaultProjectile>
+				<warmupTime>4</warmupTime>
+				<range>35.9</range>
+				<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>15</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>5</ammoConsumption>
+				<overchargeDamageChance>1</overchargeDamageChance>
+				<overchargeDamageMultiplier>20</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>100</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>50</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionSniperOvercharged</defaultProjectile>
+					<warmupTime>4</warmupTime>
+					<range>35.9</range>
+					<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</verbProps>
+
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaLongMF</def>
+				<drawSize>(2,2)</drawSize>
+				<offsets>
+					<li>(0.65,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<!-- Shotgun -->
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionShotgunNormal</defName>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Shotgun</texPath>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>18</damageAmountBase>
+			<armorPenetrationBase>0.1</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>1.5</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>13</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBulletOC">
+		<defName>Projectile_LizionShotgunOvercharged</defName>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Shotgun</texPath>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>36</damageAmountBase>
+			<armorPenetrationBase>0.20</armorPenetrationBase>
+			<speed>60</speed>
+			<stoppingPower>3</stoppingPower>
+			<explosionRadius>1.5</explosionRadius>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>28</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.5</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>3</fadeOutExpandMultiplier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaShotgun</defName>
+		<label>lizion plasma shotgun</label>
+		<description>RA-870 cluster projector is a heavy lizion plasma accelerator developed by Pan-Humanoid Republic Arsenals.</description>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaShotgun</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>47500</WorkToMake>
+			<Mass>6.35</Mass>
+			<AccuracyTouch>0.80</AccuracyTouch>
+			<AccuracyShort>0.87</AccuracyShort>
+			<AccuracyMedium>0.77</AccuracyMedium>
+			<AccuracyLong>0.64</AccuracyLong>
+			<RangedWeapon_Cooldown>1.25</RangedWeapon_Cooldown>
+		</statBases>
+		<costList>
+			<Steel>50</Steel>
+			<Plasteel>25</Plasteel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>30</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionPistolNormal</defaultProjectile>
+				<warmupTime>1</warmupTime>
+				<range>10.9</range>
+				<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>15</muzzleFlashScale>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>5</ammoConsumption>
+				<overchargeDamageChance>1</overchargeDamageChance>
+				<overchargeDamageMultiplier>15</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>100</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>50</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionPistolOvercharged</defaultProjectile>
+					<warmupTime>1</warmupTime>
+					<range>10.9</range>
+					<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+				</verbProps>
+
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>0.5</Awful>
+				<Poor>0.8</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="BillDoorsFramework.ModExtension_Verb_Shotgun">
+				<ShotgunPellets>6</ShotgunPellets>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaShortMF</def>
+				<drawSize>(3,2)</drawSize>
+				<offsets>
+					<li>(0.55,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<!-- Cannon -->
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionHeavyNormal</defName>
+		<thingClass>BillDoorsFramework.DisintegratingProjectileExplosive</thingClass>
+		<graphicData>
+			<drawSize>(5.0,5.0)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>75</damageAmountBase>
+			<armorPenetrationBase>0.30</armorPenetrationBase>
+			<explosionRadius>3</explosionRadius>
+			<speed>60</speed>
+			<stoppingPower>10</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>100</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+				<fadeOutExpandMultiplier>3</fadeOutExpandMultiplier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBulletOC">
+		<defName>Projectile_LizionHeavyOvercharged</defName>
+		<thingClass>BillDoorsFramework.DisintegratingProjectileExplosive</thingClass>
+		<graphicData>
+			<drawSize>(5.0,5.0)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>200</damageAmountBase>
+			<armorPenetrationBase>0.45</armorPenetrationBase>
+			<explosionRadius>5.5</explosionRadius>
+			<speed>60</speed>
+			<stoppingPower>10</stoppingPower>
+			<extraDamages>
+				<li>
+					<def>Flame</def>
+					<amount>150</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<fadeOutStartPercentage>0.5</fadeOutStartPercentage>
+				<fadeOutExpandMultiplier>3</fadeOutExpandMultiplier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionWeapon">
+		<defName>BDP_PlasmaCannon</defName>
+		<label>lizion plasma cannon</label>
+		<description>Effectly an shoulder resting vehicular cannon, the HIT M2203 heavy lizion cannon is a dreaded sight for both enemy infantry and vehicles.</description>
+		<equippedAngleOffset>45</equippedAngleOffset>
+		<generateAllowChance>0.5</generateAllowChance>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaCannon</texPath>
+		</graphicData>
+		<statBases>
+			<WorkToMake>90000</WorkToMake>
+			<Mass>24.0</Mass>
+			<AccuracyTouch>0.80</AccuracyTouch>
+			<AccuracyShort>0.87</AccuracyShort>
+			<AccuracyMedium>0.77</AccuracyMedium>
+			<AccuracyLong>0.64</AccuracyLong>
+			<RangedWeapon_Cooldown>3.25</RangedWeapon_Cooldown>
+		</statBases>
+		<costList>
+			<Steel>125</Steel>
+			<Plasteel>45</Plasteel>
+			<ComponentIndustrial>5</ComponentIndustrial>
+			<ComponentSpacer>3</ComponentSpacer>
+			<Jade>100</Jade>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Projectile_LizionHeavyNormal</defaultProjectile>
+				<warmupTime>5</warmupTime>
+				<range>45.9</range>
+				<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>15</muzzleFlashScale>
+				<ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+				<forcedMissRadius>5</forcedMissRadius>
+				<minRange>4.9</minRange>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BDsPlasmaWeaponVanilla.CompProperties_TankFeedWeapon">
+				<ammoConsumption>50</ammoConsumption>
+				<overchargeDamageChance>1</overchargeDamageChance>
+				<overchargeDamageMultiplier>45</overchargeDamageMultiplier>
+			</li>
+			<li Class="CompProperties_Reloadable">
+				<compClass>BDsPlasmaWeaponVanilla.CompReloadableFromFiller</compClass>
+				<maxCharges>100</maxCharges>
+				<ammoDef>Gas_Lizion</ammoDef>
+				<ammoCountToRefill>100</ammoCountToRefill>
+				<baseReloadTicks>1</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<hotKey>Misc4</hotKey>
+				<chargeNoun>lizion</chargeNoun>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootFromBackpackTank</verbClass>
+					<hasStandardCommand>true</hasStandardCommand>
+					<defaultProjectile>Projectile_LizionHeavyOvercharged</defaultProjectile>
+					<warmupTime>5</warmupTime>
+					<range>45.9</range>
+					<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+					<ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+					<forcedMissRadius>5</forcedMissRadius>
+					<minRange>4.9</minRange>
+					<targetParams>
+						<canTargetLocations>true</canTargetLocations>
+					</targetParams>
+				</verbProps>
+
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<weaponTags>
+			<li>SpacerGun</li>
+		</weaponTags>
+		<weaponClasses>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>stock</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Poke</li>
+				</capacities>
+				<power>9</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+		</tools>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_TankQualityModifier">
+				<Awful>1</Awful>
+				<Poor>1</Poor>
+				<Good>1.2</Good>
+				<Excellent>1.4</Excellent>
+				<Masterwork>1.65</Masterwork>
+				<Legendary>2</Legendary>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaCannonMF</def>
+				<drawSize>(2,2)</drawSize>
+				<offsets>
+					<li>(0.7,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+</Defs>
