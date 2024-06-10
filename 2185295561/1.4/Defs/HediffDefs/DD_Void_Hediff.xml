@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<HediffDef ParentName="DiseaseBase">
+    <defName>DD_Mind_Overload</defName>
+    <label>mind overload</label>
+    <labelNoun>mind overload</labelNoun>
+    <description>A result from prolonged exposure to unstable energy resulting in coma like state. Mind recovers after 30-120 days.</description><!-- Need to find better way to properly apply effect -->
+	<scenarioCanAdd>false</scenarioCanAdd>
+	<defaultLabelColor>(0.9, 0.2, 0.48)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>1800000~7200000</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="DiseaseBase">
+    <defName>DD_Constrain</defName>
+    <label>constrain</label>
+    <labelNoun>constrain</labelNoun>
+    <description>Draconic energy causing involuntary muscle lock and renders user incapacitated for couple of hours.</description>
+	<scenarioCanAdd>false</scenarioCanAdd>
+	<defaultLabelColor>(0.9, 0.1, 0.6)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>5500</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+<HediffDef>
+    <defName>DD_Void_Surge</defName>
+    <label>void surge</label>
+    <description>Draconic energy surging through the body improving various vitals and reflexes. Causes withdrawal upon ending. Prolonged exposure can lead to coma.</description>
+	<hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+	<defaultLabelColor>(0.9, 0.2, 0.48)</defaultLabelColor>
+	<initialSeverity>0.01</initialSeverity>
+	<maxSeverity>3.0</maxSeverity>
+	<minSeverity>0</minSeverity>
+    <comps>
+	<li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>3</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>surge</label>
+        <painOffset>-1.0</painOffset>
+		<restFallFactorOffset>-1.0</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.25</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <offset>1.0</offset>
+          </li>
+		  <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.5</offset>
+          </li>
+		  <li>
+            <capacity>Sight</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>Hearing</capacity>
+            <offset>0.5</offset>
+          </li>
+		  <li>
+            <capacity>Breathing</capacity>
+            <offset>0.5</offset>
+          </li>
+        </capMods>
+		<hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>DD_Mind_Overload</hediff> <!-- Wont trigger as new attacks do not refresh buff -->
+            <mtbDays>0.66</mtbDays>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </li>
+      <li>
+        <label>crash</label>
+		<restFallFactorOffset>1.5</restFallFactorOffset>
+        <minSeverity>2.0</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.8</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.8</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>DD_Mind_Flay</defName>
+    <label>mind flay</label>
+    <description>Mind is overloaded with incomprehensible images, forcing to go into berserk state out of sheer panic.</description>
+	<hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+	<defaultLabelColor>(0.9, 0.2, 0.2)</defaultLabelColor>
+	<initialSeverity>1.0</initialSeverity>
+	<maxSeverity>1</maxSeverity>
+	
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>1</severityPerDay>
+      </li>
+	  <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>10000</disappearsAfterTicks>
+      </li>
+	  <li Class="HediffCompProperties_CauseMentalState">
+        <humanMentalState>Berserk</humanMentalState>
+		<animalMentalState>Manhunter</animalMentalState>
+        <animalMentalStateAlias>Manhunter</animalMentalStateAlias>
+        <letterDef>ThreatSmall</letterDef>
+        <mtbDaysToCauseMentalState>0.01</mtbDaysToCauseMentalState>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>mind flay</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.2</offset>
+          </li>
+		  <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.5</offset>
+          </li>
+		  <li>
+            <capacity>Sight</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Hearing</capacity>
+            <offset>-0.25</offset>
+          </li>
+		  <li>
+            <capacity>Breathing</capacity>
+            <offset>1.0</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="InjuryBase">
+    <defName>DD_Hellfire</defName>
+    <label>hellfire burn</label>
+    <labelNoun>hellfire burn</labelNoun>
+    <description>A horrifying burn that causes flesh to boil and melt. Can cause very painful scars if untreated.</description>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>tended</labelTendedWellInner>
+        <labelSolidTendedWell>tended</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0.33</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>hellfire scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.1</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.14</averagePainPerSeverityPermanent>
+      <canMerge>true</canMerge>
+      <destroyedLabel>Destroyed</destroyedLabel>
+      <destroyedOutLabel>Destroyed</destroyedOutLabel>
+    </injuryProps>
+  </HediffDef>
+  
+  <HediffDef ParentName="DiseaseBase">
+    <defName>DD_Abyssal_Hunger</defName><!-- Stuff for eaters 300000-->
+    <label>abyssal hunger</label>
+    <description>An odd phenomena occuring only for World Eaters. Dragon reflexes become sharper, rest unecessary and gain new abilities while it persists. At end of condition dragon will devour everything and everyone.</description>
+	<hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+	<defaultLabelColor>(0.9, 0.2, 0.38)</defaultLabelColor> <!-- Currently unused until I can find a way to apply hediff every X amount of time. VEF don't have stuff for this, only initial hediff on arrival-->
+	<initialSeverity>0.01</initialSeverity>
+	<maxSeverity>5</maxSeverity>
+	<minSeverity>0</minSeverity>
+    <comps>
+	<li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>100000</disappearsAfterTicks>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>50</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>initial stage</label>
+        <painOffset>-0.25</painOffset>
+		<hungerRateFactorOffset>-0.2</hungerRateFactorOffset>
+		<restFallFactorOffset>-0.25</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.10</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.15</offset>
+          </li>
+		  <li>
+            <capacity>Metabolism</capacity>
+            <offset>0.2</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.1</offset>
+          </li>
+		  <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.1</offset>
+          </li>
+		  <li>
+            <capacity>Sight</capacity>
+            <offset>0.15</offset>
+          </li>
+          <li>
+            <capacity>Hearing</capacity>
+            <offset>0.15</offset>
+          </li>
+		  <li>
+            <capacity>Breathing</capacity>
+            <offset>0.25</offset>
+          </li>
+        </capMods>
+		</li>
+      <li>
+        <label>second stage</label>
+		<painOffset>-0.5</painOffset>
+		<hungerRateFactorOffset>-0.4</hungerRateFactorOffset>
+		<restFallFactorOffset>-0.66</restFallFactorOffset>
+        <minSeverity>1.5</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.25</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.33</offset>
+          </li>
+		  <li>
+            <capacity>Metabolism</capacity>
+            <offset>0.33</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.25</offset>
+          </li>
+		  <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.33</offset>
+          </li>
+		  <li>
+            <capacity>Sight</capacity>
+            <offset>0.33</offset>
+          </li>
+          <li>
+            <capacity>Hearing</capacity>
+            <offset>0.33</offset>
+          </li>
+		  <li>
+            <capacity>Breathing</capacity>
+            <offset>0.5</offset>
+          </li>
+        </capMods>
+      </li>
+	  <li>
+	  <label>third stage</label>
+		<painOffset>-1.0</painOffset>
+		<hungerRateFactorOffset>-0.8</hungerRateFactorOffset>
+		<restFallFactorOffset>-1.0</restFallFactorOffset>
+        <minSeverity>2.75</minSeverity>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.5</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>1.0</offset>
+          </li>
+		  <li>
+            <capacity>Metabolism</capacity>
+            <offset>1.0</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>1.0</offset>
+          </li>
+		  <li>
+            <capacity>BloodPumping</capacity>
+            <offset>1.0</offset>
+          </li>
+		  <li>
+            <capacity>Sight</capacity>
+            <offset>1.0</offset>
+          </li>
+          <li>
+            <capacity>Hearing</capacity>
+            <offset>1.0</offset>
+          </li>
+		  <li>
+            <capacity>Breathing</capacity>
+            <offset>2.0</offset>
+          </li>
+        </capMods>
+		</li>
+		<li>
+		<label>fourth stage(hunger)</label>
+		<painOffset>-1.0</painOffset>
+		<hungerRateFactorOffset>5.0</hungerRateFactorOffset>
+		<restFallFactorOffset>-1.0</restFallFactorOffset>
+        <minSeverity>3.5</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>
