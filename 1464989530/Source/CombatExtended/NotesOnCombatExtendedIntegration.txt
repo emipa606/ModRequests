@@ -1,0 +1,59 @@
+﻿Notes On Integrating With Combat Extended features
+
+NightVision (NV) affects combat in vanilla Rimworld (RW) as does Combat Extended(CE).
+
+This doc outlines ways NV can add to the features found in Combat Extended
+whilst preseving the spirit of both.
+
+Currently NV affects Ranged Accuracy, Ranged Cooldown, Melee accuracy, Melee dodge chance,
+and adds a surprise attack chance
+
+The following is a break down of the possible targets for patching in CE's code:
+
+1. Ranged Accuracy
+
+CE uses a lighting shift modifier which is inversely and linearly proportional to glow 
+at the targets position.
+
+Verb_LaunchProjectileCE.ShiftVecReportFor(LocalTargetInfo target){
+	...
+	            report.lightingShift = 1 - caster.Map.glowGrid.GameGlowAt(targetCell);
+	...
+}
+
+Patch: Postfix
+Maths:
+	let x = report.lightingShift = 1 - glow
+	let m = shooter's NV light multiplier
+
+	let g(m, x) = light modifier function
+	let k(x) = composition factor
+
+	then f(x) = xk(x) + (1-k(x))g(x)
+			  = modified lighting shift result
+
+	where x < 0.5 ( => glow > 0.5):
+		m = shooter's full light multiplier
+		g(m, x) = mx - m + 1
+		k(x) = 1.5 - x
+		1- k(x) = -0.5 + x
+
+
+	where x > 0.5 ( => glow < 0.5):
+		m = shooter's zero light multiplier
+		l(x) = (1.8 - M)x
+		k(x) = 0.5 + x
+		1-k(x) = 0.5 - x
+
+2. Ranged Cooldown
+
+Rather than affecting this, better to alter reload speed.
+Reload speed does not have a custom c# stat worker
+can either patch the c# consumer or the xml
+
+3. Melee dodge chance and accuracy
+
+
+
+
+

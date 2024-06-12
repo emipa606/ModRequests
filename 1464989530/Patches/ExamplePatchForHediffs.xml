@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Example patch to be added to your hediff/ bionics mod -->
+<!-- The hediff needs to be a HediffWithComps:
+Either it has: <hediffClass>HediffWithComps</hediffClass>
+or it's parent does, for example:
+
+<HediffDef ParentName="DiseaseBase">
+<HediffDef ParentName="AddedBodyPartBase">
+<HediffDef ParentName="ImplantHediffBase">
+<HediffDef ParentName="InfectionBase">
+<HediffDef ParentName="MechanitesBase">
+<HediffDef ParentName="InjuryBase">
+<HediffDef ParentName="DrugToleranceBase">
+<HediffDef ParentName="AddictionBase">
+
+-->
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+    <!-- Test for Night Vision mod, kind of -->
+      <li Class="PatchOperationTest">
+      <xpath>Defs/HediffDef [defName = "NV_nv_goggles"]</xpath>
+      </li>
+
+    <!-- Add <comps></comps> to your hediff if it doesn't already have it -->
+    <li Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <li Class="PatchOperationTest">
+          <xpath>Defs/HediffDef [defName = "INSERT hediff DEF NAME HERE"]/comps</xpath>
+          <success>Invert</success>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/HediffDef [defName = "INSERT hediff DEF NAME HERE"]</xpath>
+          <value>
+            <comps/>
+          </value>
+        </li>
+      </operations>
+    </li>
+
+  <!-- Add night vision settings as desired -->
+        <li Class="PatchOperationAdd">
+          <success>Always</success>
+          <xpath>Defs/HediffDef [defName = "INSERT hediff DEF NAME HERE"]/comps</xpath>
+          <value>
+            
+            <li Class="NightVision.HediffCompProperties_NightVision">
+            <!-- Whether the hediff grants night vision -->
+              <GrantsNightVision>false</GrantsNightVision>
+            <!-- Whether the hediff grants photosensitivity -->
+              <GrantsPhotosensitivity>false</GrantsPhotosensitivity>
+            <!-- Or custom modifiers:
+            These are added to the pawns multipliers ( which are zerolight = 0.8 (x80%), fulllight = 1.0 (x100%))
+            (for example, night vision would have: FullLightMod = 0.0 and ZeroLightMod = +0.2 (+20%)    -->
+            <FullLightMod>0.0</FullLightMod>
+            <ZeroLightMod>0.0</ZeroLightMod>
+            
+            </li>
+          </value>
+        </li>
+      </operations>
+  </Operation>
+
+
+</Patch>

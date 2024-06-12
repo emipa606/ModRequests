@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB253018-4E17-43AA-9868-16AC468F406A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NightVision</RootNamespace>
+    <AssemblyName>NightVision</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-RW1.0|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-RW1.0|AnyCPU' " />
+  <Choose>
+    <When Condition=" '$(Configuration.StartsWith(Debug))'">
+      <PropertyGroup>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <Optimize>false</Optimize>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration.StartsWith(Release))'">
+      <PropertyGroup>
+        <DefineConstants>TRACE</DefineConstants>
+        <Optimize>true</Optimize>
+      </PropertyGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <!-- Rimworld 1.0, requires .NET3.5 and Harmony 1.2.0.1 -->
+    <When Condition=" '$(Configuration.EndsWith(RW1.0))'">
+      <PropertyGroup>
+        <DefineConstants>RW10;HARM12</DefineConstants>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <OutputPath>..\1.0\Assemblies\</OutputPath>
+        <CopyNuGetImplementations>true</CopyNuGetImplementations>
+      </PropertyGroup>
+      <ItemGroup Condition=" '$(Configuration)' == 'Debug-RW1.0' Or '$(Configuration)' == 'Release-RW1.0'">
+        <Reference Include="Assembly-CSharp">
+          <HintPath>..\..\..\..\..\Games\Rimworld v1.0\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+        <Reference Include="UnityEngine">
+          <HintPath>..\..\..\..\..\Games\Rimworld v1.0\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+          <HintPath>..\..\..\..\..\Games\Rimworld v1.0\RimWorldWin64_Data\Managed\UnityEngine.UI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+      <ItemGroup>
+        <PackageReference Include="Lib.Harmony">
+          <Version>1.2.0.1</Version>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <!-- Rimworld 1.1+ -->
+    <Otherwise>
+      <PropertyGroup>
+        <DefineConstants>HARM20</DefineConstants>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <OutputPath>..\1.3\Assemblies\</OutputPath>
+        <CopyNuGetImplementations>false</CopyNuGetImplementations>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+          <HintPath>..\..\..\..\..\Games\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+        <Reference Include="UnityEngine">
+          <HintPath>..\..\..\..\..\Games\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+          <HintPath>..\..\..\..\..\Games\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+          <HintPath>..\..\..\..\..\Games\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+          <HintPath>..\..\..\..\..\Games\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+          <HintPath>..\..\..\..\..\Games\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.UI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+      <ItemGroup>
+        <PackageReference Include="Lib.Harmony">
+          <Version>2.1.1</Version>
+        </PackageReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Combat\AICombatTweaks.cs" />
+    <Compile Include="Combat\CurrentShot.cs" />
+    <Compile Include="Combat\CurrentStrike.cs" />
+    <Compile Include="Comps\CompProperties_NightVisionApparel.cs" />
+    <Compile Include="Comps\HediffCompProperties_NightVision.cs" />
+    <Compile Include="Harmony\ApparelTracker_Remove.cs" />
+    <Compile Include="Harmony\ApparelTracker_Wear.cs" />
+    <Compile Include="Harmony\AttackTargetFinder_BestAttackTarget.cs" />
+    <Compile Include="Harmony\CastPositionFinder_CastPositionPreference.cs" />
+    <Compile Include="Harmony\HediffDef_SpecialDisplayStats.cs" />
+    <Compile Include="Harmony\HediffWithComps_PostAdd.cs" />
+    <Compile Include="Harmony\Hediff_PostAdd.cs" />
+    <Compile Include="Harmony\Manual\ApparelTracker_TryDrop.cs" />
+    <Compile Include="Harmony\ShotReport_HitReportFor.cs" />
+    <Compile Include="Harmony\StatPartGlow_ExplanationPart.cs" />
+    <Compile Include="Harmony\StatPartGlow_FactorFromGlow.cs" />
+    <Compile Include="Harmony\VerbMeleeAttack_GetDodgeChance.cs" />
+    <Compile Include="Harmony\VerbMeleeAttack_GetNonMissChance.cs" />
+    <Compile Include="Incidents\SolarRaidGroupMaker.cs" />
+    <Compile Include="Harmony\PawnRecentMemory_RecentMemoryInterval.cs" />
+    <Compile Include="ModInit\Init_Apparel.cs" />
+    <Compile Include="ModInit\Init_Hediffs.cs" />
+    <Compile Include="ModInit\Init_Races.cs" />
+    <Compile Include="ModInit\Init_Research.cs" />
+    <Compile Include="ModInit\Init_TapetumAnimals.cs" />
+    <Compile Include="Settings\CombatTab.cs" />
+    <Compile Include="Settings\ListingExtensions.cs" />
+    <Compile Include="Settings\SettingOption.cs" />
+    <Compile Include="Settings\Storage_Combat.cs" />
+    <Compile Include="Static variables\ApparelFlags.cs" />
+    <Compile Include="Static variables\Str_Combat.cs" />
+    <Compile Include="Static variables\Str_CombatSettings.cs" />
+    <Compile Include="Stats\NVStatWorker_Combat.cs" />
+    <Compile Include="Stats\NVStatWorker_LightMultiplier.cs" />
+    <Compile Include="Stats\StatReportFor_NightVision.cs" />
+    <Compile Include="Harmony\Hediff_PostRemoved.cs" />
+    <Compile Include="Harmony\ApparelTracker_TakeWearoutDamage.cs" />
+    <Compile Include="Harmony\Manual\PawnHealthTracker_AddHediff.cs" />
+    <Compile Include="Harmony\Pawn_BodySize.cs" />
+    <Compile Include="Stats\StatReportFor_NightVision_Combat.cs" />
+    <Compile Include="Testing\DebugFlareRaidPawnGen.cs" />
+    <Compile Include="Testing\DebugFlareRaidPawnGenXml.cs" />
+    <Compile Include="Incidents\SolarRaid_StoryWorker.cs" />
+    <Compile Include="Incidents\SolarRaid_IncidentWorker.cs" />
+    <Compile Include="Incidents\NVGameComponent.cs" />
+    <Compile Include="Testing\pawnGenTrialSchema.cs">
+      <DependentUpon>pawnGenTrialSchema.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Incidents\SolarRaid_PawnGenerator.cs" />
+    <Compile Include="Settings\ApparelTab.cs" />
+    <Compile Include="Settings\DebugTab.cs" />
+    <Compile Include="Settings\GeneralTab.cs" />
+    <Compile Include="Settings\HediffTab.cs" />
+    <Compile Include="Settings\RaceTab.cs" />
+    <Compile Include="Static variables\Constants.cs" />
+    <Compile Include="Harmony\StatPartGlow_ActiveFor.cs" />
+    <Compile Include="Combat\CombatHelpers.cs" />
+    <Compile Include="Harmony\ShotReport_AimOnTarget_Standard.cs" />
+    <Compile Include="Harmony\TooltipUtility_ShotCalculationTipString.cs" />
+    <Compile Include="Harmony\VerbProperties_Patch.cs" />
+    <Compile Include="Settings\SettingsHelpers.cs" />
+    <Compile Include="Settings\SettingsCache.cs" />
+    <Compile Include="Static variables\Defs_Rimworld.cs" />
+    <Compile Include="Static variables\Str.cs" />
+    <Compile Include="Static variables\VisionType.cs" />
+    <Compile Include="Data Classes\ISaveCheck.cs" />
+    <Compile Include="Settings\Tabs.cs" />
+    <Compile Include="Settings\Storage.cs" />
+    <Compile Include="Data Classes\Hediff_LightModifiers.cs" />
+    <Compile Include="Static variables\IndicatorTex.cs" />
+    <Compile Include="Data Classes\LightModifiersBase.cs" />
+    <Compile Include="Static variables\Defs_NightVision.cs" />
+    <Compile Include="Data Classes\Race_LightModifiers.cs" />
+    <Compile Include="Harmony\ThoughtWorkerDark_CurrentStateInternal.cs" />
+    <Compile Include="Utilities\ApparelGenUtility.cs" />
+    <Compile Include="Utilities\FloatExtensions.cs" />
+    <Compile Include="Utilities\FieldClearer.cs" />
+    <Compile Include="Utilities\GlowFor.cs" />
+    <Compile Include="Utilities\NullOrBool.cs" />
+    <Compile Include="Utilities\NVAttributes.cs" />
+    <Compile Include="Utilities\NVMaths.cs" />
+    <Compile Include="Utilities\PawnGenUtility.cs" />
+    <Compile Include="Stats\NVStatWorker_RangedCooldown.cs" />
+    <Compile Include="Misc Workers\ExtractTapetum_RecipeWorker.cs" />
+    <Compile Include="Data Classes\ApparelVisionSetting.cs" />
+    <Compile Include="Comps\HediffComp_NightVision.cs" />
+    <Compile Include="Comps\Comp_NightVision.cs" />
+    <Compile Include="Comps\Comp_NightVisionApparel.cs" />
+    <Compile Include="NVHarmonyPatcher.cs" />
+    <Compile Include="Comps\CompProperties_NightVision.cs" />
+    <Compile Include="ModInit\Initialiser.cs" />
+    <Compile Include="Mod.cs" />
+    <Compile Include="Properties\NightVision.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\Scribes.cs" />
+    <Compile Include="Stats\NVStatWorker.cs" />
+    <Compile Include="Stats\NVStatWorker_LightSensitivity.cs" />
+    <Compile Include="Stats\NVStatWorker_NightVision.cs" />
+    <Compile Include="Data Classes\Stealth_ModExtension.cs" />
+    <Compile Include="Utilities\AutoQualifier.cs" />
+    <Compile Include="Utilities\Classifier.cs" />
+    <Compile Include="Misc Workers\ThoughtWorker_TooBright.cs" />
+    <Compile Include="Utilities\StringExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testing\pawnGenTrialSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="CombatExtended\NotesOnCombatExtendedIntegration.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

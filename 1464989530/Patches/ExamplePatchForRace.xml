@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Example patch -->
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+    <!-- Test for Night Vision mod, kind of -->
+      <li Class="PatchOperationTest">
+      <xpath>Defs/ThingDef [defName = "NV_nv_goggles"]</xpath>
+      </li>
+
+    <!-- Add <comps></comps> to your race if it doesn't already have it -->
+    <!-- This doesn't have to be an alien race, it just has to be a ThingDef & have a <race></race> in its def ( though replace AlienRace.ThingDef_AlienRace with ThingDef in that case)-->
+    <li Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <li Class="PatchOperationTest">
+          <xpath>Defs/AlienRace.ThingDef_AlienRace [defName = "INSERT_RACE_DEF_NAME"]/comps</xpath>
+          <success>Invert</success>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/AlienRace.ThingDef_AlienRace [defName = "INSERT_RACE_DEF_NAME"]</xpath>
+          <value>
+            <comps/>
+          </value>
+        </li>
+      </operations>
+    </li>
+
+  <!-- Add night vision settings as desired -->
+    <li Class="PatchOperationAdd">
+      <success>Always</success>
+      <xpath>Defs/AlienRace.ThingDef_AlienRace [defName = "INSERT_RACE_DEF_NAME"]/comps</xpath>
+  <value>
+            
+            <li Class="NightVision.CompProperties_NightVision">
+            <!-- Choose one of these settings to add to the race
+                    (choosing more then one will not cause a problem but NightVision will only take one
+                    , in order of precedence:  NaturalNightVision > NaturalPhotosensitivity > (FullLightMultiplier & ZeroLightMultiplier)
+                    -->
+
+              <!-- Either
+                    1. Night vision:
+                      No debuff in darkness, no negative thoughts in darkness 
+              -->
+              <!-- <NaturalNightVision>true</NaturalNightVision> -->
+
+              <!-- Or  
+                  2. Photosensitivity:
+                       Bonus in darkness, debuff in bright light
+              -->
+              <!--<NaturalPhotosensitivity>true</NaturalPhotosensitivity>-->
+
+
+              <!-- Or 
+                   3. Custom Settings 
+               This is a multiplying factor.
+                    Vanilla values:
+                      FullLightMultiplier = 1.0       equivalent to 100% work and move speed at 100% light
+                      ZeroLightMultiplier = 0.8       equivalent to 80% work and move speed at 0% light 
+                    By default these values are capped in this mod between 0.8 and 1.2
+              -->
+              <!-- <FullLightMultiplier>1.0</FullLightMultiplier> -->
+              <!-- <ZeroLightMultiplier>0.8</ZeroLightMultiplier> -->
+
+
+
+              <!--  Removes the cap on custom settings -->
+              <!-- <CanCheat>false</CanCheat> -->
+
+
+              <!-- Whether or not these settings can be seen (and changed) in the mod settings menu. They will always show when in dev mode -->
+              <!-- <ShouldShowInSettings>true</ShouldShowInSettings> -->
+              </li>
+          </value>
+    </li>
+      </operations>
+  </Operation>
+
+
+</Patch>
