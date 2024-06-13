@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Ideology</li>
+        </mods>
+        <match Class="XmlExtensions.UseSetting">
+            <modId>mute.vpesensitivity</modId>
+            <key>affectPruning</key>
+            <defaultValue>false</defaultValue>
+            <apply>
+                <Operation Class="XmlExtensions.IfStatement">
+                    <condition Class="XmlExtensions.Boolean.Comparison">
+                        <value1>{affectPruning}</value1>
+                        <value2>True</value2>
+                        <nonNumeric>true</nonNumeric>
+                    </condition>
+                    <caseTrue>
+                        <Operation Class="XmlExtensions.Conditional">
+                            <xpath>Defs/StatDef[defName="PruningSpeed"]/statFactors[li/text()="PsychicSensitivity"]</xpath>
+                            <caseFalse>
+                                <Operation Class="XmlExtensions.PatchOperationAdd">
+                                    <xpath>Defs/StatDef[defName="PruningSpeed"]/statFactors</xpath>
+                                    <value>
+                                        <li>PsychicSensitivity</li>
+                                    </value>
+                                </Operation>
+                            </caseFalse>
+                        </Operation>
+                    </caseTrue>
+                </Operation>
+            </apply>
+        </match>
+    </Operation>
+</Patch>
