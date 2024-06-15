@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Cooking Expanded - Sushi</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+			
+				<li Class="PatchOperationRemove">
+					<xpath>*/ThingDef[defName = "VCE_SoyFermenter"]/thingClass</xpath>
+				</li>
+				
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+	
+					  <ProcessorFramework.ProcessDef>
+						<defName>PF_VCE_SoySauce</defName>
+						<thingDef>VCE_SoySauce</thingDef>
+						<ingredientFilter>
+						  <thingDefs>
+							<li>VCE_RawSoybean</li>
+						  </thingDefs>
+						</ingredientFilter>
+						<capacityFactor>2.5</capacityFactor>
+						<usesQuality>true</usesQuality>
+						<qualityDays>(1, 3, 6, 12, 24, 48, 60)</qualityDays>
+					  </ProcessorFramework.ProcessDef>
+			  
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>*/ThingDef[defName = "VCE_SoyFermenter"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+					<value>
+					  <li Class="ProcessorFramework.CompProperties_Processor">
+						<capacity>10</capacity>
+						<independentProcesses>true</independentProcesses>
+						<processes>
+						  <li>PF_VCE_SoySauce</li>
+						</processes>
+					  </li>
+					</value>
+				</li>
+				
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>
