@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.OptionalPatch">
+		<modId>hh.coinage.lite</modId>
+		<key>useFactionCurrency</key>
+		<defaultValue>false</defaultValue>
+		<caseFalse/>
+		<caseTrue>
+			<!-- COINAGE PATCHES -->
+			<Operation Class="PatchOperationAddModExtension">
+				<xpath>Defs/FactionDef[not(modExtensions/li[@Class="Coinage.FactionCurrency"])]</xpath>
+				<value>
+					<li Class="Coinage.FactionCurrency">
+						<currency>Coin_Gold</currency>
+					</li>
+				</value>
+			</Operation>
+		</caseTrue>
+	</Operation>
+	<Operation Class="XmlExtensions.OptionalPatch">
+		<modId>hh.coinage.lite</modId>
+		<key>useStarterCurrency</key>
+		<defaultValue>false</defaultValue>
+		<caseFalse/>
+		<caseTrue>
+			<!-- Patch to replace scenarios that start with silver, to instead start with septims -->
+			<Operation Class="PatchOperationReplace">
+				<xpath>Defs/ScenarioDef/scenario/parts/li[thingDef="Silver"]/thingDef</xpath>
+				<value>
+					<thingDef>Coin_Gold</thingDef>
+				</value>
+			</Operation>
+		</caseTrue>
+	</Operation>
+</Patch>

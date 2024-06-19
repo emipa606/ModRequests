@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<XmlExtensions.PatchDef Name="Coinage_InjectActions" Abstract="True">
+		<parameters>
+			<li>millableitem</li>
+		</parameters>
+		<apply>
+			<Operation Class="XmlExtensions.ForEach">
+				<xpath>Defs/{millableitem}</xpath>
+				<!--Store the xpath into {path}-->
+				<storeIn>path</storeIn>
+				<apply>
+					<!-- <Operation Class="XmlExtensions.DefDatabaseOperationAdd"> -->
+					<!-- <objPath>{path}/thingCategories</objPath> -->
+					<!-- <objPath2>ThingCategoryDef/[defName="Currency"]</objPath2> -->
+					<!-- </Operation> -->
+					<!-- Add the ThingDef to the ThingCategory -->
+					<!-- <Operation Class="XmlExtensions.DefDatabaseOperationAdd"> -->
+					<!-- <objPath>ThingCategoryDef/[defName="Currency"]/childThingDefs</objPath> -->
+					<!-- <objPath2>{path}</objPath2> -->
+					<!-- </Operation> -->
+					<!-- Add the ThingDef to the ThingCategory's HashSet -->
+					<!-- <Operation Class="XmlExtensions.DefDatabaseOperationAdd"> -->
+					<!-- <objPath>ThingCategoryDef/[defName="Currency"]/allChildThingDefsCached</objPath> -->
+					<!-- <objPath2>{path}</objPath2> -->
+					<!-- </Operation> -->
+					<!-- Add the ThingDef to the ThingCategory's cachedList -->
+					<!-- <Operation Class="XmlExtensions.DefDatabaseOperationAdd"> -->
+					<!-- <objPath>ThingCategoryDef/[defName="Currency"]/sortedChildThingDefsCached</objPath> -->
+					<!-- <objPath2>{path}</objPath2> -->
+					<!-- </Operation> -->
+					<Operation Class="XmlExtensions.Log">
+						<text>milling coins</text>
+						<xpath>{path}/defName</xpath>
+					</Operation>
+					<Operation Class="XmlExtensions.AggregateValues">
+						<valueOperations>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>{path}/defName</value>
+								<storeIn>defName</storeIn>
+								<fromXml>true</fromXml>
+							</Operation>
+							<!-- <Operation Class="XmlExtensions.CreateVariable"> -->
+								<!-- <value>Defs/ThingDef[defName="{defName}"]/smeltable</value> -->
+								<!-- <storeIn>smeltcoin</storeIn> -->
+								<!-- <defaultValue>false</defaultValue> -->
+								<!-- <fromXml>true</fromXml> -->
+							<!-- </Operation> -->
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/burnableByRecipe</value>
+								<storeIn>burn</storeIn>
+								<defaultValue>false</defaultValue>
+								<fromXml>true</fromXml>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/label</value>
+								<storeIn>label</storeIn>
+								<defaultValue>{defName}</defaultValue>
+								<fromXml>true</fromXml>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/stuffProps/stuffAdjective</value>
+								<storeIn>adj</storeIn>
+								<defaultValue>{label}</defaultValue>
+								<fromXml>true</fromXml>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/statBases/Flammability</value>
+								<defaultValue>0.0</defaultValue>
+								<value2>0.1</value2>
+								<fromXml>true</fromXml>
+								<operation>*</operation>
+								<storeIn>flame</storeIn>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/statBases/MarketValue</value>
+								<value2>0.1</value2>
+								<fromXml>true</fromXml>
+								<operation>*</operation>
+								<storeIn>value</storeIn>
+								<defaultValue>0.09</defaultValue>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/statBases/Mass</value>
+								<value2>0.1</value2>
+								<fromXml>true</fromXml>
+								<operation>*</operation>
+								<storeIn>mass</storeIn>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/statBases/RoyalFavorValue</value>
+								<defaultValue>0.005</defaultValue>
+								<value2>0.1</value2>
+								<fromXml>true</fromXml>
+								<operation>*</operation>
+								<storeIn>favor</storeIn>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/statBases/DeteriorationRate</value>
+								<defaultValue>0.0</defaultValue>
+								<value2>0.1</value2>
+								<fromXml>true</fromXml>
+								<operation>*</operation>
+								<storeIn>deterioration</storeIn>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/stuffProps/color</value>
+								<storeIn>color</storeIn>
+								<defaultValue>(255,255,255)</defaultValue>
+								<fromXml>true</fromXml>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Defs/ThingDef[defName="{defName}"]/stuffProps/statOffsets/Beauty</value>
+								<storeIn>beauty</storeIn>
+								<defaultValue>1</defaultValue>
+								<fromXml>true</fromXml>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Coin_{defName}</value>
+								<storeIn>coin</storeIn>
+							</Operation>
+							<Operation Class="XmlExtensions.CreateVariable">
+								<value>Coin_{defName}</value>
+								<storeIn>makecoin</storeIn>
+							</Operation>
+						</valueOperations>
+						<apply>
+							<Operation Class="XmlExtensions.PatchOperationSafeAdd">
+								<xpath>Defs/ThingDef[defName="{defName}"]</xpath>
+								<value>
+									<smeltable>false</smeltable>
+								</value>
+							</Operation>
+						
+							<Operation Class="XmlExtensions.PatchOperationAdd">
+								<xpath>Defs</xpath>
+								<value>
+									<ThingDef ParentName="CoinBase">
+										<defName>Coin_{defName}</defName>
+										<label>{adj} coins</label>
+										<description>A neat little coin made from {label}; is used solely as currency.</description>
+										<!-- <smeltable>{smeltcoin}</smeltable> -->
+										<burnableByRecipe>{burn}</burnableByRecipe>
+										<graphicData>
+											<color>{color}</color>
+										</graphicData>
+										<statBases>
+											<Flammability>{flame}</Flammability>
+											<Beauty>{beauty}</Beauty>
+											<MarketValue>{value}</MarketValue>
+											<Mass>{mass}</Mass>
+											<RoyalFavorValue>{favor}</RoyalFavorValue>
+											<DeteriorationRate>{deterioration}</DeteriorationRate>
+										</statBases>
+									</ThingDef>
+								</value>
+							</Operation>
+							<Operation Class="XmlExtensions.PatchOperationAdd">
+								<xpath>Defs/RecipeDef[@Name="MillCoinBase"]/ingredients/li/filter/thingDefs</xpath>
+								<value>
+									<li>{defName}</li>
+								</value>
+							</Operation>
+							<Operation Class="XmlExtensions.PatchOperationAdd">
+								<xpath>Defs/RecipeDef[@Name="MillCoinBase"]/fixedIngredientFilter/thingDefs</xpath>
+								<value>
+									<li>{defName}</li>
+								</value>
+							</Operation>
+							<!-- <Operation Class="XmlExtensions.IfStatement"> -->
+								<!-- <condition Class="XmlExtensions.Boolean.Comparison"> -->
+									<!-- <value1>Defs/ThingDef[defName="{coin}"]/smeltable</value1> -->
+									<!-- <fromXml1>true</fromXml1> -->
+									<!-- <value2>true</value2> -->
+									<!-- <relation>eq</relation> -->
+									<!-- <nonNumeric>true</nonNumeric> -->
+								<!-- </condition> -->
+								<!-- <caseFalse/> -->
+								<!-- <caseTrue> -->
+									<!-- <Operation Class="PatchOperationAdd"> -->
+										<!-- <xpath>Defs/ThingDef[defName="{coin}"]</xpath> -->
+										<!-- <value> -->
+											<!-- <smeltProducts> -->
+												<!-- <smeltcoin>50</smeltcoin> -->
+											<!-- </smeltProducts> -->
+										<!-- </value> -->
+									<!-- </Operation> -->
+									<!-- <Operation Class="PatchOperationSetName"> -->
+										<!-- <xpath>Defs/ThingDef[defName="{coin}"]/smeltProducts/smeltcoin</xpath> -->
+										<!-- <name>{defName}</name> -->
+									<!-- </Operation> -->
+								<!-- </caseTrue> -->
+							<!-- </Operation> -->
+							<Operation Class="PatchOperationAdd">
+								<xpath>Defs/ThingDef[defName="{defName}"]</xpath>
+								<value>
+									<butcherProducts>
+										<makecoin>50</makecoin>
+									</butcherProducts>
+								</value>
+							</Operation>
+							<Operation Class="PatchOperationSetName">
+								<xpath>Defs/ThingDef[defName="{defName}"]/butcherProducts/makecoin</xpath>
+								<name>{makecoin}</name>
+							</Operation>
+							<Operation Class="XmlExtensions.FindMod">
+								<mods>
+									<li>Ideology</li>
+								</mods>
+								<caseFalse/>
+								<caseTrue>
+									<li Class="PatchOperationSequence">
+										<operations>
+											<li Class="PatchOperationAdd">
+												<xpath>Defs/StyleCategoryDef[defName="Buddhist"]/thingDefStyles</xpath>
+												<value>
+													<li>
+														<thingDef>{coin}</thingDef>
+														<styleDef>Buddhist_Coin</styleDef>
+													</li>
+												</value>
+											</li>
+											<li Class="PatchOperationAdd">
+												<xpath>Defs/StyleCategoryDef[defName="Christian"]/thingDefStyles</xpath>
+												<value>
+													<li>
+														<thingDef>{coin}</thingDef>
+														<styleDef>Christian_Coin</styleDef>
+													</li>
+												</value>
+											</li>
+											<li Class="PatchOperationAdd">
+												<xpath>Defs/StyleCategoryDef[defName="Islamic"]/thingDefStyles</xpath>
+												<value>
+													<li>
+														<thingDef>{coin}</thingDef>
+														<styleDef>Islamic_Coin</styleDef>
+													</li>
+												</value>
+											</li>
+											<li Class="PatchOperationAdd">
+												<xpath>Defs/StyleCategoryDef[defName="Morbid"]/thingDefStyles</xpath>
+												<value>
+													<li>
+														<thingDef>{coin}</thingDef>
+														<styleDef>Morbid_Coin</styleDef>
+													</li>
+												</value>
+											</li>
+											<li Class="PatchOperationAdd">
+												<xpath>Defs/StyleCategoryDef[defName="Techist"]/thingDefStyles</xpath>
+												<value>
+													<li>
+														<thingDef>{coin}</thingDef>
+														<styleDef>Techist_Coin</styleDef>
+													</li>
+												</value>
+											</li>
+										</operations>
+									</li>
+								</caseTrue>
+							</Operation>
+						</apply>
+					</Operation>
+				</apply>
+			</Operation>
+		</apply>
+	</XmlExtensions.PatchDef>
+</Defs>
