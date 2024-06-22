@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- Buildable chunks -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!-- Remove and replace the resourceReadoutPriority -->
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ChunkGranite" or 
+					defName="ChunkSlate" or 
+					defName="ChunkLimestone" or 
+					defName="ChunkMarble" or 
+					defName="ChunkSandstone"]/resourceReadoutPriority
+				</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ChunkGranite" or 
+					defName="ChunkSlate" or 
+					defName="ChunkLimestone" or 
+					defName="ChunkMarble" or 
+					defName="ChunkSandstone"]
+				</xpath>
+				<value>
+					<resourceReadoutPriority>Middle</resourceReadoutPriority>
+				</value>
+			</li>
+			<!-- Add missing stuffProps, remove first if it's already there -->
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ChunkGranite" or 
+					defName="ChunkSlate" or 
+					defName="ChunkLimestone" or 
+					defName="ChunkMarble" or 
+					defName="ChunkSandstone"]/stuffProps
+				</xpath>
+			</li>
+			<!-- Add common generic information first -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ChunkGranite" or 
+					defName="ChunkSlate" or 
+					defName="ChunkLimestone" or 
+					defName="ChunkMarble" or 
+					defName="ChunkSandstone"]
+				</xpath>
+				<value>
+					<stuffProps>
+						<categories>
+							<li>Chunky</li>
+						</categories>
+						<statOffsets>
+							<WorkToBuild>140</WorkToBuild>
+						</statOffsets>
+						<soundImpactStuff>BulletImpact_Ground</soundImpactStuff>
+						<soundMeleeHitSharp>MeleeHit_Stone</soundMeleeHitSharp>
+						<soundMeleeHitBlunt>MeleeHit_Stone</soundMeleeHitBlunt>
+					</stuffProps>
+				</value>
+			</li>
+			<!-- Add remaining, specific information -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="ChunkGranite"]/stuffProps</xpath>
+				<value>
+					<color>(105,95,97)</color>
+					<stuffAdjective>granite</stuffAdjective>
+					<statFactors>
+						<MarketValue>0.5</MarketValue>
+						<MaxHitPoints>1.7</MaxHitPoints>
+						<WorkToBuild>5.25</WorkToBuild>
+					</statFactors>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="ChunkSlate"]/stuffProps</xpath>
+				<value>
+					
+					<color>(70,70,70)</color>
+					<stuffAdjective>slate</stuffAdjective>
+					<statFactors>
+						<Beauty>0.8</Beauty>
+						<MarketValue>0.38</MarketValue>
+						<MaxHitPoints>1.3</MaxHitPoints>
+						<WorkToBuild>4.5</WorkToBuild>
+					</statFactors>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="ChunkLimestone"]/stuffProps</xpath>
+				<value>
+					<color>(158,153,135)</color>
+					<stuffAdjective>limestone</stuffAdjective>
+					<statFactors>
+						<MarketValue>0.4</MarketValue>
+						<MaxHitPoints>1.55</MaxHitPoints>
+						<WorkToBuild>4.8</WorkToBuild>
+					</statFactors>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="ChunkMarble"]/stuffProps</xpath>
+				<value>
+					<color>(132,135,132)</color>
+					<stuffAdjective>marble</stuffAdjective>
+					<statFactors>
+						<Beauty>1.35</Beauty>
+						<MarketValue>0.45</MarketValue>
+						<MaxHitPoints>1.2</MaxHitPoints>
+						<WorkToBuild>5.5</WorkToBuild>
+						<WorkToMake>1.15</WorkToMake>
+					</statFactors>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="ChunkSandstone"]/stuffProps</xpath>
+				<value>
+					<color>(126,104,94)</color>
+					<stuffAdjective>sandstone</stuffAdjective>
+					<statFactors>
+						<Beauty>1.1</Beauty>  
+						<MarketValue>0.4</MarketValue>
+						<MaxHitPoints>1.4</MaxHitPoints>
+						<WorkToBuild>5.0</WorkToBuild>
+						<WorkToMake>1.1</WorkToMake>
+					</statFactors>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	
+	<!-- Replace natural steel -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!-- Change mineable steel to iron -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="MineableSteel"]/building/mineableThing</xpath>
+				<value>
+					<mineableThing>Owl_Iron</mineableThing>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="MineableSteel"]/label</xpath>
+				<value>
+					<label>iron ore</label>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="MineableSteel"]/description</xpath>
+				<value>
+					<description>Rock containing iron ore.</description>
+				</value>
+			</li>
+			
+			<!-- Change steel def to look like iron -->
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>
+					Defs/ThingDef[defName="Steel"]/deepCommonality | 
+					Defs/ThingDef[defName="Steel"]/deepCountPerPortion | 
+					Defs/ThingDef[defName="Steel"]/deepLumpSizeRange
+				</xpath>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName="Steel"]/graphicData/texPath</xpath>
+				<value>
+					<texPath>Things/Item/Resource/Owl_Steel</texPath>
+				</value>
+			</li>
+			
+			<!-- chunks -->
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ShipChunk"]/costList/Steel</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="ShipChunk"]/costList</xpath>
+				<value>
+					<ChunkSlagSteel>3</ChunkSlagSteel>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	
+	<!-- Add coal is no coal defs are found -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!-- Coal Expanded, Atlas Materials, Simple Coal, Early Times, Rimhammer, Expanded Materials -->
+			<li Class="PatchOperationTest">
+				<xpath>Defs/ThingDef[defName="Coal" or defName="AM_Coal" or defName="WDCoal" or defName="Resource_Coal" or defName="RH_TET_Coal" or defName="VMEu_Coal" or defName="CaS_Coal"]</xpath>
+				<success>Invert</success>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs</xpath>
+				<value>
+					<ThingDef ParentName="RockBase">
+						<defName>WDMineableCoal</defName>
+						<label>coal</label>
+						<description>Rock containing bits of coal.</description>
+						<graphicData>
+							<texPath>Things/Building/Linked/RockFlecked_Atlas</texPath>
+							<graphicClass>Graphic_Single</graphicClass>
+							<shaderType>CutoutComplex</shaderType>
+							<color>(126,104,94)</color>
+							<colorTwo>(30,30,30)</colorTwo>
+						</graphicData>
+						<statBases>
+							<MaxHitPoints>1200</MaxHitPoints>
+						</statBases>
+						<building>
+							<isResourceRock>true</isResourceRock>
+							<mineableThing>WDCoal</mineableThing>
+							<mineableYield>35</mineableYield>
+							<mineableScatterCommonality>0.3</mineableScatterCommonality>
+							<mineableScatterLumpSizeRange>
+								<min>20</min>
+								<max>40</max>
+							</mineableScatterLumpSizeRange>
+						</building>
+					</ThingDef>
+					
+					<ThingDef ParentName="ResourceBase">
+						<defName>WDCoal</defName>
+						<label>coal</label>
+						<description>A piece of hard, black coal. Can be used as fuel for generators, stoves, torches and campfires.</description>
+						<graphicData>
+							<texPath>Things/Item/Resource/Owl_Coal</texPath>	  
+							<graphicClass>Graphic_StackCount</graphicClass>
+						</graphicData>	
+						<soundInteract>ChunkRock_Drop</soundInteract>
+						<soundDrop>ChunkRock_Drop</soundDrop>
+						<statBases>
+							<MarketValue>1.0</MarketValue>
+							<MaxHitPoints>100</MaxHitPoints>	  
+							<Flammability>1.0</Flammability>	  
+							<Mass>0.5</Mass>
+						</statBases>
+						<thingCategories>
+							<li>ResourcesRaw</li>
+						</thingCategories>
+						<deepCommonality>1.5</deepCommonality>
+						<deepCountPerPortion>35</deepCountPerPortion>	
+						<deepLumpSizeRange>
+							<min>20</min>
+							<max>50</max>
+						</deepLumpSizeRange>	
+					</ThingDef>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/GenStepDef[defName="PreciousLump"]/genStep/mineables</xpath>
+				<value>
+					<li>WDMineableCoal</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/*[self::ThingDef[defName="FueledStove"] or 
+					self::ThingDef[defName="WoodFiredGenerator"] or 
+					self::ThingDef[defName="TorchLamp"] or 
+					self::ThingDef[defName="Campfire"] or 
+				self::ThingDef[defName="FueledSmithy"]]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs</xpath>
+				<value>
+					<li>WDCoal</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/*[self::TraderKindDef[defName="Base_Neolithic_Standard"] or 
+					self::TraderKindDef[defName="Base_Outlander_Standard"] or 
+					self::TraderKindDef[defName="Caravan_Outlander_BulkGoods"] or 
+					self::TraderKindDef[defName="Caravan_Neolithic_BulkGoods"] or 
+				self::TraderKindDef[defName="Orbital_BulkGoods"]]/stockGenerators</xpath>
+				<value>
+					<li Class="StockGenerator_SingleDef">
+						<thingDef>WDCoal</thingDef>
+						<countRange>200~300</countRange>
+					</li>
+				</value>
+			</li>
+			<!-- Add charcoal is no charcoal defs are found -->
+			<li Class="PatchOperationSequence">
+				<success>Always</success>
+				<operations>
+					<li Class="PatchOperationTest">
+						<xpath>Defs/ThingDef[defName="Charcoal" or defName="XIcharcoal" or defName="SRV_Charcoal" or defName="AYCharcoal" or defName="RH_TET_Coal" or defName="VMEu_Coal" or defName="CaS_Coal"]</xpath>
+						<success>Invert</success>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>Defs</xpath>
+						<value>
+							<RecipeDef>
+								<defName>Owl_MakeCharcoal</defName>
+								<label>make charcoal</label>
+								<description>Make a batch of charcoal from logs.</description>
+								<jobString>Making charcoal from wood logs.</jobString>
+								<effectWorking>Smelt</effectWorking>
+								<soundWorking>Recipe_Smelt</soundWorking>
+								<workAmount>900</workAmount>
+								<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+								<workSkill>Crafting</workSkill>
+								<workSkillLearnFactor>0.25</workSkillLearnFactor>
+								<targetCountAdjustment>20</targetCountAdjustment>
+								<allowMixingIngredients>true</allowMixingIngredients>
+								<ingredients>
+									<li>
+										<filter>
+											<thingDefs>
+												<li MayRequire="owlchemist.simplechains.lumber">Owl_WoodLog</li>
+												<li MayRequire="owlchemist.simplechains.lumber">Owl_GreenLumber</li>
+												<li>WoodLog</li>
+												<li MayRequire="owlchemist.simplechains.lumber">Owl_Firewood</li>
+											</thingDefs>
+										</filter>
+										<count>20</count>
+									</li>
+								</ingredients>
+								<fixedIngredientFilter>
+									<thingDefs>
+										<li MayRequire="owlchemist.simplechains.lumber">Owl_WoodLog</li>
+										<li MayRequire="owlchemist.simplechains.lumber">Owl_GreenLumber</li>
+										<li>WoodLog</li>
+										<li MayRequire="owlchemist.simplechains.lumber">Owl_Firewood</li>
+									</thingDefs>
+								</fixedIngredientFilter>
+								<defaultIngredientFilter>
+									<thingDefs>
+										<li MayRequire="owlchemist.simplechains.lumber">Owl_WoodLog</li>
+									</thingDefs>
+									<disallowedThingDefs>
+										<li MayRequire="owlchemist.simplechains.lumber">Owl_GreenLumber</li>
+										<li>WoodLog</li>
+										<li MayRequire="owlchemist.simplechains.lumber">Owl_Firewood</li>
+									</disallowedThingDefs>
+								</defaultIngredientFilter>
+								<products>
+									<WDCoal>10</WDCoal>
+								</products>
+								<recipeUsers>
+									<li>Owl_Bloomery</li>
+									<li>ElectricSmelter</li>
+									<li MayRequire="VanillaExpanded.VFEProduction">VFE_FueledSmelter</li>
+									<li>Campfire</li>
+								</recipeUsers>
+							</RecipeDef>
+						</value>
+					</li>
+				</operations>
+			</li>
+		</operations>
+	</Operation>
+	
+	<!-- Universal coal patch -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="Coal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>Coal</li>
+				</value>
+			</li>
+			<!-- Simple Coal -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="WDCoal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>WDCoal</li>
+				</value>
+			</li>
+			<!-- Any mod using the def "charcoal" -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="Charcoal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>Charcoal</li>
+				</value>
+			</li>
+			<!-- Atlas Materials -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="AM_Coal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>AM_Coal</li>
+				</value>
+			</li>
+			<!-- Xenite Industries -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="XIcharcoal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>XIcharcoal</li>
+				</value>
+			</li>
+			<!-- Medieval Times -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="MedTimes_Resource_Coal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>MedTimes_Resource_Coal</li>
+				</value>
+			</li>
+			<!-- Survivalist Additions -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="SRV_Charcoal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>SRV_Charcoal</li>
+				</value>
+			</li>
+			<!-- Apothecary -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="AYCharcoal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>AYCharcoal</li>
+				</value>
+			</li>
+			<!-- Rimhammer -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="RH_TET_Coal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>RH_TET_Coal</li>
+				</value>
+			</li>
+			<!-- Expanded Materials -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="VMEu_Coal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>VMEu_Coal</li>
+				</value>
+			</li>
+			<!-- Clockwork and Steam -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>
+					/Defs[ThingDef[defName="CaS_Coal"]]/*[self::ThingDef[defName="Owl_Bloomery"] or self::RecipeDef[defName="Owl_RefineSteel"] or self::RecipeDef[defName="Owl_RefineSteelBulk"]]
+					//thingDefs[ancestor::fixedIngredientFilter or ancestor::fuelFilter or not(li/text()="Owl_Iron")]
+				</xpath>
+				<value>
+					<li>CaS_Coal</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	
+	<!-- If using WDCoal, patch some mods -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationTest">
+				<xpath>Defs/ThingDef[defName="WDCoal"]</xpath>
+			</li>
+			<!-- Ancient Rim - Core
+				No Water, No Life
+				VGP Garden Gourmet
+				GloomyFurniture
+				Lord of the Rims - Dwarves
+			Lord of the Rims - Elves -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="AR_Smelter" or 
+					defName="Mizu_FueledWaterCleaner" or 
+					defName="Oven" or 
+					defName="HandCanningstove" or 
+					defName="FueledCandyTable" or 
+					defName="RGK_EndTableWithLamp" or 
+					defName="RGK_Fireplace" or 
+					defName="RGK_lamp" or 
+					defName="RGK_LampM" or 
+					defName="RGK_Street_Lamp_L" or 
+					defName="RGK_Street_Lamp_Seven" or 
+					defName="GL_Wall_Lamp" or 
+					defName="RGK_FueledStove" or 
+					defName="GL_FueledSmithy" or 
+					defName="LotRD_Chandelier" or 
+					defName="LotRD_DwarvenCandelabra" or 
+					defName="LotRD_Brazier" or 
+					defName="LotRE_ElvenCandelabra" or 
+				defName="Brazier"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs</xpath>
+				<value>
+					<li>WDCoal</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+	
+	<!-- Misc -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/WorkGiverDef[defName="DoBillsSmelter"]/fixedBillGiverDefs</xpath>
+		<value>
+			<li>Owl_Bloomery</li>
+		</value>
+	</Operation>
+</Patch>
