@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>HealrootVape</defName>
+    <label>healroot vape</label>
+    <description>A very odd discovery made by tribesmen, healroot still retains its healing properties when vaporized properly.</description>
+    <graphicData>
+      <texPath>Vapes/VapeHealroot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>400</WorkToMake>
+      <MarketValue>38</MarketValue>
+      <Mass>0.20</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <minRewardCount>5</minRewardCount>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>MidWorldVaping</joyKind>
+      <joy>0.10</joy>
+      <drugCategory>Medical</drugCategory>
+      <baseIngestTicks>450</baseIngestTicks>
+      <ingestSound>Ingest_Smoke</ingestSound>
+      <ingestEffect>Smoke_Joint</ingestEffect>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Inhale {0}</ingestCommandString>
+      <ingestReportString>Inhaling {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HealrootVapeHigh</hediffDef>
+          <severity>1.00</severity>
+         <toleranceChemical>HealrootVape</toleranceChemical>
+        </li>
+      <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HealrootVapeTolerance</hediffDef>
+          <severity>0.060</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>UtilityVaping</researchPrerequisite>
+      <recipeUsers>
+        <li>TableVape</li>
+      </recipeUsers>
+      <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+      <workSkill>Intellectual</workSkill>
+      <skillRequirements>
+        <Intellectual>6</Intellectual>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    </recipeMaker>
+    <costList>
+      <MedicineHerbal>4</MedicineHerbal>
+      <Glycerine>1</Glycerine>
+      <Steel>15</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>HealrootVape</chemical>
+        <addictiveness>0.2</addictiveness>
+        <minToleranceToAddict>0.15</minToleranceToAddict>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>1010</listOrder>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+    <thingSetMakerTags><li>RewardStandardHighFreq</li></thingSetMakerTags>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HealrootVapeHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>vaporized healroot</label>
+    <description>Active healroot chemicals inside a person's body, dramatically improving the regeneration process along with a slight boost to immune response.</description>
+    <defaultLabelColor>(1,1,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+         <naturalHealingFactor>1.5</naturalHealingFactor>
+           <statOffsets>
+	    <ImmunityGainSpeedFactor>0.15</ImmunityGainSpeedFactor>
+             </statOffsets>	
+            </li>
+             </stages>
+  </HediffDef>
+
+  <!-- Healroot addiction -->
+
+  <ChemicalDef>
+    <defName>HealrootVape</defName>
+    <label>Healroot vape</label>
+    <addictionHediff>HealrootVapeAddiction</addictionHediff>
+    <toleranceHediff>HealrootVapeTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_HealrootVape</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>healroot vape</label>
+    <description>A need of healroot vape when a person has interacted with healroot vape.</description>
+    <listPriority>45</listPriority>
+    <fallPerDay>0.10</fallPerDay>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>HealrootVapeAddiction</defName>
+    <label>healroot need</label>
+    <description>Healroot's smoke smells terrible to the average person in the rim, with the only use of it being medical emergencies. Also, most could get addicted on the first dose, requiring a person to constantly take the vape and wasting medical uses for feeding an addiction. People who are known to have the addiction will act violently when not provided with more supplies of healroot.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_HealrootVape</causesNeed>
+    <everCurableByItem>true</everCurableByItem>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>unmet</label>
+        <painOffset>0.2</painOffset>
+        <lifeThreatening>false</lifeThreatening>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.6</setMax>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>0.4</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+<ThoughtDef>
+    <defName>HealrootVapeHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HealrootVapeHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on healroot</label>
+        <description>That left an awful taste in my mouth.</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+ <HediffDef ParentName="DrugToleranceBase">
+    <defName>HealrootVapeTolerance</defName>
+    <label>healroot tolerance</label>
+    <description>A built-up tolerance to vaporized healroot. The more severe this tolerance is, the more healroot it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>HealrootVape</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+  
+</Defs>

@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>SmokeleafVape</defName>
+    <label>smokeleaf vape</label>
+    <description>Other than the commonly known smokeleaf joints which are used by many on the rim, smokeleaf could be used to make vapes with no risks of addiction using a simple mechanism.</description>
+    <graphicData>
+      <texPath>Vapes/VapeSmokeleaf</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>300</WorkToMake>
+      <MarketValue>14</MarketValue>
+      <Mass>0.20</Mass>
+      <DeteriorationRate>2</DeteriorationRate>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>MidWorldVaping</joyKind>
+      <joy>0.65</joy>
+      <baseIngestTicks>450</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Smoke</ingestSound>
+      <ingestEffect>Smoke_Joint</ingestEffect>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Inhale {0}</ingestCommandString>
+      <ingestReportString>Inhaling {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>Smokeleaf_VapeHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>Smokeleaf</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SmokeleafTolerance</hediffDef>
+          <severity>0.04</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+       <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>-0.1</offset>
+         </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>SimpleVaping</researchPrerequisite>
+      <recipeUsers>
+        <li>TableVape</li>
+      </recipeUsers>
+      <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+      <workSkill>Intellectual</workSkill>
+      <skillRequirements>
+        <Intellectual>4</Intellectual>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+      <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    </recipeMaker>
+    <costList>
+      <SmokeleafLeaves>8</SmokeleafLeaves>
+      <Glycerine>1</Glycerine>
+      <Steel>10</Steel>
+    </costList>
+    <comps>
+     <li Class="CompProperties_Drug">
+       <chemical>Smokeleaf</chemical>
+       <addictiveness>0.00</addictiveness>
+       <minToleranceToAddict>0</minToleranceToAddict>
+       <existingAddictionSeverityOffset>0</existingAddictionSeverityOffset>
+       <needLevelOffset>0</needLevelOffset>
+       <listOrder>1310</listOrder>
+      </li>
+     </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>Smokeleaf_VapeHigh</defName>
+    <label>High on smokeleaf vape</label>
+    <labelNoun>a smokeleaf vape high</labelNoun>
+    <description>Active smokeleaf vape in the bloodstream. Generates a soft feeling of a minor fuzzy well-being.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-2</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+         <painFactor>0.85</painFactor>
+          <restFallFactor>1.20</restFallFactor>
+           <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.1</offset>
+            </li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>-0.1</offset>
+            </li>
+          </capMods>
+            </li>
+             </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SmokeleafVapeHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>Smokeleaf_VapeHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on smokeleaf vape</label>
+        <description>Ooh, that hit the spot.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

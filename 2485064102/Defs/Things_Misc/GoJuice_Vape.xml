@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>GoJuiceVape</defName>
+    <label>go-juice vape</label>
+    <description>Cocktail of drugs, giving the same effect as go-juice while being much safer. A stylish way of getting ready for combat!</description>
+    <graphicData>
+      <texPath>Vapes/VapeGoJuice</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>400</WorkToMake>
+      <MarketValue>55</MarketValue>
+      <Mass>0.20</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <minRewardCount>5</minRewardCount>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>MidWorldVaping</joyKind>
+      <joy>0.10</joy>
+      <drugCategory>Hard</drugCategory>
+      <baseIngestTicks>450</baseIngestTicks>
+      <ingestSound>Ingest_Smoke</ingestSound>
+      <ingestEffect>Smoke_Joint</ingestEffect>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Inhale {0}</ingestCommandString>
+      <ingestReportString>Inhaling {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>GoJuiceVapeHigh</hediffDef>
+          <severity>0.80</severity>
+         <toleranceChemical>GoJuiceVape</toleranceChemical>
+        </li>
+      <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>GoJuiceVapeTolerance</hediffDef>
+          <severity>0.030</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>UtilityVaping</researchPrerequisite>
+      <recipeUsers>
+        <li>TableVape</li>
+      </recipeUsers>
+      <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+      <workSkill>Intellectual</workSkill>
+      <skillRequirements>
+        <Intellectual>6</Intellectual>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    </recipeMaker>
+    <costList>
+      <Glycerine>1</Glycerine>
+      <GoJuice>2</GoJuice>
+      <Steel>15</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>GoJuiceVape</chemical>
+        <addictiveness>0.1</addictiveness>
+        <minToleranceToAddict>0.06</minToleranceToAddict>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>1005</listOrder>
+      </li>
+    </comps>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+    <thingSetMakerTags><li>RewardStandardHighFreq</li></thingSetMakerTags>
+  </ThingDef>
+
+<ChemicalDef>
+    <defName>GoJuiceVape</defName>
+    <label>go-juice vape</label>
+    <addictionHediff>GoJuiceVapeAddiction</addictionHediff>
+    <toleranceHediff>GoJuiceVapeTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+
+<NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_GoJuiceVape</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>go-juice vape</label>
+    <description>A need of go-juice vape.</description>
+    <listPriority>45</listPriority>
+    <fallPerDay>0.10</fallPerDay>
+  </NeedDef>
+
+<HediffDef ParentName="AddictionBase">
+    <defName>GoJuiceVapeAddiction</defName>
+    <label>go-juice vape need</label>
+    <description>Although vaporized go-juice is much safer to consume, it does not come without an addiction risk. Will cripple anyone who is affected by it.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_GoJuiceVape</causesNeed>
+    <everCurableByItem>true</everCurableByItem>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>unmet</label>
+        <painOffset>0.4</painOffset>
+        <lifeThreatening>false</lifeThreatening>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.6</setMax>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0.45</setMax>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Tantrum</mentalState>
+            <mtbDays>2</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>GoJuiceVapeHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>go-juice vape</label>
+    <description>Active diluted go-juice in the bloodstream, improving combat prowess.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+         <painFactor>0.55</painFactor>
+         <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.10</offset>
+            </li>
+            <li>
+              <capacity>Sight</capacity>
+              <offset>0.20</offset>
+            </li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.25</offset>
+            </li>
+          </capMods>
+            </li>
+             </stages>
+  </HediffDef>
+
+ <HediffDef ParentName="DrugToleranceBase">
+    <defName>GoJuiceVapeTolerance</defName>
+    <label>go-juice vape tolerance</label>
+    <description>A built-up tolerance to vaporized go-juice. The more severe this tolerance is, the more go-juice vape it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>GoJuiceVape</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+
+
+<ThoughtDef>
+    <defName>GoJuiceVapeHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>GoJuiceVapeHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on go-juice vape</label>
+        <description>Let's go!</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>
