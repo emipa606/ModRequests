@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<MVCF.ModDef>
+		<defName>MVCF_EnableAll_BIE_Drones</defName>
+		<!--Am I doing this right?-->
+		<label>Enable all features</label>
+		<description>All features will be enabled if this def is included.</description>
+		<ActivateFeatures>
+			<li>IntegratedToggle</li>
+			<li>HediffVerbs</li>
+			<li>IndependentFire</li>
+			<li>RangedAnimals</li> <!--Just in case someone manages to give this to an animal...Xenobionic patcher moment-->
+			<li>Drawing</li>
+		</ActivateFeatures>
+	</MVCF.ModDef>
+
+	<AbilityGroupDef>
+		<defName>BIE_OnePerDay</defName>
+		<cooldownTicks>60000</cooldownTicks>
+	</AbilityGroupDef>
+
+	<AbilityDef>
+		<defName>BIE_CombatDrone_ChargeRifle</defName>
+		<label>combat drone support</label>
+		<description>Activate combat drones for extra firepower.</description>
+		<descriptionHyperlinks>
+			<HediffDef>BIE_CombatDrone_ChargeRifle</HediffDef>
+		</descriptionHyperlinks>
+		<jobDef>CastAbilityOnThingMelee</jobDef>
+		<iconPath>UI/BIE_CombatDrone_AbilityIcon</iconPath>
+		<targetRequired>False</targetRequired>
+		<groupDef>BIE_OnePerDay</groupDef>
+		<warmupMoteSocialSymbol>UI/BIE_CombatDrone_AbilityIcon</warmupMoteSocialSymbol>
+		<stunTargetWhileCasting>false</stunTargetWhileCasting>
+		<showPsycastEffects>False</showPsycastEffects>
+		<displayGizmoWhileUndrafted>False</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+		<hotKey>Misc12</hotKey>
+		<uiOrder>2</uiOrder>
+		<warmupSound>OrbitalTargeter_Aiming</warmupSound>
+		
+		<statBases>
+			<Ability_Duration>125</Ability_Duration>
+		</statBases>
+		<verbProperties>
+			<verbClass>Verb_CastAbilityTouch</verbClass>
+			<drawAimPie>False</drawAimPie>
+			<range>-1</range>
+			<warmupTime>2.0</warmupTime>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+				<canTargetPawns>false</canTargetPawns>
+				<canTargetBuildings>false</canTargetBuildings>
+				<canTargetAnimals>false</canTargetAnimals>
+				<canTargetHumans>false</canTargetHumans>
+				<canTargetMechs>false</canTargetMechs>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilityGiveHediff">
+				<compClass>CompAbilityEffect_GiveHediff</compClass>
+				<hediffDef>BIE_CombatDrone_ChargeRifle</hediffDef>
+				<onlyBrain>True</onlyBrain>
+				<applicableToMechs>False</applicableToMechs>
+				<onlyApplyToSelf>true</onlyApplyToSelf>
+			</li>
+		</comps>
+	</AbilityDef>
+
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>BIE_CombatDrone_ChargeRifle_Implant</defName>
+		<defaultLabelColor>(161,206,243)</defaultLabelColor>
+		<label>charge rifle combat drone pack</label>
+		<description>Installed charge rifle combat drone pack.</description>
+		<descriptionHyperlinks>
+			<HediffDef>BIE_CombatDrone_ChargeRifle</HediffDef>
+			<AbilityDef>BIE_CombatDrone_ChargeRifle</AbilityDef>
+			<ThingDef>BIE_CombatDrone_ChargeRifle_Implant</ThingDef>
+			<RecipeDef>Install_BIE_CombatDrone_ChargeRifle_Implant</RecipeDef>
+		</descriptionHyperlinks>		
+		<spawnThingOnRemoved>BIE_CombatDrone_ChargeRifle_Implant</spawnThingOnRemoved>
+		<stages>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_GiveAbility">
+				<abilityDef>BIE_CombatDrone_ChargeRifle</abilityDef>
+			</li>
+		</comps>
+		<tags>
+			<li>BIE_CombatDroneModule</li>
+		</tags>
+	</HediffDef>
+
+	<HediffDef ParentName="CD_SpacerCombatDroneImplantHediffBase">
+		<defName>BIE_CombatDrone_ChargeRifle</defName>
+		<label>charge rifle combat drone support</label>
+		<labelNoun>a charge rifle combat drone</labelNoun>
+		<description>An installed charge rifle combat drone.</description>		
+		<descriptionHyperlinks>
+			<AbilityDef>BIE_CombatDrone_ChargeRifle</AbilityDef>
+			<ThingDef>BIE_CombatDrone_ChargeRifle_Implant</ThingDef>
+		</descriptionHyperlinks>		
+		<comps>	
+			<li Class="HediffCompProperties_Disappears">				
+				<showRemainingTime>true</showRemainingTime>
+			</li>			
+			<li Class="MVCF.Comps.HediffCompProperties_ExtendedVerbGiver">
+				<verbs>
+					<li>
+
+						<label>charge rifle combat drone (primary)</label>
+						<onlyManualCast>false</onlyManualCast>
+						
+						<targetParams>
+							<canTargetLocations>true</canTargetLocations>
+						</targetParams>
+						<hasStandardCommand>True</hasStandardCommand>
+						<verbClass>Verb_Shoot</verbClass>
+						<defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+						<warmupTime>1.0</warmupTime>
+						<range>25.9</range>
+						<ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+						<burstShotCount>3</burstShotCount>
+						<soundCast>Shot_ChargeRifle</soundCast>
+						<soundCastTail>GunTail_Medium</soundCastTail>
+						<muzzleFlashScale>9</muzzleFlashScale>
+						<accuracyTouch>0.55</accuracyTouch>
+						<accuracyShort>0.64</accuracyShort>
+						<accuracyMedium>0.55</accuracyMedium>
+						<accuracyLong>0.45</accuracyLong>
+						<defaultCooldownTime>2.0</defaultCooldownTime>
+					</li>
+					<li>
+
+						<label>charge rifle combat drone (secondary)</label>
+						
+						<onlyManualCast>false</onlyManualCast>
+						<targetParams>
+							<canTargetLocations>true</canTargetLocations>
+						</targetParams>
+						<hasStandardCommand>True</hasStandardCommand>
+						<verbClass>Verb_Shoot</verbClass>
+						<defaultProjectile>Bullet_ChargeRifle</defaultProjectile>
+						<warmupTime>1.0</warmupTime>
+						<range>25.9</range>
+						<ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+						<burstShotCount>3</burstShotCount>
+						<soundCast>Shot_ChargeRifle</soundCast>
+						<soundCastTail>GunTail_Medium</soundCastTail>
+						<muzzleFlashScale>9</muzzleFlashScale>
+						<accuracyTouch>0.55</accuracyTouch>
+						<accuracyShort>0.64</accuracyShort>
+						<accuracyMedium>0.55</accuracyMedium>
+						<accuracyLong>0.45</accuracyLong>
+						<defaultCooldownTime>2.0</defaultCooldownTime>
+					</li>
+				
+				</verbs>
+				<!--
+				<verbProps>
+					<li>
+						<label>charge rifle combat drone (primary)</label>
+						<draw>true</draw>
+						<canBeToggled>true</canBeToggled>
+						<graphic>
+							<texPath>Things/Drones/CD_DroneStandard</texPath>
+							<graphicClass>Graphic_Single</graphicClass>
+							<shaderType>CutoutFlying</shaderType>
+						</graphic>
+						<canFireIndependently>true</canFireIndependently>
+						<humanAsDefault>true</humanAsDefault>
+						<specificPositions>
+							<li>
+								<defName>Human</defName>
+								<Default>(0,0)</Default>
+								<Up>(-0.75,0.35)</Up>
+								<Down>(-0.75,0.35)</Down>
+								<Right>(-0.75,0.35)</Right>
+								<Left>(-0.75,0.35)</Left>
+							</li>
+						</specificPositions>
+					</li>
+					<li>
+						<label>charge rifle combat drone (secondary)</label>
+						<draw>true</draw>
+						<canBeToggled>true</canBeToggled>
+						<graphic>
+							<texPath>Things/Drones/CD_DroneStandard</texPath>
+							<graphicClass>Graphic_Single</graphicClass>
+							<shaderType>CutoutFlying</shaderType>
+						</graphic>
+						<canFireIndependently>true</canFireIndependently>
+						<humanAsDefault>true</humanAsDefault>
+						<specificPositions>
+							<li>
+								<defName>Human</defName>
+								<Default>(0,0)</Default>
+								<Up>(0.75,0.35)</Up>
+								<Down>(0.75,0.35)</Down>
+								<Right>(0.75,0.35)</Right>
+								<Left>(0.75,0.35)</Left>
+							</li>
+						</specificPositions>
+					</li>					
+				</verbProps>
+				-->
+				<verbProps>
+					<li>
+						<label>charge rifle combat drone (primary)</label>
+						<visualLabel>charge rifle combat drone</visualLabel>
+						<description>A charge rifle combat support drone.</description>
+						<canBeToggled>true</canBeToggled>
+						<comps>
+							<li Class="MVCF.VerbComps.VerbCompProperties_Turret">
+								<compClass>MVCF.VerbComps.VerbComp_Turret</compClass>
+								<humanAsDefault>true</humanAsDefault>
+								<graphic>
+									<texPath>Things/Drones/CD_DroneStandard</texPath>
+									<graphicClass>Graphic_Single</graphicClass>
+									<shaderType>CutoutFlying</shaderType>
+								</graphic>
+								<specificPositions>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Thin</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(-0.75,0.35)</Up>
+										<Down>(-0.75,0.35)</Down>
+										<Right>(-0.75,0.35)</Right>
+										<Left>(-0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Male</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(-0.75,0.35)</Up>
+										<Down>(-0.75,0.35)</Down>
+										<Right>(-0.75,0.35)</Right>
+										<Left>(-0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Female</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(-0.75,0.35)</Up>
+										<Down>(-0.75,0.35)</Down>
+										<Right>(-0.75,0.35)</Right>
+										<Left>(-0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Hulk</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(-0.75,0.35)</Up>
+										<Down>(-0.75,0.35)</Down>
+										<Right>(-0.75,0.35)</Right>
+										<Left>(-0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Fat</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(-0.75,0.35)</Up>
+										<Down>(-0.75,0.35)</Down>
+										<Right>(-0.75,0.35)</Right>
+										<Left>(-0.75,0.35)</Left>
+									</li>
+								</specificPositions>
+							</li>
+						</comps>
+					</li>
+					<li>
+						<label>charge rifle combat drone (secondary)</label>
+						<visualLabel>charge rifle combat drone</visualLabel>
+						<description>A charge rifle combat support drone.</description>
+						<canBeToggled>true</canBeToggled>
+						<comps>
+							<li Class="MVCF.VerbComps.VerbCompProperties_Turret">
+								<compClass>MVCF.VerbComps.VerbComp_Turret</compClass>
+								<humanAsDefault>true</humanAsDefault>
+								<graphic>
+									<texPath>Things/Drones/CD_DroneStandard</texPath>
+									<graphicClass>Graphic_Single</graphicClass>
+									<shaderType>CutoutFlying</shaderType>
+								</graphic>
+								<specificPositions>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Thin</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(0.75,0.35)</Up>
+										<Down>(0.75,0.35)</Down>
+										<Right>(0.75,0.35)</Right>
+										<Left>(0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Male</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(0.75,0.35)</Up>
+										<Down>(0.75,0.35)</Down>
+										<Right>(0.75,0.35)</Right>
+										<Left>(0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Female</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(0.75,0.35)</Up>
+										<Down>(0.75,0.35)</Down>
+										<Right>(0.75,0.35)</Right>
+										<Left>(0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Hulk</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(0.75,0.35)</Up>
+										<Down>(0.75,0.35)</Down>
+										<Right>(0.75,0.35)</Right>
+										<Left>(0.75,0.35)</Left>
+									</li>
+									<li>
+										<defName>Human</defName>
+										<BodyType>Fat</BodyType>
+										<Default>(0,0)</Default>
+										<Up>(0.75,0.35)</Up>
+										<Down>(0.75,0.35)</Down>
+										<Right>(0.75,0.35)</Right>
+										<Left>(0.75,0.35)</Left>
+									</li>
+								</specificPositions>
+							</li>
+						</comps>
+					</li>
+				</verbProps>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>Install_BIE_CombatDrone_ChargeRifle_Implant</defName>
+		<label>install charge rifle combat drone pack</label>
+		<description>Install a charge rifle combat drone pack.</description>
+		<descriptionHyperlinks>
+			<ThingDef>BIE_CombatDrone_ChargeRifle_Implant</ThingDef>
+			<HediffDef>BIE_CombatDrone_ChargeRifle</HediffDef>
+			<HediffDef>BIE_CombatDrone_ChargeRifle_Implant</HediffDef>
+			<AbilityDef>BIE_CombatDrone_ChargeRifle</AbilityDef>
+		</descriptionHyperlinks>
+		<jobString>Installing charge rifle combat drone pack.</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>BIE_CombatDrone_ChargeRifle_Implant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>BIE_CombatDrone_ChargeRifle_Implant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Torso</li>
+		</appliedOnFixedBodyParts>
+		<incompatibleWithHediffTags>
+			<li>BIE_CombatDroneModule</li>
+		</incompatibleWithHediffTags>
+		<addsHediff>BIE_CombatDrone_ChargeRifle_Implant</addsHediff>
+	</RecipeDef>
+	<RecipeDef ParentName="SurgeryRemoveImplantBase">
+		<defName>Remove_BIE_CombatDrone_ChargeRifle_Implant</defName>
+		<label>remove charge rifle combat drone pack</label>
+		<description>remove a charge rifle combat drone pack.</description>
+		<descriptionHyperlinks>
+			<ThingDef>BIE_CombatDrone_ChargeRifle_Implant</ThingDef>
+			<HediffDef>BIE_CombatDrone_ChargeRifle</HediffDef>
+			<HediffDef>BIE_CombatDrone_ChargeRifle_Implant</HediffDef>
+			<AbilityDef>BIE_CombatDrone_ChargeRifle</AbilityDef>
+		</descriptionHyperlinks>
+		<jobString>Removing charge rifle combat drone pack.</jobString>
+		<removesHediff>BIE_CombatDrone_ChargeRifle_Implant</removesHediff>
+
+	</RecipeDef>
+
+	<ThingDef ParentName="CD_SpacerCombatDroneImplantBase_Medium">
+		<defName>BIE_CombatDrone_ChargeRifle_Implant</defName>
+		<label>charge rifle combat drone pack</label>
+		<description>A case containing a pair of combat drones and a chip meant to be installed into a person’s torso. Once the chip has been installed, the drones will follow the chip’s host. \n\nWhen active, the drone will attack any enemy within range similarly to a standard turret, but it can also follow simple orders from the host.\n\nThe drones have short battery life, they can be active for 3 hours and after that a charging period that takes roughly a day is required.\n\nThis particular model is in the standard size class and is quipped with a modified charge rifle.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>Install_BIE_CombatDrone_ChargeRifle_Implant</RecipeDef>
+			<HediffDef>BIE_CombatDrone_ChargeRifle</HediffDef>
+			<HediffDef>BIE_CombatDrone_ChargeRifle_Implant</HediffDef>
+			<AbilityDef>BIE_CombatDrone_ChargeRifle</AbilityDef>
+		</descriptionHyperlinks>
+		<researchPrerequisites>
+			<li>ChargedShot</li>
+		</researchPrerequisites>
+		<costList>
+			<!--
+			<Plasteel>30</Plasteel>
+			<ComponentSpacer>3</ComponentSpacer>
+			<Steel>20</Steel>
+			<Uranium>8</Uranium>
+			&base cost of a combat drone, add the weapon cost on top later^
+			-->
+			<Plasteel>80</Plasteel>
+			<ComponentSpacer>5</ComponentSpacer>
+			<Steel>20</Steel>
+			<Uranium>8</Uranium>
+		</costList>
+		<thingSetMakerTags>
+			<li>RewardStandardMidFreq</li>
+		</thingSetMakerTags>
+		<statBases>
+			<Mass>5</Mass>
+		</statBases>
+	</ThingDef>
+</Defs>
