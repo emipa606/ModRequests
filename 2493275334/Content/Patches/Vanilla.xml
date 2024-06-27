@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/TerrainDef[defName="Sand" or defName="RG_HotSpringSand" or defName="RG_AnimaSpringSand"]/affordances</xpath>
+				<value>
+					<li>PackableSand</li>
+				</value>
+			</li>	
+
+			<!-- We check and see if packed dirt is already constructable. If it is, we can assume some other mod is already handling this terrain, so skip this patch -->
+			<li Class="PatchOperationTest">
+				<xpath>Defs/TerrainDef[defName="PackedDirt"]/statBases/WorkToBuild | Defs/TerrainAffordanceDef[defName="PackableSoil"]</xpath>
+				<success>Invert</success>
+			</li>
+			
+			<!-- Make the packable soil affordance -->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs</xpath>
+				<value>
+					<TerrainAffordanceDef>
+						<defName>PackableSoil</defName>
+						<label>packable soil</label>
+						<order>3000</order>
+					</TerrainAffordanceDef>
+				</value>
+			</li>
+			
+			<!-- Apply the affordance to various terrain types. Anything after "Soil" is from mods -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/TerrainDef[defName="MossyTerrain" or 
+					defName="SoilRich" or 
+					defName="Gravel" or 
+					defName="Soil" or 
+					defName="RG_TundraSoil" or 
+					defName="RG_BorealSoil" or 
+					defName="RG_TemperateSoil" or 
+					defName="RG_DepletedSoil" or 
+					defName="RG_RubbleSoil" or 
+					defName="RG_DepletedMossy" or 
+					defName="RG_DepletedGravel" or 
+					defName="RG_AspenSoil" or 
+					defName="RG_AnimaSoil" or 
+					defName="RG_AnimaSoilEnchanted" or 
+					defName="RG_AnimaSoilCracked" or 
+					@Name="TS_TerrainBase"]/affordances</xpath>
+				<value>
+					<li>PackableSoil</li>
+				</value>
+			</li>
+			
+			<!-- Remov before replacement, in case another mod added it -->
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>/Defs/TerrainDef[defName="PackedDirt"]/statBases/MarketValue</xpath>
+			</li>
+			
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/TerrainDef[defName="PackedDirt"]/statBases</xpath>
+				<value>
+					<WorkToBuild>120</WorkToBuild>
+					<MarketValue>0</MarketValue>
+				</value>
+			</li>
+			
+			<!-- Add misc missing information to dirt paths -->
+			<li Class="PatchOperationRemove">
+				<success>Always</success>
+				<xpath>/Defs/TerrainDef[defName="PackedDirt"]/*[
+					name()="description" or 
+					name()="layerable" or 
+					name()="designationCategory" or 
+					name()="constructEffect" or 
+					name()="terrainAffordanceNeeded"]</xpath>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/TerrainDef[defName="PackedDirt"]</xpath>
+				<value>
+					<description>Packed dirt allows for slightly faster travel and prevent unwanted plantlife.</description>
+					<layerable>true</layerable>
+					<designationCategory>Floors</designationCategory>
+					<constructEffect>ConstructDirt</constructEffect>
+					<terrainAffordanceNeeded>PackableSoil</terrainAffordanceNeeded>
+				</value>
+			</li>
+			<!-- Parity with vanilla soil -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/TerrainDef[defName="PackedDirt"]/statBases[not(BeautyOutdoors)]</xpath>
+				<value>
+					<BeautyOutdoors>0</BeautyOutdoors>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>
