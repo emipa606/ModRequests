@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>Tobacco</defName>
+    <label>Tobacco cigars</label>
+    <description>A fancy looking joint filled with tobacco leaves, once smoked, it can calm the user's nerves and heightened their senses temporarily.</description>    
+	<descriptionHyperlinks>
+      <HediffDef>TobaccoHigh</HediffDef>
+      <HediffDef>TobaccoAddiction</HediffDef>
+      <HediffDef>ChemicalDamageSevere</HediffDef>
+    </descriptionHyperlinks>	
+    <graphicData>
+      <texPath>Things/Resources/Drugs</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+	  <WorkToMake>450</WorkToMake>
+      <MarketValue>7</MarketValue>
+      <Mass>0.1</Mass>
+	  <DeteriorationRate>6</DeteriorationRate>
+      <Flammability>1.3</Flammability>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.80</joy>
+      <drugCategory>Social</drugCategory>
+      <baseIngestTicks>150</baseIngestTicks>
+      <ingestSound>Ingest_Smoke</ingestSound>
+      <ingestEffect>Smoke_Joint</ingestEffect>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Smoke {0}</ingestCommandString>
+      <ingestReportString>Smoking {0}.</ingestReportString>
+      <ingestReportStringEat>Consuming {0}.</ingestReportStringEat>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>TobaccoHigh</hediffDef>
+          <severity>0.030</severity>
+		  <divideByBodySize>true</divideByBodySize>
+        </li>		
+      </outcomeDoers>	  
+    </ingestible>
+    <recipeMaker>
+     <researchPrerequisite>DrugProduction</researchPrerequisite>
+    </recipeMaker>
+    <costList>
+      <TobaccoLeaves>50</TobaccoLeaves>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>TobaccoChemicalDef</chemical>
+        <addictiveness>0.1</addictiveness>
+        <existingAddictionSeverityOffset>0.10</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+        <listOrder>100</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.01</largeOverdoseChance>
+      </li>
+    </comps>
+    <allowedArchonexusCount>200</allowedArchonexusCount>
+  </ThingDef>
+  
+  <RecipeDef>
+    <defName>Craft_Tobacco_Bulk</defName>
+    <label>craft tobacco in bulk</label>
+    <description>Craft 4 rolls of tobacco cigars</description>
+    <jobString>Crafting tobacco cigars.</jobString>
+    <workAmount>750</workAmount>
+    <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+	<workSkill>Cooking</workSkill>
+	<soundWorking>Recipe_Drug</soundWorking>
+	<skillRequirements>
+      <Intellectual>5</Intellectual>
+    </skillRequirements>
+    <recipeUsers Inherit="False">
+      <li>DrugLab</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>TobaccoLeaves</li>
+          </thingDefs>
+        </filter>
+        <count>50</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>TobaccoLeaves</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Tobacco>5</Tobacco>
+    </products>
+  </RecipeDef>
+
+<!--==========================================================================HIGH EFFECT=========================================================================================-->
+
+  <HediffDef>
+    <defName>TobaccoHigh</defName>
+    <label>smoked some tobacco leaves</label>
+    <labelNoun>a tobacco high</labelNoun>
+    <description>A side effect after smoking a tobacco pipe.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>  	 
+      </li>		
+    </comps>
+    <stages>
+        <li>
+		    <hungerRateFactorOffset>0.3</hungerRateFactorOffset>
+            <painOffset>-0.2</painOffset>
+		    <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>0.10</offset>
+              </li>
+			  <li>
+                <capacity>Sight</capacity>
+                <offset>0.10</offset>
+              </li>
+			  <li>
+                <capacity>BloodFiltration</capacity>
+                <offset>0.10</offset>
+              </li>
+			  <li>
+                <capacity>BloodPumping</capacity>
+                <offset>0.10</offset>
+              </li>
+			  <li>
+                <capacity>Metabolism</capacity>
+                <offset>0.10</offset>
+              </li>
+			  <li>
+                <capacity>Breathing</capacity>
+                <offset>0.10</offset>
+              </li>
+            </capMods>
+            <statOffsets>
+			  <SocialImpact>0.15</SocialImpact>
+            </statOffsets>
+        </li>
+    </stages>
+  </HediffDef>
+
+  <!--============================================================================================= addiction ========================================================================== -->
+  
+
+  <ChemicalDef>
+    <defName>TobaccoChemicalDef</defName>
+    <label>tobacco</label>
+    <addictionHediff>TobaccoAddiction</addictionHediff>
+    <onGeneratedAddictedEvents>
+      <li>
+        <hediff>ChemicalDamageSevere</hediff>
+        <chance>0.02</chance>
+        <partsToAffect>
+          <li>Lung</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+  </ChemicalDef>
+
+  <!--Chemical need-->
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_TobaccoNeed</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>tobacco</label>
+    <description>Because of a tobacco addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>50</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>TobaccoAddiction</defName>
+    <label>tobacco addiction</label>
+    <description>Addiction to tobacco.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_TobaccoNeed</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <restFallFactorOffset>0.3</restFallFactorOffset>
+        <socialFightChanceFactor>3.0</socialFightChanceFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.20</offset>
+          </li>
+		  <li>
+            <capacity>BloodFiltration</capacity>
+            <offset>-0.20</offset>
+          </li>
+		  <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.20</offset>
+          </li>
+		  <li>
+            <capacity>Metabolism</capacity>
+            <offset>-0.20</offset>
+          </li>
+		  <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>MurderousRage</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+<!--=======================================================THOUGHTS======================================================================-->
+
+  <ThoughtDef>
+    <defName>TobaccoWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>TobaccoAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>tobacco withdrawal</label>
+        <description>I need something to smoke, I NEED TOBACCO DAMN IT!!</description>
+        <baseMoodEffect>-15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <ThoughtDef>
+    <defName>TobaccoHighThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>TobaccoHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>smoked a tobacco cigars</label>
+        <description>I can feel my senses heightened, it feels really good!.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+<!--======================================================= Plant : Tobacco ======================================================================-->
+  
+  <ThingDef ParentName="PlantBase">
+    <defName>Plant_Tobacco</defName>
+    <label>tobacco plant</label>
+    <description>A precious plant that was used to produce tobacco pipes, a soothing yet preety addictive drug.</description>
+    <statBases>
+      <MaxHitPoints>85</MaxHitPoints>
+      <Nutrition>0.2</Nutrition>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Plants/TobaccoPlant</texPath>
+      <graphicClass>Graphic_Random</graphicClass>
+    </graphicData>
+    <selectable>true</selectable>
+    <pathCost>14</pathCost>
+    <ingestible />
+    <plant>
+      <growDays>7.50</growDays>
+      <dieIfLeafless>true</dieIfLeafless>
+      <harvestTag>Standard</harvestTag>
+      <drugForHarvestPurposes>True</drugForHarvestPurposes>
+      <harvestedThingDef>TobaccoLeaves</harvestedThingDef>
+      <harvestYield>9</harvestYield>
+      <sowMinSkill>4</sowMinSkill>
+      <sowTags>
+        <li>Ground</li>
+        <li>Hydroponic</li>
+      </sowTags>
+      <topWindExposure>0.1</topWindExposure>
+      <visualSizeRange>0.3~1.0</visualSizeRange>
+      <wildOrder>2</wildOrder>
+    </plant>
+  </ThingDef>
+  
+  <ThingDef ParentName="RoughPlantBase">
+    <defName>TobaccoLeaves</defName>
+    <label>tobacco leaves</label>
+    <description>Raw cut leaves of a tobacco plant. Can be manufactured into tobacco pipes at a nearest drug lab.</description>
+    <graphicData>
+      <texPath>Things/Plants/PlantProduct/Tobacco</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>1.9</MarketValue>
+      <Flammability>1.3</Flammability>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>30</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+    <thingCategories>
+      <li>PlantMatter</li>
+    </thingCategories>
+    <ingestible>
+      <preferability>DesperateOnly</preferability>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+    </ingestible>
+  </ThingDef>
+  
+  <!-- Potions -->
+  
+  <!-- Steel Elixir -->
+  
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>SteelElixir</defName>
+    <label>steel elixir</label>
+    <description>A specially brewed elixir discovered by the hunters workshop. Drinking it will grant the consumer enhanced damage resistance, and immunity to fire. Although in exchange, the steel elixir will taste incredibly bad, and they'll move very slow.\n\nThis drug is widely distributed throughout the rim and mostly seen being used by combatants of well developed civilizations.</description>
+    <descriptionHyperlinks>
+      <HediffDef>SteelElixirHigh</HediffDef>
+      <HediffDef>SteelElixirAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Potions/SteelElixir</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>1700</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <!--<joyKind>Chemical</joyKind>
+      <joy>0.40</joy>-->
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>80</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SteelElixirHigh</hediffDef>
+          <severity>0.5</severity>
+          <toleranceChemical>SteelElixir</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.4</offset>
+          <toleranceChemical>SteelElixir</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+          <offset>0.15</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Elixirz</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+    </recipeMaker>
+    <costList>
+      <Steel>150</Steel>
+	  <VisceralSolution>25</VisceralSolution>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>SteelElixir</chemical>
+        <addictiveness>0.026</addictiveness>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>200</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.005</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>SteelElixirHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>high on steel elixir</label>
+    <labelNoun>a steel elixir high</labelNoun>
+    <description>An effect after drinking the steel elixir, granting increased damage resistance and immunity to fire.</description>
+    <defaultLabelColor>(1,1,0)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.20</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>0.1</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.20</offset>
+            </li>
+            <li>
+              <capacity>Sight</capacity>
+              <offset>0.35</offset>
+            </li>
+          </capMods>
+		  <statFactors>
+			<IncomingDamageFactor>0.1</IncomingDamageFactor>
+			<MoveSpeed>-1.2</MoveSpeed>
+            <Flammability>0</Flammability>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SteelElixirHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SteelElixirHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>high on steel elixir</label>
+        <description>BLEHH!!! THIS TASTE LIKE SHIT!!</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Steel Elixir Addiction -->
+
+  <ChemicalDef>
+    <defName>SteelElixir</defName>
+    <label>steel elixir</label>
+    <addictionHediff>SteelElixirAddiction</addictionHediff>
+    <geneOverdoseChanceFactorResist>0.5</geneOverdoseChanceFactorResist>
+    <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_SteelElixir</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>steel elixir</label>
+    <description>Because of a steel elixir addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <fallPerDay>0.333</fallPerDay>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>SteelElixirAddiction</defName>
+    <label>steel elixir addiction</label>
+    <description>A chemical addiction to steel elixir. Long-term presence of steel elixir has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of steel elixir, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_SteelElixir</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.045</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <painFactor>3</painFactor>
+        <hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+        <statOffsets>
+          <RestFallRateFactor>0.3</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.50</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SteelElixirWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SteelElixirAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>steel elixir withdrawal</label>
+        <description>I don't feel so good. Though I don't want to drink that shit, but.....UGHHH!!</description>
+        <baseMoodEffect>-22</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>SteelElixirTolerance</defName>
+    <label>steel elixir tolerance</label>
+    <description>A built-up tolerance to steel elixir. The more severe this tolerance is, the more steel elixir it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>SteelElixir</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageModerate</hediff>
+        <severityToMtbDaysCurve>
+          <points>
+            <li>(0.45, 99999)</li>
+            <li>(0.5, 120)</li>
+            <li>(1, 90)</li>
+          </points>
+        </severityToMtbDaysCurve>
+        <partsToAffect>
+          <li>Brain</li>
+        </partsToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+  
+  <!-- Potions Special -->
+  
+  <!-- Trolls Blood -->
+  
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>TrollsBloodElixir</defName>
+    <label>trolls blood elixir</label>
+    <description>A specially brewed elixir discovered by the hunters workshop. Directly drinking this elixir can instantaneously regenerate the consumer's permanent and fatal wounds, and cure chronic illnesses. Although the downside is that their hunger rate has been quadrupled temporarily.\n\nDue to the high cost of producing one vile, only a handful of these elixirs were ever produced, unless they have some ways to accuire those raw resources, perhaps......</description>
+    <descriptionHyperlinks>
+      <HediffDef>TrollsBloodElixirHigh</HediffDef>
+	  <HediffDef>TrollsBloodElixirAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Potions/TrollsBlood</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>3500</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+	<thingSetMakerTags>
+      <li>RewardStandardCore</li>
+    </thingSetMakerTags>
+	<ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.40</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>80</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>TrollsBloodElixirHigh</hediffDef>
+          <severity>0.5</severity>
+          <toleranceChemical>TrollsBloodElixir</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.4</offset>
+          <toleranceChemical>TrollsBloodElixir</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+          <offset>0.15</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>Elixirz</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+    </recipeMaker>
+    <costList>
+      <HemogenPack>250</HemogenPack>
+	  <Yayo>150</Yayo>
+	  <MedicineHerbal>150</MedicineHerbal>
+	  <VisceralSolution>25</VisceralSolution>
+    </costList>
+    <comps>
+	  <li Class="CompProperties_Drug">
+        <chemical>TrollsBloodElixir</chemical>
+        <addictiveness>0.005</addictiveness>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+        <listOrder>200</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.001</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>TrollsBloodElixirHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>high on trolls blood elixir</label>
+    <labelNoun>a trolls blood elixir high</labelNoun>
+    <description>An effect after drinking the trolls blood elixir, which can regenerate permanent and fatal wounds, and cure chronic illnesses instantaneously, although in exchange of increased hunger rate.</description>
+    <defaultLabelColor>(0.9,0,0.1)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.50</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+	  <li Class="DarkEssence.HediffCompProperties_TrollsBlood" />
+    </comps>
+      <stages>
+        <li>
+          <painFactor>0.1</painFactor>
+		  <hungerRateFactor>4.00</hungerRateFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.20</offset>
+            </li>
+            <li>
+              <capacity>Sight</capacity>
+              <offset>0.35</offset>
+            </li>
+          </capMods>
+		  <!--<statFactors>
+			<IncomingDamageFactor>0.1</IncomingDamageFactor>
+			<MoveSpeed>-2.5</MoveSpeed>
+            <Flammability>0</Flammability>
+		  </statFactors>-->
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>TrollsBloodElixirHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>TrollsBloodElixirHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>high on trolls blood elixir</label>
+        <description>I feel refreshed! As if I'm being reborned!</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Trolls Blood Elixir Addiction -->
+
+  <ChemicalDef>
+    <defName>TrollsBloodElixir</defName>
+    <label>trolls blood elixir</label>
+    <addictionHediff>TrollsBloodElixirAddiction</addictionHediff>
+    <geneOverdoseChanceFactorResist>0.5</geneOverdoseChanceFactorResist>
+    <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+  </ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_TrollsBloodElixir</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>trolls blood elixir</label>
+    <description>Because of a trolls blood elixir addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <fallPerDay>0.333</fallPerDay>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>TrollsBloodElixirAddiction</defName>
+    <label>trolls blood elixir addiction</label>
+    <description>A chemical addiction to trolls blood elixir. Long-term presence of trolls blood elixir has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of trolls blood elixir, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_TrollsBloodElixir</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.045</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <painFactor>3</painFactor>
+        <hungerRateFactorOffset>4.0</hungerRateFactorOffset>
+        <statOffsets>
+          <RestFallRateFactor>0.3</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.50</offset>
+          </li>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>TrollsBloodElixirWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>TrollsBloodElixirAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>trolls blood elixir withdrawal</label>
+        <description>It feels as if every cell in my body are crying in agony!</description>
+        <baseMoodEffect>-22</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>TrollsBloodElixirTolerance</defName>
+    <label>trolls blood elixir tolerance</label>
+    <description>A built-up tolerance to trolls blood elixir. The more severe this tolerance is, the more trolls blood elixir it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>TrollsBloodElixir</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageModerate</hediff>
+        <severityToMtbDaysCurve>
+          <points>
+            <li>(0.45, 99999)</li>
+            <li>(0.5, 120)</li>
+            <li>(1, 90)</li>
+          </points>
+        </severityToMtbDaysCurve>
+        <partsToAffect>
+          <li>Brain</li>
+        </partsToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+
+</Defs>

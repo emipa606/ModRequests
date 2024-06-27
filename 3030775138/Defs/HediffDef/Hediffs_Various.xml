@@ -1,0 +1,1149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Casanova Hediff -->
+
+  <HediffDef Name="CasanovaHediffBase" Abstract = "True">
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="CasanovaHediffBase">
+    <defName>Socialize</defName>
+    <label>socialize</label>
+    <description>Natural effects during socializations.</description>
+    <hediffClass>DarkEssence.Hediff_Socialize</hediffClass>
+    <targetPrefix>for</targetPrefix>
+    <isBad>false</isBad>
+    <stages><li></li></stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>Socialized</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>ThoughtWorker_HediffWithTarget</workerClass>
+    <hediff>Socialize</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>socialized</label>
+        <baseOpinionOffset>50</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Adrenaline Hediff -->
+  
+  <HediffDef>
+    <defName>HyperRegenerative</defName>
+    <label>hyper-regenerative</label>
+	<description>An innate ability that regenerates wounds incredibly fast.</description>
+	<hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1,0,0)</defaultLabelColor>
+    <isBad>false</isBad>
+    <makesSickThought>false</makesSickThought>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <initialSeverity>1</initialSeverity>
+    <comps>
+    	<li>
+    		<compClass>DarkEssence.Adrenaline_Reactive</compClass>
+    	</li>
+    </comps>
+    <stages>
+        <li>
+		  <naturalHealingFactor>1734.0</naturalHealingFactor>
+		  <statOffsets>
+			<InjuryHealingFactor>23.55</InjuryHealingFactor>
+		  </statOffsets>
+        </li>
+    </stages>	
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>AdrenalineHigh</defName>
+    <label>high on adrenaline</label>
+    <labelNoun>an adrenaline high</labelNoun>
+    <description>Bursts of chemicals are coursing in the bloodstream. Eliminating all pain, reduce bleeding, and increase movement and healing speed.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-2.10</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+	  <li Class="HediffCompProperties_Effecter">
+        <stateEffecter>AdrenalineAura</stateEffecter>
+      </li>
+    </comps>
+    <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>2.00</offset>
+            </li>
+			<li>
+              <capacity>Moving</capacity>
+              <offset>1.50</offset>
+            </li>
+          </capMods>
+          <painFactor>0.0</painFactor>
+          <restFallFactor>0.6</restFallFactor>
+		  <naturalHealingFactor>1734.0</naturalHealingFactor>
+		  <totalBleedFactor>0.1</totalBleedFactor>
+		  <statOffsets>
+			<InjuryHealingFactor>23.55</InjuryHealingFactor>
+		  </statOffsets>
+        </li>
+    </stages>
+  </HediffDef>
+  
+  <EffecterDef>
+      <defName>AdrenalineAura</defName>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_DrifterEmoteChance</subEffecterClass>
+          <scale>
+            <min>0.8</min>
+            <max>0.95</max>
+          </scale>
+          <chancePerTick>0.01</chancePerTick>
+          <positionRadius>0.25</positionRadius>
+          <moteDef>Mote_AdrenalineAuraSparkSimple</moteDef>
+          <speed>
+            <min>0.18</min>
+            <max>0.18</max>
+          </speed>
+          <angle>
+            <min>10</min>
+            <max>80</max>
+          </angle>
+        </li>
+		<!--<li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <moteDef>Mote_ApocritonPulse</moteDef>
+          <burstCount>1</burstCount>
+          <rotation>-150~150</rotation>
+          <ticksBetweenMotes>76</ticksBetweenMotes>
+          <positionRadius>0</positionRadius>
+          <attachToSpawnThing>true</attachToSpawnThing>
+          <spawnLocType>OnSource</spawnLocType>
+        </li>-->
+      </children>
+    </EffecterDef>
+	
+	<ThingDef ParentName="MoteBase">
+      <defName>Mote_AdrenalineAuraSparkSimple</defName>
+      <thingClass>MoteAttached</thingClass>
+      <altitudeLayer>MoteOverhead</altitudeLayer>
+      <mote>
+        <fadeInTime>0.05</fadeInTime>
+        <fadeOutTime>0.1</fadeOutTime>
+        <solidTime>0.35</solidTime>
+      </mote>
+      <graphicData>
+        <texPath>Things/Mote/MechSparkSimple</texPath>
+        <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+        <shaderType>GlowAnimated</shaderType>
+		<color>(0.8, 0, 0.2)</color>
+        <shaderParameters>
+          <_NumFrames>2</_NumFrames>
+          <_FramesPerSec>4</_FramesPerSec>
+        </shaderParameters>
+        <drawSize>(1.1, 1.1)</drawSize>
+      </graphicData>
+    </ThingDef>
+  
+  <!-- Blade Heart Dicipline Hediff -->
+  
+  <HediffDef Name="BladeHeartBase" Abstract = "True">
+    <hediffClass>HediffWithComps</hediffClass>
+  </HediffDef>
+  
+  <HediffDef ParentName = "BladeHeartBase">
+    <defName>BladeHeartDicipline</defName>
+    <label>blade heart</label>
+	<defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+    <description>A powerful condition that allows a carrier to inflict aura damage, while having the chance to inflict armor bane when hitting the armor.</description>
+    <isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>aura impact</label>
+						<capacities>
+							<li>AuraSlash</li>
+							<li>AuraStab</li>
+							<li>AuraCrush</li>
+						</capacities>
+						<power>15</power>
+						<armorPenetration>1.0</armorPenetration>
+						<cooldownTime>0.9</cooldownTime>						
+			            <extraMeleeDamages>
+		                  <li>
+                            <def>ShadowEdgez</def>
+                            <amount>15</amount>
+							<chance>0.1</chance>
+                          </li>
+						  <li>
+                            <def>HeartSeekerStabz</def>
+                            <amount>45</amount>
+							<chance>0.1</chance>
+                          </li>
+						  <li>
+                            <def>ShadowImpactCrushz</def>
+                            <amount>15</amount>
+							<chance>0.1</chance>
+                          </li>
+                        </extraMeleeDamages>			            
+						<alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+						<soundMeleeHit>BladeHeartAttack</soundMeleeHit>
+						<soundMeleeMiss>MeleeMiss_BionicSlash</soundMeleeMiss>
+					</li>					
+				</tools>
+			</li>
+		</comps>
+  </HediffDef>
+  
+  <ToolCapacityDef>
+		<defName>AuraSlash</defName>
+		<label>aura slash</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>Aura_Slash</defName>
+		<requiredCapacity>AuraSlash</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>ShadowEdgezNormal</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <ToolCapacityDef>
+		<defName>AuraStab</defName>
+		<label>aura stab</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>Aura_Stab</defName>
+		<requiredCapacity>AuraStab</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>HeartSeekerStabzNormal</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <ToolCapacityDef>
+		<defName>AuraCrush</defName>
+		<label>crushing aura</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>Aura_Crush</defName>
+		<requiredCapacity>ShadowImpactCrush</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>ShadowImpactCrushzNormal</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Smash_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Smash_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Smash_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Smash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  
+  
+  <ToolCapacityDef>
+		<defName>ShadowEdgeSlash</defName>
+		<label>shadow edge slash</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>ShadowEdge_Slash</defName>
+		<requiredCapacity>ShadowEdgeSlash</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>ShadowEdgez</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <ToolCapacityDef>
+		<defName>HeartSeekerStab</defName>
+		<label>heart seeker stab</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>HeartSeeker_Stab</defName>
+		<requiredCapacity>HeartSeekerStab</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>HeartSeekerStabz</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <ToolCapacityDef>
+		<defName>ShadowImpactCrush</defName>
+		<label>shadow impact crush</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>ShadowImpact_Crush</defName>
+		<requiredCapacity>ShadowImpactCrush</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>ShadowImpactCrushz</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Smash_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Smash_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Smash_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Smash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <!-- Ability Hediffs -->
+  
+  <HediffDef ParentName="InjuryBase" Name="ArmorBane" Abstract="True">
+      <comps>
+        <li Class="HediffCompProperties_TendDuration">
+          <labelTendedWell>bandaged</labelTendedWell>
+          <labelTendedWellInner>tended</labelTendedWellInner>
+          <labelSolidTendedWell>tended</labelSolidTendedWell>
+        </li>
+        <li Class="HediffCompProperties_Infecter">
+          <infectionChance>0.50</infectionChance>
+        </li>
+      </comps>
+      <injuryProps>
+        <painPerSeverity>0.01875</painPerSeverity>
+        <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+        <canMerge>true</canMerge>
+      </injuryProps>
+    </HediffDef>
+	
+	<HediffDef ParentName="ArmorBane">
+      <defName>ArmorBaneDamage</defName>
+      <label>armor bane</label>
+	  <defaultLabelColor>(0.0,0.8,0.0)</defaultLabelColor>
+      <labelNoun>armor bane</labelNoun>
+      <description>An armor bane.</description>
+      <comps>
+        <li Class="HediffCompProperties_GetsPermanent">
+          <permanentLabel>armor bane scar</permanentLabel>
+        </li>
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Moving</capacity>
+              <setMax>0.50</setMax>
+            </li>
+          </capMods>
+          <statFactors>
+		    <ArmorRating_Sharp>-0.75</ArmorRating_Sharp>
+			<ArmorRating_Blunt>-0.75</ArmorRating_Blunt>			           
+            <IncomingDamageFactor>2.0</IncomingDamageFactor>
+          </statFactors>
+        </li>
+      </stages>
+      <injuryProps>
+        <destroyedLabel>Corroded off</destroyedLabel>
+        <destroyedOutLabel>Corroded away</destroyedOutLabel>
+      </injuryProps>
+    </HediffDef>
+	
+	<HediffDef ParentName="ArmorBane">
+      <defName>WitheringDamage</defName>
+      <label>wither</label>
+	  <defaultLabelColor>(0.0,0.8,0.0)</defaultLabelColor>
+      <labelNoun>wither</labelNoun>
+      <description>An withering damage.</description>
+      <comps>
+        <li Class="HediffCompProperties_GetsPermanent">
+          <permanentLabel>withered scar</permanentLabel>
+        </li>
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.50</setMax>
+            </li>
+			<li>
+              <capacity>Moving</capacity>
+              <setMax>0.50</setMax>
+            </li>
+			<li>
+              <capacity>Sight</capacity>
+              <setMax>0.50</setMax>
+            </li>
+			<li>
+              <capacity>BloodFiltration</capacity>
+              <setMax>0.50</setMax>
+            </li>
+			<li>
+              <capacity>BloodPumping</capacity>
+              <setMax>0.50</setMax>
+            </li>
+			<li>
+              <capacity>Metabolism</capacity>
+              <setMax>0.50</setMax>
+            </li>
+			<li>
+              <capacity>Breathing</capacity>
+              <setMax>0.50</setMax>
+            </li>
+          </capMods>
+          <statFactors>
+		    <ArmorRating_Sharp>-0.15</ArmorRating_Sharp>
+			<ArmorRating_Blunt>-0.15</ArmorRating_Blunt>			
+            <IncomingDamageFactor>1.0</IncomingDamageFactor>
+			<RangedCooldownFactor>2.0</RangedCooldownFactor>
+	        <AimingDelayFactor>2.0</AimingDelayFactor>
+			<MeleeWeapon_DamageMultiplier>-2.0</MeleeWeapon_DamageMultiplier>
+	        <MeleeWeapon_CooldownMultiplier>-2.0</MeleeWeapon_CooldownMultiplier>
+	        <MeleeHitChance>-5</MeleeHitChance>
+	        <MeleeDodgeChance>-5</MeleeDodgeChance>
+	        <MeleeDamageFactor>-2.0</MeleeDamageFactor>
+          </statFactors>
+        </li>
+      </stages>
+      <injuryProps>
+        <destroyedLabel>Withered off</destroyedLabel>
+        <destroyedOutLabel>Withered away</destroyedOutLabel>
+      </injuryProps>
+    </HediffDef>
+	
+	<HediffDef ParentName="ArmorBane">
+      <defName>FireArmorBane</defName>
+      <label>heat armor down</label>
+	  <defaultLabelColor>(1,0,0)</defaultLabelColor>
+      <labelNoun>heat armor bane</labelNoun>
+      <description>A fire vulnerability.</description>
+      <comps>
+        <li Class="HediffCompProperties_GetsPermanent">
+          <permanentLabel>severe burn scar</permanentLabel>
+        </li>
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Moving</capacity>
+              <setMax>0.50</setMax>
+            </li>
+          </capMods>
+          <statFactors>	
+            <Flammability>6.0</Flammability>		  
+            <ArmorRating_Heat>-0.75</ArmorRating_Heat>
+          </statFactors>
+        </li>
+      </stages>
+      <injuryProps>
+        <destroyedLabel>Burned off</destroyedLabel>
+        <destroyedOutLabel>Burned away</destroyedOutLabel>
+      </injuryProps>
+    </HediffDef>
+	
+	<HediffDef ParentName = "PsycastHediffBase">
+      <defName>ShadowCloakz</defName>
+      <label>shadow walker cloak</label>
+	  <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <description>A technique that renders the user invisible, all while boosting melee damage significantly.</description>
+      <isBad>false</isBad>
+      <comps>
+        <li Class="HediffCompProperties">
+          <compClass>HediffComp_Invisibility</compClass>
+        </li>
+      </comps>
+	  <stages>
+        <li>
+		    <statFactors>
+	          <MeleeDPS>1.5</MeleeDPS>
+	          <MeleeDamageFactor>1.5</MeleeDamageFactor>
+			</statFactors>
+		</li>
+	  </stages>
+    </HediffDef>
+	
+	<HediffDef>
+		<defName>ChiCorruption</defName>
+		<hediffClass>DarkEssence.Hediff_DarkChi</hediffClass>
+		<defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+		<label>chi corruption</label>
+		<lethalSeverity>2</lethalSeverity>
+		<description>A vile energy that can take hold of any sentient beings, be it humanoids or machines, where it can slowly weaken them and slowly inflict damage over time. All of this was possible by allowing the corrupted chi to rampage violently inside the target without regards of their well being.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+               <severityPerDay>-4.10</severityPerDay>
+               <showHoursToRecover>true</showHoursToRecover>
+            </li>
+		</comps>
+		<stages>
+			<li>
+				<label>minor</label>
+				<minSeverity>0</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.1</offset>
+					</li>
+				</capMods>
+				<statFactors>
+		            <ArmorRating_Sharp>-0.15</ArmorRating_Sharp>
+			        <ArmorRating_Blunt>-0.15</ArmorRating_Blunt>			
+                    <IncomingDamageFactor>1.0</IncomingDamageFactor>
+                </statFactors>
+			</li>
+			<li>
+				<label>moderate</label>
+				<minSeverity>0.35</minSeverity>
+				<painOffset>0.5</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.3</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+				<statFactors>
+		            <ArmorRating_Sharp>-0.15</ArmorRating_Sharp>
+			        <ArmorRating_Blunt>-0.15</ArmorRating_Blunt>			
+                    <IncomingDamageFactor>1.0</IncomingDamageFactor>
+                </statFactors>
+			</li>
+			<li>
+				<label>major</label>
+				<minSeverity>0.95</minSeverity>
+				<painOffset>0.10</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.4</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.4</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.4</offset>
+					</li>
+				</capMods>
+				<statFactors>
+		            <ArmorRating_Sharp>-0.15</ArmorRating_Sharp>
+			        <ArmorRating_Blunt>-0.15</ArmorRating_Blunt>			
+                    <IncomingDamageFactor>1.0</IncomingDamageFactor>
+                </statFactors>
+			</li>
+			<li>
+				<label>serious</label>
+				<minSeverity>1.70</minSeverity>
+				<painOffset>0.15</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.55</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.55</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.55</offset>
+					</li>
+				</capMods>
+				<statFactors>
+		            <ArmorRating_Sharp>-0.15</ArmorRating_Sharp>
+			        <ArmorRating_Blunt>-0.15</ArmorRating_Blunt>			
+                    <IncomingDamageFactor>1.0</IncomingDamageFactor>
+                </statFactors>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef ParentName="InjuryBase">
+      <defName>CorruptChi</defName>
+	  <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>corrupt chi</label>
+      <description>A severe injury caused by corrupted chi.</description>
+      <displayWound>false</displayWound>
+      <comps>
+        <li Class="HediffCompProperties_TendDuration">
+          <labelTendedWell>bandaged</labelTendedWell>
+          <labelTendedWellInner>tended</labelTendedWellInner>
+          <labelSolidTendedWell>tended</labelSolidTendedWell>
+        </li>
+        <li Class="HediffCompProperties_Infecter">
+          <infectionChance>0.85</infectionChance>
+        </li>
+        <li Class="HediffCompProperties_GetsPermanent">
+          <permanentLabel>corrupt chi scar</permanentLabel>
+        </li>
+      </comps>
+      <injuryProps>
+        <painPerSeverity>0.02875</painPerSeverity>
+        <averagePainPerSeverityPermanent>0.00825</averagePainPerSeverityPermanent>
+        <canMerge>true</canMerge>
+        <destroyedLabel>Lost to rampaging chi</destroyedLabel>
+		<destroyedOutLabel>Lost to rampaging chi</destroyedOutLabel>
+      </injuryProps>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>DarkConstitution</defName>
+      <label>dark constitution</label>
+	  <description>A natural condition only present from hunterphages.</description>
+	  <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <isBad>false</isBad>
+      <makesSickThought>false</makesSickThought>
+      <scenarioCanAdd>false</scenarioCanAdd>
+      <initialSeverity>1</initialSeverity>
+      <comps>
+    	<!--<li>
+    		<compClass>DarkEssence.Adrenaline_Reactive</compClass>
+    	</li>-->
+      </comps>
+      <stages>
+        <li>
+		  <capMods>
+	       <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.15</offset>
+          </li>
+	      <li>
+            <capacity>Metabolism</capacity>
+            <offset>0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.05</offset>
+          </li>
+         </capMods>
+	     <statOffsets>
+		    <ArmorRating_Sharp>0.50</ArmorRating_Sharp>
+	        <ArmorRating_Blunt>0.50</ArmorRating_Blunt>			
+            <ArmorRating_Heat>0.50</ArmorRating_Heat>
+         </statOffsets>
+		</li>
+      </stages>	
+    </HediffDef> 
+	
+	<HediffDef>
+		<defName>CorrosiveAcid</defName>
+		<hediffClass>DarkEssence.Hediff_CorrosiveAcid</hediffClass>
+		<defaultLabelColor>(0.0,0.8,0.0)</defaultLabelColor>
+		<label>corrosive acid</label>
+		<lethalSeverity>1</lethalSeverity>
+		<description>A lethal solution that slowly eats away at any target, while lowering their move speed and manipulation over time.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+               <severityPerDay>-0.75</severityPerDay>
+               <showHoursToRecover>true</showHoursToRecover>
+            </li>
+		</comps>
+		<stages>
+			<li>
+				<label>minor</label>
+				<minSeverity>0</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.1</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.1</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>moderate</label>
+				<minSeverity>0.35</minSeverity>
+				<painOffset>0.5</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>major</label>
+				<minSeverity>0.95</minSeverity>
+				<painOffset>0.10</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.4</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.4</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef ParentName="InjuryBase">
+      <defName>CorrosiveDamage</defName>
+	  <defaultLabelColor>(0.0,0.8,0.0)</defaultLabelColor>
+      <label>corrosive damage</label>
+      <description>A severe injury caused by corrosive acid.</description>
+      <displayWound>false</displayWound>
+      <comps>
+        <li Class="HediffCompProperties_TendDuration">
+          <labelTendedWell>bandaged</labelTendedWell>
+          <labelTendedWellInner>tended</labelTendedWellInner>
+          <labelSolidTendedWell>tended</labelSolidTendedWell>
+        </li>
+        <li Class="HediffCompProperties_Infecter">
+          <infectionChance>0.85</infectionChance>
+        </li>
+        <li Class="HediffCompProperties_GetsPermanent">
+          <permanentLabel>acid scar</permanentLabel>
+        </li>
+      </comps>
+      <injuryProps>
+        <painPerSeverity>0.02875</painPerSeverity>
+        <averagePainPerSeverityPermanent>0.00825</averagePainPerSeverityPermanent>
+        <canMerge>true</canMerge>
+        <destroyedLabel>Lost to corrosive acid</destroyedLabel>
+		<destroyedOutLabel>Lost to corrosive acid</destroyedOutLabel>
+      </injuryProps>
+    </HediffDef>
+	
+	<!-- Phantom Of Death Hediff -->
+  
+  <HediffDef Name="PhantomOfDeathBase" Abstract = "True">
+    <hediffClass>HediffWithComps</hediffClass>
+  </HediffDef>
+  
+  <HediffDef ParentName = "PhantomOfDeathBase">
+    <defName>PhantomOfDeath</defName>
+    <label>phantom of death</label>
+	<defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+    <description>A powerful aura containing the essence of death.</description>
+    <isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+               <severityPerDay>-0.50</severityPerDay>
+               <showHoursToRecover>true</showHoursToRecover>
+            </li>
+			<li Class="HediffCompProperties_Effecter">
+               <stateEffecter>DeadlyAura</stateEffecter>
+            </li>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>death impact</label>
+						<capacities>
+							<li>DeathImpact</li>
+						</capacities>
+						<power>15</power>
+						<armorPenetration>1.0</armorPenetration>
+						<cooldownTime>0.1</cooldownTime>						
+						<alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+						<soundMeleeHit>BladeHeartAttack</soundMeleeHit>
+						<soundMeleeMiss>MeleeMiss_BionicSlash</soundMeleeMiss>
+					</li>					
+				</tools>
+			</li>
+		</comps>
+  </HediffDef>
+  
+  <EffecterDef>
+      <defName>DeadlyAura</defName>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_DrifterEmoteChance</subEffecterClass>
+          <scale>
+            <min>0.8</min>
+            <max>0.95</max>
+          </scale>
+          <chancePerTick>0.02</chancePerTick>
+          <positionRadius>0.25</positionRadius>
+          <moteDef>Mote_DeadlyEssence</moteDef>
+          <speed>
+            <min>0.50</min>
+            <max>0.50</max>
+          </speed>
+          <angle>
+            <min>10</min>
+            <max>80</max>
+          </angle>
+        </li>
+      </children>
+    </EffecterDef>
+	
+	<ThingDef ParentName="MoteBase">
+      <defName>Mote_DeadlyEssence</defName>
+      <thingClass>MoteAttached</thingClass>
+      <altitudeLayer>MoteOverhead</altitudeLayer>
+      <mote>
+        <fadeInTime>0.1</fadeInTime>
+        <fadeOutTime>0.1</fadeOutTime>
+        <solidTime>0.95</solidTime>
+      </mote>
+      <graphicData>
+        <texPath>Things/Misc/Motes/AnimatedEffects/PhantomOfDeath_Aura</texPath>
+        <graphicClass>Graphic_Flicker</graphicClass>
+        <shaderType>MoteGlow</shaderType>
+		<!--<color>(0.8, 0, 0.2)</color>-->
+        <shaderParameters>
+          <_NumFrames>8</_NumFrames>
+          <_FramesPerSec>0.2</_FramesPerSec>
+        </shaderParameters>
+        <drawSize>(1.2, 1.2)</drawSize>
+      </graphicData>
+    </ThingDef>
+  
+  <ToolCapacityDef>
+		<defName>DeathImpact</defName>
+		<label>death impact</label>
+  </ToolCapacityDef>
+  <ManeuverDef>
+		<defName>Death_Impact</defName>
+		<requiredCapacity>DeathImpact</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>DeathImpact</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+  
+  <HediffDef>
+      <defName>InstantDeath</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(95, 10, 50)</defaultLabelColor>
+      <label>Instant kill</label>
+      <description>Death.</description>
+      <stages>
+        <li>
+          <lifeThreatening>true</lifeThreatening>
+          <deathMtbDays>0.0105</deathMtbDays>
+        </li>
+      </stages>
+      <comps>
+        <li Class="HediffCompProperties_Disappears">
+          <disappearsAfterTicks>
+            <min>60</min>
+            <max>60</max>
+          </disappearsAfterTicks>
+        </li>
+      </comps>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>StakeDriverGloves</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(1,1,0.5)</defaultLabelColor>
+      <label>Stake Driver Gloves</label>
+      <description>Some effects after wearing a pair of stake driver gloves.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+		<li Class="HediffCompProperties_VerbGiver">
+          <tools>
+          <li>
+            <label>stake driver</label>
+              <capacities>
+                <li>BlastStab</li>
+              </capacities>
+              <power>25</power>
+              <cooldownTime>2.0</cooldownTime>
+			  <armorPenetration>0.95</armorPenetration>
+              <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+			  <extraMeleeDamages>
+                <!--<li>
+                  <def>Stun</def>
+                  <amount>25</amount>
+				  <chance>0.5</chance>
+                </li>
+				<li>
+                  <def>EMP</def>
+                  <amount>50</amount>
+				  <chance>0.5</chance>
+                </li>-->
+              </extraMeleeDamages>
+              <soundMeleeHit>Impact_BlastStab</soundMeleeHit>
+              <soundMeleeMiss>MeleeMiss_BionicSlash</soundMeleeMiss>
+          </li>
+          </tools>
+        </li>
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Manipulation</capacity>
+              <offset>-0.05</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<ToolCapacityDef>
+		<defName>BlastStab</defName>
+		<label>blast stab</label>
+    </ToolCapacityDef>
+    <ManeuverDef>
+		<defName>Blast_Stab</defName>
+		<requiredCapacity>BlastStab</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>BlastStabz</meleeDamageDef>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Stab_MeleeHit</combatLogRulesHit>
+        <combatLogRulesDeflect>Maneuver_Stab_MeleeDeflect</combatLogRulesDeflect>
+        <combatLogRulesMiss>Maneuver_Stab_MeleeMiss</combatLogRulesMiss>
+        <combatLogRulesDodge>Maneuver_Stab_MeleeDodge</combatLogRulesDodge>
+    </ManeuverDef>
+	
+    <HediffDef>
+      <defName>ShadowWalkerCoat</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Shadow Walker Coat</label>
+      <description>Some effects after wearing a shadow walker coat.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Manipulation</capacity>
+              <offset>0.05</offset>
+            </li>
+			<li>
+              <capacity>Moving</capacity>
+              <offset>0.05</offset>
+            </li>			
+          </capMods>
+		  <statOffsets>
+		    <Flammability>0</Flammability>
+          </statOffsets>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>ShadowWalkerFeatheredCoat</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Shadow Walker Feathered Coat</label>
+      <description>Some effects after wearing a shadow walker feathered coat.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Manipulation</capacity>
+              <offset>0.05</offset>
+            </li>
+			<li>
+              <capacity>Moving</capacity>
+              <offset>0.10</offset>
+            </li>
+          </capMods>
+		  <statOffsets>
+		    <Flammability>0</Flammability>
+          </statOffsets>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>ShadowGuards</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Shadow Guards</label>
+      <description>Some effects after wearing a pair of shadow guards.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+            <li>
+              <capacity>Manipulation</capacity>
+              <offset>0.05</offset>
+            </li>
+          </capMods>
+		  <statOffsets>
+		    <Flammability>0</Flammability>
+          </statOffsets>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>ShadowStubs</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Shadow Stubs</label>
+      <description>Some effects after wearing a pair of shadow stubs.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+		    <li>
+              <capacity>Manipulation</capacity>
+              <offset>0.05</offset>
+            </li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.05</offset>
+            </li>
+          </capMods>
+		  <statOffsets>
+		    <Flammability>0</Flammability>
+          </statOffsets>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>RogueHood</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Rogue Hood</label>
+      <description>Some effects after wearing a rogue hood.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+		    <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.02</offset>
+            </li>
+          </capMods>
+		  <statOffsets>
+		    <Flammability>0</Flammability>
+          </statOffsets>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>PhantomHood</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Phantom Hood</label>
+      <description>Some effects after wearing a phantom hood.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>
+		    <li>
+              <capacity>Sight</capacity>
+              <offset>0.05</offset>
+            </li>
+		    <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.02</offset>
+            </li>
+          </capMods>
+		  <statOffsets>
+		    <Flammability>0</Flammability>
+          </statOffsets>
+        </li>
+      </stages>
+    </HediffDef>
+	
+	<HediffDef>
+      <defName>CrowFeatheredHood</defName>
+      <hediffClass>HediffWithComps</hediffClass>
+      <defaultLabelColor>(0.3,0.2,0.6)</defaultLabelColor>
+      <label>Crow Feathered Hood</label>
+      <description>Some effects after wearing a crow feathered hood.</description>
+      <isBad>false</isBad>
+	  <comps>
+	    <li Class="HediffCompProperties_RemoveIfApparelDropped" />
+      </comps>
+	  <stages>
+        <li>
+		  <capMods>		 
+		    <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.02</offset>
+            </li>
+          </capMods>
+		  <statFactors>
+            <ImmunityGainSpeedFactor>0.10</ImmunityGainSpeedFactor>
+            <ImmunityGainSpeed>0.10</ImmunityGainSpeed>
+			<Flammability>0</Flammability>
+          </statFactors>
+        </li>
+      </stages>
+    </HediffDef>
+	
+</Defs>

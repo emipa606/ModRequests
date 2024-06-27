@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Natural Abilities -->
+  
+  <!-- Shuriken Throw -->
+  
+  <AbilityDef>
+    <defName>Shuriken</defName>
+    <label>shuriken throw</label>
+    <description>Throw a dangerously sharp shuriken on a distant enemy.</description>
+    <iconPath>Things/Misc/Logo/Skills/ThrowShurikenUI</iconPath>
+    <cooldownTicksRange>1500</cooldownTicksRange>
+    <displayOrder>100</displayOrder>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>50</range>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>Throw_Shuriken</soundCast>
+	  <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Shurikenz</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Shurikenz</defName>
+    <label>shuriken</label>
+    <graphicData>
+      <texPath>Things/Misc/Projectiles/ShurikenSmall</texPath>
+      <graphicClass>Graphic_Flicker</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+	  <drawSize>1.2, 1.2</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>ShadowCut</damageDef>
+	  <damageAmountBase>20</damageAmountBase>
+	  <armorPenetrationBase>0.85</armorPenetrationBase>
+      <speed>65</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Shadow Cloak -->
+  
+  <AbilityDef>
+    <defName>ShadowCloak</defName>
+    <label>shadow cloak</label>
+    <description>Render yourself invisible, while boosting your melee potential.</description>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+	<iconPath>Things/Misc/Logo/Skills/CloakUI</iconPath>
+	<charges>3</charges>
+    <cooldownTicksRange>60000</cooldownTicksRange>
+    <verbProperties>
+	    <verbClass>Verb_CastAbilityTouch</verbClass>
+		<drawAimPie>False</drawAimPie>
+		<range>-1</range>
+		<warmupTime>0.1</warmupTime>
+		<soundCast>Ability_ShadowCloak</soundCast>
+		<targetable>false</targetable>
+		<targetParams>
+			<canTargetSelf>true</canTargetSelf>
+		</targetParams>
+	</verbProperties>
+	<statBases>
+      <Ability_Duration>50</Ability_Duration>
+    </statBases>
+	<comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>ShadowCloakz</hediffDef>
+        <psychic>True</psychic>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <!-- Socialize -->
+  
+  <AbilityDef ParentName="AbilityTouchBase">
+    <defName>Socialize</defName>
+    <label>socialize</label>
+    <description>Use your good looks and silver tongue to improve their opinion on you.</description>
+    <iconPath>Things/Misc/Logo/Skills/SocializeUI</iconPath>
+	<cooldownTicksRange>30000</cooldownTicksRange>
+    <stunTargetWhileCasting>true</stunTargetWhileCasting>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <!--<warmupMote>Mote_CoagulateStencil</warmupMote>
+    <warmupEffecter>Coagulate</warmupEffecter>
+    <warmupStartSound>Coagulate_Cast</warmupStartSound>-->
+    <jobDef>CastAbilityOnThingMelee</jobDef>
+    <displayOrder>400</displayOrder>
+    <hostile>false</hostile>
+	<statBases>
+      <Ability_Duration>8000</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityTouch</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <range>-1</range>
+      <warmupTime>1</warmupTime>
+      <targetParams>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetMechs>false</canTargetMechs>
+        <canTargetBloodfeeders>true</canTargetBloodfeeders>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="DarkEssence.CompProperties_Socialize">
+        <destination>Selected</destination>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="CompProperties_AbilitySocialInteraction">
+        <interactionDef>Socialize</interactionDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <InteractionDef>
+    <defName>Socialize</defName>
+    <label>socialite</label>
+    <workerClass>InteractionWorker</workerClass>
+    <ignoreTimeSinceLastInteraction>True</ignoreTimeSinceLastInteraction>
+    <symbol>Things/Misc/Logo/Skills/SocializeUI</symbol>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] suggested that [INITIATOR_nameDef] and [RECIPIENT_nameDef] are connected to the red strings of fate.</li>
+		<li>r_logentry->[INITIATOR_nameDef] suggestes [RECIPIENT_nameDef] that they should grab a bottle of cold beer and hang out.</li>
+		<li>r_logentry->[INITIATOR_nameDef] compliments [RECIPIENT_nameDef] about how lovely they look.</li>
+		<li>r_logentry->[INITIATOR_nameDef] invites [RECIPIENT_nameDef] for a dinner.</li>
+		<li>r_logentry->Are you a piece of flake [RECIPIENT_nameDef]? Because I am addicted to you.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+  
+  <!-- Inheritable Abilities -->
+  
+  <!-- Dark Spear -->
+  
+  <AbilityDef>
+    <defName>DarkSpear</defName>
+    <label>dark spear</label>
+    <description>Throw a dangerously sharp spear against a singular distant enemy.</description>
+    <iconPath>Things/Misc/Logo/Skills/DarkSpearUI</iconPath>
+    <cooldownTicksRange>14500</cooldownTicksRange>
+	<charges>3</charges>
+    <displayOrder>100</displayOrder>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>45</range>
+	  <minRange>5.9</minRange>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>Shot_DarkSpear</soundCast>
+	  <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>DarkSpear</projectileDef>
+      </li>
+	  <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>WordOfApply</fleckDef>
+        <sound>Psycast_WordOf_Effect</sound>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>DarkSpear</defName>
+    <label>dark spear</label>
+    <graphicData>
+      <texPath>Things/Misc/Projectiles/Projectile_DarkSpear</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+	  <drawSize>(1.5, 3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>DarkSpearDamage</damageDef>
+      <speed>150</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Dark Shuriken -->
+  
+  <AbilityDef>
+    <defName>DarkShuriken</defName>
+    <label>dark shuriken</label>
+    <description>Throw a big shuriken that explodes upon impact, where it can take out groups of enemies and weakens them if they survived the blast.</description>
+    <iconPath>Things/Misc/Logo/Skills/DarkShurikenUI</iconPath>
+    <cooldownTicksRange>60000</cooldownTicksRange>
+	<charges>3</charges>
+    <displayOrder>100</displayOrder>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>40</range>
+	  <minRange>6.9</minRange>
+	  <isMortar>true</isMortar>
+	  <requireLineOfSight>false</requireLineOfSight>
+      <warmupTime>2</warmupTime>
+      <soundCast>Throw_Shuriken</soundCast>
+	  <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>WitheringBlastz</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>WitheringBlastz</defName>
+    <label>withering shuriken</label>
+    <graphicData>
+      <texPath>Things/Misc/Projectiles/ShurikenBig</texPath>
+      <graphicClass>Graphic_Flicker</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+	  <drawSize>3, 3</drawSize>
+    </graphicData>
+	<thingClass>Projectile_HellsphereCannon</thingClass>
+    <projectile>
+      <damageDef>DarkBlast</damageDef>
+	  <flyOverhead>true</flyOverhead>
+	  <ai_IsIncendiary>true</ai_IsIncendiary>
+	  <explosionRadius>12.9</explosionRadius>
+	  <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+	  <soundAmbient>ShurikenBig_Ambient</soundAmbient>
+      <speed>20</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Dark Chi -->
+  
+  <AbilityDef>
+    <defName>CorruptChi</defName>
+    <label>corrupt chi</label>
+    <description>Throw a ball full of corrupt chi against a singular target. Very effective against boss-like entities.</description>
+    <iconPath>Things/Misc/Logo/Skills/DarkChiUI</iconPath>
+    <cooldownTicksRange>600000</cooldownTicksRange>
+	<charges>3</charges>
+    <displayOrder>100</displayOrder>
+    <aiCanUse>true</aiCanUse>
+	<statBases>
+      <AccuracyTouch>1.00</AccuracyTouch>
+      <AccuracyShort>1.00</AccuracyShort>
+      <AccuracyMedium>1.00</AccuracyMedium>
+      <AccuracyLong>1.00</AccuracyLong>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>25</range>
+	  <minRange>5.9</minRange>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>PsychicInsanityLanceCast</soundCast>
+	  <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>DarkChiProj</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>DarkChiProj</defName>
+    <label>dark chi</label>
+    <graphicData>
+      <texPath>Things/Misc/Projectiles/Projectile_DarkChi</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+	  <drawSize>(3, 3)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>DarkChiDamage</damageDef>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_DarkChi_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <drawOffscreen>true</drawOffscreen>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/Motes/PurpleSpark</texPath>
+      <graphicClass>GraphicMote_RandomWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+	  <drawSize>(2, 2)</drawSize>
+      <shaderParameters>
+        <_NumFrames>7</_NumFrames>
+        <_FramesPerSec>20</_FramesPerSec>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- Crows Leap -->
+  
+  <AbilityDef>
+    <defName>CrowsLeap</defName>
+    <label>crows leap</label>
+    <description>Leap through distant location, exuding crow feathers and dark energy during propultion.</description>
+    <iconPath>Things/Misc/Logo/Skills/CrowsLeapUI</iconPath>
+    <cooldownTicksRange>250</cooldownTicksRange>
+	<displayOrder>50</displayOrder>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityJump</verbClass>
+      <label>gravity jump</label>
+      <violent>false</violent>
+      <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+      <warmupTime>0.5</warmupTime>
+      <minRange>5.9</minRange>
+      <range>25.9</range>
+      <requireLineOfSight>true</requireLineOfSight>
+      <soundCast>Longjump_Jump</soundCast>
+      <flightEffecterDef>DarkCrowJumpEffect</flightEffecterDef>
+      <soundLanding>Longjump_Land</soundLanding>
+      <flyWithCarriedThing>true</flyWithCarriedThing>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+      </targetParams>
+    </verbProperties>
+	<jobDef>CastJump</jobDef>
+  </AbilityDef>
+  
+  <EffecterDef>
+    <defName>DarkCrowJumpEffect</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SoundTriggered</subEffecterClass>
+        <spawnLocType>OnSource</spawnLocType>
+        <soundDef>Longjump_Jump</soundDef>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.5~0.5</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,0)</positionOffset>
+        <fleckDef>Fleck_HeatDiffusionPurpleBig</fleckDef>
+        <ticksBetweenMotes>2</ticksBetweenMotes>
+        <maxMoteCount>3</maxMoteCount>
+        <speed>1~2</speed>
+        <angle>170~190</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,0)</positionOffset>
+        <moteDef>Mote_PurpleSparkBig</moteDef>
+        <ticksBetweenMotes>4</ticksBetweenMotes>
+        <maxMoteCount>30</maxMoteCount>
+        <speed>5~6</speed>
+        <angle>170~190</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,0)</positionOffset>
+        <moteDef>Mote_CrowFeathers</moteDef>
+        <ticksBetweenMotes>2</ticksBetweenMotes>
+        <maxMoteCount>100</maxMoteCount>
+        <speed>1~2</speed>
+        <angle>160~200</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li> 
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,-0.5)</positionOffset>
+        <fleckDef>PsycastAreaEffect</fleckDef>
+        <ticksBetweenMotes>1</ticksBetweenMotes>
+        <maxMoteCount>75</maxMoteCount>
+        <speed>4~5</speed>
+        <angle>160~200</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>    
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,-0.5)</positionOffset>
+        <fleckDef>PsycastAreaEffect</fleckDef>
+        <ticksBetweenMotes>1</ticksBetweenMotes>
+        <maxMoteCount>45</maxMoteCount>
+        <speed>4~5</speed>
+        <angle>160~200</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>	  
+    </children>
+  </EffecterDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PurpleSparkBig</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>0.35</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/Motes/PurpleSparkSimplez/PurpleSparksSimple</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+      <shaderParameters>
+        <_NumFrames>7</_NumFrames>
+        <_FramesPerSec>1</_FramesPerSec>
+      </shaderParameters>
+      <drawSize>(2.5, 2.5)</drawSize>
+    </graphicData>
+  </ThingDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_HeatDiffusionPurpleBig</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.3</fadeOutTime>
+    <solidTime>0.25</solidTime>
+    <growthRate>1.20</growthRate>
+    <graphicData>
+      <texPath>Things/Mote/HeatDiffusion</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <color>(0.3, 0.1, 0.5)</color>
+      <shaderType>MoteHeatDiffusion</shaderType>
+      <shaderParameters>
+        <_MultiplyTex>/Things/Misc/Motes/CrowFeatherBlackAndWhitez/CrowFeathersBlackAndWhite</_MultiplyTex>
+        <_texBScale>0.2</_texBScale>
+        <_texBScrollSpeed>-0.5</_texBScrollSpeed>
+        <_Intensity>13</_Intensity>
+        <_Clip>0</_Clip>
+      </shaderParameters>
+      <drawSize>(9, 9)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_CrowFeathers</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>0.35</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/Motes/CrowFeathers/CrowFeatherSimple</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+      <shaderParameters>
+        <_NumFrames>4</_NumFrames>
+        <_FramesPerSec>8</_FramesPerSec>
+      </shaderParameters>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- Death Phantom -->
+  
+  <AbilityDef>
+    <defName>PhantomOfDeath</defName>
+    <label>phantom of death</label>
+    <description>Shroud yourself with the essence of death, granting you a passive ability of inflicting instant death damage on melee hit.</description>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+	<iconPath>Things/Misc/Logo/Skills/DeathPhantomUI</iconPath>
+	<charges>1</charges>
+    <cooldownTicksRange>600000</cooldownTicksRange>
+    <verbProperties>
+	    <verbClass>Verb_CastAbilityTouch</verbClass>
+		<drawAimPie>False</drawAimPie>
+		<range>-1</range>
+		<warmupTime>0.1</warmupTime>
+		<soundCast>Ability_ShadowCloak</soundCast>
+		<targetable>false</targetable>
+		<targetParams>
+			<canTargetSelf>true</canTargetSelf>
+		</targetParams>
+	</verbProperties>
+	<statBases>
+      <Ability_Duration>300</Ability_Duration>
+    </statBases>
+	<comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PhantomOfDeath</hediffDef>
+		<onlyBrain>True</onlyBrain>
+        <psychic>True</psychic>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <!-- Dark Knife -->
+  
+  <AbilityDef>
+    <defName>DarkKnife</defName>
+    <label>dark knife</label>
+    <description>Throw a dangerously sharp knife against a singular distant enemy, inflicting armor bane upon impact.</description>
+    <iconPath>Things/Misc/Logo/Skills/DarkKnifeUI</iconPath>
+    <cooldownTicksRange>14500</cooldownTicksRange>
+	<charges>3</charges>
+    <displayOrder>100</displayOrder>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>45</range>
+	  <minRange>5.9</minRange>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>ThrowGrenade</soundCast>
+	  <!--<targetParams>
+        <canTargetLocations>false</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>-->
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>DarkKnife</projectileDef>
+      </li>
+	  <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>WordOfApply</fleckDef>
+        <sound>Psycast_WordOf_Effect</sound>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>DarkKnife</defName>
+    <label>dark knife</label>
+    <graphicData>
+      <texPath>Things/Misc/Projectiles/DarkKnife_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+	  <drawSize>(1.0, 1.0)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>DarkKnifeDamage</damageDef>
+      <speed>150</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!-- Summon Decoy -->
+  
+  <AbilityDef>
+    <defName>SummonDecoy</defName>
+    <label>summon decoy</label>
+    <description>Summon an annoying decoy that draws the aggro of multiple enemies, where upon destruction, the dummy will explode.</description>
+    <iconPath>Things/Misc/Logo/Skills/SummonDecoyUI</iconPath>
+    <cooldownTicksRange>60000</cooldownTicksRange>	
+	<charges>2</charges>
+    <displayOrder>100</displayOrder>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>10.9</range>
+      <warmupTime>0.5</warmupTime>
+	  <soundCast>PsychicInsanityLanceCast</soundCast>
+	  <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="DarkEssence.CompProperties_AbilitySpawnBuldingsWithFaction">
+        <thingDef>Turret_Randy</thingDef>
+        <allowOnBuildings>False</allowOnBuildings>
+      </li>
+	  <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>Skip_Exit</effecterDef>
+        <maintainForTicks>60</maintainForTicks>
+        <scale>0.80</scale>
+      </li>
+	  <li Class="CompProperties_AbilityFleckOnTarget">
+		<fleckDefs>
+		  <li>ShadowField</li>
+          <li>ShadowSkipInnerExit</li>
+          <li>ShadowExit</li>
+        </fleckDefs>
+		<scale>0.80</scale>
+        <sound>Psycast_Skip_Exit</sound>
+        <preCastTicks>5</preCastTicks>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>ShadowField</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/Motes/SummonedBuildings_Effect/DarkSmoke</texPath>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown" Name="SpawnSkipOuterRing" Abstract="True">
+    <altitudeLayer>MoteOverheadLow</altitudeLayer>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipRing</shaderType>
+      <texPath>Things/Misc/Motes/SummonedBuildings_Effect/DarkField</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.55</_innerRingSize>
+        <_outerRingSize>1.0</_outerRingSize>
+        <_distortionIntensity>0.01</_distortionIntensity>
+        <_brightnessMultiplier>1.1</_brightnessMultiplier>
+        <_solidTime>0.2</_solidTime>
+        <_outTime>0.1</_outTime>
+        <_AgeOffset>0.07</_AgeOffset>
+      </shaderParameters>
+      <drawSize>4</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="SpawnSkipOuterRing">
+    <defName>ShadowExit</defName>
+    <graphicData>
+      <shaderParameters>
+        <_inTime>0.2</_inTime>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown" Name="SpawnSkipInner" Abstract="True">
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipInner</shaderType>
+      <texPath>Things/Misc/Motes/SummonedBuildings_Effect/DarkField</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.65</_innerRingSize>
+      </shaderParameters>
+      <drawSize>3.4</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="SpawnSkipInner">
+    <defName>ShadowSkipInnerExit</defName>
+    <graphicData>
+      <shaderParameters>
+        <_inTime>0.2</_inTime>
+        <_solidTime>0.2</_solidTime>
+        <_outTime>0.1</_outTime>
+        <_AgeOffset>0.07</_AgeOffset>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- Summon Dark Mine -->
+  
+  <AbilityDef>
+    <defName>SummonDarkMine</defName>
+    <label>summon dark mine</label>
+    <description>Summon a dark mine rune in medium distance, which explodes when triggered.</description>
+    <iconPath>Things/Misc/Logo/Skills/DarkMineUI</iconPath>
+    <cooldownTicksRange>60000</cooldownTicksRange>	
+	<charges>5</charges>
+    <displayOrder>100</displayOrder>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>35.9</range>
+      <warmupTime>0.5</warmupTime>
+	  <soundCast>PsychicInsanityLanceCast</soundCast>
+	  <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="DarkEssence.CompProperties_AbilitySpawnBuldingsWithFaction">
+        <thingDef>DarkLandMinez</thingDef>
+        <allowOnBuildings>False</allowOnBuildings>
+      </li>
+	  <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>Skip_Exit</effecterDef>
+        <maintainForTicks>60</maintainForTicks>
+        <scale>0.80</scale>
+      </li>
+	  <li Class="CompProperties_AbilityFleckOnTarget">
+		<fleckDefs>
+		  <li>ShadowField</li>
+          <li>ShadowSkipInnerExit</li>
+          <li>ShadowExit</li>
+        </fleckDefs>
+		<scale>0.80</scale>
+        <sound>Psycast_Skip_Exit</sound>
+        <preCastTicks>5</preCastTicks>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <!-- Summon Ballista -->
+  
+  <AbilityDef>
+    <defName>SummonBallista</defName>
+    <label>summon ballista</label>
+    <description>Summon a ballista turret that can provide cover fire for you.</description>
+    <iconPath>Things/Misc/Logo/Skills/SummonBallistaUI</iconPath>
+    <cooldownTicksRange>60000</cooldownTicksRange>	
+	<charges>2</charges>
+    <displayOrder>100</displayOrder>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>10.9</range>
+      <warmupTime>0.5</warmupTime>
+	  <soundCast>PsychicInsanityLanceCast</soundCast>
+	  <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="DarkEssence.CompProperties_AbilitySpawnBuldingsWithFaction">
+        <thingDef>Turret_SelfPoweredBallistaTurret</thingDef>
+        <allowOnBuildings>False</allowOnBuildings>
+      </li>
+	  <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>Skip_Exit</effecterDef>
+        <maintainForTicks>60</maintainForTicks>
+        <scale>0.80</scale>
+      </li>
+	  <li Class="CompProperties_AbilityFleckOnTarget">
+		<fleckDefs>
+		  <li>SteamField</li>
+          <li>SteamSkipInnerExit</li>
+          <li>SteamExit</li>
+        </fleckDefs>
+		<scale>0.80</scale>
+        <sound>Psycast_Skip_Exit</sound>
+        <preCastTicks>5</preCastTicks>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <!-- Summon Automatons -->
+  
+  <AbilityDef>
+    <defName>SummonAutomatons</defName>
+    <label>summon automatons</label>
+    <description>Summon automaton soldiers directly at the enemy to fight alongside you. Must be target at an enemy pawn.</description>
+    <iconPath>Things/Misc/Logo/Skills/SummonAutomatonsUI</iconPath>
+    <cooldownTicksRange>300000</cooldownTicksRange>	
+	<charges>2</charges>
+	<cooldownPerCharge>true</cooldownPerCharge>
+    <displayOrder>100</displayOrder>
+	<statBases>
+      <Ability_EffectRadius>2.9</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>25.9</range>
+      <warmupTime>1</warmupTime>
+	  <soundCast>PsychicInsanityLanceCast</soundCast>
+	  <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+	  <li Class="DarkEssence.CompProperties_AbilitySummonMechCompanion">
+        <compClass>DarkEssence.CompAbilityEffect_AbilitySummonMechCompanion</compClass>
+        <Automatons>
+          <li>Automaton_AutomatonSoldier</li>
+        </Automatons>
+        <Amount>700</Amount>
+		<allowOnBuildings>False</allowOnBuildings>
+      </li>
+	  <li Class="CompProperties_AbilityEffecterOnTarget">
+        <effecterDef>Skip_Exit</effecterDef>
+        <maintainForTicks>60</maintainForTicks>
+        <scale>0.80</scale>
+      </li>
+	  <li Class="CompProperties_AbilityFleckOnTarget">
+		<fleckDefs>
+		  <li>SteamField</li>
+          <li>SteamSkipInnerExit</li>
+          <li>SteamExit</li>
+        </fleckDefs>
+		<scale>0.80</scale>
+        <sound>Psycast_Skip_Exit</sound>
+        <preCastTicks>5</preCastTicks>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <HediffDef>
+    <defName>FailSafe</defName>
+    <label>Failsafe</label>
+    <hediffClass>DarkEssence.Hediff_FailSafe</hediffClass>
+    <defaultLabelColor>(0.6, 0.6, 0.6)</defaultLabelColor>
+    <description>An automaton failsafe</description>
+  </HediffDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>SteamField</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/Motes/Steampunk_Effects/Steampunk_Smoke</texPath>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown" Name="SteamSkipOuterRing" Abstract="True">
+    <altitudeLayer>MoteOverheadLow</altitudeLayer>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipRing</shaderType>
+      <texPath>Things/Misc/Motes/Steampunk_Effects/Steampunk_Field</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.55</_innerRingSize>
+        <_outerRingSize>1.0</_outerRingSize>
+        <_distortionIntensity>0.01</_distortionIntensity>
+        <_brightnessMultiplier>1.1</_brightnessMultiplier>
+        <_solidTime>0.2</_solidTime>
+        <_outTime>0.1</_outTime>
+        <_AgeOffset>0.07</_AgeOffset>
+      </shaderParameters>
+      <drawSize>4</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="SteamSkipOuterRing">
+    <defName>SteamExit</defName>
+    <graphicData>
+      <shaderParameters>
+        <_inTime>0.2</_inTime>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown" Name="SteamSkipInner" Abstract="True">
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipInner</shaderType>
+      <texPath>Things/Misc/Motes/Steampunk_Effects/Steampunk_Field</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.65</_innerRingSize>
+      </shaderParameters>
+      <drawSize>3.4</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="SteamSkipInner">
+    <defName>SteamSkipInnerExit</defName>
+    <graphicData>
+      <shaderParameters>
+        <_inTime>0.2</_inTime>
+        <_solidTime>0.2</_solidTime>
+        <_outTime>0.1</_outTime>
+        <_AgeOffset>0.07</_AgeOffset>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>FailSafeExit</defName>
+    <children>    
+      <li>
+         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>SteamSkipInnerExit</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+         <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>SteamField</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>	  	  
+    </children>
+  </EffecterDef>
+
+</Defs>
