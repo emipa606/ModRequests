@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+  
+  <!-- Helixien Pod --> 
+  <ThingDef ParentName="NECShipBase" MayRequire="vanillaexpanded.helixiengas">
+    <defName>SRATHelixienPod</defName>
+    <label>Helixien Pod</label>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <description>A large transport pod exclusively made for the transfer of large quantities of Helixien Gas over great distances. 
+
+Passenger cap: 0
+Space flight: No
+----------------------------
+Speed: Poor
+Fuel cap: 400
+Gas Storage: 5,000 L
+Fuel efficiency: Poor
+----------------------------
+Cargo cap: 50kg
+Explodes when destroyed!</description>
+    <graphicData>
+      <texPath>HelixienGasPod</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4,4)</drawSize>
+	  <drawRotated>false</drawRotated>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+    </graphicData>
+    <size>(3,3)</size>
+	<rotatable>false</rotatable>
+		<minifiedDef>MinifiedThing</minifiedDef>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>32000</WorkToBuild>
+      <Flammability>0.6</Flammability>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <costList>
+      <Steel>550</Steel>
+      <Plasteel>50</Plasteel>
+      <Gold>45</Gold>
+      <Silver>150</Silver>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <comps>
+		<li Class="CompProperties_Transporter">
+			<restEffectiveness>0.5</restEffectiveness>  <!-- How well (1.0 = 100%) passengers can rest, eat, heal while aboard -->
+			<massCapacity>50</massCapacity> <!-- weight in kg -->
+		</li>
+		<li Class="PipeSystem.CompProperties_Resource">
+			<pipeNet>VHGE_HelixienNet</pipeNet>
+		</li>
+		<li Class="CompProperties_Explosive">
+				<explosiveRadius>0</explosiveRadius>
+				<explosiveExpandPerFuel>0.95</explosiveExpandPerFuel>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+				<startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+				<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<wickTicks>70~150</wickTicks>
+				</li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>3</travelSpeed> <!-- Vanilla drop pod is 25 speed, min 1, max 100 -->
+        <fuelPerTile>3.5</fuelPerTile> <!-- Drop pod cost is 2.25 per tile. min 1, max 6. Why'd we cap it at 6? I can't remember. -->
+        <minPassengers>0</minPassengers>
+        <maxPassengers>1</maxPassengers>
+        <spaceFaring>false</spaceFaring> <!-- For save our ship 2 -->
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>400</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>200</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.025</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+	  <li Class="CompTanker.CompProperties_Tanker">
+		<!-- Supports `Fuel`, `Oil`, `Water, and `Helixien` values-->
+		<!-- Might add more in the future -->
+		<contents>Helixien</contents>
+		<!-- Default values -->
+		<storageCap>5000</storageCap>
+		<fillAmount>0.5</fillAmount>
+		<drainAmount>0.5</drainAmount>
+		</li>
+    </comps>
+	<researchPrerequisites>
+      <li>Research_SRTFLogisticPodSystem</li>
+    </researchPrerequisites>
+	<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <uiIconScale>0.75</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>8</ChunkSlagSteel>
+    </killedLeavings>
+	<designationHotKey>Misc4</designationHotKey>
+	<canOverlapZones>false</canOverlapZones>
+  </ThingDef>
+
+  <!-- Water Pod --> 
+  <ThingDef ParentName="NECShipBase" MayRequire="dubwise.dubsbadhygiene">
+    <defName>SRATWaterPod</defName>
+    <label>Water Pod</label>
+    <description>A large transport pod exclusively made for the transfer of large quantities of water over great distances.
+
+Passenger cap: 0
+Space flight: No
+----------------------------
+Speed: Poor
+Fuel cap: 400
+Water Stoage: 5,000 L
+Fuel efficiency: Poor
+----------------------------
+Cargo cap: 50kg</description>
+    <graphicData>
+      <texPath>WaterPod</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+	<drawerType>MapMeshAndRealTime</drawerType>
+	<rotatable>false</rotatable>
+		<minifiedDef>MinifiedThing</minifiedDef>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>32000</WorkToBuild>
+      <Flammability>0.1</Flammability>
+      <Mass>20</Mass>
+      <Beauty>2</Beauty>
+    </statBases>
+    <costList>
+       <Steel>550</Steel>
+      <Plasteel>50</Plasteel>
+      <Silver>150</Silver>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.5</restEffectiveness>
+        <massCapacity>50</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>3</travelSpeed>
+        <fuelPerTile>3.5</fuelPerTile>
+        <minPassengers>0</minPassengers>
+        <maxPassengers>1</maxPassengers>
+        <spaceFaring>false</spaceFaring>
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>400</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>200</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.025</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+	  <li Class="DubsBadHygiene.CompProperties_Pipe">
+		<!-- Yes, sewage mode is used for water too -->
+		<mode>Sewage</mode>
+	  </li>
+	  <li Class="CompTanker.CompProperties_Tanker">
+		<!-- Supports `Fuel`, `Oil`, `Water, and `Helixien` values-->
+		<!-- Might add more in the future -->
+		<contents>Water</contents>
+		<!-- Default values -->
+		<storageCap>5000</storageCap>
+		<fillAmount>0.5</fillAmount>
+		<drainAmount>0.5</drainAmount>
+	  </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Research_SRTFLogisticPodSystem</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <uiIconScale>0.75</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>8</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+  
+  <!-- Chemfuel Pod --> 
+  <ThingDef ParentName="NECShipBase" MayRequire="dubwise.rimefeller">
+    <defName>SRATChemfuelPod</defName>
+    <label>Chemfuel Pod</label>
+    <description>A large transport pod exclusively made for the transfer of large quantities of Chemfuel over great distances.
+
+Passenger cap: 0
+Space flight: No
+----------------------------
+Speed: Poor
+Fuel cap: 400
+Fuel Stoage: 5,000 L
+Fuel efficiency: Poor
+----------------------------
+Cargo cap: 100kg
+Explodes when destroyed!</description>
+    <graphicData>
+      <texPath>ChemfuelPod</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+	<drawerType>MapMeshAndRealTime</drawerType>
+	<rotatable>false</rotatable>
+		<minifiedDef>MinifiedThing</minifiedDef>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>32000</WorkToBuild>
+      <Flammability>0.6</Flammability>
+      <Mass>20</Mass>
+      <Beauty>2</Beauty>
+    </statBases>
+    <costList>
+       <Steel>550</Steel>
+      <Plasteel>50</Plasteel>
+      <Silver>150</Silver>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.5</restEffectiveness>
+        <massCapacity>100</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>3</travelSpeed>
+        <fuelPerTile>3.5</fuelPerTile>
+        <minPassengers>0</minPassengers>
+        <maxPassengers>1</maxPassengers>
+        <spaceFaring>false</spaceFaring>
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>400</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>200</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.025</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+	  <li Class="CompProperties_Explosive">
+				<explosiveRadius>0</explosiveRadius>
+				<explosiveExpandPerFuel>0.95</explosiveExpandPerFuel>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+				<startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+				<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<wickTicks>70~150</wickTicks>
+				</li>
+	  <li Class="CompTanker.CompProperties_Tanker">
+		<!-- Supports `Fuel`, `Oil`, `Water, and `Helixien` values-->
+		<!-- Might add more in the future -->
+		<contents>Fuel</contents>
+		<!-- Default values -->
+		<storageCap>5000</storageCap>
+		<fillAmount>0.5</fillAmount>
+		<drainAmount>0.5</drainAmount>
+	  </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Research_SRTFLogisticPodSystem</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <uiIconScale>0.75</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>8</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+
+  <!-- Oil Pod --> 
+  <ThingDef ParentName="NECShipBase" MayRequire="dubwise.rimefeller">
+    <defName>SRATOilPod</defName>
+    <label>Oil Pod</label>
+    <description>A large transport pod exclusively made for the transfer of large quantities of Oil over great distances.
+
+Passenger cap: 0
+Space flight: No
+----------------------------
+Speed: Poor
+Fuel cap: 3,000
+Oil Stoage: 5,000 L
+Fuel efficiency: Poor
+----------------------------
+Cargo cap: 100kg
+Explodes when destroyed!</description>
+    <graphicData>
+      <texPath>OilPod</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+	<drawerType>MapMeshAndRealTime</drawerType>
+	<rotatable>false</rotatable>
+		<minifiedDef>MinifiedThing</minifiedDef>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <WorkToBuild>32000</WorkToBuild>
+      <Flammability>0.6</Flammability>
+      <Mass>20</Mass>
+      <Beauty>2</Beauty>
+    </statBases>
+    <costList>
+       <Steel>550</Steel>
+      <Plasteel>50</Plasteel>
+      <Silver>150</Silver>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.5</restEffectiveness>
+        <massCapacity>100</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>3</travelSpeed>
+        <fuelPerTile>3.5</fuelPerTile>
+        <minPassengers>0</minPassengers>
+        <maxPassengers>1</maxPassengers>
+        <spaceFaring>false</spaceFaring>
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>400</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>200</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.025</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+	  <li Class="CompProperties_Explosive">
+				<explosiveRadius>0</explosiveRadius>
+				<explosiveExpandPerFuel>0.95</explosiveExpandPerFuel>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+				<startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+				<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<wickTicks>70~150</wickTicks>
+	  </li>
+	  <li Class="CompTanker.CompProperties_Tanker">
+		<!-- Supports `Fuel`, `Oil`, `Water, and `Helixien` values-->
+		<!-- Might add more in the future -->
+		<contents>Oil</contents>
+		<!-- Default values -->
+		<storageCap>5000</storageCap>
+		<fillAmount>0.5</fillAmount>
+		<drainAmount>0.5</drainAmount>
+	  </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Research_SRTFLogisticPodSystem</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <uiIconScale>0.75</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>8</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+  
+  <!-- SRAT: Stork -->
+  <ThingDef ParentName="NECShipBase" MayRequire="dubwise.rimefeller">
+    <defName>KCAtlas</defName>
+    <label>KC-3 Atlas</label>
+    <description>A small supersonic stealth tanker designed to travel with fighter squadrons or forward operating units. The KC-3 Atlas has no military application outside of logistics; however, it can fly through enemy airspace generally unnoticed. In exchange for stealth, speed, and agility has the smallest storage tank of the tanker fleet. 
+
+Passenger cap: 1 - 2
+Space flight: Yes
+----------------------------
+Speed: Legendary
+Fuel cap: 500 L
+Fuel Storage: 2,000 L 
+Fuel efficiency: Excellent
+----------------------------
+Cargo cap: 500kg
+Internal power plant: 1000w</description>
+    <graphicData>
+      <texPath>KC-3Atlas</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>750</MaxHitPoints>
+      <WorkToBuild>9000</WorkToBuild>
+      <Flammability>0.6</Flammability>
+      <Mass>20</Mass>
+      <Beauty>25</Beauty>
+    </statBases>
+    <costList>
+      <Steel>1000</Steel>
+      <Plasteel>250</Plasteel>
+      <Gold>200</Gold>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <comps>
+	  <li Class="CompTanker.CompProperties_Tanker">
+		<!-- Supports `Fuel`, `Oil`, `Water, and `Helixien` values-->
+		<!-- Might add more in the future -->
+		<contents>Fuel</contents>
+		<!-- Default values -->
+		<storageCap>2000</storageCap>
+		<fillAmount>1.0</fillAmount>
+		<drainAmount>1.0</drainAmount>
+	  </li>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>10</restEffectiveness>
+        <massCapacity>300</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>50</travelSpeed>
+        <fuelPerTile>1.25</fuelPerTile>
+        <minPassengers>1</minPassengers>
+        <maxPassengers>2</maxPassengers>
+      	<spaceFaring>true</spaceFaring>
+      	<shuttleBayLanding>true</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>500</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>200</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0.025</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-1000</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Glower">
+        <glowRadius>18</glowRadius>
+        <glowColor>(217,217,217,0)</glowColor>
+      </li>
+    </comps>
+	<drawerType>MapMeshAndRealTime</drawerType>
+    <researchPrerequisites>
+      <li>Research_KC3Atlas</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <uiIconScale>0.55</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>8</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+  
+<!-- KC-7 Poseidon -->
+		
+  
+  <ThingDef ParentName="NECShipBase">
+    <defName>KC7Poseidon</defName>
+    <label>KC-7 Poseidon</label>
+    <description>The KC-7 is rare to see on the glitterwolrd planets and unheard of on the outer rim planets. A handful of these can keep up with fuel production for an entire glitterworld plant. The demands placed on this ship exceed the capability of simple combustion engines and requires an on board nuclear reactor.
+
+Passenger cap: 1 - 22
+Space flight: Yes
+----------------------------
+Speed: Excellent
+Fuel Storage: 400,000 L
+Fuel efficiency: Legendary
+----------------------------
+Cargo cap: 2,000 KG
+Internal power plant: 6000w
+Explodes when destroyed!</description>
+    <graphicData>
+      <texPath>KC-7Poseidon</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(21,23)</drawSize>
+    </graphicData>
+    <size>(11,9)</size>
+    <statBases>
+      <MaxHitPoints>2000</MaxHitPoints>
+      <WorkToBuild>32000</WorkToBuild>
+      <Flammability>0.3</Flammability>
+      <Mass>20</Mass>
+      <Beauty>75</Beauty>
+    </statBases>
+    <costList>
+      <Steel>3000</Steel>
+      <Plasteel>1500</Plasteel>
+      <Gold>475</Gold>
+      <Neutroamine>250</Neutroamine>
+      <Silver>10000</Silver>
+      <ComponentIndustrial>34</ComponentIndustrial>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <comps>
+	
+	  <li Class="CompTanker.CompProperties_Tanker">
+				<!-- Supports `Fuel`, `Oil`, `Water, and `Helixien` values-->
+				<!-- Might add more in the future -->
+				<contents>Fuel</contents>
+				<!-- Default values -->
+				<storageCap>400000</storageCap>
+				<fillAmount>10</fillAmount>
+				<drainAmount>10</drainAmount>
+	  </li>
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>3</restEffectiveness>
+        <massCapacity>2000</massCapacity>
+      </li>
+      <li Class="SRTS.CompProperties_LaunchableSRTS">
+        <travelSpeed>20</travelSpeed>
+        <fuelPerTile>1.25</fuelPerTile>
+        <minPassengers>1</minPassengers>
+        <maxPassengers>22</maxPassengers>
+        <spaceFaring>true</spaceFaring>
+        <shuttleBayLanding>false</shuttleBayLanding>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Hyperspace Containment</fuelLabel>
+        <fuelGizmoLabel>Hyperspace Containment</fuelGizmoLabel>
+        <fuelCapacity>10000000</fuelCapacity>
+        <fuelMultiplier>99999</fuelMultiplier>
+        <initialConfigurableTargetFuelLevel>10000000</initialConfigurableTargetFuelLevel>
+        <initialFuelPercent>1.0</initialFuelPercent>
+        <fuelFilter>
+          <thingDefs>
+            <li>Uranium</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>false</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <drawFuelGaugeInMap>false</drawFuelGaugeInMap>
+		</li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerPlant</compClass>
+        <basePowerConsumption>-6000</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Glower">
+        <glowRadius>18</glowRadius>
+        <glowColor>(217,217,217,0)</glowColor>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Research_SRTFLogisticPodSystem</li>
+    </researchPrerequisites>
+    <uiIconScale>0.50</uiIconScale>
+    <killedLeavings>
+      <ChunkSlagSteel>12</ChunkSlagSteel>
+    </killedLeavings>
+  </ThingDef>
+  </Defs>
+  
