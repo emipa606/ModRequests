@@ -1,0 +1,1058 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--星港-->
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base</defName>
+    <label>Starport</label>
+    <!--<label>星港</label>-->
+    <!--<description>Starport，</description>-->
+    <description>Starport is used for the maintenance and command of "Battlecruiser" and for issuing Yamato Cannon orders.
+
+Fuel or ammunition storage is completed independently by each module. Starport monitors the material storage every 10s at most. (It is not allowed to replenish ammunition and add modules to the "Battlecruiser" in flight)
+
+The "Battlecruiser" can be started only when the fuel module has fuel.
+
+Battlecruiser:
+1.With the initial armor of 3000, the enemy will try to attack the "Battlecruiser". The damaged Battlecruiser can be repaired by repairing "Starport".
+2.The configuration of "Battlecruiser" can be modified by placing various modules in 2 spaces around "Starport".
+3.The order to recall "Battlecruiser" can return most of the materials and energy. The "Battlecruiser" with armor of 0 will generate mixed explosion according to the remaining materials.
+4.Includes 10 orders.</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Building/Base</texPath>
+      <!--<texPath>Nothing/Nothing</texPath>-->
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(5.3,5.3)</drawSize>
+      <!--<shadowData><volume>(2,6,0.7)</volume><offset>(0,0,-0.7)</offset></shadowData>-->
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <!--<blockLight>true</blockLight>-->
+    <size>(5,5)</size>
+    <statBases>
+      <MaxHitPoints>3000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>100</Mass>
+      <Beauty>10</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="MYDE_Battlecruiser.CompProperties_FuelSystem">
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <!--<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>-->
+      </li>
+      <li Class="MYDE_Battlecruiser.CompProperties_LaunchUAV"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_CrossMap"></li>
+      <!--<li Class="MYDE_Battlecruiser.CompProperties_RecallUAV"><ShowLabel>Recall</ShowLabel></li>-->
+      <!--<li Class="MYDE_Battlecruiser.CompProperties_LaunchYaMaTo"><ShowLabel>Yamato Cannon</ShowLabel></li>-->
+      <li Class="MYDE_Battlecruiser.CompProperties_Starport_GunWeaponControl"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Starport_RocketWeaponControl"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Starport_LaserWeaponControl"></li>
+      <!--<li Class="MYDE_Battlecruiser.CompProperties_FlyingStarport"></li>-->
+      <li Class="MYDE_Battlecruiser.CompProperties_StopMode"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_TargetMode"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_AttackDownSwitch"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_EndingModuleMode"></li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>20</glowRadius>
+        <glowColor>(217,217,208,0)</glowColor>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <castEdgeShadows>true</castEdgeShadows>
+    <thingClass>MYDE_Battlecruiser.Building_Battlecruiser_Starport</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <costList>
+      <Steel>300</Steel>
+      <Plasteel>150</Plasteel>
+      <ComponentIndustrial>30</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_Starport</li>
+    </researchPrerequisites>
+  </ThingDef>
+  <!--无人机基站·辅助模块·燃料模块-->
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_Chemfuel</defName>
+    <label>Fuel Module</label>
+    <!--<label>燃料模块</label>-->
+    <description>Provides fuel for "Battlecruiser", and each module can provide 30s flight time. 
+(60 Chemfuel is required for filling)</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>AuxiliaryModule/Chemfuel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1500</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Fuel</fuelLabel>
+        <fuelGizmoLabel>Fuel</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>30</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.99</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <fuelMultiplier>0.5</fuelMultiplier>
+        <!--这是1个材料提供多少能量-->
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <!--<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>-->
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>30</initialConfigurableTargetFuelLevel>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <costList>
+      <Steel>75</Steel>
+      <Chemfuel>60</Chemfuel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_Starport</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+  </ThingDef>
+  <!--无人机基站·武器模块-->
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_GunAmmo</defName>
+    <label>Machine Gun Module</label>
+    <!--<label>枪械模块</label>-->
+    <description>Provide machine gun weapons and bullet reserves for the "Battlecruiser". 
+Each module can provide one machine gun and 3000 ammunition. 
+
+(75 steel is required for filling)</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>WeaponModule/Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1500</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Ammunition</fuelLabel>
+        <fuelGizmoLabel>Ammunition</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelMultiplier>40</fuelMultiplier>
+        <fuelCapacity>3000</fuelCapacity>
+        <initialConfigurableTargetFuelLevel>3000</initialConfigurableTargetFuelLevel>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>0.99</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="MYDE_Battlecruiser.CompProperties_TransparentIconModule">
+        <MEffect>MYDE_Battlecruiser_GunModuleII</MEffect>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <costList>
+      <Steel>150</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_GunModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>WeaponModule/GunModule</uiIconPath>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_RocketAmmo</defName>
+    <label>Rocket Module</label>
+    <!--<label>燃烧弹模块</label>-->
+    <description>Provide Rocket wenpons and missile reserves for the "Battlecruiser".
+Each module can provide a missile launcher and 40 ammunition.
+
+(about 400 Chemfuel are required for filling)</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>WeaponModule/Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1500</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Ammunition</fuelLabel>
+        <fuelGizmoLabel>Ammunition</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelMultiplier>0.1</fuelMultiplier>
+        <fuelCapacity>40</fuelCapacity>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>0.99</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>40</initialConfigurableTargetFuelLevel>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="MYDE_Battlecruiser.CompProperties_TransparentIconModule">
+        <MEffect>MYDE_Battlecruiser_RocketModuleII</MEffect>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <costList>
+      <Steel>150</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_RocketModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>WeaponModule/RocketModule</uiIconPath>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_LaserAmmoI</defName>
+    <label>Laser Module</label>
+    <!--<label>激光模块</label>-->
+    <description>Provide laser weapons and energy reserves for the "Battlecruiser".
+Each module can provide a laser transmitter and 400 energy.
+
+(about 120 uranium is required for filling)</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>WeaponModule/Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Energy</fuelLabel>
+        <fuelGizmoLabel>Energy</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Uranium</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelMultiplier>3</fuelMultiplier>
+        <fuelCapacity>400</fuelCapacity>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>0.99</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>400</initialConfigurableTargetFuelLevel>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="MYDE_Battlecruiser.CompProperties_TransparentIconModule">
+        <MEffect>MYDE_Battlecruiser_LaserModuleII</MEffect>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <costList>
+      <Steel>150</Steel>
+      <Plasteel>75</Plasteel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_LaserModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>WeaponModule/LaserModule</uiIconPath>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_YaMaToAmmo</defName>
+    <label>Yamato Cannon Module</label>
+    <description>Provides Yamato Cannon and energy reserves for the "Battlecruiser".
+Each module can provide 30 energy.
+
+(300 uranium is required for filling)</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>WeaponModule/Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Energy</fuelLabel>
+        <fuelGizmoLabel>Energy</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Uranium</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelMultiplier>0.1</fuelMultiplier>
+        <fuelCapacity>30</fuelCapacity>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>0.99</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>30</initialConfigurableTargetFuelLevel>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="MYDE_Battlecruiser.CompProperties_TransparentIconModule">
+        <MEffect>MYDE_Battlecruiser_YaMaToModuleII</MEffect>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <costList>
+      <Steel>600</Steel>
+      <Plasteel>300</Plasteel>
+      <Uranium>300</Uranium>
+      <ComponentIndustrial>20</ComponentIndustrial>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_YaMaToModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>WeaponModule/YaMaToModule</uiIconPath>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_EndingModule</defName>
+    <label>Clearance Module</label>
+    <!--<label>净空模块</label>-->
+    <description>【Only one can be added】
+Provide compression system for "Battlecruiser". Recalling "Battlecruiser" will return half of remaining resources, but it can produce mixed explosion according to the remaining materials.</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>WeaponModule/Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <costList>
+      <Steel>600</Steel>
+      <Plasteel>300</Plasteel>
+      <Uranium>300</Uranium>
+      <ComponentIndustrial>20</ComponentIndustrial>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_EndingModule</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="MYDE_Battlecruiser.CompProperties_TransparentIconModule">
+        <MEffect>MYDE_Battlecruiser_EndingModuleII</MEffect>
+      </li>
+    </comps>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>WeaponModule/EndingModule</uiIconPath>
+  </ThingDef>
+  <!--无人机基站·辅助模块-->
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_EnergyShield</defName>
+    <label>Energy Shield Module</label>
+    <!--<label>护盾模块</label>-->
+    <description>Provide energy matrix shield for "Battlecruiser", and each module can provide 500 shield energy. The Energy Shield Module can be self recharged (4hp/s), and the active "Battlecruiser" will recover its energy shield with 1/10 efficiency.</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>AuxiliaryModule/EnergyShieldEnergyBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+      <damageData></damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_EnergyShieldModule</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_SelfhealHitpoints">
+        <ticksPerHeal>15</ticksPerHeal>
+      </li>
+      <li Class="MYDE_Battlecruiser.CompProperties_FlyingEnergyShieldBlockA"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_FlyingEnergyShieldBlockB"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_FlyingEnergyShieldBlockC"></li>
+    </comps>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>AuxiliaryModule/EnergyShieldUI</uiIconPath>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_MagazineModule</defName>
+    <label>Ammunition Storage Module</label>
+    <!--<label>备弹仓模块</label>-->
+    <description>【Only one can be added】
+Provide ammunition storage for "Battlecruiser"，and the Ammunition Storage Module can increase weapon firing times by 50%.</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>AuxiliaryModule/MagazineModuleBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <costList>
+      <Steel>600</Steel>
+      <Plasteel>300</Plasteel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_MagazineModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>AuxiliaryModule/MagazineModuleUI</uiIconPath>
+    <comps>
+      <li Class="MYDE_Battlecruiser.CompProperties_FlyingMagazine"></li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_CoolingModule</defName>
+    <!--<label>冷却模块</label>-->
+    <label>Cooling Module</label>
+    <description>【Only one can be added】
+Provide weapon cooling system for the "Battlecruiser", and the Cooling Module can increase the weapon firing speed by 100%.</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>AuxiliaryModule/AuxiliaryBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <costList>
+      <Steel>600</Steel>
+      <Plasteel>300</Plasteel>
+      <Uranium>300</Uranium>
+      <ComponentIndustrial>20</ComponentIndustrial>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_CoolingModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>AuxiliaryModule/CoolingModuleUI</uiIconPath>
+    <comps>
+      <li Class="MYDE_Battlecruiser.CompProperties_FlyingCooling"></li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>MYDE_Battlecruiser_Base_Stuffer_CatapultModule</defName>
+    <label>Warp Module</label>
+    <!--<label>折跃模块</label>-->
+    <description>【Only one can be added】
+Provides warp technology for the "Battlecruiser", and the Warp Module can change the movement mode of the "Battlecruiser".</description>
+    <category>Building</category>
+    <graphicData>
+      <texPath>AuxiliaryModule/WrapModuleBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>30</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>1</fillPercent>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>10</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_CoolerSimple</li>
+      <li>MYDE_Battlecruiser.PlaceWorker_NearBase</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <designationHotKey>Misc4</designationHotKey>
+    <thingClass>Building</thingClass>
+    <designationCategory>MYDE_Battlecruiser_BuildingList</designationCategory>
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+    <costList>
+      <Steel>600</Steel>
+      <Plasteel>300</Plasteel>
+      <Uranium>300</Uranium>
+      <ComponentIndustrial>20</ComponentIndustrial>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+      <li>MYDE_Battlecruiser_Research_CatapultModule</li>
+    </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_Battlecruiser_Root</li>
+    </thingCategories>
+    <uiIconPath>AuxiliaryModule/WrapModuleUI</uiIconPath>
+    <comps>
+      <li Class="MYDE_Battlecruiser.CompProperties_FlyingWrap"></li>
+    </comps>
+  </ThingDef>
+  <!--战列巡航舰-->
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>MYDE_Battlecruiser</defName>
+    <label>Battlecruiser</label>
+    <thingClass>MYDE_Battlecruiser.MYDE_Battlecruiser</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <seeThroughFog>true</seeThroughFog>
+    <alwaysFlee>false</alwaysFlee>
+    <graphicData>
+      <texPath>Nothing/Nothing</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <selectable>true</selectable>
+    <size>(5,5)</size>
+    <comps>
+      <li Class="MYDE_Battlecruiser.CompProperties_ShowControlMenu"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_FuelSystem"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_Move"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_Return"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_YaMaTo"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_Hover"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_TargetMode"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_AttackDown"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_EndingModuleMode"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_GunWeaponControl"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_RocketWeaponControl"></li>
+      <li Class="MYDE_Battlecruiser.CompProperties_Battlecruiser_LaserWeaponControl"></li>
+    </comps>
+  </ThingDef>
+  <!--信标-->
+  <ThingDef ParentName="OrbitalStrikeBase">
+    <defName>MYDE_FlyingBeacon</defName>
+    <!--<label>飞行信标</label>-->
+    <label>Flight Beacon</label>
+    <thingClass>ThingWithComps</thingClass>
+    <graphicData>
+      <texPath>Building/FlyingBeacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="OrbitalStrikeBase">
+    <defName>MYDE_YaMaToBeacon</defName>
+    <!--<label>大和炮信标</label>-->
+    <label>Yamato Cannon Beacon</label>
+    <thingClass>ThingWithComps</thingClass>
+    <graphicData>
+      <texPath>Building/YaMaToBeacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_DestroyAfterDelay">
+        <delayTicks>1200</delayTicks>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(217,217,208,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="OrbitalStrikeBase">
+    <defName>MYDE_LightBeacon</defName>
+    <!--<label>光源</label>-->
+    <label>Light</label>
+    <thingClass>ThingWithComps</thingClass>
+    <graphicData>
+      <texPath>Nothing/Nothing</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>20</glowRadius>
+        <glowColor>(217,217,208,0)</glowColor>
+      </li>
+      <!--<li Class="CompProperties_Explosive"><explosiveRadius>8.0</explosiveRadius><explosiveDamageType>Bomb</explosiveDamageType><chanceNeverExplodeFromDamage>0.0</chanceNeverExplodeFromDamage></li>-->
+    </comps>
+  </ThingDef>
+  <!--下面的是子弹-->
+  <!--燃烧弹-->
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>MYDE_Battlecruiser_Rocket</defName>
+    <label>Rocket</label>
+    <thingClass>MYDE_Battlecruiser.Special_Projectile_Rocket</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <seeThroughFog>true</seeThroughFog>
+    <alwaysFlee>false</alwaysFlee>
+    <graphicData>
+      <texPath>Nothing/Nothing</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="BaseFilth">
+    <defName>MYDE_RocketFuel</defName>
+    <label>Concentrated Gasoline</label>
+    <!--<label>汽油</label>-->
+    <!--<description>汽油</description>-->
+    <description>Concentrated Gasoline</description>
+    <thingClass>MYDE_Battlecruiser.LiquidFuel</thingClass>
+    <useHitPoints>true</useHitPoints>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <Beauty>-50</Beauty>
+      <Cleanliness>-100</Cleanliness>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Flammability>2.0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Filth/LiquidFuel</texPath>
+      <!--<texPath>Nothing/Nothing</texPath>-->
+      <!--<texPath>Terrain/Surfaces/WaterShallowRamp</texPath>-->
+      <!--<linkType>Basic</linkType>-->
+      <!--<linkFlags><li>Custom1</li></linkFlags>-->
+      <!--<graphicClass>Graphic_Single</graphicClass>-->
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <filth>
+      <disappearsInDays>2~3</disappearsInDays>
+      <rainWashes>true</rainWashes>
+      <cleaningWorkToReduceThickness>20</cleaningWorkToReduceThickness>
+      <canFilthAttach>true</canFilthAttach>
+      <maxThickness>1</maxThickness>
+      <cleaningSound>Interact_CleanFilth_Fluid</cleaningSound>
+    </filth>
+    <pathCost>200</pathCost>
+  </ThingDef>
+  <!--激光电池-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>MYDE_Battlecruiser_LaserBattery</defName>
+    <!--<label>激光电池</label>-->
+    <label>Laser Battery</label>
+    <graphicData>
+      <texPath>Ammunition/LaserBattery</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.2,0.2)</drawSize>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>5</damageAmountBase>
+      <stoppingPower>10</stoppingPower>
+      <speed>100</speed>
+      <explosionRadius>1</explosionRadius>
+      <!--<explosionDelay>120</explosionDelay>-->
+    </projectile>
+  </ThingDef>
+  <!--伤害-->
+  <DamageDef Name="MYDE_BombToBuilding" ParentName="Bomb">
+    <defName>MYDE_BombToBuilding</defName>
+    <buildingDamageFactorImpassable>20</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>10</buildingDamageFactorPassable>
+  </DamageDef>
+  <DamageDef Name="MYDE_Battlecruiser_FlameBomb" ParentName="Bomb">
+    <defName>MYDE_Battlecruiser_FlameBomb</defName>
+    <buildingDamageFactorImpassable>2</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>1</buildingDamageFactorPassable>
+    <explosionCellFleck>BlastFlame</explosionCellFleck>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+    <explosionColorCenter>(1, 0.7, 0.7)</explosionColorCenter>
+    <explosionColorEdge>(1, 1, 0.7)</explosionColorEdge>
+  </DamageDef>
+  <DamageDef Name="MYDE_Battlecruiser_YamatoBomb" ParentName="Bomb">
+    <defName>MYDE_Battlecruiser_YamatoBomb</defName>
+    <buildingDamageFactorImpassable>30</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>15</buildingDamageFactorPassable>
+    <explosionCellFleck>BlastFlame</explosionCellFleck>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+    <explosionColorCenter>(1, 0.7, 0.7)</explosionColorCenter>
+    <explosionColorEdge>(1, 1, 0.7)</explosionColorEdge>
+  </DamageDef>
+  <!--CE区分项目-->
+  <!--普通子弹-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>MYDE_Battlecruiser_GunBullet</defName>
+    <!--<label>子弹</label>-->
+    <label>Bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageAmountBase>10</damageAmountBase>
+      <armorPenetrationSharp>25</armorPenetrationSharp>
+      <armorPenetrationBlunt>86.28</armorPenetrationBlunt>
+      <damageDef>Bullet</damageDef>
+      <speed>168</speed>
+      <dropsCasings>true</dropsCasings>
+    </projectile>
+  </ThingDef>
+  <!--大和炮-->
+  <ThingDef ParentName="BaseBullet">
+    <defName>MYDE_Battlecruiser_YAMATOProjectile</defName>
+    <!--<label>大和炮</label>-->
+    <label>Yamato Cannon</label>
+    <thingClass>MYDE_Battlecruiser.MYDE_Battlecruiser_YAMATOProjectile</thingClass>
+    <graphicData>
+      <texPath>Ammunition/YAMATO</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(8,8)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>MYDE_Battlecruiser_YamatoBomb</damageDef>
+      <damageAmountBase>200</damageAmountBase>
+      <stoppingPower>10</stoppingPower>
+      <speed>200</speed>
+      <explosionRadius>3.9</explosionRadius>
+      <preExplosionSpawnThingDef>MYDE_RocketFuel</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.7</preExplosionSpawnChance>
+      <flyOverhead>true</flyOverhead>
+    </projectile>
+  </ThingDef>
+</Defs>
