@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs> 
+ 
+ <ThingDef ParentName="MakeableDrugBase">
+    <defName>CRFT_AppleBong</defName>
+    <label>apple bong</label>
+    <description>A carved out apple that has a hole punctured through both sides and on the top. Cannabis is packed on top and lit and inhaled through the any hole on the sides while having the other hole blocked by your finger. Also provides a nice snack while smoking.\n\nCan be produced at crafting spot.</description>
+    <descriptionHyperlinks>
+      <HediffDef>CRFT_AppleBongHigh</HediffDef>
+      <HediffDef>SmokeleafTolerance</HediffDef>
+      <HediffDef>SmokeleafAddiction</HediffDef>
+      <HediffDef>Carcinoma</HediffDef>
+      <HediffDef>Asthma</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Items/Drugs/AppleBong</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+	<stackLimit>12</stackLimit>
+    <statBases>
+      <WorkToMake>350</WorkToMake>
+      <MarketValue>10</MarketValue>
+      <Mass>0.1</Mass>
+      <DeteriorationRate>6</DeteriorationRate>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+      <foodType>Plant, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.75</joy>
+      <baseIngestTicks>1380</baseIngestTicks>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Smoke</ingestSound>
+      <ingestEffect>Smoke_Joint</ingestEffect>
+      <ingestEffectEat>EatVegetarian</ingestEffectEat>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.3,0,0)</offset>
+        </east>
+        <south>
+          <offset>(0,0,-0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.3,0,0)</offset>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>true</ingestHoldUsesTable>
+      <ingestCommandString>Smoke {0}</ingestCommandString>
+      <ingestReportString>Smoking {0}.</ingestReportString>
+      <ingestReportStringEat>Consuming {0}.</ingestReportStringEat>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>CRFT_AppleBongHigh</hediffDef>
+          <severity>0.5</severity>
+          <toleranceChemical>Smokeleaf</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>-0.2</offset>
+        </li>
+		<li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Food</need>
+          <offset>0.2</offset>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SmokeleafTolerance</hediffDef>
+          <severity>0.05</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+		<recipeUsers>
+			<li>CraftingSpot</li>
+		</recipeUsers>
+		<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+		<workSkill>Cooking</workSkill>
+    </recipeMaker>
+	<costList>
+	  <VCE_RawApple>1</VCE_RawApple>
+      <SmokeleafLeaves>8</SmokeleafLeaves>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Smokeleaf</chemical>
+        <addictiveness>0.03</addictiveness>
+        <minToleranceToAddict>0.15</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.06</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>20</listOrder>
+      </li>
+    </comps>
+    <allowedArchonexusCount>50</allowedArchonexusCount>
+	
+  </ThingDef>
+    <HediffDef>
+    <defName>CRFT_AppleBongHigh</defName>
+    <label>high on smokeleaf off a bong</label>
+    <labelNoun>a smokeleaf off a bong high</labelNoun>
+    <description>Apple bong's active chemical in the bloodstream. Generates a hard feeling of fuzzy well-being.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <hungerRateFactorOffset>0.3</hungerRateFactorOffset>
+          <painOffset>-0.25</painOffset>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.35</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>CRFT_AppleBongHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>CRFT_AppleBongHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on apple bong</label>
+        <description>Quite exquisite.</description>
+        <baseMoodEffect>18</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>
