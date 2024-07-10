@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <DesignatorDropdownGroupDef>
+    <defName>Dropdown_LTO</defName>
+  </DesignatorDropdownGroupDef>
+
+  <TerrainDef Name="CustomFloorBase" ParentName="FloorBase" Abstract="True">
+    <texturePath>Terrain/Surfaces/DirtFloor12</texturePath>
+    <designationCategory>Floors</designationCategory>
+    <designatorDropdown>Dropdown_LTO</designatorDropdown>
+    <edgeType>FadeRough</edgeType>
+    <costList></costList>
+    <statBases>
+      <Cleanliness>-1</Cleanliness>
+      <Beauty>-1</Beauty>
+      <Flammability>0</Flammability>
+      <WorkToBuild>350</WorkToBuild>
+    </statBases>
+  </TerrainDef>
+  
+  
+  <!-- ================= Farming ================= -->
+
+  <TerrainOverhaul.AddFertileTerrainDef Name="FarmlandBase" ParentName="CustomFloorBase" Abstract="True">
+
+    <!-- Doesn't require heavy terrain support... -->
+    <affordances>
+			<li>Light</li>
+			<li>Medium</li>
+			<li>Heavy</li>
+			<li>GrowSoil</li>
+			<li>Diggable</li>
+    </affordances>
+
+    <!-- Farmland is dirty! -->
+    <constructEffect>ConstructDirt</constructEffect>
+    <generatedFilth>Filth_Dirt</generatedFilth>
+		<filthAcceptanceMask>
+			<li>Unnatural</li>
+    </filthAcceptanceMask>
+    <takeFootprints>True</takeFootprints>
+    
+    <!-- Pawns can kick dirt from the ground into other pawn's eyes! -->
+		<tools>
+			<li>
+				<label>dirt</label>
+				<capacities>
+					<li>KickMaterialInEyes</li>
+				</capacities>
+				<hediff>DirtInEyes</hediff>
+				<cooldownTime>1.5</cooldownTime>
+			</li>
+		</tools>
+
+    <!-- Don't wander on crops -->
+    <avoidWander>true</avoidWander>
+
+    <!-- Can only be placed in logical places, not on top of rock for example -->
+		<terrainAffordanceNeeded>GrowSoil</terrainAffordanceNeeded>
+
+    <!-- The base fertility value. Will generally never be used.-->
+    <fertility>1.0</fertility>
+
+    <!-- The additional amount of fertility to add to the base terrain. Can be negative. -->
+    <addFertility>0.2</addFertility>
+
+  </TerrainOverhaul.AddFertileTerrainDef>
+
+  <TerrainOverhaul.AddFertileTerrainDef ParentName="FarmlandBase">
+    <defName>FarmLandone</defName>
+    <label>Farm Field A</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Field for Farming, increased fertility</description>
+    <texturePath>Terrain/Surfaces/FarmLand1</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>2.2</pathCost>
+
+    <statBases>
+	<Beauty>0</Beauty>
+      <WorkToBuild>1000</WorkToBuild>
+    </statBases>
+
+    <addFertility>0.2</addFertility>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainOverhaul.AddFertileTerrainDef>
+
+
+  <TerrainOverhaul.AddFertileTerrainDef ParentName="FarmlandBase">
+    <defName>FarmLandtwo</defName>
+    <label>Farm Field B</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Field for Farming, increased fertility</description>
+    <texturePath>Terrain/Surfaces/FarmLand2</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>2.2</pathCost>
+
+    <statBases>
+		<Beauty>0</Beauty>
+      <WorkToBuild>1000</WorkToBuild>
+    </statBases>
+
+    <addFertility>0.2</addFertility>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainOverhaul.AddFertileTerrainDef>
+
+
+  <TerrainOverhaul.AddFertileTerrainDef ParentName="FarmlandBase">
+    <defName>FarmLandthree</defName>
+    <label>Farm Field C</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Field for Farming, increased fertility</description>
+    <texturePath>Terrain/Surfaces/FarmLand3</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>2.2</pathCost>
+
+    <statBases>
+		<Beauty>0</Beauty>
+      <WorkToBuild>1000</WorkToBuild>
+    </statBases>
+
+    <addFertility>0.2</addFertility>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainOverhaul.AddFertileTerrainDef>
+
+
+  <TerrainOverhaul.AddFertileTerrainDef ParentName="FarmlandBase">
+    <defName>FarmLandfour</defName>
+    <label>Farm Field D</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Field for Farming, increased fertility</description>
+    <texturePath>Terrain/Surfaces/FarmLand4</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>2.2</pathCost>
+
+    <statBases>
+		<Beauty>0</Beauty>
+      <WorkToBuild>1000</WorkToBuild>
+    </statBases>
+
+    <addFertility>0.2</addFertility>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainOverhaul.AddFertileTerrainDef>
+  
+  
+  
+    <!-- ================= Mud ================= -->
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>MudFlooring</defName>
+    <label>Mud</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Mud.  Decreases movement speed.  Great for defenses.</description>
+    <texturePath>Terrain/Surfaces/MudFlooring</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <fertility>0</fertility>
+    <takeFootprints>True</takeFootprints>
+    <statBases>
+      <WorkToBuild>1500</WorkToBuild>
+      <Cleanliness>-5</Cleanliness>
+      <Beauty>-1</Beauty>
+    </statBases>
+
+    <extinguishesFire>true</extinguishesFire>
+    <pathCost>14</pathCost>
+
+    <avoidWander>true</avoidWander>
+    <extraNonDraftedPerceivedPathCost>180</extraNonDraftedPerceivedPathCost>
+    <extraDraftedPerceivedPathCost>18</extraDraftedPerceivedPathCost>
+    <designationHotKey>Misc8</designationHotKey>
+
+  </TerrainDef>
+  
+  
+  
+  
+
+  <!-- ================= Concrete and Asphalt ================= -->
+
+
+
+
+  <!-- ================= Grass ================= -->
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>PatchGrassA</defName>
+    <label>Patch Grass A</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Patch Grass</description>
+    <texturePath>Terrain/Surfaces/PatchGrass1</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>2</pathCost>
+    <fertility>0.9</fertility>
+	    <statBases>
+      <Cleanliness>-1</Cleanliness>
+      <Beauty>0</Beauty>
+    </statBases>
+    <!-- Can only be placed in logical places, not on top of rock for example -->
+    <terrainAffordanceNeeded>GrowSoil</terrainAffordanceNeeded>
+
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>PatchGrassB</defName>
+    <label>Patch Grass B</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Patch Grass</description>
+    <texturePath>Terrain/Surfaces/PatchGrass2</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>2</pathCost>
+    <fertility>0.9</fertility>
+	    <statBases>
+      <Cleanliness>-1</Cleanliness>
+      <Beauty>0</Beauty>
+    </statBases>
+    <!-- Can only be placed in logical places, not on top of rock for example -->
+		<terrainAffordanceNeeded>GrowSoil</terrainAffordanceNeeded>
+
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>GrassFine</defName>
+    <label>Grass Fine</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Fine Grass</description>
+    <texturePath>Terrain/Surfaces/FineGrass</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>1.7</pathCost>
+	    <statBases>
+      <Cleanliness>0</Cleanliness>
+      <Beauty>2</Beauty>
+	  <WorkToBuild>600</WorkToBuild>
+    </statBases>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>PastureGrass</defName>
+    <label>Grass Pasture</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Grass Pasture - perfect for roaming animals</description>
+    <texturePath>Terrain/Surfaces/PastureGrass</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>1.7</pathCost>
+    <fertility>1</fertility>
+		    <statBases>
+      <Cleanliness>0</Cleanliness>
+      <Beauty>1</Beauty>
+	  <WorkToBuild>400</WorkToBuild>
+    </statBases>
+    <!-- Can only be placed in logical places, not on top of rock for example -->
+    <terrainAffordanceNeeded>GrowSoil</terrainAffordanceNeeded>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <!-- ================= Dirt ================= -->
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>PatchDirt</defName>
+    <label>Patch Dirt</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Dirt, increases movement speed slightly.  Great for animals.</description>
+    <texturePath>Terrain/Surfaces/DirtFloor12</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>1.9</pathCost>
+    <fertility>0</fertility>
+    <extinguishesFire>true</extinguishesFire>
+
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>CrackedDirt</defName>
+    <label>Cracked Dirt</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Dirt, increases movement speed slightly.  Great for animals.</description>
+    <texturePath>Terrain/Surfaces/CrackedDirt</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>1.9</pathCost>
+    <fertility>0</fertility>
+    <extinguishesFire>true</extinguishesFire>
+
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>DirtFloorone</defName>
+    <label>Dirt A</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Dirt, increases movement speed slightly.  Great for animals.</description>
+    <texturePath>Terrain/Surfaces/DirtFloor2</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>1.7</pathCost>
+
+    <extinguishesFire>true</extinguishesFire>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>DirtFloortwo</defName>
+    <label>Dirt B</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Dirt, increases movement speed slightly.  Great for animals.</description>
+    <texturePath>Terrain/Surfaces/DirtFloor3</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <pathCost>1.7</pathCost>
+    <extinguishesFire>true</extinguishesFire>
+
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+
+
+
+  
+
+
+  <!-- ================= Roads and Path ================= -->
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>StoneRoad</defName>
+    <label>Stone Road</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Rocky road, great for travelling.</description>
+    <texturePath>Terrain/Surfaces/StoneRoad</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <extinguishesFire>true</extinguishesFire>
+	    <statBases>
+      <Cleanliness>0</Cleanliness>
+      <Beauty>0</Beauty>
+    </statBases>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+  <TerrainDef ParentName="CustomFloorBase">
+    <defName>StoneRoadB</defName>
+    <label>Stone Road 2</label>
+    <renderPrecedence>200</renderPrecedence>
+    <description>Natural stone road, great for travelling.</description>
+    <texturePath>Terrain/Surfaces/StoneRoadA</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <extinguishesFire>true</extinguishesFire>
+	    <statBases>
+      <Cleanliness>0</Cleanliness>
+      <Beauty>1</Beauty>
+    </statBases>
+    <designationHotKey>Misc8</designationHotKey>
+  </TerrainDef>
+
+
+</Defs>
