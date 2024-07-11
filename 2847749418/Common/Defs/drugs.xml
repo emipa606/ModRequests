@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Anima Capsules -->
+	<ThingDef ParentName="MakeableDrugPillBase">
+		<defName>K_AnimaCapsule</defName>
+		<label>anima capsule</label>
+		<description>A processed version of anima extract that serves as a way to quickly regain psyfocus. However, taking this capsule runs the risk of developing an addiction and extended use can result in mental breakdowns.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>K_AnimaCapsuleHigh</HediffDef>
+		  <HediffDef>EF_AnimaAddiction</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+		  <texPath>Things/Drugs/AnimaCapsule</texPath>
+		  <graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+		  <WorkToMake>600</WorkToMake>
+		  <MarketValue>20</MarketValue>
+		  <Mass>0.005</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+		  <joyKind>Chemical</joyKind>
+		  <joy>0.35</joy>
+		  <drugCategory>Hard</drugCategory>
+		  <outcomeDoers>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>K_AnimaCapsuleHigh</hediffDef>
+			  <severity>0.3</severity>
+			  <toleranceChemical>EF_Anima</toleranceChemical>
+			</li>
+			<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+				<offset>0.15</offset>
+			</li>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>EF_AnimaTolerance</hediffDef>
+			  <severity>0.05</severity>
+			  <divideByBodySize>true</divideByBodySize>
+			</li>
+		  </outcomeDoers>
+		</ingestible>
+		<tradeTags>
+		  <li>ExoticMisc</li>
+		</tradeTags>
+		<recipeMaker>
+		<researchPrerequisites>
+			<li>DrugProduction</li>
+			<li>AnimaDrugs</li>
+		</researchPrerequisites>
+		  <recipeUsers>
+			<li>DrugLab</li>
+		  </recipeUsers>
+		</recipeMaker>
+		<costList>
+		  <K_AnimaExtract>1</K_AnimaExtract>
+		  <PsychoidLeaves>1</PsychoidLeaves>
+		</costList>
+		<comps>
+		  <li Class="CompProperties_Drug">
+			<chemical>EF_Anima</chemical>
+			<addictiveness>0.02</addictiveness>
+			<minToleranceToAddict>0.05</minToleranceToAddict>
+			<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+			<needLevelOffset>0.9</needLevelOffset>
+			<listOrder>20</listOrder>
+			<overdoseSeverityOffset>0.14~0.30</overdoseSeverityOffset>
+			<largeOverdoseChance>0.005</largeOverdoseChance>
+		  </li>
+		</comps>
+	</ThingDef>
+	
+	<HediffDef>
+		<defName>K_AnimaCapsuleHigh</defName>
+		<label>high on anima capsules</label>
+		<labelNoun>an anima capsule high</labelNoun>
+		<description>Concentraded Anima in the brain and the bloodstream. Causes mild to moderate hallucinations and a sense of elevation.</description>
+		<hediffClass>Hediff_High</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+		  <li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>-2.65</severityPerDay>
+			<showHoursToRecover>true</showHoursToRecover>
+		  </li>
+		</comps>
+		<stages>
+			<li>
+			  <capMods>
+				<li>
+				  <capacity>Sight</capacity>
+				  <offset>-0.1</offset>
+				</li>
+			  </capMods>
+			  <statOffsets>
+				<MentalBreakThreshold>0.12</MentalBreakThreshold>
+			  </statOffsets>
+			</li>
+			<li>
+			  <minSeverity>0.31</minSeverity>
+			  <label>high on anima capsules (Moderate)</label>
+			  <!--<description>Concentraded Anima in the brain and the bloodstream. Causes moderate hallucinations and a sense of elevation.</description>-->
+			  <capMods>
+				<li>
+				  <capacity>Sight</capacity>
+				  <offset>-0.15</offset>
+				</li>
+				<li>
+				  <capacity>Hearing</capacity>
+				  <offset>-0.05</offset>
+				</li>
+			  </capMods>
+			  <statOffsets>
+				<MentalBreakThreshold>0.16</MentalBreakThreshold>
+			  </statOffsets>
+			</li>
+			<li>
+			  <minSeverity>0.65</minSeverity>
+			  <label>high on anima capsules (Extreme)</label>
+			  <!--<description>Concentraded Anima in the brain and the bloodstream. Causes moderate to debilitating hallucinations.</description>-->
+			  <capMods>
+				<li>
+				  <capacity>Sight</capacity>
+				  <offset>-0.3</offset>
+				</li>
+				<li>
+				  <capacity>Hearing</capacity>
+				  <offset>-0.15</offset>
+				</li>
+			  </capMods>
+			  <statOffsets>
+				<MentalBreakThreshold>0.24</MentalBreakThreshold>
+			  </statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<ThoughtDef>
+		<defName>K_AnimaCapsuleHigh</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>K_AnimaCapsuleHigh</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+		  <li>
+			<label>anima capsule high</label>
+			<description>Woah..</description>
+			<baseMoodEffect>5</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>anima capsule high</label>
+			<description>Woah..</description>
+			<baseMoodEffect>5</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>anima capsule high (overdosing)</label>
+			<description>Okay, this is starting to feel really weird.</description>
+			<baseMoodEffect>0</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
+
+<!-- Stellarch Dust -->
+
+	<ThingDef ParentName="DrugBase">
+		<defName>K_Psydust</defName>
+		<label>stellarch dust</label>
+		<description>A synthesized Eltex-based powder. Very potent in enhancing psycasting abilities. Addictive and mildly dangerous.\n\nThe use of Eltex in this recipe makes this a highly illegal drug in the empire.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>K_PsydustHigh</HediffDef>
+		  <HediffDef>EF_AnimaAddiction</HediffDef>
+		  <HediffDef>HeartAttack</HediffDef>
+		  <HediffDef>PsychicComa</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+		  <texPath>Things/Drugs/Psydust</texPath>
+		  <graphicClass>Graphic_StackCount</graphicClass>
+		  <drawSize>0.75</drawSize>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+		  <WorkToMake>600</WorkToMake>
+		  <MarketValue>80</MarketValue>
+		  <Mass>0.05</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		 <ingestible>
+		  <foodType>Processed</foodType>
+		  <joyKind>Chemical</joyKind>
+		  <joy>0.80</joy>
+		  <drugCategory>Hard</drugCategory>
+		  <baseIngestTicks>150</baseIngestTicks>
+		  <ingestSound>Ingest_Snort</ingestSound>
+		  <ingestHoldOffsetStanding>
+			<northDefault>
+			  <offset>(0.21,0,0.05)</offset>
+			</northDefault>
+		  </ingestHoldOffsetStanding>
+		  <ingestHoldUsesTable>false</ingestHoldUsesTable>
+		  <ingestCommandString>Snort {0}</ingestCommandString>
+		  <ingestReportString>Snorting {0}.</ingestReportString>
+		  <useEatingSpeedStat>false</useEatingSpeedStat>
+		  <outcomeDoers>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>K_PsydustHigh</hediffDef>
+			  <severity>0.75</severity>
+			  <toleranceChemical>EF_Anima</toleranceChemical>
+			</li>
+			<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+			  <offset>0.20</offset>
+			</li>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>EF_AnimaTolerance</hediffDef>
+			  <severity>0.05</severity>
+			  <divideByBodySize>true</divideByBodySize>
+			</li>
+		  </outcomeDoers>
+		</ingestible>
+		<tradeTags Inherit="false">
+		  <li>ExoticMisc</li>
+		</tradeTags>
+		<comps>
+		  <li Class="CompProperties_Drug">
+			<chemical>EF_Anima</chemical>
+			<addictiveness>0.03</addictiveness>
+			<existingAddictionSeverityOffset>0.05</existingAddictionSeverityOffset>
+			<needLevelOffset>0.9</needLevelOffset>
+			<isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+			<listOrder>20</listOrder>
+			<overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+			<largeOverdoseChance>0.005</largeOverdoseChance>
+		  </li>
+		</comps>
+	</ThingDef>
+  
+	<HediffDef>
+		<defName>K_PsydustHigh</defName>
+		<hediffClass>Hediff_High</hediffClass>
+		<label>high on stellarch dust</label>
+		<labelNoun>a stellarch dust high</labelNoun>
+		<description>Eltex and anima in the brain and bloodstream. It supercharges your psychic sensitivity and enhances your consciousness, and instantly increases psyfocus when first injected.</description>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+		  <li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>-1.25</severityPerDay>
+			<showHoursToRecover>true</showHoursToRecover>
+		  </li>
+		</comps>
+			<stages>
+				<li>
+					<statOffsets>
+						<PsychicSensitivityOffset>0.50</PsychicSensitivityOffset>
+						<PsychicEntropyRecoveryRate>0.25</PsychicEntropyRecoveryRate>
+						<MeditationFocusGain>0.25</MeditationFocusGain>
+					</statOffsets>
+					<capMods>
+						<li>
+						  <capacity>Consciousness</capacity>
+						  <offset>0.05</offset>
+						</li>				
+						<li>
+						  <capacity>Moving</capacity>
+						  <offset>0.20</offset>
+						</li>
+						<li>
+						  <capacity>Sight</capacity>
+						  <offset>-0.05</offset>
+						</li>
+					</capMods>
+					<mentalBreakMtbDays>25</mentalBreakMtbDays>
+					<allowedMentalBreakIntensities>
+					  <li>Minor</li>
+					  <li>Major</li>
+					</allowedMentalBreakIntensities>
+					<hediffGivers>
+						<li Class="HediffGiver_Random">
+							<hediff>PsychicComa</hediff><!-- Ability to set duration without creating a new hediff? -->
+							<mtbDays>80</mtbDays>
+							<partsToAffect>
+							  <li>Brain</li>
+							</partsToAffect>
+						</li>
+						<li Class="HediffGiver_Random">
+							<hediff>HeartAttack</hediff>
+							<mtbDays>120</mtbDays>
+							<partsToAffect>
+							  <li>Heart</li>
+							</partsToAffect>
+						</li>
+					</hediffGivers>
+				</li>
+			</stages>
+	</HediffDef>
+	  
+	<ThoughtDef>
+		<defName>K_PsydustHigh</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>K_PsydustHigh</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+		  <li>
+			<label>high on stellarch dust</label>
+			<description>The Power! HA HA!</description>
+			<baseMoodEffect>15</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
+	
+<!-- Animafused Bananadine MayRequire="catlover366.monketime" -->
+	
+	<ThingDef ParentName="DrugBase" MayRequire="catlover366.monketime">
+		<defName>K_Bananimandine</defName>
+		<label>bananimandine</label>
+		<description>A highly concentraded mixture of Bananadine and Anima Extract. Very potent in enhancing psycasting abilities. Addictive and mildly dangerous.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>K_BananimaHigh</HediffDef>
+		  <HediffDef>EF_AnimaAddiction</HediffDef>
+		  <HediffDef>HeartAttack</HediffDef>
+		  <HediffDef>PsychicComa</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+		  <texPath>Things/Drugs/Bananimandine</texPath>
+		  <graphicClass>Graphic_StackCount</graphicClass>
+		  <drawSize>0.75</drawSize>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+		  <WorkToMake>600</WorkToMake>
+		  <MarketValue>80</MarketValue>
+		  <Mass>0.05</Mass>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		 <ingestible>
+		  <foodType>Processed</foodType>
+		  <joyKind>Chemical</joyKind>
+		  <joy>0.80</joy>
+		  <drugCategory>Hard</drugCategory>
+		  <baseIngestTicks>150</baseIngestTicks>
+		  <ingestSound>Ingest_Snort</ingestSound>
+		  <ingestHoldOffsetStanding>
+			<northDefault>
+			  <offset>(0.21,0,0.05)</offset>
+			</northDefault>
+		  </ingestHoldOffsetStanding>
+		  <ingestHoldUsesTable>false</ingestHoldUsesTable>
+		  <ingestCommandString>Snort {0}</ingestCommandString>
+		  <ingestReportString>Snorting {0}.</ingestReportString>
+		  <useEatingSpeedStat>false</useEatingSpeedStat>
+		  <outcomeDoers>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>K_BananimaHigh</hediffDef>
+			  <severity>0.75</severity>
+			  <toleranceChemical>EF_Anima</toleranceChemical>
+			</li>
+			<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+			  <offset>0.20</offset>
+			</li>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>EF_AnimaTolerance</hediffDef>
+			  <severity>0.05</severity>
+			  <divideByBodySize>true</divideByBodySize>
+			</li>
+		  </outcomeDoers>
+		</ingestible>
+		<tradeTags Inherit="false">
+		  <li>ExoticMisc</li>
+		</tradeTags>
+		<comps>
+		  <li Class="CompProperties_Drug">
+			<chemical>EF_Anima</chemical>
+			<addictiveness>0.03</addictiveness>
+			<existingAddictionSeverityOffset>0.05</existingAddictionSeverityOffset>
+			<needLevelOffset>0.9</needLevelOffset>
+			<isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+			<listOrder>20</listOrder>
+			<overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+			<largeOverdoseChance>0.005</largeOverdoseChance>
+		  </li>
+		</comps>
+	</ThingDef>
+  
+	<HediffDef MayRequire="catlover366.monketime">
+		<defName>K_BananimaHigh</defName>
+		<hediffClass>Hediff_High</hediffClass>
+		<label>high on bananimandine</label>
+		<labelNoun>a bananimandine high</labelNoun>
+		<description>Concentraded bananadine and anima in the brain and bloodstream. It supercharges your psychic sensitivity and enhances your consciousness, and instantly increases psyfocus when first injected.</description>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+		  <li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>-1.25</severityPerDay>
+			<showHoursToRecover>true</showHoursToRecover>
+		  </li>
+		</comps>
+			<stages>
+				<li>
+					<statOffsets>
+						<PsychicSensitivityOffset>0.50</PsychicSensitivityOffset>
+						<PsychicEntropyRecoveryRate>0.25</PsychicEntropyRecoveryRate>
+						<MeditationFocusGain>0.25</MeditationFocusGain>
+					</statOffsets>
+					<capMods>
+						<li>
+						  <capacity>Consciousness</capacity>
+						  <offset>0.05</offset>
+						</li>				
+						<li>
+						  <capacity>Moving</capacity>
+						  <offset>0.20</offset>
+						</li>
+						<li>
+						  <capacity>Sight</capacity>
+						  <offset>-0.05</offset>
+						</li>
+					</capMods>
+					<mentalBreakMtbDays>25</mentalBreakMtbDays>
+					<allowedMentalBreakIntensities>
+					  <li>Minor</li>
+					  <li>Major</li>
+					</allowedMentalBreakIntensities>
+					<hediffGivers>
+						<li Class="HediffGiver_Random">
+							<hediff>PsychicComa</hediff><!-- Ability to set duration without creating a new hediff? -->
+							<mtbDays>80</mtbDays>
+							<partsToAffect>
+							  <li>Brain</li>
+							</partsToAffect>
+						</li>
+						<li Class="HediffGiver_Random">
+							<hediff>HeartAttack</hediff>
+							<mtbDays>120</mtbDays>
+							<partsToAffect>
+							  <li>Heart</li>
+							</partsToAffect>
+						</li>
+					</hediffGivers>
+				</li>
+			</stages>
+	</HediffDef>
+	  
+	<ThoughtDef MayRequire="catlover366.monketime">
+		<defName>K_BananimaHigh</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>K_BananimaHigh</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<stages>
+		  <li>
+			<label>high on bananadine</label>
+			<description>Monke stronk! Monkey Powerful! HA HA!</description>
+			<baseMoodEffect>15</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
+
+</Defs>
