@@ -1,0 +1,130 @@
+<Defs>
+  <RitualBehaviorDef>
+    <defName>AP_Slaveholding_RitualBehavior</defName>
+    <workerClass>AP_Slaveholding.RitualWorker</workerClass>
+    <durationTicks>2500</durationTicks>
+    <preceptRequirements>
+      <li Class="PreceptRequirement_Altar" />
+    </preceptRequirements>
+    <roles Inherit="False">
+      <li Class="RitualRoleTag">
+        <label>speaker</label>
+        <id>moralist</id>
+        <tag>Moralist</tag>
+        <precept>IdeoRole_Moralist</precept>
+        <required>True</required>
+        <maxCount>1</maxCount>
+        <countsAsParticipant>False</countsAsParticipant>
+        <allowChild>false</allowChild>
+      </li>
+      <li Class="AP_Slaveholding.RitualRoleSlave">
+        <label>Slave</label>
+        <id>convertee</id>
+        <maxCount>1</maxCount>
+        <required>True</required>
+        <allowOtherIdeos>True</allowOtherIdeos>
+        <countsAsParticipant>False</countsAsParticipant>
+        <ignoreBleeding>true</ignoreBleeding>
+      </li>
+    </roles>
+    <stages>
+      <li Class="RitualStage_InteractWithRole">
+        <defaultDuty>Spectate</defaultDuty>
+        <targetId>convertee</targetId>
+        <endTriggers>
+          <li Class="StageEndTrigger_PawnDeliveredOrNotValid" />
+        </endTriggers>
+        <failTriggers>
+          <li Class="StageFailTrigger_TargetPawnUnreachable">
+            <takerId>moralist</takerId>
+            <takeeId>convertee</takeeId>
+            <desc>Slave is not reachable.</desc>
+          </li>
+          <li Class="StageFailTrigger_PawnAsleep">
+            <desc>escort asleep</desc>
+            <pawnId>moralist</pawnId>
+          </li>
+        </failTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>moralist</roleId>
+            <dutyDef>DeliverPawnToAltar</dutyDef>
+          </li>
+          <li>
+            <roleId>convertee</roleId>
+            <!--<dutyDef>ArriveToCell</dutyDef>
+            <customPositions>
+              <li Class="RitualPosition_InFrontThingCenter" />
+            </customPositions>-->
+            <dutyDef>Idle</dutyDef>
+          </li>
+        </roleBehaviors>
+      </li>
+      <li Class="AP_Slaveholding.RitualStage_InteractWithSlave">
+        <defaultDuty>Spectate</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>0.3</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>moralist</roleId>
+            <dutyDef>AP_Slaveholding_RitualFlogDuty</dutyDef>
+            <customPositions>
+              <li Class="RitualPosition_OnInteractionCell" />
+            </customPositions>
+          </li>
+          <li>
+            <roleId>convertee</roleId>
+            <dutyDef>LayDownAwake</dutyDef>
+          </li>
+        </roleBehaviors>
+        <visualEffectDef>SacrificePrisoner</visualEffectDef>
+      </li>
+      <!-- -->
+      <li>
+        <defaultDuty>Spectate</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>0.7</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>moralist</roleId>
+            <dutyDef>SpeakOnCellFacingSpectators</dutyDef>
+            <speakerInteraction>Speech_Conversion</speakerInteraction>
+            <customPositions>
+              <li Class="RitualPosition_Lectern">
+                <maxDistanceToFocus>5</maxDistanceToFocus>
+              </li>
+              <li Class="RitualPosition_OnInteractionCell" />
+            </customPositions>
+          </li>
+          <li>
+            <roleId>convertee</roleId>
+            <dutyDef>LayDownAwake</dutyDef>
+          </li>
+        </roleBehaviors>
+      </li>
+
+    </stages>
+  </RitualBehaviorDef>
+  <DutyDef>
+    <defName>AP_Slaveholding_RitualFlogDuty</defName>
+    <hook>HighPriority</hook>
+    <socialModeMax>Off</socialModeMax>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="AP_Slaveholding.JobGiver_RitualFlog" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+  <JobDef>
+    <defName>AP_Slaveholding_RitualFlogJob</defName>
+    <driverClass>AP_Slaveholding.JobDriver_RitualFlog</driverClass>
+    <reportString>Flogging TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+</Defs>

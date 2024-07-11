@@ -1,0 +1,161 @@
+<Defs>
+  <PreceptDef>
+    <defName>AP_Slaveholding_SlaveryPaternalistic</defName>
+    <issue>Slavery</issue>
+    <label>paternalistic</label>
+    <description>It is our duty to hold slaves and treat them well, and it is dishonorable to fail this duty.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>0</displayOrderInIssue>
+    <displayOrderInImpact>800</displayOrderInImpact>
+    <enabledForNPCFactions>false</enabledForNPCFactions>
+    <associatedMemes>
+      <li>Supremacist</li>
+      <li>PainIsVirtue</li>
+    </associatedMemes>
+    <requiredMemes>
+      <li>Supremacist</li>
+      <li>AP_Slaveholding_Meme</li>
+    </requiredMemes>
+    <conflictingMemes>
+      <li>Raider</li>
+    </conflictingMemes>
+    <statFactors>
+      <SlaveSuppressionFallRate>0.5</SlaveSuppressionFallRate>
+    </statFactors>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>Slavery_Honorable_NoSlavesInColony</thought>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>SoldSlave</eventDef>
+        <thought>AP_Slaveholding_SoldSlaveThought</thought>
+        <onlyForNonSlaves>true</onlyForNonSlaves>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>EnslavedPrisonerNotPreviouslyEnslaved</eventDef>
+        <thought>EnslavedPrisoner_Honorable</thought>
+        <onlyForNonSlaves>true</onlyForNonSlaves>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>SoldSlave</eventDef>
+        <thought>SoldSlave_Know_Disapproved_Mood</thought>
+        <description>Someone sold a slave</description>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>EnslavedPrisoner</eventDef>
+        <thought>AP_Slaveholding_Know_Enslaved</thought>
+        <description>Someone enslaved a prisoner</description>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>SoldSlave</eventDef>
+        <thought>AP_Slaveholding_SoldSlaveOpinion</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>EnslavedPrisonerNotPreviouslyEnslaved</eventDef>
+        <thought>AP_Slaveholding_EnslavedSlaveOpinion</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>AP_Slaveholding_HappySlavesThought</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>AP_Slaveholding_UnhappySlavesThought</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>AP_Slaveholding_ContentSlavesThought</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_SoldSlaveThought</defName>
+    <durationDays>6</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>sold slave</label>
+        <description>I sold a person into slavery. I hope nothing terrible happens to them.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_Know_Enslaved</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>6</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <doNotApplyToQuestLodgers>true</doNotApplyToQuestLodgers>
+    <stages>
+      <li>
+        <label>prisoner enslaved</label>
+        <description>We enslaved someone. Now they know our honor and power!</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_SoldSlaveOpinion</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>6</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>sold slave</label>
+        <baseOpinionOffset>-10</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_EnslavedSlaveOpinion</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>6</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>enslaved someone</label>
+        <baseOpinionOffset>20</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_HappySlavesThought</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>AP_Slaveholding.HappySlavesMood_ThoughtWorker</workerClass>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>Happy slaves in colony</label>
+        <description>Happy slaves are efficient and less likely to rebel. It is good to be kind to
+          them.</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_ContentSlavesThought</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>AP_Slaveholding.HappySlavesMood_ThoughtWorker</workerClass>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>Content slaves in colony</label>
+        <description>Our slaves are treated well, but they could be happier.</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>AP_Slaveholding_UnhappySlavesThought</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>AP_Slaveholding.HappySlavesMood_ThoughtWorker</workerClass>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>Unhappy slaves in colony</label>
+        <description>It is cruel to keep slaves unhappy. We should be treating them better.</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

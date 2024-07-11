@@ -1,0 +1,74 @@
+<Defs>
+    <AbilityGroupDef>
+        <defName>AP_Slaveholding_AbilityGroup</defName>
+        <cooldownTicks>180000</cooldownTicks>
+        <ritualRoleIds>
+            <li>speaker</li>
+            <li>leader</li>
+        </ritualRoleIds>
+    </AbilityGroupDef>
+    <AbilityDef ParentName="RoleAuraBuffBase">
+        <defName>AP_Slaveholding_WorkDriveAbility</defName>
+        <label>Slave drive</label>
+        <description>Manifest an intimidating aura, scaring slaves nearby into working harder for some time. The effect remains attached to the caster for 24 hours.</description>
+        <iconPath>UI/Abilities/WorkDrive</iconPath>
+        <warmupMoteSocialSymbol>UI/Abilities/WorkDrive</warmupMoteSocialSymbol>
+        <stunTargetWhileCasting>True</stunTargetWhileCasting>
+        <showPsycastEffects>False</showPsycastEffects>
+        <showWhenDrafted>false</showWhenDrafted>
+        <groupDef>AP_Slaveholding_AbilityGroup</groupDef>
+        <hotKey>Misc12</hotKey>
+        <uiOrder>2</uiOrder>
+        <warmupStartSound>WorkDrive_Warmup</warmupStartSound>
+        <statBases>
+            <Ability_Duration>1000</Ability_Duration>
+            <Ability_EffectRadius>19.9</Ability_EffectRadius>
+        </statBases>
+        <comps>
+            <li Class="CompProperties_AbilityGiveHediff">
+                <compClass>CompAbilityEffect_GiveHediff</compClass>
+                <hediffDef>AP_Slaveholding_SlavedriveHediff</hediffDef>
+                <onlyBrain>True</onlyBrain>
+                <onlyApplyToSelf>True</onlyApplyToSelf>
+                <replaceExisting>true</replaceExisting>
+            </li>
+        </comps>
+    </AbilityDef>
+    <HediffDef ParentName="RoleStatBuff">
+        <defName>AP_Slaveholding_SlavedriveHediff</defName>
+        <label>slave drive</label>
+        <description>Forcing slaves to work harder around me!</description>
+        <hediffClass>HediffWithComps</hediffClass>
+        <comps>
+            <li Class="HediffCompProperties_Disappears">
+                <showRemainingTime>True</showRemainingTime>
+            </li>
+            <li Class="HediffCompProperties_DisappearsOnDeath" />
+            <li Class="AP_Slaveholding.GiveHediffsInRange">
+                <range>19.9</range>
+                <mote>Mote_WorkCommand</mote>
+                <hideMoteWhenNotDrafted>true</hideMoteWhenNotDrafted>
+                <targetingParameters>
+                    <canTargetBuildings>false</canTargetBuildings>
+                    <canTargetAnimals>false</canTargetAnimals>
+                    <canTargetMechs>false</canTargetMechs>
+                    <onlyTargetColonists>true</onlyTargetColonists>
+                  </targetingParameters>
+                <hediff>AP_Slaveholding_SlavedriveHediffBuff</hediff>
+            </li>
+        </comps>
+        <isBad>false</isBad>
+    </HediffDef>
+    <HediffDef ParentName="WorkRoleAuraBuffHediffBase">
+        <defName>AP_Slaveholding_SlavedriveHediffBuff</defName>
+        <label>slave drive</label>
+        <description>The sense of being forced to work harder by a slave master.</description>
+        <stages>
+          <li>
+            <statOffsets>
+              <WorkSpeedGlobal>0.5</WorkSpeedGlobal>
+            </statOffsets>
+          </li>
+        </stages>
+      </HediffDef>
+</Defs>
