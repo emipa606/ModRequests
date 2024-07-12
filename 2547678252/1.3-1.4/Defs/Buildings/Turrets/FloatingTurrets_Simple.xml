@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+    <!-- Simple water turret -->
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>COMIGO_FloatingTurret_Simple</defName>
+        <label>floating turret</label>
+        <description>A simple anchored turret that can float on water. Can't shoot in bursts due to recoil and flipping but shoots more often than a regular turret. Requires steel to refurbish its barrel after heavy use. May explode when damaged. Its dumb AI brain can't be directly controlled, so beware of friendly fire.</description>
+        <thingClass>Building_TurretGun</thingClass>
+        <drawerType>MapMeshAndRealTime</drawerType>
+        <graphicData>
+            <texPath>Things/Buildings/Security/TurretWater_Base</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <drawSize>(1.5,1.5)</drawSize>
+            <damageData>
+                <rect>(0.1,0.0,0.9,1.0)</rect>
+            </damageData>
+            <shadowData>
+                <volume>(0.27,0.25,0.27)</volume>
+                <offset>(0,0,0)</offset>
+            </shadowData>
+        </graphicData>
+        <uiIconPath>Things/Buildings/Security/TurretWater_MenuIcon</uiIconPath>
+        <uiIconScale>0.90</uiIconScale>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <altitudeLayer>Building</altitudeLayer>
+        <stealable>false</stealable>
+        <rotatable>false</rotatable>
+        <thingCategories>
+            <li>BuildingsSecurity</li>
+        </thingCategories>
+        <statBases>
+            <MaxHitPoints>120</MaxHitPoints>
+            <Flammability>0</Flammability>
+            <WorkToBuild>2200</WorkToBuild>
+            <Mass>6</Mass>
+            <Beauty>-35</Beauty>
+            <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+        </statBases>
+        <tickerType>Normal</tickerType>
+        <comps>
+            <li Class="CompProperties_Explosive">
+                <wickTicks>240</wickTicks>
+                <explosiveRadius>2.9</explosiveRadius>
+                <explosiveDamageType>Bomb</explosiveDamageType>
+                <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+            </li>
+            <li Class="CompProperties_Power">
+              <compClass>CompPowerTrader</compClass>
+              <basePowerConsumption>80</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Forbiddable" />
+            <li Class="CompProperties_Flickable" />
+            <li Class="CompProperties_Breakdownable" />
+            <li Class="CompProperties_Refuelable">
+                <fuelLabel>Shots until barrel change</fuelLabel>
+                <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+                <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+                <fuelFilter>
+                    <thingDefs>
+                        <li>Steel</li>
+                    </thingDefs>
+                </fuelFilter>
+                <fuelCapacity>60</fuelCapacity> <!-- 30 bursts -->
+                <fuelMultiplier>1.5</fuelMultiplier> <!-- 0.666 steel per burst, 60 per full rearm -->
+                <initialFuelPercent>1</initialFuelPercent>
+                <autoRefuelPercent>0.5</autoRefuelPercent>
+                <showFuelGizmo>true</showFuelGizmo>
+                <minimumFueledThreshold>1</minimumFueledThreshold>
+                <factorByDifficulty>true</factorByDifficulty>
+                <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+                <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+            </li>
+        </comps>
+        <passability>PassThroughOnly</passability>
+        <pathCost>50</pathCost>
+        <fillPercent>0.4</fillPercent>
+        <hasTooltip>true</hasTooltip>
+        <costList>
+            <Steel>40</Steel>
+            <Chemfuel>25</Chemfuel>
+            <ComponentIndustrial>3</ComponentIndustrial>
+        </costList>
+        <terrainAffordanceNeeded>ShallowWater</terrainAffordanceNeeded>
+        <designationCategory>Security</designationCategory>
+        <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+        <building>
+            <combatPower>45</combatPower> <!-- same as a scavenger -->
+            <ai_combatDangerous>true</ai_combatDangerous>
+            <turretGunDef>COMIGO_FloatingTurret_Simple_Gun</turretGunDef>
+            <turretBurstCooldownTime>2.0</turretBurstCooldownTime>
+        </building>
+        <placeWorkers>
+            <li>PlaceWorker_TurretTop</li>
+            <li>PlaceWorker_ShowTurretRadius</li>
+        </placeWorkers>
+        <researchPrerequisites>
+            <li>COMIGO_FloatingTurrets</li>
+        </researchPrerequisites>
+    </ThingDef>
+
+    <!-- Water turret's gun -->
+    <ThingDef ParentName="BaseWeaponTurret">
+        <defName>COMIGO_FloatingTurret_Simple_Gun</defName>
+        <label>gun for water-based turrets</label>
+        <description>A simple gun made to be mounted on a floating turret.</description>
+        <graphicData>
+            <texPath>Things/Buildings/Security/TurretWater_Top</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <AccuracyTouch>0.70</AccuracyTouch>
+            <AccuracyShort>0.64</AccuracyShort>
+            <AccuracyMedium>0.41</AccuracyMedium>
+            <AccuracyLong>0.22</AccuracyLong>
+            <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
+            <DeteriorationRate>0</DeteriorationRate>
+            <Mass>5</Mass>
+            <Flammability>0</Flammability>
+        </statBases>
+        <verbs>
+            <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <defaultProjectile>Bullet_MiniTurret</defaultProjectile>
+                <warmupTime>0</warmupTime>
+                <range>28.9</range>
+                <!--
+                <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+                <burstShotCount>2</burstShotCount>
+                -->
+                <soundCast>GunShotA</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>9</muzzleFlashScale>
+                <consumeFuelPerShot>1</consumeFuelPerShot>
+            </li>
+        </verbs>
+    </ThingDef>
+
+
+
+    <!-- Double water turret -->
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>COMIGO_FloatingTurret_Double</defName>
+        <label>heavy floating turret</label>
+        <description>As heavy as it can be. A simple anchored twin turret that can float on water. Can't shoot in bursts due to recoil and flipping but shoots more often than a regular turret. Requires steel to refurbish its barrel after heavy use. May explode when damaged. Its dumb AI brain can't be directly controlled, so beware of friendly fire.</description>
+        <thingClass>Building_TurretGun</thingClass>
+        <drawerType>MapMeshAndRealTime</drawerType>
+        <graphicData>
+            <texPath>Things/Buildings/Security/TurretWater_Base</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <drawSize>(1.5,1.5)</drawSize>
+            <damageData>
+                <rect>(0.1,0.0,0.9,1.0)</rect>
+            </damageData>
+            <shadowData>
+                <volume>(0.27,0.25,0.27)</volume>
+                <offset>(0,0,0)</offset>
+            </shadowData>
+        </graphicData>
+        <uiIconPath>Things/Buildings/Security/TurretWaterDouble_MenuIcon</uiIconPath>
+        <uiIconScale>0.90</uiIconScale>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <altitudeLayer>Building</altitudeLayer>
+        <stealable>false</stealable>
+        <rotatable>false</rotatable>
+        <thingCategories>
+            <li>BuildingsSecurity</li>
+        </thingCategories>
+        <statBases>
+            <MaxHitPoints>140</MaxHitPoints>
+            <Flammability>0</Flammability>
+            <WorkToBuild>2800</WorkToBuild>
+            <Mass>10</Mass>
+            <Beauty>-35</Beauty>
+            <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+        </statBases>
+        <tickerType>Normal</tickerType>
+        <comps>
+            <li Class="CompProperties_Explosive">
+                <wickTicks>240</wickTicks>
+                <explosiveRadius>2.9</explosiveRadius>
+                <explosiveDamageType>Bomb</explosiveDamageType>
+                <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+            </li>
+            <li Class="CompProperties_Power">
+              <compClass>CompPowerTrader</compClass>
+              <basePowerConsumption>100</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Forbiddable" />
+            <li Class="CompProperties_Flickable" />
+            <li Class="CompProperties_Breakdownable" />
+            <li Class="CompProperties_Refuelable">
+                <fuelLabel>Shots until barrel change</fuelLabel>
+                <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+                <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+                <fuelFilter>
+                    <thingDefs>
+                        <li>Steel</li>
+                    </thingDefs>
+                </fuelFilter>
+                <fuelCapacity>120</fuelCapacity> <!-- 30 bursts -->
+                <fuelMultiplier>1.5</fuelMultiplier> <!-- 0.666 steel per burst, 60 per full rearm -->
+                <initialFuelPercent>1</initialFuelPercent>
+                <autoRefuelPercent>0.5</autoRefuelPercent>
+                <showFuelGizmo>true</showFuelGizmo>
+                <minimumFueledThreshold>1</minimumFueledThreshold>
+                <factorByDifficulty>true</factorByDifficulty>
+                <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+                <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+            </li>
+        </comps>
+        <passability>PassThroughOnly</passability>
+        <pathCost>50</pathCost>
+        <fillPercent>0.4</fillPercent>
+        <hasTooltip>true</hasTooltip>
+        <costList>
+            <Steel>50</Steel>
+            <Chemfuel>25</Chemfuel>
+            <ComponentIndustrial>6</ComponentIndustrial>
+        </costList>
+        <terrainAffordanceNeeded>ShallowWater</terrainAffordanceNeeded>
+        <designationCategory>Security</designationCategory>
+        <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+        <building>
+            <combatPower>65</combatPower>
+            <ai_combatDangerous>true</ai_combatDangerous>
+            <turretGunDef>COMIGO_FloatingTurret_Double_Gun</turretGunDef>
+            <turretBurstCooldownTime>2.0</turretBurstCooldownTime>
+        </building>
+        <placeWorkers>
+            <li>PlaceWorker_TurretTop</li>
+            <li>PlaceWorker_ShowTurretRadius</li>
+        </placeWorkers>
+        <researchPrerequisites>
+            <li>COMIGO_FloatingTurrets</li>
+        </researchPrerequisites>
+    </ThingDef>
+
+    <!-- Water turret's twin gun -->
+    <ThingDef ParentName="BaseWeaponTurret">
+        <defName>COMIGO_FloatingTurret_Double_Gun</defName>
+        <label>twin gun for water-based turrets</label>
+        <description>A simple gun made to be mounted on a floating turret.</description>
+        <graphicData>
+            <texPath>Things/Buildings/Security/TurretWaterDouble_Top</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <statBases>
+            <AccuracyTouch>0.70</AccuracyTouch>
+            <AccuracyShort>0.64</AccuracyShort>
+            <AccuracyMedium>0.41</AccuracyMedium>
+            <AccuracyLong>0.22</AccuracyLong>
+            <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
+            <DeteriorationRate>0</DeteriorationRate>
+            <Mass>5</Mass>
+            <Flammability>0</Flammability>
+        </statBases>
+        <verbs>
+            <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <defaultProjectile>Bullet_MiniTurret</defaultProjectile>
+                <warmupTime>0</warmupTime>
+                <range>28.9</range>
+                <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+                <burstShotCount>2</burstShotCount>
+                <soundCast>GunShotA</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>9</muzzleFlashScale>
+                <consumeFuelPerShot>1</consumeFuelPerShot>
+            </li>
+        </verbs>
+    </ThingDef>
+
+</Defs>
