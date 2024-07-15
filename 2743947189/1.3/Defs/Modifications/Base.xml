@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>PLA_VehicleParts</defName>
+    <label>vehicle modification kit</label>
+    <parent>Items</parent>
+  </ThingCategoryDef>
+
+  <!-- Hediff base-->
+
+  <HediffDef Name="PLA_VehicleAttachmentBase" Abstract="True">
+    <hediffClass>Hediff_Implant</hediffClass>
+    <defaultLabelColor>(0.6, 0.6, 1.0)</defaultLabelColor>
+    <isBad>false</isBad>
+    <priceImpact>true</priceImpact>
+    <countsAsAddedPartOrImplant>true</countsAsAddedPartOrImplant>
+  </HediffDef>
+
+  <!-- These replace natural parts entirely -->
+  <HediffDef Name="PLA_VehiclePartBase" ParentName="PLA_VehicleAttachmentBase" Abstract="True">
+    <hediffClass>Hediff_AddedPart</hediffClass>
+    <priceImpact>true</priceImpact>
+  </HediffDef>
+
+  <!-- thingdef base-->
+
+  <ThingDef Name="PLA_VehicleModificationBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <drawerType>MapMeshOnly</drawerType>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <tickerType>Never</tickerType>
+    <alwaysHaulable>true</alwaysHaulable>
+    <isTechHediff>true</isTechHediff>
+    <pathCost>14</pathCost>
+    <allowedArchonexusCount>1</allowedArchonexusCount>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <Beauty>-4</Beauty>
+      <DeteriorationRate>2.0</DeteriorationRate>
+      <Mass>40</Mass>
+      <WorkToMake>26000</WorkToMake>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+    <techLevel>Industrial</techLevel>
+    <thingCategories>
+      <li>PLA_VehicleParts</li>
+    </thingCategories>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef Name="PLA_VehicleModComponentBase" ParentName="PLA_VehicleModificationBase" Abstract="True">
+    <graphicData>
+      <texPath>VehicleModification/VehicleComponent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef Name="PLA_VehicleModWeaponBase" ParentName="PLA_VehicleModificationBase" Abstract="True">
+    <graphicData>
+      <texPath>VehicleModification/VehicleWeapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!--recipe-->
+  <RecipeDef Abstract="True" Name="PLA_RecipeModifyVehicle">
+    <effectWorking>Repair</effectWorking>
+    <workSpeedStat>ConstructionSpeed</workSpeedStat>
+    <workSkill>Construction</workSkill>
+    <workSkillLearnFactor>16</workSkillLearnFactor>
+    <dontShowIfAnyIngredientMissing>false</dontShowIfAnyIngredientMissing>
+  </RecipeDef>
+
+  <RecipeDef Abstract="True" Name="PLA_RecipeInstallVehicleAttachment" ParentName="PLA_RecipeModifyVehicle">
+    <workerClass>PLA.Vehicle.Recipe_InstallVehicleAttachment</workerClass>
+    <workAmount>2500</workAmount>
+  </RecipeDef>
+
+  <RecipeDef Abstract="True" Name="PLA_RecipeInstallVehiclePart" ParentName="PLA_RecipeModifyVehicle">
+    <workerClass>PLA.Vehicle.Recipe_InstallVehiclePart</workerClass>
+    <workAmount>2500</workAmount>
+  </RecipeDef>
+
+  <RecipeDef Abstract="True" Name="PLA_RecipeInstallVehicleWeapon" ParentName="PLA_RecipeModifyVehicle">
+    <workerClass>PLA.Vehicle.Recipe_InstallVehicleWeapon</workerClass>
+    <workAmount>2500</workAmount>
+  </RecipeDef>
+</Defs>
