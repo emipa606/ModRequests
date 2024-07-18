@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>Rimloop_LoopGenerator</defName>
+    <label>temporal displacement device</label>
+    <description>This building directs power into an internal capacitor bank, which takes some time to charge. As soon as the charging process finishes, it uses the stored energy to send the entire universe back the same amount of time it took to charge, while preserving some people's memories. In short, it's a time loop machine.</description>
+    <graphicData>
+      <texPath>Things/Building/Misc/LongRangeMineralScanner</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(8, 8)</drawSize>
+      <shadowData>
+        <volume>(1.4, 0.4, 1.4)</volume>
+        <offset>(0,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <fillPercent>1</fillPercent>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <statBases>
+      <MaxHitPoints>5800</MaxHitPoints>
+      <WorkToBuild>24000</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-30</Beauty>
+    </statBases>
+    <size>(6,6)</size>
+    <costList>
+      <Steel>480</Steel>
+      <ComponentIndustrial>50</ComponentIndustrial>
+	  <ComponentSpacer>25</ComponentSpacer>
+	  <Plasteel>300</Plasteel>
+	  <Gold>500</Gold>
+    </costList>
+	<tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>125000</basePowerConsumption>
+      </li>
+	  <li Class="CompProperties_Flickable"/>
+	  <li Class="RimloopMod.CompProperties_FlickOffOnPowerLoss"/>
+	  <li Class="RimloopMod.CompProperties_Looper">
+        <defaultLoopTime>60000</defaultLoopTime>
+		<loopColor>(0, 0, 0)</loopColor>
+		<awarenessImplant>Rimloop_MemoryImplant</awarenessImplant>
+		<awarenessHediff>Rimloop_LoopAwareness</awarenessHediff>
+		<giveDiedThought>true</giveDiedThought>
+		<diedThought>Rimloop_DiedInLoop</diedThought>
+		<!-- The XML splicer will do these once each (starting at the 'game' element in save) -->
+		<spliceXPath>
+			<li>researchManager</li>
+		</spliceXPath>
+		<!-- The XML splicer will do these once per pawn with awareness (starting at the 'Thing' element for each pawn in save) -->
+		<spliceXPathPerPawn>
+			<li>needs/needs/li[@Class='Need_Joy']</li>
+			<li>needs/needs/li[@Class='Need_Mood']</li>
+			<li>social/directRelations</li>
+			<li>skills</li>
+			<li>guest</li>
+			<li>ideo</li>
+		</spliceXPathPerPawn>
+      </li>
+    </comps>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+	  <li>RimloopMod.PlaceWorker_UniqueBuilding</li>
+    </placeWorkers>
+    <building>
+      <ai_chillDestination>false</ai_chillDestination>
+      <soundAmbient>ScannerGroundPenetrating_Ambience</soundAmbient>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites><li>Rimloop_TimeLoopResearch</li></researchPrerequisites>
+    <constructionSkillPrerequisite>16</constructionSkillPrerequisite>
+  </ThingDef>
+
+</Defs>
