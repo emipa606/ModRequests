@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <MVCF.ModDef>
+    <defName>MVCF_EnableAll_Test</defName>
+    <label>Enable all features</label>
+    <description>All features will be enabled if this def is included.</description>
+    <ActivateFeatures>
+      <li>IntegratedToggle</li>
+      <li>HediffVerbs</li>	
+      <li>RangedAnimals</li>
+    </ActivateFeatures>
+  </MVCF.ModDef>
+
+  <ThingDef Name="CB_BodyPartCryptonicBase" ParentName="BodyPartBase" Abstract="True">
+    <techLevel>Spacer</techLevel>
+    <thingCategories>
+      <li>BodyPartsBionic</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Things/Item/BodyPart/CB_Cryptonic_Finished</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.80</drawSize>
+    </graphicData>
+    <tradeTags>
+      <li>Bionic</li>
+    </tradeTags>
+    <techHediffsTags>
+      <li>Advanced</li>
+    </techHediffsTags>
+    <statBases>
+      <WorkToMake>36000</WorkToMake>
+    </statBases>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <unfinishedThingDef>CB_UnfinishedHealthItemCryptonic</unfinishedThingDef>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>CB_CryptoBionics</researchPrerequisite>
+      <recipeUsers>
+        <li>FabricationBench</li>
+      </recipeUsers>
+      <displayPriority>300</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- Crypto eye -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicEye</defName>
+    <label>crypto eye</label>
+    <labelNoun>a crypto eye</labelNoun>
+    <description>An installed crypto eye.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicEye</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicEye</spawnThingOnRemoved>
+    <woundAnchorRange>0</woundAnchorRange>
+    <displayWound>true</displayWound>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.2</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.98</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.1</ArmorRating_Heat>
+          <ComfyTemperatureMin>-2.5</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.05</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+    <eyeGraphicSouth>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Pawn/Wounds/BionicEye_south</texPath>
+    </eyeGraphicSouth>
+    <eyeGraphicEast>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Pawn/Wounds/BionicEye_east</texPath>
+    </eyeGraphicEast>
+    <eyeGraphicScale>0.2</eyeGraphicScale>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicEye</defName>
+    <label>crypto eye</label>
+    <description>An advanced artificial eye. It is slightly less efficient than a standard bionic eye, but it makes up for this deficiency by pumping a small amount of cryonic energy throughout the user. This energy offers minor resistance against general damage and moderate protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicEye</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>50</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <statBases>
+      <Mass>0.3</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicEye</defName>
+    <label>install crypto eye</label>
+    <description>Install a crypto eye.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicEye</ThingDef>
+      <HediffDef>CB_CryptonicEye</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing crypto eye.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicEye</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicEye</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Eye</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicEye</addsHediff>
+  </RecipeDef>
+
+  <!-- Cryptosiphon arm -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicSiphonArm</defName>
+    <label>cryptosiphon arm</label>
+    <labelNoun>a cryptosiphon arm</labelNoun>
+    <description>An installed cryptosiphon arm.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicSiphonArm</ThingDef></descriptionHyperlinks>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+          <li>
+            <label>crypto claw</label>
+            <capacities>
+              <li>Cut</li>
+            </capacities>
+            <armorPenetration>0.5</armorPenetration>
+            <power>18</power>
+            <cooldownTime>1.0</cooldownTime>
+            <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+            <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
+            <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss>
+              <extraMeleeDamages>
+                <li>
+                  <def>Frostbite</def>
+                  <amount>4</amount>
+                  <chance>100</chance>
+                </li>
+              </extraMeleeDamages>
+          </li>
+        </tools>
+      </li>
+      <li Class="AthenaFramework.HediffCompProperties_GiveSingularAbility">
+          <abilityDefs>
+            <li>CB_CryptoClot</li>
+            <li>CB_CryptoFreeze</li>
+          </abilityDefs> 
+      </li>
+    </comps>
+    <spawnThingOnRemoved>CB_CryptonicSiphonArm</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.2</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.98</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.05</ArmorRating_Heat>
+          <ComfyTemperatureMin>-1.5</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.1</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicSiphonArm</defName>
+    <label>cryptosiphon arm</label>
+    <description>An advanced artificial arm. It is slightly less efficient than a standard bionic arm, but it makes up for this deficiency by pumping a small amount of cryonic energy throughout the user. This energy offers minor resistance against general damage and moderate protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.\n\nThis arm has a special module built in that allows them to utilize their internal cryonic field to expel cryonic energy for both offense and support.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicSiphonArm</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>50</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <statBases>
+      <Mass>5</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicSiphonArm</defName>
+    <label>install cryptosiphon arm</label>
+    <description>Install a cryptosiphon arm.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicSiphonArm</ThingDef>
+      <HediffDef>CB_CryptonicSiphonArm</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing cryptosiphon arm.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicSiphonArm</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicSiphonArm</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Shoulder</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicSiphonArm</addsHediff>
+  </RecipeDef>
+
+  <!-- Cryptoaegis arm -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicAegisArm</defName>
+    <label>cryptoaegis arm</label>
+    <labelNoun>a cryptoaegis arm</labelNoun>
+    <description>An installed cryptoaegis arm.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicAegisArm</ThingDef></descriptionHyperlinks>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+          <li>
+            <label>crypto fist</label>
+            <capacities>
+              <li>Blunt</li>
+            </capacities>
+            <armorPenetration>0.5</armorPenetration>
+            <power>16</power>
+            <cooldownTime>1.0</cooldownTime>
+            <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+            <soundMeleeHit>Pawn_Melee_PowerClaw_Hit</soundMeleeHit>
+            <soundMeleeMiss>Pawn_Melee_PowerClaw_Miss</soundMeleeMiss>
+              <extraMeleeDamages>
+                <li>
+                  <def>Frostbite</def>
+                  <amount>6</amount>
+                  <chance>100</chance>
+                </li>
+              </extraMeleeDamages>
+          </li>
+        </tools>
+      </li>
+      <li Class="AthenaFramework.HediffCompProperties_GiveSingularAbility">
+          <abilityDefs>
+            <li>CB_IceWallRaise</li>
+          </abilityDefs> 
+      </li>
+    </comps>
+    <spawnThingOnRemoved>CB_CryptonicAegisArm</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.1</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.98</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.15</ArmorRating_Heat>
+          <ComfyTemperatureMin>-3.5</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.1</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicAegisArm</defName>
+    <label>cryptoaegis arm</label>
+    <description>An advanced artificial arm. It is moderately less efficient than a standard bionic arm, but it makes up for this deficiency by pumping a relatively large amount of cryonic energy throughout the user. This energy offers minor resistance against general damage and significant protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.\n\nThis arm has a special module built in that allows the user to form a wall of ice from thin air.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicAegisArm</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>50</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <statBases>
+      <Mass>5</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicAegisArm</defName>
+    <label>install cryptoaegis arm</label>
+    <description>Install a cryptoaegis arm.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicAegisArm</ThingDef>
+      <HediffDef>CB_CryptonicAegisArm</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing cryptoaegis arm.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicAegisArm</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicAegisArm</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Shoulder</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicAegisArm</addsHediff>
+  </RecipeDef>
+
+  <!-- Crypto leg -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicLeg</defName>
+    <label>crypto leg</label>
+    <labelNoun>a crypto leg</labelNoun>
+    <description>An installed crypto leg.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicLeg</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicLeg</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.0</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+  <comps>
+      <li Class="CryptoExpansion.HediffCompProperties_JumpEntropy">
+        <compClass>CryptoExpansion.HediffComp_JumpEntropy</compClass>
+        <radius>5.0</radius>
+        <damType>CB_FrostbreathBlast</damType>
+        <damAmount>20</damAmount>
+        <excludeRadius>1.0</excludeRadius>
+      </li>
+    <li Class="MVCF.Comps.HediffCompProperties_ExtendedVerbGiver">
+      <verbs>
+        <li>
+          <verbClass>CryptoExpansion.Verb_PowerJump</verbClass>
+          <label>crypto jump</label>
+          <commandIcon>UI/Abilities/CB_ColdRush</commandIcon>
+          <violent>false</violent>
+          <hasStandardCommand>true</hasStandardCommand>
+          <onlyManualCast>True</onlyManualCast>
+          <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+          <warmupTime>0.5</warmupTime>
+          <range>21.9</range>
+          <warmupEffecter>JumpWarmupEffect</warmupEffecter>
+          <requireLineOfSight>true</requireLineOfSight>
+          <flightEffecterDef>CB_CryoJumpFlightEffect</flightEffecterDef>
+          <soundLanding>JumpPackLand</soundLanding>
+          <targetParams>
+            <canTargetLocations>true</canTargetLocations>
+            <canTargetPawns>false</canTargetPawns>
+            <canTargetBuildings>false</canTargetBuildings>
+          </targetParams>
+          </li>
+      </verbs>
+      <verbProps>
+        <li>
+          <label>crypto jump</label>
+          <canBeToggled>true</canBeToggled>
+          <brawlerCaresAbout>false</brawlerCaresAbout>
+          <comps>
+            <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+              <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+              <cooldownTime>50</cooldownTime>
+            </li>
+          </comps>
+        </li>
+      </verbProps>
+    </li>
+  </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.98</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.1</ArmorRating_Heat>
+          <ComfyTemperatureMin>-2.5</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.1</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicLeg</defName>
+    <label>crypto leg</label>
+    <description>An advanced artificial leg. It is equivalent to a biological leg, but it makes up for this deficiency by pumping a moderate amount of cryonic energy throughout the user. This energy offers minor resistance against general damage and moderate protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.\n\nThe user can use the generated cryonic energy to leap through the air. After landing, the leg releases a burst of damaging cryonic energy around the impact point, inflicting frostbite on anyone unfortunate enough to be nearby. Each leg gives one charge.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicLeg</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>50</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <statBases>
+      <Mass>8</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicLeg</defName>
+    <label>install crypto leg</label>
+    <description>Install a crypto leg.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicLeg</ThingDef>
+      <HediffDef>CB_CryptonicLeg</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing crypto leg.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicLeg</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicLeg</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Leg</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicLeg</addsHediff>
+  </RecipeDef>
+
+  <!-- Crypto spine -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicSpine</defName>
+    <label>crypto spine</label>
+    <labelNoun>a crypto spine</labelNoun>
+    <description>An installed crypto spine.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicSpine</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicSpine</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.96</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.2</ArmorRating_Heat>
+          <ComfyTemperatureMin>-2.5</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.1</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicSpine</defName>
+    <label>crypto spine</label>
+    <description>An advanced artificial spine. It is equivalent to a biological spine, but it makes up for this deficiency by pumping a sizable amount of cryonic energy throughout the user. This energy offers moderate resistance against general damage and moderate protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicSpine</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>50</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <statBases>
+      <Mass>2</Mass>
+    </statBases>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicSpine</defName>
+    <label>install crypto spine</label>
+    <description>Install a crypto spine.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicSpine</ThingDef>
+      <HediffDef>CB_CryptonicSpine</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing crypto spine.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicSpine</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicSpine</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Spine</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicSpine</addsHediff>
+  </RecipeDef>
+
+  <!-- Crypto heart -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicHeart</defName>
+    <label>crypto core</label>
+    <labelNoun>a crypto core</labelNoun>
+    <description>An installed crypto core.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicHeart</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicHeart</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.2</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_ReactOnDamage_InRadius">
+        <createHediff>CB_Freezing</createHediff>
+        <range>2</range>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.96</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.2</ArmorRating_Heat>
+          <ComfyTemperatureMin>-5.0</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.1</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicHeart</defName>
+    <label>crypto core</label>
+    <description>An advanced artificial heart. It is slightly less efficient than a standard bionic heart, but it makes up for this deficiency by pumping a large amount of cryonic energy throughout the user. This energy offers moderate resistance against general damage and moderate protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.\n\nThe cryonic energy produced by the crypto core is particularly unstable, but any harm to the user is easily circumvented by having an exposed porthole that can automatically expel excess energy. This also gives the user the unique advantage of being able to blast any nearby attackers with cryonic energy, inflicting a deadly freeze.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicHeart</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>150</Plasteel>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicHeart</defName>
+    <label>install crypto core</label>
+    <description>Install a crypto core.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicHeart</ThingDef>
+      <HediffDef>CB_CryptonicHeart</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing crypto heart.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicHeart</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicHeart</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Heart</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicHeart</addsHediff>
+  </RecipeDef>
+  
+  <!-- Crypto lung -->
+
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CB_CryptonicLung</defName>
+    <label>crypto lung</label>
+    <labelNoun>a crypto lung</labelNoun>
+    <description>An installed crypto lung.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicLung</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicLung</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.2</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+  <comps>
+    <li Class="MVCF.Comps.HediffCompProperties_ExtendedVerbGiver">
+      <verbs>
+        <li>
+          <verbClass>Verb_Shoot</verbClass>
+          <label>Crypto breath</label>
+          <commandIcon>UI/Abilities/CB_CryoSpray</commandIcon>
+          <hasStandardCommand>True</hasStandardCommand>
+          <defaultProjectile>CB_Bullet_FrostbreathProjectile</defaultProjectile>
+          <forcedMissRadius>1.9</forcedMissRadius>
+          <burstShotCount>9</burstShotCount>
+          <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+          <warmupTime>1.5</warmupTime>
+          <ai_AvoidFriendlyFireRadius>5</ai_AvoidFriendlyFireRadius>
+          <range>21.9</range>
+          <soundCast>CB_Frostbreath</soundCast>
+          <soundCastTail>GunTail_Heavy</soundCastTail>
+          <onlyManualCast>true</onlyManualCast>
+          <stopBurstWithoutLos>false</stopBurstWithoutLos>
+          <targetParams>
+            <canTargetLocations>true</canTargetLocations>
+          </targetParams>
+          <muzzleFlashScale>0</muzzleFlashScale>
+        </li>
+      </verbs>
+      <verbProps>
+        <li>
+          <label>Crypto breath</label>
+          <canBeToggled>true</canBeToggled>
+          <brawlerCaresAbout>false</brawlerCaresAbout>
+          <comps>
+            <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+              <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+              <cooldownTime>100</cooldownTime>
+            </li>
+          </comps>
+        </li>
+      </verbProps>
+    </li>
+  </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.98</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ArmorRating_Heat>0.1</ArmorRating_Heat>
+          <ComfyTemperatureMin>-2.5</ComfyTemperatureMin>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.05</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicLung</defName>
+    <label>crypto lung</label>
+    <description>An advanced artificial lung. It is slightly less efficient than a standard bionic lung, but it makes up for this deficiency by pumping a moderate amount of cryonic energy throughout the user. This energy offers minor resistance against general damage and moderate protection against fire. However, it does slightly slow down certain mental and physical functions of the user, namely the user's capability to absorb information and movement speed, respectively.\n\nWith these lungs, the user can draw from their cryonic energy reserves and breath out a gust of icy particles. These particles shatter on impact, inflicting severe frostbite and hypothermia to anyone caught in it. Each lung gives one charge.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicLung</RecipeDef></descriptionHyperlinks>
+    <costList>
+      <Plasteel>50</Plasteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+    <defName>CB_InstallCryptonicLung</defName>
+    <label>install crypto lung</label>
+    <description>Install a crypto lung.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicLung</ThingDef>
+      <HediffDef>CB_CryptonicLung</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing crypto lung.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicLung</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicLung</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Lung</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicLung</addsHediff>
+  </RecipeDef>
+
+  <!-- Crypto exoskeleton -->
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>CB_CryptonicExoskeleton</defName>
+    <label>crypto exoskeleton</label>
+    <labelNoun>a crypto exoskeleton</labelNoun>
+    <description>An installed crypto exoskeleton.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicExoskeleton</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicExoskeleton</spawnThingOnRemoved>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.90</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ComfyTemperatureMin>-2.5</ComfyTemperatureMin>
+          <ArmorRating_Sharp>0.6</ArmorRating_Sharp>
+          <ArmorRating_Blunt>0.2</ArmorRating_Blunt>
+          <ArmorRating_Heat>0.5</ArmorRating_Heat>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.3</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+    <comps>
+      <li Class="AthenaFramework.HediffCompProperties_Shield">
+        <maxEnergy>100</maxEnergy>
+        <energyRechargeRate>0.05</energyRechargeRate>
+        <resetDelay>3200</resetDelay>
+        <blacklistedDamageDefs>
+          <li>EMP</li>
+          <li>Flame</li>
+          <li>Burn</li>
+          <li>Frostbite</li>
+        </blacklistedDamageDefs>
+        <blocksMeleeDamage>true</blocksMeleeDamage>
+        <energyPerDamageModifier>1</energyPerDamageModifier>
+        <shatterOn />
+        <absorbFleck>ExplosionFlash</absorbFleck>
+        <breakFleck>ExplosionFlash</breakFleck>
+        <shieldBreakEffecter>Shield_Break</shieldBreakEffecter>
+
+        <absorbSound>EnergyShield_AbsorbDamage</absorbSound>
+        <resetSound>EnergyShield_Reset</resetSound>
+
+        <displayGizmo>true</displayGizmo>
+        <gizmoTitle>Crypto shield</gizmoTitle>
+        <gizmoTip>A crypto field generated by a crypto exoskeleton. Slows down high speed kinetic energy to the point of neutralization.</gizmoTip>
+
+        <minDrawSize>1.2</minDrawSize>
+        <maxDrawSize>1.55</maxDrawSize>
+        <scaleWithOwner>true</scaleWithOwner>
+        <graphicData>
+          <texPath>Other/ShieldBubble</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <shaderType>Transparent</shaderType>
+          <color>(0.8, 1.0, 1.0)</color>
+        </graphicData>
+      </li>
+    </comps>
+    <tags>
+      <li>ArmorGland</li>
+      <li>ExoskeletonSuit</li>
+    </tags>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicExoskeleton</defName>
+    <label>crypto exoskeleton</label>
+    <description>This implant is a flexible dermal plate that covers the vital organs of the user. It generates a massive amount of crypto energy, which gives the user a high degree of resistance against general damage and fire alike. However, it does slightly slow the user's capability to absorb information and greatly reduces movement speed.\n\nThe immense quantities of cryonic energy generated by this exoskeleton is used to power an internal crypto shield generator. It allows projectiles to leave, but it slows down incoming attacks to the point where they deal no noticeable damage upon impact. While the crypto shield is not quite as strong as a higher quality shield belt, it can stack with other shielding devices with no issues.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicExoskeleton</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <costList>
+      <Plasteel>200</Plasteel>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>CB_CryptoBionics</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>CB_InstallCryptonicExoskeleton</defName>
+    <label>install crypto exoskeleton</label>
+    <description>Install a crypto exoskeleton.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicExoskeleton</ThingDef>
+      <HediffDef>CB_CryptonicExoskeleton</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing crypto exoskeleton.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicExoskeleton</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicExoskeleton</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicExoskeleton</addsHediff>
+    <incompatibleWithHediffTags>
+      <li>ArmorGland</li>
+      <li>ExoskeletonSuit</li>
+    </incompatibleWithHediffTags>
+  </RecipeDef>
+  
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>CB_RemoveCryptonicExoskeleton</defName>
+    <label>remove crypto exoskeleton</label>
+    <description>Remove crypto exoskeleton.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicExoskeleton</ThingDef></descriptionHyperlinks>
+    <jobString>Removing crypto exoskeleton.</jobString>
+    <removesHediff>CB_CryptonicExoskeleton</removesHediff>
+  </RecipeDef>
+
+  <!-- Cryptoskin -->
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>CB_CryptonicSkin</defName>
+    <label>cryptoskin</label>
+    <labelNoun>cryptoskin</labelNoun>
+    <description>An installed cryptoskin.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicSkin</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>CB_CryptonicSkin</spawnThingOnRemoved>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.98</IncomingDamageFactor>
+        </statFactors>
+        <statOffsets>
+          <ComfyTemperatureMin>-30.0</ComfyTemperatureMin>
+          <ComfyTemperatureMax>30.0</ComfyTemperatureMax>
+          <ArmorRating_Heat>0.3</ArmorRating_Heat>
+          <GlobalLearningFactor>-0.02</GlobalLearningFactor>
+          <MoveSpeed>-0.05</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+    <tags>
+      <li>Skin</li>
+    </tags>
+  </HediffDef>
+
+  <ThingDef ParentName="CB_BodyPartCryptonicBase">
+    <defName>CB_CryptonicSkin</defName>
+    <label>cryptoskin</label>
+    <description>This is a near full skin replacement, save for the head. It generates a large amount of crypto energy, which gives the user a moderate degree of resistance against general damage and stable protection against fire. However, it does slightly slow the user's capability to absorb information and greatly reduces movement speed.\n\nCryptoskin is notably excellent for insulation, protecting the user against cold and hot climates alike.</description>
+    <descriptionHyperlinks><RecipeDef>CB_InstallCryptonicSkin</RecipeDef></descriptionHyperlinks>
+    <thingSetMakerTags><li>RewardStandardLowFreq</li></thingSetMakerTags>
+    <costList>
+      <Plasteel>120</Plasteel>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>CB_CryptoBionics</researchPrerequisite>
+    </recipeMaker>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>CB_InstallCryptonicSkin</defName>
+    <label>install cryptoskin</label>
+    <description>Install cryptoskin.</description>
+    <descriptionHyperlinks>
+      <ThingDef>CB_CryptonicSkin</ThingDef>
+      <HediffDef>CB_CryptonicSkin</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing cryptoskin.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>CB_CryptonicSkin</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>CB_CryptonicSkin</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>CB_CryptonicSkin</addsHediff>
+    <incompatibleWithHediffTags>
+      <li>Skin</li>
+    </incompatibleWithHediffTags>
+  </RecipeDef>
+  
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>CB_RemoveCryptonicSkin</defName>
+    <label>remove cryptoskin</label>
+    <description>Remove cryptoskin.</description>
+    <descriptionHyperlinks><ThingDef>CB_CryptonicSkin</ThingDef></descriptionHyperlinks>
+    <jobString>Removing cryptoskin.</jobString>
+    <removesHediff>CB_CryptonicSkin</removesHediff>
+  </RecipeDef>
+
+</Defs>

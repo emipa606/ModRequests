@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+	<AbilityDef Name="CB_AbilityBase" Abstract="True">
+		<abilityClass>Ability</abilityClass>
+		<category>CB_Equipment</category>
+		<!--<statBases>
+		  <Ability_Duration>0</Ability_Duration>
+		</statBases>-->
+		<warmupSound>PsycastCastLoop</warmupSound>
+		<verbProperties>
+		  <verbClass>Verb_CastAbility</verbClass>
+		  <range>24.9</range>
+		  <requireLineOfSight>True</requireLineOfSight>
+		  <warmupTime>1</warmupTime>
+		  <targetParams>
+			<canTargetBuildings>False</canTargetBuildings>
+			<canTargetAnimals>False</canTargetAnimals>
+			<thingCategory>Item</thingCategory>
+			<mapObjectTargetsMustBeAutoAttackable>False</mapObjectTargetsMustBeAutoAttackable>
+		  </targetParams>
+		</verbProperties>
+	</AbilityDef>
+	
+	<AbilityCategoryDef>
+		<defName>CB_Equipment</defName>
+		<displayOrder>10</displayOrder>
+	</AbilityCategoryDef>
+
+
+	<AbilityDef ParentName="CB_AbilityBase">
+		<defName>CB_IceWallRaise</defName>
+		<label>icewall</label>
+		<description>Harness cryonic energy to form a temporary wall of ice around the target location.</description>
+		<iconPath>UI/Abilities/CB_Cryowall</iconPath>
+		<cooldownTicksRange>6000</cooldownTicksRange>
+		<writeCombatLog>True</writeCombatLog>
+		<hotKey>Misc10</hotKey>
+		<!--<statBases>
+			<Ability_EntropyGain>35</Ability_EntropyGain>
+			<Ability_PsyfocusCost>0.02</Ability_PsyfocusCost>
+		</statBases>-->
+		<verbProperties>
+		  <targetParams Inherit = "False">
+			<canTargetPawns>False</canTargetPawns>
+			<canTargetLocations>True</canTargetLocations>
+		  </targetParams>
+		</verbProperties>
+		<comps>
+		  <li Class = "CryptoExpansion.CompProperties_AbilityWallraise_General">
+			<compClass>CryptoExpansion.CompAbilityEffect_Wallraise_General</compClass>
+			<wallDef>CB_Icewall</wallDef>
+			<puffColor>(0, 0, 0)</puffColor>
+			<pattern>
+			  <li>(2, 0)</li>
+			  <li>(2, 1)</li>
+			  <li>(2, -1)</li>
+			  <li>(-2, 0)</li>
+			  <li>(-2, 1)</li>
+			  <li>(-2, -1)</li>
+			  <li>(0, 2)</li>
+			  <li>(1, 2)</li>
+			  <li>(-1, 2)</li>
+			  <li>(0, -2)</li>
+			  <li>(1, -2)</li>
+			  <li>(-1, -2)</li>
+			  <li>(1, 1)</li>
+			  <li>(1, -1)</li>
+			  <li>(-1, 1)</li>
+			  <li>(-1, -1)</li>
+			</pattern>
+			<screenShakeIntensity>1.0</screenShakeIntensity>
+			<clamorType>Ability</clamorType>
+			<clamorRadius>25</clamorRadius>
+			<sound>PsycastWallraise</sound>
+		  </li>
+		</comps>
+	</AbilityDef>
+
+    <AbilityDef>
+        <defName>CB_CryptoClot</defName>
+        <label>cryolize</label>
+        <description>Channel crypto energy into the bloodstream of a target, temporarily slowing down the flow of blood in the target's body. While the crypto energy greatly reduces the bleedout rate of a pawn, it also interrupts the clotting and healing process of wounds, greatly reducing health regeneration.</description>
+        <iconPath>UI/Abilities/CB_Cryolize</iconPath>
+        <cooldownTicksRange>20000</cooldownTicksRange>
+        <aiCanUse>true</aiCanUse>
+        <warmupStartSound>CB_CryolizeFreeze</warmupStartSound>
+    <showWhenDrafted>true</showWhenDrafted>
+    <statBases>
+      <Ability_Duration>1000</Ability_Duration>
+    </statBases>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>2.5</range>
+            <warmupTime>1.5</warmupTime>
+            <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+            </targetParams>
+        </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>CB_CryptoClot</hediffDef>
+      </li>
+    </comps>
+    </AbilityDef>
+
+    <AbilityDef>
+        <defName>CB_CryptoFreeze</defName>
+        <label>cryptothermia</label>
+        <description>Blast a target with crypto energy, greatly slowing down the air molecules around them. This greatly decreases the temperature around the target, inflicting a deadly deep freeze that deals hypothermia damage over time as well as greatly reducing the target's physical capabilities.</description>
+        <iconPath>UI/Abilities/CB_Frostbite</iconPath>
+        <cooldownTicksRange>3000</cooldownTicksRange>
+        <aiCanUse>true</aiCanUse>
+        <warmupStartSound>CB_CryolizeFreeze</warmupStartSound>
+    <showWhenDrafted>true</showWhenDrafted>
+    <statBases>
+      <Ability_Duration>150</Ability_Duration>
+    </statBases>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>28.5</range>
+            <warmupTime>1.5</warmupTime>
+            <targetParams>
+        <canTargetSelf>False</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+            </targetParams>
+        </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>CB_Freezing</hediffDef>
+      </li>
+    </comps>
+    </AbilityDef>
+
+</Defs>
