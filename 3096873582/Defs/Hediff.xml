@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<!-- ================== Hediff ================== -->
+	<HediffDef>
+		<defName>TSE_Acne</defName>
+		<label>acne</label>
+		<labelNoun>acne</labelNoun>
+		<description>A long term skin condition that occurs when hair follicles get clogged by dead cells and skin oil.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<maxSeverity>1</maxSeverity>
+		<displayWound>true</displayWound>
+		<makesAlert>false</makesAlert>
+		<initialSeverity>0.01</initialSeverity>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<label>light</label>
+                <statOffsets>
+					<SocialImpact>-0.05</SocialImpact>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.7</minSeverity>
+				<label>medium</label>
+                <statOffsets>
+					<SocialImpact>-0.15</SocialImpact>
+				</statOffsets>
+			</li>
+			<li>
+				<label>heavy</label>
+				<minSeverity>0.9</minSeverity>
+				<statOffsets>
+					<SocialImpact>-0.25</SocialImpact>
+				</statOffsets>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>TSE_SkinInfection</hediff>
+						<mtbDays>7</mtbDays>
+						<partsToAffect>
+							<li>Head</li>
+						</partsToAffect>
+					</li>
+				</hediffGivers>
+			</li>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>False</sendLetterWhenDiscovered>
+			</li>
+            <li Class="HediffCompProperties_DisappearsOnDeath">
+			</li>
+            <li Class="HediffCompProperties_RecoveryThought">
+                <!-- Good thought when healed -->
+                <thought>TSE_AcneGoneThought</thought>
+			</li>
+            <li Class="HediffCompProperties_Disappears">
+                <!-- Disappears in about 2-4 years -->
+				<disappearsAfterTicks>7200000~14400000</disappearsAfterTicks>
+			</li>
+            <li Class="HediffCompProperties_SeverityPerDay">
+                <!-- Reaches max in about a year -->
+                <severityPerDay>0.016</severityPerDay>
+              </li>
+		</comps>
+	</HediffDef>
+
+	<!-- non-lethal infection -->
+	<HediffDef ParentName="InfectionBase">
+		<defName>TSE_SkinInfection</defName>
+		<label>skin infection</label>
+		<labelNoun>a skin infection</labelNoun>
+		<description>Dermal infection due to untreated acne spreading bacteria to nearby cuts and scrapes. Causes significant irritation and makes moving facial muscles cause tremendous pain.</description>
+		<makesSickThought>true</makesSickThought>
+		<displayWound>true</displayWound>
+		<!-- <lethalSeverity>1</lethalSeverity> -->
+		<tendable>true</tendable>
+		<comps>
+		  <li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>12</baseTendDurationHours>
+			<severityPerDayTended>-0.53</severityPerDayTended>
+		  </li>
+		  <li Class="HediffCompProperties_Immunizable">
+			<severityPerDayNotImmune>0.84</severityPerDayNotImmune>
+			<immunityPerDaySick>0.6441</immunityPerDaySick>
+			<severityPerDayImmune>-0.70</severityPerDayImmune>
+			<immunityPerDayNotSick>-0.40</immunityPerDayNotSick>
+		  </li>
+		  <li Class="HediffCompProperties_Discoverable">
+			<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+		  </li>
+		</comps>
+		<stages>
+		  <li>
+			<label>minor</label>
+			<painOffset>0.1</painOffset>
+			<statOffsets>
+				<SocialImpact>-0.15</SocialImpact>
+			</statOffsets>
+		  </li> 
+		  <li>
+			<minSeverity>0.33</minSeverity>
+			<label>major</label>
+			<painOffset>0.2</painOffset>
+			<statOffsets>
+				<SocialImpact>-0.15</SocialImpact>
+			</statOffsets>
+		  </li>
+		  <li>
+			<minSeverity>0.68</minSeverity>
+			<label>severe</label>
+			<painOffset>0.3</painOffset>
+			<statOffsets>
+				<SocialImpact>-0.35</SocialImpact>
+			</statOffsets>
+			<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.08</offset>
+			  </li>
+			</capMods>
+		  </li>
+		  <li>
+			<minSeverity>0.85</minSeverity>
+			<label>extreme</label>
+			<painOffset>0.4</painOffset>
+			<statOffsets>
+				<SocialImpact>-0.85</SocialImpact>
+			</statOffsets>
+			<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.12</offset>
+			  </li>
+			</capMods>
+		  </li>
+		</stages>
+	  </HediffDef>
+</Defs>
