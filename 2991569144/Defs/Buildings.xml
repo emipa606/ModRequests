@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  
+  <ThingDef Name="RedstoneBuildingBase" ParentName="BuildingBase" Abstract="True">
+    <designationCategory>RedstoneLogic</designationCategory>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <researchPrerequisites>
+      <li>Redstone</li>
+    </researchPrerequisites>
+    <modExtensions>
+      <li Class="Blocky.Core.ExtSpawningWipes">
+        <defs>
+          <li>RedstoneWire</li>
+        </defs>
+      </li>
+    </modExtensions>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <uiIconScale>0.75</uiIconScale>
+    <statBases>
+      <Flammability>0</Flammability>
+      <Beauty>-1</Beauty>
+    </statBases>
+    <building>
+      <ai_chillDestination>false</ai_chillDestination>
+      <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneWire</defName>
+    <label>redstone wire</label>
+    <description>Redstone wire can transmit power, which can be used to operate mechanism components (doors, pistons, redstone lamps, etc.)</description>
+    <thingClass>RedstoneLogic.Building_RedstoneWire</thingClass>
+    <graphicData>
+      <texPath>RedstoneLogic/RedstoneWire_Atlas</texPath>
+      <color>(0.4, 0, 0)</color>
+      <graphicClass>RedstoneLogic.Graphic_RedstoneWire</graphicClass>
+      <damageData>
+        <rect>(0,0.35,1,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <uiIconPath>RedstoneLogic/RedstoneWire_Icon</uiIconPath>
+    <building>
+      <isInert>true</isInert>
+      <isEdifice>false</isEdifice>
+      <blueprintGraphicData>
+        <graphicClass>RedstoneLogic.Graphic_RedstoneWire</graphicClass>
+        <texPath>RedstoneLogic/RedstoneWire_Atlas</texPath>
+      </blueprintGraphicData>
+    </building>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <altitudeLayer>Conduits</altitudeLayer>
+    <passability>Standable</passability>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <WorkToBuild>35</WorkToBuild>
+    </statBases>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <costList>
+      <Redstone>1</Redstone>
+    </costList>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRedstonePowerTransmitter</compClass>
+      </li>
+      <!--li Class="RedstoneLogic.CompProperties_RedstoneGlower">
+        <glowRadius>1</glowRadius>
+        <glowColor>(220,0,0,0)</glowColor>
+      </li-->
+    </comps>
+    <placeWorkers>
+      <li>RedstoneLogic.PlaceWorker_RedstoneWire</li>
+    </placeWorkers>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <uiOrder>2000</uiOrder>
+    <constructEffect>ConstructMetal</constructEffect>
+    <clearBuildingArea>false</clearBuildingArea>
+    <designationHotKey>Misc1</designationHotKey>
+    <modExtensions>
+      <li Class="Blocky.Core.ExtUseBlueprintAsPreview"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneLever</defName>
+    <label>lever</label>
+    <description>A lever is a non-solid block that can provide switchable redstone power.</description>
+    <thingClass>RedstoneLogic.Building_Lever</thingClass>
+    <graphicData>
+      <texPath>Blocky/L/Lever</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <constructEffect>ConstructWood</constructEffect>
+    <fillPercent>0.15</fillPercent>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Beauty>-2</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <costList>
+      <WoodLog>20</WoodLog>
+      <Redstone>5</Redstone>
+    </costList>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRedstonePowerGenerator</compClass>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <uiOrder>2800</uiOrder>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable">
+        <breaks>true</breaks>
+      </li>
+    </modExtensions>
+    <tickerType>Normal</tickerType>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneButton</defName>
+    <label>button</label>
+    <description>A button is a non-solid block that produces a temporary redstone signal when pressed.
+Pulse length depends on the material used.</description>
+    <!--thingClass>RedstoneLogic.Building_Lever</thingClass-->
+    <graphicData>
+      <texPath>Blocky/B/Button</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5, 1.5)</drawSize>
+    </graphicData>
+    <fillPercent>0.15</fillPercent>
+    <clearBuildingArea>false</clearBuildingArea>
+    <altitudeLayer>BuildingBelowTop</altitudeLayer>
+    <building>
+      <isEdifice>false</isEdifice>
+    </building>
+    <statBases>
+      <MaxHitPoints>30</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Beauty>-2</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <costStuffCount>5</costStuffCount>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costList>
+      <Redstone>2</Redstone>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_Button">
+        <baseDelay>60</baseDelay>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <tickerType>Normal</tickerType>
+    <placeWorkers>
+      <li>RedstoneLogic.PlaceWorker_OnWall</li>
+    </placeWorkers>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable">
+        <breaks>true</breaks>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneTorch</defName>
+    <label>redstone torch</label>
+    <description>Redstone torches can be used to power blocks and transmission components such as redstone dust, activate mechanism components such as pistons. Produces a small amount of light.</description>
+    <graphicData>
+      <texPath>Blocky/R/RedstoneTorch</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <constructEffect>ConstructWood</constructEffect>
+    <fillPercent>0.15</fillPercent>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Beauty>0</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <costList>
+      <WoodLog>20</WoodLog>
+      <Redstone>5</Redstone>
+    </costList>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(220,0,0,0)</glowColor>
+      </li>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRedstonePowerGenerator</compClass>
+      </li>
+    </comps>
+    <uiOrder>2800</uiOrder>
+    <designationHotKey>Misc10</designationHotKey>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable">
+        <breaks>true</breaks>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>TripwireHook</defName>
+    <label>tripwire hook</label>
+    <description>Emits a redstone signal when it is part of a valid tripwire circuit and it gets triggered by an entity.</description>
+    <graphicData>
+      <texPath>Blocky/T/TripwireHook</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <shadowData>
+        <volume>(0.2, 0.4, 0.2)</volume>
+        <offset>(0,0,-0.23)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>10</pathCost>
+    <constructEffect>ConstructWood</constructEffect>
+    <fillPercent>0.15</fillPercent>
+    <statBases>
+      <MaxHitPoints>30</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <selectable>true</selectable>
+    <costList>
+      <Cloth>1</Cloth>
+      <WoodLog>5</WoodLog>
+      <Steel>5</Steel>
+      <Redstone>5</Redstone>
+    </costList>
+    <building>
+    </building>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_Tripwire"/>
+    </comps>
+    <placeWorkers>
+      <li>RedstoneLogic.PlaceWorker_Tripwire</li>
+    </placeWorkers>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable">
+        <breaks>true</breaks>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneLamp</defName>
+    <label>redstone lamp</label>
+    <description>A redstone lamp is a block that produces light when activated with a redstone signal.</description>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <passability>PassThroughOnly</passability>
+    <selectable>true</selectable>
+    <fillPercent>0.50</fillPercent>
+    <pathCost>20</pathCost>
+    <rotatable>false</rotatable>
+    <thingCategories>
+      <li>BuildingsBlocky</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Blocky/R/RedstoneLamp_north</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+    </graphicData>
+    <staticSunShadowHeight>0.5</staticSunShadowHeight>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRedstonePowerTransmitter</compClass>
+      </li>
+      <li Class="RedstoneLogic.CompProperties_RedstoneGlower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(214,148,94,0)</glowColor>
+        <colorPickerEnabled>true</colorPickerEnabled>
+        <darklightToggle>true</darklightToggle>
+      </li>
+      <li Class="RedstoneLogic.CompProperties_PoweredGraphic">
+        <graphicData>
+          <texPath>Blocky/R/RedstoneLampOn_north</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <drawSize>(1, 1)</drawSize>
+        </graphicData>
+      </li>
+    </comps>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <costList>
+      <Redstone>20</Redstone>
+    </costList>
+    <uiOrder>2990</uiOrder>
+    <designationHotKey>Misc11</designationHotKey>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneBlock</defName>
+    <label>block of redstone</label>
+    <description>A block of redstone acts as a permanently powered redstone power source that can be pushed by pistons.</description>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <passability>Impassable</passability>
+    <selectable>true</selectable>
+    <fillPercent>0.50</fillPercent>
+    <rotatable>true</rotatable>
+    <thingCategories>
+      <li>BuildingsBlocky</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Blocky/R/RedstoneBlock</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+    </graphicData>
+    <staticSunShadowHeight>0.5</staticSunShadowHeight>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRedstonePowerGenerator</compClass>
+      </li>
+    </comps>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>50</Mass>
+      <Beauty>0</Beauty>
+    </statBases>
+    <costList>
+      <Redstone>50</Redstone>
+    </costList>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef Name="RedstonePiston" ParentName="RedstoneBuildingBase">
+    <defName>RedstonePiston</defName>
+    <label>piston</label>
+    <description>A piston is a block capable of pushing most entities and blocks when given a redstone signal.</description>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <passability>Impassable</passability>
+    <selectable>true</selectable>
+    <fillPercent>0.50</fillPercent>
+    <rotatable>true</rotatable>
+    <thingCategories>
+      <li>BuildingsBlocky</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Blocky/P/PistonBase</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+    <building>
+      <blueprintGraphicData>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <texPath>Blocky/P/Piston</texPath>
+        <shaderType>EdgeDetect</shaderType>
+      </blueprintGraphicData>
+    </building>
+    <uiIconPath>Blocky/P/Piston_north</uiIconPath>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <staticSunShadowHeight>0.5</staticSunShadowHeight>
+    <altitudeLayer>BuildingBelowTop</altitudeLayer>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_Piston">
+        <baseSpeed>5</baseSpeed>
+        <shortGraphicData>
+          <texPath>Blocky/P/PistonHead</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <shaderType>Cutout</shaderType>
+          <drawOffset>(0, -0.1, 0)</drawOffset>
+          <drawOffsetNorth>(0, 0.1, 0)</drawOffsetNorth>
+        </shortGraphicData>
+        <longGraphicData>
+          <texPath>Blocky/P/PistonHeadLong</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <shaderType>Cutout</shaderType>
+          <drawOffset>(0, -0.1, 0)</drawOffset>
+          <drawSize>(2,2)</drawSize>
+        </longGraphicData>
+        <shaftGraphicData>
+          <texPath>Blocky/P/PistonShaft_north_fix</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <shaderType>Cutout</shaderType>
+          <drawOffset>(0, -0.1, 0)</drawOffset>
+        </shaftGraphicData>
+      </li>
+    </comps>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <WorkToBuild>500</WorkToBuild>
+      <Mass>40</Mass>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <costList>
+      <Redstone>10</Redstone>
+      <Steel>20</Steel>
+      <WoodLog>10</WoodLog>
+    </costList>
+    <modExtensions>
+      <li Class="Blocky.Core.ExtUseBlueprintAsPreview"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstonePiston">
+    <defName>RedstoneStickyPiston</defName>
+    <label>sticky piston</label>
+    <description>A piston is a block capable of pushing most entities and blocks when given a redstone signal.
+A sticky piston is a variant that can additonally pull most blocks when it retracts.</description>
+    <uiIconPath>Blocky/S/StickyPiston_north</uiIconPath>
+    <building>
+      <blueprintGraphicData>
+        <texPath>Blocky/S/StickyPiston</texPath>
+      </blueprintGraphicData>
+    </building>
+    <costList>
+      <Redstone>20</Redstone>
+    </costList>
+    <comps Inherit="False">
+      <li Class="RedstoneLogic.CompProperties_Piston">
+        <sticky>true</sticky>
+        <baseSpeed>5</baseSpeed>
+        <shortGraphicData>
+          <texPath>Blocky/S/StickyPistonHead</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <shaderType>Cutout</shaderType>
+          <drawOffset>(0, -0.1, 0)</drawOffset>
+          <drawOffsetNorth>(0, 0.1, 0)</drawOffsetNorth>
+        </shortGraphicData>
+        <longGraphicData>
+          <texPath>Blocky/S/StickyPistonHeadLong</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <shaderType>Cutout</shaderType>
+          <drawOffset>(0, -0.1, 0)</drawOffset>
+          <drawSize>(2,2)</drawSize>
+        </longGraphicData>
+        <shaftGraphicData>
+          <texPath>Blocky/P/PistonShaft_north_fix</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <shaderType>Cutout</shaderType>
+          <drawOffset>(0, -0.1, 0)</drawOffset>
+        </shaftGraphicData>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>RedstoneTNT</defName>
+    <label>TNT</label>
+    <description>TNT is a block that can be primed by a redstone signal, flint and steel, stray fire, flaming projectile or explosion.</description>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <passability>PassThroughOnly</passability>
+    <selectable>true</selectable>
+    <fillPercent>0.50</fillPercent>
+    <pathCost>20</pathCost>
+    <rotatable>true</rotatable>
+    <thingCategories>
+      <li>BuildingsBlocky</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Blocky/T/Tnt</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+    </graphicData>
+    <staticSunShadowHeight>0.5</staticSunShadowHeight>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints> <!-- more minecraft-like chain of non-immediate explosions -->
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>5</Mass>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <costList>
+      <Redstone>10</Redstone>
+      <Shell_HighExplosive>1</Shell_HighExplosive>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <compClass>RedstoneLogic.CompTNT</compClass>
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>4.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <explodeOnKilled>false</explodeOnKilled>
+        <startWickOnDamageTaken>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Beam</li>
+          <li>Bomb</li>
+          <li>Bullet</li>
+          <li>Flame</li>
+        </startWickOnDamageTaken>
+      </li>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRedstonePoweredExplosive</compClass>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase">
+    <defName>DaylightDetector</defName>
+    <label>daylight detector</label>
+    <description>A daylight detector can be used to produce redstone power in proportion to the daylight cycle.
+Sources of light (torches, glowstone, etc.) cannot activate a daylight detector.</description>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <passability>PassThroughOnly</passability>
+    <selectable>true</selectable>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>10</pathCost>
+    <rotatable>false</rotatable>
+    <thingCategories>
+      <li>BuildingsBlocky</li>
+    </thingCategories>
+    <graphicData>
+      <texPath>Blocky/D/DaylightDetector_north</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <staticSunShadowHeight>0.2</staticSunShadowHeight>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_DaylightDetector">
+        <moonGraphicData>
+          <texPath>Blocky/D/DaylightDetectorInverted_north</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+        </moonGraphicData>
+      </li>
+    </comps>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>10</Mass>
+    </statBases>
+    <costList>
+      <Redstone>10</Redstone>
+      <Steel>10</Steel>
+    </costList>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneBuildingBase" Name="RedstoneGate" Abstract="True">
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <passability>PassThroughOnly</passability>
+    <selectable>true</selectable>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>10</pathCost>
+    <rotatable>true</rotatable>
+    <thingCategories>
+      <li>BuildingsBlocky</li>
+    </thingCategories>
+    <staticSunShadowHeight>0.1</staticSunShadowHeight>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Mass>10</Mass>
+    </statBases>
+    <costList>
+      <Redstone>15</Redstone>
+      <Steel>20</Steel>
+    </costList>
+    <modExtensions>
+      <li Class="RedstoneLogic.ExtPistonMoveable"/>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneGate">
+    <defName>Repeater</defName>
+    <label>repeater</label>
+    <description>A redstone repeater can be used in four different ways: to "repeat" redstone signals back to full strength, delay signals, prevent signals moving backwards, or to "lock" signals in one state.</description>
+    <graphicData>
+      <texPath>Blocky/R/RepeaterOff</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompRepeater</compClass>
+      </li>
+      <li Class="RedstoneLogic.CompProperties_PoweredGraphic">
+        <graphicData>
+          <texPath>Blocky/R/RepeaterOn</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5, 1.5)</drawSize>
+        </graphicData>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="RedstoneGate">
+    <defName>Comparator</defName>
+    <label>comparator</label>
+    <description>A redstone comparator is a block that can produce an output signal from its front by reading chests, lecterns, beehives and similar blocks, or repeat a signal without changing its strength. It can also be set to either stop outputting a signal when its side input recieves a stronger one (front torch off), or subtract its side input's signal strength from its output (front torch on).</description>
+    <graphicData>
+      <texPath>Blocky/C/ComparatorOff</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+        <compClass>RedstoneLogic.CompComparator</compClass>
+      </li>
+      <li Class="RedstoneLogic.CompProperties_PoweredGraphic">
+        <graphicData>
+          <texPath>Blocky/C/ComparatorOn</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(1.5, 1.5)</drawSize>
+        </graphicData>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!--ThingDef ParentName="RedstoneGate">
+    <defName>RedstoneGateOR</defName>
+    <label>OR gate</label>
+    <description>An OR gate is a gate which uses two or more inputs and whenever any input is "on", the output is also "on". The only time the output is "off" is when all inputs are "off"</description>
+    <graphicData>
+      <texPath>RedstoneLogic/GateOR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="RedstoneLogic.CompProperties_RedstonePower">
+      </li>
+    </comps>
+  </ThingDef-->
+</Defs>
