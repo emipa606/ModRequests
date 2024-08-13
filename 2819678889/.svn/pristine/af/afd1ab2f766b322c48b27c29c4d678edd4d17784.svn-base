@@ -1,0 +1,216 @@
+using System;
+using RimWorld;
+using Verse;
+
+namespace davcin {
+
+    [StaticConstructorOnStartup]
+    public static class SortBy {
+
+        //***************
+        //** CONSTANTS **
+        //***************
+        // (...)
+
+        //**********
+        //** VARS **
+        //**********
+        public enum Needs : short {
+            Mood
+        }
+
+        //**********
+        //** APIS **
+        //**********
+        // (...)
+
+        //******************
+        //** 'CLASS' SUBS **
+        //******************
+        static SortBy() {
+            davcin.SortBy.LogMessage("Hello there...");
+        }
+
+        //*********************
+        //** PRIVATE SET/GET **
+        //*********************
+        private static Pawn _GetPawn(ref Transferable t) {
+            if (t == null) {
+                return null;
+            }
+            Thing anyThing = t.AnyThing;
+            if (anyThing == null) {
+                return null;
+            }
+            return (anyThing as Pawn);
+        }
+
+        private static Pawn_NeedsTracker _GetPawnNeedsTracker(ref Pawn pawn) {
+            if (pawn == null) {
+                return null;
+            }
+            return pawn.needs;
+        }
+        private static Pawn_SkillTracker _GetPawnSkillTracker(SkillDef skill, ref Pawn pawn) {
+            if (pawn == null) {
+                return null;
+            }
+            return pawn.skills;
+        }
+
+        //****************
+        //** PRIVATE IS **
+        //****************
+        // (...)
+
+        //******************
+        //** PRIVATE MISC **
+        //******************
+        private static bool _Check(bool lv, bool rv, ref int value) {
+            if (lv && rv) {
+                value = 0;
+                return false;
+            } else if (lv) {
+                value = -1;
+                return false;
+            } else if (rv) {
+                value = 1;
+                return false;
+            }
+            return true;
+        }
+        private static bool _Check(ref Pawn lv, ref Pawn rv, ref int value) {
+            return _Check((lv == null),(rv == null), ref value);
+        }
+        private static bool _Check(ref Pawn_NeedsTracker lv, ref Pawn_NeedsTracker rv, ref int value) {
+            return _Check((lv == null), (rv == null), ref value);
+        }
+        private static bool _Check(ref Pawn_SkillTracker lv, ref Pawn_SkillTracker rv, ref int value) {
+            return _Check((lv == null), (rv == null), ref value);
+        }
+        private static bool _Check(ref Need_Mood lv, ref Need_Mood rv, ref int value) {
+            return _Check((lv == null), (rv == null), ref value);
+        }
+        private static bool _Check(ref SkillRecord lv, ref SkillRecord rv, ref int value) {
+            return _Check((lv == null), (rv == null), ref value);
+        }
+
+        private static int _ReverseSortOrder(int value) {
+            if (value == 0) {
+                return 0;
+            } else if (value == 1) {
+                return -1;
+            }
+            return 1;
+        }
+
+        //********************
+        //** PUBLIC SET/GET **
+        //********************
+        // (...)
+
+        //***************
+        //** PUBLIC IS **
+        //***************
+        // (...)
+
+        //*****************
+        //** PUBLIC MISC **
+        //*****************
+        public static void LogMessage(String message) {
+            Log.Message(string.Concat("[SortBy]: ", message));
+        }
+        /*public static void LogError(String message) {
+            Log.Error(string.Concat("[SortBy]: ", message));
+        }
+        public static void LogError(Exception ex) {
+            Log.Error(string.Concat("[SortBy]: ", ex.Message));
+        }*/
+
+        public static int CompareNeed(Needs need, ref Transferable lhs, ref Transferable rhs) {
+            int value = 0;
+            for (int i = 0; i == 0;) {
+
+                // get pawns and check result
+                Pawn lp = _GetPawn(ref lhs);
+                Pawn rp = _GetPawn(ref rhs);
+                if (!_Check(ref lp, ref rp, ref value)) {
+                    break;
+                }
+
+                // get need and check result
+                Pawn_NeedsTracker lt = _GetPawnNeedsTracker(ref lp);
+                Pawn_NeedsTracker rt = _GetPawnNeedsTracker(ref rp);
+                if (!_Check(ref lt, ref rt, ref value)) {
+                    break;
+                }
+                if (need == Needs.Mood) {
+                    // Mood
+                    Need_Mood lm = lt.mood;
+                    Need_Mood rm = rt.mood;
+                    if (!_Check(ref lm, ref rm, ref value)) {
+                        break;
+                    }
+                    // if mood values are different, compare them
+                    if (lm.CurLevel != rm.CurLevel) {
+                        value = lm.CurLevel.CompareTo(rm.CurLevel);
+                        break;
+                    }
+                }
+                else {
+                    throw new Exception(string.Concat("Unknown [", need, "] need."));
+                }
+
+                // compare names and reserse because it will reverse again bellow and name is always ascending
+                value = _ReverseSortOrder(string.Compare(lhs.Label, rhs.Label));
+                break;
+
+            }
+            return _ReverseSortOrder(value);
+        }
+
+        public static int CompareSkill(SkillDef skill, ref Transferable lhs, ref Transferable rhs) {
+            int value = 0;
+            for (int i = 0; i == 0; ) {
+
+                // get pawns and check result
+                Pawn lp = _GetPawn(ref lhs);
+                Pawn rp = _GetPawn(ref rhs);
+                if (!_Check(ref lp, ref rp, ref value)) {
+                    break;
+                }
+
+                // get skill and check result
+                Pawn_SkillTracker lt = _GetPawnSkillTracker(skill, ref lp);
+                Pawn_SkillTracker rt = _GetPawnSkillTracker(skill, ref rp);
+                if (!_Check(ref lt, ref rt, ref value)) {
+                    break;
+                }
+                SkillRecord ls = lt.GetSkill(skill);
+                SkillRecord rs = rt.GetSkill(skill);
+                if (!_Check(ref ls, ref rs, ref value)) {
+                    break;
+                }
+
+                // if level values are different, compare them
+                if (ls.levelInt != rs.levelInt) {
+                    value = ls.levelInt.CompareTo(rs.levelInt);
+                    break;
+                }
+
+                // if passion values are different, compare them
+                if (ls.passion != rs.passion) {
+                    value = ls.passion.CompareTo(rs.passion);
+                    break;
+                }
+
+                // compare names and reserse because it will reverse again bellow and name is always ascending
+                value = _ReverseSortOrder(string.Compare(lhs.Label, rhs.Label));
+                break;
+
+            }
+            return _ReverseSortOrder(value);
+        }
+
+    }
+}

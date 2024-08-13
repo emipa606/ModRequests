@@ -1,0 +1,200 @@
+using System;
+using RimWorld;
+using Verse;
+
+namespace davcin {
+
+    [StaticConstructorOnStartup]
+    public static class SortBy {
+
+        //***************
+        //** CONSTANTS **
+        //***************
+        // (...)
+
+        //**********
+        //** VARS **
+        //**********
+        public enum Needs : short {
+            Mood
+        }
+
+        //**********
+        //** APIS **
+        //**********
+        // (...)
+
+        //******************
+        //** 'CLASS' SUBS **
+        //******************
+        static SortBy() {
+            davcin.SortBy.LogMessage("Hello there...");
+        }
+
+        //*********************
+        //** PRIVATE SET/GET **
+        //*********************
+        private static Pawn _GetPawn(ref Transferable t) {
+            if (t == null) {
+                return null;
+            }
+            Thing a = t.AnyThing;
+            if (a == null) {
+                return null;
+            }
+            return (a as Pawn);
+        }
+
+        private static Pawn_NeedsTracker _GetPawnNeedsTracker(ref Pawn pawn) {
+            if (pawn == null) {
+                return null;
+            }
+            return pawn.needs;
+        }
+        private static Pawn_SkillTracker _GetPawnSkillTracker(ref Pawn pawn) {
+            if (pawn == null) {
+                return null;
+            }
+            return pawn.skills;
+        }
+
+        //****************
+        //** PRIVATE IS **
+        //****************
+        // (...)
+
+        //******************
+        //** PRIVATE MISC **
+        //******************
+        private static int _ReverseSortOrder(int value) {
+            return (value * -1);
+        }
+
+        //********************
+        //** PUBLIC SET/GET **
+        //********************
+        // (...)
+
+        //***************
+        //** PUBLIC IS **
+        //***************
+        // (...)
+
+        //*****************
+        //** PUBLIC MISC **
+        //*****************
+        public static void LogMessage(String message) {
+            Log.Message(string.Concat("[SortBy]: ", message));
+        }
+        /*public static void LogError(String message) {
+            Log.Error(string.Concat("[SortBy]: ", message));
+        }
+        public static void LogError(Exception ex) {
+            Log.Error(string.Concat("[SortBy]: ", ex.Message));
+        }*/
+
+        public static int CompareName(ref Transferable lhs, ref Transferable rhs) {
+            bool lin = (lhs == null || String.IsNullOrWhiteSpace(lhs.LabelCap));
+            bool rin = (rhs == null || String.IsNullOrWhiteSpace(rhs.LabelCap));
+            int value = 0;
+            if (lin && rin) {
+                value = 0;
+            } else if (lin) {
+                value = 1;
+            } else if (rin) {
+                value = -1;
+            } else {
+                value = string.Compare(lhs.LabelCap, rhs.LabelCap);
+            }
+            return value;
+        }
+
+        public static int CompareNeed(Needs need, ref Transferable lhs, ref Transferable rhs) {
+            int value = SortBy.CompareName(ref lhs, ref rhs);
+
+            // get pawns
+            Pawn lp = _GetPawn(ref lhs);
+            Pawn rp = _GetPawn(ref rhs);
+            if (lp != null && rp != null) {
+
+                // get needs tracker
+                Pawn_NeedsTracker lt = _GetPawnNeedsTracker(ref lp);
+                Pawn_NeedsTracker rt = _GetPawnNeedsTracker(ref rp);
+                if (lt != null && rt != null) {
+
+                    if (need == Needs.Mood) {
+                        // get need mood
+                        Need_Mood lm = lt.mood;
+                        Need_Mood rm = rt.mood;
+                        if (lm != null && rm != null) {
+                            // if values are different, compare them
+                            if (lm.CurLevel != rm.CurLevel) {
+                                value = _ReverseSortOrder(lm.CurLevel.CompareTo(rm.CurLevel));
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            return value;
+        }
+
+        public static int CompareSkill(SkillDef skill, ref Transferable lhs, ref Transferable rhs) {
+            int value = SortBy.CompareName(ref lhs, ref rhs);
+
+            // get pawns
+            Pawn lp = _GetPawn(ref lhs);
+            Pawn rp = _GetPawn(ref rhs);
+            if (lp != null && rp != null) {
+
+                // get skill tracker
+                Pawn_SkillTracker lt = _GetPawnSkillTracker(ref lp);
+                Pawn_SkillTracker rt = _GetPawnSkillTracker(ref rp);
+                if (lt != null && rt != null) {
+
+                    // get skill record
+                    SkillRecord ls = lt.GetSkill(skill);
+                    SkillRecord rs = rt.GetSkill(skill);
+                    if (ls != null && rs != null) {
+
+                        // if values are different, compare them
+                        if (ls.levelInt != rs.levelInt) {
+                            value = _ReverseSortOrder(ls.levelInt.CompareTo(rs.levelInt));
+                        } else if (ls.passion != rs.passion) {
+                            value = _ReverseSortOrder(ls.passion.CompareTo(rs.passion));
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return value;
+        }
+
+        public static int CompareStat(StatDef stat, ref Transferable lhs, ref Transferable rhs) {
+            int value = SortBy.CompareName(ref lhs, ref rhs);
+
+            // get pawns
+            Pawn lp = _GetPawn(ref lhs);
+            Pawn rp = _GetPawn(ref rhs);
+            if (lp != null && rp != null) {
+
+                // get stat value 
+                float ls = lp.GetStatValue(stat, true);
+                float rs = rp.GetStatValue(stat, true);
+                if (ls != rs) {
+                    // if values are different, compare them
+                    value = _ReverseSortOrder(ls.CompareTo(rs));
+                }
+
+            }
+
+            return value;
+        }
+
+    }
+}

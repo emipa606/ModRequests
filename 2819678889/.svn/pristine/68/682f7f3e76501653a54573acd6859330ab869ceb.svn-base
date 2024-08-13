@@ -1,0 +1,133 @@
+using System;
+using RimWorld;
+using Verse;
+
+namespace davcin {
+
+    [StaticConstructorOnStartup]
+    public static class SortBy {
+
+        //***************
+        //** CONSTANTS **
+        //***************
+        // (...)
+
+        //**********
+        //** VARS **
+        //**********
+        // (...)
+
+        //**********
+        //** APIS **
+        //**********
+        // (...)
+
+        //******************
+        //** 'CLASS' SUBS **
+        //******************
+        static SortBy() {
+            davcin.SortBy.LogMessage("Hello there...");
+        }
+
+        //*********************
+        //** PRIVATE SET/GET **
+        //*********************
+        private static SkillRecord _GetSkillRecord(SkillDef skill, Transferable t) {
+            if (t == null) {
+                return null;
+            }
+            Thing anyThing = t.AnyThing;
+            if (anyThing == null) {
+                return null;
+            }
+            Pawn pawn = (anyThing as Pawn);
+            if (pawn == null) {
+                return null;
+            }
+            Pawn_SkillTracker skills = pawn.skills;
+            if (skills == null) {
+                return null;
+            }
+            return skills.GetSkill(skill);
+        }
+
+        //****************
+        //** PRIVATE IS **
+        //****************
+        // (...)
+
+        //******************
+        //** PRIVATE MISC **
+        //******************
+        private static int _ReverseSortOrder(int value) {
+            if (value == 0) {
+                return 0;
+            } else if (value == 1) {
+                return -1;
+            }
+            return 1;
+        }
+
+        //********************
+        //** PUBLIC SET/GET **
+        //********************
+        // (...)
+
+        //***************
+        //** PUBLIC IS **
+        //***************
+        // (...)
+
+        //*****************
+        //** PUBLIC MISC **
+        //*****************
+        public static void LogMessage(String message) {
+            Log.Message(string.Concat("[SortBy]: ", message));
+        }
+        /*public static void LogError(String message) {
+            Log.Error(string.Concat("[SortBy]: ", message));
+        }
+        public static void LogError(Exception ex) {
+            Log.Error(string.Concat("[SortBy]: ", ex.Message));
+        }*/
+
+        public static int CompareSkill(SkillDef skill, Transferable lhs, Transferable rhs) {
+            int value = 0;
+            for (int i = 0; i == 0; ) {
+
+                // get skill records and check result
+                SkillRecord lhsSR = _GetSkillRecord(skill, lhs);
+                SkillRecord rhsSR = _GetSkillRecord(skill, rhs);
+                if (lhsSR == null && rhsSR == null) {
+                    value = 0;
+                    break;
+                } else if (lhsSR == null) {
+                    value = -1;
+                    break;
+                } else if (rhsSR == null) {
+                    value = 1;
+                    break;
+                }
+
+                // if level values are different, compare them
+                if (lhsSR.levelInt != rhsSR.levelInt) {
+                    value = lhsSR.levelInt.CompareTo(rhsSR.levelInt);
+                    break;
+                }
+
+                // if passion values are different, compare them
+                if (lhsSR.passion != rhsSR.passion) {
+                    value = lhsSR.passion.CompareTo(rhsSR.passion);
+                    break;
+                }
+
+                // compare names and reserse because it will reverse again bellow and name is always ascending
+                value = _ReverseSortOrder(string.Compare(lhs.Label, rhs.Label));
+                break;
+
+            }
+            return _ReverseSortOrder(value);
+        }
+
+    }
+}

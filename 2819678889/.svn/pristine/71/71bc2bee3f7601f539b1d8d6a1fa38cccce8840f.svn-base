@@ -1,0 +1,53 @@
+﻿using System;
+using RimWorld;
+using Verse;
+
+namespace davcin
+{
+	public class SortBySkillMining : TransferableComparer
+	{
+		public override int Compare(Transferable lhs, Transferable rhs)
+		{
+			int value = 0;
+            /*try {*/
+				for (int i = 0; i < 1; ) {
+
+					// get skill records and check result
+					SkillRecord lhsSR = davcin.SortBy.GetSkillRecord(SkillDefOf.Mining, lhs);
+					SkillRecord rhsSR = davcin.SortBy.GetSkillRecord(SkillDefOf.Mining, rhs);
+					if (lhsSR == null && rhsSR == null) {
+						value = 0;
+						break;
+					} else if (lhsSR == null) {
+						value = -1;
+						break;
+					} else if (rhsSR == null) {
+						value = 1; 
+						break;
+					}
+
+					// if level values are different, compare them
+					if (lhsSR.levelInt != rhsSR.levelInt) {
+						value = lhsSR.levelInt.CompareTo(rhsSR.levelInt);
+						break;
+					}
+
+					// check and if passion values are different, compare them
+					if (lhsSR.passion != rhsSR.passion) {
+						value = lhsSR.passion.CompareTo(rhsSR.passion);
+						break;
+					}
+
+					// compare names
+					value = string.Compare(lhs.Label, rhs.Label);
+					break;
+				}
+			/*} catch (Exception ex) {
+				davcin.SortBy.LogError(ex);
+				value = 1;
+			}*/
+			return davcin.SortBy.ReverseSortOrder(value);
+		}
+
+	}
+}

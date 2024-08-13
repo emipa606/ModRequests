@@ -1,0 +1,55 @@
+using System;
+using RimWorld;
+using Verse;
+
+namespace davcin {
+
+    [StaticConstructorOnStartup]
+    public static class SortBy {
+
+        static SortBy() {
+            davcin.SortBy.LogMessage("Hello there...");
+        }
+
+        public static void LogMessage(String message) {
+            Log.Message(string.Concat("[davcin.SortBy.SkillMining]: ", message));
+        }
+
+        public static void LogError(String message) {
+            Log.Error(string.Concat("[davcin.SortBy.SkillMining]: ", message));
+        }
+        public static void LogError(Exception e) {
+            Log.Error(string.Concat("[davcin.SortBy.SkillMining]: ", e.Message));
+        }
+
+		public static SkillRecord GetSkillRecord(SkillDef skill, Transferable t) {
+			if (t == null) {
+				return null;
+			}
+			Thing anyThing = t.AnyThing;
+			if (anyThing == null) {
+				return null;
+			}
+			Pawn pawn = (anyThing as Pawn); 
+			if (pawn == null) {
+				return null;
+			}
+			Pawn_SkillTracker skills = pawn.skills;
+			if (skills == null) {
+				return null;
+			}
+			return skills.GetSkill(skill);
+		}
+
+		public static int ReverseSortOrder(int value) {
+			if (value == 0) {
+				return 0;
+			} else if (value == 1) { 
+				return -1;
+			}
+			return 1;
+		}
+
+	}
+
+}
