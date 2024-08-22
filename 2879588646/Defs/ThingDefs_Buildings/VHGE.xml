@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="PRF_IndustrialBase" MayRequire="vanillaexpanded.helixiengas">
+		<defName>PRF_MaterialsRefinery_Gas_VHGE</defName>
+		<label>Materials Refinery(Helixien)</label>
+		<description>A biomolecular assembler able to produce rare materials through chemical synthesis.</description>
+		<thingClass>ProjectRimFactory.SAL3.Things.Assemblers.Building_SimpleAssembler</thingClass>							<!-- Using assembler type -->
+		<graphicData>
+			<texPath>Industry/MaterialsRefinery</texPath>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<!-- <designatorDropdown>PRF_MoreMachinesGroup</designatorDropdown> -->
+		<size>(2,2)</size>
+		<inspectorTabs>
+			<li>ProjectRimFactory.SAL3.UI.ITab_SAL3Bills</li>
+			<li>ProjectRimFactory.Common.ITab_PowerSupply</li>								<!-- Power boost -->
+		</inspectorTabs>
+		<statBases>
+			<WorkToBuild>5000</WorkToBuild>
+			<MaxHitPoints>350</MaxHitPoints>
+			<MarketValue>5050</MarketValue>
+			<Flammability>0.5</Flammability>
+		</statBases>
+		<costList>
+			<PRF_RoboticArm>2</PRF_RoboticArm>
+			<PRF_ElectronicChip_I>2</PRF_ElectronicChip_I>
+			<PRF_ElectronicChip_II>1</PRF_ElectronicChip_II>
+			<PRF_MachineFrame_III>1</PRF_MachineFrame_III>
+			<Plasteel>200</Plasteel>
+			<Steel>300</Steel>
+			<ComponentIndustrial>24</ComponentIndustrial>
+			<ComponentSpacer>6</ComponentSpacer>
+		</costList>
+		<recipes>
+		</recipes>
+		<comps>
+			<li Class="CompProperties_Flickable">
+				<commandTexture>Things/Special/Fluid/VHGE_OverlayBase</commandTexture>
+				<commandLabelKey>VHGE_CommandToggleGas_Label</commandLabelKey>
+				<commandDescKey>VHGE_CommandToggleGas_Desc</commandDescKey>
+			</li>
+			<li Class="PipeSystem.CompProperties_ResourceTrader">
+				<pipeNet>VHGE_HelixienNet</pipeNet>
+				<consumptionPerTick>6</consumptionPerTick>
+				<idleConsumptionPerTick>0</idleConsumptionPerTick>
+			</li>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_HeatPusher">
+				<compClass>PipeSystem.CompHeatPusherNeedResource</compClass>
+				<heatPerSecond>4</heatPerSecond>
+			</li>
+			<li Class="ProjectRimFactory.Common.CompProperties_CompOutputAdjustable">
+				<SupportDiagonal>true</SupportDiagonal>
+			</li>
+			<li Class="CompProperties_HeatPusher">
+				<compClass>CompHeatPusherPowered</compClass>
+				<heatPerSecond>5</heatPerSecond>
+			</li>
+			<li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+				<!-- Speed Settings -->
+				<floatrange_SpeedFactor>2~7</floatrange_SpeedFactor>
+				<powerPerStepSpeed>200</powerPerStepSpeed>
+				<powerStepFactor>1</powerStepFactor>
+				<!-- Range Settings -->
+				<floatrange_Range>1~5</floatrange_Range>
+				<powerPerStepRange>100</powerPerStepRange>
+				<allowManualRangeTypeChange>true</allowManualRangeTypeChange>
+				<rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+			</li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>6</glowRadius>
+				<glowColor>(115,198,206,0)</glowColor>
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+				<doEffect>false</doEffect>
+				<drawStatus>true</drawStatus>
+				<workingGraphicData>
+					<graphicClass>Graphic_Single</graphicClass>
+					<texPath>Industry/MaterialsRefinery_on</texPath>
+					<drawSize>(2,2)</drawSize>
+				</workingGraphicData>
+				<importRecipesFrom>
+					<li>PRF_MaterialsRefinery_NoMaterials</li>
+					<li>BiofuelRefinery</li>
+				</importRecipesFrom>
+			</li>
+			<li Class="ProjectRimFactory.Common.ModExtension_Skills">
+				<SkillUsage>ThisOverrides</SkillUsage>
+				<BaseSkill>14</BaseSkill>
+				<skills>
+					<li>
+						<def>Artistic</def>
+						<levelInt>10</levelInt>
+					</li>
+				</skills>
+			</li>
+		</modExtensions>
+		<staticSunShadowHeight>1</staticSunShadowHeight>
+		<researchPrerequisites>
+			<li>PRF_MetalRefining</li>
+		</researchPrerequisites>
+	 
+	</ThingDef>
+
+
+	<ThingDef ParentName="PRF_FurnaceBase" MayRequire="vanillaexpanded.helixiengas">
+		<defName>PRF_FurnaceIV_Gas_VHGE</defName>
+		<label>Plasma Furnace (Helixien)</label>
+		<thingClass>ProjectRimFactory.SAL3.Things.Assemblers.Building_SimpleAssembler</thingClass>
+		<graphicData>
+			<texPath>Industry/t3_plasmaforge</texPath>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<size>(2,2)</size>
+		<!-- <designatorDropdown>PRF_MoreMachinesGroup</designatorDropdown> -->
+		<inspectorTabs>
+			<li>ProjectRimFactory.Common.ITab_PowerSupply</li>								<!-- Power boost -->
+		</inspectorTabs>
+		<statBases>
+			<MaxHitPoints>650</MaxHitPoints>
+			<Cleanliness>2</Cleanliness>
+			<Beauty>2</Beauty>
+			<MarketValue>12352</MarketValue>
+		</statBases>
+		<description>Advanced Furnace using multiple extreme temperature plasma-arcs to smelt raw resources into useful materials, faster than previous iterations.\n\nImports any recipe from the Electric Smelter and the Crematorium.</description>
+		<costList>
+			<Steel>500</Steel>
+			<Plasteel>300</Plasteel>
+			<PRF_ElectronicChip_I>4</PRF_ElectronicChip_I>
+			<PRF_ElectronicChip_II>1</PRF_ElectronicChip_II>
+			<ComponentIndustrial>20</ComponentIndustrial>
+			<ComponentSpacer>10</ComponentSpacer>
+			<PRF_MachineFrame_III>1</PRF_MachineFrame_III>
+		</costList>
+		<recipes>
+		</recipes>
+		<comps>
+			<li Class="CompProperties_Flickable">
+				<commandTexture>Things/Special/Fluid/VHGE_OverlayBase</commandTexture>
+				<commandLabelKey>VHGE_CommandToggleGas_Label</commandLabelKey>
+				<commandDescKey>VHGE_CommandToggleGas_Desc</commandDescKey>
+			</li>
+			<li Class="PipeSystem.CompProperties_ResourceTrader">
+				<pipeNet>VHGE_HelixienNet</pipeNet>
+				<consumptionPerTick>8</consumptionPerTick>
+				<idleConsumptionPerTick>0</idleConsumptionPerTick>
+			</li>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_HeatPusher">
+				<compClass>PipeSystem.CompHeatPusherNeedResource</compClass>
+				<heatPerSecond>4</heatPerSecond>
+			</li>
+			<li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+				<!-- Speed Settings -->
+				<floatrange_SpeedFactor>2~5</floatrange_SpeedFactor>
+				<powerPerStepSpeed>250</powerPerStepSpeed>
+				<powerStepFactor>1</powerStepFactor>
+				<!-- Range Settings -->
+				<floatrange_Range>1~5</floatrange_Range>
+				<powerPerStepRange>100</powerPerStepRange>
+				<allowManualRangeTypeChange>true</allowManualRangeTypeChange>
+				<rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+			</li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>5</glowRadius>
+				<glowColor>(217,112,33,0)</glowColor>
+			</li>
+		</comps>
+		<constructionSkillPrerequisite>15</constructionSkillPrerequisite>
+		<modExtensions>
+			<li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+				<workSpeedBaseFactor>10</workSpeedBaseFactor>
+				<importRecipesFrom>
+					<li>PRF_FurnaceIV_NoMaterials</li>
+					<li>PRF_FurnaceIII</li>
+					<li>ElectricCrematorium</li>
+				</importRecipesFrom>
+				<doEffect>false</doEffect>
+				<drawStatus>true</drawStatus>
+				<workingGraphicData>
+					<graphicClass>Graphic_Single</graphicClass>
+					<texPath>Industry/t3_plasmaforge_on</texPath>
+					<drawSize>(2,2)</drawSize>
+				</workingGraphicData>
+			</li>
+			<li Class="ProjectRimFactory.Common.ModExtension_Skills">
+				<SkillUsage>ThisOverrides</SkillUsage>
+				<BaseSkill>20</BaseSkill>
+				<skills>
+					<li>
+						<def>Artistic</def>
+						<levelInt>15</levelInt>
+					</li>
+				</skills>
+			</li>
+		</modExtensions>
+		<researchPrerequisites>
+			<li>PRF_MachineLearning</li>
+		</researchPrerequisites>
+	 
+	</ThingDef>
+
+</Defs>
