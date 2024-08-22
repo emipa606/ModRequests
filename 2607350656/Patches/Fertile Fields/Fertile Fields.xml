@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Fertile Fields [1.1]</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<!-- Allow plant scraps to be used to make mudbricks -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="PlantScraps"]/thingCategories</xpath>
+					<value>
+						<li>PlantMatter</li>
+					</value>
+				</li>
+				<!-- Replace Ceramics' sand and clay with Fertile Fields' -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_RawBricks"]/ingredients/li[2]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_RawBricks"]/fixedIngredientFilter/thingDefs/li[2] |
+				Defs/RecipeDef[defName="N7_Make_HardenedCeramic"]/ingredients/li[2]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_HardenedCeramic"]/fixedIngredientFilter/thingDefs/li[2] |
+				Defs/RecipeDef[defName="N7_Make_Wafer"]/ingredients/li[2]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_Wafer"]/fixedIngredientFilter/thingDefs/li[2] |
+				Defs/RecipeDef[defName="N7_Make_Porcelain"]/ingredients/li[1]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_Porcelain"]/fixedIngredientFilter/thingDefs/li[1] |
+				Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToUnfiredBrick"]/secondItems/li |
+				Defs/ItemProcessor.ItemAcceptedDef[defName="IP_ElectricBrickExtruderSecondItem"]/items/li |
+				Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToPorcelainPaste"]/items/li |
+				Defs/ItemProcessor.ItemAcceptedDef[defName="IP_ElectricPorcelainMixerFirstItem"]/items/li					</xpath>
+					<value>
+						<li>SandPile</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_RawMudbricks"]/ingredients/li[1]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_RawMudbricks"]/fixedIngredientFilter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_RawBricks"]/ingredients/li[1]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_RawBricks"]/fixedIngredientFilter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_HardenedCeramic"]/ingredients/li[1]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_HardenedCeramic"]/fixedIngredientFilter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_Porcelain"]/ingredients/li[2]/filter/thingDefs/li[1] |
+				Defs/RecipeDef[defName="N7_Make_Porcelain"]/fixedIngredientFilter/thingDefs/li[2] |
+				Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToUnfiredBrick"]/items/li |
+				Defs/ItemProcessor.ItemAcceptedDef[defName="IP_ElectricBrickExtruderFirstItem"]/items/li |
+				Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToPorcelainPaste"]/secondItems/li |
+				Defs/ItemProcessor.ItemAcceptedDef[defName="IP_ElectricPorcelainMixerSecondItem"]/items/li					</xpath>
+					<value>
+						<li>RFFClay</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="N7_MineableClay"]/building/mineableThing</xpath>
+					<value>
+						<mineableThing>RFFClay</mineableThing>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="N7_SandTrap"]/comps/li[@Class="CompProperties_Spawner"]/thingToSpawn |
+					Defs/ThingDef[defName="N7_SandCollector"]/comps/li[@Class="CompProperties_Spawner"]/thingToSpawn					</xpath>
+					<value>
+						<thingToSpawn>SandPile</thingToSpawn>
+					</value>
+				</li>
+				<!-- Add stuffProps to PlantScraps -->
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps</xpath>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/ThingDef[defName="PlantScraps"]</xpath>
+						<value>
+							<stuffProps />
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps/categories</xpath>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps</xpath>
+						<value>
+							<categories />
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps/categories/*/Fiber</xpath>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps/categories</xpath>
+						<value>
+							<li>Fiber</li>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps/statFactors</xpath>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps</xpath>
+						<value>
+							<statFactors />
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps/statFactors/Flammability</xpath>
+					<match Class="PatchOperationReplace">
+						<xpath>Defs/ThingDef[defName="PlantScraps"]/stuffProps/statFactors/Flammability</xpath>
+						<value>
+							<Flammability>1</Flammability>
+						</value>
+					</match>
+				</li>
+				<!-- Remove Ceramics Content: Clay Pit, Clay Spot, Sand, Recipes [Defs/WorkGiverDef[defName="DoBillsCollectClay"] |Defs/ThingDef[defName="N7_ClayPit"] -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/RecipeDef[defName="N7_Collect50Sand"] |
+					Defs/RecipeDef[defName="N7_Collect25Clay"] |
+					Defs/ThingDef[defName="N7_Sand"] |
+					Defs/ThingDef[defName="N7_RawClay"]</xpath>
+				</li>
+				<!-- Because Fertile Fields uses relatively small quanties of teraforming resources, some stuff has to be adjusted. -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_FiberFromWood"]/products/N7_PlantFiber</xpath>
+					<value>
+						<N7_PlantFiber>20</N7_PlantFiber>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="N7_MineableClay"]/building/mineableYield</xpath>
+					<value>
+						<mineableYield>5</mineableYield>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToPorcelainPaste"]/amount/li[1]</xpath>
+					<value>
+						<li>13</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToUnfiredBrick"]/amount/li[1]</xpath>
+					<value>
+						<li>11</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToUnfiredBrick"]/amount/li[2] |
+					Defs/ItemProcessor.CombinationDef[defName="N7_SandClayToPorcelainPaste"]/amount/li[2]</xpath>
+					<value>
+						<li>4</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_Porcelain"]/ingredients/li[1]/count</xpath>
+					<value>
+						<count>6</count>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_RawMudbricks"]/ingredients/li[1]/count |
+				Defs/RecipeDef[defName="N7_Make_RawMudbricks"]/ingredients/li[2]/count |
+				Defs/RecipeDef[defName="N7_Make_RawBricks"]/ingredients/li[1]/count |
+				Defs/RecipeDef[defName="N7_Make_Wafer"]/ingredients/li[2]/count</xpath>
+					<value>
+						<count>5</count>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_HardenedCeramic"]/ingredients/li[2]/count</xpath>
+					<value>
+						<count>3</count>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RecipeDef[defName="N7_Make_RawBricks"]/ingredients/li[2]/count |
+				Defs/RecipeDef[defName="N7_Make_HardenedCeramic"]/ingredients/li[1]/count |
+				Defs/RecipeDef[defName="N7_Make_Porcelain"]/ingredients/li[2]/count</xpath>
+					<value>
+						<count>2</count>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="N7_SandTrap"]/comps/li[@Class="CompProperties_Spawner"]/spawnCount |
+					Defs/ThingDef[defName="N7_SandCollector"]/comps/li[@Class="CompProperties_Spawner"]/spawnCount</xpath>
+					<value>
+						<spawnCount>1</spawnCount>
+					</value>
+				</li>
+				<!-- Fertile Fields claypit Content -->
+				<li Class="PatchOperationAdd">
+					<success>Always</success>
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>N7_Collect5Sand</defName>
+							<label>collect sand</label>
+							<description>Collect sand.</description>
+							<jobString>Collecting sand.</jobString>
+							<workSpeedStat>MiningSpeed</workSpeedStat>
+							<effectWorking>ConstructDirt</effectWorking>
+							<workSkillLearnFactor>0.15</workSkillLearnFactor>
+							<soundWorking>Interact_ConstructDirt</soundWorking>
+							<workAmount>800</workAmount>
+							<products>
+								<SandPile>2</SandPile>
+							</products>
+							<workSkill>Mining</workSkill>
+							<recipeUsers>
+								<li>N7_ClayPit</li>
+							</recipeUsers>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<success>Always</success>
+					<xpath>/Defs</xpath>
+					<value>
+						<RecipeDef>
+							<defName>N7_Collect2Clay</defName>
+							<label>collect clay</label>
+							<description>Collect clay to be processed into a useful building material.</description>
+							<jobString>Collecting clay.</jobString>
+							<workSpeedStat>MiningSpeed</workSpeedStat>
+							<effectWorking>ConstructDirt</effectWorking>
+							<workSkillLearnFactor>0.15</workSkillLearnFactor>
+							<soundWorking>Interact_ConstructDirt</soundWorking>
+							<workAmount>1400</workAmount>
+							<products>
+								<RFFClay>1</RFFClay>
+							</products>
+							<workSkill>Mining</workSkill>
+							<recipeUsers>
+								<li>N7_ClayPit</li>
+							</recipeUsers>
+						</RecipeDef>
+					</value>
+				</li>
+				<!-- Remove Fertile Fields Content -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/ThingDef[defName="RFFBricks"] |
+				Defs/RecipeDef[defName="MakeBricks"] |
+				Defs/RecipeDef[defName="MakeFastBricks"]</xpath>
+				</li>
+				<!-- Replace RFFBrick with N7_FiredBrick -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/TerrainDef[defName="HBBrickFloor"]/costList |
+				Defs/TerrainDef[defName="BrickFloor"]/costList |
+				Defs/ThingDef[defName="BrickWall"]/costList</xpath>
+					<value>
+						<costList>
+							<N7_FiredBrick>4</N7_FiredBrick>
+						</costList>
+					</value>
+				</li>
+				<!-- RFFClay Stuff -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="RFFClay"]</xpath>
+					<value>
+						<stuffProps>
+							<categories>
+								<li>Clay</li>
+							</categories>
+							<color>(128,70,27)</color>
+							<soundImpactStuff>BulletImpact_Ground</soundImpactStuff>
+							<soundMeleeHitSharp>MeleeHit_Stone</soundMeleeHitSharp>
+							<soundMeleeHitBlunt>MeleeHit_Stone</soundMeleeHitBlunt>
+							<stuffAdjective>clay</stuffAdjective>
+							<statFactors>
+								<MarketValue>0.6</MarketValue>
+								<Flammability>0</Flammability>
+								<Beauty>0.7</Beauty>
+							</statFactors>
+						</stuffProps>
+						<smeltable>false</smeltable>
+						<deepCommonality>0.1</deepCommonality>
+						<deepCountPerPortion>7</deepCountPerPortion>
+						<deepLumpSizeRange>
+							<min>6</min>
+							<max>30</max>
+						</deepLumpSizeRange>
+					</value>
+				</li>
+				<!-- Timber Frame Wall -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="N7_TimberFrameWall"]/costList</xpath>
+					<value>
+						<costList>
+							<WoodLog>1</WoodLog>
+							<RFFClay>2</RFFClay>
+						</costList>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

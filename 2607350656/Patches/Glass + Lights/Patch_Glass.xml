@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+	  <mods>
+		<li>Glass+Lights</li>
+	  </mods>
+	  <match Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+		<!-- adding this will allow other mods to also add their ingredients  -->
+		<li Class="PatchOperationTest">
+			<xpath>Defs/RecipeDef[defName="MakeGlass"]/allowMixingIngredients</xpath>
+			<success>Invert</success>
+		</li>				
+		<li Class="PatchOperationAdd">
+			<xpath>Defs/RecipeDef[defName="MakeGlass"]</xpath>
+			<value>
+				<allowMixingIngredients>true</allowMixingIngredients>				
+			</value>
+		</li>
+		<!-- do the same w/ Cicular Glass  -->
+		<li Class="PatchOperationTest">
+			<xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/allowMixingIngredients</xpath>
+			<success>Invert</success>
+		</li>				
+		<li Class="PatchOperationAdd">
+			<xpath>Defs/RecipeDef[defName="MakeCircularGlass"]</xpath>
+			<value>
+				<allowMixingIngredients>true</allowMixingIngredients>				
+			</value>
+		</li>
+		<!-- Switch ingredients from categories to thingDefs.  Test to see if another mod has done it first.  -->
+		<li Class="PatchOperationTest">
+			<xpath>Defs/RecipeDef[defName="MakeGlass"]/ingredients/li/filter/thingDefs</xpath>
+			<success>Invert</success>
+		</li>				
+		<li Class="PatchOperationReplace">
+		  <xpath>Defs/RecipeDef[defName="MakeGlass"]/ingredients/li/filter/categories</xpath>
+			<value>
+			  <thingDefs />	<!-- come back to this -->	  
+			</value>
+		</li>
+		<!-- repeat w/ fixed ingredients  -->
+		<li Class="PatchOperationTest">
+			<xpath>Defs/RecipeDef[defName="MakeGlass"]/fixedIngredientFilter/thingDefs</xpath>
+			<success>Invert</success>
+		</li>				
+		<li Class="PatchOperationReplace">
+		  <xpath>Defs/RecipeDef[defName="MakeGlass"]/fixedIngredientFilter/categories</xpath>
+			<value>
+			  <thingDefs />	<!-- come back to this -->	  
+			</value>
+		</li>
+		<!-- do the same w/ Cicular Glass  -->
+		<li Class="PatchOperationTest">
+			<xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/ingredients/li/filter/thingDefs</xpath>
+			<success>Invert</success>
+		</li>				
+		<li Class="PatchOperationReplace">
+		  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/ingredients/li/filter/categories</xpath>
+			<value>
+			  <thingDefs />	<!-- come back to this -->	  
+			</value>
+		</li>
+		<!-- repeat w/ fixed ingredients  -->
+		<li Class="PatchOperationTest">
+			<xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/fixedIngredientFilter/thingDefs</xpath>
+			<success>Invert</success>
+		</li>				
+		<li Class="PatchOperationReplace">
+		  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/fixedIngredientFilter/categories</xpath>
+			<value>
+			  <thingDefs />	<!-- come back to this -->	  
+			</value>
+		</li>
+		<!-- now we add our thingDefs in -->
+		<!-- first w/out FF loaded  -->
+		<li Class="PatchOperationFindMod">
+		  <mods>
+			<li>Fertile Fields [1.1]</li>
+		  </mods>
+		  <nomatch Class="PatchOperationSequence">
+		   <success>Always</success>
+		   <operations>
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeGlass"]/ingredients/li/filter/thingDefs</xpath>
+				<value>
+				  <li>N7_Sand</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeGlass"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+				  <li>N7_Sand</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+			  <xpath>Defs/RecipeDef[defName="MakeGlass"]/ingredients/li/count</xpath>
+				<value>
+				  <count>40</count>
+				</value>
+			</li>
+			<!-- Circular Glass  -->
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/ingredients/li/filter/thingDefs</xpath>
+				<value>
+				  <li>N7_Sand</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+				  <li>N7_Sand</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+			  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/ingredients/li/count</xpath>
+				<value>
+				  <count>40</count>
+				</value>
+			</li>
+		   </operations>		
+		  </nomatch>
+			<!-- So, now we do for when both G+L and FF are loaded  -->	
+		  <match Class="PatchOperationSequence">
+		   <success>Always</success>
+		   <operations>
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeGlass"]/ingredients/li/filter/thingDefs</xpath>
+				<value>
+				  <li>SandPile</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeGlass"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+				  <li>SandPile</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+			  <xpath>Defs/RecipeDef[defName="MakeGlass"]/ingredients/li/count</xpath>
+				<value>
+				  <count>4</count>	
+				</value>
+			</li>
+			<!-- Circular Glass  -->
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/ingredients/li/filter/thingDefs</xpath>
+				<value>
+				  <li>SandPile</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+			  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/fixedIngredientFilter/thingDefs</xpath>
+				<value>
+				  <li>SandPile</li>	
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+			  <xpath>Defs/RecipeDef[defName="MakeCircularGlass"]/ingredients/li/count</xpath>
+				<value>
+				  <count>4</count>	
+				</value>
+			</li>
+		   </operations>		
+		  </match>
+		</li>		
+	   </operations>	
+	  </match>
+	</Operation>
+
+</Patch>

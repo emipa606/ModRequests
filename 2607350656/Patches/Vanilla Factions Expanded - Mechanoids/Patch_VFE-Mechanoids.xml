@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Factions Expanded - Mechanoids</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<success>Always</success>
+					<xpath>/Defs</xpath>
+					<value>
+						<ResearchProjectDef>
+							<defName>AutomatedCeramics</defName>
+							<label>automated ceramics</label>
+							<description>Provides automated processing units used to refine materials into advanced composites.</description>
+							<baseCost>750</baseCost>
+							<tab>N7_Ceramics_Tab</tab>
+							<techLevel>Industrial</techLevel>
+							<prerequisites>
+								<li>VFE_FactoryBasics</li>
+								<li>AdvancedCeramics</li>
+							</prerequisites>
+							<researchViewX>7</researchViewX>
+							<researchViewY>5.5</researchViewY>
+						</ResearchProjectDef>
+						<ThingDef ParentName="BuildingBase">
+							<defName>N7_AutoPit</defName>
+							<thingClass>Building</thingClass>
+							<label>industrial claypit</label>
+							<tickerType>Normal</tickerType>
+							<description>A robot-handled artificial claypit that will allow to extract clay or sand much faster without needing to be manually mined, at the cost of a bit of electricity.</description>
+							<graphicData>
+								<texPath>Things/Building/Production/AutoPit/AutoPit</texPath>
+								<graphicClass>Graphic_Multi</graphicClass>
+								<drawSize>(5,5)</drawSize>
+								<shaderType>CutoutComplex</shaderType>
+								<damageData>
+									<cornerTL>Damage/Corner</cornerTL>
+									<cornerTR>Damage/Corner</cornerTR>
+									<cornerBL>Damage/Corner</cornerBL>
+									<cornerBR>Damage/Corner</cornerBR>
+								</damageData>
+							</graphicData>
+							<size>(5,5)</size>
+							<minifiedDef>MinifiedThing</minifiedDef>
+							<thingCategories>
+								<li>BuildingsProduction</li>
+							</thingCategories>
+							<castEdgeShadows>false</castEdgeShadows>
+							<staticSunShadowHeight>0</staticSunShadowHeight>
+							<passability>Impassable</passability>
+							<blockWind>true</blockWind>
+							<scatterableOnMapGen>false</scatterableOnMapGen>
+							<fillPercent>1</fillPercent>
+							<blockLight>false</blockLight>
+							<canOverlapZones>false</canOverlapZones>
+							<hasInteractionCell>true</hasInteractionCell>
+							<interactionCellOffset>(0,0,3)</interactionCellOffset>
+							<designationCategory>VFE_Factory</designationCategory>
+							<rotatable>true</rotatable>
+							<altitudeLayer>Building</altitudeLayer>
+							<pathCost>70</pathCost>
+							<building>
+								<soundAmbient>GeothermalPlant_Ambience</soundAmbient>
+								<wantsHopperAdjacent>true</wantsHopperAdjacent>
+								<buildingTags>
+									<li>Production</li>
+								</buildingTags>
+								<blueprintGraphicData>
+									<texPath>Things/Building/Production/AutoPit/AutoPit_Blueprint</texPath>
+									<graphicClass>Graphic_Multi</graphicClass>
+								</blueprintGraphicData>
+							</building>
+							<statBases>
+								<MaxHitPoints>400</MaxHitPoints>
+								<WorkToBuild>15000</WorkToBuild>
+								<Flammability>1.0</Flammability>
+								<Beauty>-20</Beauty>
+								<Mass>20</Mass>
+							</statBases>
+							<costList>
+								<Steel>450</Steel>
+								<ComponentIndustrial>7</ComponentIndustrial>
+								<Plasteel>50</Plasteel>
+								<VFE_ComponentMechanoid>2</VFE_ComponentMechanoid>
+							</costList>
+							<holdsRoof>false</holdsRoof>
+							<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+							<uiIconScale>0.6</uiIconScale>
+							<researchPrerequisites>
+								<li>AutomatedCeramics</li>
+							</researchPrerequisites>
+							<placeWorkers>
+								<li>VFEMech.PlaceWorker_OnFactoryFloorAndPath</li>
+							</placeWorkers>
+							<comps>
+								<li Class="CompProperties_Power">
+									<compClass>CompPowerTrader</compClass>
+									<basePowerConsumption>675</basePowerConsumption>
+									<shortCircuitInRain>false</shortCircuitInRain>
+								</li>
+								<li Class="CompProperties_Flickable"/>
+								<li Class="VanillaFurnitureExpanded.CompProperties_ConfigurableSpawner">
+									<spawnForbidden>false</spawnForbidden>
+									<requiresPower>true</requiresPower>
+									<requiresFuel>true</requiresFuel>
+									<spawnCount>20</spawnCount>
+									<writeTimeLeftToSpawn>true</writeTimeLeftToSpawn>
+									<showMessageIfOwned>false</showMessageIfOwned>
+								</li>
+								<li Class="CompProperties_Refuelable">
+									<fuelConsumptionRate>3.0</fuelConsumptionRate>
+									<fuelCapacity>75.0</fuelCapacity>
+									<fuelFilter>
+										<thingDefs>
+											<li>Steel</li>
+										</thingDefs>
+									</fuelFilter>
+									<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+								</li>
+								<li Class="CompProperties_Breakdownable"/>
+							</comps>
+							<modExtensions>
+								<li Class="VanillaFurnitureExpanded.ShowBlueprintExtension">
+									<showBlueprintInGhostMode>true</showBlueprintInGhostMode>
+								</li>
+							</modExtensions>
+						</ThingDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<success>Always</success>
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="BuildingBase">
+							<defName>N7_CeramicsAssembler</defName>
+							<label>Ceramics Assembler</label>
+							<description>A combination out of en extruder and a kiln with automation.</description>
+							<thingClass>ItemProcessor.Building_ItemProcessor</thingClass>
+							<graphicData>
+								<texPath>Things/Building/Production/CeramicsAssembler/CeramicsAssembler</texPath>
+								<graphicClass>Graphic_Multi</graphicClass>
+								<drawSize>(5,6)</drawSize>
+								<shaderType>CutoutComplex</shaderType>
+								<damageData>
+									<cornerTL>Damage/Corner</cornerTL>
+									<cornerTR>Damage/Corner</cornerTR>
+									<cornerBL>Damage/Corner</cornerBL>
+									<cornerBR>Damage/Corner</cornerBR>
+								</damageData>
+							</graphicData>
+							<thingCategories>
+								<li>BuildingsProduction</li>
+							</thingCategories>
+							<costList>
+								<Steel>350</Steel>
+								<ComponentIndustrial>8</ComponentIndustrial>
+								<Plasteel>150</Plasteel>
+								<VFE_ComponentMechanoid>4</VFE_ComponentMechanoid>
+							</costList>
+							<placeWorkers>
+								<li>VFEMech.PlaceWorker_OnFactoryFloorAndPath</li>
+							</placeWorkers>
+							<building>
+								<soundAmbient>GeothermalPlant_Ambience</soundAmbient>
+								<wantsHopperAdjacent>true</wantsHopperAdjacent>
+								<buildingTags>
+									<li>Production</li>
+								</buildingTags>
+								<blueprintGraphicData>
+									<texPath>Things/Building/Production/CeramicsAssembler/CeramicsAssembler_Blueprint</texPath>
+									<graphicClass>Graphic_Multi</graphicClass>
+								</blueprintGraphicData>
+							</building>
+							<altitudeLayer>BuildingOnTop</altitudeLayer>
+							<rotatable>true</rotatable>
+							<neverMultiSelect>true</neverMultiSelect>
+							<uiIconScale>0.8</uiIconScale>
+							<fillPercent>0.5</fillPercent>
+							<useHitPoints>True</useHitPoints>
+							<statBases>
+								<Mass>100</Mass>
+								<WorkToBuild>15000</WorkToBuild>
+								<MaxHitPoints>300</MaxHitPoints>
+								<Flammability>1.0</Flammability>
+							</statBases>
+							<tickerType>Rare</tickerType>
+							<size>(5,6)</size>
+							<designationCategory>VFE_Factory</designationCategory>
+							<passability>PassThroughOnly</passability>
+							<pathCost>70</pathCost>
+							<hasInteractionCell>True</hasInteractionCell>
+							<interactionCellOffset>(0,0,4)</interactionCellOffset>
+							<surfaceType>Item</surfaceType>
+							<comps>
+								<li Class="CompProperties_HeatPusher">
+									<compClass>CompHeatPusherPowered</compClass>
+									<heatPerSecond>5</heatPerSecond>
+								</li>
+								<li Class="CompProperties_Glower">
+									<glowRadius>7</glowRadius>
+									<glowColor>(255,150,100,0)</glowColor>
+								</li>
+								<li Class="CompProperties_Power">
+									<compClass>CompPowerTrader</compClass>
+									<shortCircuitInRain>false</shortCircuitInRain>
+									<basePowerConsumption>500</basePowerConsumption>
+								</li>
+								<li Class="CompProperties_Flickable"/>
+								<li Class="ItemProcessor.CompProperties_ItemProcessor">
+									<buildingOnGraphic>Things/Building/Production/CeramicsAssembler/CeramicsAssembler</buildingOnGraphic>
+									<numberOfInputs>2</numberOfInputs>
+									<acceptsNoneAsInput>false</acceptsNoneAsInput>
+									<transfersIngredientLists>false</transfersIngredientLists>
+									<isAutoMachine>true</isAutoMachine>
+									<isAutoDropper>true</isAutoDropper>
+									<showFactoryProgressBar>true</showFactoryProgressBar>
+									<isMachineSpecifiesOutput>true</isMachineSpecifiesOutput>
+									<isCompletelyAutoMachine>true</isCompletelyAutoMachine>
+									<noPowerDestroysProgress>true</noPowerDestroysProgress>
+									<isMachinePausable>true</isMachinePausable>
+									<rareTicksToDestroy>10</rareTicksToDestroy>
+									<destroyIngredientsAtStartOfProcess>true</destroyIngredientsAtStartOfProcess>
+									<chooseIngredientsIcon>UI/IP_SetOutput</chooseIngredientsIcon>
+									<InsertFirstItemDesc>IP_ChooseOutput</InsertFirstItemDesc>
+									<bringIngredientsText>N7_BringIngredients</bringIngredientsText>
+									<bringIngredientsDesc>N7_BringIngredientsDesc</bringIngredientsDesc>
+									<bringIngredientsIcon>UI/IP_Begin</bringIngredientsIcon>
+									<inputSlots>
+										<li>(-3,0,-2)</li>
+										<li>(3,0,-2)</li>
+									</inputSlots>
+								</li>
+							</comps>
+							<minifiedDef>MinifiedThing</minifiedDef>
+							<researchPrerequisites Inherit='False'>
+								<li>AutomatedCeramics</li>
+							</researchPrerequisites>
+							<modExtensions>
+								<li Class="VanillaFurnitureExpanded.ShowBlueprintExtension">
+									<showBlueprintInGhostMode>true</showBlueprintInGhostMode>
+								</li>
+							</modExtensions>
+							<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+						</ThingDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<success>Always</success>
+					<xpath>/Defs</xpath>
+					<value>
+						<ThingDef ParentName="BuildingBase">
+							<defName>N7_AdvancedComponentAssembler</defName>
+							<label>Advanced Component assembler</label>
+							<description>An absurdly large machine composed of a series of foundries and casting molds. Overall, the machine is capable of fabricating any basic electronic or mechanical component with ease.\n\n&lt;color=#33d733&gt;Automation Chain:&lt;/color&gt; Part of the Electronics Fabrication Factory chain.</description>
+							<thingClass>ItemProcessor.Building_ItemProcessor</thingClass>
+							<graphicData>
+								<texPath>Things/Building/Production/AdvancedComponentAssembler/AdvancedComponentAssembler</texPath>
+								<graphicClass>Graphic_Multi</graphicClass>
+								<drawSize>(9,7)</drawSize>
+								<shaderType>CutoutComplex</shaderType>
+								<damageData>
+									<cornerTL>Damage/Corner</cornerTL>
+									<cornerTR>Damage/Corner</cornerTR>
+									<cornerBL>Damage/Corner</cornerBL>
+									<cornerBR>Damage/Corner</cornerBR>
+								</damageData>
+							</graphicData>
+							<thingCategories>
+								<li>BuildingsProduction</li>
+							</thingCategories>
+							<costList>
+								<Steel>550</Steel>
+								<Plasteel>120</Plasteel>
+								<ComponentIndustrial>16</ComponentIndustrial>
+								<VFE_ComponentMechanoid>2</VFE_ComponentMechanoid>
+							</costList>
+							<building>
+								<soundAmbient>GeothermalPlant_Ambience</soundAmbient>
+								<wantsHopperAdjacent>true</wantsHopperAdjacent>
+								<buildingTags>
+									<li>Production</li>
+								</buildingTags>
+								<blueprintGraphicData>
+									<texPath>Things/Building/Production/AdvancedComponentAssembler/AdvancedComponentAssembler_Blueprint</texPath>
+									<graphicClass>Graphic_Multi</graphicClass>
+								</blueprintGraphicData>
+							</building>
+							<altitudeLayer>BuildingOnTop</altitudeLayer>
+							<rotatable>true</rotatable>
+							<neverMultiSelect>true</neverMultiSelect>
+							<uiIconScale>0.8</uiIconScale>
+							<fillPercent>0.5</fillPercent>
+							<placeWorkers>
+								<li>VFEMech.PlaceWorker_OnFactoryFloorAndPath</li>
+							</placeWorkers>
+							<useHitPoints>True</useHitPoints>
+							<statBases>
+								<Mass>100</Mass>
+								<WorkToBuild>15000</WorkToBuild>
+								<MaxHitPoints>300</MaxHitPoints>
+								<Flammability>1.0</Flammability>
+							</statBases>
+							<tickerType>Rare</tickerType>
+							<size>(7,5)</size>
+							<designationCategory>VFE_Factory</designationCategory>
+							<passability>PassThroughOnly</passability>
+							<pathCost>70</pathCost>
+							<hasInteractionCell>True</hasInteractionCell>
+							<interactionCellOffset>(0,0,3)</interactionCellOffset>
+							<surfaceType>Item</surfaceType>
+							<comps>
+								<li Class="CompProperties_Power">
+									<compClass>CompPowerTrader</compClass>
+									<shortCircuitInRain>false</shortCircuitInRain>
+									<basePowerConsumption>500</basePowerConsumption>
+								</li>
+								<li Class="CompProperties_Flickable"/>
+								<li Class="ItemProcessor.CompProperties_ItemProcessor">
+									<buildingOnGraphic>Things/Building/Production/AdvancedComponentAssembler/AdvancedComponentAssembler</buildingOnGraphic>
+									<numberOfInputs>2</numberOfInputs>
+									<acceptsNoneAsInput>false</acceptsNoneAsInput>
+									<isMachineSpecifiesOutput>true</isMachineSpecifiesOutput>
+									<transfersIngredientLists>false</transfersIngredientLists>
+									<isAutoMachine>true</isAutoMachine>
+									<isAutoDropper>true</isAutoDropper>
+									<showFactoryProgressBar>true</showFactoryProgressBar>
+									<isCompletelyAutoMachine>true</isCompletelyAutoMachine>
+									<noPowerDestroysProgress>true</noPowerDestroysProgress>
+									<isMachinePausable>true</isMachinePausable>
+									<rareTicksToDestroy>10</rareTicksToDestroy>
+									<destroyIngredientsAtStartOfProcess>true</destroyIngredientsAtStartOfProcess>
+									<chooseIngredientsIcon>UI/IP_SetOutput</chooseIngredientsIcon>
+									<InsertFirstItemDesc>IP_ChooseOutput</InsertFirstItemDesc>
+									<bringIngredientsText>VFEM_BringIngredients</bringIngredientsText>
+									<bringIngredientsDesc>VFEM_BringIngredientsDesc</bringIngredientsDesc>
+									<bringIngredientsIcon>UI/IP_Begin</bringIngredientsIcon>
+									<inputSlots>
+										<li>(2,0,3)</li>
+										<li>(-2,0,3)</li>
+										<li>(2,0,-3)</li>
+										<li>(-2,0,-3)</li>
+									</inputSlots>
+								</li>
+							</comps>
+							<minifiedDef>MinifiedThing</minifiedDef>
+							<researchPrerequisites Inherit='False'>
+								<li>VFE_ElectronicsFabricationFactory</li>
+							</researchPrerequisites>
+							<modExtensions>
+								<li Class="VanillaFurnitureExpanded.ShowBlueprintExtension">
+									<showBlueprintInGhostMode>true</showBlueprintInGhostMode>
+								</li>
+							</modExtensions>
+							<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+						</ThingDef>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Factions Expanded - Mechanoids</li>
+		</mods>
+		<match Class="PatchOperationFindMod">
+			<mods>
+				<li>Fertile Fields [1.1]</li>
+			</mods>
+			<match Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ThingDef[defName="N7_AutoPit"]/comps/li[@Class="VanillaFurnitureExpanded.CompProperties_ConfigurableSpawner"]/spawnCount</xpath>
+						<value>
+							<spawnCount>2</spawnCount>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_PorcelainRecipe"]/amount/li[2]</xpath>
+						<value>
+							<li>6</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_VersatileAssembler_WaferRecipe"]/amount/li[1] |
+						Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_BrickRecipe"]/amount/li[1]</xpath>
+						<value>
+							<li>5</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_AdvancedAssembler_HardenedCeramicRecipe"]/amount/li[2]</xpath>
+						<value>
+							<li>3</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_BrickRecipe"]/amount/li[2] |
+						Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_PorcelainRecipe"]/amount/li[1] |
+						Defs/ItemProcessor.CombinationDef[defName="N7_AdvancedAssembler_HardenedCeramicRecipe"]/amount/li[1]</xpath>
+						<value>
+							<li>2</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/VanillaFurnitureExpanded.ConfigurableSpawnerDef[defName="N7_SpawnSand"]/items/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_BrickRecipe"]/secondItems/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_PorcelainRecipe"]/secondItems/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_AdvancedAssembler_HardenedCeramicRecipe"]/secondItems/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_VersatileAssembler_WaferRecipe"]/items/li</xpath>
+						<value>
+							<li>SandPile</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/VanillaFurnitureExpanded.ConfigurableSpawnerDef[defName="N7_SpawnClay"]/items/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_BrickRecipe"]/items/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_CeramicsAssembler_PorcelainRecipe"]/items/li |
+						Defs/ItemProcessor.CombinationDef[defName="N7_AdvancedAssembler_HardenedCeramicRecipe"]/items/li</xpath>
+						<value>
+							<li>RFFClay</li>
+						</value>
+					</li>
+				</operations>
+			</match>
+		</match>
+	</Operation>
+</Patch>

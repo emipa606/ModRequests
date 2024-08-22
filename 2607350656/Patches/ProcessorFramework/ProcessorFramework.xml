@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>[SYR] Processor Framework</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<ProcessorFramework.ProcessDef>
+							<defName>N7_RawMudbrickToDriedMudbrick_PF</defName>
+							<thingDef>N7_DriedMudbrick</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>N7_RawMudbrick</li>
+								</thingDefs>
+							</ingredientFilter>
+							<processDays>2</processDays>
+							<usesTemperature>true</usesTemperature>
+							<temperatureSafe>0.0~600.0</temperatureSafe>
+							<temperatureIdeal>20.0~100.0</temperatureIdeal>
+							<ruinedPerDegreePerHour>2.5</ruinedPerDegreePerHour>
+							<speedBelowSafe>0.1</speedBelowSafe>
+							<speedAboveSafe>1.0</speedAboveSafe>
+							<sunFactor>0.4~1.0</sunFactor>
+							<rainFactor>1.0~0.0</rainFactor>
+							<snowFactor>1.0~0.0</snowFactor>
+							<windFactor>0.8~1.0</windFactor>
+							<filledGraphicSuffix>_Full</filledGraphicSuffix>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef>
+							<defName>N7_FireRawMudbrickToDriedMudbrick_PF</defName>
+							<thingDef>N7_DriedMudbrick</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>N7_RawMudbrick</li>
+								</thingDefs>
+							</ingredientFilter>
+							<processDays>1</processDays>
+							<usesTemperature>false</usesTemperature>
+							<unfueledFactor>0.0</unfueledFactor>
+							<fuelUseFactor>1.0</fuelUseFactor>
+							<filledGraphicSuffix>_Full</filledGraphicSuffix>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef>
+							<defName>N7_UnfiredBrickToFiredBrick_PF</defName>
+							<thingDef>N7_FiredBrick</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>N7_UnfiredBrick</li>
+								</thingDefs>
+							</ingredientFilter>
+							<processDays>1.5</processDays>
+							<usesTemperature>false</usesTemperature>
+							<unfueledFactor>0.0</unfueledFactor>
+							<fuelUseFactor>1.0</fuelUseFactor>
+							<filledGraphicSuffix>_Full</filledGraphicSuffix>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef>
+							<defName>N7_PorcelainPasteToPorcelain_PF</defName>
+							<thingDef>N7_Porcelain</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>N7_PorcelainPaste</li>
+								</thingDefs>
+							</ingredientFilter>
+							<processDays>1.5</processDays>
+							<usesTemperature>false</usesTemperature>
+							<unfueledFactor>0.0</unfueledFactor>
+							<fuelUseFactor>1.0</fuelUseFactor>
+							<filledGraphicSuffix>_Full</filledGraphicSuffix>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef>
+							<defName>N7_UnfiredBrickToFiredBrickElectric_PF</defName>
+							<thingDef>N7_FiredBrick</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>N7_UnfiredBrick</li>
+								</thingDefs>
+							</ingredientFilter>
+							<processDays>1.5</processDays>
+							<usesTemperature>false</usesTemperature>
+							<unpoweredFactor>0.0</unpoweredFactor>
+							<powerUseFactor>1.0</powerUseFactor>
+						</ProcessorFramework.ProcessDef>
+						<ProcessorFramework.ProcessDef>
+							<defName>N7_PorcelainPasteToPorcelainElectric_PF</defName>
+							<thingDef>N7_Porcelain</thingDef>
+							<ingredientFilter>
+								<thingDefs>
+									<li>N7_PorcelainPaste</li>
+								</thingDefs>
+							</ingredientFilter>
+							<processDays>1.5</processDays>
+							<usesTemperature>false</usesTemperature>
+							<unpoweredFactor>0.0</unpoweredFactor>
+							<powerUseFactor>1.0</powerUseFactor>
+						</ProcessorFramework.ProcessDef>
+					</value>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/ThingDef[defName = "N7_BrickDryingRack" or defName = "N7_PrimitiveBrickKiln" or defName = "N7_BasicBrickKiln" or defName = "N7_PorcelainKiln" or defName = "N7_ElectricBrickKiln"]/thingClass</xpath>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName = "N7_BrickDryingRack" or defName = "N7_PrimitiveBrickKiln" or defName = "N7_BasicBrickKiln" or defName = "N7_PorcelainKiln" or defName = "N7_ElectricBrickKiln"]</xpath>
+					<value>
+						<drawerType>MapMeshAndRealTime</drawerType>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "N7_BrickDryingRack"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+					<value>
+						<li Class="ProcessorFramework.CompProperties_Processor">
+							<capacity>35</capacity>
+							<independentProcesses>false</independentProcesses>
+							<dropIngredients>true</dropIngredients>
+							<processes>
+								<li>N7_RawMudbrickToDriedMudbrick_PF</li>
+							</processes>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "N7_PrimitiveBrickKiln"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+					<value>
+						<li Class="ProcessorFramework.CompProperties_Processor">
+							<capacity>25</capacity>
+							<independentProcesses>false</independentProcesses>
+							<dropIngredients>true</dropIngredients>
+							<processes>
+								<li>N7_FireRawMudbrickToDriedMudbrick_PF</li>
+							</processes>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "N7_BasicBrickKiln"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+					<value>
+						<li Class="ProcessorFramework.CompProperties_Processor">
+							<capacity>50</capacity>
+							<independentProcesses>false</independentProcesses>
+							<dropIngredients>true</dropIngredients>
+							<processes>
+								<li>N7_UnfiredBrickToFiredBrick_PF</li>
+							</processes>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "N7_PorcelainKiln"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+					<value>
+						<li Class="ProcessorFramework.CompProperties_Processor">
+							<capacity>50</capacity>
+							<independentProcesses>false</independentProcesses>
+							<dropIngredients>true</dropIngredients>
+							<processes>
+								<li>N7_PorcelainPasteToPorcelain_PF</li>
+							</processes>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "N7_ElectricBrickKiln"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+					<value>
+						<li Class="ProcessorFramework.CompProperties_Processor">
+							<capacity>75</capacity>
+							<independentProcesses>false</independentProcesses>
+							<dropIngredients>true</dropIngredients>
+							<processes>
+								<li>N7_UnfiredBrickToFiredBrickElectric_PF</li>
+								<li>N7_PorcelainPasteToPorcelainElectric_PF</li>
+							</processes>
+						</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
