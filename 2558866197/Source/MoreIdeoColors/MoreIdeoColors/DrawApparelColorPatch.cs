@@ -32,9 +32,9 @@ namespace MoreIdeoColors
 			{
 				Rect rect2 = new Rect(rect.x, num2, viewRect.width, 140f);
 				Color color = ___apparelColors[apparel];
-				
-				
-				flag |= ColorSelectorClass.ColorSelector(rect2, ref color, allColors, apparel.def.uiIcon, 22, 2);
+
+				float colorHeight;
+				flag |= ColorSelectorClass.ColorSelector(rect2, ref color, allColors, out colorHeight, apparel.def.uiIcon, 22, 2);
 				num2 += rect2.height + 10f;
 				if (___pawn.Ideo != null)
 				{

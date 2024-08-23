@@ -14,10 +14,11 @@ namespace MoreIdeoColors
 {
     class ColorSelectorClass
     {
-		public static bool ColorSelector(Rect rect, ref Color color, List<Color> colors, Texture icon = null, int colorSize = 22, int colorPadding = 2)
+		public static bool ColorSelector(Rect rect, ref Color color, List<Color> colors, out float height, Texture icon = null, int colorSize = 22, int colorPadding = 2)
 		{
 			/*Rect viewRect = new Rect(rect.x, rect.y, rect.width - 16f, rect.y - 16f);*/
 			/*Widgets.BeginScrollView(rect, ref this.colorSelectorScrollPosition, viewRect, true);*/
+			height = 0f;
 			bool result = false;
 			int num = colorSize + colorPadding * 2;
 			float num2 = (icon != null) ? ((float)(colorSize * 4) + 10f) : 0f;
@@ -51,6 +52,7 @@ namespace MoreIdeoColors
 					color = color2;
 					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 				}
+				height = Mathf.Max(height, rect2.yMax);
 				num5++;
 			}
 			GUI.EndGroup();

@@ -16,7 +16,7 @@ namespace MoreIdeoColors
 	[HarmonyPatch("DrawHairColors")]
 	class DrawHairColorsPatch
 	{
-		private static bool Prefix(Dialog_StylingStation __instance, Pawn ___pawn, ref Color ___desiredHairColor, Rect rect)
+		/*private static bool Prefix(Dialog_StylingStation __instance, Pawn ___pawn, ref Color ___desiredHairColor, Rect rect)
 		{
 			rect.height = 400f;
 			float num = rect.y;
@@ -24,9 +24,13 @@ namespace MoreIdeoColors
 				BindingFlags.NonPublic | BindingFlags.Instance);
 
 			List<Color> AllHairColors = (List<Color>)AllHairColorsProp.GetValue(__instance);
-			ColorSelectorClass.ColorSelector(new Rect(rect.x, num, rect.width, 184f), ref ___desiredHairColor, AllHairColors, null, 22, 2);
+			float colorsHeight;
+			ColorSelectorClass.ColorSelector(new Rect(rect.x, num, rect.width, 284f), ref ___desiredHairColor, AllHairColors, out colorsHeight, null, 22, 2);
+			//__instance.GetType().GetProperty("colorsHeight") = colorsHeight;
+
+			//ColorSelectorClass.ColorSelector(new Rect(rect.x, num, rect.width, 184f), ref ___desiredHairColor, AllHairColors, null, 22, 2);
 			num -= 45f;
-			if (___desiredHairColor != ___pawn.story.hairColor && ___desiredHairColor != ___pawn.style.nextHairColor)
+			if (___desiredHairColor != ___pawn.story.HairColor && ___desiredHairColor != ___pawn.style.nextHairColor)
 			{
 				Widgets.Label(new Rect(rect.x, num, rect.width, Text.LineHeight), "Required".Translate() + ": " + 1 + " " + ThingDefOf.Dye.LabelCap);
 				num += Text.LineHeight;
@@ -41,7 +45,7 @@ namespace MoreIdeoColors
 				}
 			}
 			return false;
-		}
+		}*/
 		/*private static bool Prefix(Dialog_StylingStation __instance, float ___viewRectHeight, Pawn ___pawn, bool ___devEditMode, Rect rect, ref Vector2 scrollPosition, Action<Rect, T> drawAction, Action<T> selectAction, Func<StyleItemDef, bool> hasStyleItem, Func<StyleItemDef, bool> hadStyleItem, Func<StyleItemDef, bool> extraValidator = null, bool doColors = false) where T : StyleItemDef
 		{
 			Rect viewRect = new Rect(rect.x, rect.y, rect.width - 16f, ___viewRectHeight);
