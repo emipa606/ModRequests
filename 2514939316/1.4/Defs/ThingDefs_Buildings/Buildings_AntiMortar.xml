@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>S_AntiMortar</defName>
+        <label>anti-mortar</label>
+        <description>.</description> <!-- Adjust -->
+        <uiIconPath>Things/Building/Security/AntiMortar_MenuIcon</uiIconPath>
+        <statBases>
+            <MaxHitPoints>380</MaxHitPoints>
+            <Flammability>0.7</Flammability>
+            <WorkToBuild>15000</WorkToBuild>
+            <Mass>100</Mass>
+            <Beauty>-20</Beauty>
+        </statBases>
+        <graphicData>
+            <texPath>Things/Building/Security/AntiMortar</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <drawSize>(1.5, 1.5)</drawSize>
+            <drawOffset>(0,0,-0.1)</drawOffset>
+            <shadowData>
+                <volume>(1.5,0.35,1.4)</volume>
+                <offset>(0,0,-0.05)</offset>
+            </shadowData>
+            <damageData>
+                <rect>(0.2,0.2,0.6,0.6)</rect>
+            </damageData>
+        </graphicData>
+        <altitudeLayer>Building</altitudeLayer>
+        <pathCost>50</pathCost>
+        <blockWind>true</blockWind>
+        <passability>PassThroughOnly</passability>
+        <fillPercent>0.5</fillPercent>
+        <tickerType>Normal</tickerType>
+        <stealable>false</stealable>
+        <rotatable>false</rotatable>
+        <size>(2,2)</size>
+        <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+        <designationCategory>Security</designationCategory>
+        <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+        <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+        <drawerType>RealtimeOnly</drawerType>
+        <repairEffect>ConstructMetal</repairEffect>
+        <forceDebugSpawnable>true</forceDebugSpawnable>
+        <building>
+            <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+        </building>
+        <placeWorkers>
+            <li>PlaceWorker_ShowProjectileInterceptorRadius</li>
+        </placeWorkers>
+        <comps>
+            <li Class="CompProperties_Explosive">
+                <wickTicks>240</wickTicks>
+                <explosiveRadius>5.9</explosiveRadius>
+                <explosiveDamageType>Bomb</explosiveDamageType>
+                <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+            </li>
+            <li Class="CompProperties_Forbiddable"/>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>150</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable"/>
+            <li Class="CompProperties_Breakdownable"/>
+            <li Class="AntiAirAntiMortar.CompProperties_AAProjectileInterceptor">
+                <radius>33</radius>
+                <interceptAirProjectiles>true</interceptAirProjectiles>
+                <color>(0.6, 0.6, 0.6)</color>
+                <reactivateEffect>MortarShieldGenerator_Reactivate</reactivateEffect>
+                <activeSound>MortarShield_Ambience</activeSound>
+                <disarmedByEmpForTicks>1080</disarmedByEmpForTicks>
+            </li>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until barrel change</fuelLabel>
+				<fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+				<fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+				<fuelCapacity>60</fuelCapacity>       <!-- 30 bursts -->
+				<fuelMultiplier>0.75</fuelMultiplier> <!-- 1.333 steel per burst, 80 per full rearm -->
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.5</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+        </comps>
+        <costList>
+            <Steel>350</Steel>
+            <Plasteel>40</Plasteel>
+            <ComponentIndustrial>6</ComponentIndustrial>
+        </costList>   
+        <researchPrerequisites>
+            <li>HeavyTurrets</li>
+        </researchPrerequisites>
+        <uiIconScale>0.95</uiIconScale>
+    </ThingDef>
+
+</Defs>
