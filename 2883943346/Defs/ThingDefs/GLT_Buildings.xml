@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <ThingDef ParentName="BuildingBase" Name="GLT_Laser_Turret" Abstract="True"> 
+	<thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Turrets/LaserTurret_base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1,0.2,1)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>    
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>GunTurrets</li>
+    </researchPrerequisites>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+	<altitudeLayer>Building</altitudeLayer>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>3000</WorkToBuild>
+      <Mass>120</Mass>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+	<comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+	  <li Class="CompProperties_Flickable"/>
+	</comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>3</turretTopDrawSize>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+	<uiIconScale>2.2</uiIconScale>
+   </ThingDef>
+   
+<!-- 追踪射线塔 -->
+  
+   <ThingDef ParentName="GLT_Laser_Turret">
+    <defName>GLT_LaserTracker</defName>
+    <label>Laser Tracker Turret</label>
+    <description>Uses tracking beam to cause damage and light up enemies. Needs plasteel for maintenance after several shots.</description>
+    <uiIconPath>Turrets/lasertracker_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Plasteel>200</Plasteel>
+      <ComponentSpacer>2</ComponentSpacer>
+	  <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>ChargedShot</li>
+    </researchPrerequisites>
+    <comps>
+	  <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>240</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until maintenance</fuelLabel>
+        <fuelGizmoLabel>shots left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs maintenance</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Plasteel</li></thingDefs></fuelFilter>
+        <fuelCapacity>200</fuelCapacity>
+        <fuelMultiplier>10</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.50</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+	  <combatPower>500</combatPower>
+      <turretGunDef>GLT_LaserTracker_gun</turretGunDef>
+      <turretBurstCooldownTime>2</turretBurstCooldownTime>
+    </building>
+    <placeWorkers Inherit="False">
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+  </ThingDef>
+  
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>GLT_LaserTracker_gun</defName>
+    <label>Laser Tracker</label>
+    <description>Weapon of laser tracker turret.</description>
+    <graphicData>
+      <texPath>Turrets/lasertracker_gun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.8</AccuracyTouch>
+      <AccuracyShort>0.9</AccuracyShort>
+      <AccuracyMedium>1</AccuracyMedium>
+      <AccuracyLong>0.72</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>7</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>DirectBeam.Verb_ShootBeamDirect</verbClass>
+        <defaultProjectile>Bullet_GLTLaserTracker</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <range>35.9</range>
+        <burstShotCount>10</burstShotCount>
+		<ticksBetweenBurstShots>15</ticksBetweenBurstShots>
+		<beamMoteDef>Mote_DirectLaserBeamLong</beamMoteDef>
+        <beamEndEffecterDef>GLTBeam_End</beamEndEffecterDef>
+        <beamStartOffset>0.55</beamStartOffset>
+        <!-- <beamLineFleckDef>Fleck_BeamSpark</beamLineFleckDef> -->
+        <!-- <beamLineFleckChanceCurve> -->
+          <!-- <points> -->
+            <!-- <li>(0, 0)</li> -->
+            <!-- <li>(0.65, 0.4)</li> -->
+            <!-- <li>(1, 0.75)</li> -->
+          <!-- </points> -->
+        <!-- </beamLineFleckChanceCurve> -->
+        <soundCastBeam>DirectBeam_Shot</soundCastBeam>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_GLTLaserTracker</defName>
+    <label>tracking beam</label>
+    <graphicData>
+      <texPath>fakebullets/fakebullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<comps>
+	  <li Class="DirectBeam.DirectBeam_CompProperties">
+	  </li>
+	</comps>
+	<thingClass>DirectBeam.DirectBeamProj</thingClass>
+    <projectile>
+      <damageDef>SneakyBullet</damageDef>
+      <speed>1000</speed>
+	  <stoppingPower>2</stoppingPower>
+	  <armorPenetrationBase>0.50</armorPenetrationBase>
+    </projectile>
+  </ThingDef>
+
+<!-- 激光射线塔 -->
+
+   <ThingDef ParentName="GLT_Laser_Turret">
+    <defName>GLT_LaserShooter</defName>
+    <label>Laser Shooter Turret</label>
+    <description>Emitt hot laser beams, hurt and light up enemies. Needs plasteel for maintenance after several shots.</description>
+    <uiIconPath>Turrets/lasershooter_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>0.97</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Plasteel>180</Plasteel>
+      <ComponentSpacer>1</ComponentSpacer>
+	  <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>ChargedShot</li>
+    </researchPrerequisites>
+    <comps>
+	  <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>180</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until maintenance</fuelLabel>
+        <fuelGizmoLabel>shots left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs maintenance</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Plasteel</li></thingDefs></fuelFilter>
+        <fuelCapacity>160</fuelCapacity>
+        <fuelMultiplier>8</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.50</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+	  <combatPower>450</combatPower>
+      <turretGunDef>GLT_LaserShooter_gun</turretGunDef>
+      <turretBurstCooldownTime>5</turretBurstCooldownTime>
+    </building>
+    <placeWorkers Inherit="False">
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+  </ThingDef>
+  
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>GLT_LaserShooter_gun</defName>
+    <label>Laser Shooter</label>
+    <description>Weapon of laser shooter turret.</description>
+    <graphicData>
+      <texPath>Turrets/lasershooter_gun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.6</AccuracyTouch>
+      <AccuracyShort>0.95</AccuracyShort>
+      <AccuracyMedium>0.7</AccuracyMedium>
+      <AccuracyLong>0.5</AccuracyLong>
+      <RangedWeapon_Cooldown>2.5</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>7</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_GLTLaserShooter</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>35.9</range>
+        <ticksBetweenBurstShots>18</ticksBetweenBurstShots>
+        <burstShotCount>4</burstShotCount>
+        <soundCast>LaserShot_Light</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>14</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_GLTLaserShooter</defName>
+    <label>laser</label>
+    <graphicData>
+      <texPath>fakebullets/fakebullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<comps>
+	  <li Class="DirectBeam.DirectBeam_CompProperties">
+		<lanceMoteDef>Mote_DirectLaserBeam</lanceMoteDef>
+	  </li>
+	</comps>
+	<thingClass>DirectBeam.DirectBeamProj</thingClass>
+    <projectile>
+      <damageDef>SneakyBullet</damageDef>
+      <damageAmountBase>24</damageAmountBase>
+      <speed>1000</speed>
+	  <stoppingPower>2</stoppingPower>
+	  <armorPenetrationBase>0.60</armorPenetrationBase>
+    </projectile>
+  </ThingDef>
+  
+<!-- 狙击射线塔 -->
+
+   <ThingDef ParentName="GLT_Laser_Turret">
+    <defName>GLT_LaserSniper</defName>
+    <label>Laser Sniper Turret</label>
+    <description>Emitt powerful long range laser beams, hurt and light up enemies. Needs plasteel for maintenance after several shots.</description>
+    <uiIconPath>Turrets/laserheavy_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>0.997</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Plasteel>250</Plasteel>
+      <ComponentSpacer>3</ComponentSpacer>
+	  <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>ChargedShot</li>
+    </researchPrerequisites>
+    <comps>
+	  <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>240</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until maintenance</fuelLabel>
+        <fuelGizmoLabel>shots left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs maintenance</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Plasteel</li></thingDefs></fuelFilter>
+        <fuelCapacity>40</fuelCapacity>
+        <fuelMultiplier>2</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.50</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+	  <combatPower>550</combatPower>
+      <turretGunDef>GLT_LaserSniper_gun</turretGunDef>
+      <turretBurstCooldownTime>5</turretBurstCooldownTime>
+    </building>
+    <placeWorkers Inherit="False">
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+  </ThingDef>
+  
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>GLT_LaserSniper_gun</defName>
+    <label>Laser Sniper</label>
+    <description>Weapon of laser sniper turret.</description>
+    <graphicData>
+      <texPath>Turrets/laserheavy_gun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.5</AccuracyTouch>
+      <AccuracyShort>0.7</AccuracyShort>
+      <AccuracyMedium>1.0</AccuracyMedium>
+      <AccuracyLong>0.9</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>7</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_GLTLaserSniper</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>50.1</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>LaserShot_Heavy</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>21</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_GLTLaserSniper</defName>
+    <label>laser</label>
+    <graphicData>
+      <texPath>fakebullets/fakebullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<comps>
+	  <li Class="DirectBeam.DirectBeam_CompProperties">
+		<lanceMoteDef>Mote_DirectLaserBeam</lanceMoteDef>
+	  </li>
+	</comps>
+	<thingClass>DirectBeam.DirectBeamProj</thingClass>
+    <projectile>
+      <damageDef>SneakyBullet</damageDef>
+      <damageAmountBase>40</damageAmountBase>
+      <speed>1000</speed>
+	  <stoppingPower>3</stoppingPower>
+	  <armorPenetrationBase>2</armorPenetrationBase>
+    </projectile>
+  </ThingDef>
+  
+
+
+
+</Defs>
