@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- <ThingDef ParentName="BuildingBase"> -->
+	<ThingDef ParentName="FurnitureWithQualityBase">
+		<defName>LTF_TpCatcher</defName>
+		<thingClass>Building_Storage</thingClass>
+		
+		<label>teleport catcher</label>
+		<description>A wooden structure for receiving teleport arrivals. Must be associated with a teleport spot.</description>
+
+		
+		
+		<graphicData>
+			<texPath>Things/Building/TpCatcher/TpCatcher</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(1,1)</drawSize>
+		</graphicData>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<randomizeRotationOnSpawn>true</randomizeRotationOnSpawn>
+
+		<statBases>
+			<WorkToBuild>1000</WorkToBuild>
+			<MaxHitPoints>20</MaxHitPoints>
+			<Flammability>1.5</Flammability>
+			<MarketValue>100</MarketValue>
+			<JoyGainFactor>1</JoyGainFactor>
+			<Mass>10</Mass>
+		</statBases>
+
+		<resourcesFractionWhenDeconstructed>.2</resourcesFractionWhenDeconstructed>
+		<tradeTags>
+			<li>Furniture</li>
+		</tradeTags>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<tickerType>Normal</tickerType>
+
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<useHitPoints>True</useHitPoints>
+		<size>(1,1)</size>
+
+		<!-- <clearBuildingArea>false</clearBuildingArea> -->
+		<rotatable>false</rotatable>
+		<stealable>true</stealable>
+		<!-- <defaultPlacingRot>North</defaultPlacingRot> -->
+
+		<designationCategory>Security</designationCategory>
+		<passability>Standable</passability>
+		<hasInteractionCell>False</hasInteractionCell>
+		<!-- <interactionCellOffset>(0,0,-1)</interactionCellOffset> -->
+
+		<surfaceType>Item</surfaceType>
+
+		<building>
+			<sowTag>SupportPlantsOnly</sowTag>
+			<canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+
+			<ai_chillDestination>false</ai_chillDestination>
+			<isEdifice>false</isEdifice>
+			<preventDeteriorationOnTop>false</preventDeteriorationOnTop>
+
+			<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+			<isInert>true</isInert>
+			<defaultStorageSettings>
+				<priority>Normal</priority>
+				<filter>
+					<categories>
+						<li>Weapons</li>
+					</categories>
+				</filter>
+			</defaultStorageSettings>
+		</building>
+
+		<inspectorTabs>
+			<li>ITab_Storage</li>
+		</inspectorTabs>
+		<!-- <li>ITab_Bills</li> -->
+
+		<stuffCategories>
+			<li>Fabric</li>
+			<!-- <li>Leathery</li> -->
+		</stuffCategories>
+		<costStuffCount>50</costStuffCount>
+		<costList>
+			<WoodLog>40</WoodLog>
+			<Steel>5</Steel>
+		</costList>
+
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>1</explosiveRadius>
+				<explosiveDamageType>EMP</explosiveDamageType>
+				<startWickHitPointsPercent>0.05</startWickHitPointsPercent>
+				<wickTicks>
+					<min>15</min>
+					<max>70</max>
+				</wickTicks>
+			</li>
+
+			<li Class="CompProperties_Breakdownable"/>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+
+			<li Class="LTF_Teleport.CompProperties_LTF_TpSpot">
+				<weightBase>75</weightBase>
+				<weightQualityFactor>10</weightQualityFactor>
+
+				<rangeBase>1.35</rangeBase>
+				<rangeQualityFactor>5</rangeQualityFactor>
+
+				<warmUpBase>300</warmUpBase>
+				<warmUpQualityFactor>-15</warmUpQualityFactor>
+
+				<cooldownBase>900</cooldownBase>
+				<cooldownQualityFactor>-60</cooldownQualityFactor>
+<!--
+				<missRangeBase>9</missRangeBase>
+				<missRangeQualityFactor>-.7</missRangeQualityFactor>
+				<missChanceBase>1.25</missChanceBase>
+				<missChanceQualityFactor>.4</missChanceQualityFactor>
+
+				<fumbleRangeBase>3</fumbleRangeBase>
+				<fumbleRangeQualityFactor>.4</fumbleRangeQualityFactor>
+				<fumbleChangeBase>10</fumbleChangeBase>
+				<fumbleChanceQualityFactor>.25</fumbleChanceQualityFactor>
+-->
+				<benchSynergyBase>.95</benchSynergyBase>
+				<benchSynergyQualityFactor>.02</benchSynergyQualityFactor>
+
+				<requiresPower>false</requiresPower>
+				<requiresFacility>false</requiresFacility>
+				
+				<!-- <debug>true</debug> -->
+			</li>
+
+			<li Class="CompProperties_Glower">
+				<glowRadius>1</glowRadius>
+				<!-- pink -->
+				<glowColor>(138,43,226,0)</glowColor>
+			</li>
+
+			<!-- Allows to target something -->
+			<li Class="CompProperties_Targetable">
+				<compClass>LTF_Teleport.CompTargetable_Building</compClass>
+			</li>
+
+			<!-- Associates object to effects -->
+			<li Class="CompProperties_Usable">
+				<useJob>UseItem</useJob>
+				<useLabel>Link</useLabel>
+			</li>
+			<!-- target effect -->
+			<li>
+				<compClass>LTF_Teleport.CompTargetEffect_TpSpotLink</compClass>
+			</li>
+
+		</comps>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+		<researchPrerequisites>
+			<li>LTF_Research_TpSpot</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+</Defs>

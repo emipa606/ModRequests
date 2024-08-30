@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- <ThingDef ParentName="BuildingBase"> -->
+	<ThingDef ParentName="FurnitureWithQualityBase">
+		<defName>LTF_TpBox</defName>
+
+		<thingClass>Building_Bed</thingClass>
+		<label>teleport box</label>
+		<description>A structure made to teleport incapacitated animals. Must be associated with a teleport spot.</description>
+
+		<rotatable>false</rotatable>
+		<fillPercent>0.15</fillPercent>
+		<pathCost>14</pathCost>
+		<passability>PassThroughOnly</passability>
+		<canOverlapZones>false</canOverlapZones>
+
+		<graphicData>
+			<texPath>Things/Building/TpBox/TpBox</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(1,1)</drawSize>
+			<damageData>
+				<rect>(0.05,0.05,0.9,0.9)</rect>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+
+		<castEdgeShadows>true</castEdgeShadows>
+
+		<building>
+			<bed_humanlike>false</bed_humanlike>
+			<bed_maxBodySize>10</bed_maxBodySize>
+			<bed_showSleeperBody>true</bed_showSleeperBody>
+			<bed_healPerDay>4</bed_healPerDay>
+		</building>
+		<altitudeLayer>Building</altitudeLayer>
+
+		<statBases>
+			<MaxHitPoints>75</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<WorkToBuild>1000</WorkToBuild>
+
+			<Mass>10</Mass>
+
+			<BedRestEffectiveness>0.8</BedRestEffectiveness>
+			<Comfort>0.5</Comfort>
+			<ImmunityGainSpeedFactor>1.05</ImmunityGainSpeedFactor>
+			<SurgerySuccessChanceFactor>1</SurgerySuccessChanceFactor>
+		</statBases>
+
+		<resourcesFractionWhenDeconstructed>.2</resourcesFractionWhenDeconstructed>
+		<tradeTags>
+			<li>Furniture</li>
+		</tradeTags>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<tickerType>Normal</tickerType>
+
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<useHitPoints>True</useHitPoints>
+		<size>(1,1)</size>
+
+		<stealable>true</stealable>
+
+		<designationCategory>Security</designationCategory>
+
+		<surfaceType>Item</surfaceType>
+
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>50</costStuffCount>
+		<costList>
+			<Cloth>20</Cloth>
+			<Steel>5</Steel>
+		</costList>
+
+		<comps>
+			<li Class="CompProperties_AssignableToPawn">
+				<drawAssignmentOverlay>false</drawAssignmentOverlay>
+				<compClass>CompAssignableToPawn_Bed</compClass>
+			</li>
+
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>1</explosiveRadius>
+				<explosiveDamageType>EMP</explosiveDamageType>
+				<startWickHitPointsPercent>0.05</startWickHitPointsPercent>
+				<wickTicks>
+					<min>15</min>
+					<max>70</max>
+				</wickTicks>
+			</li>
+
+			<li Class="CompProperties_Breakdownable"/>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+
+			<li Class="LTF_Teleport.CompProperties_LTF_TpSpot">
+				<weightBase>300</weightBase>
+				<weightQualityFactor>50</weightQualityFactor>
+
+				<rangeBase>1.35</rangeBase>
+				<rangeQualityFactor>5</rangeQualityFactor>
+
+				<warmUpBase>360</warmUpBase>
+				<warmUpQualityFactor>-30</warmUpQualityFactor>
+
+				<cooldownBase>900</cooldownBase>
+				<cooldownQualityFactor>-60</cooldownQualityFactor>
+				<!--
+			<missRangeBase>9</missRangeBase>
+			<missRangeQualityFactor>-.7</missRangeQualityFactor>
+			<missChanceBase>1.25</missChanceBase>
+			<missChanceQualityFactor>.4</missChanceQualityFactor>
+			
+			<fumbleRangeBase>3</fumbleRangeBase>
+			<fumbleRangeQualityFactor>.4</fumbleRangeQualityFactor>
+			<fumbleChangeBase>10</fumbleChangeBase>
+			<fumbleChanceQualityFactor>.25</fumbleChanceQualityFactor>
+			-->
+				<benchSynergyBase>.95</benchSynergyBase>
+				<benchSynergyQualityFactor>.02</benchSynergyQualityFactor>
+
+				<requiresPower>false</requiresPower>
+				<requiresFacility>false</requiresFacility>
+			</li>
+
+			<li Class="CompProperties_Glower">
+				<glowRadius>1</glowRadius>
+				<!-- pink -->
+				<glowColor>(138,43,226,0)</glowColor>
+			</li>
+
+			<!-- Allows to target something -->
+			<li Class="CompProperties_Targetable">
+				<compClass>LTF_Teleport.CompTargetable_Building</compClass>
+			</li>
+
+			<!-- Associates object to effects -->
+			<li Class="CompProperties_Usable">
+				<useJob>UseItem</useJob>
+				<useLabel>Link</useLabel>
+			</li>
+			<!-- target effect -->
+			<li>
+				<compClass>LTF_Teleport.CompTargetEffect_TpSpotLink</compClass>
+			</li>
+
+		</comps>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+		<researchPrerequisites>
+			<li>LTF_Research_TpSpot</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+</Defs>
