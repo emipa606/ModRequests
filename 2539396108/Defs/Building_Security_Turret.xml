@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!--=============== XX-10 ===============-->
+  <ThingDef ParentName="BuildingBase" Name="XX-10" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <graphicData>
+      <texPath>Turret/XX-10_TurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3.00, 3.00)</drawSize>
+      <drawOffset>(0,0,0.0)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>    
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>25000</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+      <WorkToBuild>4000</WorkToBuild>
+      <Mass>115</Mass>
+      <Beauty>20</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>9</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>3.5</turretTopDrawSize>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>1.0</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="XX-10">
+    <defName>XX-10</defName>
+    <label>XX-10 Turbolaser</label>
+    <description>XX-10 Turbolaser, Very powerful and very deadly.</description>
+    <uiIconPath>Turret/XX-10_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret> <!-- like level 14 human shooter -->
+    </statBases>
+    <costList>
+      <Steel>400</Steel>
+	  <Plasteel>10</Plasteel>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>2.5</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelCapacity>460</fuelCapacity>
+        <fuelMultiplier>1.775</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_XX-10_Turbolaser</turretGunDef>
+      <turretBurstCooldownTime>1.0</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>Turbolaser</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Turbolaser</defName>
+    <label>laserturret shoot</label>
+    <graphicData>
+      <texPath>projectile/TurbolaserShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>600</damageAmountBase>
+	  <armorPenetrationBase>2.00</armorPenetrationBase>
+      <speed>600</speed>
+      <explosionRadius>3.0</explosionRadius>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_XX-10_Turbolaser</defName>
+    <label>Turbolaser</label>
+    <description>heavy energy weapon equipped with large banks of capacitors, allowing it to build up and store far more powerful energy bursts than a standard cannon.</description>
+    <graphicData>
+      <texPath>Turret/XX-10_TurretTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>1.00</AccuracyTouch>
+      <AccuracyShort>1.00</AccuracyShort>
+      <AccuracyMedium>1.00</AccuracyMedium>
+      <AccuracyLong>1.00</AccuracyLong>
+      <RangedWeapon_Cooldown>2.00</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>46</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_Turbolaser</defaultProjectile>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <warmupTime>0</warmupTime>
+        <minRange>0</minRange>
+        <range>200</range>
+		<burstShotCount>4</burstShotCount>
+        <ticksBetweenBurstShots>40</ticksBetweenBurstShots>
+        <soundCast>Turbolaser_Shot</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <consumeFuelPerShot>0.1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!--=============== Rapid Fire Defense Turret ===============-->
+  <ThingDef ParentName="BuildingBase" Name="Defense Turbolaser" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <graphicData>
+      <texPath>Turret/RapidTurretBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.00, 2.00)</drawSize>
+      <drawOffset>(0,0,0.0)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>    
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>10000</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>115</Mass>
+      <Beauty>10</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>20</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>3</turretTopDrawSize>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>1.0</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="Defense Turbolaser">
+    <defName>Defense Turbolaser</defName>
+    <label>Defense Turbolaser</label>
+    <description>Rapid Fire lasercannon, powerful and deadly.</description>
+    <uiIconPath>Turret/RapidTurret_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret> <!-- like level 14 human shooter -->
+    </statBases>
+    <costList>
+      <Steel>200</Steel>
+	  <Plasteel>10</Plasteel>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>1.5</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelCapacity>460</fuelCapacity>
+        <fuelMultiplier>1.0</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_Defense Turbolaser</turretGunDef>
+      <turretBurstCooldownTime>1.00</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>Turbolaser</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Rapid Turbolaser</defName>
+    <label>Rapid Turbolaser shoot</label>
+    <graphicData>
+      <texPath>projectile/Rapid_TurbolaserShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>100</damageAmountBase>
+	  <armorPenetrationBase>2.00</armorPenetrationBase>
+      <speed>600</speed>
+      <explosionRadius>1.5</explosionRadius>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_Defense Turbolaser</defName>
+    <label>Defense Turbolaser</label>
+    <description>Rapid Fire lasercannon, powerful and deadly.</description>
+    <graphicData>
+      <texPath>Turret/RapidTurretTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>1.00</AccuracyTouch>
+      <AccuracyShort>1.00</AccuracyShort>
+      <AccuracyMedium>1.00</AccuracyMedium>
+      <AccuracyLong>1.00</AccuracyLong>
+      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>20</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_Rapid Turbolaser</defaultProjectile>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <warmupTime>0</warmupTime>
+        <minRange>0</minRange>
+        <range>100</range>
+		<burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>30</ticksBetweenBurstShots>
+        <soundCast>Defense Turbolaser_Shot</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <consumeFuelPerShot>0.1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+
+  <!--=============== Rapid Laser Cannon Turret(non hiex) ===============-->
+  <ThingDef ParentName="BuildingBase" Name="Rapid Laser Cannon Turret" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <graphicData>
+      <texPath>Turret/AP Turret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.00, 1.00)</drawSize>
+      <drawOffset>(0,0,0.0)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>    
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>10000</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+      <WorkToBuild>1000</WorkToBuild>
+      <Mass>115</Mass>
+      <Beauty>10</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>20</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>1.5</turretTopDrawSize>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>1.0</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="Rapid Laser Cannon Turret">
+    <defName>Rapid Laser Cannon Turret</defName>
+    <label>Anti-Personnel Turret</label>
+    <description>Rapid Fire lasercannon, powerful and deadly.</description>
+    <uiIconPath>Turret/AP Turret_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret> <!-- like level 14 human shooter -->
+    </statBases>
+    <costList>
+      <Steel>200</Steel>
+	  <Plasteel>10</Plasteel>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>1.5</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until barrel change</fuelLabel>
+        <fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new barrel</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelCapacity>460</fuelCapacity>
+        <fuelMultiplier>1.0</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_Rapid Laser Cannon</turretGunDef>
+      <turretBurstCooldownTime>0.5</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>Turbolaser</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Rapid Laser Cannon shot</defName>
+    <label>non hiex laser cannon shoot</label>
+    <graphicData>
+      <texPath>projectile/Rapid_laser cannonShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+	  <armorPenetrationBase>2.00</armorPenetrationBase>
+      <speed>600</speed>
+      <explosionRadius>0</explosionRadius>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_Rapid Laser Cannon</defName>
+    <label>AP Turret</label>
+    <description>Rapid Fire lasercannon, powerful and deadly.</description>
+    <graphicData>
+      <texPath>Turret/Rapid_Laser_TurretTop</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>1.00</AccuracyTouch>
+      <AccuracyShort>1.00</AccuracyShort>
+      <AccuracyMedium>1.00</AccuracyMedium>
+      <AccuracyLong>1.00</AccuracyLong>
+      <RangedWeapon_Cooldown>0.5</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>20</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Rapid Laser Cannon shot</defaultProjectile>
+        <forcedMissRadius>0</forcedMissRadius>
+        <warmupTime>0</warmupTime>
+        <minRange>0</minRange>
+        <range>50</range>
+		<burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+        <soundCast>Rapid Laser Cannon_Shot</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <muzzleFlashScale>12</muzzleFlashScale>
+        <consumeFuelPerShot>0.1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+</Defs>
