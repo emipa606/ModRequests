@@ -1,0 +1,159 @@
+<Defs>
+	<HediffDef>
+    <defName>ToxAway_Ingested</defName>
+	<hediffClass>HediffWithComps</hediffClass>
+    <label>ToxAway</label>
+	<description>Buildup of low-grade mechanites. Larger amounts tend to filter out useful nutrients, increasing the feeling of hunger.</description>
+	<isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+	<defaultLabelColor>(0.65, 0.3, 0.9)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+	  <li>
+	    <label>hidden</label>
+        <becomeVisible>false</becomeVisible>
+      </li>		
+      <li>
+        <label>low dose</label>
+        <minSeverity>0.01</minSeverity>
+		<hungerRateFactor>1.2</hungerRateFactor>
+        <statOffsets>
+		    <ToxicSensitivity>-0.25</ToxicSensitivity>
+		</statOffsets>
+		<capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.05</offset>
+            </li>
+			<li>
+			  <capacity>BloodFiltration</capacity>
+			  <offset>0.1</offset>
+			</li>
+          </capMods>
+      </li>
+      <li>
+        <label>medium dose</label>
+        <minSeverity>0.30</minSeverity>
+		<hungerRateFactor>1.4</hungerRateFactor>
+        <statOffsets>
+		    <ToxicSensitivity>-0.5</ToxicSensitivity>
+		</statOffsets>
+		<capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.1</offset>
+            </li>
+			<li>
+			  <capacity>BloodFiltration</capacity>
+			  <offset>0.15</offset>
+			</li>
+          </capMods>
+      </li>
+      <li>
+        <label>high dose</label>
+        <minSeverity>0.55</minSeverity>
+		<hungerRateFactor>1.75</hungerRateFactor>
+        <statOffsets>
+		    <ToxicSensitivity>-0.75</ToxicSensitivity>
+		</statOffsets>
+		<capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.15</offset>
+            </li>
+			<li>
+			  <capacity>BloodFiltration</capacity>
+			  <offset>0.25</offset>
+			</li>
+          </capMods>
+      </li>
+      <li>
+        <label>overdose</label>
+        <minSeverity>0.80</minSeverity>
+		<hungerRateFactor>2</hungerRateFactor>
+		<hediffGivers>
+			<li Class="HediffGiver_Random">
+				<hediff>Cirrhosis</hediff>
+				<mtbDays>30</mtbDays>
+				<partsToAffect>
+					<li>Liver</li>
+				</partsToAffect>
+			</li>
+			<li Class="HediffGiver_Random">
+				<hediff>ChemicalDamageModerate</hediff>
+				<mtbDays>30</mtbDays>
+				<partsToAffect>
+					<li>Kidney</li>
+				</partsToAffect>
+			</li>
+		</hediffGivers>		
+        <statOffsets>
+		    <ToxicSensitivity>-1</ToxicSensitivity>
+		</statOffsets>
+		<capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.25</offset>
+            </li>
+			<li>
+			  <capacity>BloodFiltration</capacity>
+			  <offset>0.35</offset>
+			</li>
+          </capMods>
+      </li>
+    </stages>
+	</HediffDef>
+
+	<ThingDef ParentName="MakeableDrugPillBase">
+	<defName>ToxAway</defName>
+	<label>ToxAway</label>
+	<description>A pill containing low-grade mechanites, which filter the blood.\n\n While larger amounts of mechanites can filter larger amounts of blood, they tend to filter useful nutrients out and increase with that the feeling of hunger. Overdosing ToxAway can help to deal with serious infections and diseases, but the byproducts of cleaning the blood can, in such large amounts, damage the liver and kidneys.\n\n The mechanites are not replacing any important bodyparts and don't make addicted to ToxAway in any way (yet). One ToxAway will roughly last quarter of a day and taking multiple will stack time and effects.</description>
+    <graphicData>
+      <texPath>Things/ToxAway</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+		<MarketValue>25</MarketValue>
+		<Mass>0.003</Mass>
+		<WorkToMake>200</WorkToMake>
+    </statBases>
+	<techLevel>Industrial</techLevel>
+    <ingestible>
+		<drugCategory>Medical</drugCategory>
+		<outcomeDoers>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+				<hediffDef>ToxAway_Ingested</hediffDef>
+				<severity>0.25</severity>
+			</li>
+		</outcomeDoers>
+    </ingestible>
+	<recipeMaker>
+      <researchPrerequisite>ToxAwayProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+      <workSkill>Medicine</workSkill>
+	  <workAmount>200</workAmount>
+	  <skillRequirements>
+		<Medicine>6</Medicine>
+		<Crafting>5</Crafting>
+      </skillRequirements>
+	  <productCount>4</productCount>
+    </recipeMaker>
+    <costList>
+      <Steel>15</Steel>
+	  <MedicineIndustrial>2</MedicineIndustrial>
+    </costList>
+	<comps>
+		<li Class="CompProperties_Drug">
+			<listOrder>1030</listOrder>
+		</li>
+    </comps>
+	</ThingDef>
+ 
+</Defs>
