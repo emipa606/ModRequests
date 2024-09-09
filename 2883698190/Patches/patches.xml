@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+
+
+
+<Operation Class="PatchOperationAdd">
+    <xpath>/Defs</xpath>
+  <value>
+    <ThingDef ParentName="LightMechanoid">
+      <defName>Mech_WardenMilitor</defName>
+      <label>Warden Militor</label>
+      <description>A small combat mechanoid armed with a low-power mini-shotgun. Roughly four feet tall, militors lack the power, range, and toughness of more senior combat mechs. However, it is cheap to gestate and maintain, and so is often used as a rear guard or swarm attacker.\n\nIn war, mech armies are known to send militors into urban ruins to hunt down survivors after breaking the human defenses. For this reason, they are considered by some to be the most cruel of all mechanoid patterns.\n\nThis particular model was created for use in POW camps of the Mechanoid War. It can feed, transport, and execute prisoners, but cannot interrogate or recruit prisoners.</description>
+      <statBases>
+        <MoveSpeed>3.8</MoveSpeed>
+      </statBases>
+      <race>   
+        <mechEnabledWorkTypes>
+          <li>Warden</li>
+        </mechEnabledWorkTypes>        
+        <lifeStageAges>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>0</minAge>
+            <soundWounded>Pawn_Mech_Militor_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Militor_Death</soundDeath>
+            <soundCall>Pawn_Mech_Militor_Call</soundCall>
+          </li>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>100</minAge>
+            <soundWounded>Pawn_Mech_Militor_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Militor_Death</soundDeath>
+            <soundCall>Pawn_Mech_Militor_Call</soundCall>
+          </li>
+        </lifeStageAges>
+      </race>
+    </ThingDef>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+    <xpath>/Defs</xpath>
+  <value>
+    <PawnKindDef ParentName="NonCombatLightMechanoidKind">
+     <defName>Mech_WardenMilitor</defName>
+      <label>Warden Militor</label>
+      <race>Mech_WardenMilitor</race>
+      <lifeStages>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/Militor</texPath>
+            <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Slugger</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.25</drawSize>
+            <shadowData>
+              <volume>(0.3, 0.4, 0.3)</volume>
+              <offset>(0,0,-0.25)</offset>
+            </shadowData>
+          </bodyGraphicData>
+        </li>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/MilitorAncient</texPath>
+            <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Slugger</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.25</drawSize>
+            <shadowData>
+              <volume>(0.3, 0.4, 0.3)</volume>
+              <offset>(0,0,-0.25)</offset>
+            </shadowData>
+          </bodyGraphicData>
+        </li>
+      </lifeStages>
+      <weaponTags>
+        <li>MechanoidGunShortRange</li>
+      </weaponTags>
+    </PawnKindDef>
+	  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+    <xpath>/Defs</xpath>
+  <value>
+  <RecipeDef ParentName="LightMechanoidRecipe">
+    <defName>WardenMilitor</defName>
+    <label>gestate warden militor</label>
+    <description>Gestate a warden militor mechanoid.</description>
+    <researchPrerequisite>HighMechtech</researchPrerequisite>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>SubcoreHigh</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <Mech_WardenMilitor>1</Mech_WardenMilitor>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>Mech_WardenMilitor</ThingDef>
+    </descriptionHyperlinks>
+  </RecipeDef>
+	  </value>
+</Operation>
+
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/ThingDef[defName="MechGestator"]/recipes</xpath>
+  <order>Prepend</order>
+  <value>
+      <li>WardenMilitor</li>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/RecipeDef[defName="ResurrectLightMech"]/fixedIngredientFilter/thingDefs</xpath>
+  <value>
+        <li>Corpse_Mech_WardenMilitor</li>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/BodyPartDef[defName="ArtificialBrain"]/tags</xpath>
+  <value>
+    <li>TalkingSource</li>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/WorkGiverDef[defName = "ChatWithPrisoner"]</xpath>
+  <value>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/WorkGiverDef[defName = "EnslavePrisoner"]</xpath>
+  <value>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/WorkGiverDef[defName = "SuppressSlave"]</xpath>
+  <value>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+  <xpath>Defs/WorkGiverDef[defName = "ConvertPrisoner"]</xpath>
+  <value>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </value>
+</Operation>
+
+
+</Patch>
+
+
