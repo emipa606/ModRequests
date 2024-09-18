@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>CP_MaxiCola</defName>
+    <label>Maxi-Cola</label>
+    <description>Maxi-Cola, produced by Kazuhira Miller, a popular soft drink among mercenaries. 
+	
+This drink contains nanomachines that makes users highly effective for combat, however the drink can be highly addictive. Nanomachines pose no health risks even in attempting to overdose, however users can miss the benefits once they start receiving withdrawals.</description>
+    <graphicData>
+      <texPath>Things/Maxi_Food/Maxi_Cola</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>500</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.25</joy>
+	  <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>90</baseIngestTicks>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>25</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>CP_MaxiColaHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>CP_MaxiCola</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.4</offset>
+          <toleranceChemical>CP_MaxiCola</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>CP_MaxiColaTolerance</hediffDef>
+          <severity>0.044</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+      </outcomeDoers>
+    </ingestible>
+    <!--<recipeMaker>
+			<researchPrerequisite>GoJuiceProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>5</Neutroamine>
+	  <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>-->
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>CP_MaxiCola</chemical>
+        <addictiveness>0.25</addictiveness>
+        <minToleranceToAddict>0.25</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>10</listOrder>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+				<!--<largeOverdoseChance>0.00</largeOverdoseChance>-->
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>CP_MaxiColaHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>high on nanomachines</label>
+    <labelNoun>a Maxi-Cola high</labelNoun>
+    <defaultLabelColor>(252,27,113)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+	<comps>
+	  <li Class="HediffCompProperties_HealPermanentWounds" />
+	  <li Class="HediffCompProperties_SeverityPerDay">
+      <severityPerDay>-0.20</severityPerDay>
+      </li>
+	</comps>
+      <stages>
+        <li>
+          <!--<painFactor>0.05</painFactor>-->
+		  <restFallFactor>0.40</restFallFactor>
+          <capMods>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <offset>0.50</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>0.20</offset>
+          </li>
+          <li>
+            <capacity>Metabolism</capacity>
+            <offset>0.10</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>0.10</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.10</offset>
+          </li>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.25</offset>
+            </li>
+			<li>
+			  <capacity>Sight</capacity>
+			  <offset>0.25</offset>
+			</li>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.25</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>CP_MaxiColaHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>CP_MaxiColaHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on Maxi-Cola</label>
+        <description>NANOMACHINES SON</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Go-juice addiction -->
+
+  <ChemicalDef>
+    <defName>CP_MaxiCola</defName>
+    <label>Maxi-Cola</label>
+    <addictionHediff>CP_MaxiColaAddiction</addictionHediff>
+    <toleranceHediff>CP_MaxiColaTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.25</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+  
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>CP_MaxiColaTolerance</defName>
+    <label>Maxi-Cola tolerance</label>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.25</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>CP_MaxiCola</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>CP_MaxiColaAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>Maxi-Cola addiction</label>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.25</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <socialFightChanceFactor>0.10</socialFightChanceFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugMajor</mentalState>
+						<mtbDays>40</mtbDays>
+					</li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>CP_MaxiColaWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>CP_MaxiColaAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>Maxi-Cola withdrawal</label>
+        <description>Why are we still here? Just to stop drinking Maxi-Cola? Every night, I can feel my caffeine… and my sugar… even my nanomachines. The body I’ve lost… the comrades I’ve lost… won’t stop hurting… It’s like they’re all still there. You feel it, too, don’t you?</description>
+        <baseMoodEffect>-25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>
