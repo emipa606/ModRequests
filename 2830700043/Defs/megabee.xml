@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="AnimalThingBase">
+    <defName>Megabee</defName> <!-- The lad(ie)s themselves. -->
+    <label>megabee</label>
+    <devNote>megabee</devNote>
+    <description>A result of rampant genetic engineering, Megabees are somewhat of an anomaly on the rim. They lack a stinger, and are extremely docile, but their huge body size and resemblance to honeybees tends to drive most predators away from attacking them.\n\nTheir bodies are heavily optimized for the production of resources; they are able to produce honey independent of any hive or structure, their fur has been engineered to behave more like wool, and they can even lay unfertilized eggs, like chickens.\n\nOf course, the downside of being living production machine is that Megabees require a considerable amount of food, and they'll readily eat what they can get; crops, trees, other plants, and everything in between.\n\nThough they're very docile creatures, they are somewhat fickle, and have a tendency to wander off. However, once tamed, Megabees can be very affectionate.</description> <!-- Really, you scrolled all the way through here? -->
+    <statBases>
+      <MoveSpeed>1.4</MoveSpeed>  <!-- Very slow boys (and girls). -->
+      <ComfyTemperatureMin>-22</ComfyTemperatureMin>
+      <ComfyTemperatureMax>38</ComfyTemperatureMax>
+      <ArmorRating_Sharp>0.60</ArmorRating_Sharp> <!-- Modest armor stats. They're more of an HP tank. -->
+      <ArmorRating_Blunt>0.40</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.30</ArmorRating_Heat>
+	   <!-- <totalBleedFactor>0.2</totalBleedFactor> Because big creatures have big blood; this reduces the rate at which they bleed out. -->
+      <MarketValue>500</MarketValue>
+      <FilthRate>9</FilthRate>
+	  <LeatherAmount>0</LeatherAmount>
+    </statBases>
+    <comps>  <!-- Uses all possible vanilla animal production items. -->
+      <li Class="CompProperties_Milkable">
+        <milkDef>MegabeeTallow</milkDef>
+        <milkIntervalDays>1</milkIntervalDays>
+        <milkAmount>40</milkAmount>
+		<milkFemaleOnly>false</milkFemaleOnly>
+      </li>
+	  <li Class="CompProperties_Shearable">
+        <woolDef>WoolMegabee</woolDef>
+        <shearIntervalDays>3</shearIntervalDays>
+        <woolAmount>50</woolAmount>
+      </li>
+	  <li Class="CompProperties_EggLayer">
+        <eggUnfertilizedDef>EggMegabeeUnfertilized</eggUnfertilizedDef>
+        <eggFertilizedDef>EggMegabeeFertilized</eggFertilizedDef>
+        <eggFertilizationCountMax>3</eggFertilizationCountMax>
+        <eggLayIntervalDays>1.5</eggLayIntervalDays>
+        <eggCountRange>2~3</eggCountRange>
+      </li>
+    </comps>
+    <race>
+      <body>Megabee</body>
+      <herdAnimal>true</herdAnimal>  <!-- I believe this controls aggro behaviour; not that you're likely to aggro them. -->
+	  <wildBiomes>  <!-- For those looking to patch these guys into other modded biomes, try to keep them to forests. -->
+        <TropicalRainforest>0.2</TropicalRainforest>
+        <TemperateForest>0.6</TemperateForest>
+		<BorealForest>0.1</BorealForest>
+      </wildBiomes>
+      <baseBodySize>5.25</baseBodySize>
+      <baseHungerRate>3.5</baseHungerRate>
+      <baseHealthScale>7.15</baseHealthScale>
+      <foodType>VegetarianRoughAnimal, DendrovoreAnimal</foodType>
+	  <willNeverEat>
+        <li MayRequire="Ludeon.RimWorld.Royalty">Plant_TreeAnima</li>
+        <li MayRequire="Ludeon.RimWorld.Ideology">Plant_TreeGauranlen</li>
+      </willNeverEat>
+      <wildness>0.80</wildness>
+      <roamMtbDays>0.5</roamMtbDays>
+	  <mateMtbHours>48</mateMtbHours>
+	  <nuzzleMtbHours>6</nuzzleMtbHours>  <!-- Cuddles <3 -->
+      <trainability>None</trainability>
+	  <manhunterOnDamageChance>0.00025</manhunterOnDamageChance>
+      <useMeatFrom>Megaspider</useMeatFrom>  <!-- Insect Meat -->
+      <lifeExpectancy>65</lifeExpectancy>
+      <lifeStageAges>
+        <li>
+          <def>AnimalBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>AnimalJuvenile</def>
+          <minAge>0.15</minAge>  <!-- 9 days for angsty teenage elephant-sized bees. -->
+        </li>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>0.3</minAge> <!-- Another 9 days to reach adulthood. -->
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+    </race>
+    <tradeTags> <!-- Trust me, these trade tags are NOT going to help you find these guys on trade ships. -->
+      <li>AnimalFarm</li>
+	  <li>AnimalExotic</li>
+    </tradeTags>
+    <tools> <!-- They really don't hurt all that much more than most basic herbivores, but considering their sheer damage sponginess, can be dangerous if they manage to catch up to your guys. -->
+      <li>
+		<label>Mandibles</label>
+		<capacities>
+			<li>Bite</li>
+        </capacities>
+        <power>18</power>
+        <cooldownTime>4.2</cooldownTime>
+        <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+        <chanceFactor>0.9</chanceFactor>
+      </li>
+      <li>
+        <label>head</label> <!-- Shove attack. Low chance with hilariously long recovery, but is devastating if it lands. -->
+		<capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>68</power>
+        <cooldownTime>14</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.1</chanceFactor>
+      </li>
+    </tools>
+  </ThingDef>
+  
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>Megabee</defName>
+    <label>megabee</label>
+    <labelMale>megabee drone</labelMale> <!-- Male bees are called drones. -->
+    <race>Megabee</race>
+    <combatPower>70</combatPower> <!-- *doesn't know what do set this to* -->
+    <ecoSystemWeight>1.1</ecoSystemWeight>
+    <wildGroupSize>2~4</wildGroupSize> <!-- Doesn't seem like a lot, but these guys eat a ton. Watch your grass. -->
+    <lifeStages>
+      <li>
+        <label>brood</label> <!-- "Larvae" isn't really applicable if they hatch with fur and everything. -->
+        <labelPlural>brood</labelPlural>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabee</texPath>
+          <drawSize>1.3</drawSize>
+          <color>(256,256,256)</color>
+          <shadowData>
+            <volume>(0.4, 0.3, 0.3)</volume>
+            <offset>(0,0,-0.2)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <femaleGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabee</texPath>
+          <drawSize>1.3</drawSize>
+          <color>(256,256,256)</color>
+          <shadowData>
+            <volume>(0.4, 0.3, 0.3)</volume>
+            <offset>(0,0,-0.2)</offset>
+          </shadowData>
+        </femaleGraphicData>
+        <dessicatedBodyGraphicData> <!-- Dead baby bees :( -->
+          <texPath>Things/Pawn/Animal/Megabee/megabeedessi</texPath>
+          <drawSize>1.3</drawSize>
+        </dessicatedBodyGraphicData>
+        <femaleDessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabeedessi</texPath>
+          <drawSize>1.3</drawSize>
+        </femaleDessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabee</texPath>
+          <drawSize>2.7</drawSize>
+          <color>(256,256,256))</color>
+          <shadowData>
+            <volume>(0.6, 0.45, 0.45)</volume>
+            <offset>(0,0,-0.25)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <femaleGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabee</texPath>
+          <drawSize>2.7</drawSize>
+          <color>(256,256,256))</color>
+          <shadowData>
+            <volume>(0.6, 0.45, 0.45)</volume>
+            <offset>(0,0,-0.25)</offset>
+          </shadowData>
+        </femaleGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabeedessi</texPath>
+          <drawSize>2.7</drawSize>
+        </dessicatedBodyGraphicData>
+        <femaleDessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabeedessi</texPath>
+          <drawSize>2.7</drawSize>
+        </femaleDessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabee</texPath>
+          <drawSize>3.5</drawSize> <!-- I'm talking huge bees. I mean some serious chonkers. A real set of beedonkers. -->
+          <color>(256,256,256))</color>
+          <shadowData>
+            <volume>(0.8, 0.6, 0.6)</volume>
+            <offset>(0,0,-0.3)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <femaleGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabee</texPath>
+          <drawSize>3.5</drawSize>
+          <color>(256,256,256))</color>
+          <shadowData>
+            <volume>(0.8, 0.6, 0.6)</volume>
+            <offset>(0,0,-0.3)</offset>
+          </shadowData>
+        </femaleGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabeedessi</texPath>
+          <drawSize>3.5</drawSize>
+        </dessicatedBodyGraphicData>
+        <femaleDessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megabee/megabeedessi</texPath>
+          <drawSize>3.5</drawSize>
+        </femaleDessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+<!-- Hi mom! -->
+</Defs>
