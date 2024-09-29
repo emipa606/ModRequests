@@ -1,38 +1,72 @@
-using System;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace MoreMechanoids
+namespace MoreMechanoids;
+
+public class JobGiver_DownAllHumans : JobGiver_AIFightEnemies
 {
-    public class JobGiver_DownAllHumans : JobGiver_AIFightEnemies
+    public new const float targetKeepRadius = 65;
+    public new const float targetAcquireRadius = 56;
+
+    private static IntRange expiryInterval = new IntRange(450, 500);
+
+    public override bool ExtraTargetValidator(Pawn pawn, Thing target)
     {
-        public const float targetKeepRadius = 65;
-        public const float targetAcquireRadius = 56;
-        private readonly Predicate<Thing> validPawn = t => t is Pawn pawn && !pawn.Destroyed && !pawn.Downed && pawn.def.race != null && pawn.def.race.IsFlesh;
+        return GenericUtility.ValidSkullywagTargetPawn(target as Pawn);
+    }
 
-        public override bool ExtraTargetValidator(Pawn pawn, Thing target)
+    public override Job TryGiveJob(Pawn pawn)
+    {
+        // Can be dormant and is dormant? Don't do this job
+        var dormancy = pawn.GetComp<CompCanBeDormant>();
+        if (dormancy is { Awake: false })
         {
-            return validPawn(target);
+            return null;
         }
 
-        public override Job TryGiveJob(Pawn pawn)
+        UpdateEnemyTarget(pawn);
+        var enemyTarget = pawn.mindState.enemyTarget;
+
+        if (enemyTarget is not Pawn enemyPawn || !GenericUtility.ValidSkullywagTargetPawn(enemyPawn))
         {
-            // Can be dormant and is dormant? Don't do this job
-            if ((pawn.GetComp<CompCanBeDormant>()?.Awake ?? true) == false) return null;
-            return base.TryGiveJob(pawn);
+            return null;
         }
 
-        public override Thing FindAttackTarget(Pawn pawn)
-        {
-            TargetScanFlags flags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable;
-            //if (this.needLOSToAcquireNonPawnTargets)
-            //    flags |= TargetScanFlags.NeedLOSToNonPawns;
-            //if (this.PrimaryVerbIsIncendiary(pawn))
-            //    flags |= TargetScanFlags.NeedNonBurning;
+        return CreateJob(pawn, enemyPawn);
+    }
 
-            var attackTarget = (Thing) AttackTargetFinder.BestAttackTarget(pawn, flags, x => ExtraTargetValidator(pawn, x), 0.0f, targetAcquireRadius, GetFlagPosition(pawn), GetFlagRadius(pawn));
-            return attackTarget;
+    public override Thing FindAttackTarget(Pawn pawn)
+    {
+        var flags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedAutoTargetable;
+        //if (this.needLOSToAcquireNonPawnTargets)
+        //    flags |= TargetScanFlags.NeedLOSToNonPawns;
+        //if (this.PrimaryVerbIsIncendiary(pawn))
+        //    flags |= TargetScanFlags.NeedNonBurning;
+
+        var attackTarget = (Thing)AttackTargetFinder.BestAttackTarget(pawn, flags, x => ExtraTargetValidator(pawn, x),
+            0.0f, targetAcquireRadius, GetFlagPosition(pawn), GetFlagRadius(pawn));
+        return attackTarget;
+    }
+
+    private static Job CreateJob(Pawn pawn, Pawn targetPawn)
+    {
+        var newReq = new CastPositionRequest { caster = pawn, target = targetPawn };
+        var verb = pawn.verbTracker.AllVerbs.FirstOrDefault(verb => verb is Verb_ParalyzingPoke);
+
+        newReq.verb = verb;
+        newReq.maxRangeFromTarget = Mathf.Max(verb.verbProps.range, 1.1f);
+        if (!verb.Available() || !verb.IsUsableOn(targetPawn) || !CastPositionFinder.TryFindCastPosition(newReq, out _))
+        {
+            return null;
         }
+
+        var job = JobMaker.MakeJob(JobDefOf.AttackMelee, targetPawn);
+        job.verbToUse = verb;
+        job.expiryInterval = expiryInterval.RandomInRange;
+        job.checkOverrideOnExpire = true;
+        job.expireRequiresEnemiesNearby = true;
+        return job;
     }
 }
