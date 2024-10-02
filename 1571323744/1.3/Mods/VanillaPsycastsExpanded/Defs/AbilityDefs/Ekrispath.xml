@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+      <defName>VPE_EkrianSacrifice</defName>
+      <label>sacrifice</label>
+      <description>Sacrifice a willing or restrained humanoid to the Ekrian powers by draining their consciousness into the psychic ether, in exchange you are granted an Ekrian shard.</description>
+      <iconPath>Abilities/Protector/RegrowLimbs</iconPath>
+	  <abilityClass>VPECrystalloid.Ability_Sacrifice</abilityClass>
+	  <castTime>720</castTime>
+	  <durationTime>1000</durationTime>
+	  <jobDef>VFEA_GotoTargetAndUseAbility</jobDef>
+	  <requireLineOfSight>false</requireLineOfSight>
+	  <targetMode>Pawn</targetMode>
+	  <targetingParameters>
+		  <canTargetSelf>false</canTargetSelf>
+		  <canTargetAnimals>false</canTargetAnimals>
+		  <canTargetMechs>false</canTargetMechs>
+		  <canTargetHumans>true</canTargetHumans>
+		  <onlyTargetColonistsOrPrisonersOrSlaves>true</onlyTargetColonistsOrPrisonersOrSlaves>
+	  </targetingParameters>
+	  <range>999999</range>
+	  <distanceToTarget>1.5</distanceToTarget>
+	  <castSound>VPE_Skillroll_Cast</castSound>
+	  <needsTicking>true</needsTicking>
+      <modExtensions>
+        <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+          <path>Crystalloid_Ekrispath</path>
+          <level>1</level>
+          <order>1</order>
+          <psyfocusCost>0.25</psyfocusCost>
+          <entropyGain>0</entropyGain>
+        </li>
+		<li Class="VFECore.Abilities.AbilityExtension_Hediff">
+			<hediff>VPE_Sacrificed</hediff>
+		</li>
+		<li Class="VFECore.Abilities.AbilityExtension_FleckOnTarget">
+			  <fleckDefs>
+				<li>PsycastSkipInnerExit</li>
+				<li>PsycastSkipOuterRingExit</li>
+			  </fleckDefs>
+			  <scale>0.42</scale>
+			  <sound>Psycast_Skip_Exit</sound>
+			  <preCastTicks>10</preCastTicks>
+			</li>
+			<li Class="VFECore.Abilities.AbilityExtension_EffecterOnTarget">
+			  <effecterDef>Skip_Exit</effecterDef>
+			  <maintainForTicks>20</maintainForTicks>
+			  <scale>0.42</scale>
+			</li>
+      </modExtensions>
+    </VFECore.Abilities.AbilityDef>
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+      <defName>VPE_RapidRefresh</defName>
+      <label>rapid refresh</label>
+      <description>Psychically channels an immense influx of energy within the caster's body to supercharge their cellular growth to repair wounds in an incredibly short amount of time.</description>
+      <iconPath>Abilities/RapidRefresh</iconPath>
+	  <castSound>VPE_WordOfHealing_Cast</castSound>
+	  <targetMode>Self</targetMode>
+	  <castTime>15</castTime>
+	  <durationTime>750</durationTime>
+	  <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+      <modExtensions>
+        <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+          <path>Crystalloid_Ekrispath</path>
+          <level>1</level>
+          <order>2</order>
+          <psyfocusCost>0.22</psyfocusCost>
+          <entropyGain>20</entropyGain>
+          <psychic>true</psychic>
+        </li>
+		<li Class="VFECore.Abilities.AbilityExtension_Hediff">
+			<hediff>VPE_RapidRefresh</hediff>
+		</li>
+      </modExtensions>
+    </VFECore.Abilities.AbilityDef>
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+      <defName>VPE_Devastate</defName>
+      <label>devastate</label>
+      <description>Channel an extreme concentration of psychic energy into a single point, releasing it in a massive concussive blast to devastate a wide area. Will not affect the caster.</description>
+      <iconPath>Abilities/Devastate</iconPath>
+      <abilityClass>VFECore.Abilities.Ability_Explode</abilityClass>
+      <castTime>60</castTime>
+      <range>45</range>
+      <radius>16</radius>
+      <targetMode>Location</targetMode>
+	  <needsTicking>true</needsTicking>
+      <castSound>Crystalloid_Devastate</castSound>
+      <modExtensions>
+        <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+          <path>Crystalloid_Ekrispath</path>
+          <level>2</level>
+          <order>1</order>
+          <psyfocusCost>0.33</psyfocusCost>
+          <entropyGain>60</entropyGain>
+		  <prerequisites>
+            <li>VPE_EkrianSacrifice</li>
+          </prerequisites>
+        </li>
+		<li Class="VFECore.Abilities.AbilityExtension_FleckOnTarget">
+          <fleckDefs>
+            <li>PsycastSkipInnerExit</li>
+            <li>PsycastSkipOuterRingExit</li>
+          </fleckDefs>
+          <scale>0.42</scale>
+          <sound>Psycast_Skip_Exit</sound>
+          <preCastTicks>10</preCastTicks>
+        </li>
+        <li Class="VFECore.Abilities.AbilityExtension_EffecterOnTarget">
+          <effecterDef>Skip_Exit</effecterDef>
+          <maintainForTicks>20</maintainForTicks>
+          <scale>0.42</scale>
+        </li>
+        <li Class="VFECore.Abilities.AbilityExtension_Explosion">
+          <explosionRadius>16</explosionRadius>
+          <onCaster>false</onCaster>
+          <explosionDamageDef>PsyBlast</explosionDamageDef>
+          <casterImmune>true</casterImmune>
+        </li>
+	  </modExtensions>
+    </VFECore.Abilities.AbilityDef>
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+      <defName>VPE_EkrianCommune</defName>
+      <label>ekrian commune</label>
+      <description>Engage in an intense ritualistic meditation at an Ekrian Monolith to listen to the ehoes within the Psychic Beyond. The Ekris believe these echoes are divine purpose, and put great focus into listening to these faint whispers. Making contact with these arcane echoes will put the caster in a psychic coma for 14 hours, but it will permanently empower their psycasting ability as they learn forgotten secrets of eras past, but one must be careful how many times they preform this ritual as it may drive them closer to insanity.</description>
+      <iconPath>Abilities/EkrianCommune</iconPath>
+	  <abilityClass>VPECrystalloid.EkrianMonolith_Designator</abilityClass>
+	  <showUndrafted>true</showUndrafted>
+      <jobDef>VFEA_GotoTargetAndUseAbility</jobDef>
+      <requireLineOfSight>false</requireLineOfSight>
+	  <range>999999</range>
+      <distanceToTarget>3.5</distanceToTarget>
+	  <castTime>5000</castTime>
+	  <castSound>VPE_Ghostwalk_Cast</castSound>
+	  <warmupSound>Crystalloid_Commune_Sustainer</warmupSound>
+	  <castFleck>PsycastAreaEffect</castFleck>
+	  <needsTicking>true</needsTicking>
+	  <targetingParameters>
+        <canTargetItems>false</canTargetItems>
+        <mapObjectTargetsMustBeAutoAttackable>false</mapObjectTargetsMustBeAutoAttackable>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>true</canTargetBuildings>
+      </targetingParameters>
+      <modExtensions>
+        <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+          <path>Crystalloid_Ekrispath</path>
+          <level>2</level>
+          <order>2</order>
+          <psyfocusCost>0.9</psyfocusCost>
+          <entropyGain>0</entropyGain>
+		  <psychic>true</psychic>
+		  <prerequisites>
+				<li>VPE_RapidRefresh</li>
+				<li>VPE_EkrianSacrifice</li>
+		  </prerequisites>
+        </li>
+		<li Class="VFECore.Abilities.AbilityExtension_Hediff">
+			<hediff>PsychicSecrets</hediff>
+			<severity>1</severity>
+			<applyToCaster>true</applyToCaster>
+		</li>
+		<li Class="VanillaPsycastsExpanded.AbilityExtension_PsychicComa">
+          <hours>14</hours>
+        </li>
+      </modExtensions>
+    </VFECore.Abilities.AbilityDef>
+	
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+        <defName>VPE_Diminish</defName>
+        <label>diminish</label>
+        <description>Project an overwhelming aura of dark psychic energy over an area that drains out the life force, or power supply, of creatures and mechanoids in an area.</description>
+        <iconPath>Abilities/Diminish</iconPath>
+		<castTime>60</castTime>
+		<hasAoE>true</hasAoE>
+		<radius>9</radius>
+		<range>30</range>
+		<durationTime>2000</durationTime>
+		<abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+		<castSound>VPE_Obscure_Cast</castSound>
+		<fleckOnTarget>PsycastAreaEffect</fleckOnTarget>
+		<fleckOnTargetScaleWithRadius>true</fleckOnTargetScaleWithRadius>
+		<goodwillImpact>-50</goodwillImpact>
+		<targetMode>Location</targetMode>
+		<targetingParametersForAoE>
+			<canTargetSelf>false</canTargetSelf>
+			<canTargetAnimals>true</canTargetAnimals>
+			<canTargetMechs>true</canTargetMechs>
+			<canTargetHumans>true</canTargetHumans>
+		</targetingParametersForAoE>
+		<modExtensions>
+			<li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+				<path>Crystalloid_Ekrispath</path>
+				<level>2</level>
+				<order>3</order>
+				<psyfocusCost>0.22</psyfocusCost>
+				<entropyGain>30</entropyGain>
+				<psychic>true</psychic>
+				<prerequisites>
+					<li>VPE_RapidRefresh</li>
+				</prerequisites>
+			</li>
+			<li Class="VFECore.Abilities.AbilityExtension_Hediff">
+				<hediff>VPE_Diminish</hediff>
+			</li>
+		</modExtensions>
+	</VFECore.Abilities.AbilityDef>
+	
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+		<defName>VPE_Obliterate</defName>
+		<label>obliterate</label>
+		<description>Channels a rushing torrent of psychic energy into a pinhole space within a target, causing a miniature singularity to form and consume the target before collapsing. Utterly annihilates the target as if it had never existed.</description>
+		<iconPath>Abilities/Obliterate</iconPath>
+		<abilityClass>VPECrystalloid.Ability_Obliterate</abilityClass>
+		<targetingParameters>
+			<canTargetSelf>false</canTargetSelf>
+			<canTargetAnimals>true</canTargetAnimals>
+			<canTargetMechs>true</canTargetMechs>
+			<canTargetHumans>true</canTargetHumans>
+			<canTargetBuildings>true</canTargetBuildings>
+		</targetingParameters>
+		<requireLineOfSight>true</requireLineOfSight>
+		<range>12.9</range>
+		<castTime>330</castTime>
+		<goodwillImpact>-200</goodwillImpact>
+		<fleckOnTarget>PsycastPsychicEffect</fleckOnTarget>
+        <castSound>PsychicShockLanceCast</castSound>
+		<showUndrafted>false</showUndrafted>
+		<needsTicking>true</needsTicking>
+		<modExtensions>
+			<li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+				<path>Crystalloid_Ekrispath</path>
+				<level>3</level>
+				<order>1</order>
+				<psyfocusCost>0.88</psyfocusCost>
+				<entropyGain>0</entropyGain>
+				<prerequisites>
+					<li>VPE_EkrianCommune</li>
+					<li>VPE_Devastate</li>
+				</prerequisites>
+			</li>
+			<li Class="VFECore.Abilities.AbilityExtension_FleckOnTarget">
+			  <fleckDefs>
+				<li>PsycastSkipInnerExit</li>
+				<li>PsycastSkipOuterRingExit</li>
+			  </fleckDefs>
+			  <scale>0.42</scale>
+			  <sound>Psycast_Skip_Exit</sound>
+			  <preCastTicks>10</preCastTicks>
+			</li>
+			<li Class="VFECore.Abilities.AbilityExtension_EffecterOnTarget">
+			  <effecterDef>Skip_Exit</effecterDef>
+			  <maintainForTicks>20</maintainForTicks>
+			  <scale>0.42</scale>
+			</li>
+		</modExtensions>
+	</VFECore.Abilities.AbilityDef>
+
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+      <defName>VPE_EkrianEmpower</defName>
+      <label>empower</label>
+      <description>Consume the power of an Ekrian shard in preparation for combat, greatly augmenting a plethora of stats for an extended duration.</description>
+      <iconPath>Abilities/EkrianCommune</iconPath>
+	  <abilityClass>VPECrystalloid.Ability_Consume_Shard</abilityClass>
+	  <showUndrafted>true</showUndrafted>
+      <jobDef>VFEA_GotoTargetAndUseAbility</jobDef>
+      <requireLineOfSight>false</requireLineOfSight>
+	  <range>999999</range>
+      <distanceToTarget>1.9</distanceToTarget>
+	  <castTime>30</castTime>
+	  <durationTime>14000</durationTime>
+	  <castSound>VPE_Ghostwalk_Cast</castSound>
+	  <castFleck>PsycastAreaEffect</castFleck>
+	  <needsTicking>true</needsTicking>
+	  <targetingParameters>
+        <canTargetItems>true</canTargetItems>
+        <mapObjectTargetsMustBeAutoAttackable>false</mapObjectTargetsMustBeAutoAttackable>
+        <thingCategory>Item</thingCategory>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+      </targetingParameters>
+      <modExtensions>
+        <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+          <path>Crystalloid_Ekrispath</path>
+          <level>3</level>
+          <order>2</order>
+          <psyfocusCost>0.5</psyfocusCost>
+          <entropyGain>30</entropyGain>
+		  <psychic>true</psychic>
+		  <prerequisites>
+				<li>VPE_EkrianSacrifice</li>
+				<li>VPE_EkrianCommune</li>
+		  </prerequisites>
+        </li>
+		<li Class="VFECore.Abilities.AbilityExtension_Hediff">
+			<hediff>VPE_ShardBuff</hediff>
+			<applyToCaster>true</applyToCaster>
+		</li>
+      </modExtensions>
+    </VFECore.Abilities.AbilityDef>
+	
+	<VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+      <defName>VPE_EkrianGenesis</defName>
+      <label>genesis</label>
+      <description>In an act of aspiring divinity, channel an extreme amount of psychic energy into an Ekrian shard to create life. The shard will transform into an Crystalloid xenohuman who just reached adulthood, complete with their own personality and traits.</description>
+      <iconPath>Abilities/EkrianCommune</iconPath>
+	  <abilityClass>VPECrystalloid.Ability_Genesis</abilityClass>
+	  <showUndrafted>true</showUndrafted>
+      <jobDef>VFEA_GotoTargetAndUseAbility</jobDef>
+      <requireLineOfSight>false</requireLineOfSight>
+	  <range>999999</range>
+      <distanceToTarget>1.9</distanceToTarget>
+	  <castTime>1000</castTime>
+	  <castSound>VPE_Ghostwalk_Cast</castSound>
+	  <castFleck>PsycastAreaEffect</castFleck>
+	  <needsTicking>true</needsTicking>
+	  <targetingParameters>
+        <canTargetItems>true</canTargetItems>
+        <mapObjectTargetsMustBeAutoAttackable>false</mapObjectTargetsMustBeAutoAttackable>
+        <thingCategory>Item</thingCategory>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+      </targetingParameters>
+      <modExtensions>
+        <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+          <path>Crystalloid_Ekrispath</path>
+          <level>4</level>
+          <order>1</order>
+          <psyfocusCost>1.25</psyfocusCost>
+          <entropyGain>0</entropyGain>
+		  <psychic>true</psychic>
+		  <prerequisites>
+				<li>VPE_EkrianEmpower</li>
+		  </prerequisites>
+        </li>
+      </modExtensions>
+    </VFECore.Abilities.AbilityDef>
+
+
+	
+	
+</Defs>
