@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>VBY_AlienAlloy</defName>
+    <label>alien alloy</label>
+    <description>Light, flexible, and incredibly strong, the aliens use this precious material in the fabrication of their weapons and armor.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/AlienAlloy</texPath> <!-- here  -->
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>100</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+	<useHitPoints>false</useHitPoints>
+    <statBases>
+	  <MarketValue>150</MarketValue>
+      <Mass>0.25</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+	  <StuffPower_Armor_Sharp>1.85</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.85</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.45</StuffPower_Armor_Heat>
+      <StuffPower_Insulation_Cold>2</StuffPower_Insulation_Cold>
+      <StuffPower_Insulation_Heat>0</StuffPower_Insulation_Heat>
+      <SharpDamageMultiplier>1.2</SharpDamageMultiplier>
+      <BluntDamageMultiplier>1.1</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <tradeTags>
+      <li>ExoticMisc</li>   <!-- Blackmarket only  -->
+    </tradeTags>
+	<stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0.02</commonality>
+      <constructEffect>ConstructMetal</constructEffect>
+      <color>(0,153,153)</color> <!-- come back  -->
+      <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+      <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+      <statFactors>
+        <MaxHitPoints>4.2</MaxHitPoints>
+        <Beauty>1.1</Beauty>
+        <Flammability>0</Flammability>
+        <WorkToMake>1.2</WorkToMake>
+        <WorkToBuild>1.2</WorkToBuild>
+        <MeleeWeapon_CooldownMultiplier>0.6</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <thingSetMakerTags><li>RewardStandardHighFreq</li></thingSetMakerTags> <!-- must make or get from ADVENT -->
+  </ThingDef>
+
+
+  <ThingDef ParentName="ChunkBase">
+    <defName>VBY_AlloySlag</defName>
+    <label>alien alloy slag chunk</label>
+    <description>A chunk of alien alloy slag. While it's useless in its current form, it can be smelted to recover alien alloys.</description>
+    <graphicData>
+      <texPath>Things/Item/Chunk/AlienAlloyDebris</texPath>
+      <graphicClass>Graphic_Random</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>3</Mass>
+    </statBases>
+    <soundDrop>ChunkSlag_Drop</soundDrop>
+    <thingCategories>
+      <li>Chunks</li>
+    </thingCategories>
+    <smeltProducts>
+      <VBY_AlienAlloy>10</VBY_AlienAlloy>
+    </smeltProducts>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>VBY_ExtractAlloyFromSlag</defName>
+    <label>smelt alien alloy from slag</label>
+    <description>Use heat and strong electromagnets to extract useful alien alloys from slag chunks.</description>
+    <jobString>Smelting alien alloy from slag.</jobString>
+    <workAmount>800</workAmount>
+    <workSpeedStat>SmeltingSpeed</workSpeedStat>
+	<researchPrerequisite>VBY_AdventArmor</researchPrerequisite>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VBY_AlloySlag</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <!-- Switched to standard products so we can do "do until you have X"
+    <specialProducts>
+      <li>Smelted</li>
+    </specialProducts>-->
+    <products>
+      <VBY_AlienAlloy>10</VBY_AlienAlloy>
+    </products>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>VBY_AlloySlag</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+	<recipeUsers>
+	  <li>ElectricSmelter</li>
+	</recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>VBY_MakeAlloy</defName>
+    <label>Make alien alloys</label>
+    <description>Use heat and strong electromagnets to meld the properties of elerium crystal to steel.</description>
+    <jobString>Making alien alloys</jobString>
+    <workAmount>600</workAmount>
+    <workSpeedStat>SmeltingSpeed</workSpeedStat>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+	<researchPrerequisite>VBY_AdventArmor</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VBY_Elerium_Crystals</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+	  <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <products>
+      <VBY_AlienAlloy>1</VBY_AlienAlloy>
+    </products>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>VBY_Elerium_Crystals</li>
+		<li>Steel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+	<skillRequirements>
+		<Crafting>10</Crafting>
+	</skillRequirements>
+	<recipeUsers>
+	  <li>ElectricSmelter</li>
+	</recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>VBY_MakeAlloyBulk</defName>
+    <label>Make alien alloys (x10)</label>
+    <description>Use heat and strong electromagnets to meld the properties of elerium crystal to steel.</description>
+    <jobString>Making alien alloys</jobString>
+    <workAmount>5400</workAmount>
+    <workSpeedStat>SmeltingSpeed</workSpeedStat>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+	<researchPrerequisite>VBY_AdventArmor</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VBY_Elerium_Crystals</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+	  <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+    </ingredients>
+    <products>
+      <VBY_AlienAlloy>10</VBY_AlienAlloy>
+    </products>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>VBY_Elerium_Crystals</li>
+		<li>Steel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+	<skillRequirements>
+		<Crafting>12</Crafting>
+	</skillRequirements>
+	<recipeUsers>
+	  <li>ElectricSmelter</li>
+	</recipeUsers>
+  </RecipeDef>
+
+</Defs>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+ 
+  <Operation Class="PatchOperationAdd">
+        <xpath>Defs/ScenarioDef/scenario/parts</xpath>
+            <value>
+				<li Class="ScenPart_ScatterThingsAnywhere">
+					<def>ScatterThingsAnywhere</def>
+					<thingDef>VBY_AlloySlag</thingDef>
+					<count>2</count>
+				</li>
+            </value>    
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[@Name = "CrashedShipPartBase"]/killedLeavings</xpath>
+            <value>
+				<VBY_AlloySlag>1</VBY_AlloySlag>
+            </value>    
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[@Name = "VBY_XCOM_CrashedShipPartBase"]/killedLeavings</xpath>
+            <value>
+				<VBY_AlloySlag>3</VBY_AlloySlag>
+            </value>    
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+  <success>Always</success>  <!-- check w/out this  -->
+        <xpath>Defs/ThingSetMakerDef[defName = "Reward_ItemsStandard"]/root [@Class="ThingSetMaker_Sum"]/options/li[2]/thingSetMaker [@Class="ThingSetMaker_RandomOption"]/options</xpath>
+            <value>
+				<li>
+                <weight>0.25</weight>
+                <thingSetMaker Class="ThingSetMaker_MarketValue">
+                  <fixedParams>
+                    <filter>
+                      <thingDefs>
+                        <li>VBY_AlienAlloy</li>
+                      </thingDefs>
+                    </filter>
+                  </fixedParams>
+                </thingSetMaker>
+              </li>
+            </value>    
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+  <success>Always</success>
+        <xpath>Defs/ThingSetMakerDef[defName = "Reward_ItemsStandard"]/root [@Class="ThingSetMaker_Sum"]/options/li[1]/thingSetMaker [@Class="ThingSetMaker_RandomOption"]/options</xpath>
+            <value>
+				<li>
+                <weight>0</weight>
+                <weightIfPlayerHasNoItem>0.25</weightIfPlayerHasNoItem>
+                <weightIfPlayerHasNoItemItem>VBY_AdventDataStore</weightIfPlayerHasNoItemItem>
+                <thingSetMaker Class="ThingSetMaker_Conditional_MinMaxTotalMarketValue">
+                  <minMaxTotalMarketValue>7500</minMaxTotalMarketValue>
+                  <thingSetMaker Class="ThingSetMaker_Conditional_ResearchFinished">
+                    <researchProject>VBY_Elerium_Crystals</researchProject>
+                    <thingSetMaker Class="ThingSetMaker_Count">
+                      <fixedParams>
+                        <filter>
+                          <thingDefs>
+                            <li>VBY_AdventDataStore</li>
+                          </thingDefs>
+                        </filter>
+                      </fixedParams>
+                    </thingSetMaker>
+                  </thingSetMaker>
+                </thingSetMaker>
+              </li>
+			</value>  
+  </Operation>
+  
+</Patch>  
