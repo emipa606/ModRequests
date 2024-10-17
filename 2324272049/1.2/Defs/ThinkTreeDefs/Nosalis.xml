@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThinkTreeDef>
+		<defName>Metro_Nosalis</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+				<!-- Keep lying down if we have to -->
+				<li Class="ThinkNode_ConditionalMustKeepLyingDown">
+					<subNodes>
+						<!-- Keep lying down -->
+						<li Class="JobGiver_KeepLyingDown"/>
+					</subNodes>
+				</li>
+				<li Class="ThinkNode_Subtree">
+					<treeDef>Downed</treeDef>
+				</li>
+				<li Class="ThinkNode_Subtree">
+					<treeDef>BurningResponse</treeDef>
+				</li>
+
+				<li Class="JobGiver_ReactToCloseMeleeThreat" />
+
+				<li Class="ThinkNode_Tagger">
+					<tagToGive>SatisfyingNeeds</tagToGive>
+					<subNodes>
+						<li Class="ThinkNode_PrioritySorter">
+							<subNodes>
+								<li Class="JobGiver_GetFood"/>
+								<li Class="Metro.JobGiver_GetRest"/>
+							</subNodes>            
+						</li>
+					</subNodes>
+				</li>
+				
+				<li Class="Metro.JobGiver_MutantBerserk"/>
+				<li Class="Metro.JobGiver_AvoidSunLight"/>
+				<li Class="Metro.JobGiver_HaulPawnToHive"/>
+				<li Class="Metro.JobGiver_Mate"/>
+				<li Class="Metro.JobGiver_ExpandHiveIfNeeded"/>
+
+				<!-- Wander -->
+				<li Class="ThinkNode_Tagger">
+					<tagToGive>Idle</tagToGive>
+					<subNodes>
+						<li Class="Metro.JobGiver_WanderNearDutyLocation">
+							<maxDanger>Deadly</maxDanger>
+							<ticksBetweenWandersRange>120~240</ticksBetweenWandersRange>
+							<wanderRadius>12</wanderRadius>
+						</li>
+					</subNodes>
+				</li>
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef> 
+</Defs>
