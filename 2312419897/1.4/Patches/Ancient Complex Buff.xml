@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+<Operation Class="PatchOperationFindMod">
+	<mods>
+		<li>Ideology</li>
+	</mods>
+<match Class="PatchOperationAdd">
+<success>Normal</success>
+<xpath>/Defs</xpath>
+<value>
+
+<!-- Basic Complex, no security crates -->
+
+  <ComplexDef Name="AncientComplex">
+    <defName>AncientComplex</defName>
+    <workerClass>ComplexWorker_Ancient</workerClass>
+    <roomDefs>
+      <li>AncientEquipmentRoom</li>
+      <li>AncientStorageRoom</li>
+      <li>AncientBarracks</li>
+      <li>AncientPowerRoom</li>
+      <li>AncientLab</li>
+      <li>AncientArmory</li>
+    </roomDefs>
+    <threats>
+      <li>
+        <def>SleepingMechanoids</def>
+      </li>
+      <li>
+        <def>SleepingInsects</def>
+      </li>
+      <li>
+        <def>Ambush</def>
+      </li>
+      <li>
+        <def>CryptosleepPods</def>
+      </li>
+      <li>
+        <def>FuelNode</def>
+        <maxPerRoom>1</maxPerRoom>
+        <selectionWeight>2</selectionWeight>
+      </li>
+      <li>
+        <def>Infestation</def>
+      </li>
+      <li>
+        <def>RaidTerminal</def>
+        <maxPerComplex>1</maxPerComplex>
+        <chancePerComplex>0.5</chancePerComplex>
+      </li>
+    </threats>
+    <rewardThingSetMakerDef>MapGen_AncientComplexRoomLoot_Default</rewardThingSetMakerDef>
+  </ComplexDef>
+
+<!-- Security Crate very Rare! -->
+
+  <ComplexDef ParentName="AncientComplex">
+    <defName>AncientComplex_Loot</defName>
+    <threats>
+      <li>
+        <def>SleepingMechanoids</def>
+      </li>
+      <li>
+        <def>SleepingInsects</def>
+      </li>
+      <li>
+        <def>Ambush</def>
+      </li>
+      <li>
+        <def>CryptosleepPods</def>
+      </li>
+      <li>
+        <def>FuelNode</def>
+        <maxPerRoom>1</maxPerRoom>
+        <selectionWeight>2</selectionWeight>
+      </li>
+      <li>
+        <def>SecurityCrate</def>
+        <selectionWeight>1</selectionWeight>
+      </li> 
+      <li>
+        <def>Infestation</def>
+      </li>
+      <li>
+        <def>RaidTerminal</def>
+        <maxPerComplex>1</maxPerComplex>
+        <chancePerComplex>0.5</chancePerComplex>
+      </li>
+	</threats>
+    <rewardThingSetMakerDef>MapGen_AncientComplexRoomLoot_Better</rewardThingSetMakerDef>
+  </ComplexDef>
+
+  <!-- Special Spawn of the Ancient Complex with better loot and a chance for a security crate -->
+
+  <ComplexDef ParentName="AncientComplex">
+    <defName>AncientComplex_Special</defName>
+	<threats>
+      <li>
+        <def>SleepingMechanoids2</def>
+      </li>
+      <li>
+        <def>SleepingInsects2</def>
+      </li>
+      <li>
+        <def>Ambush2</def>
+      </li>
+      <li>
+        <def>CryptosleepPods2</def>
+      </li>
+      <li>
+        <def>FuelNode2</def>
+        <maxPerRoom>3</maxPerRoom>
+        <selectionWeight>1</selectionWeight>
+      </li>
+      <li>
+        <def>SecurityCrate2</def>
+        <selectionWeight>4</selectionWeight>
+      </li> 
+      <li>
+        <def>Infestation2</def>
+      </li>
+	  <li>
+        <def>MechDrop2</def>
+      </li>
+      <li>
+        <def>RaidTerminal</def>
+        <maxPerComplex>1</maxPerComplex>
+        <chancePerComplex>0.7</chancePerComplex>
+      </li>
+    </threats>
+    <rewardThingSetMakerDef>MapGen_AncientComplexRoomLoot_Best</rewardThingSetMakerDef>
+  </ComplexDef>
+  
+  
+  <!-- Sets parameters for new threats at better complexes -->
+  
+    <ComplexThreatDef Name="SleepingMechanoids" ParentName="SleepingThreat">
+    <defName>SleepingMechanoids2</defName>
+    <workerClass>ComplexThreatWorker_SleepingMechanoids</workerClass>
+    <faction>Mechanoid</faction>
+	<minPoints>600</minPoints>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef Name="SleepingInsects" ParentName="SleepingThreat">
+    <defName>SleepingInsects2</defName>
+    <workerClass>ComplexThreatWorker_SleepingInsects</workerClass>
+    <faction>Insect</faction>
+    <minPoints>600</minPoints>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef Name="CryptosleepPods" ParentName="DelayedThreat">
+    <defName>CryptosleepPods2</defName>
+    <workerClass>ComplexThreatWorker_CryptosleepPods</workerClass>
+    <postSpawnPassiveThreatFactor>0.25</postSpawnPassiveThreatFactor>
+    <spawnInOtherRoomChance>0.75</spawnInOtherRoomChance>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef>
+    <defName>Ambush2</defName>
+    <workerClass>ComplexThreatWorker_Ambush</workerClass>
+    <signalActionAmbushType>Normal</signalActionAmbushType>
+    <allowPassive>false</allowPassive>
+    <minPoints>600</minPoints>
+    <fallbackToRoomEnteredTrigger>false</fallbackToRoomEnteredTrigger>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef>
+    <defName>RaidTerminal</defName>
+    <workerClass>ComplexThreatWorker_RaidTerminal</workerClass>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef ParentName="DelayedThreat">
+    <defName>FuelNode2</defName>
+    <workerClass>ComplexThreatWorker_FuelNode</workerClass>
+    <postSpawnPassiveThreatFactor>0.1</postSpawnPassiveThreatFactor>
+    <spawnInOtherRoomChance>0.75</spawnInOtherRoomChance>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef ParentName="DelayedThreat">
+    <defName>Infestation2</defName>
+    <workerClass>ComplexThreatWorker_Infestations</workerClass>
+    <allowPassive>false</allowPassive>
+    <minPoints>600</minPoints>
+    <spawnInOtherRoomChance>0.75</spawnInOtherRoomChance>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef>
+    <defName>SecurityCrate2</defName>
+    <workerClass>ComplexThreatWorker_SecurityCrate</workerClass>
+  </ComplexThreatDef>
+
+  <ComplexThreatDef ParentName="DelayedThreat">
+    <defName>MechDrop2</defName>
+    <workerClass>ComplexThreatWorker_Ambush</workerClass>
+    <signalActionAmbushType>Mechanoids</signalActionAmbushType>
+    <spawnAroundComplex>true</spawnAroundComplex>
+    <useDropPods>true</useDropPods>
+  </ComplexThreatDef>
+  
+    <ThingSetMakerDef>
+    <defName>MapGen_AncientComplexRoomLoot_Default</defName>
+    <root Class="ThingSetMaker_RandomOption">
+      <options>
+
+        <!-- Survival meal -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MealSurvivalPack</li>
+                </thingDefs>
+              </filter>
+              <countRange>5~15</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Medicine -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MedicineIndustrial</li>
+                </thingDefs>
+              </filter>
+              <countRange>5~15</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Luciferium -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Luciferium</li>
+                </thingDefs>
+              </filter>
+              <countRange>5~10</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Joywire -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Joywire</li>
+                </thingDefs>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Silver -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Silver</li>
+                </thingDefs>
+              </filter>
+              <countRange>100~300</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Chemfuel & Uranium -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Chemfuel</li>
+				  <li>Uranium</li>
+                </thingDefs>
+              </filter>
+              <countRange>50~150</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Hyperweave & plasteel -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Plasteel</li>
+                  <li>Hyperweave</li>
+                </thingDefs>
+              </filter>
+              <countRange>25~75</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+		
+		<!-- Components -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>ComponentIndustrial</li>
+                </thingDefs>
+              </filter>
+              <countRange>5~15</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Techprint -->
+        <li>
+          <weight>1</weight> 
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+              <filter>
+                <thingSetMakerTagsToAllow>
+                  <li>Techprint</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+		
+		<!-- Consumable Artifacts -->
+        <li>
+          <weight>2</weight> 
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+			  <allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+                <categories>
+                  <li>Artifacts</li>
+                </categories>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+      </options>
+    </root>
+  </ThingSetMakerDef>
+
+  <ThingSetMakerDef>
+    <defName>MapGen_AncientComplexRoomLoot_Better</defName>
+    <root Class="ThingSetMaker_RandomOption">
+      <options>
+
+        <!-- Survival meal -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MealSurvivalPack</li>
+                </thingDefs>
+              </filter>
+              <countRange>15~35</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Medicine -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MedicineIndustrial</li>
+                </thingDefs>
+              </filter>
+              <countRange>15~35</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Luciferium -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Luciferium</li>
+                </thingDefs>
+              </filter>
+              <countRange>15~25</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Bionic Body Parts -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+			  <allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+                <thingDefs>
+                  <li>Gun_ChargeRifle</li>
+                  <li>Gun_ChargeLance</li>
+                  <li>Gun_AssaultRifle</li>
+                  <li>BionicEye</li>
+                  <li>BionicArm</li>
+                  <li>BionicLeg</li>
+                  <li>BionicSpine</li>
+                  <li>BionicHeart</li>
+                </thingDefs>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Silver -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Silver</li>
+                </thingDefs>
+              </filter>
+              <countRange>200~500</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Chemfuel & Uranium -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Chemfuel</li>
+				  <li>Uranium</li>
+                </thingDefs>
+              </filter>
+              <countRange>100~200</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Hyperweave & plasteel -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Plasteel</li>
+                  <li>Hyperweave</li>
+                </thingDefs>
+              </filter>
+              <countRange>50~150</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Advanced components -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>ComponentSpacer</li>
+                </thingDefs>
+              </filter>
+              <countRange>5~15</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+		
+		<!-- Components -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>ComponentIndustrial</li>
+                </thingDefs>
+              </filter>
+              <countRange>15~35</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Techprint -->
+        <li>
+          <weight>1</weight> 
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+              <filter>
+                <thingSetMakerTagsToAllow>
+                  <li>Techprint</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+              <countRange>1~3</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+		
+		<!-- Utility Items -->
+		
+		<li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+			<allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+				<categories>
+				<li>ApparelUtility</li>
+				</categories>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+
+		<!-- Consumable Artifacts -->
+        <li>
+          <weight>2</weight> 
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+			  <allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+                <categories>
+                  <li>Artifacts</li>
+                </categories>
+              </filter>
+              <countRange>2~3</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+      </options>
+    </root>
+  </ThingSetMakerDef>
+  
+  <ThingSetMakerDef>
+    <defName>MapGen_AncientComplexRoomLoot_Best</defName>
+    <root Class="ThingSetMaker_RandomOption">
+      <options>
+
+        <!-- Survival meal -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MealSurvivalPack</li>
+                </thingDefs>
+              </filter>
+              <countRange>40~80</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Luciferium -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Luciferium</li>
+                </thingDefs>
+              </filter>
+              <countRange>20~30</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Random Special Rewards -->
+		<li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingSetMakerTagsToAllow>
+                  <li>RewardStandardArtifact</li>
+				  <li>RewardStandardTribalSpecial</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+              <countRange>1</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Hyperweave & plasteel -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Plasteel</li>
+                  <li>Hyperweave</li>
+                </thingDefs>
+              </filter>
+              <countRange>150~300</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Advanced components -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>ComponentSpacer</li>
+                </thingDefs>
+              </filter>
+              <countRange>10~25</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+		
+		<!-- Utility apparel -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+			<allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+				<categories>
+				<li>ApparelUtility</li>
+				</categories>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+		<!-- Consumable Artifacts -->
+        <li>
+          <weight>2</weight> 
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+			  <allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+                <categories>
+                  <li>Artifacts</li>
+                </categories>
+              </filter>
+              <countRange>2~4</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+      </options>
+    </root>
+  </ThingSetMakerDef>
+
+  <ThingSetMakerDef>
+    <defName>MapGen_AncientComplex_SecurityCrate</defName>
+    <root Class="ThingSetMaker_RandomOption">
+      <options>
+
+        <!-- Gold -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Gold</li>
+                </thingDefs>
+              </filter>
+              <countRange>200~300</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Ultratech meds -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MedicineUltratech</li>
+                </thingDefs>
+              </filter>
+              <countRange>20~30</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Bionic Body Parts -->
+        <li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+			  <allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+                <thingDefs>
+                  <li>TechprofSubpersonaCore</li>
+                  <li>ArchotechEye</li>
+                  <li>ArchotechArm</li>
+                  <li>ArchotechLeg</li>
+                  <li>BionicSpine</li>
+                  <li>BionicHeart</li>
+                </thingDefs>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+        
+        <!-- Random Special Rewards -->
+		<li>
+          <weight>1</weight>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+			  <allowNonStackableDuplicates>False</allowNonStackableDuplicates>
+              <filter>
+                <thingSetMakerTagsToAllow>
+                  <li>RewardStandardArtifact</li>
+				  <li>RewardStandardTribalSpecial</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+      </options>
+    </root>
+  </ThingSetMakerDef>
+
+  <ThingSetMakerDef>
+    <defName>MapGen_AncientTempleContents</defName>
+    <root Class="ThingSetMaker_Sum">
+      <options>
+
+        <!-- Artifacts -->
+        <li>
+          <chance>0.5</chance>
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+              <filter>
+                <categories>
+                  <li>Artifacts</li>
+                </categories>
+              </filter>
+              <countRange>1~4</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Misc cool items -->
+        <li>
+          <chance>0.5</chance>
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+              <qualityGenerator>Reward</qualityGenerator>
+              <filter>
+                <thingDefs>
+                  <li>Apparel_PowerArmor</li>
+                  <li>Apparel_PowerArmorHelmet</li>
+                  <li>Gun_ChargeRifle</li>
+                  <li>Gun_ChargeLance</li>
+                  <li>Gun_AssaultRifle</li>
+                  <li>TechprofSubpersonaCore</li>
+                  <li>ArchotechEye</li>
+                  <li>ArchotechArm</li>
+                  <li>ArchotechLeg</li>
+                  <li>PowerClaw</li>
+                  <li>BionicEye</li>
+                  <li>BionicArm</li>
+                  <li>BionicLeg</li>
+                  <li>BionicSpine</li>
+                  <li>BionicHeart</li>
+                  <li>Joywire</li>
+                  <li>Painstopper</li>
+                  <li>Shell_AntigrainWarhead</li>
+                  <li>MechSerumHealer</li>
+                  <li>MechSerumResurrector</li>
+                  <li>FlatscreenTelevision</li>
+                  <li>MegascreenTelevision</li>
+                  <li>SculptureGrand</li>
+                </thingDefs>
+                <thingSetMakerTagsToAllow>
+                  <li>SingleUseWeapon</li>
+                  <li>SkillNeurotrainer</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+			  <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Techprints -->
+        <!-- note this is intended to ignore player needs entirely, it gives entirely random techprints -->
+        <li>
+          <chance>0.5</chance> 
+          <thingSetMaker Class="ThingSetMaker_Count">
+            <fixedParams>
+              <filter>
+                <thingSetMakerTagsToAllow>
+                  <li>Techprint</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+			<countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Luciferium -->
+        <li>
+          <chance>0.5</chance>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>Luciferium</li>
+                </thingDefs>
+              </filter>
+              <countRange>5~20</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Advanced components -->
+        <li>
+          <chance>0.5</chance>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>ComponentSpacer</li>
+                </thingDefs>
+              </filter>
+              <countRange>2~8</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+
+        <!-- Ultratech meds -->
+        <li>
+          <chance>0.5</chance>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingDefs>
+                  <li>MedicineUltratech</li>
+                </thingDefs>
+              </filter>
+              <countRange>4~8</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+      
+		<li>
+          <chance>0.5</chance>
+          <thingSetMaker Class="ThingSetMaker_StackCount">
+            <fixedParams>
+              <filter>
+                <thingSetMakerTagsToAllow>
+                  <li>RewardStandardArtifact</li>
+				  <li>RewardStandardTribalSpecial</li>
+                </thingSetMakerTagsToAllow>
+              </filter>
+              <countRange>1~2</countRange>
+            </fixedParams>
+          </thingSetMaker>
+        </li>
+	  
+	  </options>
+    </root>
+  </ThingSetMakerDef>
+
+</value>
+</match>
+</Operation>
+</Patch>
