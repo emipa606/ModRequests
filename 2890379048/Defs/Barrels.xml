@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+ 
+ <ThingDef Name="ChemBarrelBase" ParentName="BuildingBase" Abstract="True">
+    <graphicData>
+      <damageData>
+        <rect>(0.1,0,0.8,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <uiIconOffset>(0,-0.14)</uiIconOffset>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <stealable>false</stealable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <uiOrder>40</uiOrder>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <statBases>
+      <Mass>50</Mass>
+      <MaxHitPoints>20</MaxHitPoints>
+      <WorkToBuild>1000</WorkToBuild>
+      <Flammability>.1</Flammability>
+      <Beauty>-20</Beauty>
+	  <MarketValue>0</MarketValue>
+    </statBases>
+	<resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>
+    <designationCategory>Misc</designationCategory>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <ai_chillDestination>false</ai_chillDestination>
+	  <ai_neverTrashThis>true</ai_neverTrashThis>
+    </building>
+    <constructionSkillPrerequisite>2</constructionSkillPrerequisite>
+	<soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+	<killedLeavings>
+		<ChunkSlagSteel>1</ChunkSlagSteel>
+	</killedLeavings>
+  </ThingDef>
+
+  <ThingDef ParentName="ChemBarrelBase">
+    <defName>ChemBarrel_Chemfuel</defName>
+    <label>Chemfuel Barrel</label>
+    <description>A barrel containing chemfuel. May explode under adverse conditions.</description>
+    <graphicData>
+	    <graphicClass>Graphic_Random</graphicClass>
+        <texPath>Things/Building/Barrels/ChemfuelBarrel</texPath>
+    </graphicData>
+    <costList>
+		<Steel>40</Steel>
+		<Chemfuel>150</Chemfuel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <startWickHitPointsPercent>0.6</startWickHitPointsPercent>
+        <wickTicks>30</wickTicks>
+		<postExplosionSpawnThingDef>Filth_Fuel</postExplosionSpawnThingDef>
+		<postExplosionSpawnChance>1</postExplosionSpawnChance>
+		<postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
+      </li>
+    </comps>
+    <specialDisplayRadius>3.9</specialDisplayRadius>
+  </ThingDef>
+  
+ 
+    <ThingDef ParentName="ChemBarrelBase">
+    <defName>ChemBarrel_Wastepack</defName>
+    <label>Toxic Waste Barrel</label>
+    <description>A barrel containing toxic wastepacks. May explode and pollute under adverse conditions.</description>
+    <graphicData>
+	    <graphicClass>Graphic_Random</graphicClass>
+		<texPath>Things/Building/Barrels/ToxicWasteBarrel</texPath>
+    </graphicData>
+    <costList>
+      <Steel>40</Steel>
+	  <Wastepack>5</Wastepack>
+    </costList>
+    <comps>
+		<li Class="CompProperties_Explosive">
+			<explosiveRadius>3</explosiveRadius>
+			<explosiveDamageType>ToxGas</explosiveDamageType>
+			<postExplosionGasType>ToxGas</postExplosionGasType>
+			<startWickHitPointsPercent>0.6</startWickHitPointsPercent>
+			<wickTicks>30</wickTicks>
+			<postExplosionSpawnThingDef>QuickPollute</postExplosionSpawnThingDef>
+			<postExplosionSpawnChance>1</postExplosionSpawnChance>
+			<postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
+		</li>
+		<li Class="CompProperties_GasOnDamage">
+			<type>ToxGas</type>
+			<damageFactor>6</damageFactor>
+			<useStackCountAsFactor>true</useStackCountAsFactor>
+		</li>
+    </comps>
+    <specialDisplayRadius>3</specialDisplayRadius>
+  </ThingDef>
+  
+</Defs>
