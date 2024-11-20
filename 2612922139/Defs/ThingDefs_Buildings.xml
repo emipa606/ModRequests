@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <ThingDef ParentName="BaseArtilleryBuilding">
+    <defName>yy_rocket_launcher</defName>
+    <label>Rocket Artillery</label>
+    <description>Efficient weapon for massacring densed enemies.The ammo consumption is frightening.</description>
+    <graphicData>
+      <texPath>rocketlauncher/yy_rocket_launcher_base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <costStuffCount>200</costStuffCount>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>2000</WorkToBuild>
+      <Mass>50</Mass>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>8.9</explosiveRadius>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>shots until reload</fuelLabel>
+        <fuelGizmoLabel>shells remain</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new shells</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Shell_HighExplosive</li></thingDefs></fuelFilter>
+        <fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+        <fuelCapacity>20</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <fuelIconPath>rocketlauncher/industrial_rocket</fuelIconPath>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <building>
+      <combatPower>270</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>8.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>10.0</turretBurstCooldownTime>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+      <turretGunDef>yy_rocket_launcher_gun</turretGunDef>
+	  <turretTopDrawSize>3</turretTopDrawSize>
+      <buildingTags>
+        <li>Artillery_BaseDestroyer</li>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+  <uiIconPath>rocketlauncher/yy_rocket_launcher_MenuIcon</uiIconPath>
+  <uiIconScale>0.8</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseArtilleryWeapon">
+    <defName>yy_rocket_launcher_gun</defName>
+    <label>Rocket Turret</label>
+    <description>Rocket Turret.Max load 20 shells.</description>
+    <recoilPower>3</recoilPower>
+    <graphicData>
+      <texPath>rocketlauncher/yy_rocket_launcher_top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <defaultProjectile>yy_rocket</defaultProjectile>
+        <warmupTime>8.0</warmupTime>
+        <forcedMissRadius>15</forcedMissRadius>
+        <forcedMissRadiusClassicMortars>18</forcedMissRadiusClassicMortars>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>35</minRange>
+        <range>500</range>
+        <burstShotCount>20</burstShotCount>
+		<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Rocket_Launch</soundCast>
+        <muzzleFlashScale>32</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>yy_rocket</defName>
+    <label>rocket</label>
+    <graphicData>
+      <texPath>rocketlauncher/industrial_rocket</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>6</explosionRadius>
+      <speed>75</speed>
+      <arcHeightFactor>4</arcHeightFactor>
+      <shadowSize>0.8</shadowSize>
+    </projectile>
+  </ThingDef>
+
+
+  <ThingDef ParentName="BaseArtilleryBuilding">
+    <defName>yy_defense_turret</defName>
+    <label>Auto Defense Turret</label>
+    <description>Heavy turret,contains auto reloader and computer aiming system.need a gunner, can deal with long range enemies by high accuracy explosive fires.Load with uranium alloys shells.</description>
+    <graphicData>
+      <texPath>defenseturret/defenseturret_base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+      <!-- <drawRotated>false</drawRotated> -->
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+	<stealable>false</stealable>
+    <costStuffCount>100</costStuffCount>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <researchPrerequisites>
+      <li>Mortars</li>
+      <li>SniperTurret</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>200</Steel>
+	  <Uranium>100</Uranium>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>10000</WorkToBuild>
+      <Mass>50</Mass>
+      <Beauty>-20</Beauty>
+	  <ShootingAccuracyTurret>1</ShootingAccuracyTurret>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>8.9</explosiveRadius>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>240</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>shots until reload</fuelLabel>
+        <fuelGizmoLabel>shells remain</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new shells</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Uranium_Shell</li></thingDefs></fuelFilter>
+        <fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+        <fuelCapacity>10</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <fuelIconPath>defenseturret/turretbullet_icon</fuelIconPath>
+      </li>
+    </comps>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <building>
+      <combatPower>270</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>2.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>2</turretBurstCooldownTime>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+      <turretGunDef>yy_defense_turret_gun</turretGunDef>
+	  <turretTopDrawSize>3.3</turretTopDrawSize>
+      <buildingTags>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+    <!-- <placeWorkers> -->
+      <!-- <li>PlaceWorker_ShowTurretRadius</li> -->
+    <!-- </placeWorkers> -->
+	<uiIconPath>defenseturret/defenseturret_MenuIcon</uiIconPath>
+	<uiIconScale>1</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>yy_defense_turret_gun</defName>
+    <label>Defense Turret Gun</label>
+    <description>Defense turret gun.</description>
+    <recoilPower>2</recoilPower>
+    <graphicData>
+      <texPath>defenseturret/defenseturret_top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags>
+    <statBases>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>1.00</AccuracyLong>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <defaultProjectile>yy_turretbullet</defaultProjectile>
+        <warmupTime>2.0</warmupTime>
+        <!-- <forcedMissRadius>0.9</forcedMissRadius> -->
+        <isMortar>false</isMortar>
+        <requireLineOfSight>true</requireLineOfSight>
+        <minRange>9.9</minRange>
+        <range>149.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <muzzleFlashScale>16</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>yy_turretbullet</defName>
+    <label>uranium alloy shell</label>
+    <graphicData>
+      <texPath>defenseturret/flyingbullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>HitAndExplode.Projectile_HitAndExplode</thingClass>
+    <projectile>
+      <damageDef>yy_tb</damageDef>
+      <damageAmountBase>45</damageAmountBase>
+      <explosionRadius>2.1</explosionRadius>
+	  <armorPenetrationBase>0.50</armorPenetrationBase>
+      <speed>95</speed>
+      <arcHeightFactor>1</arcHeightFactor>
+	  <explosionDelay>10</explosionDelay>
+      <shadowSize>0.5</shadowSize>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>yy_towed_artillery</defName>
+    <label>Towed Artillery Position</label>
+    <description>Old style artillery, it fires armor piercing uranium alloy shells, efficient when facing with mechanoids.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <drawerType>MapMeshAndRealTime</drawerType>
+	<uiIconPath>towedartillery/towed_artillery_MenuIcon</uiIconPath>
+	<uiIconScale>1</uiIconScale>
+    <graphicData>
+      <texPath>towedartillery/towed artillery_base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+      <!-- <drawRotated>false</drawRotated> -->
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <stealable>false</stealable>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+	<size>(2,2)</size>
+    <costStuffCount>250</costStuffCount>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <researchPrerequisites>
+      <li>Mortars</li>
+    </researchPrerequisites>
+    <costList>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>40</Mass>
+      <Beauty>-20</Beauty>
+	  <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>120</wickTicks>
+        <explosiveRadius>0.9</explosiveRadius>
+        <chanceNeverExplodeFromDamage>0.2</chanceNeverExplodeFromDamage>
+        <explosiveDamageType>yy_tb</explosiveDamageType>
+      </li>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>shots until reload</fuelLabel>
+        <fuelGizmoLabel>shells remain</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new shells</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Uranium_Shell</li></thingDefs></fuelFilter>
+        <fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+        <fuelCapacity>5</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <fuelIconPath>defenseturret/turretbullet_icon</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <building>
+      <combatPower>180</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>3.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>10</turretBurstCooldownTime>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+      <turretGunDef>yy_towed_artillery_gun</turretGunDef>
+	  <turretTopDrawSize>3</turretTopDrawSize>
+      <buildingTags>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+	  <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret" >
+    <defName>yy_towed_artillery_gun</defName>
+    <label>Towed Artillery Gun</label>
+    <description>Towed artillery gun.</description>
+    <recoilPower>5</recoilPower>
+    <graphicData>
+      <texPath>towedartillery/towed_artillery_top</texPath>
+    </graphicData>
+    <weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags>
+    <statBases>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.90</AccuracyShort>
+      <AccuracyMedium>1.00</AccuracyMedium>
+      <AccuracyLong>0.90</AccuracyLong>
+      <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>30</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+		<hasStandardCommand>true</hasStandardCommand>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <defaultProjectile>yy_towedartilleryproj</defaultProjectile>
+        <warmupTime>3</warmupTime>
+        <!-- <forcedMissRadius>1.1</forcedMissRadius> -->
+        <isMortar>false</isMortar>
+        <requireLineOfSight>true</requireLineOfSight>
+        <minRange>5.9</minRange>
+        <range>55.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <muzzleFlashScale>24</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>yy_towedartilleryproj</defName>
+    <label>uranium alloy shell</label>
+    <graphicData>
+      <texPath>defenseturret/flyingbullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>HitAndExplode.Projectile_HitAndExplode</thingClass>
+    <projectile>
+      <damageDef>yy_tb</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+      <explosionRadius>2.1</explosionRadius>
+	  <armorPenetrationBase>0.80</armorPenetrationBase>
+      <speed>90</speed>
+      <arcHeightFactor>0.5</arcHeightFactor>
+      <shadowSize>0.5</shadowSize>
+    </projectile>
+  </ThingDef>
+
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>yy_autoblaster</defName>
+    <label>Auto Blaster Position</label>
+    <description>This turret has a powerful weapon that usually appear on aircraft, it can tear up mortals easily.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <drawerType>MapMeshAndRealTime</drawerType>
+	<uiIconPath>autoblaster/autoblaster_MenuIcon</uiIconPath>
+	<uiIconScale>1</uiIconScale>
+    <graphicData>
+      <texPath>autoblaster/autoblaster_base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+      <!-- <drawRotated>false</drawRotated> -->
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <offset>(0,-1,0)</offset>
+        <volume>(0.4,0.36,0.4)</volume>
+      </shadowData>
+    </graphicData>
+    <stealable>false</stealable>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+	<size>(2,2)</size>
+    <costStuffCount>180</costStuffCount>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <researchPrerequisites>
+      <li>GunTurrets</li>
+    </researchPrerequisites>
+    <costList>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>5000</WorkToBuild>
+      <Mass>20</Mass>
+      <Beauty>-20</Beauty>
+	  <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>shots until reload</fuelLabel>
+        <fuelGizmoLabel>ammo remain</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs Ammo</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+        <fuelCapacity>36</fuelCapacity>
+        <fuelMultiplier>0.20</fuelMultiplier>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <autoRefuelPercent>0.75</autoRefuelPercent>
+        <fuelIconPath>defenseturret/turretbullet_icon</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <building>
+      <combatPower>90</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>2.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>3</turretBurstCooldownTime>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+      <turretGunDef>yy_autoblaster_top</turretGunDef>
+	  <turretTopDrawSize>3</turretTopDrawSize>
+      <buildingTags>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+	  <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret" >
+    <defName>yy_autoblaster_top</defName>
+    <label>Auto Blaster Turret</label>
+    <description>Auto blaster turret</description>
+    <recoilPower>3</recoilPower>
+    <graphicData>
+      <texPath>autoblaster/autoblaster_top</texPath>
+    </graphicData>
+    <statBases>
+      <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>20</Mass>
+      <Flammability>0</Flammability>
+	  <AccuracyTouch>0.40</AccuracyTouch>
+	  <AccuracyShort>0.62</AccuracyShort>
+	  <AccuracyMedium>0.80</AccuracyMedium>
+	  <AccuracyLong>0.70</AccuracyLong>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+		<hasStandardCommand>true</hasStandardCommand>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <defaultProjectile>yy_autoblasterproj</defaultProjectile>
+        <warmupTime>3</warmupTime>
+        <!-- <forcedMissRadius>0.5</forcedMissRadius> -->
+        <isMortar>false</isMortar>
+        <requireLineOfSight>true</requireLineOfSight>
+        <minRange>2.9</minRange>
+        <range>38.9</range>
+        <burstShotCount>3</burstShotCount>
+		<ticksBetweenBurstShots>50</ticksBetweenBurstShots>
+        <soundCast>Shot_TurretSniper</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>14</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>yy_autoblasterproj</defName>
+    <label>autoblaster bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <thingClass>HitAndExplode.Projectile_HitAndExplode</thingClass>
+    <projectile>
+      <damageDef>yy_tb</damageDef>
+      <damageAmountBase>21</damageAmountBase>
+      <explosionRadius>1.9</explosionRadius>
+	  <armorPenetrationBase>0.4</armorPenetrationBase>
+      <speed>140</speed>
+      <arcHeightFactor>0.5</arcHeightFactor>
+      <shadowSize>0.3</shadowSize>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>yy_fieldgun</defName>
+    <label>Field Gun Position</label>
+    <description>Old style artillery, it fires high explosive uranium alloy shells over walls, efficient when facing with densed light infantry or constructions.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <drawerType>MapMeshAndRealTime</drawerType>
+	<uiIconPath>fieldgun/fieldgun_MenuIcon</uiIconPath>
+	<uiIconScale>1</uiIconScale>
+    <graphicData>
+      <texPath>towedartillery/towed artillery_base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3, 3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <stealable>false</stealable>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+	<size>(2,2)</size>
+    <costStuffCount>250</costStuffCount>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <researchPrerequisites>
+      <li>Mortars</li>
+    </researchPrerequisites>
+    <costList>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>40</Mass>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>120</wickTicks>
+        <explosiveRadius>0.9</explosiveRadius>
+        <chanceNeverExplodeFromDamage>0.2</chanceNeverExplodeFromDamage>
+        <explosiveDamageType>yy_tb</explosiveDamageType>
+      </li>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>shots until reload</fuelLabel>
+        <fuelGizmoLabel>shells remain</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs new shells</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Uranium_Shell</li></thingDefs></fuelFilter>
+        <fuelIsMortarBarrel>true</fuelIsMortarBarrel>
+        <fuelCapacity>5</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <fuelIconPath>defenseturret/turretbullet_icon</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <building>
+      <combatPower>180</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretBurstWarmupTime>3.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>15</turretBurstCooldownTime>
+      <turretTopOffset>(0, 0)</turretTopOffset>
+      <turretGunDef>yy_fieldgun_top</turretGunDef>
+	  <turretTopDrawSize>3</turretTopDrawSize>
+      <buildingTags>
+        <li>Artillery_MannedMortar</li>
+      </buildingTags>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+	  <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret" >
+    <defName>yy_fieldgun_top</defName>
+    <label>Field Gun</label>
+    <description>A Field Gun.</description>
+    <recoilPower>5</recoilPower>
+    <graphicData>
+      <texPath>fieldgun/fieldgun_top</texPath>
+    </graphicData>
+    <weaponTags>
+      <li>Artillery_BaseDestroyer</li>
+    </weaponTags>
+    <statBases>
+      <RangedWeapon_Cooldown>10</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>20</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+		<hasStandardCommand>true</hasStandardCommand>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <defaultProjectile>yy_fieldgunproj</defaultProjectile>
+        <warmupTime>3</warmupTime>
+        <forcedMissRadius>8</forcedMissRadius>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>9.9</minRange>
+        <range>500</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Rocket_Launch</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>yy_fieldgunproj</defName>
+    <label>uranium alloy shell</label>
+    <graphicData>
+      <texPath>defenseturret/flyingbullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>yy_tb</damageDef>
+      <flyOverhead>True</flyOverhead>
+      <damageAmountBase>40</damageAmountBase>
+      <explosionRadius>5.1</explosionRadius>
+	  <armorPenetrationBase>0.20</armorPenetrationBase>
+      <speed>65</speed>
+      <arcHeightFactor>3</arcHeightFactor>
+      <shadowSize>0.5</shadowSize>
+    </projectile>
+  </ThingDef>
+
+</Defs>
