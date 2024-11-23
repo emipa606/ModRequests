@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName="RC2_PlantSoybean" or defName="RC2_PlantSoybeanHydro"]</xpath>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/BiomeDef[defName="TemperateForest" or defName="TemperateSwamp" or defName="TropicalRainforest" or defName="TropicalSwamp"]/wildPlants/RC2_PlantSoybean</xpath>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[@Name="RC2_SoybeanBase"]</xpath>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName="RC2_RawSoybean"]</xpath>
+			</li>
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/ThingDef[defName="VCE_Soybean"]/plant/sowResearchPrerequisites</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_Soybean"]/plant</xpath>
+					<value>
+						<sowResearchPrerequisites>
+							<li>RC2_IntermediateAgriculture</li>
+						</sowResearchPrerequisites>
+					</value>
+				</nomatch>
+			</li>
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/ThingDef[defName="VCE_RawSoybean"]/ingestible/specialThoughtAsIngredient</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_RawSoybean"]/ingestible</xpath>
+					<value>
+						<specialThoughtAsIngredient>AteUncommonAsIngredient</specialThoughtAsIngredient>
+					</value>
+				</nomatch>
+			</li>
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/ThingDef[defName="VCE_RawSoybean"]/thingCategories</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_RawSoybean"]</xpath>
+					<value>
+						<thingCategories Inherit="False">
+							<li>RC2_VegetablesRaw</li>
+						</thingCategories>
+					</value>
+				</nomatch>
+			</li>
+			<li Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[@Name="CookMealBase"]/defaultIngredientFilter/disallowedThingDefs/li[text()="RC2_RawSoybean"]</xpath>
+						<value>
+							<li>VCE_RawSoybean</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[@Name="VCE_CookBakeMealBase" or @Name="VCE_CookGourmetBakeMealBase" or defName="VCE_DeepFryVegetables" or @Name="VCE_CookGrillMealBase" or @Name="VCE_CookGourmetGrillMealBase" or @Name="VCE_CookGourmetMealBase"]/defaultIngredientFilter/disallowedThingDefs/li[text()="RC2_RawSoybean"]</xpath>
+						<value>
+							<li>VCE_RawSoybean</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[@Name="RC2_CookMealBase"]/defaultIngredientFilter/disallowedThingDefs/li[text()="RC2_RawSoybean"]</xpath>
+						<value>
+							<li>VCE_RawSoybean</li>
+						</value>
+					</li>
+				</operations>
+			</li>
+			<li Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="RC2_ProcessSoybean" or defName="RC2_ProcessSoybeanBulk"]/fixedIngredientFilter/thingDefs/li[text()="RC2_RawSoybean"]</xpath>
+						<value>
+							<li>VCE_RawSoybean</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="RC2_ProcessSoybean" or defName="RC2_ProcessSoybeanBulk"]/defaultIngredientFilter/thingDefs/li[text()="RC2_RawSoybean"]</xpath>
+						<value>
+							<li>VCE_RawSoybean</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="RC2_ProcessSoybean" or defName="RC2_ProcessSoybeanBulk"]/ingredients/li/filter/thingDefs/li[text()="RC2_RawSoybean"]</xpath>
+						<value>
+							<li>VCE_RawSoybean</li>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/RecipeDef[defName="RC2_ProcessSoybean"]/ingredients/li[filter/thingDefs[li="VCE_RawSoybean"]]/count</xpath>
+						<value>
+							<count>16</count>
+						</value>
+					</li>
+					<li Class="PatchOperationFindMod">
+						<mods>
+							<li>RimCuisine 2 Meals and Munchies Expansion (Continued)</li>
+						</mods>
+						<match Class="PatchOperationReplace">
+							<xpath>Defs/RecipeDef[defName="RC2_ProcessSoybeanBulk"]/ingredients/li[filter/thingDefs[li="VCE_RawSoybean"]]/count</xpath>
+							<value>
+								<count>80</count>
+							</value>
+						</match>
+					</li>
+				</operations>
+			</li>
+		</operations>
+	</Operation>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/ThingDef[defName="VCE_Wasabi"]/plant/sowResearchPrerequisites</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_Wasabi"]/plant</xpath>
+					<value>
+						<sowResearchPrerequisites>
+							<li>RC2_AdvancedAgriculture</li>
+						</sowResearchPrerequisites>
+					</value>
+				</nomatch>
+			</li>
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/ThingDef[defName="VCE_RawWasabi"]/ingestible/specialThoughtAsIngredient</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_RawWasabi"]/ingestible</xpath>
+					<value>
+						<specialThoughtAsIngredient>AteRareAsIngredient</specialThoughtAsIngredient>
+					</value>
+				</nomatch>
+			</li>
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/ThingDef[defName="VCE_RawWasabi"]/thingCategories</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="VCE_RawWasabi"]</xpath>
+					<value>
+						<thingCategories Inherit="False">
+							<li>RC2_VegetablesRaw</li>
+						</thingCategories>
+					</value>
+				</nomatch>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[@Name="VCE_CookFineSushiMealBase" or @Name="VCE_CookGourmetSushiMealBase"]/fixedIngredientFilter/categories/li[text()="PlantFoodRaw"]</xpath>
+				<value>
+					<li>RC2_PlantFoodProcessed</li>
+				</value>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[@Name="VCE_CookFineSushiMealBase" or @Name="VCE_CookGourmetSushiMealBase"]/defaultIngredientFilter/categories/li[text()="PlantFoodRaw"]</xpath>
+				<value>
+					<li>RC2_PlantFoodProcessed</li>
+				</value>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[defName="VCE_CookUramakiFine" or defName="VCE_CookUramakiFineBulk" or defName="VCE_CookNigiriFine" or defName="VCE_CookNigiriFineBulk" or defName="VCE_CookTemakiLavish" or defName="VCE_CookTemakiLavishBulk" or defName="VCE_CookFutomakiLavish" or defName="VCE_CookFutomakiLavishBulk" or defName="VCE_CookGunkanmakiGourmet" or defName="VCE_CookOshizushiiGourmet"]/ingredients/li/filter/categories/li[text()="PlantFoodRaw"]</xpath>
+				<value>
+					<li>RC2_PlantFoodProcessed</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ResearchProjectDef[defName="VCE_SoyFermentation"]/prerequisites</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ResearchProjectDef[defName="VCE_SoyFermentation"]</xpath>
+			<value>
+				<prerequisites>
+					<li>RC2_IntermediateCooking</li>
+				</prerequisites>
+			</value>
+		</nomatch>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="VCE_SushiPrepTable" or defName="VCE_SoyFermenter"]/designationCategory</xpath>
+		<value>
+			<designationCategory>RC2_RimCuisine</designationCategory>
+		</value>
+	</Operation>
+
+</Patch>
