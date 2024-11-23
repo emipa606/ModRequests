@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HDream.WishDef Abstract="True" Name="BaseRoomWish">
+    <endChancePerHour>
+      <points>
+        <li>(192, 0)</li>
+        <li>(264, 0.04)</li>
+        <li>(340, 0.1)</li>
+        <li>(400, 1)</li>
+      </points>
+    </endChancePerHour>
+	<upsetPerDay>1.5</upsetPerDay>
+	<progressRemovePending>6</progressRemovePending>
+	<fulfillTought>WishRoomFulfilled</fulfillTought>
+	<ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+  </HDream.WishDef>
+  
+  <HDream.WishDef Abstract="True" Name="GenericTimeRoomWish" ParentName="OwnRoomChance">
+    <comps>
+      <li Class="HDream.WishCompProperties_Timed">
+		<daysToHold>4</daysToHold>
+		<resetTimerOnFailHold>false</resetTimerOnFailHold>
+		<removePendingOnHoldOffset>4</removePendingOnHoldOffset>
+		<removePendingOnHoldPercent>0.2</removePendingOnHoldPercent>
+		<removePendingPerTickFactor>0.3</removePendingPerTickFactor>
+	  </li>
+    </comps>
+  </HDream.WishDef>
+  
+  <HDream.AnimalWishDef Abstract="True" Name="OwnRoomChance" ParentName="BaseRoomWish">
+    <preceptFactor>
+      <li>
+		<precept>RoughLiving_Welcomed</precept>
+		<factor>0.2</factor>
+	  </li>
+    </preceptFactor>
+  </HDream.AnimalWishDef>
+  
+  
+  <!-- Envy -->
+  
+  <HDream.RoomWishDef ParentName="OwnRoomChance">
+    <defName>WantOwnBedRoom</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Envy</tier>
+    <label>wants {Objects}</label>
+    <descriptions>
+      <li>Wants {Objects}.</li>
+	</descriptions>
+	<description>To fulfill this [tier] {Pawn} need {Pawn_possessive} {Objects}.</description>
+    <roomInfo>
+      <li>
+		<role>Bedroom</role>
+		<shoulBeOwner>true</shoulBeOwner>
+	  </li>
+    </roomInfo>
+    <comps>
+      <li Class="HDream.WishCompProperties_Timed">
+		<daysToHold>2</daysToHold>
+		<resetTimerOnFailHold>true</resetTimerOnFailHold>
+		<removePendingOnHoldOffset>4</removePendingOnHoldOffset>
+		<removePendingOnHoldPercent>0.2</removePendingOnHoldPercent>
+		<removePendingPerTickFactor>0.3</removePendingPerTickFactor>
+	  </li>
+    </comps>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>1.2</factor>
+	  </li>
+      <li>
+		<trait>Ascetic</trait>
+		<factor>0.5</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>1.0</baseChance>
+  </HDream.RoomWishDef>
+  
+  <!-- Wish -->
+  
+  
+  <!-- Desire -->
+  
+  <HDream.RoomWishDef ParentName="GenericTimeRoomWish">
+    <defName>WantNiceBedRoom</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Desire</tier>
+    <label>wants {Objects}</label>
+    <descriptions>
+      <li>Wants {Objects}.</li>
+	</descriptions>
+	<description>To fulfill this [tier] {Pawn} need {Pawn_possessive} {Objects}.</description>
+    <roomInfo>
+      <li>
+		<role>Bedroom</role>
+		<relatedStats>Impressiveness</relatedStats>
+		<toNearestScoreStage>40</toNearestScoreStage>
+		<shoulBeOwner>true</shoulBeOwner>
+	  </li>
+    </roomInfo>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>2</factor>
+	  </li>
+      <li>
+		<trait>Ascetic</trait>
+		<factor>0</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>1</baseChance>
+  </HDream.RoomWishDef>
+  
+  
+  <!-- Urge -->
+  
+  <HDream.RoomWishDef ParentName="GenericTimeRoomWish">
+    <defName>WantBeautifulRecRoom</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Urge</tier>
+    <label>wants {Objects}</label>
+    <descriptions>
+      <li>Wants {Objects}.</li>
+	</descriptions>
+	<description>To fulfill this [tier], you need : {Objects}.</description>
+    <roomInfo>
+      <li>
+		<role>RecRoom</role>
+		<relatedStats>Beauty</relatedStats>
+		<toNearestScoreStage>20</toNearestScoreStage>
+	  </li>
+    </roomInfo>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>1.2</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>1</baseChance>
+  </HDream.RoomWishDef>
+  
+  <HDream.RoomWishDef ParentName="GenericTimeRoomWish">
+    <defName>WantRoomSet</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Urge</tier>
+    <label>wants nice room set</label>
+    <descriptions>
+      <li>We should have nice rooms!</li>
+	</descriptions>
+	<description>To fulfill this [tier], you need these rooms : 
+{Objects}.</description>
+    <listing_Separator>\n</listing_Separator>
+	<amountNeeded>3</amountNeeded>
+    <roomInfo>
+      <li>
+		<role>Bedroom</role>
+		<relatedStats>Beauty</relatedStats>
+		<toNearestScoreStage>5</toNearestScoreStage>
+		<shoulBeOwner>true</shoulBeOwner>
+	  </li>
+      <li>
+		<role>RecRoom</role>
+		<relatedStats>Impressiveness</relatedStats>
+		<toNearestScoreStage>90</toNearestScoreStage>
+	  </li>
+      <li>
+		<role>DiningRoom</role>
+		<relatedStats>Impressiveness</relatedStats>
+		<toNearestScoreStage>60</toNearestScoreStage>
+	  </li>
+    </roomInfo>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>1.2</factor>
+	  </li>
+      <li>
+		<trait>Ascetic</trait>
+		<factor>0.5</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>1</baseChance>
+  </HDream.RoomWishDef>
+  
+  
+  <!-- Craving -->
+  
+  <HDream.RoomWishDef ParentName="GenericTimeRoomWish">
+    <defName>WantImpressiveDiningRoom</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Craving</tier>
+    <label>wants {Objects}</label>
+    <descriptions>
+      <li>Wants {Objects}.</li>
+	</descriptions>
+	<description>To fulfill this [tier], you need : {Objects}.</description>
+    <roomInfo>
+      <li>
+		<role>DiningRoom</role>
+		<relatedStats>Impressiveness</relatedStats>
+		<toNearestScoreStage>90</toNearestScoreStage>
+	  </li>
+    </roomInfo>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>1.2</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>1</baseChance>
+  </HDream.RoomWishDef>
+  
+  
+  <!-- Yearning -->
+  
+  <HDream.RoomWishDef ParentName="GenericTimeRoomWish">
+    <defName>WantIncredibleRecRoom</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Yearning</tier>
+    <label>wants {Objects}</label>
+    <descriptions>
+      <li>Wants {Objects}.</li>
+	</descriptions>
+	<description>To fulfill this [tier], you need : {Objects}.</description>
+    <roomInfo>
+      <li>
+		<role>RecRoom</role>
+		<relatedStats>Impressiveness</relatedStats>
+		<toNearestScoreStage>200</toNearestScoreStage>
+	  </li>
+    </roomInfo>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>1.2</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>1</baseChance>
+  </HDream.RoomWishDef>
+  
+  
+  <!-- Dream -->
+  
+  <HDream.RoomWishDef ParentName="GenericTimeRoomWish">
+    <defName>WantDreamBedRoom</defName>
+	<wishClass>HDream.Wish_ImproveRoom</wishClass>
+	<tier>Dream</tier>
+    <label>wants {Objects}</label>
+    <descriptions>
+      <li>Wants {Objects}.</li>
+	</descriptions>
+	<description>To fulfill this [tier] {Pawn} need {Pawn_possessive} {Objects}.</description>
+    <roomInfo>
+      <li>
+		<role>Bedroom</role>
+		<relatedStats>Impressiveness</relatedStats>
+		<toNearestScoreStage>160</toNearestScoreStage>
+		<shoulBeOwner>true</shoulBeOwner>
+	  </li>
+    </roomInfo>
+    <traitFactor>
+      <li>
+		<trait>Greedy</trait>
+		<factor>10</factor>
+	  </li>
+      <li>
+		<trait>Ascetic</trait>
+		<factor>0</factor>
+	  </li>
+    </traitFactor>
+    <baseChance>0.1</baseChance>
+  </HDream.RoomWishDef>
+  
+</Defs>
