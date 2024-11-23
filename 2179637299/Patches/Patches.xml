@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[defName="VCE_CookStewSimple"]/ingredients/li/filter/categories/li[text()="FoodRaw"]</xpath>
+				<value>
+					<li>RC2_FoodProcessed</li>
+				</value>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[defName="VCE_CookStewFine" or defName="VCE_CookStewLavish"]/ingredients/li/filter/categories/li[text()="MeatRaw"]</xpath>
+				<value>
+					<li>RC2_MeatProcessed</li>
+				</value>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[defName="VCE_CookStewFine" or defName="VCE_CookStewLavish"]/ingredients/li/filter/categories/li[text()="AnimalProductRaw"]</xpath>
+				<value>
+					<li>RC2_AnimalProductProcessed</li>
+				</value>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[defName="VCE_CookStewFine" or defName="VCE_CookStewLavish"]/ingredients/li/filter/categories/li[text()="PlantFoodRaw"]</xpath>
+				<value>
+					<li>RC2_PlantFoodProcessed</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ResearchProjectDef[defName="VCE_StewCooking"]/prerequisites</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ResearchProjectDef[defName="VCE_StewCooking"]</xpath>
+			<value>
+				<prerequisites>
+					<li>RC2_IntermediateCooking</li>
+				</prerequisites>
+			</value>
+		</nomatch>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="VCE_StewPot"]/designationCategory</xpath>
+		<value>
+			<designationCategory>RC2_RimCuisine</designationCategory>
+		</value>
+	</Operation>
+
+</Patch>
