@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+  <!-- VehicleTurretDef -->
+	<Vehicles.VehicleTurretDef ParentName="VehicleTurretBase">
+		<defName>BA_EinheitsPKW_sena_EXskill</defName>
+		<label>Emergency dispatch</label>
+		<description>SenaEX description</description>
+		
+		<turretType>Rotatable</turretType>
+		<!-- <shotSound>HALO_Scorpion_Cannon_Fire</shotSound> -->
+		<!-- <reloadSound>HALO_Scorpion_Cannon_Reload</reloadSound> -->
+		
+		<projectile>Bullet_BA_EinheitsPKW_sena_EXskill</projectile>
+		<reloadTimer>12.0</reloadTimer>
+		<warmUpTimer>0.0</warmUpTimer>
+		<magazineCapacity>1</magazineCapacity>
+		<chargePerAmmoCount>3</chargePerAmmoCount>
+		<genericAmmo>true</genericAmmo>
+		
+		<autoSnapTargeting>false</autoSnapTargeting>
+		<rotationSpeed>10.0</rotationSpeed>
+		
+		<projectileOffset>1</projectileOffset>
+		<hitFlags>IntendedTarget</hitFlags>
+		<maxRange>20.9</maxRange>
+		<minRange>1</minRange>
+		
+		<!-- <attachProjectileFlag>VVE_Tank</attachProjectileFlag> -->
+		
+		<recoil>
+			<distanceTotal>0.0</distanceTotal>
+			<distancePerTick>0.2</distancePerTick>
+			<speedMultiplierPostRecoil>0.35</speedMultiplierPostRecoil>
+		</recoil>
+		
+		<vehicleRecoil>
+			<distanceTotal>0.0</distanceTotal>
+			<distancePerTick>0.05</distancePerTick>
+			<speedMultiplierPostRecoil>0.55</speedMultiplierPostRecoil>
+		</vehicleRecoil>
+		
+		<fireModes>
+			<li>
+				<shotsPerBurst>1</shotsPerBurst>
+				<ticksBetweenBursts>1</ticksBetweenBursts>
+				<spreadRadius>4</spreadRadius>
+				<label>Single Shot</label>
+				<texPath>UI/Gizmos/FireRate_Single</texPath>
+			</li>
+		</fireModes>
+		
+    <!-- <graphicData>
+      <texPath>UI/sena/EXskill</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.4,0.4)</drawSize>
+    </graphicData> -->
+    <gizmoIconTexPath>UI/sena/EXskill</gizmoIconTexPath>
+    <gizmoDescription>EX Skill:Emergency dispatch\nReduces bleeding rate greatly and increases healing rate.</gizmoDescription>
+		
+		<ammunition>
+			<thingDefs>
+				<li>MedicineUltratech</li>
+        <!-- <li>MedicineIndustrial</li> -->
+			</thingDefs>
+		</ammunition>
+		
+		<!-- <motes>
+			<li>
+				<cycles>1</cycles>
+				<moteDef>Mote_CannonPlume</moteDef>
+				<animationType>Reset</animationType>
+			</li>
+		</motes> -->
+	</Vehicles.VehicleTurretDef>
+
+  <!-- Projectile -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_BA_EinheitsPKW_sena_EXskill</defName>
+    <label>high-explosive shell</label>
+    <thingClass>Projectile_Explosive</thingClass>
+
+    <graphicData>
+      <texPath>Things/Projectile/ShellHighExplosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+
+    <projectile>
+      <damageDef>BA_EinheitsPKW_sena_EXskill_damageDef</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+      <speed>52</speed>
+      <explosionRadius>4.9</explosionRadius>
+      <soundExplode>Explosion_EMP</soundExplode>
+      <!-- <explosionEffect></explosionEffect> -->
+      <stoppingPower>0</stoppingPower>
+    </projectile>
+  </ThingDef>
+
+  <!-- DamageDef -->
+  <DamageDef>
+    <defName>BA_EinheitsPKW_sena_EXskill_damageDef</defName>
+    <label>Emergency dispatch</label>
+    <workerClass>DamageWorker</workerClass>
+    <externalViolence>false</externalViolence>
+    <isExplosive>true</isExplosive>
+    <deathMessage>{0} died from Sena's EX skill. ...If this text is displayed, something is wrong.</deathMessage>
+    <hediff>Shredded</hediff>
+    <hediffSkin>Cut</hediffSkin>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <minDamageToFragment>0</minDamageToFragment>
+    <defaultDamage>1</defaultDamage>
+    <defaultStoppingPower>0</defaultStoppingPower>
+    <defaultArmorPenetration>0</defaultArmorPenetration>
+    <buildingDamageFactor>0</buildingDamageFactor>
+    <plantDamageFactor>0</plantDamageFactor>
+    <harmsHealth>false</harmsHealth>
+    <makesBlood>false</makesBlood>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionHeatEnergyPerCell>0</explosionHeatEnergyPerCell>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(0.8, 0.9, 1)</explosionColorCenter>
+    <explosionColorEdge>(0.5, 0.65, 1)</explosionColorEdge>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+    <additionalHediffs>
+      <li>
+        <hediff>SenaEXBuff_totalBleedFactor</hediff>
+        <severityFixed>1</severityFixed>
+      </li>
+      <li>
+        <hediff>SenaEXBuff_healingFactor</hediff>
+        <severityFixed>1</severityFixed>
+      </li>
+    </additionalHediffs>
+  </DamageDef>
+
+  <!-- Hediff -->
+  <HediffDef ParentName="DiseaseBase">
+    <defName>SenaEXBuff_totalBleedFactor</defName>
+    <label>Emergency support:Static effect</label>
+    <description>Decreases bleeding, effect lasts one day.</description>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.6, 0.6, 1)</defaultLabelColor>
+    <everCurableByItem>false</everCurableByItem>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <!-- 1day -->
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <totalBleedFactor>0.1</totalBleedFactor>
+        <!-- <statOffsets>
+          <InjuryHealingFactor>1.5</InjuryHealingFactor>
+        </statOffsets> -->
+      </li>
+    </stages>
+  </HediffDef>
+  <HediffDef ParentName="DiseaseBase">
+    <defName>SenaEXBuff_healingFactor</defName>
+    <label>Emergency support:Healing</label>
+    <description>Rapidly heal injuries, effects last 3 hours.</description>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.6, 0.6, 1)</defaultLabelColor>
+    <everCurableByItem>false</everCurableByItem>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-8</severityPerDay>
+        <!-- 3hour (24/3) -->
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <!-- <totalBleedFactor>0.1</totalBleedFactor> -->
+        <statOffsets>
+          <InjuryHealingFactor>10</InjuryHealingFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
