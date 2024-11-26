@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <techLevel>Industrial</techLevel>
+    <defName>Energy_Rifle</defName>
+    <label>energy rifle</label>
+    <description>A decently low-tech battery powered burst rifle, it has good range, decent damage but not much penetration. Used mostly by outlanders.</description>
+    <graphicData>
+      <texPath>Things/Range_Weapons/EnergyRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <onGroundRandomRotateAngle>35</onGroundRandomRotateAngle>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>Batteries</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+    <statBases>
+	  <MarketValue>260</MarketValue> 
+      <WorkToMake>47000</WorkToMake>
+      <Mass>4</Mass>
+      <AccuracyTouch>0.50</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.86</AccuracyMedium>
+      <AccuracyLong>0.88</AccuracyLong>
+      <RangedWeapon_Cooldown>1.3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>60</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>EnergyBolt</defaultProjectile>
+        <warmupTime>1.2</warmupTime>
+        <range>35</range>
+		<burstShotCount>3</burstShotCount>
+		<ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_EnergyRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.5</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="True">
+      <li>IndustrialGunAdvanced</li>
+	  <li>Gun</li>
+    </weaponTags>
+  </ThingDef>
+
+  <!-- Bullet -->
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>EnergyBolt</defName>
+    <label>Energy bolt</label>
+    <graphicData>
+      <!-- Texture that your bullet will look like and its path -->
+      <texPath>Things/EnergyBolt</texPath>
+      <!-- Graphic class the texture has, does the bullet change? does it spin like a boomerang? maybe try random or multiple! -->
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <!-- Damage def your bullet will pull from -->
+      <damageDef>EnergyDamage</damageDef>
+      <!-- the amount of damage done, remember the damage is set by bullet, not by the weapon -->
+      <damageAmountBase>14</damageAmountBase>
+      <!-- How fast the bullet or projectile goes -->
+      <speed>65</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- Damage -->
+
+    <DamageDef>
+        <defName>EnergyDamage</defName>
+        <workerClass>DamageWorker_AddInjury</workerClass>
+        <label>Electric Damage</label>
+        <externalViolence>true</externalViolence>
+        <deathMessage>{0} has been killed via electric damage.</deathMessage>
+        <!-- Want your damage def to give a hediff? -->
+        <hediff>ElectricBurn</hediff>
+        <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+        <!-- The sound it makes when it hits -->
+        <impactSoundType>Bullet</impactSoundType>
+        <!-- Sharp, blunt, heat, what does your damage do? -->
+        <armorCategory>Heat</armorCategory>
+        <!-- Percent to destroy a body part -->
+        <overkillPctToDestroyPart>0~0.2</overkillPctToDestroyPart>
+        <!-- Ranged or nah -->
+        <isRanged>true</isRanged>
+        <!-- Will animals flee when this is fired near or around them/at them? -->
+        <makesAnimalsFlee>true</makesAnimalsFlee>
+    </DamageDef>
+  
+    <!-- Hediff -->
+
+    <HediffDef ParentName="InjuryBase">
+        <defName>ElectricBurn</defName>
+        <label>electric burn</label>
+        <labelNoun>an electric burn</labelNoun>
+        <description>Damage caused by an energy weapon.</description>
+        <comps>
+        <!-- The level of tending need to be well -->
+        <li Class="HediffCompProperties_TendDuration">
+            <labelTendedWell>bandaged</labelTendedWell>
+            <labelTendedWellInner>tended</labelTendedWellInner>
+            <labelSolidTendedWell>tended</labelSolidTendedWell>
+        </li>
+        <!-- Chances of infection -->
+        <li Class="HediffCompProperties_Infecter">
+            <infectionChance>0.16</infectionChance>
+        </li>
+		<li Class="HediffCompProperties_GetsPermanent">
+            <permanentLabel>electric burn scar</permanentLabel>
+        </li>
+        </comps>
+        <injuryProps>
+        <!-- How bad does this hurt now? -->
+        <painPerSeverity>0.0142</painPerSeverity>
+        <!-- How bad will this hurt forever? -->
+        <averagePainPerSeverityPermanent>0.00325</averagePainPerSeverityPermanent>
+        <canMerge>true</canMerge>
+        <!-- Whats it called when a limb is destroyed by this hediff? -->
+        <destroyedLabel>Burned off (electrical)</destroyedLabel>
+        <destroyedOutLabel>Burned out (electrical)</destroyedOutLabel>
+        </injuryProps>
+    </HediffDef>
+
+<ThingDef ParentName="BaseHumanMakeableGun">
+    <techLevel>Industrial</techLevel>
+    <defName>Energy_Gattler</defName>
+    <label>energy gattler</label>
+    <description>A heavy, decently low-tech battery powered gatling gun that fires a deadly volley of electric bolts, it has a decent range and is good for crowds. Used mostly by outlanders.</description>
+    <graphicData>
+      <texPath>Things/Range_Weapons/EnergyGattler</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <onGroundRandomRotateAngle>35</onGroundRandomRotateAngle>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>Batteries</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+    <statBases>
+	  <MarketValue>380</MarketValue>  
+      <WorkToMake>53000</WorkToMake>
+      <Mass>5</Mass>
+      <AccuracyTouch>0.70</AccuracyTouch>
+      <AccuracyShort>0.40</AccuracyShort>
+      <AccuracyMedium>0.38</AccuracyMedium>
+      <AccuracyLong>0.28</AccuracyLong>
+      <RangedWeapon_Cooldown>3.3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>75</Steel>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>EnergyBolt</defaultProjectile>
+        <warmupTime>2</warmupTime>
+		<burstShotCount>14</burstShotCount>
+		<ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <range>32</range>
+        <soundCast>Shot_EnergyGattler</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.5</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="True">
+      <li>IndustrialGunAdvanced</li>
+	  <li>Gun</li>
+    </weaponTags>
+  </ThingDef>	
+  
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <techLevel>Industrial</techLevel>
+    <defName>Energy_Revolver</defName>
+    <label>energy revolver</label>
+    <description>A decently low-tech double action battery powered revolver. It's not very good at armor penetration but has a decent range for a pistol and is quick to draw. Used mostly by outlanders.</description>
+    <graphicData>
+      <texPath>Things/Range_Weapons/EnergyRevolver</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <onGroundRandomRotateAngle>35</onGroundRandomRotateAngle>
+    </graphicData>
+    <soundInteract>Interact_Autopistol</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>Batteries</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+    <statBases>
+	  <MarketValue>220</MarketValue>  
+      <WorkToMake>45000</WorkToMake>
+      <Mass>3</Mass>
+      <AccuracyTouch>0.80</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.48</AccuracyMedium>
+      <AccuracyLong>0.38</AccuracyLong>
+      <RangedWeapon_Cooldown>1.3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>65</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>EnergyBolt</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>25</range>
+        <soundCast>Shot_EnergyRevolver</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>grip</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.5</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="True">
+      <li>IndustrialGunAdvanced</li>
+	  <li>Gun</li>
+    </weaponTags>
+  </ThingDef>	
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <techLevel>Industrial</techLevel>
+    <defName>Energy_PrecisionRifle</defName>
+    <label>energy precision rifle</label>
+    <description>A decently low-tech battery powered precision rifle. Very good range, decent stopping power and alright armor penetration. Used mostly by outlanders.</description>
+    <graphicData>
+      <texPath>Things/Range_Weapons/EnergyPrecisionRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <onGroundRandomRotateAngle>35</onGroundRandomRotateAngle>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>Batteries</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <thingSetMakerTags><li>RewardStandardQualitySuper</li></thingSetMakerTags>
+    <statBases>
+	  <MarketValue>320</MarketValue>  
+      <WorkToMake>50000</WorkToMake>
+      <Mass>4</Mass>
+      <AccuracyTouch>0.80</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.52</AccuracyMedium>
+      <AccuracyLong>0.68</AccuracyLong>
+      <RangedWeapon_Cooldown>1.3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>45</Steel>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>EnergyBolt</defaultProjectile>
+        <warmupTime>2.2</warmupTime>
+        <range>45</range>
+        <soundCast>Shot_EnergySniper</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>grip</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.5</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <weaponTags Inherit="True">
+      <li>IndustrialGunAdvanced</li>
+	  <li>Gun</li>
+    </weaponTags>
+  </ThingDef>	
+<!-- 
+  <ThingDef ParentName="BaseMakeableGrenade">
+    <defName>Energy_Grenades</defName>
+    <label>battery grenades</label>
+    <description>Low-tech and simplistic battery grenades. They can be thrown a short distance, where they'll explode, damaging anything and anyone nearby.</description>
+    <recipeMaker>
+      <researchPrerequisite>Batteries</researchPrerequisite>
+    </recipeMaker>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Things/Range_Weapons/EnergyGrenades</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <uiIconScale>1.3</uiIconScale>
+    <soundInteract>Interact_Grenade</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <Mass>1</Mass>
+      <RangedWeapon_Cooldown>2.36</RangedWeapon_Cooldown>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <costList>
+      <Steel>25</Steel>
+      <ComponentIndustrial>12</ComponentIndustrial>
+    </costList>
+    <weaponTags>
+      <li>GrenadeDestructive</li>
+      <li>EmpireGrenadeDestructive</li>
+    </weaponTags>
+    <thingCategories>
+      <li>Grenades</li>
+    </thingCategories>
+    <smeltable>true</smeltable>
+    <verbs>
+      <li>
+        <label>throw battery grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>14.9</range>
+        <forcedMissRadius>1.9</forcedMissRadius>
+        <warmupTime>1.2</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>Proj_GrenadeBattery</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.20</explosiveRadius>
+        <explosiveDamageType>EnergyDamage</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Proj_GrenadeBattery</defName>
+    <label>battery grenade</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/TossedBattery</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <explosionRadius>3.5</explosionRadius>
+      <damageDef>EnergyDamage</damageDef>
+      <explosionDelay>100</explosionDelay>
+    </projectile>
+  </ThingDef>
+  -->
+</Defs>
