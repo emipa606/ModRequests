@@ -1,0 +1,1246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>LWM's Deep Storage</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>
+						/Defs/ThingDef[
+						defName="AncientPostbox"
+						or defName="AncientVendingMachine"
+						or defName="AncientShoppingCart"
+						or defName="AncientStove"
+						or defName="AncientOven"
+						or defName="AncientATM"
+						or defName="AncientMicrowave"
+						or defName="AncientRefrigerator"
+						or defName="AncientSmallCrate"
+						or defName="AncientLongCrate"
+						or defName="AncientLargeCrate"
+						or defName="AncientContainer"
+						or defName="AncientStorageCylinder"
+						or defName="AncientLockerBank"
+						or defName="AncientCrate"
+						or defName="AncientMilitaryCrate"
+						or defName="AncientWashingMachine"
+						or defName="AncientSpacerCrate"
+						or defName="AncientBarrel"]
+					</xpath>
+					<value>
+						<thingClass>Building_Storage</thingClass>
+						<surfaceType>Item</surfaceType>
+						<inspectorTabs>
+							<li>ITab_Storage</li>
+							<li>LWM.DeepStorage.ITab_DeepStorage_Inventory</li>
+						</inspectorTabs>
+					</value>
+				</li>
+
+				<!--Post Box-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientPostbox"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientPostbox"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientPostbox"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<blueprintClass>Blueprint_Storage</blueprintClass>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<disallowNotEverStorable>true</disallowNotEverStorable>
+								<categories>
+									<li>Textiles</li>
+									<!--There's no books or letters in vanilla isn't it?-->
+									<li MayRequire="Ludeon.RimWorld.Royalty">Techprints</li>
+									<!--Tech prints are probably books, at least some of them is-->
+									<li MayRequire="VanillaExpanded.VBooksE">VBE_Books</li>
+									<!--Now that's some real books-->
+								</categories>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientPostbox"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientPostbox"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientPostbox"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<minTimeStoringTakes>50</minTimeStoringTakes>
+							<additionalTimeEachStack>10</additionalTimeEachStack>
+							<additionalTimeEachDef>10</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--Vending Machine-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientVendingMachine"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientVendingMachine"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientVendingMachine"]/building</xpath>
+					<value>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientVendingMachine"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientVendingMachine"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientVendingMachine"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>10</maxNumberStacks>
+							<minTimeStoringTakes>100</minTimeStoringTakes>
+							<maxTotalMass>10</maxTotalMass>
+							<maxMassOfStoredItem>1</maxMassOfStoredItem>
+							<additionalTimeEachStack>50</additionalTimeEachStack>
+							<additionalTimeEachDef>50</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+							<!--It can store many small items-->
+						</li>
+					</value>
+				</li>
+
+				<!--Shoping cart-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientShoppingCart"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientShoppingCart"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientShoppingCart"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientShoppingCart"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientShoppingCart"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientShoppingCart"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>2</maxNumberStacks>
+							<minTimeStoringTakes>35</minTimeStoringTakes>
+							<maxTotalMass>20</maxTotalMass>
+							<additionalTimeEachStack>10</additionalTimeEachStack>
+							<additionalTimeEachDef>10</additionalTimeEachDef>
+							<overlayType>SumOfItemsPerCell</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientOven -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientOven"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientOven"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientOven"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<categories>
+									<li>Foods</li>
+									<li>PlantMatter</li>
+									<li>Drugs</li>
+								</categories>
+								<thingDefs>
+									<li>MedicineHerbal</li>
+									<li>Pemmican</li>
+									<li>Kibble</li>
+								</thingDefs>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientOven"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientOven"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientOven"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>2</maxNumberStacks>
+							<minTimeStoringTakes>200</minTimeStoringTakes>
+							<additionalTimeEachStack>100</additionalTimeEachStack>
+							<additionalTimeEachDef>100</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientATM-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientATM"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientATM"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientATM"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<thingDefs>
+									<li>Silver</li>
+									<li>Gold</li>
+								</thingDefs>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientATM"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientATM"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientATM"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>5</maxNumberStacks>
+							<minTimeStoringTakes>1000</minTimeStoringTakes>
+							<additionalTimeEachStack>10</additionalTimeEachStack>
+							<additionalTimeEachDef>10</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>SumOfAllItems</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientMicrowave -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientMicrowave"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientMicrowave"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientMicrowave"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<categories>
+									<li>Foods</li>
+									<li>PlantMatter</li>
+									<li>Drugs</li>
+								</categories>
+								<thingDefs>
+									<li>MedicineHerbal</li>
+									<li>Pemmican</li>
+									<li>Kibble</li>
+								</thingDefs>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientMicrowave"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientMicrowave"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientMicrowave"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>1</maxNumberStacks>
+							<minTimeStoringTakes>150</minTimeStoringTakes>
+							<additionalTimeEachStack>150</additionalTimeEachStack>
+							<additionalTimeEachDef>150</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientRefrigerator -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientRefrigerator"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientRefrigerator"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientRefrigerator"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<categories>
+									<li>Foods</li>
+									<li>PlantMatter</li>
+									<li>Drugs</li>
+								</categories>
+								<thingDefs>
+									<li>MedicineHerbal</li>
+									<li>Pemmican</li>
+									<li>Kibble</li>
+								</thingDefs>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientRefrigerator"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientRefrigerator"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientRefrigerator"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>5</maxNumberStacks>
+							<minTimeStoringTakes>150</minTimeStoringTakes>
+							<maxTotalMass>20</maxTotalMass>
+							<additionalTimeEachStack>30</additionalTimeEachStack>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientWashingMachine -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientWashingMachine"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientWashingMachine"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientWashingMachine"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<categories>
+									<li>Apparel</li>
+								</categories>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientWashingMachine"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientWashingMachine"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientWashingMachine"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<maxTotalMass>15</maxTotalMass>
+							<minTimeStoringTakes>150</minTimeStoringTakes>
+							<additionalTimeEachStack>75</additionalTimeEachStack>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientSmallCrate -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientSmallCrate"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientSmallCrate"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientSmallCrate"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<blueprintClass>Blueprint_Storage</blueprintClass>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientSmallCrate"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientSmallCrate"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientSmallCrate"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>2</maxNumberStacks>
+							<maxTotalMass>30</maxTotalMass>
+							<minTimeStoringTakes>800</minTimeStoringTakes>
+							<additionalTimeEachStack>200</additionalTimeEachStack>
+							<additionalTimeEachDef>200</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientLongCrate -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientLongCrate"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientLongCrate"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientLongCrate"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientLongCrate"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientLongCrate"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientLongCrate"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<maxTotalMass>40</maxTotalMass>
+							<minTimeStoringTakes>800</minTimeStoringTakes>
+							<additionalTimeEachStack>200</additionalTimeEachStack>
+							<additionalTimeEachDef>200</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientLargeCrate-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientLargeCrate"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientLargeCrate"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientLargeCrate"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientLargeCrate"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientLargeCrate"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientLargeCrate"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<maxTotalMass>50</maxTotalMass>
+							<minTimeStoringTakes>800</minTimeStoringTakes>
+							<additionalTimeEachStack>200</additionalTimeEachStack>
+							<additionalTimeEachDef>200</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientContainer-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientContainer"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientContainer"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientContainer"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientContainer"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientContainer"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientContainer"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>4</maxNumberStacks>
+							<minTimeStoringTakes>500</minTimeStoringTakes>
+							<additionalTimeEachStack>20</additionalTimeEachStack>
+							<additionalTimeEachDef>20</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[defName="AncientContainer"]/passability</xpath>
+					<value>
+						<passability>PassThroughOnly</passability>
+					</value>
+				</li>
+
+				<!--AncientStorageCylinder-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientStorageCylinder"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientStorageCylinder"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientStorageCylinder"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientStorageCylinder"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientStorageCylinder"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientStorageCylinder"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<maxTotalMass>60</maxTotalMass>
+							<minTimeStoringTakes>400</minTimeStoringTakes>
+							<additionalTimeEachStack>100</additionalTimeEachStack>
+							<additionalTimeEachDef>100</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientLockerBank-->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientLockerBank"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientLockerBank"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientLockerBank"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<categories>
+									<li>Apparel</li>
+								</categories>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientLockerBank"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientLockerBank"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientLockerBank"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>5</maxNumberStacks>
+							<maxMassOfStoredItem>5</maxMassOfStoredItem>
+							<minTimeStoringTakes>50</minTimeStoringTakes>
+							<additionalTimeEachStack>20</additionalTimeEachStack>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientCrate -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientCrate"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientCrate"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientCrate"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientCrate"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientCrate"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientCrate"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<maxTotalMass>30</maxTotalMass>
+							<minTimeStoringTakes>800</minTimeStoringTakes>
+							<additionalTimeEachStack>200</additionalTimeEachStack>
+							<additionalTimeEachDef>200</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientMilitaryCrate -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientMilitaryCrate"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientMilitaryCrate"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientMilitaryCrate"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<priority>Important</priority>
+							<filter>
+								<categories>
+									<li>Medicine</li>
+									<li>Drugs</li>
+									<li>Weapons</li>
+									<li>Artifacts</li>
+									<li>ApparelUtility</li>
+								</categories>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Important</priority>
+							<filter>
+							</filter>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientMilitaryCrate"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientMilitaryCrate"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientMilitaryCrate"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<maxTotalMass>30</maxTotalMass>
+							<minTimeStoringTakes>800</minTimeStoringTakes>
+							<additionalTimeEachStack>200</additionalTimeEachStack>
+							<additionalTimeEachDef>200</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientSpacerCrate -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientSpacerCrate"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientSpacerCrate"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientSpacerCrate"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientSpacerCrate"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientSpacerCrate"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientSpacerCrate"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>4</maxNumberStacks>
+							<minTimeStoringTakes>200</minTimeStoringTakes>
+							<additionalTimeEachStack>100</additionalTimeEachStack>
+							<additionalTimeEachDef>100</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+
+				<!--AncientBarrel -->
+				<li Class="PatchOperationSequence">
+					<success>Always</success>
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientBarrel"]/building</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientBarrel"]</xpath>
+							<value>
+								<building />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientBarrel"]/building</xpath>
+					<value>
+						<storageGroupTag>Shelf</storageGroupTag>
+						<maxItemsInCell>3</maxItemsInCell>
+						<preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+						<ignoreStoredThingsBeauty>true</ignoreStoredThingsBeauty>
+						<fixedStorageSettings>
+							<filter>
+								<categories>
+									<li>Textiles</li>
+									<li>Drugs</li>
+								</categories>
+								<thingDefs>
+									<li>Beer</li>
+									<li>Chemfuel</li>
+									<li>Milk</li>
+									<li>Neutroamine</li>
+									<li>Wort</li>
+								</thingDefs>
+							</filter>
+						</fixedStorageSettings>
+						<defaultStorageSettings>
+							<priority>Low</priority>
+							<filter/>
+						</defaultStorageSettings>
+					</value>
+				</li>
+
+				<li Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationTest">
+							<xpath>Defs/ThingDef[defName="AncientBarrel"]/comps</xpath>
+							<success>Invert</success>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>Defs/ThingDef[defName="AncientBarrel"]</xpath>
+							<value>
+								<comps />
+							</value>
+						</li>
+					</operations>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="AncientBarrel"]/comps</xpath>
+					<value>
+						<li Class="LWM.DeepStorage.Properties" >
+							<maxNumberStacks>3</maxNumberStacks>
+							<minTimeStoringTakes>100</minTimeStoringTakes>
+							<additionalTimeEachStack>80</additionalTimeEachStack>
+							<additionalTimeEachDef>80</additionalTimeEachDef>
+							<showContents>false</showContents>
+							<overlayType>None</overlayType>
+						</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+
+</Patch>

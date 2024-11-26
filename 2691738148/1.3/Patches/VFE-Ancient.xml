@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Factions Expanded - Ancients</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+        <!--Make them uninstallable-->
+        <li Class="PatchOperationAdd">
+          <xpath>
+            /Defs/ThingDef[
+            defName="VFEA_AncientInputTerminal"
+            or defName="VFEA_AncientTransmitter"
+            or defName="VFEA_AncientComputerDesk"
+            or defName="VFEA_AncientMonitorBank"
+            ]
+          </xpath>
+          <value>
+            <minifiedDef>MinifiedThing</minifiedDef>
+            <thingCategories>
+              <li>BuildingsFurniture</li>
+            </thingCategories>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>
+            /Defs/ThingDef[defName="VFEA_AncientMonitorBank" or defName="VFEA_AncientInputTerminal"]/statBases
+          </xpath>
+          <value>
+            <Mass>40</Mass>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>
+            /Defs/ThingDef[defName="VFEA_AncientComputerDesk"]/statBases
+          </xpath>
+          <value>
+            <Mass>20</Mass>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>
+            /Defs/ThingDef[defName="VFEA_AncientComputerDesk"]
+          </xpath>
+          <value>
+            <surfaceType>Eat</surfaceType>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>
+            /Defs/ThingDef[defName="VFEA_AncientTransmitter"]/statBases
+          </xpath>
+          <value>
+            <Mass>100</Mass>
+          </value>
+        </li>
+
+        <li Class="PatchOperationSequence">
+          <success>Always</success>
+          <operations>
+            <li Class="PatchOperationFindMod" >
+              <mods>
+                <li>Ben Lubar's Vanilla Expanded Patches</li>
+              </mods>
+              <nomatch Class="PatchOperationSequence">
+                <operations>
+
+                  <li Class="PatchOperationFindMod" >
+                    <mods>
+                      <li>Dubs Bad Hygiene</li>
+                    </mods>
+                    <match Class="PatchOperationSequence">
+                      <operations>
+
+                        <li Class="PatchOperationSequence">
+                          <success>Always</success>
+                          <operations>
+                            <li Class="PatchOperationTest">
+                              <xpath>Defs/ThingDef[defName="VFEA_AncientWaterFilter"]/comps</xpath>
+                              <success>Invert</success>
+                            </li>
+                            <li Class="PatchOperationAdd">
+                              <xpath>Defs/ThingDef[defName="VFEA_AncientWaterFilter"]</xpath>
+                              <value>
+                                <comps />
+                              </value>
+                            </li>
+                          </operations>
+                        </li>
+
+                        <li Class="PatchOperationAdd">
+                          <xpath>Defs/ThingDef[defName="VFEA_AncientWaterFilter"]/comps</xpath>
+                          <value>
+                            <li Class="VFEAncients.CompProperties_SolarPowerUp" />
+                            <li Class="DubsBadHygiene.CompProperties_Pipe">
+                              <mode>Sewage</mode>
+                            </li>
+                            <li Class="DubsBadHygiene.CompProperties_Blockage"/>
+                            <li Class="DubsBadHygiene.CompProperties_WaterStorage">
+                              <WaterStorageCap>2000</WaterStorageCap>
+                            </li>
+                            <li Class="CompProperties_Power">
+                              <compClass>CompPowerTrader</compClass>
+                              <basePowerConsumption>1000</basePowerConsumption>
+                            </li>
+                            <li Class="CompProperties_Flickable"/>
+                            <li Class="DubsBadHygiene.CompProperties_WaterPumpingStation">
+                              <Capacity>1000</Capacity>
+                            </li>
+                            <li Class="DubsBadHygiene.CompProperties_SepticTank">
+                              <TreatedPerDay>400</TreatedPerDay>
+                              <capacity>2000</capacity>
+                              <priority>2</priority>
+                            </li>
+                            <li Class="CompProperties_Flickable"/>
+
+                            <li Class="DubsBadHygiene.CompProperties_WaterFiltration">
+                            </li>
+                            <li Class="DubsBadHygiene.CompProperties_WaterInlet">
+                              <Deep>true</Deep>
+                              <Radius>20</Radius>
+                            </li>
+                          </value>
+                        </li>
+                      </operations>
+                    </match>
+                  </li>
+
+                </operations>
+              </nomatch>
+            </li>
+
+          </operations>
+        </li>
+
+        <li Class="PatchOperationFindMod" >
+          <mods>
+            <li>Dubs Bad Hygiene</li>
+          </mods>
+          <match Class="PatchOperationSequence">
+            <operations>
+
+              <li Class="PatchOperationSequence">
+                <success>Always</success>
+                <operations>
+                  <li Class="PatchOperationTest">
+                    <xpath>Defs/ThingDef[defName="VFEA_AncientWaterFilter"]/comps</xpath>
+                    <success>Invert</success>
+                  </li>
+                  <li Class="PatchOperationAdd">
+                    <xpath>Defs/ThingDef[defName="VFEA_AncientWaterFilter"]</xpath>
+                    <value>
+                      <comps />
+                    </value>
+                  </li>
+                </operations>
+              </li>
+
+              <li Class="PatchOperationAdd">
+                <xpath>Defs/ThingDef[defName="VFEA_AncientWaterFilter"]</xpath>
+                <value>
+                  <hasInteractionCell>True</hasInteractionCell>
+                  <interactionCellOffset>(-1,0,-2)</interactionCellOffset>
+                  <thingClass>DubsBadHygiene.Building_basin</thingClass>
+                </value>
+              </li>
+              <li Class="PatchOperationAttributeSet">
+                <xpath>Defs/ThingDef[defName = "VFEA_AncientWaterFilter"]</xpath>
+                <attribute>DBHThirstAddon</attribute>
+                <value>true</value>
+              </li>
+
+            </operations>
+          </match>
+        </li>
+
+      </operations>
+    </match>
+	</Operation>
+</Patch>
+

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <!--Make them uninstallable-->
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[
+      @Name="AncientSmallWalkableBuildingBase"
+      or defName="AncientRustedEngineBlock"
+      or defName="AncientSecurityTurret"
+      or defName="AncientContainer"
+      or defName="AncientLargeRustedEngineBlock"
+      or defName="AncientStorageCylinder"
+      or defName="AncientLamp"
+      or defName="AncientBed"
+      or defName="AncientDisplayBank"
+      or defName="AncientLockerBank"
+      or defName="AncientCrate"
+      or defName="AncientMilitaryCrate"
+      or defName="AncientSpacerCrate"
+      or defName="AncientBarrel"
+      or defName="AncientOperatingTable"
+      ]</xpath>
+    <value>
+      <minifiedDef>MinifiedThing</minifiedDef>
+      <thingCategories>
+        <li>BuildingsFurniture</li>
+      </thingCategories>
+    </value>
+  </Operation>
+
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientBed" or defName="AncientOperatingTable"]/graphicData
+    </xpath>
+    <value>
+      <shaderType>CutoutComplex</shaderType>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[
+      @Name="AncientSmallWalkableBuildingBase"
+      or defName="AncientSecurityTurret"
+      or defName="AncientMilitaryCrate"
+      or defName="AncientCrate"
+      or defName="AncientOperatingTable"
+      ]/statBases
+    </xpath>
+    <value>
+      <Mass>20</Mass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientContainer" or defName="AncientLargeRustedEngineBlock"]/statBases
+    </xpath>
+    <value>
+      <Mass>100</Mass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientLamp"]/statBases
+    </xpath>
+    <value>
+      <Mass>4</Mass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientStorageCylinder" or defName="AncientLockerBank" or defName="AncientDisplayBank"]/statBases
+    </xpath>
+    <value>
+      <Mass>40</Mass>
+    </value>
+  </Operation>
+
+    <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientSpacerCrate" or defName="AncientBarrel"]/statBases
+    </xpath>
+    <value>
+      <Mass>10</Mass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientGiantWheel" or defName="AncientRustedEngineBlock"]/statBases
+    </xpath>
+    <value>
+      <Mass>50</Mass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientOperatingTable"]
+    </xpath>
+    <value>
+      <thingClass>Building_Bed</thingClass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>Defs/ThingDef[defName="AncientOperatingTable"]/building</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="AncientOperatingTable"]</xpath>
+        <value>
+          <building />
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientOperatingTable"]/building
+    </xpath>
+    <value>
+        <bed_showSleeperBody>True</bed_showSleeperBody>
+        <bed_healPerDay>1</bed_healPerDay>
+        <bed_defaultMedical>true</bed_defaultMedical>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>Defs/ThingDef[defName="AncientOperatingTable"]/comps</xpath>
+        <success>Invert</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="AncientOperatingTable"]</xpath>
+        <value>
+          <comps />
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientOperatingTable"]/comps
+    </xpath>
+    <value>
+        <li Class="CompProperties_AssignableToPawn">
+          <drawAssignmentOverlay>false</drawAssignmentOverlay>
+          <compClass>CompAssignableToPawn_Bed</compClass>
+        </li>
+        <li Class="CompProperties_AffectedByFacilities">
+          <linkableFacilities>
+            <li>VitalsMonitor</li>
+            <li>EndTable</li>
+            <li>Dresser</li>
+            <li MayRequire="Ludeon.RimWorld.Ideology">SleepAccelerator</li>
+          </linkableFacilities>
+        </li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>
+      /Defs/ThingDef[defName="AncientOperatingTable"]/statBases
+    </xpath>
+    <value>
+      <Beauty>-1</Beauty>
+      <BedRestEffectiveness>0.65</BedRestEffectiveness>
+      <Comfort>0.55</Comfort>
+      <ImmunityGainSpeedFactor>0.95</ImmunityGainSpeedFactor>
+      <SurgerySuccessChanceFactor>0.75</SurgerySuccessChanceFactor>
+    </value>
+  </Operation>
+
+</Patch>
