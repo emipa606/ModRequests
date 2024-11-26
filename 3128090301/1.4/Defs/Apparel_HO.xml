@@ -1,0 +1,1453 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ================ ApparelLayerDef ================ 
+  <ApparelLayerDef>
+    <defName>module_Ex</defName>
+    <label>Utility EX</label>
+    <drawOrder>-20</drawOrder>
+  </ApparelLayerDef>
+-->
+  
+  <ThingDef Name="ApparelETBase" Abstract="True">
+    <thingClass>Apparel</thingClass>
+    <category>Item</category>
+    <thingCategories>
+      <li>HOaparel</li>
+    </thingCategories>
+    <drawerType>MapMeshOnly</drawerType>
+    <selectable>True</selectable>
+    <pathCost>14</pathCost>
+    <techLevel>Ultra</techLevel>
+    <tradeability>None</tradeability>
+    <graphicData>
+      <onGroundRandomRotateAngle>35</onGroundRandomRotateAngle>
+    </graphicData>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+      <MarketValue>0</MarketValue>
+      <Mass>0</Mass>
+      <Beauty>10</Beauty>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <EquipDelay>1.5</EquipDelay>
+    </statBases>
+    <burnableByRecipe>True</burnableByRecipe>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>True</alwaysHaulable>
+    <tickerType>Never</tickerType>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li>
+        <compClass>CompColorable</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <!-- ■■■■■■■■■■ CT.plugin ■■■■■■■■■■ -->
+  <ThingDef Name="ApparelETCT" ParentName="ApparelETBase" Abstract="True">
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/D_module</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+        <li>Oread</li>
+        <li>Naiad</li>
+      </tags>
+    </apparel>
+    <recipeMaker>
+      <researchPrerequisite>CT_Module</researchPrerequisite>
+      <recipeUsers>
+        <li>ET_Manipulator</li>
+      </recipeUsers>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <skillRequirements>
+        <Intellectual>5</Intellectual>
+      </skillRequirements>
+      <workSkill>Social</workSkill>
+      <effectWorking>Smelt</effectWorking>
+      <soundWorking>Recipe_Drug</soundWorking>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Protect ================ -->
+  <ThingDef ParentName="ApparelETCT">
+    <defName>ET_HO_N_protect</defName>
+    <label>CT.Protect</label>
+    <description>Plugin module for homunculus\nArmor plus</description>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.20</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.20</ArmorRating_Sharp>
+      <ArmorRating_Heat>+0.20</ArmorRating_Heat>
+    </equippedStatOffsets>
+    <costList>
+      <ET_i_polymer>4</ET_i_polymer>
+      <ET_Liquid_Ether>1</ET_Liquid_Ether>
+    </costList>
+    <recipeMaker>
+      <displayPriority>5010</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+  
+  <!-- ================ Haste ================ -->
+  <ThingDef ParentName="ApparelETCT">
+    <defName>ET_HO_N_speed</defName>
+    <label>CT.Haste</label>
+    <description>Plugin module for homunculus\nImproved movement speed</description>
+    <equippedStatOffsets>
+      <MoveSpeed>+2</MoveSpeed>
+    </equippedStatOffsets>
+    <costList>
+      <ET_i_polymer>4</ET_i_polymer>
+      <ET_Liquid_Ether>1</ET_Liquid_Ether>
+    </costList>
+    <recipeMaker>
+      <displayPriority>5020</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Maneuver ================ -->
+  <ThingDef ParentName="ApparelETCT">
+    <defName>ET_HO_N_maneuver</defName>
+    <label>CT.Maneuver</label>
+    <description>Plugin module for homunculus\nImproved hit and evasion rate</description>
+    <equippedStatOffsets>      
+      <ShootingAccuracyPawn>20</ShootingAccuracyPawn>
+      <MeleeHitChance>+75</MeleeHitChance>
+      <MeleeDodgeChance>+50</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <costList>
+      <ET_i_polymer>4</ET_i_polymer>
+      <ET_Liquid_Ether>1</ET_Liquid_Ether>
+    </costList>
+    <recipeMaker>
+      <displayPriority>5030</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Jump ================ -->
+  <ThingDef ParentName="ApparelETCT">
+    <defName>ET_HO_N_jump</defName>
+    <label>CT.Jump</label>
+    <description>Plugin module for homunculus\n\nAbility: Jump</description>
+    <statBases>
+      <JumpRange>28</JumpRange>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Jump</verbClass>
+        <label>jump</label>
+        <violent>false</violent>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>True</onlyManualCast>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <range>28</range>
+        <warmupTime>1.2</warmupTime>
+        <warmupEffecter>JumpWarmupEffect</warmupEffecter>
+        <requireLineOfSight>true</requireLineOfSight>
+        <mustCastOnOpenGround>true</mustCastOnOpenGround>
+        <flightEffecterDef>JumpFlightEffect</flightEffecterDef>
+        <soundLanding>JumpPackLand</soundLanding>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>jump</label>
+            <visualLabel>jump</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>jumping move\nrecast/0.4h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>20</cooldownTime>
+              </li>
+            </comps>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <ET_i_polymer>4</ET_i_polymer>
+      <Chemfuel>50</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <displayPriority>5040</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Shield ================ -->
+  <ThingDef ParentName="ApparelETCT">
+    <defName>ET_HO_N_Shield</defName>
+    <label>CT.Shield</label>
+    <description>Plugin module for homunculus\n\nAbility: Personal Shield</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/D_moduleB</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <EnergyShieldRechargeRate>0.20</EnergyShieldRechargeRate>
+      <EnergyShieldEnergyMax>8</EnergyShieldEnergyMax>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Shield" />
+    </comps>
+    <costList>
+      <ET_i_polymer>10</ET_i_polymer>
+      <BroadshieldCore>1</BroadshieldCore>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Intellectual>10</Intellectual>
+      </skillRequirements>
+      <displayPriority>5100</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Unity ================ -->
+  <ThingDef ParentName="ApparelETCT">
+    <defName>ET_HO_N_Unity</defName>
+    <label>CT.Unity</label>
+    <description>Plugin module for homunculus\n\nStrengthening physical\nAbility: Jump</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/D_moduleB</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <JumpRange>28</JumpRange>
+    </statBases>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.15</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.15</ArmorRating_Sharp>
+      <ArmorRating_Heat>+0.10</ArmorRating_Heat>
+      <MoveSpeed>+1.5</MoveSpeed>
+      <ShootingAccuracyPawn>18</ShootingAccuracyPawn>
+      <MeleeHitChance>+65</MeleeHitChance>
+      <MeleeDodgeChance>+45</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <verbs>
+      <li>
+        <verbClass>Verb_Jump</verbClass>
+        <label>jump</label>
+        <violent>false</violent>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>True</onlyManualCast>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <range>28</range>
+        <warmupTime>1.2</warmupTime>
+        <warmupEffecter>JumpWarmupEffect</warmupEffecter>
+        <requireLineOfSight>true</requireLineOfSight>
+        <mustCastOnOpenGround>true</mustCastOnOpenGround>
+        <flightEffecterDef>JumpFlightEffect</flightEffecterDef>
+        <soundLanding>JumpPackLand</soundLanding>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>jump</label>
+            <visualLabel>jump</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>jumping move\nrecast/0.4h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>20</cooldownTime>
+              </li>
+            </comps>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <ET_i_polymer>10</ET_i_polymer>
+      <ET_Liquid_Ether_WET>1</ET_Liquid_Ether_WET>
+      <ET_HO_N_protect>1</ET_HO_N_protect>
+      <ET_HO_N_speed>1</ET_HO_N_speed>
+      <ET_HO_N_maneuver>1</ET_HO_N_maneuver>
+      <ET_HO_N_jump>1</ET_HO_N_jump>
+  </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Intellectual>15</Intellectual>
+      </skillRequirements>
+      <displayPriority>5200</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+  
+  <!-- ■■■■■■■■■■ ET ■■■■■■■■■■ -->
+  <ThingDef Name="ApparelETEX" ParentName="ApparelETBase" Abstract="True">
+    <statBases>
+      <EquipDelay>60</EquipDelay>
+    </statBases>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+       <bodyPartGroups>
+         <li>Eyes</li>
+       </bodyPartGroups>
+       <layers>
+         <li>EyeCover</li>
+       </layers>
+    </apparel>
+    <recipeMaker>
+      <researchPrerequisite>ET_Module</researchPrerequisite>
+      <recipeUsers>
+        <li>ET_Manipulator</li>
+      </recipeUsers>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <skillRequirements>
+        <Intellectual>10</Intellectual>
+      </skillRequirements>
+      <workSkill>Social</workSkill>
+      <effectWorking>Smelt</effectWorking>
+      <soundWorking>Recipe_Drug</soundWorking>
+    </recipeMaker>
+  </ThingDef>
+  
+  <!-- ================ EU.Regen ================ -->
+  <ThingDef ParentName="ApparelETEX">
+    <defName>ET_HO_Ex_Regen</defName>
+    <label>ET.Regen</label>
+    <description>Expansion module for Nymph\n\nStrengthening physical\nAuto regeneration</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_Ex_module</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+    </statBases>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.25</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.25</ArmorRating_Sharp>
+      <ArmorRating_Heat>+0.10</ArmorRating_Heat>
+      <MoveSpeed>+0.5</MoveSpeed>
+      <MeleeHitChance>+15</MeleeHitChance>
+      <MeleeDodgeChance>+10</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+      </tags>
+    </apparel>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="VFECore.CompProperties_ApparelHediffs">
+        <hediffDefnames>
+          <li>ETregen</li>
+        </hediffDefnames>
+      </li>
+    </comps>
+    <costList>
+      <ET_i_polymer>30</ET_i_polymer>
+      <DryadStone>3</DryadStone>
+      <ET_Embryo>1</ET_Embryo>
+    </costList>
+    <recipeMaker>
+      <displayPriority>4010</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+  
+  <HediffDef ParentName="AddedBodyPartBase">
+    <defName>ETregen</defName>
+    <label>ET.Regen</label>
+    <labelNoun>a ET.regen</labelNoun>
+    <description>Gradually recover damage.</description>
+    <defaultLabelColor>(160,200,180)</defaultLabelColor>
+    <isBad>false</isBad>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages></stages>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+      <li Class="AnimalBehaviours.HediffCompProperties_Regeneration">
+        <rateInTicks>20</rateInTicks>
+      </li>
+    </comps>
+  </HediffDef>
+  
+  <!-- ================ ET.Impact ================ -->
+  <ThingDef ParentName="ApparelETEX">
+    <defName>ET_HO_Ex_Impact</defName>
+    <label>ET.Impact</label>
+    <description>Expansion module for Nymph and Oread\n\nLong range ballistic bombing.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_Ex_weapon2_module</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+    </statBases>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+        <li>Oread</li>
+      </tags>
+    </apparel>
+    <tickerType>Normal</tickerType>
+    <verbs>
+      <li>
+        <label>ET.Impact</label>
+        <verbClass>Verb_Shoot</verbClass>
+        <accuracyTouch>2.0</accuracyTouch>
+        <accuracyShort>2.0</accuracyShort>
+        <accuracyMedium>2.0</accuracyMedium>
+        <accuracyLong>2.0</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ETImpact</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <ai_AvoidFriendlyFireRadius>5</ai_AvoidFriendlyFireRadius>
+        <forcedMissRadius>18.9</forcedMissRadius>
+        <minRange>18.9</minRange>
+        <range>69.9</range>
+        <ticksBetweenBurstShots>2.5</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundAiming>PsycastCastLoop</soundAiming>
+        <soundCast>InfernoCannon_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <onlyManualCast>true</onlyManualCast>
+        <stopBurstWithoutLos>false</stopBurstWithoutLos>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <muzzleFlashScale>24</muzzleFlashScale>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+        <li Class="MVCF.Comps.CompProperties_VerbGiver">
+          <verbProps>
+            <li>
+              <label>ET.Impact</label>
+              <visualLabel>ET.Impact</visualLabel>
+              <canBeToggled>true</canBeToggled>
+              <description>long range ballistic bombing\nrecast/14h</description>
+              <comps>
+                <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                  <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                  <cooldownTime>600</cooldownTime>
+                </li>
+              </comps>
+            </li>
+          </verbProps>
+        </li>
+    </comps>
+    <costList>
+      <ET_i_polymer>10</ET_i_polymer>
+      <Chemfuel>150</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <displayPriority>4210</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_ETImpact</defName>
+    <label>ET.Effect</label>
+    <graphicData>
+      <texPath>Things/Projectile/ETR</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>ETBomb</damageDef>
+      <explosionRadius>10.9</explosionRadius>
+      <speed>10</speed>
+      <damageAmountBase>64</damageAmountBase>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <stoppingPower>10</stoppingPower>
+    </projectile>
+    <comps>
+      <li Class="VFECore.CompProperties_HomingProjectile">
+        <homingDistanceFractionPassed>0.8</homingDistanceFractionPassed>
+        <homingCorrectionTickRate>5</homingCorrectionTickRate>
+        <initialDispersionFromTarget>14</initialDispersionFromTarget>
+        <hitSound>Explosion_GiantBomb</hitSound>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ================ ET.Bolt ================ -->
+  <ThingDef ParentName="ApparelETEX">
+    <defName>ET_HO_Ex_Bolt</defName>
+    <label>ET.Bolt</label>
+    <description>Expansion module for Nymph and Naiad\n\nmiddle range shooting.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_Ex_weapon_module</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+    </statBases>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+        <li>Naiad</li>
+      </tags>
+    </apparel>
+    <tickerType>Normal</tickerType>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <label>ET.Bolt</label>
+        <defaultProjectile>Bullet_ET_Bolt</defaultProjectile>
+        <accuracyTouch>2.0</accuracyTouch>
+        <accuracyShort>1.8</accuracyShort>
+        <accuracyMedium>0.8</accuracyMedium>
+        <accuracyLong>0.0</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>0.6</warmupTime>
+        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
+        <burstShotCount>6</burstShotCount>
+        <minRange>0</minRange>
+        <range>29.9</range>
+        <soundCast>Bow_Small</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>10</muzzleFlashScale>
+        <stopBurstWithoutLos>false</stopBurstWithoutLos>
+        <commonality>0</commonality>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>ET.Bolt</label>
+            <visualLabel>ET.Bolt</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>Middle range shoot</description>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <ET_i_polymer>10</ET_i_polymer>
+      <ET_Liquid_Ether>5</ET_Liquid_Ether>
+    </costList>
+    <recipeMaker>
+      <displayPriority>4110</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_ET_Bolt</defName>
+    <label>ET.bolt</label>
+    <graphicData>
+      <texPath>Things/Projectile/ET_Bolt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>ET_Damage</damageDef>
+      <damageAmountBase>2</damageAmountBase>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>24</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!-- ================ ET.Bullet ================ -->
+  <ThingDef ParentName="ApparelETEX">
+    <defName>ET_HO_Ex_Gatling</defName>
+    <label>ET.Bullet</label>
+    <description>Expansion module for Naiad\nVariable range shooting</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_Ex_weapon_module</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+    </statBases>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Naiad</li>
+      </tags>
+    </apparel>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <label>ET.Bullet</label>
+        <defaultProjectile>ET_BulletC</defaultProjectile>
+        <accuracyTouch>2.0</accuracyTouch>
+        <accuracyShort>2.0</accuracyShort>
+        <accuracyMedium>1.0</accuracyMedium>
+        <accuracyLong>0.8</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>1.4</warmupTime>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>3</burstShotCount>
+        <minRange>0</minRange>
+        <range>30.9</range>
+        <soundCast>Shot_MachinePistol</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <stopBurstWithoutLos>false</stopBurstWithoutLos>
+        <commonality>0</commonality>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <label>ET.Gatling</label>
+        <defaultProjectile>ET_BulletB</defaultProjectile>
+        <accuracyTouch>1.8</accuracyTouch>
+        <accuracyShort>1.3</accuracyShort>
+        <accuracyMedium>0.50</accuracyMedium>
+        <accuracyLong>0.15</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>2</warmupTime>
+        <ticksBetweenBurstShots>3.5</ticksBetweenBurstShots>
+        <burstShotCount>64</burstShotCount>
+        <minRange>0</minRange>
+        <range>24.9</range>
+        <soundAiming>PsycastCastLoop</soundAiming>
+        <soundCast>Shot_ChargeBlaster</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <commonality>0</commonality>
+        <stopBurstWithoutLos>false</stopBurstWithoutLos>
+        <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <label>ET.Rifle</label>
+        <defaultProjectile>ET_BulletA</defaultProjectile>
+        <accuracyTouch>0.5</accuracyTouch>
+        <accuracyShort>1.5</accuracyShort>
+        <accuracyMedium>4.0</accuracyMedium>
+        <accuracyLong>5.0</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <warmupTime>2.2</warmupTime>
+        <ticksBetweenBurstShots>1.25</ticksBetweenBurstShots>
+        <burstShotCount>8</burstShotCount>
+        <minRange>0</minRange>
+        <range>90.9</range>
+        <soundAiming>PsycastCastLoop</soundAiming>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>50</muzzleFlashScale>
+        <stopBurstWithoutLos>false</stopBurstWithoutLos>
+        <commonality>0</commonality>
+      </li>
+    </verbs>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>ET.Bullet</label>
+            <visualLabel>ET.Bullet</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>Middle range shoot</description>
+          </li>
+          <li>
+            <label>ET.Gatling</label>
+            <visualLabel>ET.Gatling</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>Strafing\nrecast/0.7h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>30</cooldownTime>
+              </li>
+            </comps>
+          </li>
+          <li>
+            <label>ET.Rifle</label>
+            <visualLabel>ET.Rifle</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>Ultra long range shoot\nrecast/0.7h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>30</cooldownTime>
+              </li>
+            </comps>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <ET_HO_Ex_Bolt>1</ET_HO_Ex_Bolt>
+      <ET_Liquid_Ether>20</ET_Liquid_Ether>
+  </costList>
+    <recipeMaker>
+      <displayPriority>4120</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>ET_BulletA</defName>
+    <label>ET.bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/ET_Bullet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>ET_Damage</damageDef>
+      <damageAmountBase>52</damageAmountBase>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <stoppingPower>5.5</stoppingPower>
+      <speed>360</speed>
+    </projectile>
+    <comps>
+      <li Class="VFECore.CompProperties_HomingProjectile">
+        <homingDistanceFractionPassed>0.7</homingDistanceFractionPassed>
+        <homingCorrectionTickRate>0.2</homingCorrectionTickRate>
+        <initialDispersionFromTarget>0</initialDispersionFromTarget>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>ET_BulletB</defName>
+    <label>ET.bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/ET_Bullet_B</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>ET_Damage</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>5</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>ET_BulletC</defName>
+    <label>ET.bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/ET_Bullet_C</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>ET_Damage</damageDef>
+      <damageAmountBase>18</damageAmountBase>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <stoppingPower>2.5</stoppingPower>
+      <speed>100</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef ParentName="Flame">
+    <defName>ET_Damage</defName>
+    <label>ET.bullet</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <impactSoundType>Bullet</impactSoundType>
+    <buildingDamageFactorImpassable>0</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
+    <plantDamageFactor>0</plantDamageFactor>
+    <corpseDamageFactor>0</corpseDamageFactor>
+    <overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+    <isRanged>true</isRanged>
+  </DamageDef>
+
+  <!-- ================ ET.Launcher================ -->
+  <ThingDef ParentName="ApparelETEX">
+    <defName>ET_HO_Ex_Orbit</defName>
+    <label>ET.Launcher</label>
+    <description>Expansion module for Oread\nLong range ballistic bombing</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_Ex_weapon2_module</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+    </statBases>
+    <apparel>
+      <ai_pickUpOpportunistically>true</ai_pickUpOpportunistically>
+      <tags>
+        <li>Animal</li>
+        <li>Oread</li>
+      </tags>
+    </apparel>
+    <tickerType>Normal</tickerType>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ETRocket</defaultProjectile>
+        <warmupTime>4</warmupTime>
+        <ai_AvoidFriendlyFireRadius>5</ai_AvoidFriendlyFireRadius>
+        <forcedMissRadius>18.9</forcedMissRadius>
+        <minRange>18.9</minRange>
+        <range>88.9</range>
+        <ticksBetweenBurstShots>2.5</ticksBetweenBurstShots>
+        <burstShotCount>48</burstShotCount>
+        <soundAiming>PsycastCastLoop</soundAiming>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <onlyManualCast>true</onlyManualCast>
+        <stopBurstWithoutLos>false</stopBurstWithoutLos>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <muzzleFlashScale>14</muzzleFlashScale>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>ET.Launcher</label>
+            <visualLabel>ET.Launcher</visualLabel>
+            <description>Long range ballistic bombing\nrecast/14h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>600</cooldownTime>
+              </li>
+            </comps>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <ET_HO_Ex_Impact>1</ET_HO_Ex_Impact>
+      <ET_i_polymer>20</ET_i_polymer>
+    </costList>
+    <recipeMaker>
+      <displayPriority>4220</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_ETRocket</defName>
+    <label>ET.Launcher rocket</label>
+    <graphicData>
+      <texPath>Things/Projectile/ETR2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>ETBomb</damageDef>
+      <explosionRadius>3.4</explosionRadius>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <speed>20</speed>
+    </projectile>
+    <comps>
+      <li Class="VFECore.CompProperties_HomingProjectile">
+        <homingDistanceFractionPassed>0.8</homingDistanceFractionPassed>
+        <homingCorrectionTickRate>5</homingCorrectionTickRate>
+        <initialDispersionFromTarget>14</initialDispersionFromTarget>
+        <hitSound>ThumpCannon_Impact</hitSound>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <DamageDef ParentName="Bomb">
+    <defName>ETBomb</defName>
+    <label>ET.bomb</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <hediff>Burn</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Heat</armorCategory>
+    <minDamageToFragment>5</minDamageToFragment>
+    <defaultDamage>18</defaultDamage>
+    <buildingDamageFactorImpassable>0</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>0</buildingDamageFactorPassable>
+    <plantDamageFactor>0</plantDamageFactor>
+    <corpseDamageFactor>0</corpseDamageFactor>
+    <explosionHeatEnergyPerCell>0</explosionHeatEnergyPerCell>
+    <explosionColorCenter>(0.4, 0.6, 1)</explosionColorCenter>
+    <explosionColorEdge>(0.4, 0.4, 0.9)</explosionColorEdge>
+    <soundExplosion>ThumpCannon_Impact</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+
+  <!-- ■■■■■■■■■■ AT ■■■■■■■■■■ -->
+  <!-- ================ HOFrame ================ -->
+  <ThingDef ParentName="ApparelETBase">
+    <defName>ET_HO_ArmorBase</defName>
+    <label>AT.Frame</label>
+    <description>basic AT.frame for homunculus.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_BaseArmor/HObasearmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>1500</WorkToMake>
+    </statBases>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.1</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.1</ArmorRating_Sharp>
+    </equippedStatOffsets>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <bodyPartGroups>
+        <li>Torso</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Animal/Apparel/HO_BaseArmor/HObasearmor</wornGraphicPath>
+      <layers>
+        <li>OnSkin</li>
+      </layers>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+        <li>Oread</li>
+        <li>Naiad</li>
+      </tags>
+    </apparel>
+    <costList>
+      <ET_i_polymer>1</ET_i_polymer>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>AT_Module</researchPrerequisite>
+      <recipeUsers>
+        <li>ET_Manipulator</li>
+      </recipeUsers>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <skillRequirements>
+        <Intellectual>5</Intellectual>
+      </skillRequirements>
+      <workSkill>Social</workSkill>
+      <effectWorking>Smelt</effectWorking>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>3010</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ HOArmor ================ -->
+  <ThingDef ParentName="ApparelETBase">
+    <defName>ET_HO_ArmorNT</defName>
+    <label>AT.Armor</label>
+    <description>AT.armor for homunculus.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_Armor/HOarmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>3000</WorkToMake>
+    </statBases>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.25</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.25</ArmorRating_Sharp>
+      <ArmorRating_Heat>+0.5</ArmorRating_Heat>
+    </equippedStatOffsets>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Animal/Apparel/HO_Armor/HOarmor</wornGraphicPath>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+        <li>Oread</li>
+        <li>Naiad</li>
+      </tags>
+    </apparel>
+    <costList>
+      <ET_i_polymer>5</ET_i_polymer>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>AT_Module</researchPrerequisite>
+      <recipeUsers>
+        <li>ET_Manipulator</li>
+      </recipeUsers>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <skillRequirements>
+        <Intellectual>5</Intellectual>
+      </skillRequirements>
+      <workSkill>Social</workSkill>
+      <effectWorking>Smelt</effectWorking>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>3010</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ HOArmorⅡ ================ -->
+  <ThingDef ParentName="ApparelETBase">
+    <defName>ET_HO_ArmorAT</defName>
+    <label>AT.Armor Ⅱ</label>
+    <description>AT.reinforced armor for Homunculus.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/HO_ArmorAD/HOarmorAD</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <WorkToMake>60000</WorkToMake>
+    </statBases>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.65</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.65</ArmorRating_Sharp>
+      <ArmorRating_Heat>+1.20</ArmorRating_Heat>
+    </equippedStatOffsets>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Animal/Apparel/HO_ArmorAD/HOarmorAD</wornGraphicPath>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>Animal</li>
+        <li>Nymph</li>
+        <li>Oread</li>
+        <li>Naiad</li>
+      </tags>
+    </apparel>
+    <costList>
+      <ET_i_polymer>20</ET_i_polymer>
+      <ET_HO_ArmorNT>1</ET_HO_ArmorNT>
+      <ET_HO_N_Unity>1</ET_HO_N_Unity>
+  </costList>
+    <recipeMaker>
+      <researchPrerequisite>AT_Module</researchPrerequisite>
+      <recipeUsers>
+        <li>ET_Manipulator</li>
+      </recipeUsers>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <skillRequirements>
+        <Intellectual>18</Intellectual>
+      </skillRequirements>
+      <workSkill>Social</workSkill>
+      <effectWorking>Smelt</effectWorking>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>3110</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Dryad ================ -->
+
+  <ThingDef Name="ApparelDmoduleBase" Abstract="True">
+    <thingClass>Apparel</thingClass>
+    <category>Item</category>
+    <thingCategories>
+      <li>Daparel</li>
+    </thingCategories>
+    <drawerType>MapMeshOnly</drawerType>
+    <selectable>True</selectable>
+    <pathCost>14</pathCost>
+    <techLevel>Ultra</techLevel>
+    <tradeability>None</tradeability>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/D_moduleB</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.64</drawSize>
+      <onGroundRandomRotateAngle>35</onGroundRandomRotateAngle>
+    </graphicData>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+      <MarketValue>0</MarketValue>
+      <Mass>0</Mass>
+      <Beauty>10</Beauty>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+      <EquipDelay>3</EquipDelay>
+    </statBases>
+    <burnableByRecipe>True</burnableByRecipe>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>True</alwaysHaulable>
+    <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Middle</li>
+      </layers>
+    </apparel>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li>
+        <compClass>CompColorable</compClass>
+      </li>
+    </comps>
+    <recipeMaker>
+      <researchPrerequisite>D_Dodule</researchPrerequisite>
+      <recipeUsers>
+        <li>ET_Manipulator</li>
+      </recipeUsers>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Social</workSkill>
+      <effectWorking>Smelt</effectWorking>
+      <soundWorking>Recipe_Drug</soundWorking>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Dryad plug-in ================ -->
+  <ThingDef ParentName="ApparelDmoduleBase">
+    <defName>Dryad_Mo_Basic</defName>
+    <label>D-Basic</label>
+    <description>Plugin module for Dryad.</description>
+    <graphicData>
+      <texPath>Things/Pawn/Animal/Apparel/D_module</texPath>
+    </graphicData>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.10</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.10</ArmorRating_Sharp>
+      <MoveSpeed>+1</MoveSpeed>
+    </equippedStatOffsets>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Dryad_Basic</li>
+        <li>Dryad_Woodmaker</li>
+        <li>Dryad_Berrymaker</li>
+        <li>Dryad_Medicinemaker</li>
+        <li>Dryad_Gaumaker</li>
+        <li>Dryad_Barkskin</li>
+        <li>Dryad_Clawer</li>
+        <li>Dryad_Carrier</li>
+      </tags>
+    </apparel>
+    <tickerType>Never</tickerType>
+    <costList>
+      <Neutroamine>20</Neutroamine>
+      <ET_Liquid_Ether_WET>1</ET_Liquid_Ether_WET>
+  </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Plants>5</Plants>
+      </skillRequirements>
+      <displayPriority>1810</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+  <!-- ================ Dryad plug-in PRO================ -->
+  <ThingDef ParentName="ApparelDmoduleBase">
+    <defName>Dryad_Mo_PRO</defName>
+    <label>D-PRO</label>
+    <description>Plugin module for Dryad.</description>
+    <equippedStatOffsets>
+      <ArmorRating_Blunt>+0.30</ArmorRating_Blunt>
+      <ArmorRating_Sharp>+0.30</ArmorRating_Sharp>
+      <MoveSpeed>+1.5</MoveSpeed>
+      <MeleeHitChance>+25</MeleeHitChance>
+      <MeleeDodgeChance>+20</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Dryad_Basic</li>
+        <li>Dryad_Woodmaker</li>
+        <li>Dryad_Berrymaker</li>
+        <li>Dryad_Medicinemaker</li>
+        <li>Dryad_Gaumaker</li>
+        <li>Dryad_Barkskin</li>
+        <li>Dryad_Clawer</li>
+        <li>Dryad_Carrier</li>
+      </tags>
+    </apparel>
+    <tickerType>Never</tickerType>
+    <costList>
+      <Dryad_Mo_Basic>1</Dryad_Mo_Basic>
+      <GauranlenSeed>1</GauranlenSeed>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Plants>10</Plants>
+      </skillRequirements>
+      <displayPriority>1810</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <!-- ================ Dryad_Clawer plug-in ================ -->
+  <ThingDef ParentName="ApparelDmoduleBase">
+    <defName>Dryad_Mo_Lancet</defName>
+    <label>D-Lancet</label>
+    <description>Plugin module for Dryad Clawer\nranged attack</description>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Dryad_Clawer</li>
+      </tags>
+    </apparel>
+    <verbs>
+      <li>
+        <label>D-Lancet</label>
+        <verbClass>Verb_Shoot</verbClass>
+        <accuracyTouch>2.0</accuracyTouch>
+        <accuracyShort>1.55</accuracyShort>
+        <accuracyMedium>1.0</accuracyMedium>
+        <accuracyLong>0.5</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>DLancet_Thrown</defaultProjectile>
+        <warmupTime>3.8</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <minRange>0</minRange>
+        <range>28.9</range>
+        <soundCast>Bow_Recurve</soundCast>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+        <commonality>0</commonality>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>D-Lancet</label>
+            <visualLabel>D-Lancet</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>ranged attack</description>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <Dryad_Mo_Basic>1</Dryad_Mo_Basic>
+      <ET_Liquid_Ether_DRY>1</ET_Liquid_Ether_DRY>
+  </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Plants>10</Plants>
+      </skillRequirements>
+      <displayPriority>1830</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseProjectileNeolithic">
+    <defName>DLancet_Thrown</defName>
+    <label>D-LANCET</label>
+    <graphicData>
+      <texPath>Things/Projectile/D_lancet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>34</damageAmountBase>
+      <stoppingPower>2.5</stoppingPower>
+      <armorPenetrationBase>1.00</armorPenetrationBase>
+      <speed>32</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- ================ Dryad_Woodmaker plug-in ================ -->
+  <ThingDef ParentName="ApparelDmoduleBase">
+    <defName>Dryad_Mo_WoodLauncher</defName>
+    <label>D-Missile</label>
+    <description>Plugin module for Dryad Woodmaker\nranged attack</description>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Dryad_Woodmaker</li>
+      </tags>
+    </apparel>
+    <verbs>
+      <li>
+        <label>D-Missile</label>
+        <verbClass>Verb_Shoot</verbClass>
+        <accuracyTouch>1.30</accuracyTouch>
+        <accuracyShort>1.80</accuracyShort>
+        <accuracyMedium>1.50</accuracyMedium>
+        <accuracyLong>1.20</accuracyLong>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>D_wood</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <ticksBetweenBurstShots>6.2</ticksBetweenBurstShots>
+        <burstShotCount>4</burstShotCount>
+        <ai_AvoidFriendlyFireRadius>4.9</ai_AvoidFriendlyFireRadius>
+        <forcedMissRadius>5</forcedMissRadius>
+        <minRange>10.9</minRange>
+        <range>38.9</range>
+        <soundCast>ThumpCannon_Fire</soundCast>
+        <commonality>0</commonality>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>D-Missile</label>
+            <visualLabel>D-Missile</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>ranged attack\nrecast/14h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>600</cooldownTime>
+              </li>
+            </comps>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <Dryad_Mo_Basic>1</Dryad_Mo_Basic>
+      <ET_Liquid_Ether_DRY>1</ET_Liquid_Ether_DRY>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Plants>10</Plants>
+      </skillRequirements>
+      <displayPriority>1840</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>D_wood</defName>
+    <label>D-Wood</label>
+    <graphicData>
+      <texPath>Things/Projectile/D_wood</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>RockBomb</damageDef>
+      <explosionRadius>2</explosionRadius>
+      <damageAmountBase>16</damageAmountBase>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- ================ Dryad_Carrier plug-in ================ -->
+  <ThingDef ParentName="ApparelDmoduleBase">
+    <defName>Dryad_Mo_RockCanon</defName>
+    <label>D-Canon</label>
+    <description>Plugin module for Dryad Carrier\nranged attack</description>
+    <apparel>
+      <tags>
+        <li>Animal</li>
+        <li>Dryad_Carrier</li>
+      </tags>
+    </apparel>
+    <verbs>
+      <li>
+        <label>D-Canon</label>
+        <verbClass>Verb_Shoot</verbClass>
+        <accuracyTouch>2</accuracyTouch>
+        <accuracyShort>2</accuracyShort>
+        <accuracyMedium>2</accuracyMedium>
+        <accuracyLong>2</accuracyLong>
+        <ai_AvoidFriendlyFireRadius>4.9</ai_AvoidFriendlyFireRadius>
+        <forcedMissRadius>5</forcedMissRadius>
+        <minRange>10.9</minRange>
+        <range>40.9</range>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>D_Rock</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>RocketswarmLauncher_Fire</soundCast>
+        <commonality>0</commonality>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="MVCF.Comps.CompProperties_VerbGiver">
+        <verbProps>
+          <li>
+            <label>D-Canon</label>
+            <visualLabel>D-Canon</visualLabel>
+            <canBeToggled>true</canBeToggled>
+            <description>ranged attack\nrecast/14h</description>
+            <comps>
+              <li Class="MVCF.VerbComps.VerbCompProperties_Cooldown">
+                <compClass>MVCF.VerbComps.VerbComp_Cooldown</compClass>
+                <cooldownTime>600</cooldownTime>
+              </li>
+            </comps>
+          </li>
+        </verbProps>
+      </li>
+    </comps>
+    <costList>
+      <Dryad_Mo_Basic>1</Dryad_Mo_Basic>
+      <ET_Liquid_Ether_DRY>1</ET_Liquid_Ether_DRY>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Plants>10</Plants>
+      </skillRequirements>
+      <displayPriority>1850</displayPriority>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>D_Rock</defName>
+    <label>D-Rock</label>
+    <graphicData>
+      <texPath>Things/Projectile/D_Rock</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>RockBomb</damageDef>
+      <explosionRadius>3.4</explosionRadius>
+      <damageAmountBase>50</damageAmountBase>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+
+  <DamageDef ParentName="Bomb">
+    <defName>RockBomb</defName>
+    <label>Rock.bomb</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <hediff>Crush</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Blunt</armorCategory>
+    <minDamageToFragment>15</minDamageToFragment>
+    <defaultDamage>28</defaultDamage>
+    <corpseDamageFactor>0</corpseDamageFactor>
+    <explosionColorCenter>(0.8, 0.8, 0.8)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.6, 0.6)</explosionColorEdge>
+    <soundExplosion>ThumpCannon_Impact</soundExplosion>
+    <combatLogRules>Damage_Bomb</combatLogRules>
+  </DamageDef>
+  
+</Defs>
