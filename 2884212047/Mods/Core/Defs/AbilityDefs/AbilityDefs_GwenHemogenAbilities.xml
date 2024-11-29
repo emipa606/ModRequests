@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <AbilityDef>
+    <defName>GBS_AcidicHemogen</defName>
+    <label>acidic hemogen</label>
+    <description>Turn hemogen into a sticky acid substance and spray it from the mouth and all over the target area. The hemogenic acid will stick to targets and burn them over time.</description>
+    <iconPath>AbilityIcons/GBS_AcidicBloodSpray</iconPath>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <aiCanUse>true</aiCanUse>
+    <displayOrder>300</displayOrder>
+    <category>Sanguophage</category>
+    <warmupStartSound>AcidSpray_Warmup</warmupStartSound>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>8.9</range>
+      <warmupTime>0.5</warmupTime>
+      <soundCast>AcidSpray_Resolve</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilitySprayLiquid">
+        <projectileDef>Proj_Acid</projectileDef>
+        <numCellsToHit>9</numCellsToHit>
+        <sprayEffecter>AcidSpray_Directional</sprayEffecter>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.20</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>GBS_HemogenFoam</defName>
+    <label>hemogen foam</label>
+    <description>Turn hemogen into foam and spit it from the mouth. The foam will cover a small area and extinguish any fire it touches.</description>
+    <iconPath>AbilityIcons/GBS_BloodFoam</iconPath>
+    <charges>3</charges>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <aiCanUse>true</aiCanUse>
+    <warmupStartSound>FoamSpray_Warmup</warmupStartSound>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>4.9</range>
+      <warmupTime>1</warmupTime>
+      <soundCast>FoamSpray_Resolve</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilitySprayLiquid">
+        <projectileDef>Proj_Foam_Ability</projectileDef>
+        <numCellsToHit>9</numCellsToHit>
+        <sprayEffecter>FoamSpray_Directional</sprayEffecter>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.20</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef>
+    <defName>GBS_FeralHemogen</defName>
+    <label>enticing vitae</label>
+    <description>Shed specially scented hemogen to entice an animal to fight your enemies for a few hours.</description>
+    <iconPath>AbilityIcons/GBS_AnimalBloodcall</iconPath>
+    <cooldownTicksRange>2500</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <canUseAoeToGetTargets>false</canUseAoeToGetTargets>
+    <aiCanUse>true</aiCanUse>
+    <jobDef>CastAbilityOnThingWithoutWeaponInterruptible</jobDef>
+    <groupAbility>true</groupAbility>
+    <statBases>
+      <Ability_Duration>500</Ability_Duration>
+    </statBases>
+    <charges>2</charges>
+    <cooldownPerCharge>true</cooldownPerCharge>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <label>warcall</label>
+      <warmupTime>2</warmupTime>
+      <range>49.9</range>
+      <drawAimPie>true</drawAimPie>      
+      <requireLineOfSight>false</requireLineOfSight>
+      <warmupEffecter>AnimalWarcall_Warmup</warmupEffecter>
+      <targetParams>
+        <canTargetLocations>false</canTargetLocations>
+        <canTargetPawns>true</canTargetPawns>
+        <canTargetAnimals>true</canTargetAnimals>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetHumans>false</canTargetHumans>
+        <canTargetMechs>false</canTargetMechs>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveMentalState">
+        <compClass>CompAbilityEffect_GiveMentalState</compClass>
+        <stateDef>BerserkWarcall</stateDef>
+        <goodwillImpact>-75</goodwillImpact>
+        <casterEffect>AnimalWarcall_Cast</casterEffect>
+        <targetEffect>AnimalWarcall_CastOnTarget</targetEffect>
+        <excludeNPCFactions>true</excludeNPCFactions>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.20</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  <AbilityDef>
+    <defName>GBS_FireyHemogen</defName>
+    <label>combusting hemogen</label>
+    <description>Spit a stream of sticky, flammable hemogen from the mouth. The hemogen can ignite anything or anyone it hits, and also form flaming pools on the ground.</description>
+    <iconPath>AbilityIcons/GBS_FireBlood</iconPath>
+    <cooldownTicksRange>60</cooldownTicksRange>
+    <aiCanUse>true</aiCanUse>
+    <warmupStartSound>FireSpew_Warmup</warmupStartSound>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>7.9</range>
+      <warmupTime>1</warmupTime>
+      <soundCast>FireSpew_Resolve</soundCast>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityFireSpew">
+        <range>7.9</range>
+        <lineWidthEnd>3</lineWidthEnd>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.20</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  
+  <AbilityDef>
+    <defName>GBS_HemogenMist</defName>
+    <label>red mist</label>
+    <description>Release hemogen as a mist. Mist reduces the accuracy of any shot fired through it, and prevents turrets from locking on entirely.</description>
+    <iconPath>AbilityIcons/GBS_BloodMist</iconPath>
+    <cooldownTicksRange>60</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <aiCanUse>true</aiCanUse>
+    <targetRequired>false</targetRequired>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>3.9</range>
+      <drawAimPie>false</drawAimPie>    
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilitySmokepop">
+        <smokeRadius>3.5</smokeRadius>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>15</clamorRadius>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.20</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef>
+    <defName>GBS_Painblock</defName>
+    <label>circulate antigen</label>
+    <description>Circulate a powerful Antigen that blocks pain and increases recovery.</description>
+    <iconPath>AbilityIcons/GBS_PainBlood</iconPath>
+    <cooldownTicksRange>7500</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <aiCanUse>true</aiCanUse>
+    <targetRequired>false</targetRequired>
+    <statBases>
+      <Ability_Duration>120</Ability_Duration> <!-- 1 hour per 40 --> 
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>0</range>
+      <drawAimPie>false</drawAimPie>    
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>GBS_CirculateAntigen_Core</hediffDef>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.05</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef>
+    <defName>GBS_SoothingHemogen</defName>
+    <label>soothing vitae</label>
+    <description>Shed hemogen altered into a substance that soothes and charms the target if they smell or imbibe it.</description>
+    <iconPath>AbilityIcons/GBS_SoothingBlood</iconPath>
+    <cooldownTicksRange>7500</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <aiCanUse>true</aiCanUse>
+    <targetRequired>true</targetRequired>
+    <warmupEffecter>Bloodfeed_Warmup</warmupEffecter>
+    <warmupStartSound>Bloodfeed_Cast</warmupStartSound>
+    <statBases>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityTouch</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <range>-1</range>
+      <warmupTime>2</warmupTime>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetMechs>false</canTargetMechs>
+        <canTargetAnimals>false</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityBloodfeederBite">
+        <hemogenGain>0</hemogenGain>
+        <bloodFilthToSpawnRange>0</bloodFilthToSpawnRange>
+        <thoughtDefToGiveTarget>GBS_Soothing_Vitae_Mood</thoughtDefToGiveTarget>
+        <opinionThoughtDefToGiveTarget>GBS_Soothing_Vitae_Opinion</opinionThoughtDefToGiveTarget>
+        <resistanceGain>0</resistanceGain>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.2</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef>
+    <defName>GBS_StrengthHemogen</defName>
+    <label>hemo musculus</label>
+    <description>Turn hemogen into raw physical strength.</description>
+    <iconPath>AbilityIcons/GBS_StrengthBlood</iconPath>
+    <cooldownTicksRange>7500</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <aiCanUse>true</aiCanUse>
+    <targetRequired>false</targetRequired>
+    <statBases>
+      <Ability_Duration>120</Ability_Duration> <!-- 1 hour per 40 --> 
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>0</range>
+      <drawAimPie>false</drawAimPie>    
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>GBS_HemoMusculus_Core</hediffDef>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.2</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef>
+    <defName>GBS_MindHemogen</defName>
+    <label>circulate stimulant</label>
+    <description>Convert hemogen into a mental stimulant increasing mental and psychic abilities.</description>
+    <iconPath>AbilityIcons/GBS_MindBlood</iconPath>
+    <cooldownTicksRange>22500</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <aiCanUse>true</aiCanUse>
+    <targetRequired>false</targetRequired>
+    <statBases>
+      <Ability_Duration>360</Ability_Duration> <!-- 1 hour per 40 --> 
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>0</range>
+      <drawAimPie>false</drawAimPie>    
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>GBS_CirculateStimulant_Core</hediffDef>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.2</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef>
+    <defName>GBS_HemogenAdrenline</defName>
+    <label>circulate adrenaline</label>
+    <description>Converts hemogen into adrenaline.</description>
+    <iconPath>AbilityIcons/GBS_HemogenAdrenline</iconPath>
+    <cooldownTicksRange>30000</cooldownTicksRange> <!-- 1 hour per 2500 --> 
+    <aiCanUse>true</aiCanUse>
+    <targetRequired>false</targetRequired>
+    <statBases>
+      <Ability_Duration>480</Ability_Duration> <!-- 1 hour per 40 --> 
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>1</warmupTime>
+      <range>0</range>
+      <drawAimPie>false</drawAimPie>    
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>GBS_AdrenalinSurge_Core</hediffDef>
+        <psychic>False</psychic>
+        <applicableToMechs>True</applicableToMechs>
+      </li>
+      <li Class="CompProperties_AbilityHemogenCost">
+        <hemogenCost>0.5</hemogenCost>
+      </li>
+    </comps>
+  </AbilityDef>
+</Defs>
