@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!--visualSizeRange-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/plant/visualSizeRange</xpath>
+    <value>
+      <visualSizeRange>2.5~3.0</visualSizeRange>
+    </value>
+  </Operation>
+
+  <!--GauranlenLeaf_color-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/FleckDef[defName="GauranlenLeaf"]/graphicData/color</xpath>
+    <value>
+      <color>(51, 255, 153, 255)</color>
+      <!-- 黄色<color>(132, 156, 64, 255)</color> -->
+    </value>
+  </Operation>
+
+  <!--GauranlenLeaf_texPath-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/FleckDef[defName="GauranlenLeaf"]/graphicData/texPath</xpath>
+    <value>
+      <texPath>Things/Plant/EF/EL</texPath>
+    </value>
+  </Operation>
+
+  <!--Plant_MossGauranlen-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_MossGauranlen"]/plant</xpath>
+    <value>
+      <plant>
+        <fertilityMin>0.05</fertilityMin>
+        <fertilitySensitivity>0</fertilitySensitivity>
+        <sowMinSkill>0</sowMinSkill>
+        <growDays>5</growDays>
+        <visualSizeRange>0.5~1</visualSizeRange>
+        <topWindExposure>0.025</topWindExposure>
+        <allowAutoCut>false</allowAutoCut>
+        <wildClusterWeight>0</wildClusterWeight>
+        <maxMeshCount>9</maxMeshCount>
+        <dieFromToxicFallout>False</dieFromToxicFallout>
+      </plant>
+    </value>
+  </Operation>
+
+  <!--Plant_TreeGauranlen comps-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="Plant_TreeGauranlen"]/comps</xpath>
+    <value>
+      <comps>
+        <li Class="CompProperties_SpawnSubplant">
+          <compClass>CompSpawnSubplantDuration</compClass>
+          <subplant>Plant_MossGauranlen</subplant>
+          <maxRadius>4.2</maxRadius>
+          <subplantSpawnDays>1</subplantSpawnDays>
+          <minGrowthForSpawn>0.6</minGrowthForSpawn>
+          <initialGrowthRange>0.2~0.8</initialGrowthRange>
+          <canSpawnOverPlayerSownPlants>false</canSpawnOverPlayerSownPlants>
+          <plantsToNotOverwrite>
+            <li>Plant_PodGauranlen</li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">Plant_GrassAnima</li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">Plant_TreeAnima</li>
+          </plantsToNotOverwrite>
+        </li>
+        <li Class="CompProperties_SelfhealHitpoints">
+          <ticksPerHeal>2000</ticksPerHeal>
+          <!-- 30 hp per day, must be a multiple of 2000, since plants have Long ticker -->
+        </li>
+        <li Class="CompProperties_TreeConnection">
+          <pawnKind>Dryad_Basic</pawnKind>
+          <spawnDays>8</spawnDays>
+          <initialConnectionStrengthRange>0.25~0.45</initialConnectionStrengthRange>
+          <connectionStrengthLossPerDryadDeath>0.1</connectionStrengthLossPerDryadDeath>
+          <connectionStrengthGainPerHourPruningBase>0.01</connectionStrengthGainPerHourPruningBase>
+          <spawningPodOffset>(100, -20, 0)</spawningPodOffset>
+          <spawningPodSizeRange>0.5~1</spawningPodSizeRange>
+          <maxDryadsWild>2</maxDryadsWild>
+          <maxDryadsPerConnectionStrengthCurve>
+            <points>
+              <li>(0, 0)</li>
+              <li>(0.05, 1)</li>
+              <li>(0.25, 2)</li>
+              <li>(0.5, 3)</li>
+              <li>(0.75, 4)</li>
+            </points>
+          </maxDryadsPerConnectionStrengthCurve>
+          <connectionLossPerLevelCurve>
+            <points>
+              <li>(0, 0)</li>
+              <li>(0.001, 0.02)</li>
+              <li>(0.33, 0.04)</li>
+              <li>(0.66, 0.06)</li>
+            </points>
+          </connectionLossPerLevelCurve>
+          <connectionLossDailyPerBuildingDistanceCurve>
+            <points>
+              <li>(0,0)</li>
+            </points>
+          </connectionLossDailyPerBuildingDistanceCurve>
+          <connectionStrengthGainPerPlantSkill>
+            <points>
+              <li>(0, 0.8)</li>
+              <li>(8, 1)</li>
+              <li>(20, 1.2)</li>
+            </points>
+          </connectionStrengthGainPerPlantSkill>
+        </li>
+      </comps>
+    </value>
+  </Operation>
+
+  <!--CompProperties_Glower-->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Plant_TreeGauranlen"]/comps</xpath>
+    <value>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8.5</glowRadius>
+        <glowColor>(127,255,212,255)</glowColor>
+      </li>
+    </value>
+  </Operation>
+
+  <!--interferesWithRoof-->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Plant_TreeGauranlen"]/plant</xpath>
+    <value>
+      <interferesWithRoof>false</interferesWithRoof>
+    </value>
+  </Operation>
+
+  <!--minified-->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ThingDef[defName="Plant_TreeGauranlen"]/minifiedDef</xpath>
+  </Operation>
+
+  <!--Beauty（6）-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Plant_TreeGauranlen"]/statBases/Beauty</xpath>
+    <value>
+      <Beauty>80</Beauty>
+    </value>    
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="Plant_TreeGauranlen"]/statBases/BeautyOutdoors</xpath>
+    <value>
+      <BeautyOutdoors>80</BeautyOutdoors>
+    </value>
+  </Operation>
+
+  <!--Mass（150）-->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Plant_TreeGauranlen"]/statBases</xpath>
+    <value>
+      <Mass>50</Mass>
+    </value>
+  </Operation>
+
+</Patch>
