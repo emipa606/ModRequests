@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>Ammo_HandmadeRocket</defName>
+    <label>Handmade Rockets</label>
+    <parent>AmmoRockets</parent>
+    <iconPath>UI/Icons/ThingCategories/default</iconPath>
+  </ThingCategoryDef>
+
+  <!-- ==================== AmmoSet ========================== -->
+
+  <CombatExtended.AmmoSetDef>
+    <defName>AmmoSet_HandmadeRocket</defName>
+    <label>Handmade Rockets</label>
+    <ammoTypes>
+      <Ammo_HandmadeRocket_>Bullet_HandmadeRocket_</Ammo_HandmadeRocket_>
+      <Ammo_HandmadeRocket_HV>Bullet_HandmadeRocket_HV</Ammo_HandmadeRocket_HV>
+      <Ammo_HandmadeRocket_Incen>Bullet_HandmadeRocket_Incen</Ammo_HandmadeRocket_Incen>
+    </ammoTypes>
+  </CombatExtended.AmmoSetDef>
+
+  <!-- ==================== Ammo ========================== -->
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="HandmadeRocketBase" ParentName="AmmoBase" Abstract="True">
+    <description>A handmade rocket that can be crafted at a smithy table with significantly less damage and speed.</description>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+    </statBases>
+    <tradeTags>
+      <li>CE_AutoEnableTrade</li>
+	  <li>CE_AutoEnableCrafting_FueledSmithy</li>
+	  <li>CE_AutoEnableCrafting_ElectricSmithy</li>
+    </tradeTags>
+    <thingCategories>
+      <li>Ammo_HandmadeRocket</li>
+    </thingCategories>
+    <stackLimit>3</stackLimit>
+    <cookOffFlashScale>40</cookOffFlashScale>
+    <cookOffSound>MortarBomb_Explode</cookOffSound>
+  </ThingDef>
+
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="HandmadeRocketBase">
+    <defName>Ammo_HandmadeRocket_</defName>
+    <label>Handmade Rocket</label>
+    <graphicData>
+      <texPath>Things/Ammo/Rocketd</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>40</MarketValue>
+      <Mass>3</Mass>
+      <Bulk>10</Bulk>
+    </statBases>
+    <ammoClass>default</ammoClass>
+	<detonateProjectile>Bullet_HandmadeRocket_</detonateProjectile>
+  </ThingDef>
+  
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="HandmadeRocketBase">
+    <defName>Ammo_HandmadeRocket_HV</defName>
+    <label>Handmade Rocket (High Velocity)</label>
+    <graphicData>
+      <texPath>Things/Ammo/Rocket_HV</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>40</MarketValue>
+      <Mass>2.5</Mass>
+      <Bulk>10</Bulk>
+    </statBases>
+    <ammoClass>HV</ammoClass>
+	<detonateProjectile>Bullet_HandmadeRocket_HV</detonateProjectile>
+  </ThingDef>
+  
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="HandmadeRocketBase">
+    <defName>Ammo_HandmadeRocket_Incen</defName>
+    <label>Handmade Rocket (Incendiary)</label>
+    <graphicData>
+      <texPath>Things/Ammo/Rocket_Incen</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>5</Mass>
+      <Bulk>12</Bulk>
+    </statBases>
+    <ammoClass>Incen</ammoClass>
+    <stackLimit>3</stackLimit>    
+	<detonateProjectile>Bullet_HandmadeRocket_Incen</detonateProjectile>
+  </ThingDef>
+
+  <!-- ================== Projectiles ================== -->
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="BaseHandmadeRocket" ParentName="BaseBullet" Abstract="true">
+    <graphicData>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+    </projectile>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseHandmadeRocket">
+    <defName>Bullet_HandmadeRocket_</defName>
+    <label>Handmade Rocket</label>
+    <graphicData>
+      <texPath>Things/Ammo/Rocket/default</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <speed>20</speed>
+      <damageDef>Bullet</damageDef>
+      <explosionRadius>3.8</explosionRadius>
+      <damageAmountBase>150</damageAmountBase>
+      <armorPenetrationSharp>50</armorPenetrationSharp>
+      <armorPenetrationBlunt>30</armorPenetrationBlunt>
+	  <soundExplode>RustRocketexplosion</soundExplode>
+    </projectile>
+    <comps>
+	  <li Class="CombatExtended.CompProperties_ExplosiveCE">
+		<damageAmountBase>100</damageAmountBase>
+		<explosiveDamageType>Bomb</explosiveDamageType>
+		<explosiveRadius>1.9</explosiveRadius>
+		<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+		<explosionSound>RustRocketexplosion</explosionSound>
+	  </li>
+	  <li Class="CombatExtended.CompProperties_Fragments">
+		<fragments>
+			<Fragment_Large>2</Fragment_Large>
+		  <Fragment_Small>20</Fragment_Small>
+		</fragments>
+	  </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseHandmadeRocket">
+    <defName>Bullet_HandmadeRocket_Incen</defName>
+    <label>Handmade Rocket (Incendiary)</label>
+    <thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/Ammo/Rocket/Incen</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <speed>20</speed>
+      <explosionRadius>5</explosionRadius>
+      <damageDef>Thermobaric</damageDef>
+      <damageAmountBase>150</damageAmountBase>
+      <armorPenetrationSharp>0</armorPenetrationSharp>
+      <armorPenetrationBlunt>0</armorPenetrationBlunt>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+	  <soundExplode>RustRocketexplosion</soundExplode>
+    </projectile>
+    <comps>
+	  <li Class="CombatExtended.CompProperties_ExplosiveCE">
+		<damageAmountBase>20</damageAmountBase>
+        <explosiveRadius>5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+		<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+		<explosionSound>RustRocketexplosion</explosionSound>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseHandmadeRocket">
+    <defName>Bullet_HandmadeRocket_HV</defName>
+    <thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+    <label>Handmade Rocket (High Velocity)</label>
+    <graphicData>
+      <texPath>Things/Ammo/Rocket/HV</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <speed>40</speed>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>250</damageAmountBase>
+      <explosionRadius>1</explosionRadius>
+      <armorPenetrationSharp>80</armorPenetrationSharp>
+      <armorPenetrationBlunt>80</armorPenetrationBlunt>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+	  <soundExplode>RustRocketexplosion</soundExplode>
+    </projectile>
+    <comps>
+	  <li Class="CombatExtended.CompProperties_ExplosiveCE">
+		<damageAmountBase>50</damageAmountBase>
+		<explosiveDamageType>Bomb</explosiveDamageType>
+		<explosiveRadius>1</explosiveRadius>
+		<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+		<explosionSound>RustRocketexplosion</explosionSound>
+	  </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ==================== Recipes ========================== -->
+
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>MakeAmmo_HandmadeRocket_</defName>
+    <label>make Handmade Rockets x5</label>
+    <description>Craft 5 Handmade Rockets.</description>
+    <jobString>Making Handmade Rockets.</jobString>
+    <workAmount>9200</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>50</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FSX</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>FSX</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_HandmadeRocket_>5</Ammo_HandmadeRocket_>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>MakeAmmo_HandmadeRocket_HV</defName>
+    <label>make Handmade Rockets (High Velocity) x5</label>
+    <description>Craft Handmade Rockets (High Velocity).</description>
+    <jobString>Making Handmade Rockets (High Velocity).</jobString>
+    <workAmount>9400</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>40</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FSX</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>FSX</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_HandmadeRocket_HV>5</Ammo_HandmadeRocket_HV>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>MakeAmmo_HandmadeRocket_Incen</defName>
+    <label>make Handmade Rockets (Incendiary) x5</label>
+    <description>Craft 5 Handmade Rockets (Incendiary).</description>
+    <jobString>Making Handmade Rockets (Incendiary).</jobString>
+    <workAmount>20000</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>50</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Prometheum</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Prometheum</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_HandmadeRocket_Incen>5</Ammo_HandmadeRocket_Incen>
+    </products>
+  </RecipeDef>
+
+</Defs>
