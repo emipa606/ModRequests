@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Copyright 2020, K
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<Defs>
+    
+    <!-- Overmind -->
+    <Def Class="PsiTech.Psionics.PsiTechAbilityDef">
+        <defName>PTSOvermind</defName>
+        <label>Overmind</label>
+        <description>Tap into the minds of the unbelievers to confuse and stun.</description>
+        <AbilityClass>PsiTech.Psionics.PsiTechAbilityAreaBurst</AbilityClass>
+        <GizmoDesc>Channel overmind</GizmoDesc>
+        <PathToIcon>Abilities/PsiOvermind</PathToIcon>
+        <Tier>3</Tier>
+        <AddedValueForThreat>5000</AddedValueForThreat>
+        <AbilityCostForRaid>1000</AbilityCostForRaid>
+        <Autocastable>True</Autocastable>
+        <AutocastFilterClass>PsiTech.AutocastManagement.AutocastFilter_Burst</AutocastFilterClass>
+        <Violent>True</Violent>
+        <TrainingTimeDays>5</TrainingTimeDays>
+        <EnergyPerUse>1</EnergyPerUse>
+        <Range>30</Range>
+        <CooldownSeconds>40</CooldownSeconds>
+        <BaseSuccessChance>0.5</BaseSuccessChance>
+        <PossibleEffects>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectStun">
+                <Title>Stun</Title>
+                <Description>Stuns nearby hostiles for a short time.</Description>
+                <Weight>1</Weight>
+                <BaseStunSeconds>5</BaseStunSeconds>
+            </li>
+        </PossibleEffects>
+        <SoundDefSuccessOnCaster>PTSOvermindOneshot</SoundDefSuccessOnCaster>
+        <MoteOnUserSuccess>PTSMoteOvermind</MoteOnUserSuccess>
+        <CastTimeTicks>50</CastTimeTicks>
+        <TargetValidator Class="PsiTech.TargetValidators.TargetValidatorHostiles"/>
+        <RequiredResearch>
+            <li>PTPsiTranscendence</li>
+        </RequiredResearch>
+    </Def>
+    
+    <ThingDef ParentName="MoteBase">
+        <defName>PTSMoteOvermind</defName>
+        <graphicData>
+            <texPath>Effects/PsiOvermind</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.5</solidTime>
+            <fadeOutTime>0.2</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>30</growthRate>
+        </mote>
+    </ThingDef>
+    
+    <SoundDef>
+        <defName>PTSOvermindOneshot</defName>
+        <context>MapOnly</context>
+        <eventNames />
+        <maxSimultaneous>10</maxSimultaneous>
+        <subSounds>
+            <li>
+                <grains>
+                    <li Class="AudioGrain_Clip">
+                        <clipPath>PsiOvermind</clipPath>
+                    </li>
+                </grains>
+                <volumeRange>
+                    <min>50</min>
+                    <max>60</max>
+                </volumeRange>
+                <pitchRange>
+                    <min>0.94</min>
+                    <max>1.04</max>
+                </pitchRange>
+            </li>
+        </subSounds>
+    </SoundDef>
+
+    <!-- We are legion -->
+    <Def Class="PsiTech.Psionics.PsiTechAbilityDef">
+        <defName>PTSWeAreLegion</defName>
+        <label>We Are Legion</label>
+        <description>A description</description>
+        <AbilityClass>PsiTech.Psionics.PsiTechAbilityAreaBurst</AbilityClass>
+        <GizmoDesc>Channel we are legion</GizmoDesc>
+        <PathToIcon>Abilities/WeAreLegion</PathToIcon>
+        <Tier>3</Tier>
+        <AddedValueForThreat>5000</AddedValueForThreat>
+        <AbilityCostForRaid>1000</AbilityCostForRaid>
+        <Autocastable>True</Autocastable>
+        <AutocastFilterClass>PsiTech.AutocastManagement.AutocastFilter_Burst</AutocastFilterClass>
+        <Violent>True</Violent>
+        <TrainingTimeDays>5</TrainingTimeDays>
+        <EnergyPerUse>1</EnergyPerUse>
+        <Range>55</Range>
+        <CooldownSeconds>120</CooldownSeconds>
+        <BaseSuccessChance>0.5</BaseSuccessChance>
+        <PossibleEffects>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectAddHediff">
+                <Title>Legion debuff</Title>
+                <Description>Reduces consciousness.</Description>
+                <Weight>1</Weight>
+                <Hediff>PTSLegionDebuff</Hediff>
+            </li>
+        </PossibleEffects>
+        <SoundDefSuccessOnCaster>PTSWeAreLegionOneshot</SoundDefSuccessOnCaster>
+        <MoteOnUserSuccess>PTSMoteWeAreLegion</MoteOnUserSuccess>
+        <CastTimeTicks>50</CastTimeTicks>
+        <TargetValidator Class="PsiTech.TargetValidators.TargetValidatorHostiles"/>
+        <RequiredResearch>
+            <li>PTPsiTranscendence</li>
+        </RequiredResearch>
+    </Def>
+	
+    <HediffDef ParentName="PsiTechBuffBase">
+        <defName>PTSLegionDebuff</defName>
+        <label>Crushing Pain</label>
+        <labelNoun>Crush</labelNoun>
+        <description>What is this---aa--AAAAGH!.</description>
+        <comps>
+            <li Class="HediffCompProperties_Disappears">
+                <disappearsAfterTicks>
+                    <min>3000</min>
+                    <max>4200</max>
+                </disappearsAfterTicks>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <capMods>
+                  <li>
+                    <capacity>Consciousness</capacity>
+                    <offset>-0.8</offset>
+                  </li>
+                </capMods>
+            </li>
+        </stages>
+	</HediffDef>
+			
+    <ThingDef ParentName="MoteBase">
+        <defName>PTSMoteWeAreLegion</defName>
+        <graphicData>
+            <texPath>Effects/WeAreLegion</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.5</solidTime>
+            <fadeOutTime>0.2</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>55</growthRate>
+        </mote>
+    </ThingDef>
+
+    <SoundDef>
+        <defName>PTSWeAreLegionOneshot</defName>
+        <context>MapOnly</context>
+        <eventNames />
+        <maxSimultaneous>10</maxSimultaneous>
+        <subSounds>
+            <li>
+                <grains>
+                    <li Class="AudioGrain_Clip">
+                        <clipPath>WeAreLegion</clipPath>
+                    </li>
+                </grains>
+                <volumeRange>
+                    <min>50</min>
+                    <max>60</max>
+                </volumeRange>
+                <pitchRange>
+                    <min>0.94</min>
+                    <max>1.04</max>
+                </pitchRange>
+            </li>
+        </subSounds>
+    </SoundDef>
+
+    <!-- Blazing inferno -->
+    <Def Class="PsiTech.Psionics.PsiTechAbilityDef">
+        <defName>PTSBlazingInferno</defName>
+        <label>Blazing Inferno</label>
+        <description>Burn, unbelievers!</description>
+        <AbilityClass>PsiTech.Psionics.PsiTechAbilityAreaBurst</AbilityClass>
+        <GizmoDesc>Channel blazing inferno</GizmoDesc>
+        <PathToIcon>Abilities/BlazingInferno</PathToIcon>
+        <Tier>3</Tier>
+        <AddedValueForThreat>5000</AddedValueForThreat>
+        <AbilityCostForRaid>1000</AbilityCostForRaid>
+        <Autocastable>True</Autocastable>
+        <AutocastFilterClass>PsiTech.AutocastManagement.AutocastFilter_Burst</AutocastFilterClass>
+        <Violent>True</Violent>
+        <TrainingTimeDays>5</TrainingTimeDays>
+        <EnergyPerUse>1</EnergyPerUse>
+        <Range>20</Range>
+        <CooldownSeconds>30</CooldownSeconds>
+        <BaseSuccessChance>0.5</BaseSuccessChance>
+        <PossibleEffects>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectDamage">
+                <Title>Burn damage</Title>
+                <Description>Inflicts burn damage on the target.</Description>
+                <Weight>1</Weight>
+                <BaseDamage>10</BaseDamage>
+                <DamageType>Burn</DamageType>
+            </li>
+        </PossibleEffects>
+        <SoundDefSuccessOnCaster>PTSBlazingInfernoOneshot</SoundDefSuccessOnCaster>
+        <MoteOnUserSuccess>PTSMoteBlazingInferno</MoteOnUserSuccess>
+        <CastTimeTicks>50</CastTimeTicks>
+        <TargetValidator Class="PsiTech.TargetValidators.TargetValidatorHostiles"/>
+        <RequiredResearch>
+            <li>PTPsiTranscendence</li>
+        </RequiredResearch>
+    </Def>
+
+    <ThingDef ParentName="MoteBase">
+        <defName>PTSMoteBlazingInferno</defName>
+        <graphicData>
+            <texPath>Effects/BlazingInferno</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.5</solidTime>
+            <fadeOutTime>0.2</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>20</growthRate>
+        </mote>
+    </ThingDef>
+
+    <SoundDef>
+        <defName>PTSBlazingInfernoOneshot</defName>
+        <context>MapOnly</context>
+        <eventNames />
+        <maxSimultaneous>10</maxSimultaneous>
+        <subSounds>
+            <li>
+                <grains>
+                    <li Class="AudioGrain_Clip">
+                        <clipPath>BlazingInferno</clipPath>
+                    </li>
+                </grains>
+                <volumeRange>
+                    <min>50</min>
+                    <max>60</max>
+                </volumeRange>
+                <pitchRange>
+                    <min>0.94</min>
+                    <max>1.04</max>
+                </pitchRange>
+            </li>
+        </subSounds>
+    </SoundDef>
+
+    <!-- Hymn of Mind -->
+    <Def Class="PsiTech.Psionics.PsiTechAbilityDef">
+        <defName>PTSHymnOfMind</defName>
+        <label>Hymn of Mind</label>
+        <description>Hear me acolytes and rejoice. Your wounds shall be healed.</description>
+        <AbilityClass>PsiTech.Psionics.PsiTechAbilityAreaBurst</AbilityClass>
+        <GizmoDesc>Channel hymn of mind</GizmoDesc>
+        <PathToIcon>Abilities/HymnOfMind</PathToIcon>
+        <Tier>3</Tier>
+        <AddedValueForThreat>5000</AddedValueForThreat>
+        <AbilityCostForRaid>1000</AbilityCostForRaid>
+        <Autocastable>True</Autocastable>
+        <AutocastFilterClass>PsiTech.AutocastManagement.AutocastFilter_Burst</AutocastFilterClass>
+        <Violent>True</Violent>
+        <TrainingTimeDays>5</TrainingTimeDays>
+        <EnergyPerUse>1</EnergyPerUse>
+        <Range>30</Range>
+        <CooldownSeconds>300</CooldownSeconds>
+        <BaseSuccessChance>0.5</BaseSuccessChance>
+        <PossibleEffects>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectHeal">
+                <Title>Mass heal</Title>
+                <Description>Heals wounds on the nearby allies.</Description>
+                <Weight>1</Weight>
+                <BaseHeal>100</BaseHeal>
+            </li>
+        </PossibleEffects>
+        <SoundDefSuccessOnCaster>PTSHymnOfMindOneshot</SoundDefSuccessOnCaster>
+        <MoteOnUserSuccess>PTSMoteHymnOfMind</MoteOnUserSuccess>
+        <CastTimeTicks>50</CastTimeTicks>
+        <TargetValidator Class="PsiTech.TargetValidators.TargetValidatorFriendlies"/>
+        <RequiredResearch>
+            <li>PTPsiTranscendence</li>
+        </RequiredResearch>
+    </Def>
+
+    <ThingDef ParentName="MoteBase">
+        <defName>PTSMoteHymnOfMind</defName>
+        <graphicData>
+            <texPath>Effects/HymnOfMind</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.5</solidTime>
+            <fadeOutTime>0.2</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>30</growthRate>
+        </mote>
+    </ThingDef>
+
+    <SoundDef>
+        <defName>PTSHymnOfMindOneshot</defName>
+        <context>MapOnly</context>
+        <eventNames />
+        <maxSimultaneous>10</maxSimultaneous>
+        <subSounds>
+            <li>
+                <grains>
+                    <li Class="AudioGrain_Clip">
+                        <clipPath>HymnOfMind</clipPath>
+                    </li>
+                </grains>
+                <volumeRange>
+                    <min>50</min>
+                    <max>60</max>
+                </volumeRange>
+                <pitchRange>
+                    <min>0.94</min>
+                    <max>1.04</max>
+                </pitchRange>
+            </li>
+        </subSounds>
+    </SoundDef>
+
+    <!-- Plague -->
+    <Def Class="PsiTech.Psionics.PsiTechAbilityDef">
+        <defName>PTSPlague</defName>
+        <label>Plague</label>
+        <description>My locusts shall devour you!</description>
+        <AbilityClass>PsiTech.Psionics.PsiTechAbilityAreaBurst</AbilityClass>
+        <GizmoDesc>Channel plague</GizmoDesc>
+        <PathToIcon>Abilities/Plague</PathToIcon>
+        <Tier>3</Tier>
+        <AddedValueForThreat>5000</AddedValueForThreat>
+        <AbilityCostForRaid>1000</AbilityCostForRaid>
+        <Autocastable>True</Autocastable>
+        <AutocastFilterClass>PsiTech.AutocastManagement.AutocastFilter_Burst</AutocastFilterClass>
+        <Violent>True</Violent>
+        <TrainingTimeDays>5</TrainingTimeDays>
+        <EnergyPerUse>1</EnergyPerUse>
+        <Range>55</Range>
+        <CooldownSeconds>600</CooldownSeconds>
+        <BaseSuccessChance>0.5</BaseSuccessChance>
+        <PossibleEffects>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectAddHediff">
+                <Title>Plague</Title>
+                <Description>Plague.</Description>
+                <Weight>1</Weight>
+                <Hediff>PTSToxicBuildup</Hediff>
+            </li>
+        </PossibleEffects>
+        <SoundDefSuccessOnCaster>PTSPlagueOneshot</SoundDefSuccessOnCaster>
+        <MoteOnUserSuccess>PTSMotePlague</MoteOnUserSuccess>
+        <CastTimeTicks>50</CastTimeTicks>
+        <TargetValidator Class="PsiTech.TargetValidators.TargetValidatorHostiles"/>
+        <RequiredResearch>
+            <li>PTPsiTranscendence</li>
+        </RequiredResearch>
+    </Def>
+
+    <HediffDef>
+        <defName>PTSToxicBuildup</defName>
+        <label>toxic buildup</label>
+        <description>Poison in the bloodstream. This can come from various sources, including environmental toxins, venomous bites, or poisoned weapons.
+            \nAt high doses, toxic buildup is lethal. Even at low doses, it can generate cancers.
+            \nCreatures who die with toxic buildup cannot be eaten.</description>
+        <hediffClass>HediffWithComps</hediffClass>
+        <defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+        <lethalSeverity>1</lethalSeverity>
+        <makesSickThought>true</makesSickThought>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <taleOnVisible>ToxicityRevealed</taleOnVisible>
+        <comps>
+            <li Class="HediffCompProperties_Disappears">
+                <disappearsAfterTicks>
+                    <min>6000</min>
+                    <max>8000</max>
+                </disappearsAfterTicks>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <label>extreme</label>
+                <vomitMtbDays>0.5</vomitMtbDays>
+                <capMods>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <setMax>0.10</setMax>
+                    </li>
+                </capMods>
+                <hediffGivers>
+                    <li Class="HediffGiver_Random">
+                        <hediff>Dementia</hediff>
+                        <mtbDays>13</mtbDays>
+                        <partsToAffect>
+                            <li>Brain</li>
+                        </partsToAffect>
+                    </li>
+                    <li Class="HediffGiver_Random">
+                        <hediff>Carcinoma</hediff>
+                        <mtbDays>39</mtbDays>
+                        <canAffectAnyLivePart>true</canAffectAnyLivePart>
+                    </li>
+                </hediffGivers>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <ThingDef ParentName="MoteBase">
+        <defName>PTSMotePlague</defName>
+        <graphicData>
+            <texPath>Effects/Plague</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.5</solidTime>
+            <fadeOutTime>0.2</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>55</growthRate>
+        </mote>
+    </ThingDef>
+
+    <SoundDef>
+        <defName>PTSPlagueOneshot</defName>
+        <context>MapOnly</context>
+        <eventNames />
+        <maxSimultaneous>10</maxSimultaneous>
+        <subSounds>
+            <li>
+                <grains>
+                    <li Class="AudioGrain_Clip">
+                        <clipPath>Plague</clipPath>
+                    </li>
+                </grains>
+                <volumeRange>
+                    <min>50</min>
+                    <max>60</max>
+                </volumeRange>
+                <pitchRange>
+                    <min>0.94</min>
+                    <max>1.04</max>
+                </pitchRange>
+            </li>
+        </subSounds>
+    </SoundDef>
+	
+      <!-- Heartripper -->
+    <Def Class="PsiTech.Psionics.PsiTechAbilityDef">
+        <defName>PTSHeartripper</defName>
+        <label>Heartripper</label>
+        <description>Heartripper is a targeted ability that does exactly what it says.\n\nPsychic heartbreaking horror in a nutshell.</description>
+        <AbilityClass>PsiTech.Psionics.PsiTechAbilityTargeted</AbilityClass>
+        <GizmoDesc>Use Heartripper on a target</GizmoDesc>
+        <PathToIcon>Abilities/Heartripper</PathToIcon>
+        <Tier>2</Tier>
+        <AddedValueForThreat>500</AddedValueForThreat>
+        <AbilityCostForRaid>300</AbilityCostForRaid>
+        <Autocastable>True</Autocastable>
+        <AutocastFilterClass>PsiTech.AutocastManagement.AutocastFilter_SingleTarget</AutocastFilterClass>
+        <Violent>True</Violent>
+        <TrainingTimeDays>3</TrainingTimeDays>
+        <EnergyPerUse>100</EnergyPerUse>
+        <Range>30</Range>
+        <CooldownSeconds>20</CooldownSeconds>
+        <BaseSuccessChance>0.75</BaseSuccessChance>
+        <PossibleEffects>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectDamage">
+                <Title>Torn Apart</Title>
+                <Description>AAAaaagh!</Description>
+                <Weight>0.9</Weight>
+                <BaseDamage>10</BaseDamage>
+                <DamageType>PTPsychicDamage</DamageType>
+            </li>
+            <li Class="PsiTech.AbilityEffects.AbilityEffectDamagePart">
+                <Title>Heartripper</Title>
+                <Description>Inflicts psionic heartbreak on the target. Instantly kills the target most of the time.</Description>
+                <Weight>0.1</Weight>
+                <BaseDamage>10</BaseDamage>
+                <DamageType>PTPsychicDamage</DamageType>
+                <Part>Heart</Part>
+            </li>
+        </PossibleEffects>
+        <SoundDefSuccessOnCaster>Heartripper</SoundDefSuccessOnCaster>
+        <SoundDefFailure>PTCastFailureOnCasterOneshot</SoundDefFailure>
+        <MoteOnTarget>MoteHeartripper</MoteOnTarget>
+        <MoteSuccessPointer>HeartSuccess</MoteSuccessPointer>
+        <MoteOnUserFailure>PTMoteFailure</MoteOnUserFailure>
+        <CastTimeTicks>20</CastTimeTicks>
+        <RequiredResearch>
+            <li>PTMindInvasion</li>
+        </RequiredResearch>
+		</Def>
+		
+    <ThingDef ParentName="MoteBase">
+        <defName>MoteHeartripper</defName>
+        <graphicData>
+            <texPath>Effects/Heartripper</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.25</solidTime>
+            <fadeOutTime>1</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>0.5</growthRate>
+        </mote>
+    </ThingDef>
+	
+	    <ThingDef ParentName="MoteBase">
+        <defName>HeartSuccess</defName>
+        <graphicData>
+            <texPath>Effects/HeartSuccess</texPath>
+            <shaderType>MoteGlow</shaderType>
+        </graphicData>
+        <thingClass>MoteThrownAttached</thingClass>
+        <altitudeLayer>Weather</altitudeLayer>
+        <drawOffscreen>true</drawOffscreen>
+        <mote>
+            <fadeInTime>0</fadeInTime>
+            <solidTime>0.25</solidTime>
+            <fadeOutTime>1</fadeOutTime>
+            <collide>false</collide>
+            <growthRate>0.5</growthRate>
+        </mote>
+    </ThingDef>
+	
+	<SoundDef>
+        <defName>Heartripper</defName>
+        <context>MapOnly</context>
+        <eventNames />
+        <maxSimultaneous>10</maxSimultaneous>
+        <subSounds>
+            <li>
+                <grains>
+                    <li Class="AudioGrain_Clip">
+                        <clipPath>Heartripper</clipPath>
+                    </li>
+                </grains>
+                <volumeRange>
+                    <min>50</min>
+                    <max>60</max>
+                </volumeRange>
+                <pitchRange>
+                    <min>0.94</min>
+                    <max>1.04</max>
+                </pitchRange>
+            </li>
+        </subSounds>
+    </SoundDef> 
+</Defs>
