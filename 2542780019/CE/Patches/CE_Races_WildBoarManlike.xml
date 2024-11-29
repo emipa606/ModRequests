@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+			
+			<Operation Class="PatchOperationAdd">
+			<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName = "WildBoarMan"]/statBases</xpath>
+			<value>
+			<AimingAccuracy>0.75</AimingAccuracy>
+			<MeleeDodgeChance>1.2</MeleeDodgeChance>
+			<MeleeCritChance>1.65</MeleeCritChance>
+			<MeleeParryChance>1.5</MeleeParryChance>
+              <CarryBulk>+60</CarryBulk>
+              <CarryWeight>+130</CarryWeight>
+			  <SmokeSensitivity>0.5</SmokeSensitivity>
+              <Suppressability>-2.0</Suppressability>
+			</value>
+			</Operation>
+
+	<Operation Class="PatchOperationReplace">
+			<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName="WildBoarMan"]/statBases/ArmorRating_Blunt</xpath>
+		<value>
+			<ArmorRating_Blunt>6</ArmorRating_Blunt>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+			<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName="WildBoarMan"]/statBases/ArmorRating_Sharp</xpath>
+		<value>
+			<ArmorRating_Sharp>3</ArmorRating_Sharp>
+		</value>
+	</Operation>
+
+			<Operation Class="PatchOperationReplace">
+			<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName="WildBoarMan"]/tools</xpath>
+			<value>
+			<tools>
+				<li Class="CombatExtended.ToolCE">
+					<label>left fist</label>
+					<capacities>
+						<li>Blunt</li>
+					</capacities>
+					<power>14</power>
+					<cooldownTime>1.16</cooldownTime>
+					<linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+					<armorPenetrationBlunt>10</armorPenetrationBlunt>
+				</li>
+				<li Class="CombatExtended.ToolCE">
+					<label>right fist</label>
+					<capacities>
+						<li>Blunt</li>
+					</capacities>
+					<power>14</power>
+					<cooldownTime>1.16</cooldownTime>
+					<linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+					<armorPenetrationBlunt>10</armorPenetrationBlunt>
+				</li>
+				<li Class="CombatExtended.ToolCE">
+				    <label>tusk</label>
+				    <capacities>
+				        <li>Stab</li>
+			    	</capacities>
+			    	<power>30</power>
+			    	<cooldownTime>1.6</cooldownTime>
+				    <linkedBodyPartsGroup>WildBoarManTuskAttackTool</linkedBodyPartsGroup>
+                    <chanceFactor>0.15</chanceFactor>
+				    <armorPenetrationSharp>12</armorPenetrationSharp>
+				    <armorPenetrationBlunt>8</armorPenetrationBlunt>
+				</li>
+				<li Class="CombatExtended.ToolCE">
+				    <label>teeth</label>
+				    <capacities>
+				        <li>Bite</li>
+			    	</capacities>
+			    	<power>12</power>
+			    	<cooldownTime>1.6</cooldownTime>
+				    <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+					<chanceFactor>0.05</chanceFactor>
+				    <armorPenetrationSharp>6.5</armorPenetrationSharp>
+				    <armorPenetrationBlunt>3.5</armorPenetrationBlunt>
+				</li>
+				<li Class="CombatExtended.ToolCE">
+					<label>head</label>
+					<capacities>
+					    <li>Blunt</li>
+					</capacities>
+					<power>20</power>
+					<cooldownTime>1.6</cooldownTime>
+					<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+					<chanceFactor>0.1</chanceFactor>
+					<armorPenetrationBlunt>20</armorPenetrationBlunt>
+				</li>
+			</tools>
+			</value>
+			</Operation>
+
+		<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[@Name = "BaseWildBoarManPawn"]/comps</xpath>
+			<value>
+				<li Class="CombatExtended.CompProperties_Inventory" />
+			</value>
+		</Operation>
+
+		<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[@Name = "BaseWildBoarManPawn"]/comps</xpath>
+		<value>
+					<li>
+					<compClass>CombatExtended.CompPawnGizmo</compClass>
+					</li>
+					<li Class="CombatExtended.CompProperties_Suppressable" />
+		</value>
+		</Operation>
+			
+		<Operation Class="PatchOperationAddModExtension">
+				<xpath>/Defs/AlienRace.ThingDef_AlienRace[defName = "WildBoarMan"]</xpath>
+				<value>
+				<li Class="CombatExtended.RacePropertiesExtensionCE">
+					<bodyShape>Humanoid</bodyShape>
+				</li>
+				</value>
+		</Operation>
+
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationTest">
+				<xpath>Defs/ThingDef[@Name="BaseWildBoarManPawn"]/statBases</xpath>
+				<success>Invert</success>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[@Name="BaseWildBoarManPawn"]</xpath>
+				<value>
+					<statBases/>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@Name="BaseWildBoarManPawn"]/statBases</xpath>
+		<value>
+			<MeleeDodgeChance>0</MeleeDodgeChance>
+			<MeleeCritChance>0</MeleeCritChance>
+			<MeleeParryChance>0</MeleeParryChance>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[@Name="BaseWildBoarManPawn"]/inspectorTabs/li[.="ITab_Pawn_Gear"]</xpath>
+		<value>
+			<li>CombatExtended.ITab_Inventory</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@Name="BaseWildBoarManPawn"]/comps</xpath>
+		<value>
+			<li Class="CombatExtended.CompProperties_Inventory" />
+		</value>
+	</Operation>
+
+</Patch>
