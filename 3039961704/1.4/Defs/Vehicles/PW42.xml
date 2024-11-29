@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+	<Vehicles.VehicleBuildDef ParentName="VehicleBaseBuildable">
+		<defName>LR_Pw42_Blueprint</defName>
+		<label>Panzerwerfer 42 auf Maultier</label>
+		<description>Demands for a self propelled Nebelwerfer designed and produced the Panzerwerfer 42 auf Maultier, a half-track design allowed it to cross environments wheeled vehicles struggled with.</description>
+		<designationCategory>VF_Vehicles</designationCategory>
+		
+		<graphicData>
+			<texPath>Things/Vehicles/Pw42/Body</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplexPattern</shaderType>
+			<drawSize>(3.2, 6.2)</drawSize>
+		</graphicData>
+			
+		<statBases>
+			<MaxHitPoints>800</MaxHitPoints>
+			<WorkToBuild>10000</WorkToBuild>
+			<Flammability>0.05</Flammability>
+		</statBases>
+		
+		<size>(3, 6)</size>
+		
+		<researchPrerequisites>
+		<li>BiofuelRefining</li>
+		<li>Mortars</li>
+		</researchPrerequisites>
+		<!--COSTS-->
+		<costList>
+			<Steel>500</Steel>
+			<ComponentWheelRoad>8</ComponentWheelRoad>
+			<ComponentHeavyCasting>4</ComponentHeavyCasting>
+			<ComponentIndustrial>18</ComponentIndustrial>
+			<EngineMedium>1</EngineMedium>
+			<ReinforcedBarrel>4</ReinforcedBarrel>
+		</costList>
+		
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		
+		<thingToSpawn>LR_Pw42VH</thingToSpawn>
+		
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+	</Vehicles.VehicleBuildDef>
+	
+	<Vehicles.VehicleDef ParentName="BaseVehiclePawn">
+		<defName>LR_Pw42VH</defName>
+		<label>Panzerwerfer 42</label>
+		<description>Demands for a self propelled Nebelwerfer produced the Panzerwerfer 42 auf Maultier, a half-track design allowed it to cross environments wheeled vehicles struggled with. It has a range of approx 6900 meters, the spin stabilised round could come in HE, Smoke and chemical rounds. Rockets fired have a distinctive sound and was nicknamed by allied forces as the "Moaning Minnie" or "Screaming Mimi".</description>
+		<!--COLOR-->
+		<graphicData>
+			<texPath>Things/Vehicles/Pw42/Body</texPath>
+			<graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+			<shaderType>CutoutComplexPattern</shaderType>
+			<drawSize>(3.2, 6.2)</drawSize>
+			<color>(155, 155, 155)</color>
+			<colorTwo>(65, 75, 80)</colorTwo>
+			<colorThree>(45, 50, 45)</colorThree>
+		</graphicData>
+		
+		<fillPercent>1</fillPercent>
+		
+		<buildDef>LR_Pw42_Blueprint</buildDef>
+		
+		<size>(3, 6)</size>
+		
+		<vehicleMovementPermissions>DriverNeeded</vehicleMovementPermissions>
+		<vehicleCategory>Combat</vehicleCategory>
+		<techLevel>Industrial</techLevel>
+		<vehicleType>Land</vehicleType>
+		
+		<statBases>
+			<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+			<Flammability>0.5</Flammability>
+			<MarketValue>8800</MarketValue>
+		</statBases>
+		
+		<vehicleStats>
+			<Mass>3550</Mass> 		<!--Should be about 7.1 tonnes if 1 mass = 0.5kg-->
+			<MoveSpeed>8.4</MoveSpeed>
+			<CargoCapacity>360</CargoCapacity>
+			<RepairRate>0.8</RepairRate>
+			<AccelerationRate MayRequire="oskarpotocki.vanillavehiclesexpanded">0.1</AccelerationRate>
+		</vehicleStats>
+		
+		<soundSustainersOnEvent>
+			<li>
+				<key>(IgnitionOn, IgnitionOff)</key>
+				<value>EngineIdle</value>
+			</li>
+		</soundSustainersOnEvent>
+		
+		<soundOneShotsOnEvent Inherit = "False">
+			<li>
+				<key>IgnitionOn</key>
+				<value>EngineOn</value>
+			</li>
+			<li>
+				<key>IgnitionOff</key>
+				<value>EngineOff</value>
+			</li>
+		</soundOneShotsOnEvent>
+		
+		<race>
+			<baseBodySize>2.2</baseBodySize>
+		</race>
+		
+		<properties>
+			<customTerrainCosts AllowTerrainWithTag="Soil" PathCost="1">
+				<li>
+					<key>Sand</key>
+					<value>2</value>
+				</li>
+				<li>
+					<key>Mud</key>
+					<value>2</value>
+				</li>
+				<li>
+					<key>SoftSand</key>
+					<value>2</value>
+				</li>
+				<li>
+					<key>Ice</key>
+					<value>2</value>
+				</li>
+			</customTerrainCosts>
+			<customRoadCosts AssignDefaults = "0.4" />
+			<worldSpeedMultiplier>1</worldSpeedMultiplier>
+			<winterSpeedMultiplier>1</winterSpeedMultiplier>
+			<offRoadMultiplier>1</offRoadMultiplier>
+			
+			
+			<vehicleJobLimitations>
+				<li>(RepairVehicle, 3)</li>
+			</vehicleJobLimitations>
+			
+			<roles>
+				<li>
+					<key>driver</key>
+					<label>Driver</label>
+					<slots>1</slots>
+					<slotsToOperate>1</slotsToOperate>
+					
+					<handlingTypes>
+						<li>Movement</li>
+					</handlingTypes>
+				</li>
+				<li>
+					<key>gunner</key>
+					<label>Gunner</label>
+					<slots>1</slots>
+					<slotsToOperate>1</slotsToOperate>
+					
+					<handlingTypes>Turret</handlingTypes>
+					
+					<turretIds>
+						<li>mainTurret</li>
+					</turretIds>
+				</li>
+				<li>
+					<key>Loader</key>
+					<label>Loader</label>
+					<slots>1</slots>
+					<handlingTypes>
+						<li>Turret</li>
+					</handlingTypes>
+					<turretIds>
+						<li>frontMG</li>
+					</turretIds>
+				</li>
+				<li>
+					<key>Passenger</key>
+					<label>Passenger</label>
+					<slots>1</slots>
+				</li>
+			</roles>
+		</properties>
+		
+		<components>
+			<li>
+				<key>Engine</key>
+				<label>Engine</label>
+				<health>360</health>
+				<priorityStatEfficiency>true</priorityStatEfficiency>
+				<depth>Internal</depth>
+				
+				<reactors>
+					<li Class = "Vehicles.Reactor_Explosive">
+						<indicator>VF_Explosive</indicator>
+						<chance>0.02</chance>
+						<radius>3</radius>
+						<damageDef>Bomb</damageDef>
+					</li>
+				</reactors>
+				
+				<hitbox>
+					<cells>
+						<li>(0, -1)</li>
+						<li>(1, -2)</li>
+					</cells>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>LeftTrack</key>
+				<label>Left Track</label>
+				<health>240</health>
+				<depth>External</depth>
+				
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<side>Left</side>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>	
+			<li>
+				<key>LeftWheel</key>
+				<label>Left Wheel</label>
+				<health>240</health>
+				<depth>External</depth>
+				
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<side>Left</side>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>RightTrack</key>
+				<label>Right Track</label>
+				<health>240</health>
+				<depth>External</depth>
+					
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<side>Right</side>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>RightWheel</key>
+				<label>Right Wheel</label>
+				<health>240</health>
+				<depth>External</depth>
+					
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<side>Right</side>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>LeftDriveSprocket</key>
+				<label>Left Drive Sprocket</label>
+				<health>240</health>
+				<depth>External</depth>
+				
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<cells>
+						<li>(-1, -2)</li>
+					</cells>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>RightDriveSprocket</key>
+				<label>Right Drive Sprocket</label>
+				<health>240</health>
+				<depth>External</depth>
+				
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<cells>
+						<li>(1, -2)</li>
+					</cells>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>Gearbox</key>
+				<label>Gearbox</label>
+				<health>200</health>
+				<depth>Internal</depth>
+				
+				<hitbox>
+					<cells>
+						<li>(0, -1)</li>
+					</cells>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>FrontArmorPlating</key>
+				<label>Front Armor Plating</label>
+				<health>300</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Front</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>LeftArmorPlating</key>
+				<label>Left Armor Plating</label>
+				<health>180</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Left</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>RightArmorPlating</key>
+				<label>Right Armor Plating</label>
+				<health>180</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Right</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>BackArmorPlating</key>
+				<label>Rear Armor Plating</label>
+				<health>100</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Back</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>Fueltank</key>
+				<label>Fuel tank</label>
+				<health>200</health>
+				<depth>Internal</depth>
+				
+				<reactors>
+					<li Class = "Vehicles.Reactor_FuelLeak"/>
+				</reactors>
+				
+				<hitbox>
+					<cells>
+						<li>(0, 0)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>DriverStation</key>
+				<label>Driver Controls</label>
+				<health>200</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>Alternator</key>
+				<label>Alternator</label>
+				<health>100</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>Roof</key>
+				<label>Roof</label>
+				<health>180</health>
+				<depth>External</depth>
+				<hitWeight>10</hitWeight>
+				
+				<armor>
+					<ArmorRating_Blunt>0.62</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.62</ArmorRating_Sharp>
+				</armor>
+			</li>
+		</components>
+
+		<comps>
+			<li Class="Vehicles.CompProperties_FueledTravel">
+				<fuelType>Chemfuel</fuelType>
+				<leakDef>Filth_Fuel</leakDef>
+				<fuelConsumptionRate>1</fuelConsumptionRate>
+				<fuelConsumptionWorldMultiplier>0.4</fuelConsumptionWorldMultiplier>
+				<fuelCapacity>200</fuelCapacity>
+			</li>
+			<li Class="Vehicles.CompProperties_VehicleTurrets">
+				<turrets>
+					<li>
+						<turretDef>LR_Pw42Launcher</turretDef>
+						
+						<renderProperties>
+							<north>(0, -1.4)</north>
+							<south>(0, 1.4)</south>
+							<east>(-1.4, 0)</east>
+						</renderProperties>
+						
+						<gizmoLabel>15 cm Nebelwerfer</gizmoLabel>
+						
+						<angleRestricted/>
+						<aimPieOffset>(0, 0)</aimPieOffset>
+						<drawLayer>2</drawLayer>	
+						<key>mainTurret</key>
+					</li>
+					<li>
+                        <turretDef>LR_Pw42MG</turretDef>
+                        <renderProperties>
+                            <north>(0, 1)</north>
+                            <south>(0, -1)</south>
+                            <east>(1, 0)</east>
+							<west>(-1, 0)</west>
+                        </renderProperties>
+                        <gizmoLabel>Defense MG</gizmoLabel>
+                        <angleRestricted>(-90, 90)</angleRestricted>
+                        <aimPieOffset>(0, 0)</aimPieOffset>
+						<drawLayer>2</drawLayer>	
+						<key>frontMG</key>						
+                    </li>
+				</turrets>
+			</li>
+		</comps>
+	</Vehicles.VehicleDef>
+	<!--MAIN GUN-->
+	<ThingDef ParentName="BaseBullet">
+		<defName>Rocket_Pw42Rocket</defName>
+		<label>15 cm Nebelwerfer</label>
+		<thingClass>Projectile_Explosive</thingClass>
+		
+		<graphicData>
+			<texPath>Things/Vehicles/Pw42/Pw42Rocket</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		
+		<projectile>
+			<damageDef>Bomb</damageDef>
+			<damageAmountBase>100</damageAmountBase>
+			<speed>100</speed>
+      			<flyOverhead>true</flyOverhead>
+			<explosionRadius>4</explosionRadius>
+			<soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+			<soundExplode>MortarBomb_Explode</soundExplode>
+			<soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+			<soundAmbient>MortarRound_Ambient</soundAmbient>
+		</projectile>
+	</ThingDef>
+
+	<Vehicles.VehicleTurretDef ParentName="VehicleTurretBase">
+		<defName>LR_Pw42Launcher</defName>
+		<label>15cm Nebelwerfer</label>
+		<description>15cm Wurfgranate 41 Spreng</description>
+		
+		<turretType>Rotatable</turretType>
+		<shotSound>TurretPkFire</shotSound>
+		<reloadSound>TurretPkMgReload</reloadSound>
+		
+		<projectile>Rocket_Pw42Rocket</projectile>
+		<reloadTimer>20</reloadTimer>
+		<warmUpTimer>2</warmUpTimer>
+		<magazineCapacity>10</magazineCapacity>
+		<chargePerAmmoCount>1</chargePerAmmoCount>
+		<genericAmmo>false</genericAmmo>
+
+		<autoSnapTargeting>false</autoSnapTargeting>
+		<rotationSpeed>0.4</rotationSpeed>
+		
+		<projectileOffset>2</projectileOffset>
+		<hitFlags>IntendedTarget</hitFlags>
+		<maxRange>800</maxRange>
+		<minRange>8</minRange>
+		
+		<recoil>
+			<distanceTotal>0.2</distanceTotal>
+			<distancePerTick>0.05</distancePerTick>
+			<speedMultiplierPostRecoil>0.35</speedMultiplierPostRecoil>
+		</recoil>
+		
+		<vehicleRecoil>
+			<distanceTotal>0.2</distanceTotal>
+			<distancePerTick>0.05</distancePerTick>
+			<speedMultiplierPostRecoil>0.55</speedMultiplierPostRecoil>
+		</vehicleRecoil>
+		
+		<fireModes>
+			<li>
+				<shotsPerBurst>10</shotsPerBurst>
+				<ticksBetweenShots>140</ticksBetweenShots>
+				<ticksBetweenBursts>140</ticksBetweenBursts>
+				<spreadRadius>4</spreadRadius>
+				<label>Salvo</label>
+				<texPath>UI/Gizmos/FireRate_Burst</texPath>
+			</li>
+		</fireModes>
+		
+		<graphicData>
+			<texPath>Things/Vehicles/Pw42/TurretPk</texPath>
+			<graphicClass>Vehicles.Graphic_Turret</graphicClass>
+			<shaderType>CutoutComplexPattern</shaderType>
+			<drawSize>(6.2, 6.2)</drawSize>
+		</graphicData>
+		
+		<ammunition>
+			<thingDefs>
+						<li>15CmRocket</li>
+								<li>Shell_HighExplosive</li>
+						<li>Shell_AntigrainWarhead</li>
+							<li>Shell_EMP</li>
+						<li>Shell_Firefoam</li>
+							<li>Shell_Incendiary</li>
+								<li>Shell_Smoke</li>
+                                               				<li>Shell_Toxic</li>
+			</thingDefs>
+		</ammunition>
+		
+		<motes>
+			<li>
+				<cycles>1</cycles>
+				<moteDef>Mote_CannonPlume</moteDef>
+				<animationType>Reset</animationType>
+			</li>
+		</motes>
+	</Vehicles.VehicleTurretDef>
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_Pw42MG</defName>
+		<label>8mm Mauser</label>
+		
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		
+		<projectile>
+			<damageDef>Bullet</damageDef>
+			<damageAmountBase>14</damageAmountBase>
+			<speed>100</speed>
+		</projectile>
+	</ThingDef>
+	
+	<Vehicles.VehicleTurretDef ParentName="VehicleTurretBase">
+		<defName>LR_Pw42MG</defName>
+		<label>Mg42</label>
+		<description>A top mounted MG42, used for self defence.</description>
+		
+		<turretType>Rotatable</turretType>
+		<shotSound>TurretPkMgFire</shotSound>
+		<reloadSound>TurretPkMgReload</reloadSound>
+		
+		<projectile>Bullet_Pw42MG</projectile>
+		<reloadTimer>6</reloadTimer>
+		<warmUpTimer>1</warmUpTimer>
+		<magazineCapacity>50</magazineCapacity>
+		<chargePerAmmoCount>1</chargePerAmmoCount>
+		<genericAmmo>true</genericAmmo>
+		
+		<autoSnapTargeting>true</autoSnapTargeting>
+		<rotationSpeed>2</rotationSpeed>
+		
+		<projectileOffset>0.5</projectileOffset>
+		<hitFlags>IntendedTarget</hitFlags>
+		<maxRange>120</maxRange>
+		<minRange>1</minRange>
+		
+		<recoil>
+			<distanceTotal>0.05</distanceTotal>
+			<distancePerTick>0.05</distancePerTick>
+			<speedMultiplierPostRecoil>0.55</speedMultiplierPostRecoil>
+		</recoil>
+		
+		<vehicleRecoil>
+			<distanceTotal>0.02</distanceTotal>
+			<distancePerTick>0.01</distancePerTick>
+			<speedMultiplierPostRecoil>0.55</speedMultiplierPostRecoil>
+		</vehicleRecoil>
+		
+		<fireModes>
+			<li>
+				<shotsPerBurst>5</shotsPerBurst>
+				<ticksBetweenShots>4</ticksBetweenShots>
+				<ticksBetweenBursts>20</ticksBetweenBursts>
+				<spreadRadius>2</spreadRadius>
+				<label>Burst</label>
+				<texPath>UI/Gizmos/FireRate_Burst</texPath>
+			</li>
+			<li>
+				<shotsPerBurst>50</shotsPerBurst>
+				<ticksBetweenShots>4</ticksBetweenShots>
+				<ticksBetweenBursts>6</ticksBetweenBursts>
+				<spreadRadius>3</spreadRadius>
+				<label>Auto</label>
+				<texPath>UI/Gizmos/FireRate_Auto</texPath>
+			</li>
+		</fireModes>
+		
+		<graphicData>
+			<texPath>Things/Vehicles/Pw42/TurretPkMg</texPath>
+			<graphicClass>Vehicles.Graphic_Turret</graphicClass>
+			<shaderType>CutoutComplexPattern</shaderType>
+			<drawSize>(3.4, 3.4)</drawSize>
+		</graphicData>
+		
+		<ammunition>
+			<thingDefs>
+				<li>Steel</li>
+			</thingDefs>
+		</ammunition>
+		<motes>
+
+		</motes>
+	</Vehicles.VehicleTurretDef>
+	
+</Defs>
