@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- ========== [ESCP_NecromanticThralls_ThrallStorage] ========== -->
+	<HediffDef>
+		<defName>ESCP_NecromanticThralls_ThrallStorage</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>thrall storage</label>
+		<description>You shouldn't be seeing this. Straight to jail.</description>
+		<defaultLabelColor>(0.8, 0.6, 1.0)</defaultLabelColor>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_GiveAbility">
+				<abilityDef>ESCP_NecromanticThralls_CreateThrall</abilityDef>
+			</li>
+			<li Class="ESCP_NecromanticThralls.HediffCompProperties_ThrallStorage">
+				<skill>Intellectual</skill>
+				<levelRequirement>
+					<li>0</li>
+					<li>3</li>
+					<li>6</li>
+					<li>9</li>
+					<li>12</li>
+					<li>15</li>
+					<li>18</li>
+					<li>20</li>
+				</levelRequirement>
+				<thrallLimit>
+					<li>0</li>
+					<li>1</li>
+					<li>3</li>
+					<li>5</li>
+					<li>7</li>
+					<li>8</li>
+					<li>9</li>
+					<li>10</li>
+				</thrallLimit>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+	</HediffDef>
+	<!-- ========== [ESCP_NecromanticThralls_Enthralled] ========== -->
+	<HediffDef>
+		<defName>ESCP_NecromanticThralls_Enthralled</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>necromantic thrall</label>
+		<description>A corpse puppeteered by a necromancer, using ancient Sloadic magic. While the corpse is technically alive again, the mind is barely conscious, and effectively simply an extension of its masters.\n\nDisables almost all needs and thoughts, as well as providing complete immunity to pain. While thralls will not improve skills, their skill level will not decay over time.</description>
+		<defaultLabelColor>(0.8, 0.6, 1.0)</defaultLabelColor>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<preventsLungRot>true</preventsLungRot>
+		<!-- Needs disabling is done through Harmony patches, because doing it through hediffs apparently breaks shit -->
+		<comps>
+			<li Class="HediffCompProperties_Effecter">
+				<stateEffecter>ESCP_NecromanticThralls_ThrallEffecter</stateEffecter>
+				<severityIndices>0~1</severityIndices>
+			</li>
+			<li>
+				<compClass>ESCP_NecromanticThralls.HediffComp_Enthralled</compClass>
+			</li>
+			<li Class="HediffCompProperties_DisappearsOnDeath"/>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>0</painFactor>
+				<makeImmuneTo>
+					<li>Flu</li>
+					<li>Animal_Flu</li>
+					<li>Plague</li>
+					<li>Animal_Plague</li>
+					<li>Malaria</li>
+					<li>WoundInfection</li>
+					<li>LungRot</li>
+					<li>SleepingSickness</li>
+				</makeImmuneTo>
+				<statFactors>
+					<Fertility MayRequire="Ludeon.RimWorld.Biotech">0</Fertility>
+				</statFactors>
+				<statOffsets>
+					<ImmunityGainSpeed>3</ImmunityGainSpeed>
+					<ToxicResistance>-0.50</ToxicResistance>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<postFactor>0.9</postFactor>
+					</li>
+				</capMods>
+				<disabledWorkTags>
+					<li>Intellectual</li>
+				</disabledWorkTags>
+			</li>
+		</stages>
+	</HediffDef>
+	<!-- ========== [ESCP_NecromanticThralls_ThrallLifespan] ========== -->
+	<HediffDef>
+		<defName>ESCP_NecromanticThralls_ThrallLifespan</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>limited lifespan</label>
+		<description>This thrall has a limited lifespan. The connection to its master will be severed after a certain number of days.</description>
+		<defaultLabelColor>(0.8, 0.6, 1.0)</defaultLabelColor>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<showRemainingTime>True</showRemainingTime>
+			</li>
+			<li>
+				<compClass>ESCP_NecromanticThralls.HediffComp_KillOnRemove</compClass>
+			</li>
+			<li Class="HediffCompProperties_DisappearsOnDeath"/>
+		</comps>
+	</HediffDef>
+</Defs>
