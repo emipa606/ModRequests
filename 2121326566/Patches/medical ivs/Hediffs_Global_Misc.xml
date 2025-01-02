@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+	<!-- Recipes for IV's if Medical iv's isnt installed -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Medical IVs</li>
+		</mods>
+		<nomatch Class="PatchOperationSequence">
+			<!-- nomatch means if mod checked isnt installed it do... -->
+			<success>Always</success>
+			<operations>
+				<li Class="PatchOperationAdd">
+					<!-- Will do this if true.  options: Add, Replace, Remove, insert -->
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef Abstract="True" Name="IVHediffBase" ParentName="DiseaseBase">
+							<initialSeverity>0.01</initialSeverity>
+							<maxSeverity>0.01</maxSeverity>
+							<isBad>false</isBad>
+							<comps>
+							  <li Class="HediffCompProperties_Disappears">
+								<disappearsAfterTicks>100~100</disappearsAfterTicks>
+							  </li>
+							</comps>
+						</HediffDef>
+
+						<HediffDef ParentName="IVHediffBase">
+							<defName>IV_Blood_Hediff</defName>
+							<defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
+							<label>Intravenous Therapy (Blood)</label>
+							<description>Intravenous Therapy (Blood)</description>
+							<stages>
+							  <li>
+								<capMods>
+								  <li>
+									<capacity>BleedRate</capacity>
+									<offset>-0.75</offset>
+								  </li>
+								</capMods>
+							  </li>
+							</stages>
+						</HediffDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<!-- Will do this if true.  options: Add, Replace, Remove, insert -->
+					<xpath>/Defs</xpath>
+					<value>
+						<HediffDef ParentName="IVHediffBase">
+							<defName>IV_Nutrition_Hediff</defName>
+							<defaultLabelColor>(0.2, 1, 0.2)</defaultLabelColor>
+							<label>Intravenous Therapy (Nutrition)</label>
+							<description>Intravenous Therapy (Nutrition)</description>
+							<stages>
+							  <li>
+								<hungerRateFactor>0.0</hungerRateFactor>
+							  </li>
+							</stages>
+						</HediffDef>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+
+</Patch>
