@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+  <ThoughtDef>
+    <defName>GS_Tadpole_Thought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>GS_TadpoleHediff</hediff>
+    <validWhileDespawned>false</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>Tadpole</label>
+        <description>There's itch in my head i can't quite get to.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>GS_TadpoleHediff</defName>
+    <label>Ceremorphosis</label>
+    <labelNoun>a ceremorphosis</labelNoun>
+    <description>The tadpole is slowly eating away at the brain matter of the afflicted, gradually taking over the victims' bodies and turning them into Illithids.</description>
+    <descriptionHyperlinks><ThingDef>GS_Tadpole</ThingDef></descriptionHyperlinks>
+    <spawnThingOnRemoved>GS_Tadpole</spawnThingOnRemoved>
+	<defaultLabelColor>(126, 62, 60)</defaultLabelColor>
+    <initialSeverity>0.001</initialSeverity>
+	<makesSickThought>true</makesSickThought>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>0.87</severityPerDay>
+      </li>
+      <li Class="Thadge.GeneWorm.HediffCompProperties_ChangeXenotype">
+        <xenotypeDef>GS_Illithid</xenotypeDef>
+      </li>
+    </comps>
+	
+	 <stages>
+      <li>
+        <label>minor</label>
+        <painOffset>0.05</painOffset>
+      </li> 
+      <li>
+        <minSeverity>0.33</minSeverity>
+        <label>major</label>
+        <painOffset>0.08</painOffset>
+      </li>
+      <li>
+        <minSeverity>0.78</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>0.12</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.87</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>0.85</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+	
+	
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartBase">
+    <defName>GS_Tadpole</defName>
+    <label>Tadpole</label>
+    <description>A small parasitic creature that burrows into the brain of their host through the eye socket. The first stage in the gruesome life cycle of certain xenotypes, the tadpole rapidly changes the body of their host thanks to its potent psychic abilities, while subsuming their identity into its own - effectively devouring the host's body and mind and reshaping it into its own. After less than a day, the transformation is complete, the host becoming a mix of the tadpole's parent xenotype and their original one.</description>
+    <descriptionHyperlinks><RecipeDef>GS_AdministerTadpole</RecipeDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Items/IllithidTadpole</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MarketValue>0</MarketValue>
+      <MaxHitPoints>20</MaxHitPoints>
+      <Mass>2</Mass>
+      <Flammability>1</Flammability>
+    </statBases>
+  </ThingDef>
+
+
+
+
+
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>GS_AdministerTadpole</defName>
+    <label>administer tadpole</label>
+    <description>Administer a tadpole</description>
+    <descriptionHyperlinks>
+      <ThingDef>GS_Tadpole</ThingDef>
+      <HediffDef>GS_TadpoleHediff</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Administering a tadpole.</jobString>
+    <anesthetize>false</anesthetize>
+    <workAmount>600</workAmount>
+    <isViolation>true</isViolation>
+    <surgeryOutcomeEffect IsNull="True"/>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>GS_Tadpole</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>GS_Tadpole</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>GS_TadpoleHediff</addsHediff>
+  </RecipeDef>
+  
+  
+  
+  <RecipeDef ParentName="SurgeryRemoveImplantBase">
+    <defName>GS_RemoveTadpole</defName>
+    <label>remove tadpole</label>
+    <description>desc</description>
+    <descriptionHyperlinks>
+      <ThingDef>GS_Tadpole</ThingDef>
+      <HediffDef>GS_TadpoleHediff</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Removing tadpole.</jobString>
+    <removesHediff>GS_TadpoleHediff</removesHediff>
+  </RecipeDef>
+
+</Defs>
