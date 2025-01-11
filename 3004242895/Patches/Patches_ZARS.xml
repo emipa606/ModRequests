@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!--Check if  ZARS Production Spots is installed-->
+	<Operation Class="PatchOperation.FindModByID">
+		<mods>
+			<li>dracoix.zars.spots</li>
+		</mods>
+		<!--If not also check for ZARS Tribalism-->
+		<nomatch Class="PatchOperation.FindModByID">
+			<mods>
+				<li>dracoix.zars.tribalism</li>
+			</mods>
+			<match Class="PatchOperationSequence">
+				<operations>
+					<!--Add ResearchingSpot to Workgiver-->
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/WorkGiverDef[defName = "Research"]/fixedBillGiverDefs</xpath>
+						<value>
+							<li>ResearchingSpot</li>
+						</value>
+					</li>
+					<!--Add Bookshelf to ResearchingSpot-->
+					<li Class="PatchOperationConditional">
+						<xpath>/Defs/ThingDef[defName = "ResearchingSpot"]/comps</xpath>
+						<match Class="PatchOperationConditional">
+							<xpath>/Defs/ThingDef[defName = "ResearchingSpot"]/comps/li/linkableFacilities</xpath>
+							<nomatch Class="PatchOperationAdd">
+								<xpath>/Defs/ThingDef[defName = "ResearchingSpot"]/comps</xpath>
+								<value>
+									<li Class="CompProperties_AffectedByFacilities">
+										<linkableFacilities />
+									</li>
+								</value>
+							</nomatch>
+						</match>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/ThingDef[defName = "ResearchingSpot"]</xpath>
+							<value>
+								<comps>
+									<li Class="CompProperties_AffectedByFacilities">
+										<linkableFacilities />
+									</li>
+								</comps>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/ThingDef[defName = "ResearchingSpot"]/comps/li/linkableFacilities</xpath>
+						<value>
+							<li>BookShelf</li>
+						</value>
+					</li>
+				</operations>
+			</match>
+		</nomatch>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<!--Add ZARS_ResearchingSpot to Workgiver-->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/WorkGiverDef[defName = "Research"]/fixedBillGiverDefs</xpath>
+					<value>
+						<li>ZARS_ResearchingSpot</li>
+					</value>
+				</li>
+				<!--Add Bookshelf to ZARS_ResearchingSpot-->
+				<li Class="PatchOperationConditional">
+					<xpath>/Defs/ThingDef[defName = "ZARS_ResearchingSpot"]/comps</xpath>
+					<match Class="PatchOperationConditional">
+						<xpath>/Defs/ThingDef[defName = "ZARS_ResearchingSpot"]/comps/li/linkableFacilities</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/ThingDef[defName = "ZARS_ResearchingSpot"]/comps</xpath>
+							<value>
+								<li Class="CompProperties_AffectedByFacilities">
+									<linkableFacilities />
+								</li>
+							</value>
+						</nomatch>
+					</match>
+					<nomatch Class="PatchOperationAdd">
+						<xpath>/Defs/ThingDef[defName = "ZARS_ResearchingSpot"]</xpath>
+						<value>
+							<comps>
+								<li Class="CompProperties_AffectedByFacilities">
+									<linkableFacilities />
+								</li>
+							</comps>
+						</value>
+					</nomatch>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName = "ZARS_ResearchingSpot"]/comps/li/linkableFacilities</xpath>
+					<value>
+						<li>BookShelf</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
