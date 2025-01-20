@@ -1,0 +1,1204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--===============四旋翼飞行器-->
+  <ThingDef ParentName="MYDE_AerocraftFramework_XmlParent">
+    <defName>MYDE_AF_RotorCraft_FourPropeller_Base_AH1C</defName>
+    <label>AH-1 Cobra</label>
+    <description>The Bell AH-1 Cobra is a single-engined attack helicopter developed and manufactured by the American rotorcraft manufacturer Bell Helicopter. A member of the prolific Huey family, the AH-1 is also referred to as the HueyCobra or Snake. NEEDS 2 PILOTS TO FLY (use fast load button (Or right click on the aircraft in case you loaded something else ))</description>
+    <thingClass>MYDE_AerocraftFramework.Building_Aerocraft_AsBaseThing</thingClass>
+    <uiIconPath>ahc1/UI</uiIconPath>
+    <graphicData>
+      <texPath>ahc1/UI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(13,13)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1200</MaxHitPoints>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>200</Mass>
+      <Beauty>5</Beauty>
+      <!--这个是精准度-->
+      <ShootingAccuracyTurret>0.99</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>400</Steel>
+      <Silver>70</Silver>
+      <ComponentIndustrial>50</ComponentIndustrial>
+    </costList>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <minifiedDef>MYDE_AerocraftFramework_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_AerocraftFramework_Root</li>
+    </thingCategories>
+    <designationCategory>MYDE_AerocraftFramework_DesignationCategory</designationCategory>
+    <researchPrerequisites>
+      <li>HelicopterTesttech</li>
+    </researchPrerequisites>
+    <size>(4,2)</size>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <!--原版燃料-->
+      <li Class="CompProperties_Refuelable">
+        <!--<fuelLabel>Fuel</fuelLabel>-->
+        <!--<fuelGizmoLabel>Fuel</fuelGizmoLabel>-->
+        <outOfFuelMessage>Needs Fuel</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>815</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>True</consumeFuelOnlyWhenUsed>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>600</initialConfigurableTargetFuelLevel>
+      </li>
+      <!--本体的渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Thing">
+        <!--是否渲染-->
+        <If_Draw_Base>True</If_Draw_Base>
+        <!--飞行的大小变化-->
+        <Draw_ScaleIncreaseFactor_WhenFlying>0.2</Draw_ScaleIncreaseFactor_WhenFlying>
+        <!--本体的大小+高度-->
+        <Draw_Base_TexturePath>ahc1/Base</Draw_Base_TexturePath>
+        <Draw_Base_Scale>13</Draw_Base_Scale>
+        <Draw_Base_ExtraAltitudeLayerNum>0.4</Draw_Base_ExtraAltitudeLayerNum>
+        <!--是否制作阴影+阴影最大最下长度+阴影角度-->
+        <If_NeedDrawAllShadow>True</If_NeedDrawAllShadow>
+        <!--是否制作本体阴影+大小+图层+透明度-->
+        <If_DrawShadow_Base>true</If_DrawShadow_Base>
+        <Draw_Shadow_Base_Scale>10</Draw_Shadow_Base_Scale>
+        <Draw_Shadow_Base_HeightFactor>3</Draw_Shadow_Base_HeightFactor>
+        <Draw_Shadow_Base_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_Base_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Base_Transparency>0.5</Draw_Shadow_Base_Transparency>
+      </li>
+      <!--主武器渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Weapon">
+        <!--枪械-->
+        <WeaponDef>MYDE_AF_UniversalWeapon_MiniGun</WeaponDef>
+        <!--是否渲染-->
+        <If_Draw_Gun>False</If_Draw_Gun>
+        <!--枪的图层高度-->
+        <Draw_Gun_Scale>1</Draw_Gun_Scale>
+        <Draw_Gun_ExtraAltitudeLayerNum>0.3</Draw_Gun_ExtraAltitudeLayerNum>
+        <!--是否制作枪械阴影+大小+图层+透明度-->
+        <If_DrawShadow_Gun>true</If_DrawShadow_Gun>
+        <Draw_Shadow_Gun_Scale>0.75</Draw_Shadow_Gun_Scale>
+        <Draw_Shadow_Gun_ExtraAltitudeLayerNum>-0.6</Draw_Shadow_Gun_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Gun_Transparency>0.5</Draw_Shadow_Gun_Transparency>
+      </li>
+      <!--移动方式-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_MoveToTargetAndHover">
+        <!--碰撞检测的最大移动距离-->
+        <Check_CollideMoveRangeMax>10</Check_CollideMoveRangeMax>
+        <!--起飞需要的预热时间-->
+        <Move_WarmUpTickMax>180</Move_WarmUpTickMax>
+        <!--是否需要转向，False则省略飞行器转向过程-->
+        <If_NeedTurnWhenMoving>True</If_NeedTurnWhenMoving>
+        <!--最大移动速度+转向时的移动速度-->
+        <MoveSpeed_Max>0.2</MoveSpeed_Max>
+        <MoveSpeed_Turning>0.10</MoveSpeed_Turning>
+        <!--默认盘旋设置 True为开 False为关-->
+        <Default_HoverSet>False</Default_HoverSet>
+        <!--盘旋的文字+图标-->
+        <Hover_Icon_On_Label>Hover：On</Hover_Icon_On_Label>
+        <Hover_Icon_Off_Label>Hover：Off</Hover_Icon_Off_Label>
+        <Hover_Icon_Description>Whether to turn on or off the hovering of the aerocraft</Hover_Icon_Description>
+        <Hover_Icon_On_IconPath>AerocraftFramework/Icon/Hover</Hover_Icon_On_IconPath>
+        <Hover_Icon_Off_IconPath>AerocraftFramework/Icon/False</Hover_Icon_Off_IconPath>
+        <!--起飞降落的图标切换·文字+图标-->
+        <TakeOffAndLanding_Icon_On_Label>Take off</TakeOffAndLanding_Icon_On_Label>
+        <TakeOffAndLanding_Icon_Off_Label>Landing</TakeOffAndLanding_Icon_Off_Label>
+        <TakeOffAndLanding_Icon_Description>Switch between takeoff and landing. AH-1 Cobra is a helicopter, which can take off and land vertically at any time. It can only attack in flight. After takeoff, move it with the right mouse button, right-click on Non-Player faction object to forcibly attack the target, right-click on our faction object to switch to follow mode.</TakeOffAndLanding_Icon_Description>
+        <TakeOffAndLanding_Icon_On_IconPath>AerocraftFramework/Icon/Up</TakeOffAndLanding_Icon_On_IconPath>
+        <TakeOffAndLanding_Icon_Off_IconPath>AerocraftFramework/Icon/Down</TakeOffAndLanding_Icon_Off_IconPath>
+        <!--盘旋的角速度+转向速度-->
+        <AngleChangePerTick_Hover>1</AngleChangePerTick_Hover>
+        <AngleChangePerTick_Turning>2</AngleChangePerTick_Turning>
+<!--Consumo de combustible por Tick 1 = 60 combustible/segundo 0,015 = 0,9 combustible/segundo -->
+        <FuelConsumePerTick>0.010</FuelConsumePerTick>
+      </li>
+      <!--摧毁自爆-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_DoExplosion_BySomeWays">
+        <!--被摧毁时是否自爆-->
+        <If_DoExplosion_WhenDestroy>True</If_DoExplosion_WhenDestroy>
+        <!--生命值归0的时候是否沿路径坠毁后自爆+坠毁距离-->
+        <If_Drop_WhenHitpointZero>True</If_Drop_WhenHitpointZero>
+        <Drop_Range>20</Drop_Range>
+        <!--这个是伤害，写多少就造成多少伤害，不是CompProperties_Explosive的乘数，其他的所有字段都跟原版的CompProperties_Explosive相同-->
+        <damageAmountBase>30</damageAmountBase>
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <!--装饰物·底座-->
+      <!--<li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">/*是否在飞行中显示*/<If_DrawWhenFlying>False</If_DrawWhenFlying>/*这个是是否跟随本体放大缩小*/<If_ChangeScaleWithBaseThing>False</If_ChangeScaleWithBaseThing>/*装饰物的路径+大小+透明度*/<Draw_Decoration_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Decoration_TexturePath><Draw_Decoration_Scale>1.5</Draw_Decoration_Scale><Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>/*本体的图层+额外图层数值调整*/<Draw_Decoration_BaseAltitude>Building</Draw_Decoration_BaseAltitude><Draw_Decoration_ExtraAltitudeLayerNum>-1</Draw_Decoration_ExtraAltitudeLayerNum>/*偏移中心点的长度跟角度（用来计算位置）*/<Draw_Decoration_Range>0</Draw_Decoration_Range><Draw_Decoration_Angle>0</Draw_Decoration_Angle>/*基础旋转方向+转速*/<Draw_Decoration_BaseRotate>0</Draw_Decoration_BaseRotate><Draw_Decoration_RotateSpeedPerTick_Add>0</Draw_Decoration_RotateSpeedPerTick_Add><Draw_Decoration_RotateSpeedPerTick_Max>0</Draw_Decoration_RotateSpeedPerTick_Max>/*是否渲染阴影*/<If_DrawShadow>false</If_DrawShadow><If_FallowBaseAngle>false</If_FallowBaseAngle><Draw_Shadow_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Shadow_TexturePath><Draw_Shadow_Scale>1</Draw_Shadow_Scale><Draw_Shadow_Transparency>1</Draw_Shadow_Transparency><Draw_Shadow_BaseAltitude>Building</Draw_Shadow_BaseAltitude><Draw_Shadow_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_ExtraAltitudeLayerNum><Draw_Shadow_Range>0</Draw_Shadow_Range><Draw_Shadow_Angle>0</Draw_Shadow_Angle></li>-->
+      <!--装饰物·扇叶-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">
+        <!--装饰物的路径+大小+透明度-->
+        <If_UseSecondTexture>true</If_UseSecondTexture>
+        <Draw_Decoration_TexturePath>ahc1/Propeller</Draw_Decoration_TexturePath>
+        <Draw_Decoration_TexturePath_Second>ahc1/Propeller_Second</Draw_Decoration_TexturePath_Second>
+        <Draw_Decoration_Scale>11</Draw_Decoration_Scale>
+        <Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>
+        <!--本体的图层+额外图层数值调整-->
+        <Draw_Decoration_BaseAltitude>WorldClipper</Draw_Decoration_BaseAltitude>
+        <Draw_Decoration_ExtraAltitudeLayerNum>0.6</Draw_Decoration_ExtraAltitudeLayerNum>
+        <!--偏移中心点的长度跟角度（用来计算位置）-->
+        <Draw_Decoration_Range>-1.15</Draw_Decoration_Range>
+        <Draw_Decoration_Angle>90</Draw_Decoration_Angle>
+        <!--基础旋转方向+转速-->
+        <Draw_Decoration_BaseRotate>60</Draw_Decoration_BaseRotate>
+        <Draw_Decoration_RotateSpeedPerTick_Max>19</Draw_Decoration_RotateSpeedPerTick_Max>
+        <!--是否渲染阴影-->
+        <If_DrawShadow>true</If_DrawShadow>
+        <If_FallowBaseAngle>false</If_FallowBaseAngle>
+        <Draw_Shadow_TexturePath>ahc1/Propeller</Draw_Shadow_TexturePath>
+        <Draw_Shadow_TexturePath_Second>ahc1/Propeller_Second</Draw_Shadow_TexturePath_Second>
+        <Draw_Shadow_ScaleAndRangeFactor>0.75</Draw_Shadow_ScaleAndRangeFactor>
+        <Draw_Shadow_Transparency>0.5</Draw_Shadow_Transparency>
+        <Draw_Shadow_ExtraAltitudeLayerNum>-0.4</Draw_Shadow_ExtraAltitudeLayerNum>
+      </li>
+      <!--生成额外武器-->
+
+      <li Class="MYDE_AerocraftFramework.CompProperties_GetExtraWeapon">
+        <!--武器的Def+偏移量+角度-->
+        <ExtraWeaponDef>MYDE_AF_RotorCraft_FourPropeller_ExtraWeapon_Rocket</ExtraWeaponDef>
+        <ExtraWeapon_Range>-2.1</ExtraWeapon_Range>
+        <ExtraWeapon_Angle>40</ExtraWeapon_Angle>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_GetExtraWeapon">
+        <!--武器的Def+偏移量+角度-->
+        <ExtraWeaponDef>MYDE_AF_RotorCraft_FourPropeller_ExtraWeapon_Rocket</ExtraWeaponDef>
+        <ExtraWeapon_Range>2.1</ExtraWeapon_Range>
+        <ExtraWeapon_Angle>-39</ExtraWeapon_Angle>
+      </li>
+
+
+      <!--载人-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_CarryPawn">
+        <!--最大载人量-->
+        <If_NeedPawnToControl>True</If_NeedPawnToControl>
+        <!--驾驶飞行器所需要的人数-->
+        <!--The number of Pawns required to fly the Aerocraft-->
+        <NeedPawnToControl_Number>2</NeedPawnToControl_Number>
+        <CarryPawnNumMax>2</CarryPawnNumMax>
+        <!--是否将当前武器替换为被载人的武器-->
+        <If_ChangeWeaponByPawnWeaponWhenCarry>True</If_ChangeWeaponByPawnWeaponWhenCarry>
+        <If_ShowFastLordGizmos>True</If_ShowFastLordGizmos>
+        <Gizmos_CarryPawn_Label>Fast loading</Gizmos_CarryPawn_Label>
+        <Gizmos_CarryPawn_Description>Fast loading colonizers within the surrounding 5x5 range (pilots)</Gizmos_CarryPawn_Description>
+        <Gizmos_CarryPawn_IconPath>AerocraftFramework/RotorCraft_FourPropeller/CarryPawn</Gizmos_CarryPawn_IconPath>
+        <CarryPawn_MaxRange>2</CarryPawn_MaxRange>
+      </li>
+      <!--替换武器-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_ReplaceCurrentWeapon"></li>
+      <!--跨地图-->
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.8</restEffectiveness>
+        <max1PerGroup>true</max1PerGroup>
+        <massCapacity>400</massCapacity>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_CanCrossMap">
+        <LeavingThingDef>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_AH1C_CrossMapThing</LeavingThingDef>
+        <WorldObjectDef>MYDE_AF_WorldObject_RotorCraft_FourPropeller_AH1C_CrossMapThing</WorldObjectDef>
+        <TravelSpeed>0.0001</TravelSpeed>
+        <!--燃料消耗乘数，10是每格10消耗，算上来回需要20燃料每格，原版空投舱近似于每格2燃料消耗，来回4燃料-->
+        <FuelConsumeBase>10</FuelConsumeBase>
+        <!--文字+图标-->
+        <CrossMap_Label>Cross Map</CrossMap_Label>
+        <CrossMap_Description>Cross map, no open space can be selected as the target location. To avoid situations where it is impossible to return, please ensure that there is sufficient fuel for round-trip travel</CrossMap_Description>
+        <CrossMap_IconPath>AerocraftFramework/Icon/CrossMap</CrossMap_IconPath>
+        <DefaultThing_ToRefuel>Chemfuel</DefaultThing_ToRefuel>
+      </li>
+      <!--特效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnFleck">
+        <!--生成的特效-->
+        <FleckDef>MYDE_AF_Fleck_Smoke</FleckDef>
+        <!--这个是播放特效的间隔-->
+        <Fleck_MakeFleckTickMax>10</Fleck_MakeFleckTickMax>
+        <!--这个是每隔多少Tick加一个播放次数-->
+        <Fleck_MakeFleck_AddNumTickMax>20</Fleck_MakeFleck_AddNumTickMax>
+        <!--这个是特效是否可生成-->
+        <If_Fleck_Addable>True</If_Fleck_Addable>
+        <!--这个是播放多少次特效-->
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>20</Fleck_MakeFleckNum_Max>
+        <!--这个是位置调整-->
+        <Fleck_Range_ToSetPosition>0</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>0</Fleck_Angle_ToSetPosition>
+        <!--这个是特效贴图旋转角度-->
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--这个是特效飞行方向-->
+        <Fleck_Angle>-180~180</Fleck_Angle>
+        <!--这个是特效大小-->
+        <Fleck_Scale>1~2</Fleck_Scale>
+        <!--这个是特效飞行速度-->
+        <Fleck_Speed>5~7</Fleck_Speed>
+      </li>
+      <!--音效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnSound">
+        <!--音频def-->
+        <SoundDef>MYDE_AF_Sound_RotorCraft_FourPropeller</SoundDef>
+        <!--两者组合成为音频播放间隔：（刚起飞时）Max-Add*0（20-0） （在飞行时）Max - Add（20-10）-->
+        <Sound_MakeSoundkTick_Add>10</Sound_MakeSoundkTick_Add>
+        <Sound_MakeSoundkTick_Max>20</Sound_MakeSoundkTick_Max>
+      </li>
+    </comps>
+
+    <uiOrder>300</uiOrder>
+  </ThingDef>
+
+
+ 
+  <!--跨地图-->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_AH1C_CrossMapThing</defName>
+    <label>AH-1 Cobra (Leaving)</label>
+    <thingClass>MYDE_AerocraftFramework.Skyfaller_Aerocraft_Leaving</thingClass>
+    <altitudeLayer>Skyfaller</altitudeLayer>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <reversed>true</reversed>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(14, 14)</shadowSize>
+      <anticipationSound>DropPod_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>
+        <min>-40</min>
+        <max>-15</max>
+      </ticksToImpactRange>
+    </skyfaller>
+    <graphicData>
+      <texPath>ahc1/CrossMap</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>15</drawSize>
+    </graphicData>
+  </ThingDef>
+  <WorldObjectDef>
+    <defName>MYDE_AF_WorldObject_RotorCraft_FourPropeller_AH1C_CrossMapThing</defName>
+    <label>AH-1 Cobra</label>
+    <description>AH-1 Cobra</description>
+    <worldObjectClass>MYDE_AerocraftFramework.WorldObject_CrossMapThing_Flying</worldObjectClass>
+    <texture>ahc1/CrossMap</texture>
+    <expandingIconTexture>ahc1/CrossMap</expandingIconTexture>
+    <useDynamicDrawer>true</useDynamicDrawer>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconPriority>60</expandingIconPriority>
+    <rotateGraphicWhenTraveling>true</rotateGraphicWhenTraveling>
+    <expandMore>true</expandMore>
+    <allowCaravanIncidentsWhichGenerateMap>true</allowCaravanIncidentsWhichGenerateMap>
+  </WorldObjectDef>
+  <!--test sound WIP-->
+  <SoundDef>
+    <defName>MYDE_AF_Sound_RotorCraft_AH1C_FourPropeller</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>AFHPsubmod/propellerFly1AFHP</clipPath>
+          </li>
+        </grains>
+        <volumeRange>50~80</volumeRange>
+        <pitchRange>1.206471~1</pitchRange>
+        <distRange>0~70</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+  
+  
+    <ThingDef ParentName="MYDE_AerocraftFramework_XmlParent">
+    <defName>MYDE_AF_RotorCraft_FourPropeller_Base_v22os</defName>
+    <label>V-22 Osprey</label>
+    <description>The Bell Boeing V-22 Osprey is an American multi-mission, tiltrotor military aircraft with both vertical takeoff and landing (VTOL) and short takeoff and landing (STOL) capabilities. It is designed to combine the functionality of a conventional helicopter with the long-range, high-speed cruise performance of a turboprop aircraft. NEEDS 2 PILOTS TO FLY, CAN CARRY UP TO 24 PAWNS (use fast load button (Or right click on the aircraft in case you loaded something else ))</description>
+    <thingClass>MYDE_AerocraftFramework.Building_Aerocraft_AsBaseThing</thingClass>
+    <uiIconPath>v22/UI</uiIconPath>
+    <graphicData>
+      <texPath>v22/UI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(15,15)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1800</MaxHitPoints>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>200</Mass>
+      <Beauty>5</Beauty>
+      <!--这个是精准度-->
+      <ShootingAccuracyTurret>0.97</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>700</Steel>
+      <Silver>120</Silver>
+      <ComponentIndustrial>70</ComponentIndustrial>
+    </costList>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <minifiedDef>MYDE_AerocraftFramework_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_AerocraftFramework_Root</li>
+    </thingCategories>
+    <designationCategory>MYDE_AerocraftFramework_DesignationCategory</designationCategory>
+    <researchPrerequisites>
+      <li>tiltrotortest</li>
+    </researchPrerequisites>
+    <size>(6,4)</size>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <!--原版燃料-->
+      <li Class="CompProperties_Refuelable">
+        <!--<fuelLabel>Fuel</fuelLabel>-->
+        <!--<fuelGizmoLabel>Fuel</fuelGizmoLabel>-->
+        <outOfFuelMessage>Needs Fuel</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>1700</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>True</consumeFuelOnlyWhenUsed>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>600</initialConfigurableTargetFuelLevel>
+      </li>
+      <!--本体的渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Thing">
+        <!--是否渲染-->
+        <If_Draw_Base>True</If_Draw_Base>
+        <!--飞行的大小变化-->
+        <Draw_ScaleIncreaseFactor_WhenFlying>0.2</Draw_ScaleIncreaseFactor_WhenFlying>
+        <!--本体的大小+高度-->
+        <Draw_Base_TexturePath>v22/Base</Draw_Base_TexturePath>
+        <Draw_Base_Scale>15</Draw_Base_Scale>
+        <Draw_Base_ExtraAltitudeLayerNum>0.4</Draw_Base_ExtraAltitudeLayerNum>
+        <!--是否制作阴影+阴影最大最下长度+阴影角度-->
+        <If_NeedDrawAllShadow>True</If_NeedDrawAllShadow>
+        <!--是否制作本体阴影+大小+图层+透明度-->
+        <If_DrawShadow_Base>true</If_DrawShadow_Base>
+        <Draw_Shadow_Base_Scale>10</Draw_Shadow_Base_Scale>
+        <Draw_Shadow_Base_HeightFactor>3</Draw_Shadow_Base_HeightFactor>
+        <Draw_Shadow_Base_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_Base_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Base_Transparency>0.5</Draw_Shadow_Base_Transparency>
+      </li>
+      <!--主武器渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Weapon">
+        <!--枪械-->
+        <WeaponDef>MYDE_AF_UniversalWeapon_MiniGun</WeaponDef>
+        <!--是否渲染-->
+        <If_Draw_Gun>False</If_Draw_Gun>
+        <!--枪的图层高度-->
+        <Draw_Gun_Scale>1</Draw_Gun_Scale>
+        <Draw_Gun_ExtraAltitudeLayerNum>0.3</Draw_Gun_ExtraAltitudeLayerNum>
+        <!--是否制作枪械阴影+大小+图层+透明度-->
+        <If_DrawShadow_Gun>true</If_DrawShadow_Gun>
+        <Draw_Shadow_Gun_Scale>0.75</Draw_Shadow_Gun_Scale>
+        <Draw_Shadow_Gun_ExtraAltitudeLayerNum>-0.6</Draw_Shadow_Gun_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Gun_Transparency>0.5</Draw_Shadow_Gun_Transparency>
+      </li>
+      <!--移动方式-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_MoveToTargetAndHover">
+        <!--碰撞检测的最大移动距离-->
+        <Check_CollideMoveRangeMax>10</Check_CollideMoveRangeMax>
+        <!--起飞需要的预热时间-->
+        <Move_WarmUpTickMax>180</Move_WarmUpTickMax>
+        <!--是否需要转向，False则省略飞行器转向过程-->
+        <If_NeedTurnWhenMoving>True</If_NeedTurnWhenMoving>
+        <!--最大移动速度+转向时的移动速度-->
+        <MoveSpeed_Max>0.2</MoveSpeed_Max>
+        <MoveSpeed_Turning>0.10</MoveSpeed_Turning>
+        <!--默认盘旋设置 True为开 False为关-->
+        <Default_HoverSet>False</Default_HoverSet>
+        <!--盘旋的文字+图标-->
+        <Hover_Icon_On_Label>Hover：On</Hover_Icon_On_Label>
+        <Hover_Icon_Off_Label>Hover：Off</Hover_Icon_Off_Label>
+        <Hover_Icon_Description>Whether to turn on or off the hovering of the aerocraft</Hover_Icon_Description>
+        <Hover_Icon_On_IconPath>AerocraftFramework/Icon/Hover</Hover_Icon_On_IconPath>
+        <Hover_Icon_Off_IconPath>AerocraftFramework/Icon/False</Hover_Icon_Off_IconPath>
+        <!--起飞降落的图标切换·文字+图标-->
+        <TakeOffAndLanding_Icon_On_Label>Take off</TakeOffAndLanding_Icon_On_Label>
+        <TakeOffAndLanding_Icon_Off_Label>Landing</TakeOffAndLanding_Icon_Off_Label>
+        <TakeOffAndLanding_Icon_Description>Switch between takeoff and landing.V 22 Osprey is a plane/helicopter, which can take off and land vertically at any time. It can only attack in flight. After takeoff, move it with the right mouse button, right-click on Non-Player faction object to forcibly attack the target, right-click on our faction object to switch to follow mode.</TakeOffAndLanding_Icon_Description>
+        <TakeOffAndLanding_Icon_On_IconPath>AerocraftFramework/Icon/Up</TakeOffAndLanding_Icon_On_IconPath>
+        <TakeOffAndLanding_Icon_Off_IconPath>AerocraftFramework/Icon/Down</TakeOffAndLanding_Icon_Off_IconPath>
+        <!--盘旋的角速度+转向速度-->
+        <AngleChangePerTick_Hover>1</AngleChangePerTick_Hover>
+        <AngleChangePerTick_Turning>2</AngleChangePerTick_Turning>
+<!--Consumo de combustible por Tick 1 = 60 combustible/segundo 0,015 = 0,9 combustible/segundo -->
+        <FuelConsumePerTick>0.010</FuelConsumePerTick>
+      </li>
+      <!--摧毁自爆-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_DoExplosion_BySomeWays">
+        <!--被摧毁时是否自爆-->
+        <If_DoExplosion_WhenDestroy>True</If_DoExplosion_WhenDestroy>
+        <!--生命值归0的时候是否沿路径坠毁后自爆+坠毁距离-->
+        <If_Drop_WhenHitpointZero>True</If_Drop_WhenHitpointZero>
+        <Drop_Range>20</Drop_Range>
+        <!--这个是伤害，写多少就造成多少伤害，不是CompProperties_Explosive的乘数，其他的所有字段都跟原版的CompProperties_Explosive相同-->
+        <damageAmountBase>30</damageAmountBase>
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <!--装饰物·底座-->
+      <!--<li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">/*是否在飞行中显示*/<If_DrawWhenFlying>False</If_DrawWhenFlying>/*这个是是否跟随本体放大缩小*/<If_ChangeScaleWithBaseThing>False</If_ChangeScaleWithBaseThing>/*装饰物的路径+大小+透明度*/<Draw_Decoration_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Decoration_TexturePath><Draw_Decoration_Scale>1.5</Draw_Decoration_Scale><Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>/*本体的图层+额外图层数值调整*/<Draw_Decoration_BaseAltitude>Building</Draw_Decoration_BaseAltitude><Draw_Decoration_ExtraAltitudeLayerNum>-1</Draw_Decoration_ExtraAltitudeLayerNum>/*偏移中心点的长度跟角度（用来计算位置）*/<Draw_Decoration_Range>0</Draw_Decoration_Range><Draw_Decoration_Angle>0</Draw_Decoration_Angle>/*基础旋转方向+转速*/<Draw_Decoration_BaseRotate>0</Draw_Decoration_BaseRotate><Draw_Decoration_RotateSpeedPerTick_Add>0</Draw_Decoration_RotateSpeedPerTick_Add><Draw_Decoration_RotateSpeedPerTick_Max>0</Draw_Decoration_RotateSpeedPerTick_Max>/*是否渲染阴影*/<If_DrawShadow>false</If_DrawShadow><If_FallowBaseAngle>false</If_FallowBaseAngle><Draw_Shadow_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Shadow_TexturePath><Draw_Shadow_Scale>1</Draw_Shadow_Scale><Draw_Shadow_Transparency>1</Draw_Shadow_Transparency><Draw_Shadow_BaseAltitude>Building</Draw_Shadow_BaseAltitude><Draw_Shadow_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_ExtraAltitudeLayerNum><Draw_Shadow_Range>0</Draw_Shadow_Range><Draw_Shadow_Angle>0</Draw_Shadow_Angle></li>-->
+      <!--装饰物·扇叶-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">
+        <!--装饰物的路径+大小+透明度-->
+        <If_UseSecondTexture>true</If_UseSecondTexture>
+        <Draw_Decoration_TexturePath>v22/Propeller</Draw_Decoration_TexturePath>
+        <Draw_Decoration_TexturePath_Second>v22/Propeller_Second</Draw_Decoration_TexturePath_Second>
+        <Draw_Decoration_Scale>9</Draw_Decoration_Scale>
+        <Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>
+        <!--本体的图层+额外图层数值调整-->
+        <Draw_Decoration_BaseAltitude>WorldClipper</Draw_Decoration_BaseAltitude>
+        <Draw_Decoration_ExtraAltitudeLayerNum>0.6</Draw_Decoration_ExtraAltitudeLayerNum>
+        <!--偏移中心点的长度跟角度（用来计算位置）-->
+        <Draw_Decoration_Range>4.20</Draw_Decoration_Range>
+        <Draw_Decoration_Angle>-168</Draw_Decoration_Angle>
+        <!--基础旋转方向+转速-->
+        <Draw_Decoration_BaseRotate>60</Draw_Decoration_BaseRotate>
+        <Draw_Decoration_RotateSpeedPerTick_Max>19</Draw_Decoration_RotateSpeedPerTick_Max>
+        <!--是否渲染阴影-->
+        <If_DrawShadow>true</If_DrawShadow>
+        <If_FallowBaseAngle>false</If_FallowBaseAngle>
+        <Draw_Shadow_TexturePath>v22/Propeller</Draw_Shadow_TexturePath>
+        <Draw_Shadow_TexturePath_Second>v22/Propeller_Second</Draw_Shadow_TexturePath_Second>
+        <Draw_Shadow_ScaleAndRangeFactor>0.75</Draw_Shadow_ScaleAndRangeFactor>
+        <Draw_Shadow_Transparency>0.5</Draw_Shadow_Transparency>
+        <Draw_Shadow_ExtraAltitudeLayerNum>-0.4</Draw_Shadow_ExtraAltitudeLayerNum>
+      </li>
+	  
+	        <li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">
+        <!--装饰物的路径+大小+透明度-->
+        <!--装饰物的路径+大小+透明度-->
+        <If_UseSecondTexture>true</If_UseSecondTexture>
+        <Draw_Decoration_TexturePath>v22/Propeller</Draw_Decoration_TexturePath>
+        <Draw_Decoration_TexturePath_Second>v22/Propeller_Second</Draw_Decoration_TexturePath_Second>
+        <Draw_Decoration_Scale>9</Draw_Decoration_Scale>
+        <Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>
+        <!--本体的图层+额外图层数值调整-->
+        <Draw_Decoration_BaseAltitude>WorldClipper</Draw_Decoration_BaseAltitude>
+        <Draw_Decoration_ExtraAltitudeLayerNum>0.6</Draw_Decoration_ExtraAltitudeLayerNum>
+        <!--偏移中心点的长度跟角度（用来计算位置）-->
+        <Draw_Decoration_Range>-4.20</Draw_Decoration_Range>
+        <Draw_Decoration_Angle>168</Draw_Decoration_Angle>
+        <!--基础旋转方向+转速-->
+        <Draw_Decoration_BaseRotate>60</Draw_Decoration_BaseRotate>
+        <Draw_Decoration_RotateSpeedPerTick_Max>19</Draw_Decoration_RotateSpeedPerTick_Max>
+        <!--是否渲染阴影-->
+        <If_DrawShadow>true</If_DrawShadow>
+        <If_FallowBaseAngle>false</If_FallowBaseAngle>
+        <Draw_Shadow_TexturePath>v22/Propeller</Draw_Shadow_TexturePath>
+        <Draw_Shadow_TexturePath_Second>v22/Propeller_Second</Draw_Shadow_TexturePath_Second>
+        <Draw_Shadow_ScaleAndRangeFactor>0.75</Draw_Shadow_ScaleAndRangeFactor>
+        <Draw_Shadow_Transparency>0.5</Draw_Shadow_Transparency>
+        <Draw_Shadow_ExtraAltitudeLayerNum>-0.4</Draw_Shadow_ExtraAltitudeLayerNum>
+      </li>
+      <!--生成额外武器-->
+
+
+
+      <!--载人-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_CarryPawn">
+        <!--最大载人量-->
+        <If_NeedPawnToControl>True</If_NeedPawnToControl>
+        <!--驾驶飞行器所需要的人数-->
+        <!--The number of Pawns required to fly the Aerocraft-->
+        <NeedPawnToControl_Number>2</NeedPawnToControl_Number>
+        <CarryPawnNumMax>24</CarryPawnNumMax>
+        <!--是否将当前武器替换为被载人的武器-->
+        <If_ChangeWeaponByPawnWeaponWhenCarry>True</If_ChangeWeaponByPawnWeaponWhenCarry>
+        <If_ShowFastLordGizmos>True</If_ShowFastLordGizmos>
+        <Gizmos_CarryPawn_Label>Fast loading</Gizmos_CarryPawn_Label>
+        <Gizmos_CarryPawn_Description>Fast loading colonizers within the surrounding 5x5 range (pilots)</Gizmos_CarryPawn_Description>
+        <Gizmos_CarryPawn_IconPath>AerocraftFramework/RotorCraft_FourPropeller/CarryPawn</Gizmos_CarryPawn_IconPath>
+        <CarryPawn_MaxRange>4</CarryPawn_MaxRange>
+      </li>
+      <!--替换武器-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_ReplaceCurrentWeapon"></li>
+      <!--跨地图-->
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.8</restEffectiveness>
+        <max1PerGroup>true</max1PerGroup>
+        <massCapacity>3500</massCapacity>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_CanCrossMap">
+        <LeavingThingDef>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_v22os_CrossMapThing</LeavingThingDef>
+        <WorldObjectDef>MYDE_AF_WorldObject_RotorCraft_FourPropeller_v22os_CrossMapThing</WorldObjectDef>
+        <TravelSpeed>0.0001</TravelSpeed>
+        <!--燃料消耗乘数，10是每格10消耗，算上来回需要20燃料每格，原版空投舱近似于每格2燃料消耗，来回4燃料-->
+        <FuelConsumeBase>10</FuelConsumeBase>
+        <!--文字+图标-->
+        <CrossMap_Label>Cross Map</CrossMap_Label>
+        <CrossMap_Description>Cross map, no open space can be selected as the target location. To avoid situations where it is impossible to return, please ensure that there is sufficient fuel for round-trip travel</CrossMap_Description>
+        <CrossMap_IconPath>AerocraftFramework/Icon/CrossMap</CrossMap_IconPath>
+        <DefaultThing_ToRefuel>Chemfuel</DefaultThing_ToRefuel>
+      </li>
+      <!--特效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnFleck">
+        <!--生成的特效-->
+        <FleckDef>MYDE_AF_Fleck_Smoke</FleckDef>
+        <!--这个是播放特效的间隔-->
+        <Fleck_MakeFleckTickMax>10</Fleck_MakeFleckTickMax>
+        <!--这个是每隔多少Tick加一个播放次数-->
+        <Fleck_MakeFleck_AddNumTickMax>20</Fleck_MakeFleck_AddNumTickMax>
+        <!--这个是特效是否可生成-->
+        <If_Fleck_Addable>True</If_Fleck_Addable>
+        <!--这个是播放多少次特效-->
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>20</Fleck_MakeFleckNum_Max>
+        <!--这个是位置调整-->
+        <Fleck_Range_ToSetPosition>0</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>0</Fleck_Angle_ToSetPosition>
+        <!--这个是特效贴图旋转角度-->
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--这个是特效飞行方向-->
+        <Fleck_Angle>-180~180</Fleck_Angle>
+        <!--这个是特效大小-->
+        <Fleck_Scale>1~2</Fleck_Scale>
+        <!--这个是特效飞行速度-->
+        <Fleck_Speed>5~7</Fleck_Speed>
+      </li>
+      <!--音效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnSound">
+        <!--音频def-->
+        <SoundDef>MYDE_AF_Sound_RotorCraft_FourPropeller</SoundDef>
+        <!--两者组合成为音频播放间隔：（刚起飞时）Max-Add*0（20-0） （在飞行时）Max - Add（20-10）-->
+        <Sound_MakeSoundkTick_Add>10</Sound_MakeSoundkTick_Add>
+        <Sound_MakeSoundkTick_Max>20</Sound_MakeSoundkTick_Max>
+      </li>
+    </comps>
+
+    <uiOrder>300</uiOrder>
+  </ThingDef>
+
+
+ 
+  <!--跨地图-->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_v22os_CrossMapThing</defName>
+    <label>MV 22 OSPREY (Leaving)</label>
+    <thingClass>MYDE_AerocraftFramework.Skyfaller_Aerocraft_Leaving</thingClass>
+    <altitudeLayer>Skyfaller</altitudeLayer>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <reversed>true</reversed>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(15, 15)</shadowSize>
+      <anticipationSound>DropPod_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>
+        <min>-40</min>
+        <max>-15</max>
+      </ticksToImpactRange>
+    </skyfaller>
+    <graphicData>
+      <texPath>v22/CrossMap</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>15</drawSize>
+    </graphicData>
+  </ThingDef>
+  <WorldObjectDef>
+    <defName>MYDE_AF_WorldObject_RotorCraft_FourPropeller_v22os_CrossMapThing</defName>
+    <label>V 22 OSPREY</label>
+    <description>V 22 OSPREY</description>
+    <worldObjectClass>MYDE_AerocraftFramework.WorldObject_CrossMapThing_Flying</worldObjectClass>
+    <texture>v22/CrossMap</texture>
+    <expandingIconTexture>v22/CrossMap</expandingIconTexture>
+    <useDynamicDrawer>true</useDynamicDrawer>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconPriority>60</expandingIconPriority>
+    <rotateGraphicWhenTraveling>true</rotateGraphicWhenTraveling>
+    <expandMore>true</expandMore>
+    <allowCaravanIncidentsWhichGenerateMap>true</allowCaravanIncidentsWhichGenerateMap>
+  </WorldObjectDef>
+
+   <ThingDef ParentName="MYDE_AerocraftFramework_XmlParent">
+    <defName>MYDE_AF_RotorCraft_FourPropeller_Base_uh1a</defName>
+    <label>UH-1 Iroquois</label>
+    <description>The Bell UH-1 Iroquois (nicknamed "Huey") is a utility military helicopter designed and produced by the American aerospace company Bell Helicopter. It is the first member of the prolific Huey family, as well as the first turbine-powered helicopter in service with the United States military.. NEEDS 2 PILOTS TO FLY, CAN LOAD UP TO 13 PAWNS(use fast load button (Or right click on the aircraft in case you loaded something else ))</description>
+    <thingClass>MYDE_AerocraftFramework.Building_Aerocraft_AsBaseThing</thingClass>
+    <uiIconPath>uh1a/UI</uiIconPath>
+    <graphicData>
+      <texPath>uh1a/UI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(12,13)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>900</MaxHitPoints>
+      <WorkToBuild>26000</WorkToBuild>
+      <Mass>200</Mass>
+      <Beauty>5</Beauty>
+      <!--这个是精准度-->
+      <ShootingAccuracyTurret>0.99</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>320</Steel>
+      <Silver>60</Silver>
+      <ComponentIndustrial>45</ComponentIndustrial>
+    </costList>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <minifiedDef>MYDE_AerocraftFramework_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_AerocraftFramework_Root</li>
+    </thingCategories>
+    <designationCategory>MYDE_AerocraftFramework_DesignationCategory</designationCategory>
+    <researchPrerequisites>
+      <li>HelicopterTesttech</li>
+    </researchPrerequisites>
+    <size>(6,4)</size>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <!--原版燃料-->
+      <li Class="CompProperties_Refuelable">
+        <!--<fuelLabel>Fuel</fuelLabel>-->
+        <!--<fuelGizmoLabel>Fuel</fuelGizmoLabel>-->
+        <outOfFuelMessage>Needs Fuel</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>900</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>True</consumeFuelOnlyWhenUsed>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>600</initialConfigurableTargetFuelLevel>
+      </li>
+      <!--本体的渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Thing">
+        <!--是否渲染-->
+        <If_Draw_Base>True</If_Draw_Base>
+        <!--飞行的大小变化-->
+        <Draw_ScaleIncreaseFactor_WhenFlying>0.2</Draw_ScaleIncreaseFactor_WhenFlying>
+        <!--本体的大小+高度-->
+        <Draw_Base_TexturePath>uh1a/Base</Draw_Base_TexturePath>
+        <Draw_Base_Scale>12</Draw_Base_Scale>
+        <Draw_Base_ExtraAltitudeLayerNum>0.4</Draw_Base_ExtraAltitudeLayerNum>
+        <!--是否制作阴影+阴影最大最下长度+阴影角度-->
+        <If_NeedDrawAllShadow>True</If_NeedDrawAllShadow>
+        <!--是否制作本体阴影+大小+图层+透明度-->
+        <If_DrawShadow_Base>true</If_DrawShadow_Base>
+        <Draw_Shadow_Base_Scale>10</Draw_Shadow_Base_Scale>
+        <Draw_Shadow_Base_HeightFactor>3</Draw_Shadow_Base_HeightFactor>
+        <Draw_Shadow_Base_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_Base_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Base_Transparency>0.5</Draw_Shadow_Base_Transparency>
+      </li>
+      <!--主武器渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Weapon">
+        <!--枪械-->
+        <WeaponDef>MYDE_AF_UniversalWeapon_MiniGun</WeaponDef>
+        <!--是否渲染-->
+        <If_Draw_Gun>False</If_Draw_Gun>
+        <!--枪的图层高度-->
+        <Draw_Gun_Scale>1</Draw_Gun_Scale>
+        <Draw_Gun_ExtraAltitudeLayerNum>0.3</Draw_Gun_ExtraAltitudeLayerNum>
+        <!--是否制作枪械阴影+大小+图层+透明度-->
+        <If_DrawShadow_Gun>true</If_DrawShadow_Gun>
+        <Draw_Shadow_Gun_Scale>0.75</Draw_Shadow_Gun_Scale>
+        <Draw_Shadow_Gun_ExtraAltitudeLayerNum>-0.6</Draw_Shadow_Gun_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Gun_Transparency>0.5</Draw_Shadow_Gun_Transparency>
+      </li>
+      <!--移动方式-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_MoveToTargetAndHover">
+        <!--碰撞检测的最大移动距离-->
+        <Check_CollideMoveRangeMax>10</Check_CollideMoveRangeMax>
+        <!--起飞需要的预热时间-->
+        <Move_WarmUpTickMax>180</Move_WarmUpTickMax>
+        <!--是否需要转向，False则省略飞行器转向过程-->
+        <If_NeedTurnWhenMoving>True</If_NeedTurnWhenMoving>
+        <!--最大移动速度+转向时的移动速度-->
+        <MoveSpeed_Max>0.2</MoveSpeed_Max>
+        <MoveSpeed_Turning>0.10</MoveSpeed_Turning>
+        <!--默认盘旋设置 True为开 False为关-->
+        <Default_HoverSet>False</Default_HoverSet>
+        <!--盘旋的文字+图标-->
+        <Hover_Icon_On_Label>Hover：On</Hover_Icon_On_Label>
+        <Hover_Icon_Off_Label>Hover：Off</Hover_Icon_Off_Label>
+        <Hover_Icon_Description>Whether to turn on or off the hovering of the aerocraft</Hover_Icon_Description>
+        <Hover_Icon_On_IconPath>AerocraftFramework/Icon/Hover</Hover_Icon_On_IconPath>
+        <Hover_Icon_Off_IconPath>AerocraftFramework/Icon/False</Hover_Icon_Off_IconPath>
+        <!--起飞降落的图标切换·文字+图标-->
+        <TakeOffAndLanding_Icon_On_Label>Take off</TakeOffAndLanding_Icon_On_Label>
+        <TakeOffAndLanding_Icon_Off_Label>Landing</TakeOffAndLanding_Icon_Off_Label>
+        <TakeOffAndLanding_Icon_Description>Switch between takeoff and landing. AH-1 Cobra is a helicopter, which can take off and land vertically at any time. It can only attack in flight. After takeoff, move it with the right mouse button, right-click on Non-Player faction object to forcibly attack the target, right-click on our faction object to switch to follow mode.</TakeOffAndLanding_Icon_Description>
+        <TakeOffAndLanding_Icon_On_IconPath>AerocraftFramework/Icon/Up</TakeOffAndLanding_Icon_On_IconPath>
+        <TakeOffAndLanding_Icon_Off_IconPath>AerocraftFramework/Icon/Down</TakeOffAndLanding_Icon_Off_IconPath>
+        <!--盘旋的角速度+转向速度-->
+        <AngleChangePerTick_Hover>1</AngleChangePerTick_Hover>
+        <AngleChangePerTick_Turning>2</AngleChangePerTick_Turning>
+<!--Consumo de combustible por Tick 1 = 60 combustible/segundo 0,015 = 0,9 combustible/segundo -->
+        <FuelConsumePerTick>0.015</FuelConsumePerTick>
+      </li>
+      <!--摧毁自爆-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_DoExplosion_BySomeWays">
+        <!--被摧毁时是否自爆-->
+        <If_DoExplosion_WhenDestroy>True</If_DoExplosion_WhenDestroy>
+        <!--生命值归0的时候是否沿路径坠毁后自爆+坠毁距离-->
+        <If_Drop_WhenHitpointZero>True</If_Drop_WhenHitpointZero>
+        <Drop_Range>20</Drop_Range>
+        <!--这个是伤害，写多少就造成多少伤害，不是CompProperties_Explosive的乘数，其他的所有字段都跟原版的CompProperties_Explosive相同-->
+        <damageAmountBase>30</damageAmountBase>
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <!--装饰物·底座-->
+      <!--<li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">/*是否在飞行中显示*/<If_DrawWhenFlying>False</If_DrawWhenFlying>/*这个是是否跟随本体放大缩小*/<If_ChangeScaleWithBaseThing>False</If_ChangeScaleWithBaseThing>/*装饰物的路径+大小+透明度*/<Draw_Decoration_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Decoration_TexturePath><Draw_Decoration_Scale>1.5</Draw_Decoration_Scale><Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>/*本体的图层+额外图层数值调整*/<Draw_Decoration_BaseAltitude>Building</Draw_Decoration_BaseAltitude><Draw_Decoration_ExtraAltitudeLayerNum>-1</Draw_Decoration_ExtraAltitudeLayerNum>/*偏移中心点的长度跟角度（用来计算位置）*/<Draw_Decoration_Range>0</Draw_Decoration_Range><Draw_Decoration_Angle>0</Draw_Decoration_Angle>/*基础旋转方向+转速*/<Draw_Decoration_BaseRotate>0</Draw_Decoration_BaseRotate><Draw_Decoration_RotateSpeedPerTick_Add>0</Draw_Decoration_RotateSpeedPerTick_Add><Draw_Decoration_RotateSpeedPerTick_Max>0</Draw_Decoration_RotateSpeedPerTick_Max>/*是否渲染阴影*/<If_DrawShadow>false</If_DrawShadow><If_FallowBaseAngle>false</If_FallowBaseAngle><Draw_Shadow_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Shadow_TexturePath><Draw_Shadow_Scale>1</Draw_Shadow_Scale><Draw_Shadow_Transparency>1</Draw_Shadow_Transparency><Draw_Shadow_BaseAltitude>Building</Draw_Shadow_BaseAltitude><Draw_Shadow_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_ExtraAltitudeLayerNum><Draw_Shadow_Range>0</Draw_Shadow_Range><Draw_Shadow_Angle>0</Draw_Shadow_Angle></li>-->
+      <!--装饰物·扇叶-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">
+        <!--装饰物的路径+大小+透明度-->
+        <If_UseSecondTexture>true</If_UseSecondTexture>
+        <Draw_Decoration_TexturePath>uh1a/Propeller</Draw_Decoration_TexturePath>
+        <Draw_Decoration_TexturePath_Second>uh1a/Propeller_Second</Draw_Decoration_TexturePath_Second>
+        <Draw_Decoration_Scale>12</Draw_Decoration_Scale>
+        <Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>
+        <!--本体的图层+额外图层数值调整-->
+        <Draw_Decoration_BaseAltitude>WorldClipper</Draw_Decoration_BaseAltitude>
+        <Draw_Decoration_ExtraAltitudeLayerNum>0.6</Draw_Decoration_ExtraAltitudeLayerNum>
+        <!--偏移中心点的长度跟角度（用来计算位置）-->
+        <Draw_Decoration_Range>-2.0</Draw_Decoration_Range>
+        <Draw_Decoration_Angle>90</Draw_Decoration_Angle>
+        <!--基础旋转方向+转速-->
+        <Draw_Decoration_BaseRotate>60</Draw_Decoration_BaseRotate>
+        <Draw_Decoration_RotateSpeedPerTick_Max>19</Draw_Decoration_RotateSpeedPerTick_Max>
+        <!--是否渲染阴影-->
+        <If_DrawShadow>true</If_DrawShadow>
+        <If_FallowBaseAngle>false</If_FallowBaseAngle>
+        <Draw_Shadow_TexturePath>uh1a/Propeller</Draw_Shadow_TexturePath>
+        <Draw_Shadow_TexturePath_Second>uh1a/Propeller_Second</Draw_Shadow_TexturePath_Second>
+        <Draw_Shadow_ScaleAndRangeFactor>0.75</Draw_Shadow_ScaleAndRangeFactor>
+        <Draw_Shadow_Transparency>0.5</Draw_Shadow_Transparency>
+        <Draw_Shadow_ExtraAltitudeLayerNum>-0.4</Draw_Shadow_ExtraAltitudeLayerNum>
+      </li>
+
+
+      <!--载人-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_CarryPawn">
+        <!--最大载人量-->
+        <If_NeedPawnToControl>True</If_NeedPawnToControl>
+        <!--驾驶飞行器所需要的人数-->
+        <!--The number of Pawns required to fly the Aerocraft-->
+        <NeedPawnToControl_Number>2</NeedPawnToControl_Number>
+        <CarryPawnNumMax>13</CarryPawnNumMax>
+        <!--是否将当前武器替换为被载人的武器-->
+        <If_ChangeWeaponByPawnWeaponWhenCarry>True</If_ChangeWeaponByPawnWeaponWhenCarry>
+        <If_ShowFastLordGizmos>True</If_ShowFastLordGizmos>
+        <Gizmos_CarryPawn_Label>Fast loading</Gizmos_CarryPawn_Label>
+        <Gizmos_CarryPawn_Description>Fast loading colonizers within the surrounding 5x5 range (pilots)</Gizmos_CarryPawn_Description>
+        <Gizmos_CarryPawn_IconPath>AerocraftFramework/RotorCraft_FourPropeller/CarryPawn</Gizmos_CarryPawn_IconPath>
+        <CarryPawn_MaxRange>4</CarryPawn_MaxRange>
+      </li>
+      <!--替换武器-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_ReplaceCurrentWeapon"></li>
+      <!--跨地图-->
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.8</restEffectiveness>
+        <max1PerGroup>true</max1PerGroup>
+        <massCapacity>800</massCapacity>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_CanCrossMap">
+        <LeavingThingDef>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_uh1a_CrossMapThing</LeavingThingDef>
+        <WorldObjectDef>MYDE_AF_WorldObject_RotorCraft_FourPropeller_uh1a_CrossMapThing</WorldObjectDef>
+        <TravelSpeed>0.0001</TravelSpeed>
+        <!--燃料消耗乘数，10是每格10消耗，算上来回需要20燃料每格，原版空投舱近似于每格2燃料消耗，来回4燃料-->
+        <FuelConsumeBase>10</FuelConsumeBase>
+        <!--文字+图标-->
+        <CrossMap_Label>Cross Map</CrossMap_Label>
+        <CrossMap_Description>Cross map, no open space can be selected as the target location. To avoid situations where it is impossible to return, please ensure that there is sufficient fuel for round-trip travel</CrossMap_Description>
+        <CrossMap_IconPath>AerocraftFramework/Icon/CrossMap</CrossMap_IconPath>
+        <DefaultThing_ToRefuel>Chemfuel</DefaultThing_ToRefuel>
+      </li>
+      <!--特效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnFleck">
+        <!--生成的特效-->
+        <FleckDef>MYDE_AF_Fleck_Smoke</FleckDef>
+        <!--这个是播放特效的间隔-->
+        <Fleck_MakeFleckTickMax>10</Fleck_MakeFleckTickMax>
+        <!--这个是每隔多少Tick加一个播放次数-->
+        <Fleck_MakeFleck_AddNumTickMax>20</Fleck_MakeFleck_AddNumTickMax>
+        <!--这个是特效是否可生成-->
+        <If_Fleck_Addable>True</If_Fleck_Addable>
+        <!--这个是播放多少次特效-->
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>20</Fleck_MakeFleckNum_Max>
+        <!--这个是位置调整-->
+        <Fleck_Range_ToSetPosition>0</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>0</Fleck_Angle_ToSetPosition>
+        <!--这个是特效贴图旋转角度-->
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--这个是特效飞行方向-->
+        <Fleck_Angle>-180~180</Fleck_Angle>
+        <!--这个是特效大小-->
+        <Fleck_Scale>1~2</Fleck_Scale>
+        <!--这个是特效飞行速度-->
+        <Fleck_Speed>5~7</Fleck_Speed>
+      </li>
+      <!--音效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnSound">
+        <!--音频def-->
+        <SoundDef>MYDE_AF_Sound_RotorCraft_FourPropeller</SoundDef>
+        <!--两者组合成为音频播放间隔：（刚起飞时）Max-Add*0（20-0） （在飞行时）Max - Add（20-10）-->
+        <Sound_MakeSoundkTick_Add>10</Sound_MakeSoundkTick_Add>
+        <Sound_MakeSoundkTick_Max>20</Sound_MakeSoundkTick_Max>
+      </li>
+    </comps>
+
+    <uiOrder>300</uiOrder>
+  </ThingDef>
+
+
+ 
+  <!--跨地图-->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_uh1a_CrossMapThing</defName>
+    <label>UH-1A (Leaving)</label>
+    <thingClass>MYDE_AerocraftFramework.Skyfaller_Aerocraft_Leaving</thingClass>
+    <altitudeLayer>Skyfaller</altitudeLayer>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <reversed>true</reversed>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(14, 14)</shadowSize>
+      <anticipationSound>DropPod_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>
+        <min>-40</min>
+        <max>-15</max>
+      </ticksToImpactRange>
+    </skyfaller>
+    <graphicData>
+      <texPath>uh1a/CrossMap</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>15</drawSize>
+    </graphicData>
+  </ThingDef>
+  <WorldObjectDef>
+    <defName>MYDE_AF_WorldObject_RotorCraft_FourPropeller_uh1a_CrossMapThing</defName>
+    <label>UH-1A</label>
+    <description>UH-1A</description>
+    <worldObjectClass>MYDE_AerocraftFramework.WorldObject_CrossMapThing_Flying</worldObjectClass>
+    <texture>uh1a/CrossMap</texture>
+    <expandingIconTexture>uh1a/CrossMap</expandingIconTexture>
+    <useDynamicDrawer>true</useDynamicDrawer>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconPriority>60</expandingIconPriority>
+    <rotateGraphicWhenTraveling>true</rotateGraphicWhenTraveling>
+    <expandMore>true</expandMore>
+    <allowCaravanIncidentsWhichGenerateMap>true</allowCaravanIncidentsWhichGenerateMap>
+  </WorldObjectDef>
+
+ 
+ <ThingDef ParentName="MYDE_AerocraftFramework_XmlParent">
+    <defName>MYDE_AF_RotorCraft_FourPropeller_Base_mi24a</defName>
+    <label>MI-24</label>
+    <description>The Mil Mi-24 (Russian: Миль Ми-24; NATO reporting name: Hind) is a large helicopter gunship, attack helicopter and low-capacity troop transport with room for eight passengers. It is produced by Mil Moscow Helicopter Plant and was introduced by the Soviet Air Force in 1972. The helicopter is currently in use by 58 countries. NEEDS 2 PILOTS TO FLY, CAN LOAD UP TO 8 PAWNS(use fast load button (Or right click on the aircraft in case you loaded something else ))</description>
+    <thingClass>MYDE_AerocraftFramework.Building_Aerocraft_AsBaseThing</thingClass>
+    <uiIconPath>mi24a/UI</uiIconPath>
+    <graphicData>
+      <texPath>mi24a/UI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(13,13)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1150</MaxHitPoints>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>200</Mass>
+      <Beauty>5</Beauty>
+      <!--这个是精准度-->
+      <ShootingAccuracyTurret>0.99</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>390</Steel>
+      <Silver>65</Silver>
+      <ComponentIndustrial>48</ComponentIndustrial>
+    </costList>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <minifiedDef>MYDE_AerocraftFramework_MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>MYDE_AerocraftFramework_Root</li>
+    </thingCategories>
+    <designationCategory>MYDE_AerocraftFramework_DesignationCategory</designationCategory>
+    <researchPrerequisites>
+      <li>HelicopterTesttech</li>
+    </researchPrerequisites>
+    <size>(4,2)</size>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <!--原版燃料-->
+      <li Class="CompProperties_Refuelable">
+        <!--<fuelLabel>Fuel</fuelLabel>-->
+        <!--<fuelGizmoLabel>Fuel</fuelGizmoLabel>-->
+        <outOfFuelMessage>Needs Fuel</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>900</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>True</consumeFuelOnlyWhenUsed>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>600</initialConfigurableTargetFuelLevel>
+      </li>
+      <!--本体的渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Thing">
+        <!--是否渲染-->
+        <If_Draw_Base>True</If_Draw_Base>
+        <!--飞行的大小变化-->
+        <Draw_ScaleIncreaseFactor_WhenFlying>0.2</Draw_ScaleIncreaseFactor_WhenFlying>
+        <!--本体的大小+高度-->
+        <Draw_Base_TexturePath>mi24a/Base</Draw_Base_TexturePath>
+        <Draw_Base_Scale>13</Draw_Base_Scale>
+        <Draw_Base_ExtraAltitudeLayerNum>0.4</Draw_Base_ExtraAltitudeLayerNum>
+        <!--是否制作阴影+阴影最大最下长度+阴影角度-->
+        <If_NeedDrawAllShadow>True</If_NeedDrawAllShadow>
+        <!--是否制作本体阴影+大小+图层+透明度-->
+        <If_DrawShadow_Base>true</If_DrawShadow_Base>
+        <Draw_Shadow_Base_Scale>10</Draw_Shadow_Base_Scale>
+        <Draw_Shadow_Base_HeightFactor>3</Draw_Shadow_Base_HeightFactor>
+        <Draw_Shadow_Base_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_Base_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Base_Transparency>0.5</Draw_Shadow_Base_Transparency>
+      </li>
+      <!--主武器渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Weapon">
+        <!--枪械-->
+        <WeaponDef>MYDE_AF_UniversalWeapon_MiniGun</WeaponDef>
+        <!--是否渲染-->
+        <If_Draw_Gun>False</If_Draw_Gun>
+        <!--枪的图层高度-->
+        <Draw_Gun_Scale>1</Draw_Gun_Scale>
+        <Draw_Gun_ExtraAltitudeLayerNum>0.3</Draw_Gun_ExtraAltitudeLayerNum>
+        <!--是否制作枪械阴影+大小+图层+透明度-->
+        <If_DrawShadow_Gun>true</If_DrawShadow_Gun>
+        <Draw_Shadow_Gun_Scale>0.75</Draw_Shadow_Gun_Scale>
+        <Draw_Shadow_Gun_ExtraAltitudeLayerNum>-0.6</Draw_Shadow_Gun_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Gun_Transparency>0.5</Draw_Shadow_Gun_Transparency>
+      </li>
+      <!--移动方式-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_MoveToTargetAndHover">
+        <!--碰撞检测的最大移动距离-->
+        <Check_CollideMoveRangeMax>10</Check_CollideMoveRangeMax>
+        <!--起飞需要的预热时间-->
+        <Move_WarmUpTickMax>180</Move_WarmUpTickMax>
+        <!--是否需要转向，False则省略飞行器转向过程-->
+        <If_NeedTurnWhenMoving>True</If_NeedTurnWhenMoving>
+        <!--最大移动速度+转向时的移动速度-->
+        <MoveSpeed_Max>0.2</MoveSpeed_Max>
+        <MoveSpeed_Turning>0.10</MoveSpeed_Turning>
+        <!--默认盘旋设置 True为开 False为关-->
+        <Default_HoverSet>False</Default_HoverSet>
+        <!--盘旋的文字+图标-->
+        <Hover_Icon_On_Label>Hover：On</Hover_Icon_On_Label>
+        <Hover_Icon_Off_Label>Hover：Off</Hover_Icon_Off_Label>
+        <Hover_Icon_Description>Whether to turn on or off the hovering of the aerocraft</Hover_Icon_Description>
+        <Hover_Icon_On_IconPath>AerocraftFramework/Icon/Hover</Hover_Icon_On_IconPath>
+        <Hover_Icon_Off_IconPath>AerocraftFramework/Icon/False</Hover_Icon_Off_IconPath>
+        <!--起飞降落的图标切换·文字+图标-->
+        <TakeOffAndLanding_Icon_On_Label>Take off</TakeOffAndLanding_Icon_On_Label>
+        <TakeOffAndLanding_Icon_Off_Label>Landing</TakeOffAndLanding_Icon_Off_Label>
+        <TakeOffAndLanding_Icon_Description>Switch between takeoff and landing. AH-1 Cobra is a helicopter, which can take off and land vertically at any time. It can only attack in flight. After takeoff, move it with the right mouse button, right-click on Non-Player faction object to forcibly attack the target, right-click on our faction object to switch to follow mode.</TakeOffAndLanding_Icon_Description>
+        <TakeOffAndLanding_Icon_On_IconPath>AerocraftFramework/Icon/Up</TakeOffAndLanding_Icon_On_IconPath>
+        <TakeOffAndLanding_Icon_Off_IconPath>AerocraftFramework/Icon/Down</TakeOffAndLanding_Icon_Off_IconPath>
+        <!--盘旋的角速度+转向速度-->
+        <AngleChangePerTick_Hover>1</AngleChangePerTick_Hover>
+        <AngleChangePerTick_Turning>2</AngleChangePerTick_Turning>
+<!--Consumo de combustible por Tick 1 = 60 combustible/segundo 0,015 = 0,9 combustible/segundo -->
+        <FuelConsumePerTick>0.015</FuelConsumePerTick>
+      </li>
+      <!--摧毁自爆-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_DoExplosion_BySomeWays">
+        <!--被摧毁时是否自爆-->
+        <If_DoExplosion_WhenDestroy>True</If_DoExplosion_WhenDestroy>
+        <!--生命值归0的时候是否沿路径坠毁后自爆+坠毁距离-->
+        <If_Drop_WhenHitpointZero>True</If_Drop_WhenHitpointZero>
+        <Drop_Range>20</Drop_Range>
+        <!--这个是伤害，写多少就造成多少伤害，不是CompProperties_Explosive的乘数，其他的所有字段都跟原版的CompProperties_Explosive相同-->
+        <damageAmountBase>30</damageAmountBase>
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <!--装饰物·底座-->
+      <!--<li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">/*是否在飞行中显示*/<If_DrawWhenFlying>False</If_DrawWhenFlying>/*这个是是否跟随本体放大缩小*/<If_ChangeScaleWithBaseThing>False</If_ChangeScaleWithBaseThing>/*装饰物的路径+大小+透明度*/<Draw_Decoration_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Decoration_TexturePath><Draw_Decoration_Scale>1.5</Draw_Decoration_Scale><Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>/*本体的图层+额外图层数值调整*/<Draw_Decoration_BaseAltitude>Building</Draw_Decoration_BaseAltitude><Draw_Decoration_ExtraAltitudeLayerNum>-1</Draw_Decoration_ExtraAltitudeLayerNum>/*偏移中心点的长度跟角度（用来计算位置）*/<Draw_Decoration_Range>0</Draw_Decoration_Range><Draw_Decoration_Angle>0</Draw_Decoration_Angle>/*基础旋转方向+转速*/<Draw_Decoration_BaseRotate>0</Draw_Decoration_BaseRotate><Draw_Decoration_RotateSpeedPerTick_Add>0</Draw_Decoration_RotateSpeedPerTick_Add><Draw_Decoration_RotateSpeedPerTick_Max>0</Draw_Decoration_RotateSpeedPerTick_Max>/*是否渲染阴影*/<If_DrawShadow>false</If_DrawShadow><If_FallowBaseAngle>false</If_FallowBaseAngle><Draw_Shadow_TexturePath>AerocraftFramework/Building/BuildingBase</Draw_Shadow_TexturePath><Draw_Shadow_Scale>1</Draw_Shadow_Scale><Draw_Shadow_Transparency>1</Draw_Shadow_Transparency><Draw_Shadow_BaseAltitude>Building</Draw_Shadow_BaseAltitude><Draw_Shadow_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_ExtraAltitudeLayerNum><Draw_Shadow_Range>0</Draw_Shadow_Range><Draw_Shadow_Angle>0</Draw_Shadow_Angle></li>-->
+      <!--装饰物·扇叶-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_BaseDraw_DecorationAndShadow">
+        <!--装饰物的路径+大小+透明度-->
+        <If_UseSecondTexture>true</If_UseSecondTexture>
+        <Draw_Decoration_TexturePath>mi24a/Propeller</Draw_Decoration_TexturePath>
+        <Draw_Decoration_TexturePath_Second>mi24a/Propeller_Second</Draw_Decoration_TexturePath_Second>
+        <Draw_Decoration_Scale>11</Draw_Decoration_Scale>
+        <Draw_Decoration_Transparency>1</Draw_Decoration_Transparency>
+        <!--本体的图层+额外图层数值调整-->
+        <Draw_Decoration_BaseAltitude>WorldClipper</Draw_Decoration_BaseAltitude>
+        <Draw_Decoration_ExtraAltitudeLayerNum>0.6</Draw_Decoration_ExtraAltitudeLayerNum>
+        <!--偏移中心点的长度跟角度（用来计算位置）-->
+        <Draw_Decoration_Range>-1.55</Draw_Decoration_Range>
+        <Draw_Decoration_Angle>102.7</Draw_Decoration_Angle>
+        <!--基础旋转方向+转速-->
+        <Draw_Decoration_BaseRotate>60</Draw_Decoration_BaseRotate>
+        <Draw_Decoration_RotateSpeedPerTick_Max>19</Draw_Decoration_RotateSpeedPerTick_Max>
+        <!--是否渲染阴影-->
+        <If_DrawShadow>true</If_DrawShadow>
+        <If_FallowBaseAngle>false</If_FallowBaseAngle>
+        <Draw_Shadow_TexturePath>mi24a/Propeller</Draw_Shadow_TexturePath>
+        <Draw_Shadow_TexturePath_Second>mi24a/Propeller_Second</Draw_Shadow_TexturePath_Second>
+        <Draw_Shadow_ScaleAndRangeFactor>0.75</Draw_Shadow_ScaleAndRangeFactor>
+        <Draw_Shadow_Transparency>0.5</Draw_Shadow_Transparency>
+        <Draw_Shadow_ExtraAltitudeLayerNum>-0.4</Draw_Shadow_ExtraAltitudeLayerNum>
+      </li>
+      <!--生成额外武器-->
+
+      <li Class="MYDE_AerocraftFramework.CompProperties_GetExtraWeapon">
+        <!--武器的Def+偏移量+角度-->
+        <ExtraWeaponDef>MYDE_AF_RotorCraft_FourPropeller_ExtraWeapon_Rocket</ExtraWeaponDef>
+        <ExtraWeapon_Range>-1.5</ExtraWeapon_Range>
+        <ExtraWeapon_Angle>37.5</ExtraWeapon_Angle>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_GetExtraWeapon">
+        <!--武器的Def+偏移量+角度-->
+        <ExtraWeaponDef>MYDE_AF_RotorCraft_FourPropeller_ExtraWeapon_Rocket</ExtraWeaponDef>
+        <ExtraWeapon_Range>2.3</ExtraWeapon_Range>
+        <ExtraWeapon_Angle>-22</ExtraWeapon_Angle>
+      </li>
+
+      <!--载人-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_CarryPawn">
+        <!--最大载人量-->
+        <If_NeedPawnToControl>True</If_NeedPawnToControl>
+        <!--驾驶飞行器所需要的人数-->
+        <!--The number of Pawns required to fly the Aerocraft-->
+        <NeedPawnToControl_Number>2</NeedPawnToControl_Number>
+        <CarryPawnNumMax>8</CarryPawnNumMax>
+        <!--是否将当前武器替换为被载人的武器-->
+        <If_ChangeWeaponByPawnWeaponWhenCarry>True</If_ChangeWeaponByPawnWeaponWhenCarry>
+        <If_ShowFastLordGizmos>True</If_ShowFastLordGizmos>
+        <Gizmos_CarryPawn_Label>Fast loading</Gizmos_CarryPawn_Label>
+        <Gizmos_CarryPawn_Description>Fast loading colonizers within the surrounding 5x5 range (pilots)</Gizmos_CarryPawn_Description>
+        <Gizmos_CarryPawn_IconPath>AerocraftFramework/RotorCraft_FourPropeller/CarryPawn</Gizmos_CarryPawn_IconPath>
+        <CarryPawn_MaxRange>2</CarryPawn_MaxRange>
+      </li>
+      <!--替换武器-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_ReplaceCurrentWeapon"></li>
+      <!--跨地图-->
+      <li Class="CompProperties_Transporter">
+        <restEffectiveness>0.8</restEffectiveness>
+        <max1PerGroup>true</max1PerGroup>
+        <massCapacity>800</massCapacity>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_CanCrossMap">
+        <LeavingThingDef>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_mi24a_CrossMapThing</LeavingThingDef>
+        <WorldObjectDef>MYDE_AF_WorldObject_RotorCraft_FourPropeller_mi24a_CrossMapThing</WorldObjectDef>
+        <TravelSpeed>0.0001</TravelSpeed>
+        <!--燃料消耗乘数，10是每格10消耗，算上来回需要20燃料每格，原版空投舱近似于每格2燃料消耗，来回4燃料-->
+        <FuelConsumeBase>10</FuelConsumeBase>
+        <!--文字+图标-->
+        <CrossMap_Label>Cross Map</CrossMap_Label>
+        <CrossMap_Description>Cross map, no open space can be selected as the target location. To avoid situations where it is impossible to return, please ensure that there is sufficient fuel for round-trip travel</CrossMap_Description>
+        <CrossMap_IconPath>AerocraftFramework/Icon/CrossMap</CrossMap_IconPath>
+        <DefaultThing_ToRefuel>Chemfuel</DefaultThing_ToRefuel>
+      </li>
+      <!--特效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnFleck">
+        <!--生成的特效-->
+        <FleckDef>MYDE_AF_Fleck_Smoke</FleckDef>
+        <!--这个是播放特效的间隔-->
+        <Fleck_MakeFleckTickMax>10</Fleck_MakeFleckTickMax>
+        <!--这个是每隔多少Tick加一个播放次数-->
+        <Fleck_MakeFleck_AddNumTickMax>20</Fleck_MakeFleck_AddNumTickMax>
+        <!--这个是特效是否可生成-->
+        <If_Fleck_Addable>True</If_Fleck_Addable>
+        <!--这个是播放多少次特效-->
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>20</Fleck_MakeFleckNum_Max>
+        <!--这个是位置调整-->
+        <Fleck_Range_ToSetPosition>0</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>0</Fleck_Angle_ToSetPosition>
+        <!--这个是特效贴图旋转角度-->
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--这个是特效飞行方向-->
+        <Fleck_Angle>-180~180</Fleck_Angle>
+        <!--这个是特效大小-->
+        <Fleck_Scale>1~2</Fleck_Scale>
+        <!--这个是特效飞行速度-->
+        <Fleck_Speed>5~7</Fleck_Speed>
+      </li>
+      <!--音效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnSound">
+        <!--音频def-->
+        <SoundDef>MYDE_AF_Sound_RotorCraft_FourPropeller</SoundDef>
+        <!--两者组合成为音频播放间隔：（刚起飞时）Max-Add*0（20-0） （在飞行时）Max - Add（20-10）-->
+        <Sound_MakeSoundkTick_Add>10</Sound_MakeSoundkTick_Add>
+        <Sound_MakeSoundkTick_Max>20</Sound_MakeSoundkTick_Max>
+      </li>
+    </comps>
+
+    <uiOrder>300</uiOrder>
+  </ThingDef>
+
+
+ 
+  <!--跨地图-->
+  <ThingDef ParentName="SkyfallerBase">
+    <defName>MYDE_AF_Skyfalller_RotorCraft_FourPropeller_mi24a_CrossMapThing</defName>
+    <label>MI 24 (Leaving)</label>
+    <thingClass>MYDE_AerocraftFramework.Skyfaller_Aerocraft_Leaving</thingClass>
+    <altitudeLayer>Skyfaller</altitudeLayer>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <reversed>true</reversed>
+      <shadow>Things/Skyfaller/SkyfallerShadowDropPod</shadow>
+      <shadowSize>(14, 14)</shadowSize>
+      <anticipationSound>DropPod_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>
+        <min>-40</min>
+        <max>-15</max>
+      </ticksToImpactRange>
+    </skyfaller>
+    <graphicData>
+      <texPath>mi24a/CrossMap</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutFlying</shaderType>
+      <drawSize>15</drawSize>
+    </graphicData>
+  </ThingDef>
+  <WorldObjectDef>
+    <defName>MYDE_AF_WorldObject_RotorCraft_FourPropeller_mi24a_CrossMapThing</defName>
+    <label>MI 24</label>
+    <description>MI-24</description>
+    <worldObjectClass>MYDE_AerocraftFramework.WorldObject_CrossMapThing_Flying</worldObjectClass>
+    <texture>mi24a/CrossMap</texture>
+    <expandingIconTexture>mi24a/CrossMap</expandingIconTexture>
+    <useDynamicDrawer>true</useDynamicDrawer>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconPriority>60</expandingIconPriority>
+    <rotateGraphicWhenTraveling>true</rotateGraphicWhenTraveling>
+    <expandMore>true</expandMore>
+    <allowCaravanIncidentsWhichGenerateMap>true</allowCaravanIncidentsWhichGenerateMap>
+  </WorldObjectDef>
+ 
+</Defs>
