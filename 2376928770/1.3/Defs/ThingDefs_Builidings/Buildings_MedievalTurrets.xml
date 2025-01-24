@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+    <!-- Organ Gun -->
+    <ThingDef ParentName="BuildingBase">
+        <defName>KIT_Turret_Organ</defName>
+        <label>organ gun</label>
+        <description>An early era volley gun which utilized an array of single shot small cannons, often used in an anti-infantry role.</description>
+        <thingClass>Building_TurretGun</thingClass>
+        <graphicData>
+            <texPath>Things/Security/Organ/Organ_Base</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <damageData>
+                <rect>(0.2,0.2,0.6,0.6)</rect>
+            </damageData>
+            <shadowData>
+                <volume>(0.20,0.18,0.20)</volume>
+                <offset>(0,0,0)</offset>
+            </shadowData>
+        </graphicData>
+		<drawerType>MapMeshAndRealTime</drawerType>
+        <techLevel>Medieval</techLevel>
+        <uiIconPath>Things/Security/Organ/Organ_MenuIcon</uiIconPath>
+        <uiIconScale>0.9</uiIconScale>
+        <size>(1,1)</size>
+        <altitudeLayer>Building</altitudeLayer>
+        <stealable>false</stealable>
+        <rotatable>true</rotatable>
+        <costList>
+            <Steel>80</Steel>
+            <WoodLog>60</WoodLog>
+            <ComponentIndustrial>3</ComponentIndustrial>
+        </costList>
+        <statBases>
+            <MaxHitPoints>300</MaxHitPoints>
+            <Flammability>0</Flammability>
+            <WorkToBuild>8000</WorkToBuild>
+            <Beauty>-20</Beauty>
+            <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+        </statBases>
+        <tickerType>Normal</tickerType>
+        <comps>
+            <li Class="CompProperties_Mannable">
+                <manWorkType>Violent</manWorkType>
+            </li>
+            <li Class="CompProperties_Forbiddable"/>
+            <li Class="CompProperties_Flickable"/>
+            <li Class="CompProperties_Breakdownable"/>
+            <li Class="CompProperties_Refuelable">
+                <fuelLabel>Shots until out of ammo</fuelLabel>
+                <fuelGizmoLabel>Ammo</fuelGizmoLabel>
+                <fuelFilter>
+                    <thingDefs>
+                        <li>Steel</li>
+                    </thingDefs>
+                </fuelFilter>
+                <fuelCapacity>35</fuelCapacity>
+                <initialFuelPercent>1</initialFuelPercent>
+                <autoRefuelPercent>0.6</autoRefuelPercent>
+                <showFuelGizmo>true</showFuelGizmo>
+                <minimumFueledThreshold>1</minimumFueledThreshold>
+                <fuelMultiplier>10</fuelMultiplier>
+                <factorByDifficulty>true</factorByDifficulty>
+                <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+                <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+                <fuelIconPath>UI/Overlays/Ammo</fuelIconPath>
+            </li>
+        </comps>
+        <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+        <hasInteractionCell>true</hasInteractionCell>
+        <castEdgeShadows>true</castEdgeShadows>
+        <passability>PassThroughOnly</passability>
+        <pathCost>40</pathCost>
+        <fillPercent>0.57</fillPercent>
+        <hasTooltip>true</hasTooltip>
+        <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+        <designationCategory>Security</designationCategory>
+        <building>
+            <ai_combatDangerous>true</ai_combatDangerous>
+            <turretGunDef>KIT_Gun_Organ</turretGunDef>
+            <turretBurstCooldownTime>8</turretBurstCooldownTime>
+            <turretBurstWarmupTime>3.8</turretBurstWarmupTime>
+        </building>
+        <placeWorkers>
+            <li>PlaceWorker_TurretTop</li>
+            <li>PlaceWorker_ShowTurretRadius</li>
+        </placeWorkers>
+        <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+        <researchPrerequisites>
+            <li>KIT_Blackpowder</li>
+        </researchPrerequisites>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseWeaponTurret">
+        <defName>KIT_Gun_Organ</defName>
+        <label>mounted organ gun</label>
+        <description>An early type of multiple barrel firearm.</description>
+        <graphicData>
+            <texPath>Things/Security/Organ/OrganGun</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <soundInteract>Interact_Rifle</soundInteract>
+        <destroyOnDrop>true</destroyOnDrop>
+        <tradeability>None</tradeability>
+        <useHitPoints>false</useHitPoints>
+        <statBases>
+            <AccuracyTouch>0.40</AccuracyTouch>
+            <AccuracyShort>0.50</AccuracyShort>
+            <AccuracyMedium>0.50</AccuracyMedium>
+            <AccuracyLong>0.40</AccuracyLong>
+            <RangedWeapon_Cooldown>8</RangedWeapon_Cooldown>
+            <DeteriorationRate>0</DeteriorationRate>
+            <Mass>4</Mass>
+            <Flammability>0</Flammability>
+        </statBases>
+        <weaponTags Inherit="false">
+            <li>TurretGun</li>
+        </weaponTags>
+        <verbs>
+            <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>KIT_Bullet_Organ</defaultProjectile>
+                <warmupTime>3</warmupTime>
+                <range>27.9</range>
+                <burstShotCount>7</burstShotCount>
+                <soundCast>KIT_Shot_Organ</soundCast>
+                <soundCastTail>GunTail_Medium</soundCastTail>
+                <muzzleFlashScale>9</muzzleFlashScale>
+                <consumeFuelPerShot>1</consumeFuelPerShot>
+            </li>
+        </verbs>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseBullet">
+        <defName>KIT_Bullet_Organ</defName>
+        <label>organ gun bullet</label>
+        <graphicData>
+            <texPath>Things/Projectile/Bullet_Big</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <projectile>
+            <damageDef>Bullet</damageDef>
+            <damageAmountBase>24</damageAmountBase>
+            <armorPenetrationBase>0.35</armorPenetrationBase>
+            <stoppingPower>3</stoppingPower>
+            <speed>40</speed>
+        </projectile>
+    </ThingDef>
+
+    <!-- 12 Pounder -->
+    <ThingDef ParentName="BuildingBase">
+        <defName>KIT_Turret_12Pounder</defName>
+        <label>12 Pounder</label>
+        <description>A pre-industrial era mounted artillery piece, despite its dated design it can pack quite a punch against infantry with its solid cannonball.</description>
+        <thingClass>Building_TurretGun</thingClass>
+		<drawerType>MapMeshAndRealTime</drawerType>
+        <graphicData>
+            <texPath>Things/Security/12Pounder/12Pounder_Base</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <damageData>
+                <rect>(0.2,0.2,0.6,0.6)</rect>
+            </damageData>
+            <shadowData>
+                <volume>(0.20,0.18,0.20)</volume>
+                <offset>(0,0,0)</offset>
+            </shadowData>
+        </graphicData>
+        <techLevel>Medieval</techLevel>
+        <uiIconPath>Things/Security/12Pounder/12Pounder_MenuIcon</uiIconPath>
+        <uiIconScale>0.9</uiIconScale>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <thingCategories>
+            <li>BuildingsSecurity</li>
+        </thingCategories>
+        <size>(1,1)</size>
+        <altitudeLayer>Building</altitudeLayer>
+        <stealable>false</stealable>
+        <rotatable>true</rotatable>
+        <costList>
+            <Steel>120</Steel>
+            <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+        <statBases>
+            <MaxHitPoints>300</MaxHitPoints>
+            <Flammability>0</Flammability>
+            <WorkToBuild>8000</WorkToBuild>
+            <Mass>275</Mass>
+            <Beauty>-20</Beauty>
+            <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+        </statBases>
+        <tickerType>Normal</tickerType>
+        <comps>
+            <li Class="CompProperties_Mannable">
+                <manWorkType>Violent</manWorkType>
+            </li>
+            <li Class="CompProperties_Forbiddable"/>
+            <li Class="CompProperties_Flickable"/>
+            <li Class="CompProperties_Breakdownable"/>
+            <li Class="CompProperties_Refuelable">
+                <fuelLabel>Shots until out of ammo</fuelLabel>
+                <fuelGizmoLabel>Ammo</fuelGizmoLabel>
+                <fuelFilter>
+                    <thingDefs>
+                        <li>Steel</li>
+                    </thingDefs>
+                </fuelFilter>
+                <fuelCapacity>15</fuelCapacity>
+                <initialFuelPercent>1</initialFuelPercent>
+                <autoRefuelPercent>0.6</autoRefuelPercent>
+                <showFuelGizmo>true</showFuelGizmo>
+                <minimumFueledThreshold>1</minimumFueledThreshold>
+                <fuelMultiplier>10</fuelMultiplier>
+                <factorByDifficulty>true</factorByDifficulty>
+                <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+                <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+                <fuelIconPath>UI/Overlays/Ammo</fuelIconPath>
+            </li>
+        </comps>
+        <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+        <hasInteractionCell>true</hasInteractionCell>
+        <castEdgeShadows>true</castEdgeShadows>
+        <passability>PassThroughOnly</passability>
+        <pathCost>40</pathCost>
+        <fillPercent>0.57</fillPercent>
+        <hasTooltip>true</hasTooltip>
+        <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+        <designationCategory>Security</designationCategory>
+        <building>
+            <ai_combatDangerous>true</ai_combatDangerous>
+            <turretGunDef>KIT_Gun_12Pounder</turretGunDef>
+            <turretBurstCooldownTime>8</turretBurstCooldownTime>
+            <turretBurstWarmupTime>3.8</turretBurstWarmupTime>
+        </building>
+        <placeWorkers>
+            <li>PlaceWorker_TurretTop</li>
+            <li>PlaceWorker_ShowTurretRadius</li>
+        </placeWorkers>
+        <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+        <researchPrerequisites>
+            <li>KIT_LineInfantry</li>
+        </researchPrerequisites>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseWeaponTurret">
+        <defName>KIT_Gun_12Pounder</defName>
+        <label>mounted 12 Pounder</label>
+        <description>An mounted cannon.</description>
+        <graphicData>
+            <texPath>Things/Security/12Pounder/12PounderGun</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <soundInteract>Interact_Rifle</soundInteract>
+        <destroyOnDrop>true</destroyOnDrop>
+        <tradeability>None</tradeability>
+        <useHitPoints>false</useHitPoints>
+        <statBases>
+            <AccuracyTouch>0.50</AccuracyTouch>
+            <AccuracyShort>0.60</AccuracyShort>
+            <AccuracyMedium>0.80</AccuracyMedium>
+            <AccuracyLong>0.70</AccuracyLong>
+            <RangedWeapon_Cooldown>10</RangedWeapon_Cooldown>
+            <DeteriorationRate>0</DeteriorationRate>
+            <Mass>3.6</Mass>
+            <Flammability>0</Flammability>
+        </statBases>
+        <weaponTags Inherit="false">
+            <li>TurretGun</li>
+        </weaponTags>
+        <verbs>
+            <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>KIT_Bullet_12Pounder</defaultProjectile>
+                <warmupTime>3</warmupTime>
+                <range>44.9</range>
+                <burstShotCount>1</burstShotCount>
+                <soundCast>KIT_Shot_12Pounder</soundCast>
+                <soundCastTail>GunTail_Medium</soundCastTail>
+                <muzzleFlashScale>9</muzzleFlashScale>
+                <consumeFuelPerShot>1</consumeFuelPerShot>
+            </li>
+        </verbs>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseBullet">
+        <defName>KIT_Bullet_12Pounder</defName>
+        <label>12 pound</label>
+        <graphicData>
+            <texPath>Things/Projectile/Bullet_Big</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <projectile>
+            <damageDef>Bullet</damageDef>
+            <damageAmountBase>46</damageAmountBase>
+            <armorPenetrationBase>0.35</armorPenetrationBase>
+            <stoppingPower>3</stoppingPower>
+            <speed>60</speed>
+        </projectile>
+  </ThingDef>
+
+    <!-- Bombard -->
+    <ThingDef ParentName="BuildingBase">
+        <defName>KIT_Turret_Bombard</defName>
+        <label>bombard</label>
+        <description>A large caliber, muzzle-loading artillery piece, used during sieges of the distant past, often they would launch stone chunks to demolish enemy fortifications.</description>
+        <thingClass>Building_TurretGun</thingClass>
+		<drawerType>MapMeshAndRealTime</drawerType>
+        <graphicData>
+            <texPath>Things/Security/Bombard/Bombard_Base</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <damageData>
+                <rect>(0.2,0.2,0.6,0.6)</rect>
+            </damageData>
+            <shadowData>
+                <volume>(0.20,0.18,0.20)</volume>
+                <offset>(0,0,0)</offset>
+            </shadowData>
+        </graphicData>
+        <techLevel>Medieval</techLevel>
+        <uiIconPath>Things/Security/Bombard/Bombard_MenuIcon</uiIconPath>
+        <uiIconScale>0.9</uiIconScale>
+        <size>(1,1)</size>
+        <altitudeLayer>Building</altitudeLayer>
+        <stealable>false</stealable>
+        <rotatable>true</rotatable>
+        <costList>
+            <Steel>140</Steel>
+            <ComponentIndustrial>1</ComponentIndustrial>
+        </costList>
+        <statBases>
+            <MaxHitPoints>300</MaxHitPoints>
+            <Flammability>0</Flammability>
+            <WorkToBuild>8000</WorkToBuild>
+            <Beauty>-20</Beauty>
+            <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+        </statBases>
+        <tickerType>Normal</tickerType>
+        <comps>
+            <li Class="CompProperties_Mannable">
+                <manWorkType>Violent</manWorkType>
+            </li>
+            <li Class="CompProperties_Forbiddable"/>
+            <li Class="CompProperties_Flickable"/>
+            <li Class="CompProperties_Breakdownable"/>
+            <li Class="CompProperties_Refuelable">
+                <fuelLabel>Shots until out of ammo</fuelLabel>
+                <fuelGizmoLabel>Ammo</fuelGizmoLabel>
+                <fuelFilter>
+                    <thingDefs>
+                        <li>ChunkGranite</li>
+                        <li>ChunkLimestone</li>
+                        <li>ChunkMarble</li>
+                        <li>ChunkSandstone</li>
+                        <li>ChunkSlate</li>
+                    </thingDefs>
+                </fuelFilter>
+                <fuelCapacity>1</fuelCapacity>
+                <initialFuelPercent>1</initialFuelPercent>
+                <autoRefuelPercent>0.6</autoRefuelPercent>
+                <showFuelGizmo>true</showFuelGizmo>
+                <minimumFueledThreshold>1</minimumFueledThreshold>
+                <fuelMultiplier>10</fuelMultiplier>
+                <factorByDifficulty>true</factorByDifficulty>
+                <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+                <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+                <fuelIconPath>UI/Overlays/Ammo</fuelIconPath>
+            </li>
+        </comps>
+        <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+        <hasInteractionCell>true</hasInteractionCell>
+        <castEdgeShadows>true</castEdgeShadows>
+        <passability>PassThroughOnly</passability>
+        <pathCost>40</pathCost>
+        <fillPercent>0.57</fillPercent>
+        <hasTooltip>true</hasTooltip>
+        <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+        <designationCategory>Security</designationCategory>
+        <building>
+            <ai_combatDangerous>true</ai_combatDangerous>
+            <turretGunDef>KIT_Gun_Bombard</turretGunDef>
+            <turretBurstCooldownTime>8</turretBurstCooldownTime>
+            <turretBurstWarmupTime>3.8</turretBurstWarmupTime>
+        </building>
+        <placeWorkers>
+            <li>PlaceWorker_TurretTop</li>
+            <li>PlaceWorker_ShowTurretRadius</li>
+        </placeWorkers>
+        <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+        <researchPrerequisites>
+            <li>KIT_Blackpowder</li>
+        </researchPrerequisites>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseWeaponTurret">
+        <defName>KIT_Gun_Bombard</defName>
+        <label>mounted bombard</label>
+        <description>An mounted explosive cannon.</description>
+        <graphicData>
+            <texPath>Things/Security/Bombard/BombardGun</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+		<drawerType>MapMeshAndRealTime</drawerType>
+        <soundInteract>Interact_Rifle</soundInteract>
+        <destroyOnDrop>true</destroyOnDrop>
+        <tradeability>None</tradeability>
+        <useHitPoints>false</useHitPoints>
+        <statBases>
+            <AccuracyTouch>0.35</AccuracyTouch>
+            <AccuracyShort>0.50</AccuracyShort>
+            <AccuracyMedium>0.75</AccuracyMedium>
+            <AccuracyLong>0.35</AccuracyLong>
+            <RangedWeapon_Cooldown>8</RangedWeapon_Cooldown>
+            <DeteriorationRate>0</DeteriorationRate>
+            <Mass>3.4</Mass>
+            <Flammability>0</Flammability>
+        </statBases>
+        <weaponTags Inherit="false">
+            <li>TurretGun</li>
+        </weaponTags>
+        <verbs>
+            <li>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>KIT_Bullet_Bombard</defaultProjectile>
+                <warmupTime>3</warmupTime>
+                <range>39.9</range>
+                <burstShotCount>1</burstShotCount>
+                <forcedMissRadius>2.9</forcedMissRadius>
+                <soundCast>KIT_Shot_Bombard</soundCast>
+                <soundCastTail>GunTail_Medium</soundCastTail>
+                <muzzleFlashScale>9</muzzleFlashScale>
+                <consumeFuelPerShot>1</consumeFuelPerShot>
+            </li>
+        </verbs>
+    </ThingDef>
+
+    <ThingDef ParentName="BaseBullet">
+        <defName>KIT_Bullet_Bombard</defName>
+        <label>bombard</label>
+        <graphicData>
+            <texPath>Things/Projectile/Bullet_Rock</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <thingClass>Projectile_Explosive</thingClass>
+        <projectile>
+            <speed>40</speed>
+            <damageDef>Bomb</damageDef>
+            <explosionRadius>2.9</explosionRadius>
+            <preExplosionSpawnThingDef>Filth_RubbleRock</preExplosionSpawnThingDef>
+            <preExplosionSpawnChance>0.3</preExplosionSpawnChance>
+            <ai_IsIncendiary>false</ai_IsIncendiary>
+            <arcHeightFactor>0.55</arcHeightFactor>
+            <shadowSize>0.6</shadowSize>
+	        <explosionDelay>0</explosionDelay>
+        </projectile>
+  </ThingDef>
+
+</Defs>
