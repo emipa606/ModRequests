@@ -1,0 +1,1072 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<!-- ========== Turret Base ========== -->
+
+	<ThingDef ParentName="BuildingBase" Name="LVE_TurretBase" Abstract="true">
+		<thingClass>Building_TurretGun</thingClass>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer> 
+		<stealable>false</stealable>
+		<rotatable>true</rotatable>
+		<statBases>
+			<Flammability>0.15</Flammability>
+			<Beauty>-20</Beauty>		
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<techLevel>Industrial</techLevel>
+		<comps>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Breakdownable"/>
+		</comps>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<fillPercent>0.85</fillPercent>
+		<castEdgeShadows>true</castEdgeShadows>
+		<hasTooltip>true</hasTooltip>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Security</designationCategory>
+		<placeWorkers>
+			<li>PlaceWorker_TurretTop</li>
+			<li>PlaceWorker_ShowTurretRadius</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<ThingDef ParentName="LVE_TurretBase" Name="LVE_TurretMannedBase" Abstract="true">
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<comps>
+			<li Class="CompProperties_Mannable">
+				<manWorkType>Violent</manWorkType>
+			</li>
+		</comps>
+		<placeWorkers>
+			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<ThingDef ParentName="LVE_TurretBase" Name="LVE_TurretSentryBase" Abstract="true">
+		<statBases>
+			<ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+			<!-- like level 8 human shooter -->
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Flickable"/>
+		</comps>
+		<building>
+			<ai_combatDangerous>true</ai_combatDangerous>
+		</building>
+	</ThingDef>
+
+<!-- ========== Turret Weapon Base ========== -->
+
+	<ThingDef ParentName="BaseWeaponTurret" Name="LVE_TurretWeaponBase" Abstract="true">
+		<soundInteract>Interact_Rifle</soundInteract>
+		<destroyOnDrop>true</destroyOnDrop>
+		<tradeability>None</tradeability>
+		<useHitPoints>false</useHitPoints>
+		<statBases>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Flammability>0</Flammability>
+		</statBases>
+	</ThingDef>
+
+<!-- ========== BUILDINGS ========== -->
+	
+	<!-- Tazer Turret -->
+	<ThingDef ParentName="LVE_TurretSentryBase">
+		<defName>LVE_TazerSentry</defName>
+		<label>tazer sentry</label>
+		<description>An automatic tazer turret, which immobilizes enemies with strong electric shock. \n \nPowerful tool for handling a group of enemies, but be aware of high energy consumption.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/SentryTazer</uiIconPath>
+		
+		<comps>			
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>280</basePowerConsumption>
+			</li>
+		</comps>
+
+		<statBases>
+			<MaxHitPoints>165</MaxHitPoints>
+			<WorkToBuild>3500</WorkToBuild> 
+			<Mass>10.5</Mass>
+		</statBases>
+
+		<costList>
+			<Steel>80</Steel>
+			<ComponentIndustrial>6</ComponentIndustrial>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_TazerSentryGun</turretGunDef>
+			<turretBurstCooldownTime>3</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+	<!-- Syringe Turret -->
+	<ThingDef ParentName="LVE_TurretMannedBase">
+		<defName>LVE_MannedSyringeTurret</defName>
+		<label>syringe turret</label>
+		<description>Manual turret that fires tranquiliser shots. Sedates an enemy after a bunch of succesfull shots.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/MannedSyringeTurret</uiIconPath>
+		
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<WorkToBuild>7500</WorkToBuild> 
+			<Mass>25.5</Mass>
+		</statBases>
+		
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Syringe amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>500</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>10</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		
+		<costList>
+			<Steel>155</Steel>
+			<ComponentIndustrial>5</ComponentIndustrial>
+			<Neutroamine>50</Neutroamine>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_SyringeTurretWeapon</turretGunDef>
+			<turretBurstCooldownTime>1.5</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+	<!-- Syringe Turret 2 -->
+	<ThingDef ParentName="LVE_TurretMannedBase">
+		<defName>LVE_MannedDoubleSyringeTurret</defName>
+		<label>syringe turret II</label>
+		<description>Manual turret that fires tranquiliser shots. Sedates an enemy after a bunch of succesfull shots.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/MannedDoubleSyringeGun</uiIconPath>
+		
+		<statBases>
+			<MaxHitPoints>125</MaxHitPoints>
+			<WorkToBuild>10000</WorkToBuild> 
+			<Mass>32.5</Mass>
+		</statBases>
+		
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Syringe amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>1000</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>10</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		
+		<costList>
+			<Steel>200</Steel>
+			<ComponentIndustrial>8</ComponentIndustrial>
+			<Neutroamine>120</Neutroamine>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_SyringeTurretWeaponAdvanced</turretGunDef>
+			<turretBurstCooldownTime>1.25</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra_Turrets</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+	<!-- Syringe Sentry 1 -->
+	<ThingDef ParentName="LVE_TurretSentryBase">
+		<defName>LVE_SentrySyringeTurret</defName>
+		<label>syringe sentry</label>
+		<description>Automatic turret that fires tranquilizer shots. Sedates an enemy after a bunch of succesfull shots.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/SentrySyringeTurret1</uiIconPath>
+		
+		<statBases>
+			<MaxHitPoints>145</MaxHitPoints>
+			<WorkToBuild>7500</WorkToBuild> 
+			<Mass>25.5</Mass>
+		</statBases>
+		
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>85</basePowerConsumption>
+			  </li>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Syringe amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>500</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>10</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		
+		<costList>
+			<Steel>155</Steel>
+			<ComponentIndustrial>5</ComponentIndustrial>
+			<Neutroamine>50</Neutroamine>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_SyringeSentryWeapon</turretGunDef>
+			<turretBurstCooldownTime>1.5</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+	<!-- Syringe Sentry 2 -->
+	<ThingDef ParentName="LVE_TurretSentryBase">
+		<defName>LVE_SentrySyringeTurretAdvanced</defName>
+		<label>syringe sentry II</label>
+		<description>Automatic turret that fires tranquilizer shots. Sedates an enemy after a bunch of succesfull shots.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/SentrySyringeTurret2</uiIconPath>
+		
+		<statBases>
+			<MaxHitPoints>180</MaxHitPoints>
+			<WorkToBuild>16000</WorkToBuild> 
+			<Mass>25.5</Mass>
+		</statBases>
+		
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>150</basePowerConsumption>
+			</li>
+
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Syringe amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>1200</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>10</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		
+		<costList>
+			<Steel>280</Steel>
+			<ComponentIndustrial>8</ComponentIndustrial>
+			<Neutroamine>120</Neutroamine>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_SyringeSentryWeaponAdvanced</turretGunDef>
+			<turretBurstCooldownTime>1.5</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra_Turrets</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+	<!-- Manned RubberCanon -->
+	<ThingDef ParentName="LVE_TurretMannedBase">
+		<defName>LVE_MannedRubberCannon</defName>
+		<label>rubbershot cannon</label>
+		<description>A long range cannon, that shoots big rubber balls. It's designed to cause a lot of pain to an enemy from a long distance.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/RubberCannon</uiIconPath>
+		
+		<statBases>
+			<MaxHitPoints>245</MaxHitPoints>
+			<WorkToBuild>5000</WorkToBuild> 
+			<Mass>30.5</Mass>
+		</statBases>
+		
+		<costList>
+			<Steel>180</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_RubberCannonGun</turretGunDef>
+			<turretBurstCooldownTime>1.25</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra_Turrets</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+	<!-- Manned Tear Gas Grenade Launcher -->
+	<ThingDef ParentName="LVE_TurretMannedBase">
+		<defName>LVE_MannedTearGasGrenadeTurret</defName>
+		<label>teargas grenade launcher</label>
+		<description>An automatic tear gas grenade launcher. Has long range.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+
+		<uiIconPath>UI/MannedTearGasGrenadeLauncher</uiIconPath>
+
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>100</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>5</glowRadius>
+				<glowColor>(60,60,138,0)</glowColor>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Grenades amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>125</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>25</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+
+		<statBases>
+			<MaxHitPoints>125</MaxHitPoints>
+			<WorkToBuild>5000</WorkToBuild>
+			<Mass>30.5</Mass>
+		</statBases>
+
+		<costList>
+			<Steel>275</Steel>
+			<ComponentIndustrial>6</ComponentIndustrial>
+			<Neutroamine>120</Neutroamine>
+		</costList>
+
+		<building>
+			<turretGunDef>LVE_TearGasGrenadeLauncher</turretGunDef>
+			<turretBurstCooldownTime>8.45</turretBurstCooldownTime>
+		</building>
+
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra_Turrets</li>
+		</researchPrerequisites>
+		
+	</ThingDef>
+
+	<!-- Tear Gas Grenade Sentry -->
+	<ThingDef ParentName="LVE_TurretSentryBase">
+		<defName>LVE_SentryTearGasGrenade</defName>
+		<label>teargas grenade sentry</label>
+		<description>An automatic tear gas grenade launcher. Has long range.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+
+		<uiIconPath>UI/SentryTearGasGrenadeLauncher</uiIconPath>
+
+		<comps>
+			<li Class="CompProperties_Glower">
+				<glowRadius>2</glowRadius>
+				<glowColor>(60,60,138,0)</glowColor>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>100</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Grenades amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>125</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>25</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+
+		<statBases>
+			<MaxHitPoints>180</MaxHitPoints>
+			<WorkToBuild>5000</WorkToBuild>
+			<Mass>30.5</Mass>
+		</statBases>
+
+		<costList>
+			<Steel>275</Steel>
+			<ComponentIndustrial>6</ComponentIndustrial>
+			<Neutroamine>120</Neutroamine>
+		</costList>
+
+		<building>
+			<turretGunDef>LVE_TearGasGrenadeSentryLauncher</turretGunDef>
+			<turretBurstCooldownTime>7.25</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra_Turrets</li>
+		</researchPrerequisites>
+		
+	</ThingDef>
+
+	<!-- Tear Gas Sentry -->
+	<ThingDef ParentName="LVE_TurretMannedBase">
+		<defName>LVE_TearGasSentry</defName>
+		<label>teargas sentry</label>
+		<description>An advanced sentry that shoots tear gas. Very durable and tanky.</description>
+		
+		<graphicData>
+			<texPath>Things/Building/Security/Quapod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+		</graphicData>
+		
+		<uiIconPath>UI/SentryTearGasTurret</uiIconPath>
+		
+		<statBases>
+			<MaxHitPoints>425</MaxHitPoints>
+			<WorkToBuild>16000</WorkToBuild> 
+			<Mass>25.5</Mass>
+		</statBases>
+		
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>100</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>240</wickTicks>
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>VWENL_TearGas</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+			  </li>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until reload needed</fuelLabel>
+				<fuelGizmoLabel>Syringe amount</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>1200</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.75</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>10</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs reloading</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		
+		<costList>
+			<Steel>280</Steel>
+			<ComponentIndustrial>8</ComponentIndustrial>
+			<Neutroamine>120</Neutroamine>
+		</costList>
+		
+		<building>
+			<turretGunDef>LVE_TearGasGun</turretGunDef>
+			<turretBurstCooldownTime>1.5</turretBurstCooldownTime>
+		</building>
+		
+		<researchPrerequisites>
+			<li>LVE_NonLethal_Extra_Turrets</li>
+		</researchPrerequisites>
+	
+	</ThingDef>
+
+<!-- ========== Turret Guns ========== -->
+
+	<!-- Tazer Gun -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_TazerSentryGun</defName>
+		<label>tazer sentry</label>
+		<description>Tazer gun that shoots electric projectiles.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/SentryTazer</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+
+		<statBases>
+			<AccuracyTouch>0.85</AccuracyTouch>
+			<AccuracyShort>0.75</AccuracyShort>
+			<AccuracyMedium>0.6</AccuracyMedium>
+			<AccuracyLong>0.42</AccuracyLong>
+			<RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+			<Mass>15</Mass>
+		</statBases>
+
+        <weaponTags Inherit="False">
+			<li>NonLethal</li>
+		</weaponTags>
+
+        <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>LVE_TazerBullet</defaultProjectile>
+				<warmupTime>1.28</warmupTime>
+				<range>18.5</range>
+				<ticksBetweenBurstShots>15</ticksBetweenBurstShots>
+				<burstShotCount>3</burstShotCount>
+				<soundCast>VWE_TaserShot_Electricity</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+	</ThingDef>
+
+	<!-- Sentry Syringe Gun 1 -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_SyringeSentryWeapon</defName>
+		<label>syringe sentry gun</label>
+		<description>A Non-Lethal light machine gun that fires tranqualisers.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/SentrySyringeTurret1</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+
+		<statBases>
+			<AccuracyTouch>0.8</AccuracyTouch>
+			<AccuracyShort>0.7</AccuracyShort>
+			<AccuracyMedium>0.6</AccuracyMedium>
+			<AccuracyLong>0.5</AccuracyLong>
+			<RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+			<Mass>15</Mass>
+		</statBases>
+
+        <weaponTags Inherit="False">
+			<li>NonLethal</li>
+		</weaponTags>
+
+        <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>LVE_SyringeBullet</defaultProjectile>
+				<warmupTime>0.25</warmupTime>
+				<range>28.0</range>
+				<ticksBetweenBurstShots>16</ticksBetweenBurstShots>
+				<burstShotCount>7</burstShotCount>
+				<soundCast>VWENL_Shot_RubberBulletPistol</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+	</ThingDef>
+
+	<!-- Sentry Syringe Gun 2 -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_SyringeSentryWeaponAdvanced</defName>
+		<label>syringe turret gun</label>
+		<description>A Non-Lethal gun that fires tranqualiser shots.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/SentrySyringeTurret2</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+
+		<statBases>
+			<AccuracyTouch>0.9</AccuracyTouch>
+			<AccuracyShort>0.8</AccuracyShort>
+			<AccuracyMedium>0.7</AccuracyMedium>
+			<AccuracyLong>0.6</AccuracyLong>
+			<RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+			<Mass>15</Mass>
+		</statBases>
+
+        <weaponTags Inherit="False">
+			<li>NonLethal</li>
+		</weaponTags>
+
+        <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>LVE_SyringeBullet</defaultProjectile>
+				<warmupTime>0.05</warmupTime>
+				<range>30.0</range>
+				<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+				<burstShotCount>15</burstShotCount>
+				<soundCast>VWENL_Shot_RubberBulletPistol</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+	
+	</ThingDef>
+
+	<!-- Manned Syringe Gun 1 -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_SyringeTurretWeapon</defName>
+		<label>syringe turret gun</label>
+		<description>A Non-Lethal weapon that fires tranqualisers.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/MannedSyringeTurret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+
+		<statBases>
+			<AccuracyTouch>0.8</AccuracyTouch>
+			<AccuracyShort>0.7</AccuracyShort>
+			<AccuracyMedium>0.6</AccuracyMedium>
+			<AccuracyLong>0.5</AccuracyLong>
+			<RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+			<Mass>15</Mass>
+		</statBases>
+
+        <weaponTags Inherit="False">
+			<li>NonLethal</li>
+		</weaponTags>
+
+        <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>LVE_SyringeBullet</defaultProjectile>
+				<warmupTime>0.25</warmupTime>
+				<range>32.0</range>
+				<ticksBetweenBurstShots>16</ticksBetweenBurstShots>
+				<burstShotCount>7</burstShotCount>
+				<soundCast>VWENL_Shot_RubberBulletPistol</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+	</ThingDef>
+
+	<!-- Manned Syringe Gun 2 -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_SyringeTurretWeaponAdvanced</defName>
+		<label>advanced syringe gun</label>
+		<description>A Non-Lethal weapon that fires tranqualisers.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/MannedDoubleSyringeGun</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+
+		<statBases>
+			<AccuracyTouch>0.9</AccuracyTouch>
+			<AccuracyShort>0.8</AccuracyShort>
+			<AccuracyMedium>0.7</AccuracyMedium>
+			<AccuracyLong>0.6</AccuracyLong>
+			<RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+			<Mass>15</Mass>
+		</statBases>
+
+        <weaponTags Inherit="False">
+			<li>NonLethal</li>
+		</weaponTags>
+
+        <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>LVE_SyringeBullet</defaultProjectile>
+				<warmupTime>0.05</warmupTime>
+				<range>32.0</range>
+				<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+				<burstShotCount>15</burstShotCount>
+				<soundCast>VWENL_Shot_RubberBulletPistol</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+	
+	</ThingDef>
+
+	<!-- Rubber Cannon -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_RubberCannonGun</defName>
+		<label>rubber cannon</label>
+		<description>A cannon designed to shoot rubber shots.</description>
+		
+		<graphicData>
+		  <texPath>Things/Building/Security/RubberCannon</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawSize>(2,2)</drawSize>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		
+		<statBases>
+		  <AccuracyTouch>0.24</AccuracyTouch>
+		  <AccuracyShort>0.52</AccuracyShort>
+		  <AccuracyMedium>0.57</AccuracyMedium>
+		  <AccuracyLong>0.43</AccuracyLong>
+		  <RangedWeapon_Cooldown>5.6</RangedWeapon_Cooldown>
+		  <DeteriorationRate>0</DeteriorationRate>
+		  <Mass>80</Mass>
+		  <Flammability>0</Flammability>
+		</statBases>
+		
+		<verbs>
+		  <li>
+			<verbClass>Verb_Shoot</verbClass>
+			<hasStandardCommand>true</hasStandardCommand>
+			<defaultProjectile>LVE_BigRubberProj</defaultProjectile>
+			<warmupTime>0</warmupTime>
+			<minRange>8</minRange>
+			<range>48</range>
+			<ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+			<burstShotCount>3</burstShotCount>
+			<soundCast>Shot_Autocannon</soundCast>
+			<soundCastTail>GunTail_Heavy</soundCastTail>
+			<muzzleFlashScale>12</muzzleFlashScale>
+			<consumeFuelPerShot>1</consumeFuelPerShot>
+		  </li>
+		</verbs>
+	  </ThingDef>
+
+	<!-- Tear Gas Grenade Launcher -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_TearGasGrenadeLauncher</defName>
+		<label>tear gas grenade launcher</label>
+		<description>A tear gas grenade launcher.</description>
+		
+		<graphicData>
+		  <texPath>Things/Building/Security/MannedTearGasGrenadeLauncher</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawSize>(2,2)</drawSize>
+		</graphicData>
+		
+		<soundInteract>Interact_Rifle</soundInteract>
+		
+		<statBases>
+			<AccuracyTouch>0.45</AccuracyTouch>
+			<AccuracyShort>0.34</AccuracyShort>
+			<AccuracyMedium>0.23</AccuracyMedium>
+			<AccuracyLong>0.12</AccuracyLong>
+			<RangedWeapon_Cooldown>5.6</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>80</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		
+		<verbs>
+		  <li>
+			<verbClass>Verb_Shoot</verbClass>
+			<hasStandardCommand>true</hasStandardCommand>
+			<defaultProjectile>LVE_Projectile_TearGasGrenade</defaultProjectile>
+			<warmupTime>0.5</warmupTime>
+			<minRange>25</minRange>
+			<range>100</range>
+			<forcedMissRadius>10</forcedMissRadius>
+			<forcedMissRadiusClassicMortars>13</forcedMissRadiusClassicMortars>
+			<isMortar>true</isMortar>
+			<requireLineOfSight>false</requireLineOfSight>
+			<ticksBetweenBurstShots>24</ticksBetweenBurstShots>
+			<burstShotCount>6</burstShotCount>
+			<soundCast>Shot_Autocannon</soundCast>
+			<soundCastTail>GunTail_Heavy</soundCastTail>
+			<muzzleFlashScale>12</muzzleFlashScale>
+			<consumeFuelPerShot>1</consumeFuelPerShot>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		  </li>
+		</verbs>
+	
+	</ThingDef>
+
+	<!-- Tear Gas Grenade Sentry Launcher -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_TearGasGrenadeSentryLauncher</defName>
+		<label>tear gas grenade launcher</label>
+		<description>A tear gas grenade launcher.</description>
+		
+		<graphicData>
+		  <texPath>Things/Building/Security/SentryTearGasGrenadeLauncher</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawSize>(2,2)</drawSize>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		
+		<statBases>
+		  <AccuracyTouch>0.45</AccuracyTouch>
+		  <AccuracyShort>0.34</AccuracyShort>
+		  <AccuracyMedium>0.23</AccuracyMedium>
+		  <AccuracyLong>0.12</AccuracyLong>
+		  <RangedWeapon_Cooldown>5.6</RangedWeapon_Cooldown>
+		  <DeteriorationRate>0</DeteriorationRate>
+		  <Mass>80</Mass>
+		  <Flammability>0</Flammability>
+		</statBases>
+		
+		<verbs>
+		  <li>
+			<verbClass>Verb_Shoot</verbClass>
+			<hasStandardCommand>true</hasStandardCommand>
+			<defaultProjectile>LVE_Projectile_TearGasGrenade</defaultProjectile>
+			<warmupTime>0.5</warmupTime>
+			<minRange>25</minRange>
+			<range>100</range>
+			<forcedMissRadius>10</forcedMissRadius>
+			<forcedMissRadiusClassicMortars>13</forcedMissRadiusClassicMortars>
+			<isMortar>true</isMortar>
+			<requireLineOfSight>false</requireLineOfSight>
+			<ticksBetweenBurstShots>32</ticksBetweenBurstShots>
+			<burstShotCount>6</burstShotCount>
+			<soundCast>Shot_Autocannon</soundCast>
+			<soundCastTail>GunTail_Heavy</soundCastTail>
+			<muzzleFlashScale>12</muzzleFlashScale>
+			<consumeFuelPerShot>1</consumeFuelPerShot>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		  </li>
+		</verbs>
+	</ThingDef>
+
+	<!-- Tear Gas Gun -->
+	<ThingDef ParentName="LVE_TurretWeaponBase">
+		<defName>LVE_TearGasGun</defName>
+		<label>tear gas gun</label>
+		<description>A tear gas gun.</description>
+
+		<graphicData>
+			<texPath>Things/Building/Security/SentryTearGasTurret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+
+		<statBases>
+			<AccuracyTouch>0.13</AccuracyTouch>
+			<AccuracyShort>0.12</AccuracyShort>
+			<AccuracyMedium>0.11</AccuracyMedium>
+			<AccuracyLong>0.1</AccuracyLong>
+			<RangedWeapon_Cooldown>1.45</RangedWeapon_Cooldown>
+			<Mass>20</Mass>
+		</statBases>
+
+        <weaponTags Inherit="False">
+			<li>NonLethal</li>
+		</weaponTags>
+
+        <verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>LVE_TearGasFluid</defaultProjectile>
+				<warmupTime>0.25</warmupTime>
+				<range>45.0</range>
+				<ticksBetweenBurstShots>0.125</ticksBetweenBurstShots>
+				<burstShotCount>8</burstShotCount>
+				<soundCast>DispensePaste</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>4</muzzleFlashScale>
+				<consumeFuelPerShot>0.25</consumeFuelPerShot>
+				<forcedMissRadius>3</forcedMissRadius>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+			</li>
+		</verbs>
+	</ThingDef>
+
+</Defs>
