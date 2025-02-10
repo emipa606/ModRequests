@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+<!-- Razor Wire Base -->
+	<ThingDef Name="BuildingBase_Wire" Abstract="True">
+		<soundImpactDefault>MeleeHit_Metal_Sharp</soundImpactDefault>
+		<selectable>true</selectable>
+		<category>Building</category>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<repairEffect>Repair</repairEffect>
+	    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+	</ThingDef>
+
+<!-- Landmine Base -->	
+	<ThingDef Name="TrapMineBase" ParentName="BuildingBase" Abstract="True">
+		<thingClass>Building_TrapExplosive</thingClass>
+		<graphicData>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <damageData>
+			<rect>(0.1,0,0.8,0.3)</rect>
+		  </damageData>
+		</graphicData>
+		<uiIconOffset>(0,-0.14)</uiIconOffset>
+		<altitudeLayer>Building</altitudeLayer>
+		<drawerType>RealtimeOnly</drawerType>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<stealable>false</stealable>
+		<!-- <minifiedDef>MinifiedThing</minifiedDef> -->
+		<!-- <thingCategories> -->
+		  <!-- <li>BuildingsSecurity</li> -->
+		<!-- </thingCategories> -->
+		<statBases>
+		  <Mass>2</Mass>
+		  <MaxHitPoints>40</MaxHitPoints>
+		  <WorkToBuild>800</WorkToBuild>
+		  <Flammability>1</Flammability>
+		  <Beauty>-4</Beauty>
+		  <TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<building>
+		  <isTrap>true</isTrap>
+		  <trapPeacefulWildAnimalsSpringChanceFactor>0.25</trapPeacefulWildAnimalsSpringChanceFactor>
+		  <expandHomeArea>false</expandHomeArea>
+				<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+		<researchPrerequisites>
+		  <li>Machining</li>
+		</researchPrerequisites>
+		<placeWorkers>
+		  <li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+	</ThingDef>		
+	
+<!-- Concertina Wire Obstacle -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>RazorWireObstacle</defName>
+		<label>concertina wire obstacle</label>
+		<thingClass>Building_TrapDamager</thingClass>
+		<description>A basic entanglement consisting of a single coil of razor wire anchored in place. Cheap, lightweight, and extremely quick to install.</description>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<constructEffect>ConstructMetal</constructEffect>
+		<repairEffect>ConstructMetal</repairEffect>
+		<graphicData>
+			<texPath>RazorWire/RazorWire_Atlas</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<linkType>Basic</linkType>
+			<linkFlags>
+				<li>Custom5</li>
+			</linkFlags>
+		</graphicData>
+		<uiIconPath>RazorWire/RazorWire_Icon</uiIconPath>
+		<staticSunShadowHeight>0.0</staticSunShadowHeight>
+		<researchPrerequisites>
+			<li>Smithing</li>
+		</researchPrerequisites>		
+		<building>
+			<isTrap>true</isTrap>
+			<trapDestroyOnSpring>false</trapDestroyOnSpring>
+			<trapDamageCategory>Sharp</trapDamageCategory> 
+			<trapPeacefulWildAnimalsSpringChanceFactor>0.30</trapPeacefulWildAnimalsSpringChanceFactor>
+			<blueprintGraphicData>
+				<texPath>RazorWire/RazorWire_Blueprint_Atlas</texPath>
+			</blueprintGraphicData>
+		    <expandHomeArea>false</expandHomeArea>
+				<ai_chillDestination>false</ai_chillDestination>	
+		</building>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<fillPercent>0.1</fillPercent>
+		<pathCost>200</pathCost>
+		<pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>		
+		<statBases>
+			<Mass>1.25</Mass>
+			<TrapSpringChance>0.55</TrapSpringChance>
+			<TrapMeleeDamage>6</TrapMeleeDamage>
+			<Beauty>-5</Beauty>	
+			<MaxHitPoints>150</MaxHitPoints>
+			<WorkToBuild>180</WorkToBuild>
+			<Flammability>0</Flammability>
+		</statBases>
+		<damageMultipliers>
+			<li>
+			<damageDef>Bomb</damageDef>
+			<multiplier>2</multiplier>
+			</li>
+			<li>
+			<damageDef>Blunt</damageDef>
+			<multiplier>0.85</multiplier>
+			</li>
+		</damageMultipliers>
+		<costList>
+			<RazorWire>1</RazorWire>
+		</costList>
+		<blockLight>false</blockLight>
+		<blockWind>false</blockWind>
+		<filthLeaving>Filth_RubbleBuilding</filthLeaving>
+		<passability>PassThroughOnly</passability>
+		<castEdgeShadows>false</castEdgeShadows>
+		<stealable>false</stealable>
+		<altitudeLayer>Building</altitudeLayer>		
+		<tickerType>Normal</tickerType>
+		<rotatable>false</rotatable>		
+		<coversFloor>false</coversFloor>
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<neverMultiSelect>true</neverMultiSelect>
+		<holdsRoof>false</holdsRoof>
+	</ThingDef>	
+	
+<!-- Concertina Wire Barrier -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>RazorWireBarrier</defName>
+		<label>concertina wire barrier</label>
+		<thingClass>Building</thingClass>
+		<description>A razor wire fence rising to almost chest height, it is constructed from three coils of wire stacked on top of one another in a pyramid-shape and anchored securely in place.</description>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<constructEffect>ConstructMetal</constructEffect>
+		<repairEffect>ConstructMetal</repairEffect>
+		<graphicData>
+			<texPath>RazorWire/RazorWireBarrier_Atlas</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<linkType>Basic</linkType>
+			<linkFlags>
+				<li>Custom3 </li>
+			</linkFlags>
+		</graphicData>
+		<uiIconPath>RazorWire/RazorWireBarrier_Icon</uiIconPath>
+		<staticSunShadowHeight>0.0</staticSunShadowHeight>
+		<researchPrerequisites>
+			<li>Smithing</li>
+		</researchPrerequisites>			
+		<building>
+			<blueprintGraphicData>
+				<texPath>RazorWire/RazorWireBarrier_Blueprint_Atlas</texPath>
+			</blueprintGraphicData>
+		    <expandHomeArea>false</expandHomeArea>
+				<ai_chillDestination>false</ai_chillDestination>	
+		</building>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<fillPercent>0.15</fillPercent>
+		<pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>		
+		<statBases>
+			<Mass>5</Mass>
+			<Beauty>-8</Beauty>	
+			<MaxHitPoints>350</MaxHitPoints>
+			<WorkToBuild>500</WorkToBuild>
+			<Flammability>0</Flammability>
+		</statBases>
+		<damageMultipliers>
+			<li>
+			<damageDef>Bomb</damageDef>
+			<multiplier>1.75</multiplier>
+			</li>
+			<li>
+			<damageDef>Blunt</damageDef>
+			<multiplier>0.80</multiplier>
+			</li>
+		</damageMultipliers>
+		<costList>
+			<RazorWire>3</RazorWire>
+		</costList>
+		<blockLight Inherit="False">false</blockLight>
+		<blockWind>false</blockWind>
+		<filthLeaving>Filth_RubbleBuilding</filthLeaving>
+		<passability>Impassable</passability>
+		<castEdgeShadows>false</castEdgeShadows>
+		<stealable>false</stealable>
+		<altitudeLayer>Building</altitudeLayer>		
+		<tickerType>Normal</tickerType>
+		<rotatable>false</rotatable>		
+		<coversFloor>false</coversFloor>
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<neverMultiSelect>true</neverMultiSelect>
+		<holdsRoof>false</holdsRoof>
+	</ThingDef>	
+	
+<!-- Basket Gabion -->
+  <ThingDef ParentName="BuildingBase_Wire">
+    <defName>Gabion</defName>
+    <label>gabion</label>
+    <description>Wicker baskets packed with nearby earth and rocks. They provide good cover from ranged attacks, but are vulnerable to fire.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Gabions/Gabion_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Basic</linkType>
+      <linkFlags>
+        <li>Custom3</li>
+      </linkFlags>
+    </graphicData>
+    <coversFloor>false</coversFloor>		
+    <uiIconPath>Gabions/Gabion_MenuIcon</uiIconPath>
+	<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>	
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>45</pathCost>
+    <pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.6</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Beauty>-6</Beauty>
+      <WorkToBuild>300</WorkToBuild>
+      <Flammability>0.1</Flammability>
+    </statBases>
+    <building>
+			<ai_chillDestination>false</ai_chillDestination>
+			<isInert>true</isInert>
+      <blueprintGraphicData>
+        <texPath>Gabions/Gabion_Blueprint_Atlas</texPath>
+      </blueprintGraphicData>
+    </building>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <costList>
+      <WoodLog>5</WoodLog>
+    </costList>
+    <filthLeaving>Filth_RubbleBuilding</filthLeaving>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded> 
+    <holdsRoof>false</holdsRoof>
+	<blockWind>false</blockWind>
+	<blockLight>false</blockLight>		
+	<tickerType>Never</tickerType>	
+    <designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+    <staticSunShadowHeight>0.2</staticSunShadowHeight>
+    <constructEffect>ConstructDirt</constructEffect>
+    <repairEffect>ConstructDirt</repairEffect>
+    <designationHotKey>Misc1</designationHotKey>
+  </ThingDef>
+  
+<!-- H Barrier (Tan) -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>HBarrier_Tan</defName>
+		<label>H-barrier (Tan)</label>
+		<description>Modernized gabions, these modular containers are made from steel and reinforced tan fabric. Packed with sand or soil, they provide excellent protection against direct fire and explosions.</description>
+		<graphicData>
+		  <texPath>HBarriers/HBarrier_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>Basic</linkType>		  
+		  <linkFlags>
+			<li>Custom2</li>
+		  </linkFlags>
+		</graphicData>
+		<thingClass>Building</thingClass>		
+		<uiIconPath>HBarriers/HBarrier_Icon</uiIconPath>
+		<researchPrerequisites>
+			<li>Machining</li>
+		</researchPrerequisites>		
+		<building>
+			<blueprintGraphicData>
+			  <texPath>HBarriers/HBarrier_Atlas</texPath>
+			</blueprintGraphicData>
+		</building>
+		<statBases>
+			<MaxHitPoints>475</MaxHitPoints>
+			<WorkToBuild>1000</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Beauty>-10</Beauty>
+		</statBases>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<fillPercent>1</fillPercent>
+		<coversFloor>true</coversFloor>
+		<costList>
+			<HBarrierShell>1</HBarrierShell>
+		</costList>	
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>		
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<tickerType>Never</tickerType>
+		<rotatable>false</rotatable>
+		<castEdgeShadows>true</castEdgeShadows>
+		<blockWind>true</blockWind>		
+		<blockLight>true</blockLight>
+		<holdsRoof>true</holdsRoof>		
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<selectable>true</selectable>
+		<constructEffect>ConstructDirt</constructEffect>
+		<repairEffect>ConstructDirt</repairEffect>		
+		<neverMultiSelect>true</neverMultiSelect>
+		<staticSunShadowHeight>0.70</staticSunShadowHeight>
+	</ThingDef>
+	
+<!-- H Barrier (Green) -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>HBarrier_Green</defName>
+		<label>H-barrier (Green)</label>
+		<description>Modernized gabions, these modular containers are made from steel and reinforced green fabric. Packed with sand or soil, they provide excellent protection against direct fire and explosions.</description>
+		<graphicData>
+		  <texPath>HBarriers/HBarrier_Atlas_Green</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>Basic</linkType>		  
+		  <linkFlags>
+			<li>Custom2</li>
+		  </linkFlags>
+		</graphicData>
+		<thingClass>Building</thingClass>		
+		<uiIconPath>HBarriers/HBarrier_Icon_Green</uiIconPath>
+		<researchPrerequisites>
+			<li>Machining</li>
+		</researchPrerequisites>		
+		<building>
+			<blueprintGraphicData>
+			  <texPath>HBarriers/HBarrier_Atlas_Green</texPath>
+			</blueprintGraphicData>
+		</building>
+		<statBases>
+			<MaxHitPoints>475</MaxHitPoints>
+			<WorkToBuild>850</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Beauty>-10</Beauty>
+		</statBases>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<fillPercent>1</fillPercent>
+		<coversFloor>true</coversFloor>
+		<costList>
+			<HBarrierShell>1</HBarrierShell>
+		</costList>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>				
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<tickerType>Never</tickerType>
+		<rotatable>false</rotatable>
+		<castEdgeShadows>true</castEdgeShadows>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<selectable>true</selectable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<blockLight>true</blockLight>
+		<blockWind>true</blockWind>
+		<holdsRoof>true</holdsRoof>			
+		<constructEffect>ConstructDirt</constructEffect>
+		<repairEffect>ConstructDirt</repairEffect>	
+		<staticSunShadowHeight>0.70</staticSunShadowHeight>
+	</ThingDef>
+	
+<!-- H Barrier Firing Position -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>HBarrier_FP</defName>
+		<label>H-barrier firing position</label>
+		<description>Modernized gabions, these modular containers are made from steel and reinforced green fabric. Here, a firing position made of sandbags has been constructed on top. Packed with sand or soil, they provide excellent protection against direct fire and explosions.</description>
+		<graphicData>
+		  <texPath>HBarriers/HBarrier_Short_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>Basic</linkType>		  
+		  <linkFlags>
+			<li>Custom2</li>
+		  </linkFlags>
+		</graphicData>
+		<thingClass>Building</thingClass>		
+		<uiIconPath>HBarriers/HBarrier_FP_Icon</uiIconPath>	
+		<researchPrerequisites>
+			<li>Machining</li>
+		</researchPrerequisites>		
+		<building>
+			<blueprintGraphicData>
+			  <texPath>HBarriers/HBarrier_Atlas</texPath>
+			</blueprintGraphicData>
+		</building>
+		<statBases>
+			<MaxHitPoints>475</MaxHitPoints>
+			<WorkToBuild>850</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Beauty>-10</Beauty>
+		</statBases>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<fillPercent>0.8</fillPercent>
+		<coversFloor>true</coversFloor>
+		<costList>
+			<HBarrierShell>1</HBarrierShell>
+		</costList>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>				
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<tickerType>Never</tickerType>
+		<rotatable>false</rotatable>
+		<castEdgeShadows>true</castEdgeShadows>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<selectable>true</selectable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<blockLight>true</blockLight>
+		<blockWind>true</blockWind>
+		<holdsRoof>true</holdsRoof>			
+		<constructEffect>ConstructDirt</constructEffect>
+		<repairEffect>ConstructDirt</repairEffect>	
+		<staticSunShadowHeight>0.70</staticSunShadowHeight>
+	</ThingDef>	
+
+	<!-- H Barrier Firing Position(Green) -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>HBarrier_FP_Green</defName>
+		<label>H-barrier firing position (Green)</label>
+		<description>Modernized gabions, these modular containers are made from steel and reinforced green fabric. Here, a firing position made of sandbags has been constructed on top. Packed with sand or soil, they provide excellent protection against direct fire and explosions.</description>
+		<graphicData>
+		  <texPath>HBarriers/HBarrier_Short_Atlas_Green</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>Basic</linkType>		  
+		  <linkFlags>
+			<li>Custom2</li>
+		  </linkFlags>
+		</graphicData>
+		<thingClass>Building</thingClass>		
+		<uiIconPath>HBarriers/HBarrier_FP_Icon_Green</uiIconPath>
+		<researchPrerequisites>
+			<li>Machining</li>
+		</researchPrerequisites>		
+		<building>
+			<blueprintGraphicData>
+			  <texPath>HBarriers/HBarrier_Atlas_Green</texPath>
+			</blueprintGraphicData>
+		</building>
+		<statBases>
+			<MaxHitPoints>475</MaxHitPoints>
+			<WorkToBuild>850</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Beauty>-10</Beauty>
+		</statBases>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<fillPercent>0.8</fillPercent>
+		<coversFloor>true</coversFloor>
+		<costList>
+			<HBarrierShell>1</HBarrierShell>
+		</costList>	
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>1</resourcesFractionWhenDeconstructed>				
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<tickerType>Never</tickerType>
+		<rotatable>false</rotatable>
+		<castEdgeShadows>true</castEdgeShadows>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<selectable>true</selectable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<blockLight>true</blockLight>
+		<blockWind>true</blockWind>
+		<holdsRoof>true</holdsRoof>			
+		<constructEffect>ConstructDirt</constructEffect>
+		<repairEffect>ConstructDirt</repairEffect>	
+		<staticSunShadowHeight>0.70</staticSunShadowHeight>
+	</ThingDef>
+	
+<!-- T Barrier -->
+	<ThingDef ParentName="BuildingBase_Wire">
+		<defName>TBarrier</defName>
+		<label>T-barrier</label>
+		<description>Modular walls made of reinforced concrete. While expensive, they are faster to build and less vulnerable to explosives when compared to traditional masonry.</description>
+		<graphicData>
+		  <texPath>TBarriers/TBarrier_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>Basic</linkType>		  
+		  <linkFlags>
+			<li>Custom6</li>
+		  </linkFlags>
+		</graphicData>
+		<thingClass>Building</thingClass>		
+		<uiIconPath>TBarriers/TBarrier_Icon</uiIconPath>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>		
+		<researchPrerequisites>
+			<li>Machining</li>
+		</researchPrerequisites>		
+		<building>
+			<blueprintGraphicData>
+			  <texPath>TBarriers/TBarrier_Atlas</texPath>
+			</blueprintGraphicData>
+		</building>
+		<statBases>
+			<MaxHitPoints>600</MaxHitPoints>
+			<WorkToBuild>1000</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Beauty>-10</Beauty>
+		</statBases>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<fillPercent>1</fillPercent>
+		<coversFloor>true</coversFloor>
+		<costList>
+			<Steel>8</Steel>
+		</costList>		
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<tickerType>Never</tickerType>
+		<rotatable>false</rotatable>
+		<castEdgeShadows>false</castEdgeShadows>
+		<designationCategory>DefensesExpanded_CustomCategory</designationCategory>
+		<selectable>true</selectable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<blockLight>true</blockLight>
+		<blockWind>true</blockWind>
+		<holdsRoof>false</holdsRoof>			
+		<constructEffect>ConstructDirt</constructEffect>
+		<repairEffect>ConstructDirt</repairEffect>	
+		<staticSunShadowHeight>0.70</staticSunShadowHeight>
+	</ThingDef>	
+	
+<!-- M14 Landmine -->
+  <ThingDef ParentName="TrapMineBase">
+    <defName>TrapMine_M14AP</defName>
+    <label>M14 mine</label>
+    <description>An M14 "toepopper" anti-personnel mine. While cheap and quick to place, it is quite weak compared to other mines. Since it has to hidden in the surrounding terrain, it cannot be placed adjacent to other traps.</description>
+    <graphicData>
+      <texPath>Landmines/M14/M14_Buried</texPath>
+    </graphicData>
+		<uiIconPath>Landmines/M14/M14_a</uiIconPath>	
+    <costList>
+      <M14Mine>1</M14Mine>
+    </costList>
+    <designationHotKey>Misc7</designationHotKey>
+	<leaveResourcesWhenKilled>False</leaveResourcesWhenKilled>	
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>0.65</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <startWickHitPointsPercent>0.6</startWickHitPointsPercent>
+        <wickTicks>
+          <min>1</min>
+          <max>1</max>
+        </wickTicks>
+      </li>
+    </comps>
+    <specialDisplayRadius>0.65</specialDisplayRadius>
+  </ThingDef>
+ 
+ </Defs> 
