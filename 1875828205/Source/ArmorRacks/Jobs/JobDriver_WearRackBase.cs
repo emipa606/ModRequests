@@ -67,13 +67,15 @@ namespace ArmorRacks.Jobs
                     var equipDelay = apparel.GetStatValue(StatDefOf.EquipDelay);
                     pawnTotalEquipDelay += equipDelay;
                 }
-                var totalEquipDelay = Math.Max(rackTotalEquipDelay, pawnTotalEquipDelay);
+                var totalEquipDelay = Convert.ToDecimal(Math.Max(rackTotalEquipDelay, pawnTotalEquipDelay));
 
                 var armorRackProps = armorRack.GetComp<ArmorRackComp>().Props;
                 var powerComp = armorRack.GetComp<CompPowerTrader>();
                 var powerOn = powerComp != null && powerComp.PowerOn;
-                float equipDelayFactor = powerOn ? armorRackProps.equipDelayFactorPowered : armorRackProps.equipDelayFactor;
-                var waitTicks = totalEquipDelay * equipDelayFactor * 60f;
+                var settings = LoadedModManager.GetMod<ArmorRacksMod>().GetSettings<ArmorRacksModSettings>();
+                
+                var equipSpeedFactor = (powerOn ? settings.EquipSpeedFactorPowered : settings.EquipSpeedFactorUnpowered) * 0.01m;
+                var waitTicks = totalEquipDelay * equipSpeedFactor * 60;
                 return (int) waitTicks;
             }
         }

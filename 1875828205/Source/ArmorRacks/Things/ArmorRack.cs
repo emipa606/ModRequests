@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ArmorRacks.Commands;
 using ArmorRacks.Drawers;
 using ArmorRacks.ThingComps;
 using ArmorRacks.Utils;
@@ -50,6 +51,7 @@ namespace ArmorRacks.Things
         public StorageSettings Settings;
         public ArmorRackInnerContainer InnerContainer;
         public ArmorRackContentsDrawer ContentsDrawer;
+        public bool AutoSetStorageOnTransfer;
         private BodyTypeDef _BodyTypeDef;
         private PawnKindDef _PawnKindDef;
         public bool StorageTabVisible => true;
@@ -198,6 +200,7 @@ namespace ArmorRacks.Things
             Scribe_Deep.Look(ref Settings, "ArmorRackSettings", this);
             Scribe_Defs.Look(ref _BodyTypeDef, "_BodyTypeDef");
             Scribe_Defs.Look(ref _PawnKindDef, "_PawnKindDef");
+            Scribe_Values.Look(ref AutoSetStorageOnTransfer, "AutoSetStorageOnTransfer");
         }
 
         public void DropContents()
@@ -238,6 +241,7 @@ namespace ArmorRacks.Things
             {
                 yield return g2;
             }
+            yield return new ArmorRackAutoStorageCommand(this);
         }
 
         public override string GetInspectString()

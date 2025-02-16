@@ -13,9 +13,6 @@ namespace ArmorRacks.ThingComps
 {
     public class ArmorRackCompProperties : CompProperties
     {
-        public float equipDelayFactor;
-        public float equipDelayFactorPowered;
-
         public ArmorRackCompProperties()
         {
             this.compClass = typeof(ArmorRackComp);

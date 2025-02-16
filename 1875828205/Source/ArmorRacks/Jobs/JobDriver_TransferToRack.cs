@@ -50,8 +50,16 @@ namespace ArmorRacks.Jobs
                     Thing lastResultingThing;
                     
                     armorRack.InnerContainer.Clear();
+                    if (armorRack.AutoSetStorageOnTransfer)
+                    {
+                        armorRack.Settings.filter.SetDisallowAll();
+                    }
                     foreach (var pawnApparel in storedPawnApparel)
                     {
+                        if (armorRack.AutoSetStorageOnTransfer)
+                        {
+                            armorRack.Settings.filter.SetAllow(pawnApparel.def, true);
+                        }
                         if (armorRack.Accepts(pawnApparel))
                         {
                             pawn.apparel.Remove(pawnApparel);
@@ -127,6 +135,10 @@ namespace ArmorRacks.Jobs
                     if (useComp != null)
                     {
                         useComp.CurArmorRackJobDef = ArmorRacksJobDefOf.ArmorRacks_JobWearRack;
+                    }
+                    if (armorRack.AutoSetStorageOnTransfer)
+                    {
+                        armorRack.AutoSetStorageOnTransfer = false;
                     }
                 }
             };
