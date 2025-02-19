@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <!-- ========================= Assail ===================================== -->
+  
+  <AbilityDef Name="TelekAssailBase" ParentName="PsykerAbilityBase">
+    <defName>TelekAssailI</defName>
+    <label>assail</label>
+    <description>The Psyker lifts a boulder or heavy object from the ground and hurls it towards his enemies.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/TelekAssail</iconPath>
+    <hotKey>Misc1</hotKey>
+    <warmupMote>Mote_Hit_Dirt</warmupMote>
+    <statBases>
+      <Ability_EntropyGain>15</Ability_EntropyGain>
+      
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PsyAssailBoulderI</defaultProjectile>
+      <warmupTime>3.0</warmupTime>
+      <range>15</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>1</burstShotCount>
+      <soundCast>PsychicInsanityLanceCast</soundCast>      
+      <targetParams>
+        <canTargetSelf>False</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>True</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityEffect">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_LaunchProjectile</compClass>
+        <psychic>False</psychic>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+        <applicableToMechs>True</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="TelekAssailBase">
+    <defName>TelekAssailII</defName>
+    <level>30</level>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PsyAssailBoulderII</defaultProjectile>
+      <warmupTime>3.0</warmupTime>
+      <range>20</range>
+      <burstShotCount>1</burstShotCount>
+    </verbProperties>
+  </AbilityDef>
+
+  <AbilityDef ParentName="TelekAssailBase">
+    <defName>TelekAssailIII</defName>
+    <description>The Psyker lifts a boulder or heavy object from the ground and hurls it towards his enemies.</description>
+    <level>50</level>
+    <statBases>
+      <Ability_EntropyGain>30</Ability_EntropyGain>
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PsyAssailBoulderIII</defaultProjectile>
+      <warmupTime>1.0</warmupTime>
+      <range>20</range>
+      <burstShotCount>1</burstShotCount>
+    </verbProperties>
+  </AbilityDef>
+
+
+  <!-- ========================= Projecile Assail ===================================== -->
+
+  <ThingDef ParentName="BaseBullet" Name="Bullet_Assail">
+    <defName>PsyAssailBoulderI</defName>
+    <thingClass>Corruption.Psykers.LevitatingBoulder</thingClass>
+    <label>levitating boulder</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Crush</damageDef>
+      <damageAmountBase>25</damageAmountBase>
+      <stoppingPower>7</stoppingPower>
+      <speed>35</speed>
+      <armorPenetrationBase>0.1</armorPenetrationBase>
+      <soundExplode>Artillery_HitThickRoof</soundExplode>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="Bullet_Assail">
+    <defName>PsyAssailBoulderII</defName>
+    <graphicData>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>2.0</explosionRadius >
+      <postExplosionSpawnChance>0.3</postExplosionSpawnChance>
+      <postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
+      <damageDef>Crush</damageDef>
+      <damageAmountBase>55</damageAmountBase>
+      <stoppingPower>15</stoppingPower>
+      <armorPenetrationBase>0.3</armorPenetrationBase>
+      <speed>25</speed>
+      <soundExplode>Artillery_HitThickRoof</soundExplode>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="Bullet_Assail">
+    <defName>PsyAssailBoulderIII</defName>
+    <graphicData>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionRadius>3.0</explosionRadius >
+      <postExplosionSpawnChance>0.3</postExplosionSpawnChance>
+      <postExplosionSpawnThingCount>1</postExplosionSpawnThingCount>
+      <damageDef>Crush</damageDef>
+      <damageAmountBase>100</damageAmountBase>
+      <stoppingPower>35</stoppingPower>
+      <armorPenetrationBase>0.65</armorPenetrationBase>
+      <speed>20</speed>
+      <soundExplode>Artillery_HitThickRoof</soundExplode>
+    </projectile>
+  </ThingDef>
+  
+
+
+  <!-- ========================= Crush ===================================== -->
+
+  <AbilityDef ParentName="PsykerAbilityBase" Name="TeleCrush">
+    <defName>TeleCrushI</defName>
+    <label>minor crushing force</label>
+    <description>The Psyker entraps his foes in a choking and crushing mass of force capable of grinding enemies to powder.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/TelekCrush</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>19.9</range>
+      <targetParams>
+        <canTargetAnimals>True</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_DirectDamage">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_DirectDamage</compClass>
+        <damageDef>Crush</damageDef>
+        <damage>8</damage>
+        <armorPenetration>0.2</armorPenetration>
+        <psychic>True</psychic>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TeleCrushII</defName>
+    <label>major crushing force</label>
+    <description>The Psyker entraps his foes in a choking and crushing mass of force capable of grinding enemies to powder.</description>
+    <level>40</level>
+    <iconPath>UI/Abilities/TelekCrush</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+      <Ability_EffectRadius>6</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>10</warmupTime>
+      <range>19.9</range>
+      <targetParams>
+        <canTargetAnimals>True</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_DirectDamage">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_DirectDamage</compClass>
+        <damageDef>Crush</damageDef>
+        <damage>18</damage>
+        <armorPenetration>0.2</armorPenetration>
+        <psychic>True</psychic>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TeleCrushIII</defName>
+    <label>extreme crushing force</label>
+    <description>The Psyker entraps his foes in a choking and crushing mass of force capable of grinding enemies to powder.</description>
+    <level>50</level>
+    <iconPath>UI/Abilities/TelekCrush</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+      <Ability_EffectRadius>10</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>15</warmupTime>
+      <range>19.9</range>
+      <targetParams>
+        <canTargetAnimals>True</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_DirectDamage">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_DirectDamage</compClass>
+        <damageDef>Crush</damageDef>
+        <damage>36</damage>
+        <armorPenetration>0.2</armorPenetration>
+        <psychic>True</psychic>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+
+  <!-- ========================= Teleportation ===================================== -->
+  
+  <AbilityDef ParentName="PsykerAbilityBase" Name="TelekTeleportation">
+    <defName>TelekTeleportationI</defName>
+    <label>gate of infinity</label>
+    <description>The Psyker enters a corridor of the Immaterium, allowing him to cross great distances in the Materium in the blink of an eye.</description>
+    <level>30</level>
+    <iconPath>UI/Abilities/TelekGateOfInfinity</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.2</warmupTime>
+      <range>50.0</range>
+      <targetParams>
+        <canTargetLocations>True</canTargetLocations>
+        <canTargetPawns>False</canTargetPawns>
+      </targetParams>
+      <requireLineOfSight>false</requireLineOfSight>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_Teleport">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_Teleport</compClass>
+        <psychic>False</psychic>
+        <mote>Mote_GateOfInfinity</mote>
+        <sound>OpenPortal</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <compClass>Corruption.Psykers.AbilityComp_AICastTeleport</compClass>
+        <abilityCastType>Flee</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="TelekTeleportation">
+    <defName>TelekTeleportationII</defName>
+    <label>gate of infinity</label>
+    <description>The Psyker enters a corridor of the Immaterium, allowing him to cross great distances in the Materium in the blink of an eye.</description>
+    <level>40</level>
+    <iconPath>UI/Abilities/TelekGateOfInfinity</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.2</warmupTime>
+      <range>100.0</range>
+      <targetParams>
+        <canTargetLocations>True</canTargetLocations>
+        <canTargetPawns>False</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="TelekTeleportation">
+    <defName>TelekTeleportationIII</defName>
+    <label>gate of infinity</label>
+    <description>The Psyker enters a corridor of the Immaterium, allowing him to cross great distances in the Materium in the blink of an eye.</description>
+    <level>50</level>
+    <iconPath>UI/Abilities/TelekGateOfInfinity</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.2</warmupTime>
+      <range>300.0</range>
+      <targetParams>
+        <canTargetLocations>True</canTargetLocations>
+        <canTargetPawns>False</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+
+  <!-- ========================= Dome ===================================== -->
+  
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TelekDomeI</defName>
+    <label>telekine dome</label>
+    <description>The Psyker erects a barrier of shimmering mental energy around himself that can deflect bullets and blows.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/TelekDome</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>10</Ability_EntropyGain>
+      <Ability_Duration>60</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetItems>False</canTargetItems>
+        <canTargetBuildings>False</canTargetBuildings>
+        <canTargetPawns>True</canTargetPawns>
+        <canTargetAnimals>False</canTargetAnimals>
+        <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+      </targetParams>
+    </verbProperties>
+    <targetRequired>False</targetRequired>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_AbilityGiveHediffSeverity">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>TelekineDome</hediffDef>
+        <onlyToSelf>True</onlyToSelf>
+        <psychic>True</psychic>
+        <goodwillImpact>-15</goodwillImpact>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>SelfHeal</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TelekDomeII</defName>
+    <label>telekine dome</label>
+    <description>The Psyker erects a barrier of shimmering mental energy around himself that can deflect bullets and blows.</description>
+    <level>30</level>
+    <iconPath>UI/Abilities/TelekDome</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>15</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetItems>False</canTargetItems>
+        <canTargetBuildings>False</canTargetBuildings>
+        <canTargetPawns>True</canTargetPawns>
+        <canTargetAnimals>False</canTargetAnimals>
+        <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+      </targetParams>
+    </verbProperties>
+    <targetRequired>False</targetRequired>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_AbilityGiveHediffSeverity">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_GiveHediffSeverity</compClass>
+        <hediffDef>TelekineDome</hediffDef>
+        <severity>1</severity>
+        <onlyToSelf>True</onlyToSelf>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>SelfHeal</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TelekDomeIII</defName>
+    <label>telekine dome</label>
+    <description>The Psyker erects a barrier of shimmering mental energy around himself that can deflect bullets and blows.</description>
+    <level>40</level>
+    <iconPath>UI/Abilities/TelekDome</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>180</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetAnimals>False</canTargetAnimals>
+        <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+      </targetParams>
+    </verbProperties>
+    <targetRequired>False</targetRequired>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_AbilityGiveHediffSeverity">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_GiveHediffSeverity</compClass>
+        <hediffDef>TelekineDome</hediffDef>
+        <severity>2</severity>
+        <onlyToSelf>True</onlyToSelf>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>SelfHeal</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <HediffDef ParentName="HediffPsykerBuff">
+    <defName>TelekineDome</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>telekine dome</label>
+    <description>A barrier of shimmering energy deflects bullets and blows.</description>
+    <comps>
+      <li Class="Corruption.Psykers.HediffCompProperties_Shield">
+        <compClass>Corruption.Psykers.HediffComp_Shield</compClass>
+        <removeOnSpent>true</removeOnSpent>
+        <materialPath>Things/Motes/TelekDome</materialPath>
+      </li>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>600~1200</disappearsAfterTicks>
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <EnergyShieldRechargeRate>0.00</EnergyShieldRechargeRate>
+          <EnergyShieldEnergyMax>200.00</EnergyShieldEnergyMax>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <statOffsets>
+          <EnergyShieldRechargeRate>0.01</EnergyShieldRechargeRate>
+          <EnergyShieldEnergyMax>250.00</EnergyShieldEnergyMax>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>2</minSeverity>
+        <statOffsets>
+          <EnergyShieldRechargeRate>0.05</EnergyShieldRechargeRate>
+          <EnergyShieldEnergyMax>300.00</EnergyShieldEnergyMax>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- ========================= Vortex ===================================== -->
+  
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TelekVortexOfDoomI</defName>
+    <label>vortex of doom</label>
+    <description>The Telekine opens a tear between the material realm and the Warp, unleashing energies that consume any nearby foe.</description>
+    <level>30</level>
+    <iconPath>UI/Abilities/TelekVortexOfDoom</iconPath>
+    <hotKey>Misc10</hotKey>
+    <statBases>
+      <Ability_EntropyGain>30</Ability_EntropyGain>
+        <Ability_Duration>5</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>15.0</range>
+      <targetParams>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_SpawnVortex">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_SpawnVortex</compClass>
+        <vortexToSpawn>VortexOfDoom</vortexToSpawn>
+        <radius>3</radius>
+        <screenShakeIntensity>2.0</screenShakeIntensity>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>25</clamorRadius>
+        <sound>PsycastWallraise</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TelekVortexOfDoomII</defName>
+    <label>vortex of doom</label>
+    <description>The Telekine opens a tear between the material realm and the Warp, unleashing energies that consume any nearby foe.</description>
+    <level>40</level>
+    <iconPath>UI/Abilities/TelekVortexOfDoom</iconPath>
+    <hotKey>Misc10</hotKey>
+    <statBases>
+      <Ability_EntropyGain>38</Ability_EntropyGain>
+      <Ability_Duration>10</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>15.0</range>
+      <targetParams>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_SpawnVortex">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_SpawnVortex</compClass>
+        <vortexToSpawn>VortexOfDoom</vortexToSpawn>
+        <radius>6</radius>
+        <screenShakeIntensity>2.0</screenShakeIntensity>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>25</clamorRadius>
+        <sound>PsycastWallraise</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>TelekVortexOfDoomIII</defName>
+    <label>vortex of doom</label>
+    <description>The Telekine opens a tear between the material realm and the Warp, unleashing energies that consume any nearby foe.</description>
+    <level>50</level>
+    <iconPath>UI/Abilities/TelekVortexOfDoom</iconPath>
+    <hotKey>Misc10</hotKey>
+    <statBases>
+      <Ability_EntropyGain>50</Ability_EntropyGain>
+      <Ability_Duration>15</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>15.0</range>
+      <targetParams>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_SpawnVortex">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_SpawnVortex</compClass>
+        <vortexToSpawn>VortexOfDoom</vortexToSpawn>
+        <radius>10</radius>
+        <screenShakeIntensity>2.0</screenShakeIntensity>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>25</clamorRadius>
+        <sound>PsycastWallraise</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+</Defs>

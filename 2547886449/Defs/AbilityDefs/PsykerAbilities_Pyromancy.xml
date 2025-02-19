@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  
+  <!-- ========================= Warpfire ===================================== -->
+  <AbilityDef ParentName="PsykerAbilityBase" Name="PyroFlameBreathBase">
+    <defName>PyroFlameBreathI</defName>
+    <label>flame breath</label>
+    <description>The psyker expels a gout of flames from their mouth at their foes.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/PyroFlameBreath</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>15</Ability_EntropyGain>      
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PSYWarpfireJetI</defaultProjectile>
+      <warmupTime>1.0</warmupTime>
+      <range>5</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>4</burstShotCount>
+      <soundCast>PsychicInsanityLanceCast</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityEffect">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_LaunchProjectile</compClass>
+        <psychic>False</psychic>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+        <applicableToMechs>True</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="PyroFlameBreathBase">
+    <defName>PyroFlameBreathII</defName>
+    <label>drake's breath</label>
+    <description>The psyker expels a torrent of flames from their mouth at their foes.</description>
+    <level>30</level>
+    <statBases>
+      <Ability_EntropyGain>15</Ability_EntropyGain>      
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PSYWarpfireJetI</defaultProjectile>
+      <warmupTime>1.5</warmupTime>
+      <range>7</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>6</burstShotCount>
+      <soundCast>PsychicInsanityLanceCast</soundCast>
+    </verbProperties>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="PyroFlameBreathBase">
+    <defName>PyroFlameBreathIII</defName>
+    <label>dragon's breath</label>
+    <description>The psyker expels a roiling blast of flames from their mouth at their foes..</description>
+    <level>40</level>
+    <statBases>
+      <Ability_EntropyGain>30</Ability_EntropyGain>
+      
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PSYWarpfireJetII</defaultProjectile>
+      <warmupTime>1.0</warmupTime>
+      <range>10</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>6</burstShotCount>
+      <soundCast>PsychicInsanityLanceCast</soundCast>
+    </verbProperties>
+  </AbilityDef>
+
+  <!-- ========================= Warpfire Projectile ===================================== -->
+
+  <ThingDef ParentName="BaseBullet" Name="PSYWarpfireJet">
+    <thingClass>Corruption.Core.Items.Projectile_Trail</thingClass>
+    <defName>PSYWarpfireJetI</defName>
+    <label>Warp Flame</label>
+    <graphicData>
+      <texPath>Things/Projectiles/MoltenBeam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <flyOverhead>false</flyOverhead>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>8</damageAmountBase>
+      <speed>50</speed>
+    </projectile>
+    <comps>
+      <li Class="Corruption.Core.Items.CompProperties_ProjectileTrail">
+        <trailTexPath>Things/Projectiles/WarpFlame</trailTexPath>
+        <postImpactLifetime>10</postImpactLifetime>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="PSYWarpfireJet">
+    <thingClass>Corruption.Core.Items.Projectile_Trail</thingClass>
+    <defName>PSYWarpfireJetII</defName>
+    <label>Warp Flame</label>
+    <graphicData>
+      <texPath>Things/Projectiles/WarpFlame</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <flyOverhead>false</flyOverhead>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>12</damageAmountBase>
+      <speed>50</speed>
+    </projectile>
+
+  </ThingDef>
+
+  <!-- ========================= Fireshield ===================================== -->
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>PyroFireShield</defName>
+    <label>fire shield</label>
+    <description>Throw up a wall of flame at the target location.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/PyroFireShield</iconPath>
+    <hotKey>Misc10</hotKey>
+    <statBases>
+      <Ability_EntropyGain>35</Ability_EntropyGain>
+      <Ability_Duration>20</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>2</warmupTime>
+      <range>15.0</range>
+      <targetParams>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+      <soundCast>FirewallRaise</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Psykers.ComProperties_SpawnThing">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_SpawnPattern</compClass>
+        <thingToSpawn>FireWall</thingToSpawn>
+        <thingCategoriesToDespawn>
+          <li>Item</li>
+        </thingCategoriesToDespawn>
+        <pattern>
+          <li>(-2, 0)</li>
+          <li>(-1, 0)</li>
+          <li>(0, 0)</li>
+          <li>(1, 0)</li>
+          <li>(2, 0)</li>
+          <li>(-2, 1)</li>
+          <li>(-1, 1)</li>
+          <li>(0, 1)</li>
+          <li>(1, 1)</li>
+          <li>(2, 1)</li>
+        </pattern>
+        <screenShakeIntensity>1.0</screenShakeIntensity>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>25</clamorRadius>
+        <sound>PsycastWallraise</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Defend</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>PyroFireCircle</defName>
+    <label>fire circle</label>
+    <description>Throw up a circular wall of flame at the target location.</description>
+    <level>40</level>
+    <iconPath>UI/Abilities/PyroFireCircle</iconPath>
+    <hotKey>Misc10</hotKey>
+    <statBases>
+      <Ability_EntropyGain>55</Ability_EntropyGain>
+      <Ability_Duration>10</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>2</warmupTime>
+      <range>15.0</range>
+      <targetParams>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+      <soundCast>FirewallRaise</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Psykers.ComProperties_SpawnThing">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_SpawnPattern</compClass>
+        <thingToSpawn>FireWall</thingToSpawn>
+        <thingCategoriesToDespawn>
+          <li>Item</li>
+        </thingCategoriesToDespawn>
+        <pattern>
+          <li>(0, 3)</li>
+          <li>(-1, 3)</li>
+          <li>(1, 3)</li>
+          <li>(0, -3)</li>
+          <li>(-1, -3)</li>
+          <li>(1, -3)</li>
+          <li>(3, 1)</li>
+          <li>(3, 0)</li>
+          <li>(3, -1)</li>
+          <li>(-3, 1)</li>
+          <li>(-3, 0)</li>
+          <li>(-3, -1)</li>
+          <li>(2, 2)</li>
+          <li>(2, -2)</li>
+          <li>(-2, -2)</li>
+          <li>(-2, 2)</li>
+        </pattern>
+        <screenShakeIntensity>1.0</screenShakeIntensity>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>25</clamorRadius>
+        <sound>PsycastWallraise</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+  <!-- ========================= MoltenBeam ===================================== -->
+  
+  
+  <AbilityDef ParentName="PsykerAbilityBase" Name="PyroMoltenBeamBase">
+    <defName>PyroMoltenBeamI</defName>
+    <label>molten beam</label>
+    <description>The Pyromancer blasts a white-hot beam of blazing energy from his palms.</description>
+    <level>30</level>
+    <iconPath>UI/Abilities/PyroMoltenBeam</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PSYMoltenBeamI</defaultProjectile>
+      <warmupTime>2.0</warmupTime>
+      <range>12</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>1</burstShotCount>
+      <soundCast>MoltenBeam</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityEffect">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_LaunchProjectile</compClass>
+        <psychic>False</psychic>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+        <applicableToMechs>True</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PyroMoltenBeamBase">
+    <defName>PyroMoltenBeamII</defName>
+    <level>40</level>
+    <iconPath>UI/Abilities/PyroMoltenBeam</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>25</Ability_EntropyGain>
+      
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PSYMoltenBeamII</defaultProjectile>
+      <warmupTime>3.0</warmupTime>
+      <range>14</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>1</burstShotCount>
+      <soundCast>MoltenBeam</soundCast>
+      
+      
+    </verbProperties>
+  </AbilityDef>
+
+
+  <!-- ========================= Projectile MoltenBeam ===================================== -->
+
+  <ThingDef ParentName="BaseBullet" Name="MoltenBeamBase">
+    <thingClass>Corruption.Core.Items.Projectile_Trail</thingClass>
+    <defName>PSYMoltenBeamI</defName>
+    <label>molten beam</label>
+    <graphicData>
+      <texPath>Things/Projectiles/MoltenBeam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <flyOverhead>false</flyOverhead>
+      <damageDef>BurningExplosion</damageDef>
+      <damageAmountBase>35</damageAmountBase>
+      <speed>40</speed>
+      <armorPenetrationBase>0.2</armorPenetrationBase>
+      <explosionRadius>1.0</explosionRadius>
+    </projectile>
+    <comps>
+      <li Class="Corruption.Core.Items.CompProperties_ProjectileTrail">
+        <trailTexPath>Things/Projectiles/MoltenBeam_Trail</trailTexPath>
+        <postImpactLifetime>10</postImpactLifetime>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="MoltenBeamBase">
+    <thingClass>Corruption.Core.Items.Projectile_Trail</thingClass>
+    <defName>PSYMoltenBeamII</defName>
+    <label>molten beam</label>
+    <graphicData>
+      <texPath>Things/Projectiles/MoltenBeam</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <flyOverhead>false</flyOverhead>
+      <damageDef>BurningExplosion</damageDef>
+      <damageAmountBase>55</damageAmountBase>
+      <speed>40</speed>
+      <armorPenetrationBase>0.25</armorPenetrationBase>
+      <explosionRadius>3.0</explosionRadius>
+    </projectile>
+  </ThingDef>
+
+  <!-- ========================= Sunburst ===================================== -->
+  
+  
+  <AbilityDef ParentName="PsykerAbilityBase" Name="PyroSunburstBase">
+    <defName>PyroSunburstI</defName>
+    <label>sunburst</label>
+    <abilityClass>Corruption.Psykers.PsykerCastAoE</abilityClass>
+    <description>The Psyker sings a wild, ancient song derived from the Warp. As he does, an aura appears around him. When his song ends the aura explodes, creating a blinding flash.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/PyroSunburst</iconPath>
+    <hotKey>Misc5</hotKey>
+    <warmupMote>Mote_SunburstBuildup</warmupMote>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+      <Ability_EffectRadius>6.9</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>6.9</range>
+      <targetParams>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetBuildings>False</canTargetBuildings>
+      </targetParams>
+      <soundCast>Sunburst</soundCast>
+    </verbProperties>
+    <targetRequired>False</targetRequired>
+    <comps>
+      <li Class="Corruption.Core.Abilities.CompProperties_AroundPsyker">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_AreaOfEffect</compClass>
+        <mote>Mote_Sunburst</mote>
+      </li>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PyroSunburstBlindness</hediffDef>
+        <onlyBrain>True</onlyBrain>
+        <psychic>False</psychic>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PyroSunburstBase">
+    <defName>PyroSunburstII</defName>
+    <label>searing sunburst</label>
+    <description>The Psyker sings a wild, ancient song derived from the Warp. As he does, an aura appears around him. When his song ends the aura explodes, creating a blinding flash and burning its victims.</description>
+    <level>40</level>
+    <iconPath>UI/Abilities/PyroSunburst</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>40</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+      <Ability_EffectRadius>8.9</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>8.9</range>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Core.Abilities.CompProperties_DirectDamage">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_DirectDamage</compClass>
+        <damageDef>Burn</damageDef>
+        <damage>8</damage>
+        <armorPenetration>1</armorPenetration>
+        <psychic>False</psychic>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <HediffDef ParentName = "PsycastHediffBase">
+    <defName>PyroSunburstBlindness</defName>
+    <label>flame-induced blindness</label>
+    <description>Flame-induced partial blindness.</description>
+    <isBad>true</isBad>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- ========================= PyroInferno ===================================== -->
+  
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>PyroInferno</defName>
+    <label>fire shield</label>
+    <description>The Psyker sets the air itself aflame, creating a whirling pillar of fire to sweep through enemy ranks.</description>
+    <level>60</level>
+    <iconPath>UI/Abilities/PyroInferno</iconPath>
+    <hotKey>Misc10</hotKey>
+    <statBases>
+      <Ability_EntropyGain>50</Ability_EntropyGain>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>50.0</range>
+      <targetParams>
+        <canTargetPawns>True</canTargetPawns>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "Corruption.Psykers.ComProperties_SpawnThing">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_SpawnPattern</compClass>
+        <thingToSpawn>Fire</thingToSpawn>
+        <thingCategoriesToDespawn>
+          <li>Item</li>
+        </thingCategoriesToDespawn>
+        <pattern>
+          <li>(-2, 0)</li>
+          <li>(-1, 0)</li>
+          <li>(0, 0)</li>
+          <li>(1, 0)</li>
+          <li>(2, 0)</li>
+        </pattern>
+        <screenShakeIntensity>1.0</screenShakeIntensity>
+        <clamorType>Ability</clamorType>
+        <clamorRadius>25</clamorRadius>
+        <sound>PsycastWallraise</sound>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <!-- ========================= Combustion ===================================== -->
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>SpontaneousCombustionI</defName>
+    <label>minor spontaneous combustion</label>
+    <description>The psyker causes a small combustion near an enemy.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/PyroCombustion</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>30</Ability_EntropyGain>
+    </statBases>
+    <verbProperties>
+      <range>10.0</range>
+      <warmupTime>3.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>False</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+      <soundCast>Incinerate</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class="Corruption.Core.Abilities.CompProperties_DirectDamage">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_DirectDamage</compClass>
+        <damageDef>Burn</damageDef>
+        <damage>10</damage>
+        <moteDef>Mote_PsykerGlow</moteDef>
+        <psychic>False</psychic>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef ParentName="PsykerAbilityBase"  Name="SpontaneousCombustion">
+    <defName>SpontaneousCombustionII</defName>
+    <label>spontaneous combustion</label>
+    <description>The psyker causes an enemy itself to spontaneously combust.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/PyroCombustion</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>30</Ability_EntropyGain>
+    </statBases>
+    <verbProperties>
+      <range>10.0</range>
+      <warmupTime>3.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>False</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+      <soundCast>Incinerate</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class="Corruption.Core.Abilities.CompProperties_DirectDamage">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_DirectDamage</compClass>
+        <damageDef>Flame</damageDef>
+        <damage>10</damage>
+        <moteDef>Mote_PsykerGlow</moteDef>
+        <psychic>False</psychic>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="SpontaneousCombustion">
+    <defName>SpontaneousCombustionIII</defName>
+    <label>spontaneous mass combustion</label>
+    <description>The psyker causes his enemies to spontaneously combust.</description>
+    <level>50</level>
+    <iconPath>UI/Abilities/PyroCombustionMass</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>50</Ability_EntropyGain>
+      <Ability_EffectRadius>5.9</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <range>13.0</range>
+      <warmupTime>3.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>False</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+      <soundCast>Incinerate</soundCast>
+    </verbProperties>
+  </AbilityDef>
+
+
+
+</Defs>

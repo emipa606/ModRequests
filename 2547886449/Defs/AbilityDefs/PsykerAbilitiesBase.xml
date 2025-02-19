@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <AbilityDef Name="PsykerAbilityBase" Abstract="True">
+    <abilityClass>Corruption.Psykers.PsykerCast</abilityClass>
+    <statBases>
+      <Ability_Duration>0</Ability_Duration>
+      <Ability_DetectChancePerEntropy>0.005</Ability_DetectChancePerEntropy>
+    </statBases>
+    <verbProperties>
+      <verbClass>Corruption.Psykers.Verb_CastPsykerAbility</verbClass>
+      <range>24.9</range>
+      <requireLineOfSight>True</requireLineOfSight>
+      <warmupTime>1</warmupTime>
+      <targetParams>
+        <canTargetBuildings>True</canTargetBuildings>
+        <canTargetAnimals>True</canTargetAnimals>
+        <thingCategory>Item</thingCategory>
+        <mapObjectTargetsMustBeAutoAttackable>False</mapObjectTargetsMustBeAutoAttackable>
+      </targetParams>
+    </verbProperties>
+    <cooldownTicksRange>600~900</cooldownTicksRange>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>HealingHands</defName>
+    <label>healing hands</label>
+    <description>The psyker lays hands upon another, using the warp to heal their wounds.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/HealMinor</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>10</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <range>1.0</range>
+      <warmupTime>3.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>False</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>HealingBuffMinor</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Heal</abilityCastType>
+        <compClass>Corruption.Psykers.AbilityComp_AICastHeal</compClass>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>MutationHeal</defName>
+    <label>Mutating Restoration</label>
+    <description>Induce a mutation that will heal the target while also mutating it.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/HealMinor</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <range>5.0</range>
+      <warmupTime>3.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>False</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>HealingBuffMutation</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>MiraculousGrowth</defName>
+    <label>miraculous growth</label>
+    <description>Induce a major growth process in targeted plants.</description>
+    <level>30</level>
+    <iconPath>UI/Abilities/Growth</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>30</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+      <Ability_EffectRadius>5</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>50.0</warmupTime>
+      <targetParams>
+        <canTargetSelf>False</canTargetSelf>
+        <canTargetAnimals>False</canTargetAnimals>
+        <canTargetLocations>True</canTargetLocations>
+        <canTargetMechs>False</canTargetMechs>
+        <canTargetItems>True</canTargetItems>
+        <thingCategory>Plant</thingCategory>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="Corruption.Psykers.ComProperties_Growth">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_Growth</compClass>
+        <growthPower>5</growthPower>
+        <psychic>False</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>CallCreaturesI</defName>
+    <label>call creatures</label>
+    <description>Psychically command lesser creatures to approach the caster.</description>
+    <level>30</level>
+    <iconPath>UI/Abilities/Beckon</iconPath>
+    <hotKey>Misc6</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>8</Ability_Duration>
+      <Ability_EffectRadius>3</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <range>19.9</range>
+      <targetParams>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetPawns>False</canTargetPawns>
+        <canTargetMechs>False</canTargetMechs>
+        <neverTargetIncapacitated>True</neverTargetIncapacitated>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityForceJob">
+        <compClass>CompAbilityEffect_ForceJob</compClass>
+        <jobDef>GotoMindControlled</jobDef>
+        <destination>Caster</destination>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase" Name="DullPain">
+    <defName>DullPainI</defName>
+    <label>dull pain</label>
+    <description>Block pain pathways in the target's brain for a short time. This can allow a person to move and act even with grievous injuries which would normally incapacitate them.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/Painblock</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>10</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>False</canTargetAnimals>
+        <canTargetPawns>False</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <targetRequired>false</targetRequired>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicAnesthesia</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <compClass>Corruption.Psykers.AbilityComp_AICastHeal</compClass>
+        <abilityCastType>Heal</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <AbilityDef ParentName="DullPain">
+    <defName>DullPainII</defName>
+    <label>dull pain</label>
+    <description>Block pain pathways in the target's brain for a short time. This can allow a person to move and act even with grievous injuries which would normally incapacitate them.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/Painblock</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>15</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetPawns>True</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>FlashBang</defName>
+    <label>flash bang</label>
+    <description>Induce noise in the visual centers of the brain, obscuring vision of everyone near the target point.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/BlindingPulse</iconPath>
+    <hotKey>Misc5</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>30</Ability_Duration>
+      <Ability_EffectRadius>2.0</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>19.9</range>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicBlindness</hediffDef>
+        <onlyBrain>True</onlyBrain>
+        <psychic>True</psychic>
+        <goodwillImpact>-15</goodwillImpact>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>InflictPain</defName>
+    <label>inflict pain</label>
+    <description>Fill the targest minds with unspeakable pain.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/InitiateInflictPain</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>15</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicPain</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>UnnaturalAimI</defName>
+    <label>unnatural aim</label>
+    <description>A psyker draws upon the power of the Warp to improve his shooting accuracy.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/InitiateUnnaturalAim</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>10</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>False</canTargetAnimals>
+        <canTargetPawns>True</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <targetRequired>false</targetRequired>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicBuffAccuracy</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <compClass>Corruption.Psykers.AbilityComp_AICastBuff</compClass>
+        <abilityCastType>Buff</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>UnnaturalBeauty</defName>
+    <label>unnatural beauty</label>
+    <description>A psyker draws upon the power of the Warp to turn even the most hideous faces into an otherworldly beauty.</description>
+    <level>10</level>
+    <iconPath>UI/Abilities/Painblock</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>10</Ability_EntropyGain>
+      <Ability_Duration>120</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <warmupTime>0.25</warmupTime>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>False</canTargetAnimals>
+        <canTargetPawns>False</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicBuffBeauty</hediffDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <psychic>True</psychic>
+        <applicableToMechs>False</applicableToMechs>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="PsykerAbilityBase">
+    <defName>GenericSmite</defName>
+    <label>smite</label>
+    <description>Strikes a target with the power of the warp.</description>
+    <level>20</level>
+    <iconPath>UI/Abilities/WarpBolt</iconPath>
+    <hotKey>Misc1</hotKey>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_Duration>8</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <defaultProjectile>PSYWarpBolt</defaultProjectile>
+      <warmupTime>1.0</warmupTime>
+      <range>25.9</range>
+      <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+      <burstShotCount>3</burstShotCount>
+      <soundCast>PsychicInsanityLanceCast</soundCast>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityEffect">
+        <compClass>Corruption.Core.Abilities.CompAbilityEffect_LaunchProjectile</compClass>
+        <psychic>False</psychic>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+        <applicableToMechs>True</applicableToMechs>
+      </li>
+      <li Class="Corruption.Psykers.AbilityCompProperties_AICast">
+        <abilityCastType>Attack</abilityCastType>
+      </li>
+    </comps>
+  </AbilityDef>
+
+</Defs>
