@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+ 
+
+ 
+  <!-- ======================== Lighting ======================= --> 
+
+  
+  
+  <!-- Light Pillar -->    
+
+  <ThingDef Abstract="True" Name="LightPillarBase" ParentName="BuildingBase">
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <coversFloor>false</coversFloor>
+    <holdsRoof>true</holdsRoof>
+    <canOverlapZones>false</canOverlapZones>
+    <staticSunShadowHeight>0</staticSunShadowHeight>
+    <blockLight>false</blockLight>
+    <selectable>true</selectable>
+    <fillPercent>1</fillPercent>
+    <castEdgeShadows>false</castEdgeShadows>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <designationCategory>Furniture</designationCategory>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+<!--      <shadowData>
+        <volume>(0.3, 0.6, 0.3)</volume>
+        <offset>(0,0,-0.1)</offset>
+      </shadowData>--> 
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <researchPrerequisites>
+      <li>Electricity</li>
+    </researchPrerequisites>
+  </ThingDef> 
+
+  <ThingDef ParentName="LightPillarBase">
+    <defName>LightPillar</defName>
+    <label>light pillar</label>
+    <description>Larger version of sun lamp. Consumes more power, and the glow radius is increased. Can also suport roof. Automatically turns itself off at night.</description>
+    <thingClass>Building_SunLamp</thingClass>
+    <graphicData>
+      <texPath>Things/LightPillar</texPath>
+    </graphicData>
+    <blockWind>true</blockWind>
+    <tickerType>Rare</tickerType>
+    <statBases>
+      <WorkToBuild>450</WorkToBuild>
+      <Mass>7</Mass>
+    </statBases>
+    <costList>
+      <ComponentIndustrial>1</ComponentIndustrial>
+      <Steel>75</Steel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <overlightRadius>10</overlightRadius>
+        <glowRadius>20</glowRadius>
+        <glowColor>(370,370,370,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>true</shortCircuitInRain>
+        <basePowerConsumption>2400</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Schedule">
+        <!-- Match plant growing times -->
+        <startTime>0.25</startTime>
+        <endTime>0.8</endTime>
+        <offMessage>Off for plant resting period</offMessage>
+      </li>
+    </comps>
+    <!-- Determined by trial and error
+    This value isn't perfect because these radii use different algorithms
+    but it matches in this case-->
+    <specialDisplayRadius>8.5</specialDisplayRadius>  
+  </ThingDef>   
+  
+  <!-- Small Sun Lamp --> 
+  
+  <ThingDef ParentName="LampBase">
+    <defName>SmallSunLamp</defName>
+    <label>small sun lamp</label>
+    <description>Smaller version of sun lamp. Consumes less power, and the glow radius is decreased. Automatically turns itself off at night.</description>
+    <thingClass>Building_SunLamp</thingClass>
+    <graphicData>
+      <texPath>Things/SmallSunLamp</texPath>
+    </graphicData>
+    <blockWind>true</blockWind>
+    <tickerType>Rare</tickerType>
+    <statBases>
+      <WorkToBuild>130</WorkToBuild>
+      <Mass>2.5</Mass>
+    </statBases>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <overlightRadius>3.0</overlightRadius>
+        <glowRadius>3</glowRadius>
+        <glowColor>(370,370,370,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>true</shortCircuitInRain>
+        <basePowerConsumption>120</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Schedule">
+        <!-- Match plant growing times -->
+        <startTime>0.25</startTime>
+        <endTime>0.8</endTime>
+        <offMessage>Off for plant resting period</offMessage>
+      </li>
+    </comps>
+    <!-- Determined by trial and error
+    This value isn't perfect because these radii use different algorithms
+    but it matches in this case-->
+    <specialDisplayRadius>1.5</specialDisplayRadius>  
+  </ThingDef> 
+ 
+  <!-- Ceiling Lamp -->  
+ 
+  <ThingDef Abstract="True" Name="CeilingLampBase" ParentName="LampBase">
+    <graphicData>
+      <texPath>Things/CeilingLamp</texPath>
+    </graphicData>
+    <building>
+      <isEdifice>false</isEdifice>
+    </building>	
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>   
+    <costList>
+      <Steel>15</Steel>
+    </costList>
+    <statBases>
+      <Mass>4</Mass>
+    </statBases>
+  </ThingDef> 
+
+ 
+  <ThingDef ParentName="CeilingLampBase" >
+    <defName>CeilingLamp</defName>
+    <label>ceiling lamp</label>
+    <description>Ceiling lamp that lights an area. People need light to move and work at full speed.</description>
+    <designationHotKey>Misc11</designationHotKey> 
+	<comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(217,217,208,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>30</basePowerConsumption>
+        <shortCircuitInRain>false</shortCircuitInRain>
+      </li>	  
+    </comps>
+  </ThingDef>
+    
+</Defs>
