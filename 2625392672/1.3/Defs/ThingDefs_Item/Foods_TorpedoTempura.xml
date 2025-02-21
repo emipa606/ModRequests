@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MealCooked">
+    <defName>RL_TorpedoTempura</defName>
+    <label>Torpedo Tempura</label>
+    <description>Simply mouthwateringly delicious.</description>
+    <descriptionHyperlinks>
+      <HediffDef>RL_AteTorpedoTempura</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Food/RL_TorpedoTempura</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>76</MarketValue>
+      <WorkToMake>1500</WorkToMake>
+      <Nutrition>0.7</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealLavish</preferability>
+      <optimalityOffsetHumanlikes>18</optimalityOffsetHumanlikes>
+      <tasteThought>RL_AteTorpedoTempura</tasteThought>
+      <ingestEffect>EatMeat</ingestEffect>
+      <ingestSound>RawMeat_Eat</ingestSound>
+    </ingestible>
+    <comps>
+      <li Class="VanillaCookingExpanded.CompProperties_TempTransforms">
+        <minSafeTemperature>0</minSafeTemperature>
+        <maxSafeTemperature>120</maxSafeTemperature>
+        <progressPerDegreePerTick>0.00001</progressPerDegreePerTick>
+        <thingToTransformInto>VCE_RuinedTorpedoTempura</thingToTransformInto>
+      </li>
+      <li Class="VanillaCookingExpanded.CompProperties_StackByCondiments">
+        <condimentTagToCheck>Condiments</condimentTagToCheck>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="MealCooked">
+    <defName>VCE_RuinedTorpedoTempura</defName>
+    <label>ruined Torpedo Tempura</label>
+    <description>Not so tasty.</description>
+    <graphicData>
+      <texPath>Food/RL_TorpedoTempura</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>66</MarketValue>
+      <Nutrition>0.7</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealLavish</preferability>
+      <optimalityOffsetHumanlikes>-5</optimalityOffsetHumanlikes>
+      <ingestEffect>EatMeat</ingestEffect>
+      <ingestSound>RawMeat_Eat</ingestSound>
+    </ingestible>
+    <comps>
+      <li Class="VanillaCookingExpanded.CompProperties_StackByCondiments">
+        <condimentTagToCheck>Condiments</condimentTagToCheck>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThoughtDef>
+    <thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+    <defName>RL_AteTorpedoTempura</defName>
+    <hediff>RL_AteTorpedoTempura</hediff>
+    <durationDays>1</durationDays>
+    <stages>
+      <li>
+        <label>ate torpedo tempura</label>
+        <description>I ate a torpedo tempura.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef>
+    <defName>RL_AteTorpedoTempura</defName>
+    <label>Ate Torpedo Tempura</label>
+    <makesSickThought>false</makesSickThought>
+    <description>I ate a torpedo tempura.</description>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.8,0.8,0.8)</defaultLabelColor>
+    <hediffClass>HediffWithComps</hediffClass>
+    <initialSeverity>1.0</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+        <thoughtDefs>
+          <li>RL_AteTorpedoTempura</li>
+        </thoughtDefs>
+        <removeThoughtDefs>
+          <li>AteLavishMeal</li>
+        </removeThoughtDefs>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>1</MoveSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <RecipeDef ParentName="VCE_CookGourmetGrillMealBase">
+    <defName>RL_CookTorpedoTempura</defName>
+    <label>cook torpedo tempura</label>
+    <description>Cook a torpedo tempura.</description>
+    <jobString>Cooking torpedo tempura.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>VanillaCookingExpanded.IngredientValueGetter_NutritionWithExtraIngredient</ingredientValueGetterClass>
+    <recipeUsers>
+      <!--<li>VCE_Grill</li>-->
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>0.8</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.2</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>VCE_Condiments</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <products>
+      <RL_TorpedoTempura>1</RL_TorpedoTempura>
+    </products>
+    <skillRequirements>
+      <Cooking>11</Cooking>
+    </skillRequirements>
+  </RecipeDef>
+
+</Defs>

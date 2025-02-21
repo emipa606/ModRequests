@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+	<ThingDef ParentName="MealCooked">
+		<defName>RL_RoyalGourmet</defName>
+		<label>Royal Gourmet</label>
+		<description>An exclusive meal for the Royal Navy.</description>
+    <descriptionHyperlinks>
+      <HediffDef>RL_AteRoyalGourmet</HediffDef>
+      <HediffDef>RL_FoodPoisoning</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+			<texPath>Food/RL_RoyalGourmet</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+    <tradeability inherit="false">Sellable</tradeability>
+		<statBases>
+			<MarketValue>140</MarketValue>
+			<WorkToMake>1500</WorkToMake>
+			<Nutrition>1.4</Nutrition>
+		</statBases>
+		<ingestible>
+			<preferability>MealLavish</preferability>
+			<optimalityOffsetHumanlikes>19</optimalityOffsetHumanlikes>
+			<ingestEffect>EatVegetarian</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RL_FoodPoisoning</hediffDef>
+          <severity>1</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RL_AteRoyalGourmet</hediffDef>
+          <severity>2</severity>
+        </li>
+      </outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="VanillaCookingExpanded.CompProperties_StackByCondiments">
+				<condimentTagToCheck>Condiments</condimentTagToCheck>
+			</li>
+		</comps>
+	</ThingDef>
+
+  <ThoughtDef>
+    <defName>RL_AteRoyalGourmet</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RL_AteRoyalGourmet</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>Ate Royal Gourmet</label>
+        <description>I ate a royal gourmet.It tastes awful. Don't we have anything to eat?</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef>
+    <defName>RL_AteRoyalGourmet</defName>
+    <label>ate royal gourmet</label>
+    <makesSickThought>false</makesSickThought>
+    <description>I ate a royal gourmet.</description>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.8,0.8,0.8)</defaultLabelColor>
+    <hediffClass>Hediff_High</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.1</GlobalLearningFactor>
+          <HungerRateMultiplier>-0.8</HungerRateMultiplier>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="DiseaseBase">
+    <defName>RL_FoodPoisoning</defName>
+    <label>food poisoning</label>
+    <description>Gastrointestinal illness caused by consuming decayed or unclean food, especially royal gourmet.</description>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <initialSeverity>1</initialSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-5</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>recovering</label>
+        <vomitMtbDays>0.4</vomitMtbDays>
+        <painOffset>0.2</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.6</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.8</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.9</postFactor>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <postFactor>0.95</postFactor>
+          </li>
+          <li>
+            <capacity>Eating</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>major</label>
+        <minSeverity>0.2</minSeverity>
+        <vomitMtbDays>0.2</vomitMtbDays>
+        <painOffset>0.4</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.8</postFactor>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <postFactor>0.85</postFactor>
+          </li>
+          <li>
+            <capacity>Talking</capacity>
+            <postFactor>0.8</postFactor>
+          </li>
+          <li>
+            <capacity>Eating</capacity>
+            <postFactor>0.3</postFactor>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>initial</label>
+        <minSeverity>0.8</minSeverity>
+        <vomitMtbDays>0.3</vomitMtbDays>
+        <painOffset>0.2</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>0.6</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>0.8</postFactor>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.9</postFactor>
+          </li>
+          <li>
+            <capacity>BloodFiltration</capacity>
+            <postFactor>0.95</postFactor>
+          </li>
+          <li>
+            <capacity>Eating</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+
+  <RecipeDef ParentName="VCE_CookGourmetMealBase">
+    <defName>RL_CookRoyalGourmet</defName>
+    <label>cook royal gourmet</label>
+    <description>Cook 2 royal gourmet.</description>
+    <jobString>Cooking royal gourmet.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>VanillaCookingExpanded.IngredientValueGetter_NutritionWithExtraIngredient</ingredientValueGetterClass>
+    <recipeUsers>
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>VCEF_RawFishCategory</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VCE_Flour</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>VCE_Condiments</li>
+          </categories>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <products>
+      <RL_RoyalGourmet>2</RL_RoyalGourmet>
+    </products>
+    <skillRequirements>
+      <Cooking>3</Cooking>
+    </skillRequirements>
+  </RecipeDef>
+  
+</Defs>

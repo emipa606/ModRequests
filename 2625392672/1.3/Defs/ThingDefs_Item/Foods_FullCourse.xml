@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+	<ThingDef ParentName="MealCooked">
+		<defName>RL_FullCourse</defName>
+		<label>Full Course</label>
+		<description>A full course meal crafted with love and care!</description>
+    <descriptionHyperlinks>
+      <HediffDef>RL_AteFullCourse</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+			<texPath>Food/RL_FullCourse</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+    <tradeability inherit="false">Sellable</tradeability>
+		<statBases>
+			<MarketValue>280</MarketValue>
+			<WorkToMake>1500</WorkToMake>
+			<Nutrition>2.8</Nutrition>
+		</statBases>
+		<ingestible>
+			<preferability>MealLavish</preferability>
+			<optimalityOffsetHumanlikes>25</optimalityOffsetHumanlikes>
+			<ingestEffect>EatVegetarian</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RL_AteFullCourse</hediffDef>
+          <severity>4</severity>
+        </li>
+      </outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="VanillaCookingExpanded.CompProperties_StackByCondiments">
+				<condimentTagToCheck>Condiments</condimentTagToCheck>
+			</li>
+		</comps>
+	</ThingDef>
+
+  <ThoughtDef>
+    <defName>RL_AteFullCourse</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RL_AteFullCourse</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>Ate Full Course Meal</label>
+        <description>I ate a full course meal.I relly enjoy it.</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef>
+    <defName>RL_AteFullCourse</defName>
+    <label>ate full course meal</label>
+    <makesSickThought>false</makesSickThought>
+    <description>I ate a full course.</description>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.8,0.8,0.8)</defaultLabelColor>
+    <hediffClass>Hediff_High</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.2</GlobalLearningFactor>
+          <HungerRateMultiplier>-1</HungerRateMultiplier>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <RecipeDef ParentName="VCE_CookGourmetMealBase">
+    <defName>RL_CookFullCourse</defName>
+    <label>cook full course</label>
+    <description>Cook a full course.</description>
+    <jobString>Cooking full course.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>VanillaCookingExpanded.IngredientValueGetter_NutritionWithExtraIngredient</ingredientValueGetterClass>
+    <recipeUsers>
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>VCEF_RawFishCategory</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>VCE_Condiments</li>
+          </categories>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <products>
+      <RL_FullCourse>1</RL_FullCourse>
+    </products>
+    <skillRequirements>
+      <Cooking>16</Cooking>
+    </skillRequirements>
+  </RecipeDef>
+  
+</Defs>

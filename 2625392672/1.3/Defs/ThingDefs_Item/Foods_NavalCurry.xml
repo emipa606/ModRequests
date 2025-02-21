@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+	<ThingDef ParentName="MealCooked">
+		<defName>RL_NavalCurry</defName>
+		<label>Naval Curry</label>
+		<description>Sweet Curry or Hot Curry that is the question.</description>
+    <descriptionHyperlinks>
+      <HediffDef>RL_AteNavalCurry</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+			<texPath>Food/RL_NavalCurry</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+    <tradeability inherit="false">Sellable</tradeability>
+		<statBases>
+			<MarketValue>70</MarketValue>
+			<WorkToMake>1500</WorkToMake>
+			<Nutrition>0.7</Nutrition>
+		</statBases>
+		<ingestible>
+			<preferability>MealLavish</preferability>
+			<optimalityOffsetHumanlikes>20</optimalityOffsetHumanlikes>
+			<!--<tasteThought>RL_AteNavalCurry</tasteThought>-->
+			<ingestEffect>EatVegetarian</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RL_AteNavalCurry</hediffDef>
+          <severity>1</severity>
+        </li>
+      </outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="VanillaCookingExpanded.CompProperties_StackByCondiments">
+				<condimentTagToCheck>Condiments</condimentTagToCheck>
+			</li>
+		</comps>
+	</ThingDef>
+
+  <ThoughtDef>
+    <defName>RL_AteNavalCurry</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RL_AteNavalCurry</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>Ate Naval Curry</label>
+        <description>I ate a naval curry.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef>
+    <defName>RL_AteNavalCurry</defName>
+    <label>ate naval curry</label>
+    <makesSickThought>false</makesSickThought>
+    <description>I ate a naval curry.</description>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.8,0.8,0.8)</defaultLabelColor>
+    <hediffClass>Hediff_High</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.05</GlobalLearningFactor>
+          <!--<HungerRateMultiplier>-0.2</HungerRateMultiplier>-->
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <RecipeDef ParentName="VCE_CookGourmetMealBase">
+    <defName>RL_CookNavalCurry</defName>
+    <label>cook naval curry</label>
+    <description>Cook 4 naval curry.</description>
+    <jobString>Cooking naval curry.</jobString>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <ingredientValueGetterClass>VanillaCookingExpanded.IngredientValueGetter_NutritionWithExtraIngredient</ingredientValueGetterClass>
+    <recipeUsers>
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+            <li>AnimalProductRaw</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VCE_RawOnion</li>
+          </thingDefs>
+        </filter>
+        <count>0.5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RawPotatoes</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+        </filter>
+        <count>0.5</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>VCE_Condiments</li>
+          </categories>
+        </filter>
+        <count>6</count>
+      </li>
+    </ingredients>
+    <products>
+      <RL_NavalCurry>4</RL_NavalCurry>
+    </products>
+    <skillRequirements>
+      <Cooking>12</Cooking>
+    </skillRequirements>
+  </RecipeDef>
+  
+</Defs>

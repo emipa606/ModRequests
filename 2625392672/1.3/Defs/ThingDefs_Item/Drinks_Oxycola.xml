@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="DrugBase">
+		<defName>RL_Oxycola</defName>
+		<label>Oxy-cola</label>
+		<description>Oxy-cola has a unique and acuired taste. Perhaps not the most suitable drink for a Commander.</description>
+    <descriptionHyperlinks>
+      <HediffDef>RL_DrankOxycola</HediffDef>
+    </descriptionHyperlinks>
+		<graphicData>
+			<texPath>Food/RL_Oxycola</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<thingCategories>
+			<li>VBE_DrinksNonAlcoholic</li>
+		</thingCategories>
+		<rotatable>false</rotatable>
+		<stackLimit>25</stackLimit>
+		<statBases>
+			<DeteriorationRate>0.5</DeteriorationRate>
+			<MarketValue>68.4</MarketValue>
+			<Mass>0.3</Mass>
+			<Flammability>0.5</Flammability>
+			<Nutrition>0.06</Nutrition>
+		</statBases>
+		<ingestible>
+			<foodType>Fluid, Processed</foodType>
+			<joyKind>Gluttonous</joyKind>
+			<joy>0.2</joy>
+			<drugCategory>Social</drugCategory>
+			<ingestSound>Ingest_Beer</ingestSound>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<ingestCommandString>Drink {0}</ingestCommandString>
+			<ingestReportString>Drinking {0}.</ingestReportString>
+			<ingestHoldUsesTable>false</ingestHoldUsesTable>
+			<tasteThought>RL_DrankOxycola</tasteThought>
+		</ingestible>
+		<techLevel>Industrial</techLevel>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<listOrder>1001</listOrder>
+				<overdoseSeverityOffset>0</overdoseSeverityOffset>
+			</li>
+		</comps>
+	</ThingDef>
+
+  <ThoughtDef>
+    <defName>RL_DrankOxycola</defName>
+    <thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+    <hediff>RL_DrankOxycola</hediff>
+    <durationDays>1</durationDays>
+    <stages>
+      <li>
+        <label>Drank Oxy-cola</label>
+        <description>I drank a Oxy-cola.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef>
+    <defName>RL_DrankOxycola</defName>
+    <label>drank oxy-cola</label>
+    <makesSickThought>false</makesSickThought>
+    <description>I drank a oxy-cola.</description>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <defaultLabelColor>(0.54,0.25,0.28)</defaultLabelColor>
+    <hediffClass>HediffWithComps</hediffClass>
+    <initialSeverity>1.0</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+        <thoughtDefs>
+          <li>RL_DrankOxycola</li>
+        </thoughtDefs>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+						<capacity>Consciousness</capacity>
+						<offset>0.5</offset>
+					</li>
+        </capMods>
+        <statOffsets>
+          <GeneralLaborSpeed>0.25</GeneralLaborSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>RL_OxycolaSyrup</defName>
+    <label>Oxy-cola syrup</label>
+    <description>A sweet mixture made by boiling psychoid leaves and natural sugars together.</description>
+    <graphicData>
+      <texPath>Things/Items/Musts/VBE_SodaSyrup</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <thingCategories>
+      <li>VBE_Musts</li>
+    </thingCategories>
+    <tradeability>None</tradeability>
+    <statBases>
+      <DeteriorationRate>1.0</DeteriorationRate>
+      <MarketValue>342</MarketValue>
+      <Mass>0.8</Mass>
+      <Flammability>0.2</Flammability>
+      <MaxHitPoints>60</MaxHitPoints>
+    </statBases>
+    <tickerType>Rare</tickerType>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>15</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+      <li Class="CompProperties_Ingredients" />
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>RL_MakeOxycolaSyrup</defName>
+    <label>make oxy-cola syrup</label>
+    <description>Make oxy-cola syrup by mixing natural fruit juice and psychoid leaves with sugar.</description>
+    <jobString>Making oxy-cola syrup.</jobString>
+    <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <effectWorking>Cook</effectWorking>
+    <workAmount>1000</workAmount>
+    <soundWorking>Recipe_Brewing</soundWorking>
+    <allowMixingIngredients>true</allowMixingIngredients>
+    <recipeUsers>
+      <li>Brewery</li>
+      <li>VBE_Bar</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VBE_Juice</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>VCE_RawSugar</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>PsychoidLeaves</li>
+          </thingDefs>
+        </filter>
+        <count>40</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>VBE_Juice</li>
+        <li>VCE_RawSugar</li>
+        <li>PsychoidLeaves</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>VBE_Juice</li>
+        <li>VCE_RawSugar</li>
+        <li>PsychoidLeaves</li>
+      </thingDefs>
+    </defaultIngredientFilter>
+    <products>
+      <RL_OxycolaSyrup>1</RL_OxycolaSyrup>
+    </products>
+    <skillRequirements>
+      <Cooking>8</Cooking>
+    </skillRequirements>
+    <researchPrerequisite>VBE_MixologyResearch</researchPrerequisite>
+  </RecipeDef>
+
+  <ItemProcessor.CombinationDef>
+    <defName>RL_OxycolaSyrupToOxycola</defName>
+    <building>VBE_SodaFountain</building>
+    <items>
+      <li>RL_OxycolaSyrup</li>
+    </items>
+    <amount>
+      <li>1</li>
+    </amount>
+    <result>RL_Oxycola</result>
+    <yield>6</yield>
+    <useQualityIncreasing>false</useQualityIncreasing>
+    <singleTimeIfNotQualityIncreasing>4</singleTimeIfNotQualityIncreasing>
+  </ItemProcessor.CombinationDef>
+
+</Defs>
