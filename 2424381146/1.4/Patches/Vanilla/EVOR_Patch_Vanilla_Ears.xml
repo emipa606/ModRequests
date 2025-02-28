@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!-- Adds the ears depending on settings -->
+			<li Class="EvolvedOrgansRedux.PatchOperationAddTwoEars">
+				<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts</xpath>
+				<order>Append</order>
+				<value>
+					<li>
+						<def>EVOR_AdditionalEar</def>
+						<customLabel>back left ear</customLabel>
+						<woundAnchorTag>LeftBackAdditionalEar</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+					<li>
+						<def>EVOR_AdditionalEar</def>
+						<customLabel>back right ear</customLabel>
+						<woundAnchorTag>RightBackAdditionalEar</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+				</value>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperationAddFourEars">
+				<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts</xpath>
+				<order>Append</order>
+				<value>
+					<li>
+						<def>EVOR_AdditionalEar</def>
+						<customLabel>frontal left ear</customLabel>
+						<woundAnchorTag>LeftFrontalAdditionalEar</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+					<li>
+						<def>EVOR_AdditionalEar</def>
+						<customLabel>frontal right ear</customLabel>
+						<woundAnchorTag>RightFrontalAdditionalEar</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+				</value>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperationAddSixEars">
+				<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts</xpath>
+				<order>Append</order>
+				<value>
+					<li>
+						<def>EVOR_AdditionalEar</def>
+						<customLabel>top left ear</customLabel>
+						<woundAnchorTag>LeftTopAdditionalEar</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+					<li>
+						<def>EVOR_AdditionalEar</def>
+						<customLabel>top right ear</customLabel>
+						<woundAnchorTag>RightTopAdditionalEar</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+				</value>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperations.PatchOperationSequenceRequireResearch">
+				<operations>
+					<!-- Add tags and groups -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/ResearchProjectDef[defName="EVOR_Research_AdditionalEars"]/researchMods</xpath>
+						<value>
+							<li Class="EvolvedOrgansRedux.Finished_EVOR_Research_AddGroupsAndTags">
+								<BodyPart>EVOR_AdditionalEar</BodyPart>
+								<TagsToAdd>
+									<li>HearingSource</li>
+								</TagsToAdd>
+								<GroupsToAdd>
+									<li>UpperHead</li>
+									<li>FullHead</li>
+								</GroupsToAdd>
+							</li>
+						</value>
+					</li>
+					<!-- Add Affinities -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/ResearchProjectDef[defName="EVOR_Research_AdditionalEars"]/researchMods</xpath>
+						<value>
+							<li Class="EvolvedOrgansRedux.Finished_EVOR_Research_AddBodyPartToRecipeThatHasBodyPart">
+								<BodyPartsToCopyFrom>Ear</BodyPartsToCopyFrom>
+								<BodyPartsToCopyTo>EVOR_AdditionalEar</BodyPartsToCopyTo>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperations.PatchOperationSequenceDontRequireResearch">
+				<operations>
+					<!-- Remove ResearchProject -->
+					<li Class="PatchOperationRemove">
+						<xpath>Defs/ResearchProjectDef[defName="EVOR_Research_AdditionalEars"]</xpath>
+					</li>
+					<!-- Add Groups -->
+					<li Class="PatchOperationConditional">
+						<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts/li[def="EVOR_AdditionalEar"]</xpath>
+						<match Class="PatchOperationAdd">
+							<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts/li[def="EVOR_AdditionalEar"]/groups</xpath>
+							<value>
+								<li>UpperHead</li>
+								<li>FullHead</li>
+							</value>
+						</match>
+					</li>
+					<!-- Add Tags -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/BodyPartDef[defName="EVOR_AdditionalEar"]/tags</xpath>
+						<value>
+							<li>HearingSource</li>
+						</value>
+					</li>
+				</operations>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

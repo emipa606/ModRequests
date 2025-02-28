@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- Adds the eyes depending on settings -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="EvolvedOrgansRedux.PatchOperationAddTwoEyes">
+				<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts</xpath>
+				<order>Append</order>
+				<value>
+					<li>
+						<def>EVOR_AdditionalEye</def>
+						<customLabel>left front eye</customLabel>
+						<woundAnchorTag>LeftAdditionalEye</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+					<li>
+						<def>EVOR_AdditionalEye</def>
+						<customLabel>right front eye</customLabel>
+						<woundAnchorTag>RightAdditionalEye</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+				</value>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperationAddFourEyes">
+				<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts</xpath>
+				<order>Append</order>
+				<value>
+					<li>
+						<def>EVOR_AdditionalEye</def>
+						<customLabel>left back eye</customLabel>
+						<woundAnchorTag>LeftAdditionalEye</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+					<li>
+						<def>EVOR_AdditionalEye</def>
+						<customLabel>right back eye</customLabel>
+						<woundAnchorTag>RightAdditionalEye</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+				</value>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperationAddSixEyes">
+				<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts</xpath>
+				<order>Append</order>
+				<value>
+					<li>
+						<def>EVOR_AdditionalEye</def>
+						<customLabel>center front eye</customLabel>
+						<woundAnchorTag>CenterFrontAdditionalEye</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+					<li>
+						<def>EVOR_AdditionalEye</def>
+						<customLabel>center back eye</customLabel>
+						<woundAnchorTag>CenterBackAdditionalEye</woundAnchorTag>
+						<coverage>0.00</coverage>
+						<groups/>
+					</li>
+				</value>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperations.PatchOperationSequenceRequireResearch">
+				<operations>
+					<!-- Add tags and groups -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/ResearchProjectDef[defName="EVOR_Research_AdditionalEyes"]/researchMods</xpath>
+						<value>
+							<li Class="EvolvedOrgansRedux.Finished_EVOR_Research_AddGroupsAndTags">
+								<BodyPart>EVOR_AdditionalEye</BodyPart>
+								<TagsToAdd>
+									<li>SightSource</li>
+								</TagsToAdd>
+								<GroupsToAdd>
+									<li>Eyes</li>
+								</GroupsToAdd>
+							</li>
+						</value>
+					</li>
+					<!-- Add Affinities -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/ResearchProjectDef[defName="EVOR_Research_AdditionalEyes"]/researchMods</xpath>
+						<value>
+							<li Class="EvolvedOrgansRedux.Finished_EVOR_Research_AddBodyPartToRecipeThatHasBodyPart">
+								<BodyPartsToCopyFrom>Eye</BodyPartsToCopyFrom>
+								<BodyPartsToCopyTo>EVOR_AdditionalEye</BodyPartsToCopyTo>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</li>
+			<li Class="EvolvedOrgansRedux.PatchOperations.PatchOperationSequenceDontRequireResearch">
+				<operations>
+					<!-- Remove ResearchProject -->
+					<li Class="PatchOperationRemove">
+						<xpath>Defs/ResearchProjectDef[defName="EVOR_Research_AdditionalEyes"]</xpath>
+					</li>
+					<!-- Add Groups -->
+					<li Class="PatchOperationConditional">
+						<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts/li[def="EVOR_AdditionalEye"]</xpath>
+						<match Class="PatchOperationAdd">
+							<xpath>Defs/BodyDef[defName="Human"]/corePart/parts/li[def="Neck"]/parts/li[def="Head"]/parts/li[def="EVOR_AdditionalEye"]/groups</xpath>
+							<value>
+							<li>Eyes</li>
+							</value>
+						</match>
+					</li>
+					<!-- Add Tags -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/BodyPartDef[defName="EVOR_AdditionalEye"]/tags</xpath>
+						<value>
+							<li>SightSource</li>
+						</value>
+					</li>
+				</operations>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

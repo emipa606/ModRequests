@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<success>Always</success>
+		<mods>
+			<li>Ultratech: Altered Carbon Remastered</li>
+		</mods>
+		<match Class="EvolvedOrgansRedux.PatchOperationChooseWorkbench">
+			<modname>Ultratech: Altered Carbon Remastered</modname>
+			<operations>
+				<!--Remove the Workbench for EVOR and all references to it-->
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/WorkGiverDef[defName="EVOR_DoBills_Cellbench"]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ThingDef[defName="EVOR_Item_Base"]/recipeMaker/recipeUsers</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ThingDef[defName="EVOR_Building_Cellbench"]</xpath>
+				</li>
+				<!--Remove the Workbench for EVOR and all references to it-->
+				<!--Remove EVOR ressources and the basic researches and the references to those researches -->
+				<!--Replace the prerequisites of the other researches with the one AC adds to grow it's own organs.-->
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/RecipeDef[contains(defName, "EVOR_Production_")]</xpath>
+				</li>
+				<li Class="PatchOperationRemove">
+					<xpath>/Defs/ResearchProjectDef[contains(defName, "EVOR_Research_Start")]</xpath>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName="EVOR_Research_Organs1"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>UT_OrganProduction</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName="EVOR_Research_Limbs1"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>UT_OrganProduction</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName="EVOR_Research_Artifact_Lesions"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>UT_OrganProduction</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName="EVOR_Research_Artifact_Tortoise"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>UT_OrganProduction</li>
+						</prerequisites>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ResearchProjectDef[defName="EVOR_Research_Psychic1"]/prerequisites</xpath>
+					<value>
+						<prerequisites>
+							<li>UT_OrganProduction</li>
+						</prerequisites>
+					</value>
+				</li>
+				<!--Remove EVOR ressources and their researches and the references to those researches -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<!-- Parent recipes to save on a few lines for the workamount -->
+						<!-- Formular: Protein * Mechanites * 500 -->
+						<RecipeDef Name="EVOR_UT_300protein6mechanites" Abstract="true">
+							<workAmount>900000</workAmount>
+						</RecipeDef>
+						<RecipeDef Name="EVOR_UT_170protein4mechanites" Abstract="true">
+							<workAmount>340000</workAmount>
+						</RecipeDef>
+						<RecipeDef Name="EVOR_UT_150protein3mechanites" Abstract="true">
+							<workAmount>225000</workAmount>
+						</RecipeDef>
+						<RecipeDef Name="EVOR_UT_120protein2mechanites" Abstract="true">
+							<workAmount>120000</workAmount>
+						</RecipeDef>
+						<RecipeDef Name="EVOR_UT_90protein1mechanites" Abstract="true">
+							<workAmount>45000</workAmount>
+						</RecipeDef>
+						<!-- Basic Organ Application -->
+						<RecipeDef Name="EVOR_UT_Organs1" ParentName="EVOR_UT_120protein2mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Organs1</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Heart_TriwovenPrimaryHeart</defName>
+							<label>&lt;color=#00FFF7&gt;triwoven primary heart&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Heart_TriwovenPrimaryHeart</RecipeDef>
+								<HediffDef>EVOR_Hediff_Heart_TriwovenPrimaryHeart</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Heart_TriwovenPrimaryHeart>1</EVOR_Item_Heart_TriwovenPrimaryHeart>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Kidney_TripleFilterPassKidney</defName>
+							<label>&lt;color=#00FFF7&gt;triple filter pass kidney&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Kidney_TripleFilterPassKidney</RecipeDef>
+								<HediffDef>EVOR_Hediff_Kidney_TripleFilterPassKidney</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Kidney_TripleFilterPassKidney>1</EVOR_Item_Kidney_TripleFilterPassKidney>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Kidney_PerspirationCleansingKidney</defName>
+							<label>&lt;color=#00FFF7&gt;perspiration cleansing kidney&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Kidney_PerspirationCleansingKidney</RecipeDef>
+								<HediffDef>EVOR_Hediff_Kidney_PerspirationCleansingKidney</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Kidney_PerspirationCleansingKidney>1</EVOR_Item_Kidney_PerspirationCleansingKidney>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Lung_NanoAlveoliLung</defName>
+							<label>&lt;color=#00FFF7&gt;nano alveoli lung&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Lung_NanoAlveoliLung</RecipeDef>
+								<HediffDef>EVOR_Hediff_Lung_NanoAlveoliLung</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Lung_NanoAlveoliLung>1</EVOR_Item_Lung_NanoAlveoliLung>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Stomach_MultichamberStomach</defName>
+							<label>&lt;color=#00FFF7&gt;multichamber stomach&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Stomach_MultichamberStomach</RecipeDef>
+								<HediffDef>EVOR_Hediff_Stomach_MultichamberStomach</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Stomach_MultichamberStomach>1</EVOR_Item_Stomach_MultichamberStomach>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Liver_QuadlobeLiver</defName>
+							<label>&lt;color=#00FFF7&gt;quadlobe liver&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Liver_QuadlobeLiver</RecipeDef>
+								<HediffDef>EVOR_Hediff_Liver_QuadlobeLiver</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Liver_QuadlobeLiver>1</EVOR_Item_Liver_QuadlobeLiver>
+							</products>
+						</RecipeDef>
+						<!-- Complex Organ Application -->
+						<RecipeDef Name="EVOR_UT_Organs2" ParentName="EVOR_UT_120protein2mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Organs2</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Eye_MultispectrumEye</defName>
+							<label>&lt;color=#00FFF7&gt;multispectrum eye&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Eye_MultispectrumEye</RecipeDef>
+								<HediffDef>EVOR_Hediff_Eye_MultispectrumEye</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Eye_MultispectrumEye>1</EVOR_Item_Eye_MultispectrumEye>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Eye_IridescentEye</defName>
+							<label>&lt;color=#00FFF7&gt;iridescent eye&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Eye_IridescentEye</RecipeDef>
+								<HediffDef>EVOR_Hediff_Eye_IridescentEye</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Eye_IridescentEye>1</EVOR_Item_Eye_IridescentEye>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Nose_MicroAnalyzerNose</defName>
+							<label>&lt;color=#00FFF7&gt;micro-analyzer nose&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Nose_MicroAnalyzerNose</RecipeDef>
+								<HediffDef>EVOR_Hediff_Nose_MicroAnalyzerNose</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Nose_MicroAnalyzerNose>1</EVOR_Item_Nose_MicroAnalyzerNose>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Nose_PheromoneReleaserNose</defName>
+							<label>&lt;color=#00FFF7&gt;pheromone releaser nose&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Nose_PheromoneReleaserNose</RecipeDef>
+								<HediffDef>EVOR_Hediff_Nose_PheromoneReleaserNose</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Nose_PheromoneReleaserNose>1</EVOR_Item_Nose_PheromoneReleaserNose>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Ear_MultifrequencyEar</defName>
+							<label>&lt;color=#00FFF7&gt;multifrequency ear&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Ear_MultifrequencyEar</RecipeDef>
+								<HediffDef>EVOR_Hediff_Ear_MultifrequencyEar</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Ear_MultifrequencyEar>1</EVOR_Item_Ear_MultifrequencyEar>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Jaw_DistendableJaw</defName>
+							<label>&lt;color=#00FFF7&gt;distendable jaw&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Jaw_DistendableJaw</RecipeDef>
+								<HediffDef>EVOR_Hediff_Jaw_DistendableJaw</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Jaw_DistendableJaw>1</EVOR_Item_Jaw_DistendableJaw>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs2">
+							<defName>EVOR_UT_Jaw_Venom</defName>
+							<label>&lt;color=#00FFF7&gt;venomous fangs&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Jaw_VenomousFangs</RecipeDef>
+								<HediffDef>EVOR_Hediff_Jaw_VenomousFangs</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Jaw_VenomousFangs>1</EVOR_Item_Jaw_VenomousFangs>
+							</products>
+						</RecipeDef>
+						<!-- Advanced Organ Application -->
+						<RecipeDef Name="EVOR_UT_Organs3" ParentName="EVOR_UT_120protein2mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Organs3</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_RegenerativeLiver</defName>
+							<label>&lt;color=#00FFF7&gt;regenerative liver&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Liver_RegenerativeLiver</RecipeDef>
+								<HediffDef>EVOR_Hediff_Liver_RegenerativeLiver</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Liver_RegenerativeLiver>1</EVOR_Item_Liver_RegenerativeLiver>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs1">
+							<defName>EVOR_UT_Spine_NeuroAcceleratedSpine</defName>
+							<label>&lt;color=#00FFF7&gt;neuro accelerated spine&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Spine_NeuroAcceleratedSpine</RecipeDef>
+								<HediffDef>EVOR_Hediff_Spine_NeuroAcceleratedSpine</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Spine_NeuroAcceleratedSpine>1</EVOR_Item_Spine_NeuroAcceleratedSpine>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_AbdominalAndChestcavity_ExtraNanofilterLung</defName>
+							<label>&lt;color=#00FFF7&gt;extra nano-filter lung&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_AbdominalAndChestcavity_ExtraNanofilterLung</RecipeDef>
+								<HediffDef>EVOR_Hediff_AbdominalAndChestcavity_ExtraNanofilterLung</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_AbdominalAndChestcavity_ExtraNanofilterLung>1</EVOR_Item_AbdominalAndChestcavity_ExtraNanofilterLung>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_AbdominalAndChestcavity_AuxilaryHeart</defName>
+							<label>&lt;color=#00FFF7&gt;auxilary heart&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_AbdominalAndChestcavity_AuxilaryHeart</RecipeDef>
+								<HediffDef>EVOR_Hediff_AbdominalAndChestcavity_AuxilaryHeart</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_AbdominalAndChestcavity_AuxilaryHeart>1</EVOR_Item_AbdominalAndChestcavity_AuxilaryHeart>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_AbdominalAndChestcavity_CombatSerumGland</defName>
+							<label>&lt;color=#00FFF7&gt;combat serum gland&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_AbdominalAndChestcavity_CombatSerumGland</RecipeDef>
+								<HediffDef>EVOR_Hediff_AbdominalAndChestcavity_CombatSerumGland</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_AbdominalAndChestcavity_CombatSerumGland>1</EVOR_Item_AbdominalAndChestcavity_CombatSerumGland>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_AbdominalAndChestcavity_HormoneRegulator</defName>
+							<label>&lt;color=#00FFF7&gt;hormone regulator&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_AbdominalAndChestcavity_HormoneRegulator</RecipeDef>
+								<HediffDef>EVOR_Hediff_AbdominalAndChestcavity_HormoneRegulator</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_AbdominalAndChestcavity_HormoneRegulator>1</EVOR_Item_AbdominalAndChestcavity_HormoneRegulator>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_AbdominalAndChestcavity_LymphaticProliferator</defName>
+							<label>&lt;color=#00FFF7&gt;lymphatic proliferator&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_AbdominalAndChestcavity_LymphaticProliferator</RecipeDef>
+								<HediffDef>EVOR_Hediff_AbdominalAndChestcavity_LymphaticProliferator</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_AbdominalAndChestcavity_LymphaticProliferator>1</EVOR_Item_AbdominalAndChestcavity_LymphaticProliferator>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Organs3">
+							<defName>EVOR_UT_AbdominalAndChestcavity_RasVacoule</defName>
+							<label>&lt;color=#00FFF7&gt;Ra's vacoule&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_AbdominalAndChestcavity_RasVacoule</RecipeDef>
+								<HediffDef>EVOR_Hediff_AbdominalAndChestcavity_RasVacoule</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_AbdominalAndChestcavity_RasVacoule>1</EVOR_Item_AbdominalAndChestcavity_RasVacoule>
+							</products>
+						</RecipeDef>
+						<!-- Biological Framework Application -->
+						<RecipeDef Name="EVOR_UT_Limbs1" ParentName="EVOR_UT_150protein3mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Limbs1</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs1">
+							<defName>EVOR_UT_Appendage_ExtradextrousArm</defName>
+							<label>&lt;color=#00FFF7&gt;extradextrous arm&lt;/color&gt;</label>
+							<descriptionHyperlinks><RecipeDef>EVOR_SurgeryInstall_Appendage_ExtradextrousArm</RecipeDef><HediffDef>EVOR_Hediff_Appendage_ExtradextrousArm</HediffDef></descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_ExtradextrousArm>1</EVOR_Item_Appendage_ExtradextrousArm>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs1">
+							<defName>EVOR_UT_Appendage_OssifiedBoneSaber</defName>
+							<label>&lt;color=#00FFF7&gt;ossified bone saber&lt;/color&gt;</label>
+							<descriptionHyperlinks><RecipeDef>EVOR_SurgeryInstall_Appendage_OssifiedBoneSaber</RecipeDef><HediffDef>EVOR_Hediff_Appendage_OssifiedBoneSaber</HediffDef></descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_OssifiedBoneSaber>1</EVOR_Item_Appendage_OssifiedBoneSaber>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs1">
+							<defName>EVOR_UT_Appendage_TriPlacedLimb</defName>
+							<label>&lt;color=#00FFF7&gt;tri-plated limb&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_TriPlacedLimb</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_TriPlacedLimb</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_TriPlacedLimb>1</EVOR_Item_Appendage_TriPlacedLimb>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs1">
+							<defName>EVOR_UT_Appendage_ReinforcedLeg</defName>
+							<label>&lt;color=#00FFF7&gt;reinforced leg&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_ReinforcedLeg</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_ReinforcedLeg</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_ReinforcedLeg>1</EVOR_Item_Appendage_ReinforcedLeg>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs1">
+							<defName>EVOR_UT_Appendage_GraspingLeg</defName>
+							<label>&lt;color=#00FFF7&gt;grasping leg&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_GraspingLeg</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_GraspingLeg</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_GraspingLeg>1</EVOR_Item_Appendage_GraspingLeg>
+							</products>
+						</RecipeDef>
+						<!-- Advanced Limb Structures -->
+						<RecipeDef Name="EVOR_UT_Limbs2" ParentName="EVOR_UT_150protein3mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Limbs2</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs2">
+							<defName>EVOR_UT_Appendage_RendingClaw</defName>
+							<label>&lt;color=#00FFF7&gt;rending claw&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_RendingClaw</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_RendingClaw</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_RendingClaw>1</EVOR_Item_Appendage_RendingClaw>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs2">
+							<defName>EVOR_UT_Appendage_HighPressurePincer</defName>
+							<label>&lt;color=#00FFF7&gt;high pressure pincer&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_HighPressurePincer</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_HighPressurePincer</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_HighPressurePincer>1</EVOR_Item_Appendage_HighPressurePincer>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs2">
+							<defName>EVOR_UT_Appendage_ShireHorseLeg</defName>
+							<label>&lt;color=#00FFF7&gt;shire horse leg&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_ShireHorseLeg</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_ShireHorseLeg</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_ShireHorseLeg>1</EVOR_Item_Appendage_ShireHorseLeg>
+							</products>
+						</RecipeDef>
+						<!-- Limb-Torso Support Structures -->
+						<RecipeDef Name="EVOR_UT_Limbs3" ParentName="EVOR_UT_170protein4mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Limbs3</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Appendage_WeightedTail</defName>
+							<label>&lt;color=#00FFF7&gt;weigthed tail&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_WeightedTail</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_WeightedTail</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_WeightedTail>1</EVOR_Item_Appendage_WeightedTail>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Back_FeatheredWings</defName>
+							<label>&lt;color=#00FFF7&gt;feathered wings&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Back_FeatheredWings</RecipeDef>
+								<HediffDef>EVOR_Hediff_Back_FeatheredWings</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Back_FeatheredWings>1</EVOR_Item_Back_FeatheredWings>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Back_LeatheryWings</defName>
+							<label>&lt;color=#00FFF7&gt;leathery wings&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Back_LeatheryWings</RecipeDef>
+								<HediffDef>EVOR_Hediff_Back_LeatheryWings</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Back_LeatheryWings>1</EVOR_Item_Back_LeatheryWings>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Back_TentacleCluster</defName>
+							<label>&lt;color=#00FFF7&gt;tentacle cluster&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Back_TentacleCluster</RecipeDef>
+								<HediffDef>EVOR_Hediff_Back_TentacleCluster</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Back_TentacleCluster>1</EVOR_Item_Back_TentacleCluster>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Back_MusculatureBraces</defName>
+							<label>&lt;color=#00FFF7&gt;musculature braces&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Back_MusculatureBraces</RecipeDef>
+								<HediffDef>EVOR_Hediff_Back_MusculatureBraces</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Back_MusculatureBraces>1</EVOR_Item_Back_MusculatureBraces>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Back_PeltGrowth</defName>
+							<label>&lt;color=#00FFF7&gt;pelt growth&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Back_PeltGrowth</RecipeDef>
+								<HediffDef>EVOR_Hediff_Back_PeltGrowth</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Back_PeltGrowth>1</EVOR_Item_Back_PeltGrowth>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Limbs3">
+							<defName>EVOR_UT_Back_WaterFilledGrowth</defName>
+							<label>&lt;color=#00FFF7&gt;water filled growth&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Back_WaterFilledGrowth</RecipeDef>
+								<HediffDef>EVOR_Hediff_Back_WaterFilledGrowth</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Back_WaterFilledGrowth>1</EVOR_Item_Back_WaterFilledGrowth>
+							</products>
+						</RecipeDef>
+						<!-- Expanded limb battle utility -->
+						<RecipeDef Name="EVOR_UT_Research_ExpandedLimbBattleUtility" ParentName="EVOR_UT_300protein6mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_ExpandedLimbBattleUtility</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Research_ExpandedLimbBattleUtility">
+							<defName>EVOR_UT_Appendage_SonicImpactMace</defName>
+							<label>&lt;color=#00FFF7&gt;sonic impact mace&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_SonicImpactMace</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_SonicImpactMace</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_SonicImpactMace>1</EVOR_Item_Appendage_SonicImpactMace>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Research_ExpandedLimbBattleUtility">
+							<defName>EVOR_UT_Appendage_VenopillarArm</defName>
+							<label>&lt;color=#00FFF7&gt;venopillar arm&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_VenopillarArm</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_VenopillarArm</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_VenopillarArm>1</EVOR_Item_Appendage_VenopillarArm>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Research_ExpandedLimbBattleUtility">
+							<defName>EVOR_UT_Appendage_FrostMantisHook</defName>
+							<label>&lt;color=#00FFF7&gt;frost mantis hook&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_FrostMantisHook</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_FrostMantisHook</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_FrostMantisHook>1</EVOR_Item_Appendage_FrostMantisHook>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Research_ExpandedLimbBattleUtility">
+							<defName>EVOR_UT_Appendage_SalamanderWhip</defName>
+							<label>&lt;color=#00FFF7&gt;salamander whip&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Appendage_SalamanderWhip</RecipeDef>
+								<HediffDef>EVOR_Hediff_Appendage_SalamanderWhip</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Appendage_SalamanderWhip>1</EVOR_Item_Appendage_SalamanderWhip>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Research_ExpandedLimbBattleUtility">
+							<defName>EVOR_UT_Tail_VenomousStinger</defName>
+							<label>&lt;color=#00FFF7&gt;venomous stinger&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Tail_VenomousStinger</RecipeDef>
+								<HediffDef>EVOR_Hediff_Tail_VenomousStinger</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Tail_VenomousStinger>1</EVOR_Item_Tail_VenomousStinger>
+							</products>
+						</RecipeDef>
+						<!-- Psychic Synapse Network -->
+						<RecipeDef Name="UT_EVOR_Psychic1" ParentName="EVOR_UT_170protein4mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Psychic1</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="UT_EVOR_Psychic1">
+							<defName>UT_EVOR_Skull_PsychicResonanceTissue</defName>
+							<label>&lt;color=#00FFF7&gt;psychic resonance tissue&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skull_PsychicResonanceTissue</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skull_PsychicResonanceTissue</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skull_PsychicResonanceTissue>1</EVOR_Item_Protection_Skull_PsychicResonanceTissue>
+							</products>
+						</RecipeDef>
+						<!-- Resilient Tissue Framework -->
+						<RecipeDef Name="EVOR_UT_Outer1" ParentName="EVOR_UT_120protein2mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Outer1</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skull_PsychicResonanceTissue</defName>
+							<label>&lt;color=#00FFF7&gt;psychic resonance tissue&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skull_PsychicResonanceTissue</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skull_PsychicResonanceTissue</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skull_PsychicResonanceTissue>1</EVOR_Item_Protection_Skull_PsychicResonanceTissue>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skull_InterferenceShielding</defName>
+							<label>&lt;color=#00FFF7&gt;interference shielding&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skull_InterferenceShielding</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skull_InterferenceShielding</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skull_InterferenceShielding>1</EVOR_Item_Protection_Skull_InterferenceShielding>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skull_CranialPlating</defName>
+							<label>&lt;color=#00FFF7&gt;cranial plating&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skull_CranialPlating</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skull_CranialPlating</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skull_CranialPlating>1</EVOR_Item_Protection_Skull_CranialPlating>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Torso_MultilayeredDermalPlating</defName>
+							<label>&lt;color=#00FFF7&gt;multilayered dermal plating&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Torso_MultilayeredDermalPlating</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Torso_MultilayeredDermalPlating</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Torso_MultilayeredDermalPlating>1</EVOR_Item_Protection_Torso_MultilayeredDermalPlating>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skin_FlameRetardantSkin</defName>
+							<label>&lt;color=#00FFF7&gt;flame retardant skin&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skin_FlameRetardantSkin</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skin_FlameRetardantSkin</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skin_FlameRetardantSkin>1</EVOR_Item_Protection_Skin_FlameRetardantSkin>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skin_ShimmeringSkin</defName>
+							<label>&lt;color=#00FFF7&gt;shimmering skin&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skin_ShimmeringSkin</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skin_ShimmeringSkin</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skin_ShimmeringSkin>1</EVOR_Item_Protection_Skin_ShimmeringSkin>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skin_RadiationAbsorbingSkin</defName>
+							<label>&lt;color=#00FFF7&gt;radiation absorbing skin&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skin_RadiationAbsorbingSkin</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skin_RadiationAbsorbingSkin</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skin_RadiationAbsorbingSkin>1</EVOR_Item_Protection_Skin_RadiationAbsorbingSkin>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skin_PhytoplanktonSkin</defName>
+							<label>&lt;color=#00FFF7&gt;phytoplankton skin&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skin_PhytoplanktonSkin</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skin_PhytoplanktonSkin</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skin_PhytoplanktonSkin>1</EVOR_Item_Protection_Skin_PhytoplanktonSkin>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Skin_VariableInsulationSkin</defName>
+							<label>&lt;color=#00FFF7&gt;variable insulation skin&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Skin_VariableInsulationSkin</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Skin_VariableInsulationSkin</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Skin_VariableInsulationSkin>1</EVOR_Item_Protection_Skin_VariableInsulationSkin>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Ribcage_CalciumAlloyRibcage</defName>
+							<label>&lt;color=#00FFF7&gt;calcium-alloy ribcage&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Ribcage_CalciumAlloyRibcage</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Ribcage_CalciumAlloyRibcage</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Ribcage_CalciumAlloyRibcage>1</EVOR_Item_Protection_Ribcage_CalciumAlloyRibcage>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Outer1">
+							<defName>EVOR_UT_Neck_ReinforcedNeckMuscles</defName>
+							<label>&lt;color=#00FFF7&gt;reinforced neck muscles&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Protection_Neck_ReinforcedNeckMuscles</RecipeDef>
+								<HediffDef>EVOR_Hediff_Protection_Neck_ReinforcedNeckMuscles</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Protection_Neck_ReinforcedNeckMuscles>1</EVOR_Item_Protection_Neck_ReinforcedNeckMuscles>
+							</products>
+						</RecipeDef>
+						<!-- Neural Re-Engineering -->
+						<RecipeDef Name="EVOR_UT_Brain1" ParentName="EVOR_UT_170protein4mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Brain1</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Brain1">
+							<defName>EVOR_UT_Brain_NeuralHyperthreader</defName>
+							<label>&lt;color=#00FFF7&gt;neural hyperthreader&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Brain_NeuralHyperthreader</RecipeDef>
+								<HediffDef>EVOR_Hediff_Brain_NeuralHyperthreader</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Brain_NeuralHyperthreader>1</EVOR_Item_Brain_NeuralHyperthreader>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Brain1">
+							<defName>EVOR_UT_Brain_ButchersNails</defName>
+							<label>&lt;color=#00FFF7&gt;butchers nails&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Brain_ButchersNails</RecipeDef>
+								<HediffDef>EVOR_Hediff_Brain_ButchersNails</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Brain_ButchersNails>1</EVOR_Item_Brain_ButchersNails>
+							</products>
+						</RecipeDef>
+						<RecipeDef ParentName="EVOR_UT_Brain1">
+							<defName>EVOR_UT_Brain_ReptilianFrontalCortex</defName>
+							<label>&lt;color=#00FFF7&gt;reptilian frontal cortex&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Brain_ReptilianFrontalCortex</RecipeDef>
+								<HediffDef>EVOR_Hediff_Brain_ReptilianFrontalCortex</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Brain_ReptilianFrontalCortex>1</EVOR_Item_Brain_ReptilianFrontalCortex>
+							</products>
+						</RecipeDef>
+						<!-- Weaponized Germ Engineering -->
+						<RecipeDef Name="UT_EVORArtifact_Lesions" ParentName="EVOR_UT_300protein6mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Artifact_Lesions</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="UT_EVORArtifact_Lesions">
+							<defName>EVOR_UT_Sternum_PlagueLesions</defName>
+							<label>&lt;color=#00FFF7&gt;plague lesions&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Sternum_PlagueLesions</RecipeDef>
+								<HediffDef>EVOR_Hediff_Sternum_PlagueLesions</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Sternum_PlagueLesions>1</EVOR_Item_Sternum_PlagueLesions>
+							</products>
+						</RecipeDef>
+						<!-- Weaponized Germ Engineering -->
+						<RecipeDef Name="UT_EVORArtifact_Tortoise" ParentName="EVOR_UT_300protein6mechanites" Abstract="True">
+							<researchPrerequisite>EVOR_Research_Artifact_Tortoise</researchPrerequisite>
+						</RecipeDef>
+						<RecipeDef ParentName="UT_EVORArtifact_Tortoise">
+							<defName>EVOR_UT_Sternum_ReinforcedTortoiseShell</defName>
+							<label>&lt;color=#00FFF7&gt;reinforced tortoise shell&lt;/color&gt;</label>
+							<descriptionHyperlinks>
+								<RecipeDef>EVOR_SurgeryInstall_Sternum_ReinforcedTortoiseShell</RecipeDef>
+								<HediffDef>EVOR_Hediff_Sternum_ReinforcedTortoiseShell</HediffDef>
+							</descriptionHyperlinks>
+							<products>
+								<EVOR_Item_Sternum_ReinforcedTortoiseShell>1</EVOR_Item_Sternum_ReinforcedTortoiseShell>
+							</products>
+						</RecipeDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/ThingDef[defName="UT_OrganIncubator"]/recipes</xpath>
+					<value>
+					<!-- Put here all the new recipe names for the organs -->
+						<li>EVOR_UT_Heart_TriwovenPrimaryHeart</li>
+						<li>EVOR_UT_Kidney_TripleFilterPassKidney</li>
+						<li>EVOR_UT_Kidney_PerspirationCleansingKidney</li>
+						<li>EVOR_UT_Lung_NanoAlveoliLung</li>
+						<li>EVOR_UT_Stomach_MultichamberStomach</li>
+						<li>EVOR_UT_Liver_QuadlobeLiver</li>
+						<li>EVOR_UT_Eye_MultispectrumEye</li>
+						<li>EVOR_UT_Eye_IridescentEye</li>
+						<li>EVOR_UT_Nose_MicroAnalyzerNose</li>
+						<li>EVOR_UT_Nose_PheromoneReleaserNose</li>
+						<li>EVOR_UT_Ear_MultifrequencyEar</li>
+						<li>EVOR_UT_Jaw_DistendableJaw</li>
+						<li>EVOR_UT_Jaw_Venom</li>
+						<li>EVOR_UT_RegenerativeLiver</li>
+						<li>EVOR_UT_Spine_NeuroAcceleratedSpine</li>
+						<li>EVOR_UT_AbdominalAndChestcavity_ExtraNanofilterLung</li>
+						<li>EVOR_UT_AbdominalAndChestcavity_AuxilaryHeart</li>
+						<li>EVOR_UT_AbdominalAndChestcavity_CombatSerumGland</li>
+						<li>EVOR_UT_AbdominalAndChestcavity_HormoneRegulator</li>
+						<li>EVOR_UT_AbdominalAndChestcavity_LymphaticProliferator</li>
+						<li>EVOR_UT_AbdominalAndChestcavity_RasVacoule</li>
+						<li>EVOR_UT_Appendage_ExtradextrousArm</li>
+						<li>EVOR_UT_Appendage_OssifiedBoneSaber</li>
+						<li>EVOR_UT_Appendage_TriPlacedLimb</li>
+						<li>EVOR_UT_Appendage_ReinforcedLeg</li>
+						<li>EVOR_UT_Appendage_GraspingLeg</li>
+						<li>EVOR_UT_Appendage_RendingClaw</li>
+						<li>EVOR_UT_Appendage_HighPressurePincer</li>
+						<li>EVOR_UT_Appendage_ShireHorseLeg</li>
+						<li>EVOR_UT_Appendage_WeightedTail</li>
+						<li>EVOR_UT_Back_FeatheredWings</li>
+						<li>EVOR_UT_Back_LeatheryWings</li>
+						<li>EVOR_UT_Back_TentacleCluster</li>
+						<li>EVOR_UT_Back_MusculatureBraces</li>
+						<li>EVOR_UT_Back_PeltGrowth</li>
+						<li>EVOR_UT_Back_WaterFilledGrowth</li>
+						<li>EVOR_UT_Appendage_SonicImpactMace</li>
+						<li>EVOR_UT_Appendage_VenopillarArm</li>
+						<li>EVOR_UT_Appendage_FrostMantisHook</li>
+						<li>EVOR_UT_Appendage_SalamanderWhip</li>
+						<li>EVOR_UT_Tail_VenomousStinger</li>
+						<li>EVOR_UT_Skull_PsychicResonanceTissue</li>
+						<li>EVOR_UT_Skull_InterferenceShielding</li>
+						<li>EVOR_UT_Skull_CranialPlating</li>
+						<li>EVOR_UT_Torso_MultilayeredDermalPlating</li>
+						<li>EVOR_UT_Skin_FlameRetardantSkin</li>
+						<li>EVOR_UT_Skin_VariableInsulationSkin</li>
+						<li>EVOR_UT_Skin_ShimmeringSkin</li>
+						<li>EVOR_UT_Skin_RadiationAbsorbingSkin</li>
+						<li>EVOR_UT_Ribcage_CalciumAlloyRibcage</li>
+						<li>EVOR_UT_Neck_ReinforcedNeckMuscles</li>
+						<li>EVOR_UT_Brain_NeuralHyperthreader</li>
+						<li>EVOR_UT_Brain_ButchersNails</li>
+						<li>EVOR_UT_Brain_ReptilianFrontalCortex</li>
+						<li>EVOR_UT_Sternum_PlagueLesions</li>
+						<li>EVOR_UT_Sternum_ReinforcedTortoiseShell</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
