@@ -15,9 +15,9 @@ namespace ArmorRacks
         {
             Scribe_Values.Look(ref EquipSetForced, "EquipSetForced");
             Scribe_Values.Look(ref TransferSetForced, "TransferSetForced");
-            Scribe_Values.Look(ref RareTicksPerMend, "RareTicksPerMend", RareTicksPerMend);
-            Scribe_Values.Look(ref EquipSpeedFactorUnpowered, "EquipSpeedFactorUnpowered", EquipSpeedFactorUnpowered);
-            Scribe_Values.Look(ref EquipSpeedFactorPowered, "EquipSpeedFactorPowered", EquipSpeedFactorPowered);
+            Scribe_Values.Look(ref RareTicksPerMend, "RareTicksPerMend");
+            Scribe_Values.Look(ref EquipSpeedFactorUnpowered, "EquipSpeedFactorUnpowered");
+            Scribe_Values.Look(ref EquipSpeedFactorPowered, "EquipSpeedFactorPowered");
         }
     }
 
