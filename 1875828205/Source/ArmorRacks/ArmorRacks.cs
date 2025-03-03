@@ -5,6 +5,12 @@ namespace ArmorRacks
 {
     public class ArmorRacksModSettings : ModSettings
     {
+        public bool EquipSetForcedDefault = false;
+        public bool TransferSetForcedDefault = false;
+        public int RareTicksPerMendDefault = 40;
+        public int EquipSpeedFactorUnpoweredDefault = 70;
+        public int EquipSpeedFactorPoweredDefault = 20;
+        
         public bool EquipSetForced = false;
         public bool TransferSetForced = false;
         public int RareTicksPerMend = 40;
@@ -55,6 +61,15 @@ namespace ArmorRacks
                 "ArmorRacks_EquipSpeedFactor_Tooltip".Translate());
             var buffer3 = Settings.EquipSpeedFactorPowered.ToString();
             listingStandard.TextFieldNumeric(ref Settings.EquipSpeedFactorPowered, ref buffer3);
+            listingStandard.GapLine();
+            if (listingStandard.ButtonText("ArmorRacks_RestoreDefaultSettings_Label".Translate()))
+            {
+                Settings.EquipSetForced = Settings.EquipSetForcedDefault;
+                Settings.TransferSetForced = Settings.TransferSetForcedDefault;
+                Settings.RareTicksPerMend = Settings.RareTicksPerMendDefault;
+                Settings.EquipSpeedFactorUnpowered = Settings.EquipSpeedFactorUnpoweredDefault;
+                Settings.EquipSpeedFactorPowered = Settings.EquipSpeedFactorPoweredDefault;
+            }
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
         }
