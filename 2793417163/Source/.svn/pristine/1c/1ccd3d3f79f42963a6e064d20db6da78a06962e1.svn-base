@@ -1,0 +1,63 @@
+﻿using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using Verse;
+
+namespace UniversalTaxidermy
+{
+	public class Thing_TaxidermyMount : ThingWithComps, EstupendoBase.IDisplayable
+	{
+		public ThingDef_TaxidermyMount Def => this.Def as ThingDef_TaxidermyMount;
+
+		private CompTaxidermyMount  InnerMountComp = null;
+		private CompArt             InnerArt;
+		public CompTaxidermyMount MountComp => InnerMountComp ?? ( InnerMountComp = this.GetComp<CompTaxidermyMount>() );
+		public CompArt Art => InnerArt ?? ( InnerArt = this.GetComp<CompArt>() );
+
+		public bool WantsToRetain => true;
+		public void RegisterIngredient(Thing t)
+		{
+			MountComp.RegisterIngredient(t);
+		}
+		public void RegisterIngredients(IEnumerable<Thing> ts)
+		{
+			foreach( Thing t in ts )
+			{
+				MountComp.RegisterIngredient(t);
+			}
+			Art.InitializeArt(MountComp.HeldPawn);
+		}
+
+		public bool PermitThing(Thing t) => false;
+		public float GetImpactFactor() => MountComp.GetImpactFactor();
+		public float GetImpactOffset() => MountComp.GetImpactOffset();
+		public float GetExtraMass() => MountComp.GetExtraMass();
+		public CompArt GetArt() => Art;
+		public string TransformPlaqueLabel(string OldLabel)
+		{
+			return this.Label.Replace("Mount", "Display");
+		}
+
+		public override string Label => (Art.Active ? Art.Title : base.Label);
+
+		public override void DrawAt(Vector3 drawLoc, bool flip = false)
+		{
+			Log.Message("DrawnAt");
+			base.DrawAt(drawLoc, flip);
+			if( !( MountComp.MiniGraphic == null ) )
+			{
+				MountComp.MiniGraphic.Draw(drawLoc, Rot4.West, this);
+			}
+		}
+
+		public void DrawOnDisplay(Vector3 loc, Rot4 rot)
+		{
+			MountComp.DrawOnDisplay(loc, rot);
+		}
+	}
+
+}

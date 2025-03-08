@@ -1,0 +1,171 @@
+﻿using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using Verse;
+
+namespace UniversalTaxidermy
+{
+	public class CompTaxidermyMount : EstupendoBase.Estupendo_CompDisplayable, IThingHolderWithDrawnPawn
+	{
+		public const float          IngredientMassFactor = 0.8f;
+
+		private float               IngredientFactor = 0f;
+		private List<string>        IngredientBreakdown;
+		private ThingOwner<Pawn>    Pawns;
+		public  Graphic             MiniGraphic = null;
+
+		public CompTaxidermyMount() : base()
+		{
+			IngredientBreakdown = new List<string>();
+			Pawns = new ThingOwner<Pawn>(this, true, LookMode.Deep);
+		}
+
+		public override void PostExposeData()
+		{
+			base.PostExposeData();
+			Pawns.ExposeData();
+			
+			SetMiniGraphic(HeldPawn);
+		}
+
+		public Pawn HeldPawn => Pawns.Count > 0 ? Pawns[0] : null;
+
+		#region Holding
+		public float HeldPawnDrawPos_Y => AltitudeLayer.ItemImportant.AltitudeFor();
+		public float HeldPawnBodyAngle => Rot4.North.AsAngle;
+		public PawnPosture HeldPawnPosture => PawnPosture.Standing;
+		public void GetChildHolders(List<IThingHolder> outChildren)
+		{
+			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, GetDirectlyHeldThings());
+		}
+		public ThingOwner	GetDirectlyHeldThings() => Pawns;
+		#endregion
+
+		#region Graphics
+		private void SetMiniGraphic(Pawn p)
+		{
+			p.Rotation = Rot4.West;
+			MiniGraphic = p?.Drawer.renderer.graphics.nakedGraphic.GetCopy(new Vector2(1.1f, 1.1f), null);
+		}
+
+		public override void PostDraw()
+		{
+			if( MiniGraphic != null ) MiniGraphic.Draw(this.parent.DrawPos, Rot4.West, HeldPawn);
+		}
+
+		public override void PostPrintOnto(SectionLayer layer)
+		{
+			base.PostPrintOnto(layer);
+			if( MiniGraphic != null )
+			{
+				Matrix4x4 pos_matrix = default(Matrix4x4);
+				pos_matrix.SetTRS(parent.DrawPos, Rot4.North.AsQuat, new Vector3(MiniGraphic.drawSize.x, parent.DrawPos.y + float.Epsilon, MiniGraphic.drawSize.y));
+				Printer_Mesh.PrintMesh(layer, pos_matrix, MiniGraphic.MeshAt(Rot4.West), MiniGraphic.MatAt(Rot4.West));
+			}
+			//MiniGraphic.Print(layer, parent, 0);
+		}
+
+		public override void DrawOnDisplay(Vector3 loc, Rot4 rotation)
+		{
+			foreach( Pawn p in Pawns )
+			{
+				p.Rotation = rotation;
+				p.DrawAt(loc);
+			}
+		}
+
+		protected Vector2 GetMiniDrawSize(Vector2 drawSize, float maxSideLength)
+		{
+			float num = maxSideLength / Mathf.Max(drawSize.x, drawSize.y);
+			if( num >= 1f )
+			{
+				return drawSize;
+			}
+			return drawSize * num;
+		}
+		#endregion
+
+
+
+		public void RegisterIngredient(Thing t)
+		{
+			Pawn pawn = null;
+
+			if( t is Corpse c )
+			{
+				pawn = c.InnerPawn;
+			}
+			else if( t is Pawn p )
+			{
+				pawn = p;
+			}
+
+			if( pawn != null )
+			{
+				pawn.Rotation = Rot4.West;
+				Utility.MakeTaleFor(pawn);
+				Pawns.TryAddOrTransfer(pawn);
+				if( MiniGraphic == null ) SetMiniGraphic(HeldPawn);
+			}
+		}
+
+		#region Impacts
+		public override float GetImpactFactor()
+		{
+			return GetIngredientFactor() + 2f;
+		}
+
+		public override string GetImpactBreakdown()
+		{
+			return "Taxidermy: x" + GetImpactFactor().ToString("F2") + "\r\n\t" + string.Join("\r\n\t", IngredientBreakdown);
+		}
+
+		public float GetExtraMass()
+		{
+			float ret = 0f;
+			foreach( Pawn p in Pawns )
+			{
+				ret += p.GetStatValue(StatDefOf.Mass, true) * IngredientMassFactor;
+			}
+			return ret;
+		}
+		public float GetIngredientFactor()
+		{
+			IngredientFactor = 0f;
+			IngredientBreakdown.Clear();
+			foreach( Pawn ingredient in Pawns )
+			{
+				IngredientBreakdown.Add(ingredient.Label);
+				IngredientFactor += ingredient.BodySize * ( ingredient.RaceProps.leatherDef?.stuffProps.statFactors.GetStatFactorFromList(StatDefOf.Beauty) ?? 1f );
+				IngredientBreakdown.Add("\tBeauty (" + ingredient.RaceProps.leatherDef?.label + "): +" + ingredient.RaceProps.leatherDef?.stuffProps.statFactors.GetStatFactorFromList(StatDefOf.Beauty).ToString("F2"));
+				IngredientBreakdown.Add("\tBody Size: x" + ingredient.BodySize.ToString("F2"));
+			}
+			return IngredientFactor;
+		}
+
+		#endregion
+
+
+		public override string TransformLabel(string label)
+		{
+			if( Pawns.Count > 0 )
+			{
+				label = HeldPawn.Label + " Mount";
+			}
+			return label;
+		}
+
+		public override IEnumerable<Dialog_InfoCard.Hyperlink> GetLinks()
+		{
+			foreach( Pawn p in Pawns )
+			{
+				yield return new Dialog_InfoCard.Hyperlink(p);
+			}
+			yield break;
+		}
+	}
+}

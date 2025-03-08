@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ResearchProjectDef>
+		<defName>Taxidermy</defName>
+		<label>taxidermy</label>
+		<description>Prepare and preserve animal carcasses for display.</description>
+		<baseCost>500</baseCost>
+		<techLevel>Medieval</techLevel>
+	</ResearchProjectDef>
+	
+	<ThingCategoryDef>
+		<defName>ThingCategory_TaxidermyMount</defName>
+		<label>taxidermy mount</label>
+		<parent>ThingCategory_Displayable</parent>
+	</ThingCategoryDef>
+
+	<ThingDef Class="UniversalTaxidermy.ThingDef_TaxidermyMount" ParentName="ResourceBase">
+        <defName>TaxidermyMount</defName>
+        <label>taxidermy mount</label>
+        <description>A mounted taxidermy display.</description>
+		<thingClass>UniversalTaxidermy.Thing_TaxidermyMount</thingClass>
+        <graphicData>
+            <texPath>things/items/TaxidermyMount/EmptyTaxidermyMount</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <drawSize>(1, 1)</drawSize>
+        </graphicData>
+        <resourceReadoutPriority>Middle</resourceReadoutPriority>
+        <stackLimit>1</stackLimit>
+        <tradeNeverStack>true</tradeNeverStack>
+        <rotatable>false</rotatable>
+        <thingCategories>
+			<li>ThingCategory_Displayable</li>
+            <li>ThingCategory_TaxidermyMount</li>
+        </thingCategories>
+        <statBases>
+            <Mass>1.0</Mass>
+            <MaxHitPoints>100</MaxHitPoints>
+            <MarketValue>20</MarketValue>
+        </statBases>
+		<researchPrerequisites>
+			<li>Taxidermy</li>
+		</researchPrerequisites>
+		<alwaysHaulable>true</alwaysHaulable>
+		<comps>
+			<li><compClass>CompForbiddable</compClass></li>
+			<li Class="CompProperties_Art">
+				<nameMaker>NamerArtSculpture</nameMaker>
+				<descriptionMaker>ArtDescription_Sculpture</descriptionMaker>
+				<canBeEnjoyedAsArt>true</canBeEnjoyedAsArt>
+			</li>
+		</comps>
+		<inspectorTabs>
+			<li>ITab_Art</li>
+		</inspectorTabs>
+    </ThingDef>
+	
+	<RecipeDef>
+		<defName>CreateTaxidermyMount</defName>
+		<label>create taxidermy mount</label>
+		<description>Arrange and preserve a dead animal in a scene.</description>
+		<jobString>Taxidermying.</jobString>
+		<workAmount>450</workAmount>
+		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<workSkill>Crafting</workSkill>
+		<effectWorking>ButcherFlesh</effectWorking>
+		<soundWorking>Recipe_ButcherCorpseFlesh</soundWorking>
+		<interruptIfIngredientIsRotting>true</interruptIfIngredientIsRotting>
+		<uiIconThing>TaxidermyMount</uiIconThing>
+		<recipeUsers>
+			<li>ElectricTailoringBench</li>
+			<li>HandTailoringBench</li>
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>Corpses</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WoodLog</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Cloth</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>Corpses</li>
+			</categories>
+		</fixedIngredientFilter>
+		<defaultIngredientFilter>
+			<categories>
+				<li>CorpsesAnimal</li>
+			</categories>
+		</defaultIngredientFilter>
+		<products>
+			<TaxidermyMount>1</TaxidermyMount>
+		</products>
+		<skillRequirements>
+			<Artistic>5</Artistic>
+		</skillRequirements>
+		<researchPrerequisites>
+			<li>Taxidermy</li>
+		</researchPrerequisites>
+	</RecipeDef>
+
+	<SpecialThingFilterDef>
+		<defName>SpecialThingFilterDef_TaxidermyMount</defName>
+		<label>ANIMAL mounts</label>
+		<description>Allow taxidermy mounts containing ANIMAL.</description>
+		<parentCategory>ThingCategory_TaxidermyMount</parentCategory>
+		<allowedByDefault>true</allowedByDefault>
+		<saveKey>allowTaxidermyMount</saveKey>
+		<workerClass>UniversalTaxidermy.SpecialThingFilterWorker_TaxidermyMount</workerClass>
+	</SpecialThingFilterDef>
+
+</Defs>
