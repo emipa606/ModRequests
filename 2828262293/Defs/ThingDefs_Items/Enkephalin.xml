@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>Enkephalin</defName>
+    <label>enkephalin</label>
+    <description>Enkephalin is a highly addictive substance produced by working on abnormalities in specific ways. It is also a very clean, cheap and versatile energy source, that can be used for everything from electricty to lighters.\n When consumed, enkephalin produces a intense state of euphoria that, unlike other drugs, doesnt get weaker as tolerance increases.\n Due to the rarity of abnormalities on the Rim, and the few settlements that manage to extract it, enkephalin is very scarce, so dependance on it for entretaiment and electrical purposes should be avoided.</description>
+    <descriptionHyperlinks>
+      <HediffDef>EnkephalinHigh</HediffDef>
+      <HediffDef>EnkephalinTolerance</HediffDef>
+      <HediffDef>EnkephalinAddiction</HediffDef>
+      <HediffDef>ChemicalDamageSevere</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/Yayo</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.75</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>21</MarketValue>
+      <Mass>0.05</Mass>
+    </statBases>
+    <minRewardCount>10</minRewardCount>
+    <ingestible>
+      <foodType>Processed, Fluid</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.80</joy>
+      <drugCategory>Hard</drugCategory>
+      <baseIngestTicks>80</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Inject {0}</ingestCommandString>
+      <ingestReportString>Injecting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>EnkephalinHigh</hediffDef>
+          <severity>0.85</severity>
+          <toleranceChemical>Enkephalin</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.4</offset>
+          <toleranceChemical>Enkephalin</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+          <offset>-0.15</offset>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>EnkephalinTolerance</hediffDef>
+          <severity>0.040</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>Enkephalin</chemical>
+        <addictiveness>0.15</addictiveness>
+        <existingAddictionSeverityOffset>0.40</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>300</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.02</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>EnkephalinHigh</defName>
+    <label>high on enkephalin</label>
+    <labelNoun>a enkephalin high</labelNoun>
+    <description>Active yayo in the bloodstream. Generates an intense euphoric high.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>2.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>wearing off</label>
+        <minSeverity>0.05</minSeverity>
+        <painFactor>0.9</painFactor>
+        <restFallFactor>0.33</restFallFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.01</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>desensitized</label>
+        <minSeverity>0.5</minSeverity>
+        <painFactor>0.5</painFactor>
+        <restFallFactor>0.33</restFallFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.03</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.05</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <label>high</label>
+        <minSeverity>0.8</minSeverity>
+        <painFactor>0.2</painFactor>
+        <restFallFactor>0.33</restFallFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.1</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <label>high as a kite</label>
+        <minSeverity>1.5</minSeverity>
+        <painFactor>0.1</painFactor>
+        <restFallFactor>0.33</restFallFactor>
+        <vomitMtbDays>0.5</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.2</MentalBreakThreshold>
+        </statOffsets>
+        <mentalStateGivers>
+          <li>
+            <mentalState>WanderConfused</mentalState>
+            <mtbDays>5</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <label>completely wack</label>
+        <minSeverity>1.9</minSeverity>
+        <painFactor>0</painFactor>
+        <restFallFactor>0.33</restFallFactor>
+        <vomitMtbDays>0.25</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.2</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MentalBreakThreshold>-0.4</MentalBreakThreshold>
+        </statOffsets>
+        <mentalStateGivers>
+          <li>
+            <mentalState>WanderConfused</mentalState>
+            <mtbDays>3</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>EnkephalinHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>EnkephalinHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on enkephalin</label>
+        <description>Far out, man</description>
+        <baseMoodEffect>40</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Enkephalin addiction -->
+
+  <ChemicalDef>
+    <defName>Enkephalin</defName>
+    <label>enkephalin</label>
+    <addictionHediff>EnkephalinAddiction</addictionHediff>
+    <toleranceHediff>EnkephalinTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+    <onGeneratedAddictedEvents>
+      <li>
+        <hediff>ChemicalDamageSevere</hediff>
+        <chance>0.05</chance>
+        <partsToAffect>
+          <li>Kidney</li>
+          <li>Brain</li>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_Enkephalin</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>enkephalin</label>
+    <description>Because of an addiction to enkephalin, this person needs to regularly consume it to avoid withdrawal symptoms.</description>
+    <listPriority>50</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>EnkephalinTolerance</defName>
+    <label>enkephalin tolerance</label>
+    <description>A built-up tolerance to enkephalin. Unlike other drugs, the effects of enkephalin are consistantly the same.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>ChemicalDamageSevere</hediff>
+        <minSeverity>0.40</minSeverity>
+        <baseMtbDays>160</baseMtbDays>
+        <partsToAffect>
+          <li>Kidney</li>
+          <li>Brain</li>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>EnkephalinAddiction</defName>
+    <label>enkephalin addiction</label>
+    <description>A chemical addiction to enkephalin. Long-term presence of enkephalin has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.\nWithout regular doses of enkephalin, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_Enkephalin</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>withdrawal</label>
+        <restFallFactorOffset>0.3</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>30</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>5</mtbDays>
+          </li>
+        </mentalStateGivers>
+        <statOffsets>
+          <MentalBreakThreshold>0.20</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <label>slight withdrawl</label>
+        <minSeverity>0.7</minSeverity>
+        <restFallFactorOffset>0.3</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>50</mtbDays>
+          </li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>15</mtbDays>
+          </li>
+        </mentalStateGivers>
+        <statOffsets>
+          <MentalBreakThreshold>0.10</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>EnkephalinWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>EnkephalinAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>enkephalin withdrawal</label>
+        <description>I just want to escape this unending hell of a place. Is that really wrong?</description>
+        <baseMoodEffect>-40</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>
