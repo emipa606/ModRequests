@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+<!-- Turret Traps -->
+
+	<ThingDef ParentName="BuildingBase">
+    <defName>Building_TurretBallista</defName>
+    <label>ballista</label>
+	<description>A ancient manned missle device. It's somewhat unwieldy, but once fires, it shoots a very powerful bolt. The ballista uses two crank levers with a twisting springs attached to a large crossbow.</description>
+	<thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Building/Security/Ballista/MW_TurretBallista_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/Ballista/MW_TurretBallista_menu_icon</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+	<soundInteract>Bow_Crossbow</soundInteract>
+	<altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+	<blockWind>true</blockWind>
+	<passability>PassThroughOnly</passability>
+	<pathCost>50</pathCost>
+	<statBases>
+		<MaxHitPoints>200</MaxHitPoints>
+		<Flammability>1</Flammability>
+		<WorkToBuild>5000</WorkToBuild>
+		<Mass>75</Mass>
+		<Beauty>-10</Beauty>
+    </statBases>
+	<tickerType>Normal</tickerType>
+    <comps>
+	  <li Class="CompProperties_Mannable">
+			<manWorkType>Violent</manWorkType>
+	  </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Bolt shots remaining</fuelLabel>
+        <fuelGizmoLabel>Bolt shots</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs more ammo</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>WoodLog</li></thingDefs></fuelFilter>
+        <fuelCapacity>5</fuelCapacity>
+        <fuelMultiplier>0.50</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+	<costList>
+		<WoodLog>200</WoodLog>
+		<Steel>100</Steel>
+	</costList>	
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+	<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+	<designationCategory>Security</designationCategory>		
+    <building>
+      <combatPower>50</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_TurretBallista</turretGunDef>
+      <turretBurstWarmupTime>5</turretBurstWarmupTime>	  
+      <turretBurstCooldownTime>10</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+		<li>PlaceWorker_TurretTop</li>
+		<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		<li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc1</designationHotKey>
+    <researchPrerequisites>
+      <li>MW_Fortification</li>
+    </researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_TurretBallista</defName>
+    <label>ballista</label>
+    <description>An ancient manned missle device in the form of a crossbow.</description>
+    <graphicData>
+      <texPath>Building/Security/Ballista/MW_TurretBallista_top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.95</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>50</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_Ballista</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <minRange>4.9</minRange>
+        <range>34.9</range>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Bow_Crossbow</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>0</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>	
+      </li>
+    </verbs>
+	</ThingDef>
+	
+	<ThingDef ParentName="BaseBullet">
+	<defName>Bullet_Ballista</defName>
+    <label>ballista bolt</label>
+    <graphicData>
+      <texPath>Projectile/MW_Arrow_Bolt</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>RangedStab</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+	  <stoppingPower>3</stoppingPower>
+	  <armorPenetrationBase>0.50</armorPenetrationBase>
+      <speed>80</speed>
+    </projectile>
+	</ThingDef>
+
+<!-- Floor  Traps -->
+
+ <ThingDef ParentName="BuildingBase">
+    <defName>BarricadeSpike</defName>
+    <label>spike barricade</label>
+    <description>Rows of sharpened sticks attached to a long pole used to make sieges difficult without consuming time. Can be detected by Humans and Animals when calm.\n\nThey can be placed side-by-side but deal half damage and can spring half the time.</description>
+    <thingClass>Building_TrapDamager</thingClass>
+    <graphicData>
+      <texPath>Building/Security/Barricade/MW_BarriacdeSpike</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rect>(0,0,1,0.15)</rect>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <drawerType>RealtimeOnly</drawerType>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <stealable>false</stealable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <Mass>2.5</Mass>
+      <MaxHitPoints>40</MaxHitPoints>
+      <WorkToBuild>6400</WorkToBuild>
+      <Flammability>1</Flammability>
+      <Beauty>-10</Beauty>
+      <TrapMeleeDamage>50</TrapMeleeDamage>
+      <TrapSpringChance>0.50</TrapSpringChance>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>90</costStuffCount>
+    <designationCategory>Security</designationCategory>
+    <designationHotKey>Misc6</designationHotKey>
+    <building>
+      <isTrap>true</isTrap>
+      <trapDamageCategory>Sharp</trapDamageCategory>
+      <expandHomeArea>true</expandHomeArea>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+	<researchPrerequisites>
+		<li>MW_Fortification</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+  </ThingDef>
+
+</Defs>
