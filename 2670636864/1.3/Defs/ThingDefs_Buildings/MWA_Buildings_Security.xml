@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+<!-- Chemfuel Cauldron -->
+
+	<ThingDef ParentName="BuildingBase">
+    <defName>Building_TurretChemfuelPot</defName>
+    <label>chemfuel cauldron</label>
+	<description>A large metal cauldron used for pouring boiling chemfuel. It's somewhat unwieldy, but once lowered, it pours devastating and boiling chemfuel. The cauldron uses wheel crank with a large pot connected by wooden supports. Requires a crew and need to be behind a parapet to operate properly.</description>
+	<thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Building/Security/ChemfuelCauldron/MW_TurretChemfuelPot_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/ChemfuelCauldron/MW_TurretChemfuelPot_menu_icon</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+	<soundInteract>Bow_Crossbow</soundInteract>
+	<altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+	<blockWind>true</blockWind>
+	<passability>PassThroughOnly</passability>
+	<pathCost>50</pathCost>
+	<statBases>
+		<MaxHitPoints>500</MaxHitPoints>
+		<Flammability>1</Flammability>
+		<WorkToBuild>10000</WorkToBuild>
+		<Mass>100</Mass>
+		<Beauty>-25</Beauty>
+		<ShootingAccuracyTurret>0.95</ShootingAccuracyTurret>
+    </statBases>
+	<tickerType>Normal</tickerType>
+    <comps>
+	  <li Class="CompProperties_Explosive">
+        <explosiveRadius>5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.75</chanceNeverExplodeFromDamage>
+      </li>
+	  <li Class="CompProperties_Mannable">
+			<manWorkType>Violent</manWorkType>
+	  </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Pours until cauldron empty</fuelLabel>
+        <fuelGizmoLabel>Cauldron durability</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot pour: Needs more chemfuel</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Chemfuel</li></thingDefs></fuelFilter>
+        <fuelCapacity>12</fuelCapacity>
+        <fuelMultiplier>0.50</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.01</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>11</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Item/Resource/Chemfuel</fuelIconPath>
+      </li>
+    </comps>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+	<costList>
+		<WoodLog>100</WoodLog>
+		<Steel>250</Steel>
+		<Chemfuel>100</Chemfuel>
+	</costList>	
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+	<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+	<designationCategory>Security</designationCategory>		
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_ChemfuelCauldron</turretGunDef>
+      <turretBurstCooldownTime>24</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+		<li>PlaceWorker_TurretTop</li>
+		<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		<li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc1</designationHotKey>
+    <researchPrerequisites>
+      <li>MW_Chemdraw</li>
+    </researchPrerequisites>
+	</ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_ChemfuelCauldron</defName>
+    <label>cauldron</label>
+    <description>A large metal cauldron used for pouring boiling chemfuel.</description>
+    <graphicData>
+      <texPath>Building/Security/ChemfuelCauldron/MW_TurretChemfuelPot_top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <RangedWeapon_Cooldown>20</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>75</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+		<hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_ChemfuelCauldron</defaultProjectile>
+        <warmupTime>1</warmupTime>
+        <minRange>2</minRange>		
+        <range>7.9</range>
+		<forcedMissRadius>2</forcedMissRadius>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <burstShotCount>6</burstShotCount>
+        <soundCast>Production_ChemfuelBoiling</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+        <consumeFuelPerShot>2</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+	
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_ChemfuelCauldron</defName>
+		<label>boiling chemfuel</label>
+		<graphicData>
+			<texPath>Projectile/MW_ChemfuelSplash_Ball</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<speed>30</speed>
+			<damageDef>Flame</damageDef>
+			<damageAmountBase>5</damageAmountBase>
+			<explosionRadius>1</explosionRadius>
+			<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.85</preExplosionSpawnChance>
+			<ai_IsIncendiary>true</ai_IsIncendiary>
+			<explosionChanceToStartFire>0.95</explosionChanceToStartFire>
+		</projectile>
+	</ThingDef>
+	
+	<!-- Bombard -->
+	
+	<ThingDef ParentName="BuildingBase">
+    <defName>Building_TurretBombard</defName>
+    <label>bombard</label>
+	<description>A ancient muzzle-loading device. It's somewhat unwieldy, but once fires, it shoots a devastating stones. The bombard loads chempowder into a large metal cylinder supported with wooden supports.</description>
+	<thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Building/Security/Bombard/MW_TurretBombard_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/Bombard/MW_TurretBombard_menu_icon</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+	<soundInteract>Interact_Grenade</soundInteract>
+	<altitudeLayer>Building</altitudeLayer>
+	<hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+	<blockWind>true</blockWind>
+	<passability>PassThroughOnly</passability>
+	<pathCost>50</pathCost>
+	<statBases>
+		<MaxHitPoints>250</MaxHitPoints>
+		<Flammability>1</Flammability>
+		<WorkToBuild>12000</WorkToBuild>
+		<Mass>150</Mass>
+		<Beauty>-50</Beauty>
+      <ShootingAccuracyTurret>0.95</ShootingAccuracyTurret>
+    </statBases>
+	<tickerType>Normal</tickerType>
+    <comps>
+	  <li Class="CompProperties_Explosive">
+        <explosiveRadius>5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+      </li>
+	  <li Class="CompProperties_Mannable">
+			<manWorkType>Violent</manWorkType>
+	  </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Cannon balls remaining</fuelLabel>
+        <fuelGizmoLabel>Cannon balls</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Needs more ammo</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>Steel</li></thingDefs></fuelFilter>
+        <fuelCapacity>5</fuelCapacity>
+        <fuelMultiplier>0.50</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+	<costList>
+		<WoodLog>100</WoodLog>
+		<Steel>300</Steel>
+		<Chemfuel>100</Chemfuel>
+	</costList>	
+    <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+	<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+	<designationCategory>Security</designationCategory>		
+    <building>
+      <combatPower>100</combatPower>   <!-- same as a scavenger -->
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_TurretBombard</turretGunDef>
+      <turretBurstWarmupTime>5</turretBurstWarmupTime>	  
+      <turretBurstCooldownTime>10</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+		<li>PlaceWorker_TurretTop</li>
+		<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		<li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc1</designationHotKey>
+    <researchPrerequisites>
+      <li>MW_Gunpowder</li>
+	  <li>MW_Fortification</li>
+    </researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_TurretBombard</defName>
+    <label>bombard</label>
+    <description>A ancient muzzle-loading device in the form of a cylinder.</description>
+    <graphicData>
+      <texPath>Building/Security/Bombard/MW_TurretBombard_top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.85</AccuracyTouch>
+      <AccuracyShort>0.95</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>5</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>50</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_Bombard</defaultProjectile>
+        <warmupTime>5</warmupTime>
+        <minRange>9.9</minRange>
+        <range>29.9</range>
+		<forcedMissRadius>2</forcedMissRadius>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Bow_Handgonne</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>	
+      </li>
+    </verbs>
+	</ThingDef>
+	
+	<ThingDef ParentName="BaseBullet">
+	<defName>Bullet_Bombard</defName>
+    <label>bombard ball</label>
+    <graphicData>
+      <texPath>Projectile/MW_Cannon_Ball</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<speed>50</speed>
+			<damageDef>Bomb</damageDef>
+			<damageAmountBase>50</damageAmountBase>
+			<explosionRadius>4</explosionRadius>
+		</projectile>
+	</ThingDef>
+	
+</Defs>
