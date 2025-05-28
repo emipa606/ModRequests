@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+	<ThingDef ParentName="BuildingBase">
+		<defName>Turret_MountedLMG</defName> 
+		<label>Mounted LMG</label>
+		<description>A LMG mounted on a low-tech simple swivel base, allowing for quick, though accurate long-burst fire. The ammunition capacity is limited by the usage of drums as opposed to a belt feed, though it is much cheaper to replace ammunition than barrels. It's also quite light, which makes it optimal for carrying on assault deployments.</description>
+		<thingClass>Building_TurretGun</thingClass>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<graphicData>
+		    <shadowData>
+            <volume>(0.27,0.25,0.27)</volume>
+            <offset>(0,0,0)</offset>
+            </shadowData>
+			<texPath>Weapon/GunMount</texPath> 
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(3,3)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<uiIconPath>Weapon/LMGIcon</uiIconPath>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer> 
+		<stealable>false</stealable>
+		<rotatable>true</rotatable>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<statBases>
+			<MaxHitPoints>200</MaxHitPoints>
+			<WorkToBuild>3000</WorkToBuild> 
+			<Mass>13.5</Mass>
+			<Beauty>-20</Beauty>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<techLevel>Industrial</techLevel>
+		<comps>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Mannable">
+				<manWorkType>Violent</manWorkType>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until barrel change</fuelLabel>
+				<fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>Steel</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>100</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.5</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>10</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs new magazine</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<fillPercent>0.4</fillPercent>
+		<hasTooltip>true</hasTooltip>
+		<stuffCategories>
+        <li>Metallic</li>
+        </stuffCategories>
+        <costStuffCount>35</costStuffCount>
+		<costList>
+			<ThogsGun_LMG>1</ThogsGun_LMG>
+			<Steel>15</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Security</designationCategory>
+		<specialDisplayRadius>31.9</specialDisplayRadius>
+		<building>
+			<turretGunDef>ThogsGun_MountedLMG</turretGunDef>
+			<turretBurstCooldownTime>1.15</turretBurstCooldownTime>
+		</building>
+		<placeWorkers>
+			<li>PlaceWorker_TurretTop</li>
+			<li>PlaceWorker_ShowTurretRadius</li>
+			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>Smithing</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_LMGMounted</defName>
+		<label>LMG bullet</label>
+		<graphicData>
+			<texPath>Things/Projectile/Bullet_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>Bullet</damageDef>
+			<damageAmountBase>11</damageAmountBase> 
+			<speed>46</speed> 
+		</projectile>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret"> 
+		<defName>ThogsGun_MountedLMG</defName> 
+		<label>mounted LMG</label>
+		<description>A gas-operated light machine gun. Attached to a heavy duty mount, it is capable of relatively accurate burst fire at a slightly longer range.</description>
+		<graphicData>
+			<texPath>Weapon/LMGTop</texPath> 
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+		</graphicData>
+		<soundInteract>Interact_Rifle</soundInteract>
+		<destroyOnDrop>true</destroyOnDrop>
+		<tradeability>None</tradeability>
+		<useHitPoints>false</useHitPoints>
+		<statBases>
+			<AccuracyTouch>0.56</AccuracyTouch>
+			<AccuracyShort>0.62</AccuracyShort>
+			<AccuracyMedium>0.58</AccuracyMedium>
+			<AccuracyLong>0.50</AccuracyLong>
+			<RangedWeapon_Cooldown>3</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>8.5</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<weaponTags Inherit="false">
+			<li>TurretGun</li>
+		</weaponTags>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Bullet_LMGMounted</defaultProjectile>
+				<warmupTime>0</warmupTime>
+				<range>31.9</range>
+				<minRange>1</minRange>
+				<ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+				<burstShotCount>5</burstShotCount>
+				<soundCast>Shot_Minigun</soundCast>
+				<soundCastTail>GunTail_Medium</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+	</ThingDef>
+</Defs>
