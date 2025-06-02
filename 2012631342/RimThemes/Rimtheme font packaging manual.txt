@@ -1,0 +1,38 @@
+First step download Unity free version and install it if you dont already have it
+https://store.unity.com/
+
+When it's done, create a new project then in Assets (bottom left) right click and create two folders "Editor" and "Fonts"
+Right-click on the "Editor" folder then "Create" then "C# Script"
+Name it "BundleBuilder"
+Double click on it then copy paste this code :
+
+====================
+using UnityEditor;
+using System.IO;
+
+public class CreateAssetBundles
+{
+    [MenuItem("Assets/Build AssetBundles")]
+    static void BuildAllAssetBundles()
+    {
+        string assetBundleDirectory = "c:\\tmp";
+        if (!Directory.Exists(assetBundleDirectory))
+        {
+            Directory.CreateDirectory(assetBundleDirectory);
+        }
+        BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
+    }
+}
+
+====================
+* (You need to create a tmp folder in your C: disk's root)
+====================
+
+Then simply drag and drop fonts (ttf or otf format) in the "Fonts" folder
+Warning : fonts name file need to be properly prefixed with a unique prefix you choose (eg : MyPrefix_fontname.ttf) otherwise it can lead to fonts packs incompatibilities
+
+After all fonts are dragged in the "Fonts" folder, add a new AssetBundle by clicking on the select control (just after the "AssetBundle" text) on the bottom right of you screen
+Click on "New" name it with a unique name "MyAssetBundle" validate by hit ENTER
+Now got o you "Fonts" folder (in Unity) , hit CTRL + A (select all fonts), then in "AssetBundle" select list just select your previously created AssetBundle name
+You now to make your font pack, simply click on "Assets" menu then select "Build AssetBundles"
+It's done you font package is in your c:\tmp folder
