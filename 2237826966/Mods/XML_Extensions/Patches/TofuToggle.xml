@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+<Operation Class="XmlExtensions.UseSetting">
+    <modId>vfme_simpletofu</modId>
+    <key>TofuToggle</key>
+    <defaultValue>0</defaultValue>
+    <apply>
+		<Operation Class="XmlExtensions.IfStatement">
+			<condition Class="XmlExtensions.Boolean.Comparision">
+				<value1>{TofuToggle}</value1>
+				<value2>1</value2>
+				<nonNumeric>true</nonNumeric>
+				<relation>eq</relation>
+			</condition>
+			<caseTrue>
+				<Operation Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationReplace">
+							<xpath>/Defs/ThingDef[defName="Tofu"]/thingCategories</xpath>
+							<value>
+								<thingCategories>
+									<li>PlantFoodRaw</li>
+								</thingCategories>
+							</value>
+						</li>
+						<li Class="PatchOperationReplace">
+							<xpath>/Defs/ThingDef[defName="Tofu"]/ingestible/foodType</xpath>
+							<value>
+								<foodType>VegetableOrFruit</foodType>
+							</value>
+						</li>
+						<li Class="PatchOperationReplace">
+							<xpath>/Defs/ThingDef[defName="CannedTofu"]/thingCategories</xpath>
+							<value>
+								<thingCategories>
+									<li>PlantFoodRaw</li>
+								</thingCategories>
+							</value>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>/Defs/ThingDef[defName="CannedTofu"]/ingestible</xpath>
+							<value>
+								<foodType>VegetableOrFruit</foodType>
+							</value>
+						</li>
+					</operations>
+				</Operation>
+			</caseTrue>
+		</Operation>
+		<Operation Class="XmlExtensions.IfStatement">
+			<condition Class="XmlExtensions.Boolean.Comparision">
+				<value1>{TofuToggle}</value1>
+				<value2>2</value2>
+				<nonNumeric>true</nonNumeric>
+				<relation>eq</relation>
+			</condition>
+			<caseTrue>
+				<Operation Class="PatchOperationSequence">
+					<operations>
+						<li Class="PatchOperationAdd">
+							<xpath>/Defs/ThingDef[defName="Tofu"]/thingCategories</xpath>
+							<value>
+								<li>PlantFoodRaw</li>
+							</value>
+						</li>
+						<li Class="PatchOperationReplace">
+							<xpath>/Defs/ThingDef[defName="Tofu"]/ingestible/foodType</xpath>
+							<value>
+								<foodType>Meat, VegetableOrFruit</foodType>
+							</value>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>/Defs/ThingDef[defName="CannedTofu"]/thingCategories</xpath>
+							<value>
+								<li>PlantFoodRaw</li>
+							</value>
+						</li>
+						<li Class="PatchOperationAdd">
+							<xpath>/Defs/ThingDef[defName="CannedTofu"]/ingestible</xpath>
+							<value>
+								<foodType>Meat, VegetableOrFruit</foodType>
+							</value>
+						</li>
+					</operations>
+				</Operation>
+			</caseTrue>
+		</Operation>
+    </apply>
+</Operation>
+</Patch>
