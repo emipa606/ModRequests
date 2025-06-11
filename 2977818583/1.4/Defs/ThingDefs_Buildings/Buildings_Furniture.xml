@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Parents -->
+
+	<ThingDef Abstract="True" ParentName="BuildingBase" Name="RR_BuildingBase">
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+		<designationCategory>Furniture</designationCategory>
+	</ThingDef>
+
+  <ThingDef Abstract="True" Name="RR_TorchLamp" ParentName="BuildingBase">
+    <category>Building</category>
+    <graphicData>
+      <drawRotated>false</drawRotated>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>0.15</fillPercent>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>2</Beauty>
+      <MeditationFocusStrength>0.0</MeditationFocusStrength>
+    </statBases>
+		<stuffCategories>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>20</costStuffCount>
+    <selectable>true</selectable>
+    <building>
+      <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+    </building>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_Heater</li>
+      <li>PlaceWorker_MeditationOffsetBuildingsNear</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>2.0</fuelConsumptionRate>
+        <fuelCapacity>20.0</fuelCapacity>
+        <fuelConsumptionPerTickInRain>0.0006</fuelConsumptionPerTickInRain>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(184,136,83,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>3.5</heatPerSecond>
+        <heatPushMaxTemperature>23</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_MeditationFocus">
+        <statDef>MeditationFocusStrength</statDef>
+        <focusTypes><li>Flame</li></focusTypes>
+        <offsets>
+          <li Class="FocusStrengthOffset_Lit">
+            <offset>0.1</offset>
+          </li>
+          <li Class="FocusStrengthOffset_BuildingDefsLit">
+            <defs>
+              <li>Campfire</li>
+              <li>TorchLamp</li>
+              <li MayRequire="Ludeon.RimWorld.Royalty">Brazier</li>
+              <li MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+              <li MayRequire="Ludeon.RimWorld.Ideology">Darktorch</li>
+              <li MayRequire="Ludeon.RimWorld.Ideology">DarktorchFungus</li>
+            </defs>
+            <offsetPerBuilding>0.01</offsetPerBuilding>
+            <radius>9.9</radius>
+            <maxBuildings>8</maxBuildings>
+            <explanationKey>MeditationFocusPerFlame</explanationKey>
+            <explanationKeyAbstract>MeditationFocusPerFlameAbstract</explanationKeyAbstract>
+          </li>
+        </offsets>
+      </li>
+    </comps>
+    <designationCategory>Furniture</designationCategory>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+<ThingDef Abstract="True" ParentName="BuildingBase" Name="RR_RugBase">
+    <thingClass>Building</thingClass>
+	<altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>0</pathCost>
+    <castEdgeShadows>false</castEdgeShadows>
+    <useHitPoints>true</useHitPoints>
+	<building>    
+			<isEdifice>false</isEdifice>
+	</building>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsArt</li>
+    </thingCategories>
+    <statBases>
+      <Flammability>1.0</Flammability>
+			<SellPriceFactor>1.10</SellPriceFactor>
+    </statBases>
+    <comps>
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+  <designationCategory>Furniture</designationCategory>
+	<clearBuildingArea>false</clearBuildingArea>
+	<saveCompressible>false</saveCompressible>
+  </ThingDef>
+
+<!-- Beds -->
+<ThingDef ParentName="BedWithQualityBase">
+    <defName>RR_Bedroll</defName>
+    <label>primitive bedroll</label>
+    <description>A simple sleeping mat made from animal hides, traditionally used by early nomadic societies for basic comfort and protection from the ground.</description>
+    <graphicData>
+      <texPath>Things/Building/Furniture/bedroll/bedroll</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.2,2.2)</drawSize>
+    </graphicData>
+    <castEdgeShadows>False</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <Mass>2.5</Mass>
+      <BedRestEffectiveness>0.85</BedRestEffectiveness>
+      <ImmunityGainSpeedFactor>1.05</ImmunityGainSpeedFactor>
+      <Comfort>0.68</Comfort>
+      <WorkToBuild>600</WorkToBuild>
+      <Beauty>0</Beauty>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>Dresser</li>
+          <li>EndTable</li>
+          <li MayRequire="Ludeon.RimWorld.Ideology">SleepAccelerator</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+    <size>(1,2)</size>
+    <stuffCategories>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+    <building>
+      <bed_showSleeperBody>true</bed_showSleeperBody>
+      <bed_healPerDay>4</bed_healPerDay>
+      <bed_caravansCanUse>true</bed_caravansCanUse>
+      <destroySound>BuildingDestroyed_Soft_Medium</destroySound>
+      <destroyShakeAmount>0</destroyShakeAmount>
+    </building>
+    <pathCost>14</pathCost>
+    <passability>Standable</passability>
+  </ThingDef>
+
+  <ThingDef ParentName="Bed" Name="RR_FurBed">
+    <defName>RR_FurBed</defName>
+    <label>fur bed</label>
+    <description>A rudimentary sleeping arrangement composed of fur pelts or hides, utilized by ancient cultures for insulation and warmth during sleep.</description>
+    <graphicData>
+      <texPath>Things/Building/Furniture/fursingle/fursingle</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3,2.8)</drawSize>
+      <damageData>
+        <rect>(0,0.05,1,1.95)</rect>
+      </damageData>
+    </graphicData>
+    <castEdgeShadows Inherit = "False">False</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>140</MaxHitPoints>
+      <Beauty>1</Beauty>
+      <WorkToBuild>800</WorkToBuild>
+      <Mass>30</Mass>
+      <BedRestEffectiveness>0.95</BedRestEffectiveness>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <size>(1,2)</size>
+    <stuffCategories Inherit = "False">
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>45</costStuffCount>
+    <building>
+      <paintable>true</paintable>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="DoubleBed" Name="RR_FurDoubleBed">
+    <defName>RR_FurDoubleBed</defName>
+    <label>fur double bed</label>
+    <description>A rudimentary sleeping arrangement composed of fur pelts or hides, utilized by ancient cultures for insulation and warmth during sleep. This one is big enough for two people.</description>
+    <graphicData>
+      <texPath>Things/Building/Furniture/furdouble/furdouble</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3.3,3.05)</drawSize>
+      <damageData>
+        <rect>(0,0.05,2,1.95)</rect>
+      </damageData>
+    </graphicData>
+    <castEdgeShadows Inherit = "False">False</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>1500</WorkToBuild>
+      <Mass>50</Mass>
+      <Beauty>2</Beauty>
+      <BedRestEffectiveness>0.95</BedRestEffectiveness>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <size>(2,2)</size>
+    <stuffCategories Inherit = "False">
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>65</costStuffCount>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <leaveResourcesWhenKilled>True</leaveResourcesWhenKilled>
+    <building>
+      <paintable>true</paintable>
+    </building>
+  </ThingDef>
+
+<!-- Thrones -->
+
+  <ThingDef ParentName="ThroneBase">
+    <defName>RR_WoodThrone</defName>
+    <label>log throne</label>
+    <description>A primitive throne made out of a single log is a simplistic yet imposing seat.</description>
+		<altitudeLayer Inherit = "False">BuildingOnTop</altitudeLayer>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>10000</WorkToBuild>
+      <Mass>40</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>15</Beauty>
+      <Comfort>0.75</Comfort>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <costStuffCount>125</costStuffCount>
+    <uiIconOffset>(0, 0)</uiIconOffset>
+    <uiIconScale>0.5</uiIconScale>
+    <graphicData>
+      <drawSize>(2,2)</drawSize>
+      <drawOffset>(0,-0.15,0)</drawOffset>
+      <texPath>Things/Building/Furniture/woodthrone/woodthrone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shadowData>
+        <volume>(0.5,0.35,0.4)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0,2, 0.6, 0.6)</rect>
+      </damageData>
+    </graphicData>
+  </ThingDef>
+
+    <ThingDef ParentName="ThroneBase">
+    <defName>RR_StoneThrone</defName>
+    <label>stone throne</label>
+    <description>A rugged and sturdy seat hewn from solid stone, symbolizing strength and authority in ancient civilizations.</description>
+		<altitudeLayer Inherit = "False">BuildingOnTop</altitudeLayer>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>10000</WorkToBuild>
+      <Mass>40</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>15</Beauty>
+      <Comfort>0.75</Comfort>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>125</costStuffCount>
+    <uiIconOffset>(0, 0)</uiIconOffset>
+    <uiIconScale>0.5</uiIconScale>
+    <graphicData>
+      <drawSize>(2,2)</drawSize>
+      <drawOffset>(0,-0.15,0)</drawOffset>
+      <texPath>Things/Building/Furniture/stonethrone/stonethrone</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shadowData>
+        <volume>(0.5,0.35,0.4)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0,2, 0.6, 0.6)</rect>
+      </damageData>
+    </graphicData>
+  </ThingDef>
+
+<!-- Seating -->
+
+  <ThingDef ParentName="FurnitureWithQualityBase">
+    <defName>RR_StoneStool</defName>
+    <label>stone stool</label>
+    <description>A modest and compact seat crafted from stone, providing a basic and functional seating option in early societies.</description>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Things/Building/Furniture/stonestool/stonestool_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rectN>(0.125,0.296875,0.734375,0.421875)</rectN>
+        <rectS>(0.125,0.296875,0.734375,0.421875)</rectS>
+        <rectE>(0.234375,0.296875,0.5,0.546875)</rectE>
+        <rectW>(0.234375,0.296875,0.5,0.546875)</rectW>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+      <drawSize>(1.5,1.5)</drawSize>
+      <shadowData>
+        <volume>(0.18, 0.23, 0.18)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>450</WorkToBuild>
+      <Mass>3</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>0</Beauty>
+      <Comfort>0.5</Comfort>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">5</StyleDominance>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>25</costStuffCount>
+    <pathCost>30</pathCost>
+    <uiOrder>2400</uiOrder>
+    <fillPercent>0.20</fillPercent>
+    <building>
+      <isSittable>true</isSittable>
+      <paintable>true</paintable>
+    </building>
+    <uiIconScale>0.8</uiIconScale>
+    <uiIconOffset>(0, -0.05)</uiIconOffset>
+    <rotatable>false</rotatable>
+  </ThingDef>
+
+  <ThingDef ParentName="FurnitureWithQualityBase">
+    <defName>RR_FluffPillow</defName>
+    <label>fluff pillow</label>
+    <description>A rudimentary cushion made with animal fur, offering a simple and natural seating option in early cultures for sitting or reclining on the floor.</description>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Things/Building/Furniture/fluffpillow/fluffpillow_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rectN>(0.125,0.296875,0.734375,0.421875)</rectN>
+        <rectS>(0.125,0.296875,0.734375,0.421875)</rectS>
+        <rectE>(0.234375,0.296875,0.5,0.546875)</rectE>
+        <rectW>(0.234375,0.296875,0.5,0.546875)</rectW>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+      <drawSize>(1.5,1.5)</drawSize>
+      <shadowData>
+        <volume>(0.18, 0.23, 0.18)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>450</WorkToBuild>
+      <Mass>3</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>1</Beauty>
+      <Comfort>0.7</Comfort>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">5</StyleDominance>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+    <pathCost>30</pathCost>
+    <uiOrder>2400</uiOrder>
+    <fillPercent>0.20</fillPercent>
+    <building>
+      <isSittable>true</isSittable>
+      <paintable>true</paintable>
+    </building>
+    <uiIconScale>0.8</uiIconScale>
+    <uiIconOffset>(0, -0.05)</uiIconOffset>
+    <rotatable>false</rotatable>
+  </ThingDef>
+
+  <ThingDef ParentName="FurnitureWithQualityBase">
+    <defName>RR_RoundPillow</defName>
+    <label>round pillow</label>
+    <description>A a basic and low-profile cushion made from natural materials, commonly used in ancient societies for sitting or lounging on the floor.</description>
+    <size>(1,1)</size>
+    <graphicData>
+      <texPath>Things/Building/Furniture/roundpillow/roundpillow_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rectN>(0.125,0.296875,0.734375,0.421875)</rectN>
+        <rectS>(0.125,0.296875,0.734375,0.421875)</rectS>
+        <rectE>(0.234375,0.296875,0.5,0.546875)</rectE>
+        <rectW>(0.234375,0.296875,0.5,0.546875)</rectW>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+      <drawSize>(1.5,1.5)</drawSize>
+      <shadowData>
+        <volume>(0.18, 0.23, 0.18)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>450</WorkToBuild>
+      <Mass>3</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>1</Beauty>
+      <Comfort>0.7</Comfort>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">5</StyleDominance>
+    </statBases>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+    <pathCost>30</pathCost>
+    <uiOrder>2400</uiOrder>
+    <fillPercent>0.20</fillPercent>
+    <building>
+      <isSittable>true</isSittable>
+      <paintable>true</paintable>
+    </building>
+    <uiIconScale>0.8</uiIconScale>
+    <uiIconOffset>(0, -0.05)</uiIconOffset>
+    <rotatable>false</rotatable>
+  </ThingDef>
+
+<!-- Table -->
+  
+  <ThingDef Abstract="True" ParentName="FurnitureWithQualityBase" Name="RR_TableBase">
+    <description>People eat off tables when chairs are placed facing them.</description>
+    <thingClass>Building</thingClass>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>true</castEdgeShadows>
+    <pathCost>42</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <canOverlapZones>false</canOverlapZones>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <surfaceType>Eat</surfaceType>
+    <building>
+      <paintable>true</paintable>
+    </building>
+    <researchPrerequisites>
+      <li>RR_Furniture</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Abstract="True" ParentName="RR_TableBase" Name="RR_TableGatherSpotBase">
+    <comps>
+      <li>
+        <compClass>CompGatherSpot</compClass>
+      </li>
+    </comps>
+    <building>
+      <buildingTags>
+        <li>RitualFocus</li>
+      </buildingTags>
+    </building>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <placeWorkers>
+      <li>PlaceWorker_RitualFocus</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ThingDef ParentName="RR_TableGatherSpotBase">
+    <defName>RR_Stump</defName>
+    <label>stump (1x1)</label>
+    <graphicData>
+      <texPath>Things/Building/Furniture/stump/stump</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+		<rotatable>false</rotatable>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <uiIconScale>0.8</uiIconScale>
+	<castEdgeShadows>false</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>500</WorkToBuild>
+      <Mass>5</Mass>
+      <Flammability>1.0</Flammability>
+      <Beauty>0</Beauty>
+    </statBases>
+    <size>(1,1)</size>
+    <costStuffCount>30</costStuffCount>
+  </ThingDef>
+
+<!-- Lighting -->
+
+	<ThingDef ParentName="RR_BuildingBase" Name="RR_TallTorchBase">
+		<defName>RR_TallTorch</defName>
+		<label>tall torch</label>
+		<description>A torch made of sticks wrapped with rope serving as a primitive form of illumination.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/talltorch/talltorch</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawRotated>false</drawRotated>
+			<damageData>
+				<rect>(0.35,0.35,0.3,0.3)</rect>
+			</damageData>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<uiIconScale>0.5</uiIconScale>
+		<category>Building</category>
+		<rotatable>false</rotatable>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>4</pathCost>
+		<tickerType>Normal</tickerType>
+		<drawerType>RealtimeOnly</drawerType>
+		<fillPercent>0.15</fillPercent>
+		<statBases>
+			<Beauty>1</Beauty>
+			<MaxHitPoints>60</MaxHitPoints>
+			<WorkToBuild>600</WorkToBuild>
+			<Mass>0.2</Mass>
+		</statBases>
+		<selectable>true</selectable>
+		<stuffCategories>
+			<li>Woody</li>
+			<li>Metallic</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>25</costStuffCount>
+		<soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+		<clearBuildingArea>false</clearBuildingArea>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsFurniture</li>
+		</thingCategories>
+		<building>
+			<isEdifice>true</isEdifice>
+		</building>
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>1.0</fuelConsumptionRate>
+				<fuelCapacity>30</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<fuelFilter>
+				<thingDefs>
+					<li>WoodLog</li>
+				</thingDefs>
+				</fuelFilter>
+				<destroyOnNoFuel>false</destroyOnNoFuel>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+			 </li>
+			 <li Class="CompProperties_HeatPusher">
+				<compClass>CompHeatPusherPowered</compClass>
+				<heatPerSecond>3.5</heatPerSecond>
+				<heatPushMaxTemperature>23</heatPushMaxTemperature>
+			</li>
+				<li Class="CompProperties_Glower">
+					<glowRadius>15</glowRadius>
+					<glowColor>(252,187,113,0)</glowColor>
+				</li>
+				<li Class="CompProperties_FireOverlay">
+					 <fireSize>0.5</fireSize>
+					<offset>(0,0,0.95)</offset>
+				</li>
+				<li Class="CompProperties_MeditationFocus">
+					<statDef>MeditationFocusStrength</statDef>
+					<focusTypes><li>Flame</li></focusTypes>
+					<offsets>
+						<li Class="FocusStrengthOffset_Lit">
+							<offset>0.1</offset>
+						</li>
+						<li Class="FocusStrengthOffset_BuildingDefsLit">
+							<defs>
+								<li>Campfire</li>
+								<li>TorchLamp</li>
+								<li>RR_TallTorch</li>
+								<li MayRequire="Ludeon.RimWorld.Royalty">Brazier</li>
+								<li MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">Darktorch</li>
+								<li MayRequire="Ludeon.RimWorld.Ideology">DarktorchFungus</li>
+							</defs>
+							<offsetPerBuilding>0.01</offsetPerBuilding>
+							<radius>9.9</radius>
+							<maxBuildings>8</maxBuildings>
+							<explanationKey>MeditationFocusPerFlame</explanationKey>
+							<explanationKeyAbstract>MeditationFocusPerFlameAbstract</explanationKeyAbstract>
+						</li>
+					</offsets>
+				</li>
+		</comps>
+		<designationCategory>Furniture</designationCategory>
+	</ThingDef>
+
+	<ThingDef ParentName="RR_TorchLamp">
+		<defName>RR_StoneTorchOne</defName>
+		<label>stone torch </label>
+		<description>A primitive stone brazier with a candle, typically used in early civilizations to provide ambient light.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/stonetorch/stonetorch1</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawRotated>false</drawRotated>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<uiIconPath>Things/Building/Furniture/stonetorch/stonetorch1</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.25</fireSize>
+        <offset>(0,0,0.8)</offset>
+      </li>
+    </comps>
+	</ThingDef>
+
+  <ThingDef ParentName="RR_TorchLamp">
+		<defName>RR_StoneTorchTwo</defName>
+		<label>stone torch</label>
+		<description>A primitive stone brazier with a candle, typically used in early civilizations to provide ambient light.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/stonetorch/stonetorch2</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawRotated>false</drawRotated>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<uiIconPath>Things/Building/Furniture/stonetorch/stonetorch2</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.25</fireSize>
+        <offset>(0,0,0.5)</offset>
+      </li>
+	  </comps> 
+	</ThingDef>
+
+  <ThingDef ParentName="RR_TorchLamp">
+		<defName>RR_StoneTorchThree</defName>
+		<label>stone torch</label>
+		<description>A primitive stone brazier with a candle, typically used in early civilizations to provide ambient light.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/stonetorch/stonetorch3</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawRotated>false</drawRotated>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<uiIconPath>Things/Building/Furniture/stonetorch/stonetorch3</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.25</fireSize>
+        <offset>(0,0,0.057)</offset>
+      </li>
+    </comps>
+	</ThingDef>
+
+  <ThingDef ParentName="RR_TorchLamp">
+		<defName>RR_StoneTorchFour</defName>
+		<label>stone torch</label>
+		<description>A primitive stone brazier with a candle, typically used in early civilizations to provide ambient light.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/stonetorch/stonetorch4</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawRotated>false</drawRotated>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<uiIconPath>Things/Building/Furniture/stonetorch/stonetorch4</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.2</fireSize>
+        <offset>(-0.07,0,0.62)</offset>
+      </li>
+    </comps>
+	</ThingDef>
+
+  <ThingDef ParentName="RR_TorchLamp">
+		<defName>RR_StoneTorchFive</defName>
+		<label>stone torch</label>
+		<description>A primitive stone brazier with a candle, typically used in early civilizations to provide ambient light.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/stonetorch/stonetorch5</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawRotated>false</drawRotated>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<uiIconPath>Things/Building/Furniture/stonetorch/stonetorch5</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.25</fireSize>
+        <offset>(0,0,0.17)</offset>
+      </li>
+    </comps>
+	</ThingDef>
+
+    <ThingDef ParentName="RR_TorchLamp">
+		<defName>RR_HangingTorch</defName>
+		<label>hanging torch</label>
+		<description>A primitive hanging lantern with a candle, providing illumination while suspended in the air.</description>
+		<graphicData>
+			<texPath>Things/Building/Furniture/hangingtorch/hangingtorch</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawRotated>false</drawRotated>
+      <drawSize>(1.5,1.5)</drawSize>
+      <drawOffset>(0,0,0.6)</drawOffset>
+		</graphicData>
+		<uiIconPath>Things/Building/Furniture/hangingtorch/hangingtorch</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<stuffCategories Inherit="False">
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>20</costStuffCount>
+    <passability Inherit="False">Standable</passability>
+    <pathCost Inherit="False">8</pathCost>   
+		<building>
+			<isEdifice>false</isEdifice>
+			<canPlaceOverWall>true</canPlaceOverWall>
+		</building>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.25</fireSize>
+        <offset>(0,0,0.38)</offset>
+      </li>
+    </comps>
+	</ThingDef>
+
+<!-- Rugs -->
+
+  <ThingDef ParentName="RR_RugBase">
+    <defName>RR_RectRugOne</defName>
+    <label>rectangle rug</label>
+    <description>A handwoven floor covering with a simple rectangular shape, adorned with traditional patterns and symbols representing the cultural heritage of a particular tribe or community.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Furniture/rectrug1/rectrug1</texPath>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <uiIconScale>0.85</uiIconScale>
+    <fillPercent>0.05</fillPercent>
+    <size>(3,2)</size>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1</Mass>
+      <Beauty>14</Beauty>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Fabric</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+  </ThingDef>
+
+  <ThingDef ParentName="RR_RugBase">
+    <defName>RR_RectRugTwo</defName>
+    <label>rectangle rug</label>
+    <description>A handwoven floor covering with a simple rectangular shape, adorned with traditional patterns and symbols representing the cultural heritage of a particular tribe or community.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Furniture/rectrug2/rectrug2</texPath>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <uiIconScale>0.85</uiIconScale>
+    <fillPercent>0.05</fillPercent>
+    <size>(3,2)</size>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1</Mass>
+      <Beauty>14</Beauty>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Fabric</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+  </ThingDef>
+
+  <ThingDef ParentName="RR_RugBase">
+    <defName>RR_FluffyRug</defName>
+    <label>fluffy rug</label>
+    <description>A small primitive rustic floor covering crafted from animal fur, offering a cozy and natural touch to a living space in early societies.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Furniture/fluffyrug/fluffyrug</texPath>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <uiIconScale>0.7</uiIconScale>
+    <fillPercent>0.05</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1</Mass>
+      <Beauty>4</Beauty>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+  </ThingDef>
+
+    <ThingDef ParentName="RR_RugBase">
+    <defName>RR_FluffyRoundRug</defName>
+    <label>fluffy round rug</label>
+    <description>A small primitive circular rustic floor covering crafted from animal fur, offering a cozy and natural touch to a living space in early societies.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Furniture/roundfluffyrug/roundfluffyrug</texPath>
+      <drawSize>(2,2)</drawSize>
+			<drawRotated>false</drawRotated>
+    </graphicData>
+    <uiIconScale>0.7</uiIconScale>
+    <fillPercent>0.05</fillPercent>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1</Mass>
+      <Beauty>4</Beauty>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+  </ThingDef>
+
+  <ThingDef ParentName="RR_RugBase">
+    <defName>RR_LeatherRoundRug</defName>
+    <label>leather round rug</label>
+    <description>A compact cicular floor covering crafted from animal hides, providing a rugged and natural touch to a living space.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Furniture/leatherroundrug/LeatherRoundRug</texPath>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <uiIconScale>0.7</uiIconScale>
+    <fillPercent>0.05</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1</Mass>
+      <Beauty>4</Beauty>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
+  </ThingDef>
+
+  <ThingDef ParentName="RR_RugBase">
+    <defName>RR_RoundRug</defName>
+    <label>round rug</label>
+    <description>A handwoven floor covering with a simple circular shape, adorned with traditional patterns and symbols representing the cultural heritage of a particular tribe or community.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Furniture/roundrug/roundrug</texPath>
+      <drawSize>(2.5,2.5)</drawSize>
+			<drawRotated>false</drawRotated>
+    </graphicData>
+    <uiIconScale>0.85</uiIconScale>
+    <size>(2,2)</size>
+    <fillPercent>0.05</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1</Mass>
+      <Beauty>7</Beauty>
+      <WorkToMake>14000</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Fabric</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+  </ThingDef>
+
+</Defs>
