@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- Centurion -->
+	<ThingDef Name="MechCenturionStellar_GAOTCE_Mech" ParentName="SuperHeavyMechanoidStellar_GAOTCE_Mech">
+		<defName>Mech_CenturionStellar_GAOTCE_Mech</defName>
+		<label>stellar centurion</label>
+		<description>An ultraheavy mech with a built-in shield bubble generator. The centurion carries a point-defense bulb turret capable of firing while the mechanoid is moving.</description>
+		<statBases>
+			<MechEnergyUsageFactor>0.5</MechEnergyUsageFactor>
+			<MoveSpeed>2.4</MoveSpeed>
+			<EnergyShieldRechargeRate>1</EnergyShieldRechargeRate>
+			<EnergyShieldEnergyMax>6</EnergyShieldEnergyMax>
+			<MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
+		</statBases>
+		<race>
+			<body>Mech_CenturionStellar_GAOTCE_Mech</body>
+			<baseBodySize>3.6</baseBodySize>
+			<lifeStageAges>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Mech_Centurion_Wounded</soundWounded>
+					<soundDeath>Pawn_Mech_Centurion_Death</soundDeath>
+					<soundCall>Pawn_Mech_Centurion_Call</soundCall>
+				</li>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>100</minAge>
+					<soundWounded>Pawn_Mech_Centurion_Wounded</soundWounded>
+					<soundDeath>Pawn_Mech_Centurion_Death</soundDeath>
+					<soundCall>Pawn_Mech_Centurion_Call</soundCall>
+				</li>
+			</lifeStageAges>
+			<baseHealthScale>3</baseHealthScale>
+			<detritusLeavings>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>0</texOverrideIndex>
+					<spawnChance>0.75</spawnChance>
+				</li>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>8</texOverrideIndex>
+					<spawnChance>0.75</spawnChance>
+				</li>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>3</texOverrideIndex>
+					<spawnChance>0.75</spawnChance>
+				</li>
+			</detritusLeavings>
+		</race>
+		<comps>
+			<li Class="CompProperties_ProjectileInterceptor">
+				<radius>6</radius>
+				<interceptGroundProjectiles>true</interceptGroundProjectiles>
+				<color>(0.4, 0.4, 0.4)</color>
+				<reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+				<activeSound>BulletShield_Ambience</activeSound>
+				<hitPoints>1500</hitPoints>
+				<hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
+				<chargeDurationTicks>9000</chargeDurationTicks>
+				<!-- 30s -->
+				<rechargeHitPointsIntervalTicks>60</rechargeHitPointsIntervalTicks>
+				<minIdleAlpha>0.2</minIdleAlpha>
+				<drawWithNoSelection>True</drawWithNoSelection>
+				<disarmedByEmpForTicks>1500</disarmedByEmpForTicks>
+				<gizmoTipKey>ProjectileInterceptorTip</gizmoTipKey>
+			</li>
+			<li Class="CompProperties_TurretGun">
+				<turretDef>Gun_ChargeBlasterTurretStellar_GAOTCE_Mech</turretDef>
+				<angleOffset>-90</angleOffset>
+				<renderNodeProperties>
+					<li>
+						<nodeClass>PawnRenderNode_TurretGun</nodeClass>
+						<workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+						<parentTagDef>Body</parentTagDef>
+						<overrideMeshSize>(1, 1)</overrideMeshSize>
+						<baseLayer>20</baseLayer>
+						<pawnType>Any</pawnType>
+						<drawData>
+							<dataWest>
+								<rotationOffset>180</rotationOffset>
+							</dataWest>
+						</drawData>
+					</li>
+				</renderNodeProperties>
+			</li>
+		</comps>
+		<tools>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Demolish</li>
+				</capacities>
+				<power>12</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+		<defName>Gun_ChargeBlasterTurretStellar_GAOTCE_Mech</defName>
+		<label>stellar charge blaster turret</label>
+		<description>A small charge blaster designed for use on a defense turret.</description>
+		<tradeability>None</tradeability>
+		<destroyOnDrop>true</destroyOnDrop>
+		<graphicData>
+			<texPath>Things/Item/Equipment/WeaponRanged/ChargeBlasterTurret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<statBases>
+			<Mass>2.6</Mass>
+			<AccuracyTouch>0.60</AccuracyTouch>
+			<AccuracyShort>0.80</AccuracyShort>
+			<AccuracyMedium>0.90</AccuracyMedium>
+			<AccuracyLong>0.85</AccuracyLong>
+		</statBases>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<defaultProjectile>Bullet_ChargeBlasterHeavy</defaultProjectile>
+				<range>44.9</range>
+				<soundCast>Shot_ChargeBlaster</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+				<defaultCooldownTime>1.25</defaultCooldownTime>
+				<linkedBodyPartsGroup>BulbTurret</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<ticksBetweenBurstShots>75</ticksBetweenBurstShots>
+			</li>
+		</verbs>
+	</ThingDef>
+
+	<PawnKindDef Name="MechCenturionKindStellar_GAOTCE_Mech" ParentName="HeavyMechanoidKind">
+		<defName>Mech_CenturionStellar_GAOTCE_Mech</defName>
+		<label>stellar centurion</label>
+		<race>Mech_CenturionStellar_GAOTCE_Mech</race>
+		<combatPower>250</combatPower>
+		<maxPerGroup>3</maxPerGroup>
+		<allowInMechClusters>false</allowInMechClusters>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/Centurion</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Centurion</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>2.5</drawSize>
+					<shadowData>
+						<volume>(0.6, 0.8, 0.6)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/CenturionAncient</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Centurion</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>2.5</drawSize>
+					<shadowData>
+						<volume>(0.6, 0.8, 0.6)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+	</PawnKindDef>
+</Defs>

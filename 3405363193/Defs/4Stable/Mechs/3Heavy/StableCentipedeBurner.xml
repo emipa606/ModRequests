@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- Centipede - burner -->
+	<ThingDef ParentName="MechCentipedeStable_GAOTCE_Mech">
+		<defName>Mech_CentipedeBurnerStable_GAOTCE_Mech</defName>
+		<label>Stable centipede burner</label>
+		<statBases>
+			<MechEnergyUsageFactor>0.5</MechEnergyUsageFactor>
+		</statBases>
+	</ThingDef>
+
+	<PawnKindDef ParentName="MechCentipedeBase">
+		<defName>Mech_CentipedeBurnerStable_GAOTCE_Mech</defName>
+		<label>Stable centipede burner</label>
+		<race>Mech_CentipedeBurnerStable_GAOTCE_Mech</race>
+		<allowInMechClusters>false</allowInMechClusters>
+		<lifeStages Inherit="False">
+			<li MayRequire="Ludeon.RimWorld.Biotech">
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/CentipedeBurnerClean</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/CentipedeBurner</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>3</drawSize>
+					<shadowData>
+						<volume>(0.6, 0.8, 0.6)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/CentipedeBurner</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/CentipedeBurner</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>3</drawSize>
+					<shadowData>
+						<volume>(0.6, 0.8, 0.6)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<weaponTags>
+			<li>InfernoCannonGunStable_GAOTCE_Mech</li>
+		</weaponTags>
+	</PawnKindDef>
+
+
+	<!-- Inferno cannon -->
+
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_InfernoCannonStable_GAOTCE_Mech</defName>
+		<label>Stable inferno cannon shell</label>
+		<graphicData>
+			<texPath>Things/Projectile/LauncherShot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+			<color>(254,189,58)</color>
+		</graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<damageDef>Flame</damageDef>
+			<!-- Use default damage from explosion def -->
+			<speed>45</speed>
+			<explosionRadius>2.4</explosionRadius >
+			<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.27</preExplosionSpawnChance>
+			<ai_IsIncendiary>true</ai_IsIncendiary>
+		</projectile>
+	</ThingDef>
+
+	<ThingDef Abstract="True" ParentName="BaseGun" Name="Gun_InfernoCannonBaseStable_GAOTCE_Mech">
+		<label>Stable inferno cannon</label>
+		<description>An incendiary-shot mini-artillery device. It fires a large incendiary warhead.</description>
+		<graphicData>
+			<texPath>Things/Item/Equipment/WeaponRanged/InfernoCannon</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<statBases>
+			<MarketValue>1400</MarketValue>
+			<Mass>18</Mass>
+			<RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown><!--found no way to increase damage, reducing this instead to raise DPS. Old value was 8.4-->
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<generateCommonality>0.5</generateCommonality>
+		<tradeability>None</tradeability>
+		<weaponClasses>
+			<li>RangedHeavy</li>
+		</weaponClasses>
+		<tools>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>11.7</power>
+				<cooldownTime>2.6</cooldownTime>
+			</li>
+		</tools>
+		<relicChance>0</relicChance>
+	</ThingDef>
+
+	<ThingDef ParentName="Gun_InfernoCannonBaseStable_GAOTCE_Mech">
+		<defName>Gun_InfernoCannonStable_GAOTCE_Mech</defName>
+		<destroyOnDrop>true</destroyOnDrop>
+		<weaponTags>
+			<li>InfernoCannonGunStable_GAOTCE_Mech</li>
+		</weaponTags>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Bullet_InfernoCannonStable_GAOTCE_Mech</defaultProjectile>
+				<forcedMissRadius>3.5</forcedMissRadius>
+				<ai_AvoidFriendlyFireRadius>3</ai_AvoidFriendlyFireRadius>
+				<warmupTime>1.25</warmupTime>
+				<range>26.9</range>
+				<burstShotCount>1</burstShotCount>
+				<soundCast>InfernoCannon_Fire</soundCast>
+				<soundCastTail>GunTail_Light</soundCastTail>
+				<muzzleFlashScale>14</muzzleFlashScale>
+			</li>
+		</verbs>
+	</ThingDef>
+</Defs>

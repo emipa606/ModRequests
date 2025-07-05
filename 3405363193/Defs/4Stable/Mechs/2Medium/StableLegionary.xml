@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Legionary -->
+	<ThingDef ParentName="LancerMechanoidWalkerStable_GAOTCE_Mech">
+		<defName>Mech_LegionaryStable_GAOTCE_Mech</defName>
+		<label>Stable legionary</label>
+		<description>A combat support mechanoid with a wide-range bullet shield and mid-range needle gun. Designed to support other mechanoids, the legionary is vulnerable to anyone who can get inside its shield.</description>
+		<statBases>
+			<MechEnergyUsageFactor>0.5</MechEnergyUsageFactor>
+			<MarketValue>1200</MarketValue>
+			<MoveSpeed>9</MoveSpeed>
+			<EnergyShieldRechargeRate>0.25</EnergyShieldRechargeRate>
+			<EnergyShieldEnergyMax>1.5</EnergyShieldEnergyMax>
+			<BandwidthCost>2</BandwidthCost>
+			<ControlTakingTime>18</ControlTakingTime>
+		</statBases>
+		<race>
+			<lifeStageAges Inherit="False">
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Mech_Legionary_Wounded</soundWounded>
+					<soundDeath>Pawn_Mech_Legionary_Death</soundDeath>
+					<soundCall>Pawn_Mech_Legionary_Call</soundCall>
+				</li>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>100</minAge>
+					<soundWounded>Pawn_Mech_Legionary_Wounded</soundWounded>
+					<soundDeath>Pawn_Mech_Legionary_Death</soundDeath>
+					<soundCall>Pawn_Mech_Legionary_Call</soundCall>
+				</li>
+			</lifeStageAges>
+			<detritusLeavings>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>16</texOverrideIndex>
+					<spawnChance>0.1</spawnChance>
+				</li>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>11</texOverrideIndex>
+					<spawnChance>0.1</spawnChance>
+				</li>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>1</texOverrideIndex>
+					<spawnChance>0.1</spawnChance>
+				</li>
+			</detritusLeavings>
+		</race>
+		<comps>
+			<li Class="CompProperties_ProjectileInterceptor">
+				<radius>3</radius>
+				<interceptGroundProjectiles>true</interceptGroundProjectiles>
+				<color>(0.4, 0.4, 0.4)</color>
+				<reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+				<activeSound>BulletShield_Ambience</activeSound>
+				<hitPoints>20000</hitPoints>
+				<hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
+				<chargeDurationTicks>5400</chargeDurationTicks>
+				<!-- 90s -->
+				<drawWithNoSelection>True</drawWithNoSelection>
+				<disarmedByEmpForTicks>1500</disarmedByEmpForTicks>
+				<gizmoTipKey>ProjectileInterceptorTip</gizmoTipKey>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<PawnKindDef ParentName="BaseMechanoidKind">
+		<defName>Mech_LegionaryStable_GAOTCE_Mech</defName>
+		<label>Stable legionary</label>
+		<race>Mech_LegionaryStable_GAOTCE_Mech</race>
+		<combatPower>150</combatPower>
+		<allowInMechClusters>false</allowInMechClusters>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/Legionary</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Legionary</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<drawSize>1.5</drawSize>
+				</bodyGraphicData>
+			</li>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/LegionaryAncient</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Legionary</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<drawSize>1.5</drawSize>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<weaponMoney>9999~9999</weaponMoney>
+		<weaponTags>
+			<li>MechanoidGunNeedleLauncherStable_GAOTCE_Mech</li>
+		</weaponTags>
+		<techHediffsChance>1</techHediffsChance>
+		<techHediffsMoney>9999~9999</techHediffsMoney>
+		<controlGroupPortraitZoom>1.2</controlGroupPortraitZoom>
+	</PawnKindDef>
+
+	<!-- Similar to needle launcher with lower range and mass -->
+	<ThingDef ParentName="NeedleGunBaseStable_GAOTCE_Mech">
+		<defName>Gun_NeedleLauncherStable_GAOTCE_Mech</defName>
+		<label>Stable needle launcher</label>
+		<description>This mechanoid weapon is a compact version of the needle gun. Named after its needle-like projectiles, it fires single shots with great accuracy. The needle launcher has less range than its counterpart but is lightweight, allowing it to be wielded by fast-moving mechs.</description>
+		<statBases>
+			<Mass>2.6</Mass>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Item/Equipment/WeaponRanged/NeedleLauncher</texPath>
+		</graphicData>
+		<weaponTags Inherit="False">
+			<li>MechanoidGunNeedleLauncherStable_GAOTCE_Mech</li>
+		</weaponTags>
+		<verbs Inherit="False">
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Bullet_NeedleGunStable_GAOTCE_Mech</defaultProjectile>
+				<warmupTime>2.5</warmupTime>
+				<range>24.9</range>
+				<soundCast>Shot_NeedleGun</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+	</ThingDef>
+
+	
+
+</Defs>

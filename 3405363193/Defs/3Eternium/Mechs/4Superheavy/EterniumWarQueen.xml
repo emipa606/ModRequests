@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- Warqueen -->
+	<ThingDef Name="MechWarqueenEternium_GAOTCE_Mech" ParentName="SuperHeavyMechanoidEternium_GAOTCE_Mech">
+		<defName>Mech_WarqueenEternium_GAOTCE_Mech</defName>
+		<label>Eternium war queen</label>
+		<description>An ultra-heavy mech with a built-in mech gestator. Fed with appropriate resources, the war queen can form small war urchin combat mechs within its massive carapace and deploy them into combat.\n\nEven more than other mechanoids, the war queen resembles a giant, living insect. All war mechs can be terrifying, but humans tend to find the war queen disturbing on a deeper level.</description>
+		<statBases>
+			<MechEnergyUsageFactor>0.5</MechEnergyUsageFactor>
+			<MoveSpeed>2.4</MoveSpeed>
+			<EnergyShieldRechargeRate>2</EnergyShieldRechargeRate>
+			<EnergyShieldEnergyMax>12</EnergyShieldEnergyMax>
+			<MeleeDoorDamageFactor>1.5</MeleeDoorDamageFactor>
+			<EMPResistance>0.7</EMPResistance>
+		</statBases>
+		<race>
+			<body>Mech_WarqueenEternium_GAOTCE_Mech</body>
+			<baseBodySize>4</baseBodySize>
+			<lifeStageAges>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+					<soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+					<soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+				</li>
+				<li>
+					<def>MechanoidFullyFormed</def>
+					<minAge>100</minAge>
+					<soundWounded>Pawn_Mech_Warqueen_Wounded</soundWounded>
+					<soundDeath>Pawn_Mech_Warqueen_Death</soundDeath>
+					<soundCall>Pawn_Mech_Warqueen_Call</soundCall>
+				</li>
+			</lifeStageAges>
+			<baseHealthScale>10</baseHealthScale>
+			<dutyBoss>Warqueen</dutyBoss>
+			<detritusLeavings>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>13</texOverrideIndex>
+					<spawnChance>0.75</spawnChance>
+				</li>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>3</texOverrideIndex>
+					<spawnChance>0.75</spawnChance>
+				</li>
+				<li>
+					<def>ChunkMechanoidSlag</def>
+					<texOverrideIndex>0</texOverrideIndex>
+					<spawnChance>0.75</spawnChance>
+				</li>
+			</detritusLeavings>
+		</race>
+		<tools>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>4</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+		<comps>
+			<li Class="CompProperties_MechCarrier">
+				<spawnPawnKind>Mech_WarUrchin</spawnPawnKind>
+				<fixedIngredient>Steel</fixedIngredient>
+				<costPerPawn>10</costPerPawn>
+				<startingIngredientCount>1200</startingIngredientCount>
+				<maxIngredientCount>1200</maxIngredientCount>
+				<spawnEffecter>WarqueenWarUrchinsSpawned</spawnEffecter>
+				<spawnedMechEffecter>WarUrchinSpawned</spawnedMechEffecter>
+				<attachSpawnedEffecter>true</attachSpawnedEffecter>
+				<attachSpawnedMechEffecter>true</attachSpawnedMechEffecter>
+			</li>
+			<li Class="CompProperties_TurretGun">
+				<turretDef>Gun_ChargeBlasterTurret</turretDef>
+				<angleOffset>-90</angleOffset>
+				<autoAttack>false</autoAttack>
+				<renderNodeProperties>
+					<li>
+						<nodeClass>PawnRenderNode_TurretGun</nodeClass>
+						<workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+						<overrideMeshSize>(1, 1)</overrideMeshSize>
+						<parentTagDef>Body</parentTagDef>
+						<baseLayer>20</baseLayer>
+						<pawnType>Any</pawnType>
+						<drawData>
+							<dataWest>
+								<rotationOffset>180</rotationOffset>
+							</dataWest>
+						</drawData>
+					</li>
+				</renderNodeProperties>
+			</li>
+		</comps>
+		<killedLeavingsPlayerHostile>
+			<PowerfocusChip>1</PowerfocusChip>
+		</killedLeavingsPlayerHostile>
+	</ThingDef>
+
+	<PawnKindDef Name="MechWarqueenKindEternium_GAOTCE_Mech" ParentName="HeavyMechanoidKind">
+		<defName>Mech_WarqueenEternium_GAOTCE_Mech</defName>
+		<label>Eternium war queen</label>
+		<labelPlural>Eternium war queens</labelPlural>
+		<race>Mech_WarqueenEternium_GAOTCE_Mech</race>
+		<combatPower>600</combatPower>
+		<maxPerGroup>3</maxPerGroup>
+		<isBoss>true</isBoss>
+		<allowInMechClusters>false</allowInMechClusters>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/Warqueen</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/MechWarqueen</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>3</drawSize>
+					<shadowData>
+						<volume>(0.7, 0.8, 0.7)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Mechanoid/WarqueenAncient</texPath>
+					<maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/MechWarqueen</maskPath>
+					<shaderType>CutoutWithOverlay</shaderType>
+					<graphicClass>Graphic_Multi</graphicClass>
+					<drawSize>3</drawSize>
+					<shadowData>
+						<volume>(0.7, 0.8, 0.7)</volume>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<controlGroupPortraitZoom>0.7</controlGroupPortraitZoom>
+	</PawnKindDef>
+</Defs>
