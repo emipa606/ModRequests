@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- CONN only defines its trader if EPOE is not present. -->
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Prosthetics and Organ Engineering</li>
+			<li>Expanded Prosthetics and Organ Engineering - Forked</li>
+		</mods>
+		<nomatch Class="PatchOperationFindMod">
+			<mods>
+				<li>Cybernetic Organism and Neural Network</li>
+			</mods>
+			<match Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationAddModExtension">
+						<xpath>/Defs/TraderKindDef[defName="CONN_BionicsTrader"]</xpath>
+						<value>
+							<li Class="TG.GenExtension">
+								<specializations>
+									<li>
+										<def>TG_Drugs</def>
+										<commonality>10.0</commonality>
+									</li>
+									<li>
+										<def>TG_Hunting</def>
+										<commonality>10.0</commonality>
+									</li>
+									<li>
+										<def>TG_Medicine</def>
+										<commonality>10.0</commonality>
+									</li>
+									<li>
+										<def>TG_Organs</def>
+										<commonality>10.0</commonality>
+									</li>
+									<li MayRequire="Ludeon.RimWorld.Royalty">
+										<def>TG_Psycasting</def>
+										<commonality>5.0</commonality>
+									</li>
+									<li MayRequire="VexedTrees980.RimRobots">
+										<def>TG_Synthetics</def>
+										<commonality>8.0</commonality>
+									</li>
+									<li>
+										<def>TG_Wealth</def>
+										<commonality>10.0</commonality>
+									</li>
+								</specializations>
+							</li>
+						</value>
+					</li>
+					<!-- Modifications to the bionics trader -->
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/TraderKindDef[defName="CONN_BionicsTrader"]/stockGenerators</xpath>
+						<value>
+							<li Class="TG.StockGen.ArtificialBodyMod"/>
+							<!-- Purchase expensive items. 56 is chosen to prevent purchase of mortar shells. -->
+							<li Class="TG.StockGen.ExpensiveSimple">
+								<minValuePerUnit>56</minValuePerUnit>
+							</li>
+							<li Class="StockGenerator_BuyTradeTag">
+								<tag>ExoticBuilding</tag>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</match>
+		</nomatch>
+	</Operation>
+</Patch>

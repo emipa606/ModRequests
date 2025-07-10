@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<!-- Specializations and custom namer for the bio-engineering supplier. -->
+			<li Class="PatchOperationAddModExtension">
+				<xpath>/Defs/TraderKindDef[defName="VFEI_Orbital_BioEngineeringSupplier"]</xpath>
+				<value>
+					<li Class="TG.GenExtension">
+						<specializations>
+							<li>
+								<def>TG_InsectoidCraftsmanship</def>
+								<commonality>10.0</commonality>
+							</li>
+							<li>
+								<def>TG_InsectoidDraper</def>
+								<commonality>10.0</commonality>
+							</li>
+							<li>
+								<def>TG_InsectoidGourmet</def>
+								<commonality>10.0</commonality>
+							</li>
+							<li>
+								<def>TG_InsectoidHunting</def>
+								<commonality>10.0</commonality>
+							</li>
+							<li>
+								<def>TG_InsectoidHusbandry</def>
+								<commonality>10.0</commonality>
+							</li>
+							<li>
+								<def>TG_Wealth</def>
+								<commonality>5.0</commonality>
+							</li>
+						</specializations>
+						<extraNameRules>TG_OrbitalNamerBioEngineering</extraNameRules>
+					</li>
+				</value>
+			</li>
+			<!-- Increase the pool of items that bio-engineering suppliers are willing to buy. -->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/TraderKindDef[defName="VFEI_Orbital_BioEngineeringSupplier"]/stockGenerators</xpath>
+				<value>
+					<li Class="TG.StockGen.MultiDef">
+						<thingDefs>
+							<li>InsectJelly</li>
+							<li>Kibble</li>
+							<li>VFEI_RoyalInsectJelly</li>
+							<li MayRequire="VanillaExpanded.VCookE">VCE_InsectJellyPreserves</li>
+							<li MayRequire="sarg.alphaanimals">AA_BlackInsectJelly</li>
+						</thingDefs>
+					</li>
+					<!-- Purchases expensive and resellable items. 56 is chosen to prevent purchase of mortar shells. -->
+					<li Class="TG.StockGen.ExpensiveSimple">
+						<minValuePerUnit>56</minValuePerUnit>
+					</li>
+					<li Class="StockGenerator_BuyTradeTag">
+						<tag>ExoticBuilding</tag>
+					</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Zoological Orbital Traders</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<!-- Unique zoological specializations. -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<TraderGen.TraderSpecializationDef>
+							<!-- Excludes leather and fabrics not coming from animals in vanilla. -->
+							<defName>TG_ZoologicalDraper</defName>
+							<label>draper</label>
+							<stockGens>
+								<!-- Sells -->
+								<li Class="TraderGen.StockGen.RandomStuffFromCategory">
+									<stuffCategoryDef>Fabric</stuffCategoryDef>
+									<maxTechLevelGenerate>Spacer</maxTechLevelGenerate>
+									<excludeStuffDefs>
+										<li>Cloth</li>
+										<li>DevilstrandCloth</li>
+										<li>Hyperweave</li>
+										<li>Synthread</li>
+									</excludeStuffDefs>
+									<stuffCountRange>50~200</stuffCountRange>
+									<thingDefCountRange>4~7</thingDefCountRange>
+									<countRange>1~2</countRange>
+								</li>
+								<li Class="TraderGen.StockGen.RandomStuffFromCategory">
+									<stuffCategoryDef>Fabric</stuffCategoryDef>
+									<maxTechLevelGenerate>Spacer</maxTechLevelGenerate>
+									<excludeStuffDefs>
+										<li>Cloth</li>
+										<li>DevilstrandCloth</li>
+										<li>Hyperweave</li>
+										<li>Synthread</li>
+									</excludeStuffDefs>
+									<stuffCountRange>50~200</stuffCountRange>
+									<thingDefCountRange>4~7</thingDefCountRange>
+									<countRange>1~2</countRange>
+								</li>
+							</stockGens>
+						</TraderGen.TraderSpecializationDef>
+					</value>
+				</li>
+				<!-- Specializations for the zoological trader. -->
+				<li Class="PatchOperationAddModExtension">
+					<xpath>Defs/TraderKindDef[defName="Orbital_ZoologicalTrader"]</xpath>
+					<value>
+						<li Class="TraderGen.GenExtension">
+							<specializations>
+								<li MayRequire="BiomesTeam.BiomesCaverns">
+									<def>TG_Caveworld</def>
+									<commonality>10.0</commonality>
+								</li>
+								<li>
+									<def>TG_Hunting</def>
+									<commonality>10.0</commonality>
+								</li>
+								<li>
+									<def>TG_Husbandry</def>
+									<commonality>10.0</commonality>
+								</li>
+								<li>
+									<def>TG_Medicine</def>
+									<commonality>10.0</commonality>
+								</li>
+								<li MayRequire="Ludeon.RimWorld.Biotech">
+									<def>TG_Refugees</def>
+									<commonality>5.0</commonality>
+								</li>
+								<li>
+									<def>TG_Wealth</def>
+									<commonality>5.0</commonality>
+								</li>
+								<li>
+									<def>TG_ZoologicalDraper</def>
+									<commonality>10.0</commonality>
+								</li>
+							</specializations>
+						</li>
+					</value>
+				</li>
+				<!-- Modifications to the zoological trader. -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/TraderKindDef[defName="Orbital_ZoologicalTrader"]/stockGenerators</xpath>
+					<value>
+						<!-- Purchases any exotic animal part, including those from mods such as Alpha Animals or Dinosauria. -->
+						<li Class="TraderGen.StockGen.ExoticAnimalPart" />
+						<!--
+						Purchases some really expensive and easily resellable items. 56 is chosen to prevent it from purchasing
+						mortar shells.
+						-->
+						<li Class="TraderGen.StockGen.ExpensiveSimple">
+							<minValuePerUnit>56</minValuePerUnit>
+						</li>
+						<li Class="StockGenerator_BuyTradeTag"><tag>ExoticBuilding</tag></li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
