@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Abstracts -->
+
+  <ThingDef Name="ClockworkBenchBase" ParentName="BenchBase" Abstract="True">
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Things/Building/TableClockwork</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3.5,1.5)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <altitudeLayer>Building</altitudeLayer>
+    <fillPercent>0.5</fillPercent>
+    <useHitPoints>True</useHitPoints>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <Cleanliness>-2</Cleanliness>
+    </statBases>
+    <size>(3,1)</size>
+    <designationCategory>Steampunk</designationCategory>
+    <passability>PassThroughOnly</passability>
+    <pathCost>70</pathCost>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>ToolCabinet</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ThingDef Name="SteamworkBenchBase" ParentName="ClockworkBenchBase" Abstract="True">
+    <thingClass>Clockwork.Building_SteamWorkTable</thingClass>
+    <tickerType>Normal</tickerType>
+  </ThingDef>
+
+  <!-- Clockwork -->
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableClockwork</defName>
+    <label>clockmaking table</label>
+    <description>A work station for assembling gears, springs, lenses, and other components for mechanical devices.</description>
+    <graphicData>
+      <texPath>Things/Building/TableClockwork</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <costList>
+      <Steel>25</Steel>
+      <CaS_Bronze>25</CaS_Bronze>
+      <CaS_Brass>25</CaS_Brass>
+    </costList>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <Cleanliness>-2</Cleanliness>
+    </statBases>
+    <size>(3,1)</size>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <recipes>
+      <li>CutGears</li>
+      <li>CraftSpring</li>
+      <li>CutSapphireLens</li>
+      <li>CutRubyLens</li>
+      <li>CraftNeuralApparatus</li>
+      <li>RivetLeather</li>
+    </recipes>
+    <researchPrerequisites>
+      <li>Clockwork</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>AlloyFurnace</defName>
+    <label>alloy furnace</label>
+    <description>A coal-fueled station for casting metal alloys.</description>
+    <graphicData>
+      <texPath>Things/Building/AlloyFurnace</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(2, 2)</drawSize>
+      <drawOffset>(0,0,0.25)</drawOffset>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <staticSunShadowHeight>0</staticSunShadowHeight>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <CaS_Copper>20</CaS_Copper>
+    </costList>
+    <fillPercent>0.75</fillPercent>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <Cleanliness>-3</Cleanliness>
+    </statBases>
+    <size>(1, 1)</size>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <recipes>
+      <li>CastBrass</li>
+      <li>CastBronze</li>
+    </recipes>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>80.0</fuelConsumptionRate>
+        <fuelCapacity>50.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>CaS_Coal</li>
+          </thingDefs>
+        </fuelFilter>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>Clockwork</li>
+    </researchPrerequisites>
+    <uiIconScale>0.5</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableWindup</defName>
+    <label>automaton construction table</label>
+    <description>A work station for assembling windups and other useful automata. As well as their upgrades.</description>
+    <graphicData>
+      <texPath>Things/Building/TableWindup</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4.0,2.0)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>30</Steel>
+      <CaS_Bronze>20</CaS_Bronze>
+      <CaS_Brass>50</CaS_Brass>
+      <BrassGears>2</BrassGears>
+    </costList>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <Cleanliness>-2</Cleanliness>
+    </statBases>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites>
+      <li>ClockworkWindups</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!-- Steam -->
+
+  <ThingDef ParentName="SteamworkBenchBase">
+    <defName>TableSteam</defName>
+    <label>steam-forge</label>
+    <description>A large work station for assembling gears, springs, lenses, and other components for mechanical devices.</description>
+    <graphicData>
+      <texPath>Things/Building/TableSteam</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.5,1.5)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>100</Steel>
+      <CaS_Bronze>50</CaS_Bronze>
+      <RivetedLeather>20</RivetedLeather>
+      <BrassGears>3</BrassGears>
+      <SteelSpring>2</SteelSpring>
+    </costList>
+    <statBases>
+      <WorkToBuild>8000</WorkToBuild>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>5.0</Flammability>
+      <WorkTableWorkSpeedFactor>3</WorkTableWorkSpeedFactor>
+      <Cleanliness>-5</Cleanliness>
+    </statBases>
+    <size>(3,1)</size>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <recipes>
+      <li>CutGears</li>
+      <li>CraftSpring</li>
+      <li>CutSapphireLens</li>
+      <li>CutRubyLens</li>
+      <li>CraftPiston</li>
+      <li>CraftNeuralApparatus</li>
+      <li>RivetLeather</li>
+      <li>CastBrass</li>
+      <li>CastBronze</li>
+    </recipes>
+    <comps>
+      <li Class="Clockwork.CompProperties_SteamConsumer">
+        <volume>3</volume>
+        <minPressure>500</minPressure>
+        <steamConsumption>300</steamConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(217,112,33,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>1</heatPerSecond>
+      </li>
+    </comps>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites>
+      <li>SteamPower</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BenchBase">
+    <defName>SteamResearchBench</defName>
+    <label>steam research bench</label>
+    <description>A complex bench with mechanical calculators and advanced measurement equipment. Allows more rapid research, and unlocks advanced steampowered projects.</description>
+    <thingClass>Building_ResearchBench</thingClass>
+    <size>(3,1)</size>
+    <minifiedDef />
+    <thingCategories Inherit="false" />
+    <costList>
+      <Steel>50</Steel>
+      <CaS_Bronze>100</CaS_Bronze>
+      <BrassGears>10</BrassGears>
+      <BrassPiston>2</BrassPiston>
+      <SteelSpring>5</SteelSpring>
+    </costList>
+    <graphicData>
+      <texPath>Things/Building/SteamResearchBench</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4.0,2.0)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>70</pathCost>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>8000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <ResearchSpeedFactor>1.0</ResearchSpeedFactor>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>Clockwork.CompPowerTraderSteam</compClass>
+      </li>
+      <li Class="Clockwork.CompProperties_SteamConsumer">
+        <volume>2</volume>
+        <minPressure>1000</minPressure>
+        <steamConsumption>250</steamConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>MultiAnalyzer</li>
+          <li>AnalyticalStack</li>
+          <li>ElectromechanicalComputer</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+    <fillPercent>0.5</fillPercent>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <hasInteractionCell>true</hasInteractionCell>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Steampunk</designationCategory>
+    <surfaceType>Item</surfaceType>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>SteamPower</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>AnalyticalStack</defName>
+    <label>analytical stack</label>
+    <description>A complicated arrangement of gears that increase research speed when placed near a steam research bench. Each research bench can have up to four of these attached.</description>
+    <graphicData>
+      <texPath>Things/Building/AnalyticalStack</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1, 2)</drawSize>
+      <drawOffset>(0,0,0.5)</drawOffset>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <uiIconScale>0.85</uiIconScale>
+    <researchPrerequisites>
+      <li>AnalyticalStack</li>
+    </researchPrerequisites>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <designationCategory>Steampunk</designationCategory>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <thingCategories>
+      <li>BuildingsSteam</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>10000</WorkToBuild>
+      <Mass>60</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+      <CaS_Bronze>50</CaS_Bronze>
+      <BrassGears>15</BrassGears>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>Clockwork.CompPowerTraderSteam</compClass>
+      </li>
+      <li Class="Clockwork.CompProperties_SteamConsumer">
+        <volume>2</volume>
+        <minPressure>100</minPressure>
+        <steamConsumption>50</steamConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Facility">
+        <statOffsets>
+          <ResearchSpeedFactor>0.1</ResearchSpeedFactor>
+        </statOffsets>
+        <maxSimultaneous>4</maxSimultaneous>
+        <mustBePlacedAdjacent>true</mustBePlacedAdjacent>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>SteamCommBench</defName>
+    <label>steam communications bench</label>
+    <description>Allows radio contact with other factions and orbital traders.</description>
+    <thingClass>Building_CommsConsole</thingClass>
+    <graphicData>
+      <texPath>Things/Building/SteamCommBench</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4.0,2.0)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>70</pathCost>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>false</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>2200</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <size>(3,1)</size>
+    <costList>
+      <Steel>50</Steel>
+      <CaS_Bronze>50</CaS_Bronze>
+      <ElectrochemicalCell>3</ElectrochemicalCell>
+      <ElectronicComponent>5</ElectronicComponent>
+    </costList>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <hasInteractionCell>true</hasInteractionCell>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <designationCategory>Steampunk</designationCategory>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+	<li Class="CompProperties_Usable" MayRequire="Ludeon.RimWorld.Biotech">
+        <useJob>TriggerObject</useJob>
+        <useLabel>Summon diabolus threat</useLabel>
+        <useDuration>900</useDuration>
+        <floatMenuOptionPriority>SummonThreat</floatMenuOptionPriority>
+        <floatMenuFactionIcon>Mechanoid</floatMenuFactionIcon>
+        <ignoreOtherReservations>true</ignoreOtherReservations>
+      </li>
+      <li Class="CompProperties_Useable_CallBossgroup" MayRequire="Ludeon.RimWorld.Biotech">
+        <bossgroupDef>Diabolus</bossgroupDef>
+        <spawnLetterLabelKey>LetterLabelCommsConsoleSpawned</spawnLetterLabelKey>
+        <spawnLetterTextKey>LetterCommsConsoleSpawned</spawnLetterTextKey>
+        <effecterDef>CommsConsoleBossgroupSummoned</effecterDef>
+        <delayTicks>120</delayTicks>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>ElectronicComponents</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+ <tickerType MayRequire="Ludeon.RimWorld.Biotech">Normal</tickerType><!-- used by call bossgroup -->
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>SteamTradeBeacon</defName>
+    <label>radio tower</label>
+    <thingClass>Building_OrbitalTradeBeacon</thingClass>
+    <graphicData>
+      <texPath>Things/Building/RadioTower</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,9)</drawSize>
+      <drawOffset>(0,0,3)</drawOffset>
+      <shadowData>
+        <volume>(2.5, 2.5, 1.5)</volume>
+        <offset>(0,0,-0.5)</offset>
+      </shadowData>
+    </graphicData>
+    <size>(3,3)</size>
+    <altitudeLayer>Item</altitudeLayer>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <WorkToBuild>800</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>5</Mass>
+    </statBases>
+    <description>Required for orbital trading. You can only sell goods to orbital traders if they're near the radio tower. Can be placed indoors.</description>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <fillPercent>0.15</fillPercent>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <ElectronicComponent>1</ElectronicComponent>
+    </costList>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>20</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <pathCost>14</pathCost>
+    <designationCategory>Steampunk</designationCategory>
+    <rotatable>false</rotatable>
+    <placeWorkers>
+      <li>PlaceWorker_ShowTradeBeaconRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>ElectronicComponents</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!--Alchemy-->
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableAlchemy</defName>
+    <label>alchemical table</label>
+    <description>A work station for various alchemical processes.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Things/Building/TableAlchemy</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3.5,1.5)</drawSize>
+    </graphicData>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <costList>
+      <CaS_Copper>20</CaS_Copper>
+      <CaS_Bronze>15</CaS_Bronze>
+      <CaS_Ruby>4</CaS_Ruby>
+      <CaS_Sapphire>2</CaS_Sapphire>
+    </costList>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <Cleanliness>-2</Cleanliness>
+    </statBases>
+    <size>(3,1)</size>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <researchPrerequisites>
+      <li>Alchemy</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableChemistry</defName>
+    <label>chemistry lab</label>
+    <description>A more industrial version of the alchemical table for various alchemical processes.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Things/Building/TableChemistry</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(4.0,2.0)</drawSize>
+    </graphicData>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>75</costStuffCount>
+    <costList>
+      <CaS_Brass>30</CaS_Brass>
+      <CaS_Bronze>20</CaS_Bronze>
+      <RubyLens>5</RubyLens>
+      <SapphireLens>5</SapphireLens>
+    </costList>
+    <statBases>
+      <WorkToBuild>8000</WorkToBuild>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>5.0</Flammability>
+      <WorkTableWorkSpeedFactor>3</WorkTableWorkSpeedFactor>
+      <Cleanliness>-5</Cleanliness>
+    </statBases>
+    <size>(3,1)</size>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <researchPrerequisites>
+      <li>Chemistry</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!--Tesla-Tech-->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>ElectromechanicalComputer</defName>
+    <label>electromechanical computer</label>
+    <description>A large cabinent filled with electromechanical components used for research.</description>
+    <graphicData>
+      <texPath>Things/Building/ElectromechanicalComputer</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2, 2)</drawSize>
+      <drawOffset>(0,0,0.25)</drawOffset>
+    </graphicData>
+    <uiIconScale>0.5</uiIconScale>
+    <researchPrerequisites>
+      <li>ElectromechanicalComputing</li>
+    </researchPrerequisites>
+    <size>(1,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>0.5</fillPercent>
+    <designationCategory>Steampunk</designationCategory>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <canOverlapZones>false</canOverlapZones>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <thingCategories>
+      <li>BuildingsSteam</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>10000</WorkToBuild>
+      <Mass>60</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>50</Steel>
+      <ElectrochemicalCell>5</ElectrochemicalCell>
+      <ElectronicComponent>10</ElectronicComponent>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>50</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Facility">
+        <statOffsets>
+          <ResearchSpeedFactor>0.1</ResearchSpeedFactor>
+        </statOffsets>
+        <maxSimultaneous>2</maxSimultaneous>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+  </ThingDef>
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableTesla</defName>
+    <label>tesla-foundry</label>
+    <description>A large work station for crafting complex electromechanical devices.</description>
+    <graphicData>
+      <texPath>Things/Building/TableTesla</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.5,1.5)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>200</Steel>
+      <RubyLens>5</RubyLens>
+      <SapphireLens>10</SapphireLens>
+      <BrassPiston>5</BrassPiston>
+      <ElectrochemicalCell>3</ElectrochemicalCell>
+      <ElectronicComponent>10</ElectronicComponent>
+    </costList>
+    <statBases>
+      <WorkToBuild>8000</WorkToBuild>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>5.0</Flammability>
+      <WorkTableWorkSpeedFactor>5</WorkTableWorkSpeedFactor>
+      <Cleanliness>-5</Cleanliness>
+    </statBases>
+    <size>(3,1)</size>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <recipes>
+      <li>CutGears</li>
+      <li>CraftSpring</li>
+      <li>CutSapphireLens</li>
+      <li>CutRubyLens</li>
+      <li>CraftPiston</li>
+      <li>CraftNeuralApparatus</li>
+      <li>RivetLeather</li>
+      <li>CastBrass</li>
+      <li>CastBronze</li>
+    </recipes>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>false</shortCircuitInRain>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(0,0,200,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>1</heatPerSecond>
+      </li>
+    </comps>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites>
+      <li>TeslaTech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableDrafting</defName>
+    <label>drafting table</label>
+    <description>A small station for preparing ink and drafting esoteric electromechanical enigmas.</description>
+    <graphicData>
+      <texPath>Things/Building/TableDrafting</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>50</Steel>
+      <Cloth>20</Cloth>
+    </costList>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>3.0</Flammability>
+      <Cleanliness>-3</Cleanliness>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites>
+      <li>MagnumOpus</li>
+    </researchPrerequisites>
+    <uiIconScale>0.5</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="ClockworkBenchBase">
+    <defName>TableFinishing</defName>
+    <label>finishing station</label>
+    <description>A small station for engraving, painting, and otherwise perfecting esoteric electromechanical enigmas.</description>
+    <graphicData>
+      <texPath>Things/Building/TableFinishing</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>50</Steel>
+    </costList>
+    <statBases>
+      <WorkToBuild>2000</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>3.0</Flammability>
+      <Cleanliness>-3</Cleanliness>
+    </statBases>
+    <size>(1,1)</size>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <constructEffect>ConstructMetal</constructEffect>
+    <researchPrerequisites>
+      <li>MagnumOpus</li>
+    </researchPrerequisites>
+    <uiIconScale>0.5</uiIconScale>
+  </ThingDef>
+
+</Defs>

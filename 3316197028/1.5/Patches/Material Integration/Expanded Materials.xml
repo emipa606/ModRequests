@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Expanded Materials - Metals</li>
+		</mods>
+		
+		<match Class="PatchOperationSequence">
+		<operations>
+		
+		<!-- Add CaS Resource Recipes -->
+		
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+				<RecipeDef>
+					<defName>EM_RefineCopper</defName>
+					<recipeUsers>
+						<li>ElectricSmelter</li>
+						<li>AlloyFurnace</li>
+					</recipeUsers>
+					<label>Refine copper</label>
+					<description>Refine copper for advanced use.</description>
+					<jobString>Refining copper</jobString>
+					<workAmount>50</workAmount>
+					<workSpeedStat>SmeltingSpeed</workSpeedStat>
+					<effectWorking>Smelt</effectWorking>
+					<soundWorking>Recipe_Smelt</soundWorking>
+					<researchPrerequisite>Clockwork</researchPrerequisite>
+					<products>
+						<CaS_Copper>15</CaS_Copper>
+					</products>
+					<ingredients>
+						<li>
+							<filter>
+							<thingDefs>
+							<li>VMEu_Copper</li>
+							</thingDefs>
+							</filter>
+							<count>15</count>
+						</li>
+					</ingredients>
+				</RecipeDef>
+			</value>
+		</li>
+		
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+				<RecipeDef>
+					<defName>EM_RefineBronze</defName>
+					<recipeUsers>
+						<li>ElectricSmelter</li>
+						<li>AlloyFurnace</li>
+					</recipeUsers>
+					<label>Refine bronze</label>
+					<description>Refine bronze for advanced use.</description>
+					<jobString>Refining bronze</jobString>
+					<workAmount>50</workAmount>
+					<workSpeedStat>SmeltingSpeed</workSpeedStat>
+					<effectWorking>Smelt</effectWorking>
+					<soundWorking>Recipe_Smelt</soundWorking>
+					<researchPrerequisite>Clockwork</researchPrerequisite>
+					<products>
+						<CaS_Bronze>15</CaS_Bronze>
+					</products>
+					<ingredients>
+						<li>
+							<filter>
+							<thingDefs>
+							<li>VMEu_Bronze</li>
+							</thingDefs>
+							</filter>
+							<count>15</count>
+						</li>
+					</ingredients>
+				</RecipeDef>
+			</value>
+		</li>
+
+		<!-- Add Inverse CaS Resource Recipes -->
+		
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+				<RecipeDef>
+					<defName>EM_RevertCopper</defName>
+					<recipeUsers>
+						<li>ElectricSmelter</li>
+						<li>AlloyFurnace</li>
+					</recipeUsers>
+					<label>Revert copper</label>
+					<description>Revert copper for regular use.</description>
+					<jobString>Reverting copper</jobString>
+					<workAmount>50</workAmount>
+					<workSpeedStat>SmeltingSpeed</workSpeedStat>
+					<effectWorking>Smelt</effectWorking>
+					<soundWorking>Recipe_Smelt</soundWorking>
+					<researchPrerequisite>Clockwork</researchPrerequisite>
+					<products>
+						<VMEu_Copper>15</VMEu_Copper>
+					</products>
+					<ingredients>
+						<li>
+							<filter>
+							<thingDefs>
+							<li>CaS_Copper</li>
+							</thingDefs>
+							</filter>
+							<count>15</count>
+						</li>
+					</ingredients>
+				</RecipeDef>
+			</value>
+		</li>
+		
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs</xpath>
+			<value>
+				<RecipeDef>
+					<defName>EM_RevertBronze</defName>
+					<recipeUsers>
+						<li>ElectricSmelter</li>
+						<li>AlloyFurnace</li>
+					</recipeUsers>
+					<label>Revert bronze</label>
+					<description>Revert bronze for regular use.</description>
+					<jobString>Reverting bronze</jobString>
+					<workAmount>50</workAmount>
+					<workSpeedStat>SmeltingSpeed</workSpeedStat>
+					<effectWorking>Smelt</effectWorking>
+					<soundWorking>Recipe_Smelt</soundWorking>
+					<researchPrerequisite>Clockwork</researchPrerequisite>
+					<products>
+						<VMEu_Bronze>15</VMEu_Bronze>
+					</products>
+					<ingredients>
+						<li>
+							<filter>
+							<thingDefs>
+							<li>CaS_Copper</li>
+							</thingDefs>
+							</filter>
+							<count>15</count>
+						</li>
+					</ingredients>
+				</RecipeDef>
+			</value>
+		</li>
+
+		<!-- Add CaS Resource recipes -->
+		
+		
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName = "VMEu_MetalSmelter"]</xpath>
+			<value>
+				<recipes>
+					<li>CastBrass</li>
+					<li>CastBronze</li>
+				</recipes>
+			</value>
+		</li>
+
+		<!-- Add VMEu Resource recipes -->
+		
+		
+		<li Class="PatchOperationAdd">
+			<xpath>/Defs/ThingDef[defName = "AlloyFurnace"]/recipes</xpath>
+			<value>
+				<li>VMEu_MakeCharcoal</li>
+				<li>VMEu_MakeSteel</li>
+			</value>
+		</li>
+
+		<!-- Integrate Coal -->
+
+		<li Class="PatchOperationAdd">
+        <order>Append</order>
+        <xpath> 
+			Defs/ThingDef[defName = "SteamBoiler"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs |
+			Defs/ThingDef[defName = "CoalFiredGenerator"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs |
+			Defs/ThingDef[defName = "AlloyFurnace"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs
+		</xpath>
+        <value>
+            <li>VMEu_Coal</li>
+        </value>
+    	</li>
+
+		<li Class="PatchOperationAdd">
+        <order>Append</order>
+        <xpath> 
+			Defs/ThingDef[defName = "SteamBoiler"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs |
+			Defs/ThingDef[defName = "CoalFiredGenerator"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs |
+			Defs/ThingDef[defName = "AlloyFurnace"]/comps/li[contains(@Class,'CompProperties_Refuelable')]/fuelFilter/thingDefs
+		</xpath>
+        <value>
+            <li>VMEu_Charcoal</li>
+        </value>
+    	</li>
+		
+		</operations>
+		</match>
+	</Operation>
+
+</Patch>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--Plants-->
+
+  <ThingDef Name="CaS_AlchemicalPlantBase" ParentName="ResourceBase" Abstract="True">
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <statBases>
+      <MaxHitPoints>10</MaxHitPoints>
+      <MarketValue>2</MarketValue>
+      <Mass>0.1</Mass>
+      <Flammability>0.6</Flammability>
+      <DeteriorationRate>2.0</DeteriorationRate>
+    </statBases>
+    <tradeability>Sellable</tradeability>
+    <thingCategories>
+      <li>AlchemicalNatuaral</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_AlchemicalPlantBase">
+    <defName>CaS_InkBerries</defName>
+    <label>ink berries</label>
+    <description>A collection of berries imbued with the essence of night.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/InkBerry</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_AlchemicalPlantBase">
+    <defName>CaS_FlameLily</defName>
+    <label>flame lily</label>
+    <description>A flower imbued with the essence of fire.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/FlameLily</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_AlchemicalPlantBase">
+    <defName>CaS_FrostBerry</defName>
+    <label>frostberry bunch</label>
+    <description>A small bunch of berries imbued with the essence of ice.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/FrostBerry</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_AlchemicalPlantBase">
+    <defName>CaS_SolarBlossom</defName>
+    <label>solar blossom</label>
+    <description>A singular radiant bulb imbued with the essence of light.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/SolarBlossom</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>6</MarketValue>
+    </statBases>
+  </ThingDef>
+
+  <!--Flasks-->
+
+  <ThingDef Name="CaS_FlaskBase" ParentName="ResourceBase" Abstract="True">
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>10</MaxHitPoints>
+      <MarketValue>5</MarketValue>
+      <Mass>0.1</Mass>
+      <Flammability>0.6</Flammability>
+      <DeteriorationRate>2.0</DeteriorationRate>
+      <WorkToMake>1200</WorkToMake>
+    </statBases>
+    <intricate>true</intricate>
+    <tradeability>Sellable</tradeability>
+    <thingCategories>
+      <li>Alchemical</li>
+    </thingCategories>
+    <recipeMaker>
+      <skillRequirements>
+        <Intellectual>6</Intellectual>
+      </skillRequirements>
+      <researchPrerequisite>Alchemy</researchPrerequisite>
+      <recipeUsers Inherit="False">
+        <li>TableAlchemy</li>
+        <li>TableChemistry</li>
+      </recipeUsers>
+    </recipeMaker>
+    <weaponTags>
+      <li>GrenadeDestructive</li>
+    </weaponTags>
+    <equipmentType>Primary</equipmentType>
+    <techLevel>Medieval</techLevel>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_FlaskBase">
+    <defName>CaS_FlameFlask</defName>
+    <label>flask of flame essence</label>
+    <description>An alchemical flask imbued with the essence of fire.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/FlameFlask</texPath>
+    </graphicData>
+    <costList>
+      <CaS_FlameLily>5</CaS_FlameLily>
+    </costList>
+    <verbs>
+      <li>
+        <label>throw flask</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <forcedMissRadius>1.9</forcedMissRadius>
+        <warmupTime>1.5</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <soundCast>ThrowMolotovCocktail</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>Proj_FlameFlask</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+     <!--<li Class="CompProperties_Reloadable">
+        <maxCharges>1</maxCharges>
+        <destroyOnEmpty>true</destroyOnEmpty>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>-->
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseIncendiaryProjectile">
+    <defName>Proj_FlameFlask</defName>
+    <label>flame flask</label>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/FlameFlask</texPath>
+      <drawSize>0.75</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <explosionRadius>1.1</explosionRadius>
+      <damageDef>Flame</damageDef>
+      <!-- Use default damage from explosion def -->
+      <preExplosionSpawnThingDef>Filth_FlameAlchemical</preExplosionSpawnThingDef>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+      <shadowSize>0.6</shadowSize>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_FlaskBase">
+    <defName>CaS_FrostFlask</defName>
+    <label>flask of frost essence</label>
+    <description>An alchemical flask imbued with the essence of ice.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/FrostFlask</texPath>
+    </graphicData>
+    <costList>
+      <CaS_FrostBerry>5</CaS_FrostBerry>
+    </costList>
+    <verbs>
+      <li>
+        <label>throw flask</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <forcedMissRadius>1.9</forcedMissRadius>
+        <warmupTime>1.5</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <soundCast>ThrowMolotovCocktail</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>Proj_FrostFlask</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <!--<li Class="CompProperties_Reloadable">
+        <maxCharges>1</maxCharges>
+        <destroyOnEmpty>true</destroyOnEmpty>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>-->
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseIncendiaryProjectile">
+    <defName>Proj_FrostFlask</defName>
+    <label>frost flask</label>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/FrostFlask</texPath>
+      <drawSize>0.5</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <explosionRadius>2.5</explosionRadius>
+      <damageDef>AlchemicalFrost</damageDef>
+      <preExplosionSpawnThingDef>Filth_FrostAlchemical</preExplosionSpawnThingDef>
+      <shadowSize>0.6</shadowSize>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_FlaskBase">
+    <defName>CaS_InkFlask</defName>
+    <label>flask of ink essence</label>
+    <description>An alchemical flask imbued with the essence of night.</description>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/InkFlask</texPath>
+    </graphicData>
+    <costList>
+      <CaS_InkBerries>5</CaS_InkBerries>
+    </costList>
+    <verbs>
+      <li>
+        <label>throw flask</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <forcedMissRadius>1.9</forcedMissRadius>
+        <warmupTime>1.5</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <soundCast>ThrowMolotovCocktail</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>Proj_InkFlask</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <!--<li Class="CompProperties_Reloadable">
+        <maxCharges>1</maxCharges>
+        <destroyOnEmpty>true</destroyOnEmpty>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>-->
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseIncendiaryProjectile">
+    <defName>Proj_InkFlask</defName>
+    <label>ink flask</label>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/InkFlask</texPath>
+      <drawSize>0.75</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <explosionRadius>3.5</explosionRadius>
+      <damageDef>AlchemicalInk</damageDef>
+      <preExplosionSpawnThingDef>Filth_InkAlchemical</preExplosionSpawnThingDef>
+      <shadowSize>0.6</shadowSize>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="CaS_FlaskBase">
+    <defName>CaS_SolarFlask</defName>
+    <label>flask of solar essence</label>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/SolarFlask</texPath>
+    </graphicData>
+    <description>An alchemical flask imbued with the essence of light.</description>
+    <costList>
+      <CaS_SolarBlossom>5</CaS_SolarBlossom>
+    </costList>
+    <verbs>
+      <li>
+        <label>throw flask</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <forcedMissRadius>1.9</forcedMissRadius>
+        <warmupTime>1.5</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <soundCast>ThrowMolotovCocktail</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>Proj_SolarFlask</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <!--<li Class="CompProperties_Reloadable">
+        <maxCharges>1</maxCharges>
+        <destroyOnEmpty>true</destroyOnEmpty>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      </li>-->
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseIncendiaryProjectile">
+    <defName>Proj_SolarFlask</defName>
+    <label>solar flask</label>
+    <graphicData>
+      <texPath>Things/Item/Alchemical/SolarFlask</texPath>
+      <drawSize>0.75</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <explosionRadius>1.9</explosionRadius>
+      <damageDef>Stun</damageDef>
+      <damageAmountBase>5</damageAmountBase>
+      <preExplosionSpawnThingDef>Filth_SolarAlchemical</preExplosionSpawnThingDef>
+      <shadowSize>0.6</shadowSize>
+      <soundExplode>Explosion_Stun</soundExplode>
+    </projectile>
+  </ThingDef>
+
+</Defs>
