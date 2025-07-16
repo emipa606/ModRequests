@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DoorsExpanded")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("RW1.4Unstable")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.4.0.1")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.4.0.1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.4.0.1+19bc1fd4f35e74b2dec52912d322913c499e5a12")]
 [assembly: System.Reflection.AssemblyProductAttribute("DoorsExpanded")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DoorsExpanded")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.4.0.1")]
