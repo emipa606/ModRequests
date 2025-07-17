@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional">
+		<xpath>/Defs/ChemicalDef[defName[contains(text(), "Tobacco") or contains(text(), "Nicotine")]]</xpath>
+		<!-- <xpath>/Defs/ChemicalDef[defName="Jecs_Nicotine"]</xpath> -->
+		<!-- <success>Always</success> --> <!-- Since tobacco is not in the base game, first we're going to check if Tobacco is even a drug -->
+		<match Class="PatchOperationSequence">
+			<operations> 
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<JoyKindDef>
+							<defName>Tobacco</defName>
+							<label>tobacco consumption</label>
+						</JoyKindDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<JoyGiverDef>
+							<defName>ConsumeTobacco</defName>
+							<giverClass>JoyGiver_TakeDrug</giverClass>
+							<baseChance>2.5</baseChance>
+							<joyKind>Tobacco</joyKind>
+							<requiredCapacities>
+								<li>Manipulation</li>
+							</requiredCapacities>
+						</JoyGiverDef>
+					</value>
+				</li>
+				<li Class="PatchOperationConditional"> <!-- A SPECIAL FUCKING CHECK FOR JEC'S SHIT -->
+					<xpath>/Defs/ThingDef[@Name="JecsDrugBase"]</xpath>
+					<success>Always</success>
+					<match Class="PatchOperationReplace">
+						<xpath>/Defs/ThingDef[@Name="JecsDrugBase"]/ingestible/joyKind</xpath>
+						<value><joyKind>Tobacco</joyKind></value>
+					</match>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>/Defs/ThingDef[comps/li[@Class="CompProperties_Drug"]/chemical[contains(text(), "Nicotine")]]</xpath>
+					<success>Always</success>
+					<match Class="PatchOperationReplace">
+						<xpath>/Defs/ThingDef[comps/li[@Class="CompProperties_Drug"]/chemical[contains(text(), "Nicotine")]]/ingestible/joyKind</xpath>
+						<value><joyKind>Tobacco</joyKind></value>
+					</match>
+				</li>
+				<li Class="PatchOperationConditional">
+					<xpath>/Defs/ThingDef[comps/li[@Class="CompProperties_Drug"]/chemical[contains(text(), "Tobacco")]]</xpath>
+					<success>Always</success>
+					<match Class="PatchOperationReplace">
+						<xpath>/Defs/ThingDef[comps/li[@Class="CompProperties_Drug"]/chemical[contains(text(), "Tobacco")]]/ingestible/joyKind</xpath>
+						<value><joyKind>Tobacco</joyKind></value>
+					</match>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>

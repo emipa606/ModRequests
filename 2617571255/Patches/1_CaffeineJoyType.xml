@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional">
+		<success>Always</success> <!-- Since caffeine is not in the base game, first we're going to check if Caffeine is even a drug -->
+		<xpath>/Defs/ChemicalDef[defName[contains(text(), "Caffeine")]]</xpath>
+		<match Class="PatchOperationSequence">
+			<operations> 
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<JoyKindDef>
+							<defName>Caffeine</defName>
+							<label>caffeine consumption</label>
+						</JoyKindDef>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs</xpath>
+					<value>
+						<JoyGiverDef>
+							<defName>ConsumeCaffeine</defName>
+							<giverClass>JoyGiver_TakeDrug</giverClass>
+							<baseChance>2.5</baseChance>
+							<joyKind>Caffeine</joyKind>
+							<requiredCapacities>
+								<li>Manipulation</li>
+							</requiredCapacities>
+						</JoyGiverDef>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/ThingDef[comps/li[@Class="CompProperties_Drug"]/chemical[contains(text(), "Caffeine")]]/ingestible/joyKind</xpath>
+						<value><joyKind>Caffeine</joyKind></value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
