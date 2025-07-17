@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+
+<!--Legendary Bear-->
+  <QuestScriptDef>
+    <defName>RDR_LegendaryBearHunt</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <autoAccept>true</autoAccept>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName(priority=1)->[asker_nameDef]'s Legendary Bear [hunt]</li>
+        <li>questName->Legendary Bear [hunt]</li>
+        <li>hunt->Hunt</li>
+        <li>hunt->Chase</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription(askerIsNull==true)->We've intercepted messages about the location of a Legendary Bear rest place near [map_definite]. It will stay there for the foreseeable future but move on in time. You can use this moment to hunt it for its precious pelt and rare meat.\n\nA gigantic, deadly bear covered in scars from its years as king of the forest. The Legendary Bear is aggressive by nature and extremely dangerous when enraged. Its fur and hide are incredibly resistant to damage and cold, while its razor-sharp claws and teeth can pierce even the best armor.\n\nLegends say that these bears are the result of ancient genetic experiments, creating the ultimate apex predator of the forest.</li>
+
+        <li>questDescription->[asker_nameDef], [asker_faction_leaderTitle] of [asker_faction_name] has reports of spotting a Legendary Bear nearby. While they don't plan on hunting the beast themselves, they're challenging you to hunt it. Should you be successful, they will give the following reward to you. It will stay there for the foreseeable future but move on in time. You can use this moment to hunt it for its precious pelt and rare meat, or try to tame it if you dare.\n\nA gigantic, deadly bear covered in scars from its years as king of the forest. The Legendary Bear is aggressive by nature and extremely dangerous when enraged. Its fur and hide are incredibly resistant to damage and cold, while its razor-sharp claws and teeth can pierce even the best armor.\n\nLegends say that these bears are the result of ancient genetic experiments, creating the ultimate apex predator of the forest.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        <li Class="QuestNode_GetMap" />
+
+        <li Class="QuestNode_IsSet">
+          <name>asker</name>
+          <elseNode Class="QuestNode_RandomNode">
+            <nodes>
+              <li Class="QuestNode_Set">
+                <name>askerIsNull</name>
+                <value>true</value>
+                <selectionWeight>0</selectionWeight>
+              </li>
+              <li Class="QuestNode_GetPawn">
+                <storeAs>asker</storeAs>
+                <mustBeFactionLeader>true</mustBeFactionLeader>
+                <mustBeNonHostileToPlayer>true</mustBeNonHostileToPlayer>
+                <hostileWeight>0.15</hostileWeight>
+                <selectionWeight>1.0</selectionWeight>
+              </li>
+            </nodes>
+          </elseNode>
+        </li>
+
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+        </li>
+
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
+            <li>
+              <tag>RDR_LegendaryBearHunt</tag>
+            </li>
+          </sitePartsTags>
+        </li>
+
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+          <parms>
+            <hiddenSitePartsPossible>false</hiddenSitePartsPossible>
+          </parms>
+        </li>
+
+        <li Class="QuestNode_GetSiteThreatPoints">
+          <storeAs>sitePoints</storeAs>
+          <sitePartsParams>$sitePartsParams</sitePartsParams>
+        </li>
+
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+        </li>
+
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+        </li>
+
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestExpired">The Legendary Bear has moved on. The quest [resolvedQuestName] has expired.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>site.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestFailed">After being discovered, the Legendary Bear fled. The quest [resolvedQuestName] has ended.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <node Class="QuestNode_GiveRewards">
+            <parms>
+              <allowGoodwill>true</allowGoodwill>
+              <allowRoyalFavor>true</allowRoyalFavor>
+              <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+            </parms>
+            <customLetterLabel TKey="LetterLabelPaymentArrived">Payment arrived</customLetterLabel>
+            <customLetterText TKey="LetterTextPaymentArrived">You have defeated the Legendary Bear!\n\nThe payment from [asker_faction_name] has arrived.</customLetterText>
+            <nodeIfChosenPawnSignalUsed Class="QuestNode_Letter">
+              <letterDef>ChoosePawn</letterDef>
+              <label TKey="LetterLabelFavorReceiver">[asker_faction_royalFavorLabel]</label>
+              <text TKey="LetterTextFavorReceiver">These colonists participated in the victory for the quest [resolvedQuestName]. [asker_definite] wants to know who should receive the [royalFavorReward_amount] [asker_faction_royalFavorLabel] for this service.</text>
+              <useColonistsOnMap>$site</useColonistsOnMap>
+              <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+            </nodeIfChosenPawnSignalUsed>
+          </node>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <outcome>Success</outcome>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <!--Legendary Wolf-->
+  <QuestScriptDef>
+    <defName>RDR_LegendaryWolfHunt</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <autoAccept>true</autoAccept>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName(priority=1)->[asker_nameDef]'s Legendary Wolf [hunt]</li>
+        <li>questName->Legendary Wolf [hunt]</li>
+        <li>hunt->Hunt</li>
+        <li>hunt->Chase</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription(askerIsNull==true)->There has been talks of a Huge wolf lurking nearby. [map_definite]. It will stay there for the foreseeable future but move on in time. You can use this moment to hunt it for its precious pelt and rare meat.\n\nA gigantic, deadly Wolf covered in scars from its years roaming these lands. The Legendary Wolf is aggressive by nature and extremely dangerous when enraged. Its fur and hide are incredibly resistant to damage and cold, while its razor-sharp claws and teeth can pierce even the best armor.\n\nLegends say that these Wolfs are the result of ancient genetic experiments, creating the ultimate apex predator of the forest.</li>
+
+        <li>questDescription->[asker_nameDef], [asker_faction_leaderTitle] of [asker_faction_name] has reports of spotting a Legendary Wolf nearby. While they don't plan on hunting the beast themselves, they're challenging you to hunt it. Should you be successful, they will give the following reward to you. It will stay there for the foreseeable future but move on in time. You can use this moment to hunt it for its precious pelt and rare meat, or try to tame it if you dare.\n\nA gigantic, deadly Wolf covered in scars from its years as king of the forest. The Legendary Wolf is aggressive by nature and extremely dangerous when enraged. Its fur and hide are incredibly resistant to damage and cold, while its razor-sharp claws and teeth can pierce even the best armor.\n\nLegends say that these Wolfs are the result of ancient genetic experiments, creating the ultimate apex predator of the forest.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        <li Class="QuestNode_GetMap" />
+
+        <li Class="QuestNode_IsSet">
+          <name>asker</name>
+          <elseNode Class="QuestNode_RandomNode">
+            <nodes>
+              <li Class="QuestNode_Set">
+                <name>askerIsNull</name>
+                <value>true</value>
+                <selectionWeight>0</selectionWeight>
+              </li>
+              <li Class="QuestNode_GetPawn">
+                <storeAs>asker</storeAs>
+                <mustBeFactionLeader>true</mustBeFactionLeader>
+                <mustBeNonHostileToPlayer>true</mustBeNonHostileToPlayer>
+                <hostileWeight>0.15</hostileWeight>
+                <selectionWeight>1.0</selectionWeight>
+              </li>
+            </nodes>
+          </elseNode>
+        </li>
+
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+        </li>
+
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
+            <li>
+              <tag>RDR_LegendaryWolfHunt</tag>
+            </li>
+          </sitePartsTags>
+        </li>
+
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+          <parms>
+            <hiddenSitePartsPossible>false</hiddenSitePartsPossible>
+          </parms>
+        </li>
+
+        <li Class="QuestNode_GetSiteThreatPoints">
+          <storeAs>sitePoints</storeAs>
+          <sitePartsParams>$sitePartsParams</sitePartsParams>
+        </li>
+
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+        </li>
+
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+        </li>
+
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestExpired">The Legendary Wolf has moved on. The quest [resolvedQuestName] has expired.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>site.Destroyed</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+                <text TKey="LetterTextQuestFailed">After being discovered, the Legendary Wolf fled. The quest [resolvedQuestName] has ended.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <node Class="QuestNode_GiveRewards">
+            <parms>
+              <allowGoodwill>true</allowGoodwill>
+              <allowRoyalFavor>true</allowRoyalFavor>
+              <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+            </parms>
+            <customLetterLabel TKey="LetterLabelPaymentArrived">Payment arrived</customLetterLabel>
+            <customLetterText TKey="LetterTextPaymentArrived">You have defeated the Legendary Wolf!\n\nThe payment from [asker_faction_name] has arrived.</customLetterText>
+            <nodeIfChosenPawnSignalUsed Class="QuestNode_Letter">
+              <letterDef>ChoosePawn</letterDef>
+              <label TKey="LetterLabelFavorReceiver">[asker_faction_royalFavorLabel]</label>
+              <text TKey="LetterTextFavorReceiver">These colonists participated in the victory for the quest [resolvedQuestName]. [asker_definite] wants to know who should receive the [royalFavorReward_amount] [asker_faction_royalFavorLabel] for this service.</text>
+              <useColonistsOnMap>$site</useColonistsOnMap>
+              <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+            </nodeIfChosenPawnSignalUsed>
+          </node>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <outcome>Success</outcome>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+
+</Defs>
