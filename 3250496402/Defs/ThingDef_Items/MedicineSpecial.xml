@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef Name="CureAllBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>75</stackLimit>
+	<statBases>
+		<Beauty>-4</Beauty>
+	</statBases>
+	<comps>
+		<li Class="CompProperties_Forbiddable"/>
+	</comps>
+	<alwaysHaulable>true</alwaysHaulable>
+	<drawGUIOverlay>true</drawGUIOverlay>
+	<rotatable>false</rotatable>
+	<pathCost>15</pathCost>
+  </ThingDef>
+
+  <ThingDef ParentName="CureAllBase">
+    <defName>CureAllSerum</defName>
+    <label>cure-all serum</label>
+	<thingClass>ThingWithComps</thingClass>
+	<healthAffectsPrice>false</healthAffectsPrice>
+    <description>A unique drug made from the mechanical hands of a medic type militor. The drug contains miraculous healing properties that cures life-threatning wounds, missing limbs, permanent scars, and deadly ailments, though it doesn't cure blood loss, toxic build-up,  and other misc ailments.</description>
+	<descriptionHyperlinks><HediffDef>CureAll</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/MilitorMedicStuff/CureAllz</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+	<resourceReadoutPriority>Middle</resourceReadoutPriority>
+	<stackLimit>10</stackLimit>
+	<tradeNeverStack>true</tradeNeverStack>
+    <statBases>
+	  <MarketValue>2500</MarketValue>
+	  <WorkToMake>2400</WorkToMake>
+      <Mass>0.1</Mass>
+	  <DeteriorationRate>0</DeteriorationRate>
+    </statBases>
+	<thingCategories>
+		<li>Drugs</li>
+	</thingCategories>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+	  <drugCategory>Medical</drugCategory>
+	  <preferability>NeverForNutrition</preferability>
+	  <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>CureAll</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+	  <foodType>Processed</foodType>
+	  <baseIngestTicks>120</baseIngestTicks>
+	  <chairSearchRadius>0</chairSearchRadius>
+	  <ingestSound>Ingest_Inject</ingestSound>
+	  <ingestHoldUsesTable>false</ingestHoldUsesTable>
+	  <ingestCommandString>Take {0}</ingestCommandString>
+	  <ingestReportString>Taking {0}.</ingestReportString>
+    </ingestible>
+	<recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>7</Neutroamine>
+	  <Luciferium>15</Luciferium>
+    </costList>
+	<socialPropernessMatters>true</socialPropernessMatters>
+	<comps>
+		<li Class="CompProperties_Drug">
+			<listOrder>1012</listOrder>
+		</li>
+	</comps>
+	<storedConceptLearnOpportunity>DrugPolicies</storedConceptLearnOpportunity>
+    <orderedTakeGroup>Drug</orderedTakeGroup>
+  </ThingDef>
+  
+  <!-- Pills -->
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>AntiTempNullPills</defName>
+    <label>temperature nullifying resistance pills</label>
+    <description>A drug for granting resistance against insulation nullifying nanites.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>NullTempPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/TempNullPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NullTempPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>NullTempPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Temperature nullifying resistance pills</label>
+    <description>Special drug effect that provides resistance against nanites that nullifies insulations against dangerous temperatures.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>1.50</offset>
+            </li>
+          </capMods>
+		  <statFactors>		    
+			<HeatNullNaniteResistance>+2.0</HeatNullNaniteResistance>
+			<HeatNullNaniteEnvironmentResistance>+2.0</HeatNullNaniteEnvironmentResistance>
+			<ColdNullNaniteResistance>+2.0</ColdNullNaniteResistance>
+			<ColdNullNaniteEnvironmentResistance>+2.0</ColdNullNaniteEnvironmentResistance>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>AntiAntiOrgPills</defName>
+    <label>anti-organic immunity pills</label>
+    <description>A special drug can block anti-organic diseases before it could takes hold of the user.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>AntiAntiOrgPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/AntiAntiOrgPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>20</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AntiAntiOrgPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>4</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>AntiAntiOrgPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Anti-organic immunity pills</label>
+    <description>Special drug effect that blocks anti-organic diseases.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <makeImmuneTo>
+            <li>AntiOrganicDisease</li>
+          </makeImmuneTo>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>AntiRadPills</defName>
+    <label>radiation resistance pills</label>
+    <description>A drug for granting resistance against radiation poisoning.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>RadPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/AntiRadPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>RadPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>RadPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Radiation resistance pills</label>
+    <description>Special drug effect that provides resistance against radiation poisoning.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.50</offset>
+            </li>
+          </capMods>
+		  <statFactors>		    
+			<RadiationResistance>+2.0</RadiationResistance>
+			<RadiationEnvironmentResistance>+2.0</RadiationEnvironmentResistance>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>TempResistPills</defName>
+    <label>temperature resistance pills</label>
+    <description>A drug for granting resistance against extreme temperatures.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>TempPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/TempResistPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>TempPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>3</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>TempPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Temperature resistance pills</label>
+    <description>Special drug effect that provides resistance against extreme temperatures.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.50</offset>
+            </li>
+          </capMods>
+		  <statFactors>		    
+			<ComfyTemperatureMin>-700</ComfyTemperatureMin>
+			<ComfyTemperatureMax>+700</ComfyTemperatureMax>
+			<Insulation_Cold>+700</Insulation_Cold>
+			<Insulation_Heat>+700</Insulation_Heat>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>ToxinResistPills</defName>
+    <label>toxin resistance pills</label>
+    <description>A drug for granting resistance against toxins.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>ToxNullPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/AntiToxinPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>ToxNullPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>ToxNullPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Toxin resistance pills</label>
+    <description>Special drug effect that provides resistance against toxins.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.50</offset>
+            </li>
+          </capMods>
+		  <statFactors>		    
+			<ToxicEnvironmentResistance>+2.0</ToxicEnvironmentResistance>
+			<ToxicResistance>+2.0</ToxicResistance>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>AntiOrgenicAntiToxinPills</defName>
+    <label>anti-organic antitox pills</label>
+    <description>A drug for granting resistance against anti-organic toxins.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>AntiOrgToxNullPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/AntiOrgToxinPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AntiOrgToxNullPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>AntiOrgToxNullPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Anti-Org Toxin resistance pills</label>
+    <description>Special drug effect that provides resistance against anti-organic toxins.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.50</offset>
+            </li>
+          </capMods>
+		  <statFactors>		    
+			<AntiOrgToxinEnvironmentResistance>+2.0</AntiOrgToxinEnvironmentResistance>
+			<AntiOrgToxinResistance>+2.0</AntiOrgToxinResistance>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>AntiRageVirusPills</defName>
+    <label>anti rage virus pills</label>
+    <description>A drug for granting resistance against the rage virus.</description>
+    <possessionCount>10</possessionCount>
+    <descriptionHyperlinks><HediffDef>AntiRageVirusPillHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/AntiRageVirusPills</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <socialPropernessMatters>false</socialPropernessMatters>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>600</WorkToMake>
+      <MarketValue>18</MarketValue>
+      <Mass>0.005</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <techLevel>Ultra</techLevel>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>AntiRageVirusPillHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>MiscMedicines</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>1000</listOrder>
+        <overdoseSeverityOffset>0.08~0.14</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>AntiRageVirusPillHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>Anti rage virus pills</label>
+    <description>Special drug effect that provides resistance against the rage virus.</description>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.95</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>0.50</offset>
+            </li>
+          </capMods>
+		  <statFactors>		    
+			<RageVirusEnvironmentResistance>+2.0</RageVirusEnvironmentResistance>
+			<RageVirusResistance>+2.0</RageVirusResistance>
+		  </statFactors>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="Strongbox">
+    <defName>PillsKit</defName>
+    <label>pills kit</label>
+    <description>A premium, ultra compact, secured medical kit that contains various pills.</description>
+    <statBases>
+      <MarketValue>7500</MarketValue>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Resources/Medicines/PillsKit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+	<killedLeavings>
+      <AntiTempNullPills>15</AntiTempNullPills>
+	  <AntiAntiOrgPills>15</AntiAntiOrgPills>
+	  <AntiRadPills>15</AntiRadPills>
+	  <TempResistPills>15</TempResistPills>
+	  <ToxinResistPills>15</ToxinResistPills>
+	  <AntiOrgenicAntiToxinPills>15</AntiOrgenicAntiToxinPills>
+	  <AntiRageVirusPills>15</AntiRageVirusPills>
+    </killedLeavings>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Open pills kit</useLabel>
+		<useDuration>650</useDuration>
+      </li>
+      <li Class="CompProperties_UseEffectDestroySelf">
+        <delayTicks>0</delayTicks>
+        <spawnKilledLeavings>true</spawnKilledLeavings>
+      </li>
+    </comps>
+	<tickerType>Normal</tickerType>
+    <filthLeaving>Filth_MachineBits</filthLeaving>
+  </ThingDef>
+  
+</Defs>

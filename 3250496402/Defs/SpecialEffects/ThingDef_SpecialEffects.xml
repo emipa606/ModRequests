@@ -1,0 +1,2489 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ================================== Effects for incinirator laser blaster ====================================-->
+
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PlasmaBeamBase</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>True</fadeOutUnmaintained>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaBeam</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_SparkThrownPlasma</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaBeam_End</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteLow</altitudeLayer>
+    <mote>
+      <fadeInTime>0.03</fadeInTime>
+      <solidTime>0.04</solidTime>
+      <fadeOutTime>0.13</fadeOutTime>
+      <collide>true</collide>
+    </mote>
+  </ThingDef>
+   
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PlasmaBeamSpark</defName>
+    <fadeInTime>0.03</fadeInTime>
+    <solidTime>0.1</solidTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaBeam_End</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>0.10</drawSize>
+      <color>(0, 0.3, 0.8, 0)</color>
+    </graphicData>
+    <acceleration>(0, 0, 0.5)</acceleration>
+    <speedPerTime>0.2~0.5</speedPerTime>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>Fleck_BeamMolten</defName>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>2</fadeOutTime>
+    <solidTime>8</solidTime>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MoltenBurn/Molten_A</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.65</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MoltenBurn/Molten_B</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.65</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MoltenBurn/Molten_C</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.65</drawSize>
+      </li>
+    </randomGraphics>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>PlasmaBeamz_End</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <fleckDef>Smoke</fleckDef>
+        <chancePerTick>0.4</chancePerTick>
+        <scale>0.6~1.1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <angle>30~70</angle>
+        <speed>0.2~0.35</speed>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <moteDef>Mote_SparkThrownPlasma</moteDef>
+        <spawnLocType>OnSource</spawnLocType>
+        <chancePerTick>0.9</chancePerTick>
+        <speed>3.3~5</speed>
+        <scale>0.1~0.2</scale>
+        <angle>88~104</angle>
+        <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Beam_Glow</fleckDef>
+        <chancePerTick>0.5</chancePerTick>
+        <scale>0.8</scale>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Nova explosion ====================================-->
+  
+  <FleckDef ParentName="FleckBase">
+    <defName>NovaBlast</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/BluePlasmaMote</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+  </FleckDef>
+  
+ <!-- ================================== Plasma impact ====================================--> 
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PlasmaDamage</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaHit</texPath>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.03</solidTime>
+      <fadeOutTime>1</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_Plasma</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_PlasmaDamage</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Nova impact ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_NovaDamage</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PulseHit</texPath>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.03</solidTime>
+      <fadeOutTime>1</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_Nova</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_NovaDamage</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for incinerator heavy blaster ====================================-->
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic">
+    <defName>FireBlast</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MoltenGround/MoltenPuddle_A</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MoltenGround/MoltenPuddle_B</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MoltenGround/MoltenPuddle_C</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.25</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>Plasma_Plasmawave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_LightningRing</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeGlow</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PlasmicRing_A</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PlasmicRing_B</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>-20</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_LightningRing</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.1</fadeOutTime>
+    <solidTime>0.6</solidTime>
+    <growthRate>0.50</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/LightningBall_A</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteCircularSparks</shaderType>
+      <shaderParameters>
+        <_ExtraTex>/Things/Misc/MoteMisc/PlasmaExplosion/LightningBall_B</_ExtraTex>
+        <_texScale>0.2</_texScale>
+        <_texAScrollSpeed>-0.75</_texAScrollSpeed>
+        <_texBScrollSpeed>1.25</_texBScrollSpeed>
+        <_Intensity>1</_Intensity>
+      </shaderParameters>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PlasmicGlow</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaSpiral</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PlasmicRing_A</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaSpiral_A</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PlasmicRing_B</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaSpiral_B</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(9, 9)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PlasmaCannon_Aim</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>True</fadeOutUnmaintained>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaCannon_Aim</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteHellfireCannon_Aim</shaderType>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/Cloudy_C</_DistortionTex>
+        <_NumFrames>10</_NumFrames>
+        <_FramesPerSec>1.35</_FramesPerSec>
+        <_DistortionScrollSpeed>1.35</_DistortionScrollSpeed>
+        <_Intensity>3</_Intensity>
+        <_DistortionScale>0.082</_DistortionScale>
+      </shaderParameters>
+      <drawSize>(3, 0.9)</drawSize>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PlasmaCannon_Target</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.5</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaCannon_Target</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteHellfireCannon_Target</shaderType>
+      <shaderParameters>
+        <_ScanTex>/Things/Misc/MoteMisc/PlasmaExplosion/PlasmaCannon_Scan</_ScanTex>
+        <_ScanMask>/Things/Mote/MoteHellfireCannon_Target_Scan_Mask</_ScanMask>
+      </shaderParameters>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PlasmaCannon_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaCannon_ChargeGlow</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteHellfireCannon_Charge</shaderType>
+      <shaderParameters>
+        <_RandomTex>/Things/Mote/RandomFlicker</_RandomTex>
+        <_FlickerFrequency>0.25</_FlickerFrequency>
+        <_FlickerAmount>0.6</_FlickerAmount>
+        <_InnerCircleIntensity>0.1</_InnerCircleIntensity>
+        <_InnerCircleSize>0.4</_InnerCircleSize>
+        <_InnerCircleShimmerAmount>0.14</_InnerCircleShimmerAmount>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+   <!-- ================================== Drone Blast ====================================-->
+  
+  <FleckDef ParentName="FleckBase">
+    <defName>DroneExplosion</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/GreenBlast</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+  </FleckDef>
+  
+  <!-- ================================== Effects for Mech charge cannon ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ChargeCannon_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ChargedExplosion/ChargeCannon_ChargeGlow</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteHellfireCannon_Charge</shaderType>
+      <shaderParameters>
+        <_RandomTex>/Things/Mote/RandomFlicker</_RandomTex>
+        <_FlickerFrequency>0.25</_FlickerFrequency>
+        <_FlickerAmount>0.6</_FlickerAmount>
+        <_InnerCircleIntensity>0.1</_InnerCircleIntensity>
+        <_InnerCircleSize>0.4</_InnerCircleSize>
+        <_InnerCircleShimmerAmount>0.14</_InnerCircleShimmerAmount>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic">
+    <defName>ChargedBlast</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/EnergizedGound/ChargedMote_A</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/EnergizedGound/ChargedMote_B</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/EnergizedGound/ChargedMote_C</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.25</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>Charge_Chargedwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ChargedRing</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ChargedGlow</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ChargedRing_A</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ChargedRing_B</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>-20</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ChargedRing</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.1</fadeOutTime>
+    <solidTime>0.6</solidTime>
+    <growthRate>0.50</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ChargedExplosion/ChargedSpark_A</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteCircularSparks</shaderType>
+      <shaderParameters>
+        <_ExtraTex>/Things/Misc/MoteMisc/ChargedExplosion/ChargedSpark_B</_ExtraTex>
+        <_texScale>0.2</_texScale>
+        <_texAScrollSpeed>-0.75</_texAScrollSpeed>
+        <_texBScrollSpeed>1.25</_texBScrollSpeed>
+        <_Intensity>1</_Intensity>
+      </shaderParameters>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ChargedGlow</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ChargedExplosion/ChargedSpiral</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ChargedRing_A</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ChargedExplosion/ChargedSpiral_A</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(4, 4)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ChargedRing_B</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ChargedExplosion/ChargedSpiral_B</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(5, 5)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for Mech gamma ray turret ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_GammaBeamBase</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>True</fadeOutUnmaintained>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/UltraGammaBeamA1</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_SparkThrownGamma</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/UltraGammaBeam_End</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteLow</altitudeLayer>
+    <mote>
+      <fadeInTime>0.03</fadeInTime>
+      <solidTime>0.04</solidTime>
+      <fadeOutTime>0.13</fadeOutTime>
+      <collide>true</collide>
+    </mote>
+  </ThingDef>
+   
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_GammaBeamSpark</defName>
+    <fadeInTime>0.03</fadeInTime>
+    <solidTime>0.1</solidTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaBeam_End</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>0.10</drawSize>
+      <color>(0, 0.3, 0.8, 0)</color>
+    </graphicData>
+    <acceleration>(0, 0, 0.5)</acceleration>
+    <speedPerTime>0.2~0.5</speedPerTime>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>Fleck_BeamGamma</defName>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>2</fadeOutTime>
+    <solidTime>8</solidTime>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/GammaBurn/Gamma_A</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.65</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/GammaBurn/Gamma_B</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.65</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/GammaBurn/Gamma_C</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.65</drawSize>
+      </li>
+    </randomGraphics>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>GammaBeamz_End</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <fleckDef>Smoke</fleckDef>
+        <chancePerTick>0.4</chancePerTick>
+        <scale>0.6~1.1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <angle>30~70</angle>
+        <speed>0.2~0.35</speed>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <moteDef>Mote_SparkThrownGamma</moteDef>
+        <spawnLocType>OnSource</spawnLocType>
+        <chancePerTick>0.9</chancePerTick>
+        <speed>3.3~5</speed>
+        <scale>0.1~0.2</scale>
+        <angle>88~104</angle>
+        <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Beam_Glow</fleckDef>
+        <chancePerTick>0.5</chancePerTick>
+        <scale>0.8</scale>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for PsiRangeFinder ====================================-->
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic">
+    <defName>PsychicBlast</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/PsychicBlast/GreenBlast_A</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/PsychicBlast/GreenBlast_B</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/PsychicBlast/GreenBlast_C</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.25</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>PsychicExplosion</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PsychicRing</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PsychicBall</fleckDef>
+        <burstCount>1</burstCount>
+		<rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PsychicRing_A</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PsychicRing_B</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>-20</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PsychicRing</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.1</fadeOutTime>
+    <solidTime>0.6</solidTime>
+    <growthRate>0.50</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PsychicExplosion/PsychicRing_A</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteCircularSparks</shaderType>
+      <shaderParameters>
+        <_ExtraTex>/Things/Misc/MoteMisc/PsychicExplosion/PsychicRing_B</_ExtraTex>
+        <_texScale>0.2</_texScale>
+        <_texAScrollSpeed>-0.75</_texAScrollSpeed>
+        <_texBScrollSpeed>1.25</_texBScrollSpeed>
+        <_Intensity>1</_Intensity>
+      </shaderParameters>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PsychicBall</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PsychicExplosion/PsychicBall</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PsychicRing_A</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaSpiral_A</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(7, 7)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_PsychicRing_B</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PlasmaExplosion/PlasmaSpiral_B</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(8, 8)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_PsychicPathfinder_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/PsychicExplosion/PsychicPathfinder_Charge</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteHellfireCannon_Charge</shaderType>
+      <shaderParameters>
+        <_RandomTex>/Things/Mote/RandomFlicker</_RandomTex>
+        <_FlickerFrequency>0.25</_FlickerFrequency>
+        <_FlickerAmount>0.6</_FlickerAmount>
+        <_InnerCircleIntensity>0.1</_InnerCircleIntensity>
+        <_InnerCircleSize>0.4</_InnerCircleSize>
+        <_InnerCircleShimmerAmount>0.14</_InnerCircleShimmerAmount>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for mech oodachi ====================================-->
+
+  <EffecterDef>
+    <defName>Slash_Diagonal</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_DiagonalSlash</fleckDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>Fleck_DiagonalSlash</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <solidTime>0.5</solidTime>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/Slash_Diagonal/SlashDiagonal_A</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/Slash_Diagonal/SlashDiagonal_B</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/Slash_Diagonal/SlashDiagonal_C</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+    </randomGraphics>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>Slash_Horizontal</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HorizontalSlash</fleckDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>Fleck_HorizontalSlash</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <solidTime>0.5</solidTime>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/Slash_Horizontal/SlashHorizontal_A</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/Slash_Horizontal/SlashHorizontal_B</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/Slash_Horizontal/SlashHorizontal_C</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+    </randomGraphics>
+  </FleckDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_RockBreaker</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/RockBreaker</texPath>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.03</solidTime>
+      <fadeOutTime>0.04</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_RockBreaker</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_RockBreaker</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_Excecution</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/Death</texPath>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.5</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_Excecution</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_Excecution</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for vibrosonic katana ====================================-->
+
+  <EffecterDef>
+    <defName>VibroSlash_Diagonal</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VibroDiagonalSlash</fleckDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>Fleck_VibroDiagonalSlash</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <solidTime>0.5</solidTime>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/SlashBlue_Diagonal/SlashDiagonalBlue_A</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/SlashBlue_Diagonal/SlashDiagonalBlue_B</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/SlashBlue_Diagonal/SlashDiagonalBlue_C</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+    </randomGraphics>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>VibroSlash_Horizontal</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VibroHorizontalSlash</fleckDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>Fleck_VibroHorizontalSlash</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <solidTime>0.5</solidTime>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/SlashBlue_Horizontal/SlashHorizontalBlue_A</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/SlashBlue_Horizontal/SlashHorizontalBlue_B</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/SlashBlue_Horizontal/SlashHorizontalBlue_C</texPath>
+        <drawSize>0.7</drawSize>
+      </li>
+    </randomGraphics>
+  </FleckDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_CrossSlash</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/CrossSlash</texPath>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.03</solidTime>
+      <fadeOutTime>0.04</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_CrossSlash</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_CrossSlash</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_EMPCrossSlash</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/CrossSlashEMP</texPath>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.5</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_EMPCrossSlash</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_EMPCrossSlash</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for extinction ray ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_UltraGammaBeamBase</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+      <fadeOutUnmaintained>True</fadeOutUnmaintained>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/UltraGammaBeamA2</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>2</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for various gears ====================================-->
+  
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>DragonsAura</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/BossGearEffects/DragonAuraFleck</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>DragonScale</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/BossGearEffects/DragonScales</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>EmpressDecree</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/BossGearEffects/EmpressDecree</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>BeserkerAura</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/BossGearEffects/BattleAxeSpirit</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>SpeedFactor</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MiscGearEffects/EdgeRunner</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(1.2, 1.2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for Warlord helmet ====================================-->
+  
+  <EffecterDef>
+    <defName>WarlordWrath</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>WarlordInsignia</fleckDef>
+        <burstCount>1</burstCount>
+		<rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>WarlordInsignia</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/BossGearEffects/WarlordRevival</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for gravitational jump ====================================-->
+  
+  <EffecterDef>
+    <defName>GravityJumpEffect</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SoundTriggered</subEffecterClass>
+        <spawnLocType>OnSource</spawnLocType>
+        <soundDef>GravityJumpOnAir</soundDef>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <spawnLocType>OnTarget</spawnLocType>
+        <moteDef>Mote_MechControlTakingSparkArch</moteDef>
+		<positionOffset>(0,0,0)</positionOffset>
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+        <maxMoteCount>10</maxMoteCount>
+        <speed>4~5</speed>
+        <scale>3</scale>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <spawnLocType>OnSource</spawnLocType>
+        <moteDef>Mote_MechControlTakingSparkArch</moteDef>
+		<positionOffset>(0,0,0)</positionOffset>
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+        <maxMoteCount>10</maxMoteCount>
+        <speed>4~5</speed>
+        <scale>3</scale>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.5~0.6</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,-0.5)</positionOffset>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <ticksBetweenMotes>2</ticksBetweenMotes>
+        <maxMoteCount>15</maxMoteCount>
+        <speed>1~2</speed>
+        <angle>170~190</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.8~1.2</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,-0.5)</positionOffset>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <ticksBetweenMotes>10</ticksBetweenMotes>
+        <maxMoteCount>7</maxMoteCount>
+        <speed>5~6</speed>
+        <angle>170~190</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,0)</positionOffset>
+        <moteDef>Mote_MechSparkSimple</moteDef>
+        <ticksBetweenMotes>2</ticksBetweenMotes>
+        <maxMoteCount>100</maxMoteCount>
+        <speed>4~5</speed>
+        <angle>160~200</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li> 
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,-0.5)</positionOffset>
+        <fleckDef>PsycastAreaEffect</fleckDef>
+        <ticksBetweenMotes>1</ticksBetweenMotes>
+        <maxMoteCount>75</maxMoteCount>
+        <speed>4~5</speed>
+        <angle>160~200</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>    
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>0.9~0.7</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <positionOffset>(0,0,-0.5)</positionOffset>
+        <fleckDef>PsycastAreaEffect</fleckDef>
+        <ticksBetweenMotes>1</ticksBetweenMotes>
+        <maxMoteCount>45</maxMoteCount>
+        <speed>4~5</speed>
+        <angle>160~200</angle>
+        <absoluteAngle>true</absoluteAngle>
+      </li>
+	  
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for LaserWeapons ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_AntiMechBeam</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.01</fadeInTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <solidTime>0.2</solidTime>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/BlueLaserShotHeavy</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>0.25</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_LaserBlasterEX</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.01</fadeInTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <solidTime>0.2</solidTime>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/LaserShotEX</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>0.25</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_DeathRayz</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.01</fadeInTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <solidTime>0.2</solidTime>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/DeathRayShot</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>0.25</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_GammaBeamz</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.01</fadeInTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <solidTime>0.2</solidTime>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/LaserShotHeavy</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>0.25</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for Anti-Organic Blast ====================================-->
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic">
+    <defName>AntiOrganicBlastZone</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/AntiOrgGround/AntiOrgBlastGround_A</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/AntiOrgGround/AntiOrgBlastGround_B</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/AntiOrgGround/AntiOrgBlastGround_C</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.25</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>AntiOrganicBlast</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_AntiOrgBlast</fleckDef>	
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_AntiOrgSpiral</fleckDef>
+        <burstCount>1</burstCount>
+		<rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PsychicRing_A</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_PsychicRing_B</fleckDef>
+        <burstCount>1</burstCount>
+        <rotationRate>-20</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_AntiOrgBlast</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/AntiOrganic/FlameExplosion</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(4.5, 4.5)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_AntiOrgSpiral</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/AntiOrganic/AntiOrgSpiral</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(6, 6)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for Anti-Organic Stun Blast ====================================-->
+  
+  <EffecterDef>
+    <defName>AntiOrganicShockwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastAntiOrganicRedLine</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>FlashMechBand</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_RedFlashStrong</moteDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>24</scale>
+      </li>
+    </children>
+  </EffecterDef>
+
+  <EffecterDef>
+    <defName>AntiOrgElectricityArc</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredChance</subEffecterClass>
+        <moteDef>Mote_AntiOrganicSparkArch</moteDef>
+        <burstCount>1</burstCount>
+        <chancePerTick>1</chancePerTick>
+        <rotation>-150~-50</rotation>
+        <spawnLocType>OnTarget</spawnLocType>
+        <scale>1.1~1.4</scale>
+        <rotateTowardsTargetCenter>true</rotateTowardsTargetCenter>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_BlastAntiOrganicRedLine</defName>
+    <altitudeLayer>LightingOverlay</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.28</fadeOutTime>
+    <solidTime>1.7</solidTime>
+    <growthRate>11</growthRate>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/AntiOrganic/AntiOrganicLineGlow</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteMultiplyAddCircular</shaderType>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/RadiationDistortion_A</_DistortionTex>
+        <_texAScale>0.5</_texAScale>
+        <_texBScale>2</_texBScale>
+        <_texAScrollSpeed>0</_texAScrollSpeed>
+        <_texBScrollSpeed>-0.4</_texBScrollSpeed>
+        <_Intensity>0.5</_Intensity>
+        <_InnerFadeAmount>0</_InnerFadeAmount>
+        <_DistortionIntensity>0.5</_DistortionIntensity>
+        <_TexAScaleDivisorPerProgress>1.5</_TexAScaleDivisorPerProgress>
+      </shaderParameters>
+      <drawSize>(6, 6)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_AntiOrganicSparkArch</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <drawOffscreen>true</drawOffscreen>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>1</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/AntiOrganicSpark</texPath>
+      <graphicClass>GraphicMote_RandomWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+      <shaderParameters>
+        <_NumFrames>7</_NumFrames>
+        <_FramesPerSec>6</_FramesPerSec>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for supreme apocriton ====================================-->
+  
+  <EffecterDef>
+    <defName>SupremeApocrionAttached</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <moteDef>Mote_AntiOrganicSparkArch</moteDef>
+        <burstCount>1~3</burstCount>
+        <chancePerTick>0.015</chancePerTick>
+        <rotation>-150~-150</rotation>
+        <spawnLocType>OnTarget</spawnLocType>
+        <scale>3.0~3.2</scale>
+        <positionRadius>0.7</positionRadius>
+        <attachToSpawnThing>true</attachToSpawnThing>
+        <rotateTowardsTargetCenter>true</rotateTowardsTargetCenter>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <moteDef>Mote_ApocritonPulse</moteDef>
+        <burstCount>1</burstCount>
+        <rotation>-150~150</rotation>
+        <ticksBetweenMotes>76</ticksBetweenMotes>
+        <positionRadius>0</positionRadius>
+        <attachToSpawnThing>true</attachToSpawnThing>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for valkyrian blast ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ValyrianBlast_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ExtinctionRay/ExtinctionRay_Charge</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteHellfireCannon_Charge</shaderType>
+      <shaderParameters>
+        <_RandomTex>/Things/Mote/RandomFlicker</_RandomTex>
+        <_FlickerFrequency>0.25</_FlickerFrequency>
+        <_FlickerAmount>0.6</_FlickerAmount>
+        <_InnerCircleIntensity>0.1</_InnerCircleIntensity>
+        <_InnerCircleSize>0.4</_InnerCircleSize>
+        <_InnerCircleShimmerAmount>0.14</_InnerCircleShimmerAmount>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Mjolnir skill effects ====================================-->
+  
+  <!-- ================================== Effects for thunder explosion ====================================-->
+  
+  <EffecterDef>
+    <defName>Thunder_Explosion</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ThunderBlast</fleckDef>	
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ThunderBlastSpiral</fleckDef>
+        <burstCount>1</burstCount>
+		<rotationRate>30</rotationRate>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ThunderBlast</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/ThunderExplosion</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(4.7, 4.7)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ThunderBlastSpiral</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>2</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/ThunderBlasrSpiral</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(5, 5)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for thunder blast charge ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ThunderBlast_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/ThunderBlast_Charge</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+	  <drawSize>(2, 2)</drawSize>
+      <shaderType>MoteHellfireCannon_Charge</shaderType>
+      <shaderParameters>
+        <_RandomTex>/Things/Mote/RandomFlicker</_RandomTex>
+        <_FlickerFrequency>0.25</_FlickerFrequency>
+        <_FlickerAmount>0.6</_FlickerAmount>
+        <_InnerCircleIntensity>0.1</_InnerCircleIntensity>
+        <_InnerCircleSize>0.4</_InnerCircleSize>
+        <_InnerCircleShimmerAmount>0.14</_InnerCircleShimmerAmount>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_StormLance_Charge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <drawOffscreen>true</drawOffscreen>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>999999</solidTime>
+      <needsMaintenance>True</needsMaintenance>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ThunderGodSparkArc</texPath>
+      <graphicClass>GraphicMote_RandomWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+	  <drawSize>(2, 2)</drawSize>
+      <shaderParameters>
+        <_NumFrames>7</_NumFrames>
+        <_FramesPerSec>6</_FramesPerSec>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for mjolnir attached ====================================-->
+  
+  <EffecterDef>
+    <defName>ThunderGodAttached</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <moteDef>Mote_ThunderSparkArch</moteDef>
+        <burstCount>1~2</burstCount>
+        <chancePerTick>0.015</chancePerTick>
+        <rotation>-150~-150</rotation>
+        <spawnLocType>OnTarget</spawnLocType>
+        <scale>1.2~1.2</scale>
+        <positionRadius>0.7</positionRadius>
+        <attachToSpawnThing>true</attachToSpawnThing>
+        <rotateTowardsTargetCenter>true</rotateTowardsTargetCenter>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ThunderSparkArch</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <drawOffscreen>true</drawOffscreen>
+    <mote>
+      <fadeInTime>0.05</fadeInTime>
+      <fadeOutTime>0.1</fadeOutTime>
+      <solidTime>1</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/ThunderGodSparkArc</texPath>
+      <graphicClass>GraphicMote_RandomWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+      <shaderParameters>
+        <_NumFrames>7</_NumFrames>
+        <_FramesPerSec>6</_FramesPerSec>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for thunder Strike ====================================-->
+  
+  <EffecterDef>
+    <defName>Thunder_Strike</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatDiffusion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Effects for thunder shockwave ====================================-->
+  
+  <EffecterDef>
+    <defName>ThunderShockwave</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_BlastMechBandShockwave</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_ThunderBlueLine</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>FlashMechBand</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <absoluteAngle>true</absoluteAngle>
+        <rotation>0~0</rotation>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_RedFlashStrong</moteDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>24</scale>
+      </li>
+    </children>
+  </EffecterDef>
+
+  <EffecterDef>
+    <defName>ThunderStrikeArc</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredChance</subEffecterClass>
+        <moteDef>Mote_ThunderSparkArch</moteDef>
+        <burstCount>3</burstCount>
+        <chancePerTick>1</chancePerTick>
+        <rotation>-150~-50</rotation>
+        <spawnLocType>OnTarget</spawnLocType>
+        <scale>1.7~1.9</scale>
+        <rotateTowardsTargetCenter>true</rotateTowardsTargetCenter>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_ThunderBlueLine</defName>
+    <altitudeLayer>LightingOverlay</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.28</fadeOutTime>
+    <solidTime>1.7</solidTime>
+    <growthRate>11</growthRate>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/MjolnirLineGlow</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MoteMultiplyAddCircular</shaderType>
+      <shaderParameters>
+        <_DistortionTex>/Things/Mote/RadiationDistortion_A</_DistortionTex>
+        <_texAScale>0.5</_texAScale>
+        <_texBScale>2</_texBScale>
+        <_texAScrollSpeed>0</_texAScrollSpeed>
+        <_texBScrollSpeed>-0.4</_texBScrollSpeed>
+        <_Intensity>0.5</_Intensity>
+        <_InnerFadeAmount>0</_InnerFadeAmount>
+        <_DistortionIntensity>0.5</_DistortionIntensity>
+        <_TexAScaleDivisorPerProgress>1.5</_TexAScaleDivisorPerProgress>
+      </shaderParameters>
+      <drawSize>(6, 6)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for thunder turret ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_Thunder</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <fadeInTime>0.01</fadeInTime>
+      <fadeOutTime>0.2</fadeOutTime>
+      <solidTime>0.2</solidTime>
+      <rotateTowardsTarget>True</rotateTowardsTarget>
+      <scaleToConnectTargets>True</scaleToConnectTargets>
+    </mote>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/ThunderMote</texPath>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>MoteBeam</shaderType>
+      <shaderParameters>
+        <_ExtraTexA>/Things/Mote/BeamSecondaryNoise_A</_ExtraTexA>
+        <_ExtraTexB>/Things/Mote/BeamSecondaryNoise_B</_ExtraTexB>
+        <_ScrollSpeedA>-4 </_ScrollSpeedA>
+        <_ScrollSpeedB>3</_ScrollSpeedB>
+        <_Intensity>0.25</_Intensity>
+      </shaderParameters>
+    </graphicData>
+  </ThingDef>
+  
+  <!-- ================================== Effects for dummy fleck ====================================-->
+  
+  <FleckDef ParentName="FleckBase_RandomGraphic">
+    <defName>DummyFleck</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MjolnirEffects/DummyFleck</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MjolnirEffects/DummyFleck</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Misc/MoteMisc/MjolnirEffects/DummyFleck</texPath>
+        <shaderType>MoteGlow</shaderType>
+        <renderInstanced>true</renderInstanced>
+        <drawSize>(1.52, 1.52)</drawSize>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.25</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+  </FleckDef>
+  
+  <!-- ================================== Effects for thunder burst warmup ====================================-->
+  
+  <EffecterDef>
+    <defName>Thunder_Burst_Warmup</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <positionRadius>0.1</positionRadius>
+        <moteDef>Mote_SparkThrownFast</moteDef>
+        <chancePerTick>1</chancePerTick>
+        <speed>3.3~5</speed>
+        <scale>0.1~0.2</scale>
+        <angle>0~360</angle>
+        <positionLerpFactor>0.65</positionLerpFactor>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+        <positionRadius>0.15</positionRadius>
+        <fleckDef>Sparks</fleckDef>
+        <chancePerTick>1</chancePerTick>
+        <speed>6.5</speed>
+        <scale>0.8~1.2</scale>
+        <angle>0~360</angle>
+        <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+        <soundDef>FireBurst_Warmup</soundDef>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Sparks</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/Sparks</texPath>
+	  <shaderType>MoteGlow</shaderType>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.04</fadeInTime>
+    <solidTime>0.1</solidTime>
+    <fadeOutTime>0.8</fadeOutTime>
+    <growthRate>0.9</growthRate>
+  </FleckDef>
+  
+  <!-- ================================== Effects for thunder burst ====================================-->
+  
+  <EffecterDef>
+    <defName>Thunder_Burst</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_HeatWaveDistortion</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_EnergyDischarge</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_EnergyDischarge</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_VaporizeCenterFlash</fleckDef>
+        <burstCount>1</burstCount>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_EnergyDischarge</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.3</fadeOutTime>
+    <solidTime>0.25</solidTime>
+    <growthRate>1.25</growthRate>
+    <graphicData>
+      <texPath>Things/Mote/HeatDiffusion</texPath>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <color>(0, 0.71, 0.93)</color>
+      <shaderType>MoteHeatDiffusion</shaderType>
+      <shaderParameters>
+        <_MultiplyTex>/Things/Mote/RadiationDistortion_A</_MultiplyTex>
+        <_texBScale>0.2</_texBScale>
+        <_texBScrollSpeed>-0.5</_texBScrollSpeed>
+        <_Intensity>13</_Intensity>
+        <_Clip>0</_Clip>
+      </shaderParameters>
+      <drawSize>(9, 9)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <EffecterDef>
+    <defName>ThunderStrikeArc1</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggeredChance</subEffecterClass>
+        <moteDef>Mote_ThunderSparkArch</moteDef>
+        <burstCount>3</burstCount>
+        <chancePerTick>5</chancePerTick>
+        <rotation>-150~-50</rotation>
+        <spawnLocType>OnTarget</spawnLocType>
+        <scale>1.7~1.9</scale>
+        <rotateTowardsTargetCenter>true</rotateTowardsTargetCenter>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Iron sand impact ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_IronSand</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/IronSandImpact</texPath>
+	  <drawSize>(1.5, 1.5)</drawSize>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.03</solidTime>
+      <fadeOutTime>1</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_IronSand</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_IronSand</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Iron sand field ====================================-->
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>IronSandField</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/IronSandField</texPath>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Flash arc ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_FlashArc</defName>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/FlashArcImpact</texPath>
+	  <drawSize>(2, 2)</drawSize>
+	  <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>0.04</fadeInTime>
+      <solidTime>0.03</solidTime>
+      <fadeOutTime>1</fadeOutTime>
+    </mote>
+  </ThingDef>
+
+  <EffecterDef>
+    <defName>Impact_FlashArc</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <moteDef>Mote_FlashArc</moteDef>
+        <positionRadius>0.1</positionRadius>
+        <burstCount>1</burstCount>
+        <scale>1~1.4</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <!-- ================================== Mjolnir support skill effect ====================================-->
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Curaga</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/MassHeal</texPath>
+      <drawSize>(3, 3)</drawSize>
+	  <shaderType>MoteGlow</shaderType>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>BestowDefense</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/BestowDefense</texPath>
+      <drawSize>(3, 3)</drawSize>
+	  <shaderType>MoteGlow</shaderType>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>RaiseAttack</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/RaiseAttack</texPath>
+      <drawSize>(3, 3)</drawSize>
+	  <shaderType>MoteGlow</shaderType>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Electrify</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.1</fadeOutTime>
+    <solidTime>0.1</solidTime>
+    <growthRate>0.3</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MjolnirEffects/FlashArcImpact</texPath>
+      <drawSize>(3, 3)</drawSize>
+	  <shaderType>MoteGlow</shaderType>
+    </graphicData>
+  </FleckDef>
+  
+  <!-- ================================== Effects for militor skills ====================================-->
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_Fortification</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <drawOffscreen>true</drawOffscreen>
+    <mote>
+      <fadeInTime>0.01</fadeInTime>
+      <fadeOutTime>0.01</fadeOutTime>
+      <solidTime>0.35</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/Fortified</texPath>
+      <graphicClass>GraphicMote_RandomWithAgeSecs</graphicClass>
+      <shaderType>GlowAnimated</shaderType>
+      <shaderParameters>
+        <_NumFrames>4</_NumFrames>
+        <_FramesPerSec>1</_FramesPerSec>
+      </shaderParameters>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+  </ThingDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>FabricateField</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <fadeInTime>0.1</fadeInTime>
+    <fadeOutTime>0.55</fadeOutTime>
+    <solidTime>0.4</solidTime>
+    <growthRate>0.9</growthRate>
+    <graphicData>
+      <texPath>Things/Misc/MoteMisc/MilitorSkillEffects/FabricateMote</texPath>
+      <drawSize>(2, 2)</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown" Name="FabricateSkipOuterRing" Abstract="True">
+    <altitudeLayer>MoteOverheadLow</altitudeLayer>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipRing</shaderType>
+      <texPath>Things/Misc/MoteMisc/MilitorSkillEffects/FabricateHexagons</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.55</_innerRingSize>
+        <_outerRingSize>1.0</_outerRingSize>
+        <_distortionIntensity>0.01</_distortionIntensity>
+        <_brightnessMultiplier>1.1</_brightnessMultiplier>
+        <_solidTime>0.2</_solidTime>
+        <_outTime>0.1</_outTime>
+        <_AgeOffset>0.07</_AgeOffset>
+      </shaderParameters>
+      <drawSize>4</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FabricateSkipOuterRing">
+    <defName>FabricatedExit</defName>
+    <graphicData>
+      <shaderParameters>
+        <_inTime>0.2</_inTime>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FleckBase_Thrown" Name="FabricateSkipInner" Abstract="True">
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0.4</solidTime>
+    <graphicData>
+      <graphicClass>Graphic_FleckPulse</graphicClass>
+      <shaderType>MotePsychicSkipInner</shaderType>
+      <texPath>Things/Misc/MoteMisc/MilitorSkillEffects/FabricateHexagons</texPath>
+      <shaderParameters>
+        <_innerRingSize>0.65</_innerRingSize>
+      </shaderParameters>
+      <drawSize>3.4</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+  <FleckDef ParentName="FabricateSkipInner">
+    <defName>FabricateSkipInnerExit</defName>
+    <graphicData>
+      <shaderParameters>
+        <_inTime>0.2</_inTime>
+        <_solidTime>0.2</_solidTime>
+        <_outTime>0.1</_outTime>
+        <_AgeOffset>0.07</_AgeOffset>
+      </shaderParameters>
+    </graphicData>
+  </FleckDef>
+  
+</Defs>

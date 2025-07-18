@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <AbilityDef>
+    <defName>CastAOEShield</defName>
+    <label>cast AOE shield</label>
+    <description>Activate a giant shield bubble for you and your allies.</description>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+	<iconPath>Things/Misc/UI/ApparelAbililties/ShieldUI</iconPath>
+	<charges>3</charges>
+    <cooldownTicksRange>20000</cooldownTicksRange>
+    <verbProperties>
+	    <verbClass>Verb_CastAbilityTouch</verbClass>
+		<drawAimPie>False</drawAimPie>
+		<range>-1</range>
+		<warmupTime>0.1</warmupTime>
+		<targetable>false</targetable>
+		<targetParams>
+			<canTargetSelf>true</canTargetSelf>
+		</targetParams>
+	</verbProperties>
+	<comps>
+      <li Class="CompProperties_AbilitySpawn">
+        <thingDef>AOEShieldPsychic</thingDef>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>BulletShieldAreaEffect</fleckDef>
+        <sound>Psycast_Skip_Exit</sound>
+      </li>
+    </comps>
+	<jobDef>CastAbilityOnThingMelee</jobDef>
+  </AbilityDef> 
+  <ThingDef ParentName="EtherealThingBase">
+    <defName>AOEShieldPsychic</defName>
+    <label>AOE shield</label>
+    <thingClass>ThingWithComps</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Ethereal/PsychicShieldRipples</texPath>
+      <shaderType>BulletShieldPsychic</shaderType>
+      <color>(180, 231, 237)</color>
+      <drawSize>9.9</drawSize>
+      <shaderParameters>
+        <_PulseInterval>0.5</_PulseInterval>
+        <_DistortionScale>0.5</_DistortionScale>
+        <_DistortionIntensity>0.15</_DistortionIntensity>
+        <_MinAlpha>0.1</_MinAlpha>
+        <_MaxAlpha>0.3</_MaxAlpha>
+        <_DistortionTex>/Things/Mote/SmokeTiled</_DistortionTex>
+      </shaderParameters>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_ProjectileInterceptor">
+        <radius>4.9</radius>
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles>
+        <interceptOutgoingProjectiles>true</interceptOutgoingProjectiles>
+        <color>(1,1,0.5)</color>
+        <minAlpha>0.2</minAlpha>
+        <interceptEffect>Interceptor_BlockedProjectilePsychic</interceptEffect>
+      </li>
+      <li Class="CompProperties_DestroyAfterDelay">
+        <delayTicks>900</delayTicks>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <AbilityDef>
+    <defName>TossGrenade</defName>
+    <label>toss grenades</label>
+    <description>Throw an anti-personel grenade at the enemy.</description>
+    <iconPath>Things/Misc/UI/ApparelAbililties/TossGrenadeUI</iconPath>
+    <cooldownTicksRange>2500</cooldownTicksRange>
+	<charges>2</charges>
+    <displayOrder>100</displayOrder>
+    <aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>30.9</range>
+	  <minRange>3.9</minRange>
+      <warmupTime>0.5</warmupTime>
+	  <forcedMissRadius>1.9</forcedMissRadius>
+      <soundCast>ThrowGrenade</soundCast>
+	  <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>AntiPersonelGrenade</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>AntiPersonelGrenade</defName>
+    <label>anti-personel grenade</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/MechToxCanister</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>AntiPersonel</damageDef>
+	  <explosionDelay>100</explosionDelay>
+	  <explosionRadius>3.9</explosionRadius>
+      <speed>12</speed>
+    </projectile>
+  </ThingDef>
+  
+  <AbilityDef>
+    <defName>TossEMPGrenade</defName>
+    <label>toss EMP grenades</label>
+    <description>Throw an anti-mechanoid grenade at the enemy.</description>
+    <iconPath>Things/Misc/UI/ApparelAbililties/TossGrenadeEMPUI</iconPath>
+    <cooldownTicksRange>2500</cooldownTicksRange>
+	<charges>2</charges>
+    <displayOrder>100</displayOrder>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>30.9</range>
+	  <minRange>3.9</minRange>
+      <warmupTime>0.5</warmupTime>
+	  <forcedMissRadius>1.9</forcedMissRadius>
+      <soundCast>ThrowGrenade</soundCast>
+	  <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+		<canTargetPawns>true</canTargetPawns>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>AntiMechGrenade</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>AntiMechGrenade</defName>
+    <label>anti-mech grenade</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/MechToxCanister</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>EMP</damageDef>
+	  <explosionDelay>100</explosionDelay>
+	  <explosionRadius>5.9</explosionRadius>
+      <speed>12</speed>
+    </projectile>
+  </ThingDef>
+  
+  <AbilityDef>
+    <defName>LongjumpPack</defName>
+    <label>longjump</label>
+    <description>Jump to a distant location using the melee enforcer backpack.</description>
+    <iconPath>Things/Misc/UI/ApparelAbililties/RocketPackUI</iconPath>
+    <cooldownTicksRange>480</cooldownTicksRange>
+	<aiCanUse>true</aiCanUse>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityJump</verbClass>
+      <label>jump</label>
+      <violent>false</violent>
+      <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+      <warmupTime>0.5</warmupTime>
+      <minRange>5.9</minRange>
+      <range>25.9</range>
+      <warmupEffecter>JumpMechWarmupEffect</warmupEffecter>
+      <requireLineOfSight>true</requireLineOfSight>
+      <flightEffecterDef>JumpMechFlightEffect</flightEffecterDef>
+      <soundLanding>JumpMechLand</soundLanding>
+      <soundCast Inherit="False" />
+      <flyWithCarriedThing>true</flyWithCarriedThing>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+      </targetParams>
+    </verbProperties>
+	<jobDef>CastJump</jobDef>
+  </AbilityDef>
+  
+  <AbilityDef>
+    <defName>ActivateCamouflage</defName>
+    <label>activate camouflage</label>
+    <description>Activate the enforcer duster's hidden camouflage module to blend into the surroundings.</description>
+    <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+	<iconPath>Things/Misc/UI/ApparelAbililties/InvisibilityUI</iconPath>
+	<charges>3</charges>
+    <cooldownTicksRange>20000</cooldownTicksRange>
+    <verbProperties>
+	    <verbClass>Verb_CastAbilityTouch</verbClass>
+		<drawAimPie>False</drawAimPie>
+		<range>-1</range>
+		<warmupTime>0.1</warmupTime>
+		<targetable>false</targetable>
+		<targetParams>
+			<canTargetSelf>true</canTargetSelf>
+		</targetParams>
+	</verbProperties>
+	<statBases>
+      <Ability_Duration>50</Ability_Duration>
+    </statBases>
+	<comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicInvisibility</hediffDef>
+        <psychic>True</psychic>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+  </AbilityDef>
+
+</Defs>

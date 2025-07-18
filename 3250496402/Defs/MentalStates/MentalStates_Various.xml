@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <MentalBreakDef>
+    <defName>UnbridledRage</defName>
+    <mentalState>UnbridledRage</mentalState>
+    <intensity>Extreme</intensity>
+    <baseCommonality>0.1</baseCommonality>
+    <commonalityFactorPerPopulationCurve>
+      <points>
+        <li>(2, 0.1)</li>
+        <li>(7, 1)</li>
+      </points>
+    </commonalityFactorPerPopulationCurve>
+  </MentalBreakDef>
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>UnbridledRage</defName>
+    <stateClass>Kraltech_Industries.MentalState_UnbridledRage</stateClass>
+    <workerClass>Kraltech_Industries.MentalStateWorker_UnbridledRage</workerClass>
+    <label>unbridled rage</label>
+    <category>Aggro</category>
+    <blockInteractionInitiationExcept>
+      <li>Insult</li>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+      <li>Insult</li>
+    </blockInteractionRecipientExcept>
+    <blockRandomInteraction>true</blockRandomInteraction>
+    <colonistsOnly>false</colonistsOnly>
+    <minTicksBeforeRecovery>1000000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>1000000</maxTicksBeforeRecovery>
+    <recoverFromSleep>true</recoverFromSleep>
+    <nameColor>(0.9,0.2,0.5)</nameColor>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <recoveryMessage>{0} is no longer in an unbridled rage.</recoveryMessage>
+    <beginLetter>{0} has flown into an unbridled rage.\n\n[PAWN_pronoun] has decided to kill {1}.</beginLetter>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <baseInspectLine>Mental state: Unbridled rage</baseInspectLine>
+    <allowBeatfire>false</allowBeatfire>
+  </MentalStateDef>
+  
+  <ThinkTreeDef>
+    <defName>MentalStateCritical</defName>
+    <thinkRoot Class="ThinkNode_Tagger">
+      <tagToGive>InMentalState</tagToGive>
+      <subNodes>
+	  
+	    <!-- Unbridled rage -->
+        <li Class="ThinkNode_ConditionalMentalState">
+          <state>UnbridledRage</state>
+          <subNodes>
+            <li Class="Kraltech_Industries.JobGiver_UnbridledRage" />
+			<li Class="JobGiver_Berserk" />
+            <li Class="JobGiver_WanderColony" />
+          </subNodes>
+        </li>
+	  
+	  </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+</Defs>

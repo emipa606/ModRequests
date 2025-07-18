@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThinkTreeDef>
+    <defName>ValkyrianConstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+        
+        <!-- Non-player mechs -->
+        <li Class="ThinkNode_ConditionalPlayerMech">
+          <invert>true</invert>
+          <subNodes>
+            <li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+              <subNodes>
+                <!-- ValkyrianLongjumpMech -->
+                <li Class="ThinkNode_ConditionalHasAbility">
+                  <ability>ValkyrianLongjumpMech</ability>
+                  <subNodes>
+                    <!-- Jump towards enemy for melee -->
+                    <li Class="ThinkNode_ConditionalDoingJob">
+                      <jobDef>AttackMelee</jobDef>
+                      <subNodes>
+                        <li Class="JobGiver_AIJumpToJobTarget">
+                          <ability>ValkyrianLongjumpMech</ability>
+                        </li>
+                      </subNodes>
+                    </li>
+                  </subNodes>
+                </li> 
+                <li Class="JobGiver_AIFightEnemies">
+                  <targetAcquireRadius>65</targetAcquireRadius>
+                  <targetKeepRadius>72</targetKeepRadius>
+                </li>
+                <li Class="JobGiver_AITrashColonyClose" />
+                <li Class="JobGiver_AITrashBuildingsDistant" />
+                <li Class="JobGiver_AIGotoNearestHostile" />
+                <li Class="JobGiver_AITrashBuildingsDistant">
+                  <attackAllInert>true</attackAllInert>
+                </li>
+                <li Class="ThinkNode_ConditionalPlayerMech">
+                  <subNodes>
+                    <li Class="JobGiver_WanderColony" />
+                  </subNodes>
+                </li>
+                <li Class="JobGiver_WanderAnywhere" />				
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+  <ThinkTreeDef>
+    <defName>CombatMechConstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+
+        <li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+          <subNodes>
+            <li Class="JobGiver_AIFightEnemies">
+              <targetAcquireRadius>65</targetAcquireRadius>
+              <targetKeepRadius>72</targetKeepRadius>
+            </li>
+            <li Class="JobGiver_AITrashColonyClose" />
+            <li Class="JobGiver_AITrashBuildingsDistant" />
+            <li Class="JobGiver_AIGotoNearestHostile" />
+            <li Class="JobGiver_AITrashBuildingsDistant">
+              <attackAllInert>true</attackAllInert>
+            </li>
+            <li Class="ThinkNode_ConditionalPlayerMech">
+              <subNodes>
+                <li Class="JobGiver_WanderColony" />
+              </subNodes>
+            </li>
+            <li Class="JobGiver_WanderAnywhere" />
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+</Defs>

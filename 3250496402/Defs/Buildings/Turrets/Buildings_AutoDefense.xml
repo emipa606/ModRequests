@@ -1,0 +1,1123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+
+  <!--=============== HMG turret ===============-->
+
+  <ThingDef ParentName="BuildingBase" Name="HMGTurret" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretBases/HeavyTurretPlatform_Base</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,-0.1)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>   
+    <techLevel>Spacer</techLevel>	
+	<costList>
+      <Steel>180</Steel>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>550</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>17000</WorkToBuild>
+      <Mass>100</Mass>
+      <Beauty>2</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>2.7</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>0.95</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="HMGTurret">
+    <defName>Turret_HighCaliberHMGTurret</defName>
+    <label>auto heavy machinegun turret</label>
+    <description>Kraltech's crowd-control specialist, the auto heavy machinegun turret. This turret can fire a stream of high caliber rounds that can mow-down groups of enemies within minutes, making it a perfect auto-support defensive structure in the frontlines.</description>
+    <uiIconPath>Things/Buildings/Defense/MenuIcon/HeavyCaliberTurret_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret> 
+    </statBases>
+     <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>350</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Ammo left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>AmmoBox</li></thingDefs></fuelFilter>
+        <fuelCapacity>300</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>  
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Resources/Ammunitions/UI/HighCaliberAmmo_UI</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_HMGTurret</turretGunDef>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>KraltechAutoDefense</li>
+    </researchPrerequisites>
+  </ThingDef> 
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_HMGTurret</defName>
+    <label>heavy machinegun</label>
+    <description>A self-loading heavy machinegun designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/HeavyCaliberTurret_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.28</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.80</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_HeavyMachinegun</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <minRange>6</minRange>
+        <range>35.9</range>
+		<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>20</burstShotCount>
+        <soundCast>Shot_AdvancedRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_HeavyMachinegun</defName>
+    <label>HMG bullet</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/HighCaliberBullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+	  <armorPenetrationBase>0.75</armorPenetrationBase>
+      <speed>110</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Rapid fire mini turret ===============-->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>Turret_RFMiniTurret</defName>
+    <label>rapid-fire mini-turret</label>
+    <description>An improved version of the portable auto mini-turret, now with a longer rifled barrel for increased firing range and increased damage, and an advanced auto-loading technology which allows to fire bullets at an incredible pace.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretBases/RapidFireMiniTurret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.5,2.5)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.27,0.25,0.27)</volume>
+        <offset>(0,0,0)</offset>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Things/Buildings/Defense/MenuIcon/RapidFireMiniTurret_MenuIcon</uiIconPath>
+    <uiIconScale>0.90</uiIconScale>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>1800</WorkToBuild>
+      <Mass>8</Mass>
+      <Beauty>-5</Beauty>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>3.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>150</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Ammo left</fuelGizmoLabel>
+        <outOfFuelMessage>Out of ammo</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>AmmoBox</li></thingDefs></fuelFilter>
+        <fuelCapacity>300</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier> 
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>true</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>70</costStuffCount>
+    <costList>
+      <Steel>100</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <building>
+      <combatPower>75</combatPower>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretGunDef>Gun_RFMiniTurret</turretGunDef>
+      <turretBurstCooldownTime>4.8</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc2</designationHotKey>
+    <researchPrerequisites>
+      <li>KraltechAutoDefense</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_RFMiniTurret</defName>
+    <label>rapid-fire mini-turret gun</label>
+    <description>A simple automatic gun made to be mounted on a turret.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/RapidFireMiniTurret_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.77</AccuracyTouch>
+      <AccuracyShort>0.75</AccuracyShort>
+      <AccuracyMedium>0.50</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>15</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_RFMiniTurret</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>25.9</range>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <burstShotCount>15</burstShotCount>
+        <soundCast>Shot_HCAR</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_RFMiniTurret</defName>
+    <label>RF mini-turret bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>15</damageAmountBase>
+	  <armorPenetrationBase>0.45</armorPenetrationBase>
+      <speed>100</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Auto flak cannon turret ===============-->
+  
+  <ThingDef ParentName="BuildingBase" Name="FlakTurret" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretBases/HeavyTurretPlatform_Base</texPath>
+	  <shaderType>CutoutComplex</shaderType>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,-0.1)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>   
+    <techLevel>Spacer</techLevel>	
+	<costList>
+      <Steel>360</Steel>
+      <ComponentSpacer>4</ComponentSpacer>
+    </costList>
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>true</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>550</MaxHitPoints>
+      <Flammability>0.7</Flammability>
+      <WorkToBuild>17000</WorkToBuild>
+      <Mass>100</Mass>
+      <Beauty>2</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>85</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>2.7</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>0.95</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="FlakTurret">
+    <defName>Turret_AutoFlakCannonTurret</defName>
+    <label>auto flak cannon turret</label>
+    <description>A long range auto flak cannon. It can fire high explosive shells that can takedown large groups of enemies in a single shot, and it's highly accurate thanks to its automatic targeting AI, but it has very low firing rate due to the recoil where the interior frame only managed to suppress half of the recoil.</description>
+    <uiIconPath>Things/Buildings/Defense/MenuIcon/AutoFlakCannonTurret_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>1.0</ShootingAccuracyTurret> 
+    </statBases>
+     <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>150</costStuffCount>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>350</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Shells left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Out of shells</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>HighExShell</li></thingDefs></fuelFilter>
+        <fuelCapacity>30</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>  
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Resources/Ammunitions/UI/HighExFlak_UI</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_FlakTurret</turretGunDef>
+      <turretBurstCooldownTime>8.0</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>KraltechAutoDefense</li>
+    </researchPrerequisites>
+  </ThingDef> 
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_FlakTurret</defName>
+    <label>auto flak cannon</label>
+    <description>A self-loading auto flak cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/AutoFlakCannonTurret_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>1.0</AccuracyTouch>
+      <AccuracyShort>1.0</AccuracyShort>
+      <AccuracyMedium>1.0</AccuracyMedium>
+      <AccuracyLong>1.0</AccuracyLong>
+      <RangedWeapon_Cooldown>10</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>70</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_FlakCannon</defaultProjectile>
+		<forcedMissRadius>0.5</forcedMissRadius>
+        <warmupTime>5</warmupTime>
+        <minRange>9</minRange>
+        <range>50</range>
+        <soundCast>Shot_CannonShot</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_FlakCannon</defName>
+    <label>high explosive shell</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/FlakCannonShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>BombHighExShell</damageDef>
+      <explosionRadius>5.9</explosionRadius>
+	  <armorPenetrationBase>1.5</armorPenetrationBase>
+      <speed>150</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Air frame missile turret ===============-->
+  
+  <ThingDef Name="MissileTurretBuilding" ParentName="BuildingBase" Abstract="True">
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Buildings/Defense/TurretBases/HeavyTurretPlatform_Base</texPath>
+	  <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.38,0.2,0.56375,0.8)</rect>
+        <cornerTL>Damage/Corner</cornerTL>
+      </damageData>
+      <shadowData>
+        <offset>(-0.13,-0.87,-0.1)</offset>
+        <volume>(0.5,0.4,1.05)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+	<rotatable>true</rotatable>
+    <size>(3,3)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>85</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <tickerType>Normal</tickerType>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <costStuffCount>200</costStuffCount>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <costList>
+      <Steel>450</Steel>
+      <ComponentSpacer>6</ComponentSpacer>
+    </costList>
+    <inspectorTabs>
+    </inspectorTabs>    
+    <statBases>
+      <AccuracyShort>1.0</AccuracyShort>
+      <AccuracyMedium>1.0</AccuracyMedium>
+      <AccuracyLong>1.0</AccuracyLong>
+      <RangedWeapon_Cooldown>9</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>90</Mass>
+      <Flammability>0</Flammability>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <building>
+      <turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>28.0</turretBurstCooldownTime>
+      <buildingTags>
+      </buildingTags>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>KraltechAutoDefense</li>
+    </researchPrerequisites>
+    <uiIconScale>1.1</uiIconScale>
+  </ThingDef>
+  
+  <ThingDef ParentName="MissileTurretBuilding">
+    <defName>Turret_MissileFrame</defName>
+    <label>air frame missile launcher</label>
+    <description>An automatic surface-to-air missile launcher that fires missiles at a very long range. The missile will reach any target throughout the map, and it can ignore any obstacles in its way, making it the perfect early respondent defensive structure against arriving threats on the map.</description>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>550</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Missiles left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Out of missiles</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>HighExMissile</li></thingDefs></fuelFilter>
+        <fuelCapacity>9</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>  
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Resources/Ammunitions/UI/Missile_UI</fuelIconPath>
+      </li>
+    </comps>
+    <costListForDifficulty>
+	  <difficultyVar>classicMortars</difficultyVar>
+      <invert>true</invert>
+      <costList>
+        <ComponentSpacer>6</ComponentSpacer>
+      </costList>
+      <costStuffCount>450</costStuffCount>
+    </costListForDifficulty>
+    <designationHotKey>Misc4</designationHotKey>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <building>
+      <turretGunDef>MissileFrame</turretGunDef>
+	  <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+      <buildingTags>
+      </buildingTags>
+    </building>
+  <uiIconPath>Things/Buildings/Defense/MenuIcon/AirframeMissleTurret_MenuIcon</uiIconPath>
+  <uiIconScale>0.9</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseArtilleryWeapon">
+    <defName>MissileFrame</defName>
+    <label>missile frame</label>
+    <description>Missile launcher. Launches missiles over walls at a very long-range.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/AirframeMissleTurret_Top</texPath>
+	  <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <weaponTags>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+		<defaultProjectile>Proj_Missile</defaultProjectile>
+        <warmupTime>5</warmupTime>
+        <forcedMissRadius>1.5</forcedMissRadius>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <minRange>6.9</minRange>
+        <range>500</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_Missile</soundCast>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+        <targetParams>
+        </targetParams>
+      </li>
+    </verbs>
+    <comps>
+    </comps>
+    <building>
+    </building>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Proj_Missile</defName>
+    <label>missile</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/MissileShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+	  <flyOverhead>true</flyOverhead>
+      <explosionRadius>9.9</explosionRadius>
+	  <armorPenetrationBase>2.5</armorPenetrationBase>
+      <speed>100</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Anti-Mech Boss turrets ===============-->
+  
+  <!--=============== Advanced vulcan turret ===============-->
+  
+  <ThingDef ParentName="BuildingBase" Name="VulcanTurret" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretBases/AdvancedDefensivePlatform</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,-0.1)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData> 
+    <costList>
+      <SuperSteel>950</SuperSteel>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>	
+    <techLevel>Ultra</techLevel>		
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>4500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>27000</WorkToBuild>
+      <Mass>550</Mass>
+      <Beauty>5</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>2.7</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>0.95</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="VulcanTurret">
+    <defName>Turret_AdvancedVulcanTurret</defName>
+    <label>advanced vulcan turret</label>
+    <description>One of the most powerful heavy auto turret, which is the result of studying and reverse engineering the mechanoid's chainguns and chaingun turrets. It uses a special type of ammunition called a 57mm gammatron bullet, which possess the same supperior armor penetration, which inflicts both EMP and physical damage.</description>
+    <uiIconPath>Things/Buildings/Defense/MenuIcon/AdvancedVulcan_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>0.98</ShootingAccuracyTurret> 
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1250</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Ammo left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Out of ammo</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>GammatronBullets</li></thingDefs></fuelFilter>
+        <fuelCapacity>500</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>  
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Resources/Ammunitions/UI/GammatronBullets_UI</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_AdvancedVulcan</turretGunDef>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>Anti-MechBossAutoDefense</li>
+    </researchPrerequisites>
+  </ThingDef> 
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_AdvancedVulcan</defName>
+    <label>advanced vulcan</label>
+    <description>A self-loading heavy chaingun designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/AdvancedVulcan_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>2.0</AccuracyTouch>
+      <AccuracyShort>2.0</AccuracyShort>
+      <AccuracyMedium>2.0</AccuracyMedium>
+      <AccuracyLong>2.0</AccuracyLong>
+      <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>Bullet_AdvancedVulcan</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <minRange>6</minRange>
+        <range>55.9</range>
+		<ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+        <burstShotCount>35</burstShotCount>
+        <soundCast>Shot_ChainGun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>0.5</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <thingClass>Kraltech_Industries.Projectile_AccurateBullet</thingClass>
+    <defName>Bullet_AdvancedVulcan</defName>
+    <label>gammatron bullet</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/ADVVulcanShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <shaderType>MoteGlow</shaderType>
+	  <drawSize>(0.5, 2)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>150</damageAmountBase>
+	  <armorPenetrationBase>5</armorPenetrationBase>
+	  <extraDamages>
+		<li>
+			<def>EMP</def>
+			<amount>500</amount>
+			<chance>1.0</chance>
+		</li>
+	  </extraDamages>
+      <speed>200</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Advanced charge cannon turret ===============-->
+  
+  <ThingDef ParentName="BuildingBase" Name="ChargeCannonTurret" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretBases/AdvancedDefensivePlatform</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,-0.1)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData> 
+    <costList>
+      <SuperSteel>1250</SuperSteel>
+      <ComponentSpacer>10</ComponentSpacer>
+    </costList>	
+    <techLevel>Ultra</techLevel>		
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>4500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>27000</WorkToBuild>
+      <Mass>550</Mass>
+      <Beauty>5</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>2.7</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>0.95</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="ChargeCannonTurret">
+    <defName>Turret_ChargeCannonTurret</defName>
+    <label>advanced charge cannon turret</label>
+    <description>An energized auto cannon turret that fires the infamous charge blast used by the mechanoids. The turret can propel an explosive charged projectile that can heavily damage ordinary mech variants and mech variant bossess.</description>
+    <uiIconPath>Things/Buildings/Defense/MenuIcon/AdvancedPlasmaCannon_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>2.0</ShootingAccuracyTurret> 
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1250</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Fussion cores left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Out of mech fussion cores</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>MechFussionCore</li></thingDefs></fuelFilter>
+        <fuelCapacity>25</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>  
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Resources/Ammunitions/UI/FussionCore_UI</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_ChargeCannon</turretGunDef>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>Anti-MechBossAutoDefense</li>
+    </researchPrerequisites>
+  </ThingDef> 
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_ChargeCannon</defName>
+    <label>charge cannon</label>
+    <description>A self-loading heavy charge cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/AdvancedPlasmaCannon_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>2.0</AccuracyTouch>
+      <AccuracyShort>2.0</AccuracyShort>
+      <AccuracyMedium>2.0</AccuracyMedium>
+      <AccuracyLong>2.0</AccuracyLong>
+      <RangedWeapon_Cooldown>10</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+		<hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Proj_ChargeCannon</defaultProjectile>
+        <warmupTime>20</warmupTime>
+        <minRange>6</minRange>
+        <range>50.9</range>
+        <burstShotCount>1</burstShotCount>
+		<soundCast>Shot_HellsphereCannonGun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Proj_ChargeCannon</defName>
+    <label>charged cannon warhead</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/ChargedCannonShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+	  <drawSize>(1.5, 3)</drawSize>
+    </graphicData>
+	<thingClass>Projectile_HellsphereCannon</thingClass>
+    <projectile>
+      <damageDef>ChargeBlast</damageDef>
+      <explosionRadius>3.9</explosionRadius>
+      <screenShakeFactor>1.5</screenShakeFactor>
+	  <armorPenetrationBase>5</armorPenetrationBase>
+      <speed>200</speed>
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Advanced antigrain cannon turret ===============-->
+  
+  <ThingDef ParentName="BuildingBase" Name="AntigrainCannonTurret" Abstract="True"> 
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretBases/AdvancedDefensivePlatform</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <drawOffset>(0,0,-0.1)</drawOffset>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(1.5,0.35,1.4)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData> 
+    <costList>
+      <SuperSteel>1150</SuperSteel>
+      <ComponentSpacer>7</ComponentSpacer>
+    </costList>	
+    <techLevel>Ultra</techLevel>		
+    <altitudeLayer>Building</altitudeLayer>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <size>(3,3)</size>
+    <statBases>
+      <MaxHitPoints>4500</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <WorkToBuild>27000</WorkToBuild>
+      <Mass>550</Mass>
+      <Beauty>5</Beauty>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <hasTooltip>true</hasTooltip>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Security</designationCategory>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+      <turretTopDrawSize>2.7</turretTopDrawSize>
+      <turretTopOffset>(0, 0.05)</turretTopOffset>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <designationHotKey>Misc3</designationHotKey>    
+    <uiIconScale>0.95</uiIconScale>
+  </ThingDef>
+
+  <ThingDef ParentName="AntigrainCannonTurret">
+    <defName>Turret_AntigrainCannonTurret</defName>
+    <label>advanced antigrain cannon turret</label>
+    <description>The pinacle of anti-mech variant defensive structures. The antigrain cannon can fire antigrain super shells at long distance, which is capable of decimating groups of mech variants in a single volley. Though it may sound overpowered, the cost of the ammunition is the opposite.</description>
+    <uiIconPath>Things/Buildings/Defense/MenuIcon/AdvancedAutoCannon_MenuIcon</uiIconPath>
+    <statBases>
+      <ShootingAccuracyTurret>2.0</ShootingAccuracyTurret> 
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <wickTicks>240</wickTicks>
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1250</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Shots until refill</fuelLabel>
+        <fuelGizmoLabel>Super shells left</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot shoot: Out of antigrain super shells</outOfFuelMessage>
+        <fuelFilter><thingDefs><li>AntiGrainSuperShell</li></thingDefs></fuelFilter>
+        <fuelCapacity>10</fuelCapacity>       
+        <fuelMultiplier>1</fuelMultiplier>  
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Resources/Ammunitions/UI/Anti-GarinWarhead_UI</fuelIconPath>
+      </li>
+    </comps>
+    <building>
+      <turretGunDef>Gun_AntiGrainCannon</turretGunDef>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+    </building>
+    <researchPrerequisites>
+      <li>Anti-MechBossAutoDefense</li>
+    </researchPrerequisites>
+  </ThingDef> 
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>Gun_AntiGrainCannon</defName>
+    <label>antigrain cannon</label>
+    <description>A self-loading heavy auto cannon designed to attach to a turret.</description>
+    <graphicData>
+      <texPath>Things/Buildings/Defense/TurretHeads/AdvancedAutoCannon_Top</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>2.0</AccuracyTouch>
+      <AccuracyShort>2.0</AccuracyShort>
+      <AccuracyMedium>2.0</AccuracyMedium>
+      <AccuracyLong>2.0</AccuracyLong>
+      <RangedWeapon_Cooldown>20</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>40</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+		<hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Proj_AntigrainCannon</defaultProjectile>
+        <warmupTime>20</warmupTime>
+        <minRange>10.9</minRange>
+        <range>60.9</range>
+		<ticksBetweenBurstShots>30</ticksBetweenBurstShots>
+        <burstShotCount>3</burstShotCount>
+		<soundCast>Shot_CannonShot</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>20</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Proj_AntigrainCannon</defName>
+    <label>super antigrain warhead</label>
+    <graphicData>
+      <texPath>Things/Misc/Bullets/ChargedCannonShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+	  <drawSize>(1.5, 3)</drawSize>
+    </graphicData>
+	<thingClass>Projectile_HellsphereCannon</thingClass>
+    <projectile>
+      <damageDef>BombUltra</damageDef>
+      <explosionRadius>5.9</explosionRadius>
+      <screenShakeFactor>1.5</screenShakeFactor>
+	  <armorPenetrationBase>5</armorPenetrationBase>
+      <speed>200</speed>
+    </projectile>
+  </ThingDef>
+
+</Defs>
