@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Vanilla Factions Expanded - Pirates</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Warcasket Eltex Greatsword -->	
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <ThingDef ParentName="VFEP_BaseMeleeWeapon_Warcasket">
+                            <defName>EW_WC_EltexGreatsword</defName>
+                            <label>warcasket eltex greatsword</label>
+                            <description>A giant ultratech sword made for warcasket use. Using an array of sophisticated eltex lenses embedded in its hilt, the weapon is able to magnify psychic power and project it into an energy field around its blade that grows in power the more psychically sensitive the wielder is. However, the generated psychic field wanes when cutting into psychically dull foes such as mechanoids due to psychic field dissonance between its wielder and target.\n\nEach attack deals additional 15 damage that doesn't scale with psychic sensitivity.</description>
+							<thingClass>VFECore.ThingWithFloorGraphic</thingClass>
+                            <graphicData>
+                                <texPath>Things/Weapons/WarcasketEltexSword</texPath>
+								<drawSize>1.8</drawSize>
+                            </graphicData>
+							<techLevel Inherit="False">Ultra</techLevel>
+                            <statBases>
+                                <MarketValue>2400</MarketValue>
+                                <WorkToMake>45000</WorkToMake>
+                                <Mass>35</Mass>
+                            </statBases>
+                            <weaponTags>
+                                <li>WarcasketMelee</li>
+                            </weaponTags>
+                            <costList>
+                                <Steel>180</Steel>
+                                <Plasteel>130</Plasteel>
+								<ComponentSpacer>5</ComponentSpacer>
+								<VPE_Eltex MayRequire="VanillaExpanded.VPsycastsE">3</VPE_Eltex>
+                            </costList>
+                            <equippedAngleOffset>-65</equippedAngleOffset>
+                            <tools>
+                                <li>
+                                    <label>point</label>
+                                    <capacities>
+                                        <li>Stab</li>
+                                    </capacities>
+                                    <power>10</power>
+                                    <cooldownTime>2.5</cooldownTime>
+									<armorPenetration>0.50</armorPenetration>
+                                </li>
+                                <li>
+                                    <label>blade</label>
+                                    <capacities>
+                                        <li>Cut</li>
+                                    </capacities>
+                                    <power>20</power>
+                                    <cooldownTime>2.6</cooldownTime>
+									<armorPenetration>0.55</armorPenetration>
+                                </li>
+                            </tools>
+							<equippedStatOffsets>
+							  <PsychicSensitivityOffset>0.75</PsychicSensitivityOffset>
+							  <PsychicEntropyRecoveryRate MayRequire="Ludeon.RimWorld.Royalty">0.083</PsychicEntropyRecoveryRate>
+					        </equippedStatOffsets>
+                            <modExtensions>
+                                <li Class="VFECore.FloorGraphicExtension">
+                                    <graphicData>
+                                        <graphicClass>Graphic_Single</graphicClass>
+                                        <texPath>Things/Weapons/WarcasketEltexSword_OnFloor</texPath>
+                                        <onGroundRandomRotateAngle>0</onGroundRandomRotateAngle>
+                                        <drawSize>1</drawSize>
+                                    </graphicData>
+                                </li>
+								<li Class="AthenaFramework.DamageModifierExtension">
+								  <outgoingModifiers>
+                                    <li>
+                                      <attackerStatDefs>
+                                        <li>PsychicSensitivity</li>
+                                      </attackerStatDefs>
+                                      <targetStatDefs>
+                                        <li>PsychicSensitivity</li>
+                                      </targetStatDefs>
+			                          <offset>15</offset>
+                                    </li>
+                                  </outgoingModifiers>
+								</li>
+                            </modExtensions>
+                        </ThingDef>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <ThingDef ParentName="VFEP_WarcasketWeaponBoxBase">
+                            <defName>EW_WC_EltexGreatsword_OnFloor</defName>
+                            <label>warcasket eltex greatsword</label>
+                            <description>A giant ultratech sword made for warcasket use. Using an array of sophisticated eltex lenses embedded in its hilt, the weapon is able to magnify psychic power and project it into an energy field around its blade that grows in power the more psychically sensitive the wielder is. However, the generated psychic field wanes when cutting into psychically dull foes such as mechanoids due to psychic field dissonance between its wielder and target.\n\nEach attack deals additional 15 damage that doesn't scale with psychic sensitivity.</description>
+                            <graphicData>
+                                <texPath>Things/Weapons/WarcasketEltexSword_OnFloor</texPath>
+                            </graphicData>
+                            <costList>
+                                <Steel>120</Steel>
+                                <Plasteel>60</Plasteel>
+								<ComponentSpacer>2</ComponentSpacer>
+								<VPE_Eltex MayRequire="VanillaExpanded.VPsycastsE">3</VPE_Eltex>
+                            </costList>
+                            <statBases>
+                                <MarketValue>2400</MarketValue>
+                                <Mass>35</Mass>
+                                <WorkToBuild>45000</WorkToBuild>
+                            </statBases>
+                            <comps>
+                                <li Class="VFEPirates.CompProperties_WeaponBox">
+                                    <weaponToEquip>EW_WC_EltexGreatsword</weaponToEquip>
+                                </li>
+                            </comps>
+                            <tradeTags Inherit="false">
+                                <li>VFEP_WarcasketWeapon</li>
+                            </tradeTags>
+                            <researchPrerequisites>
+                                <li>EW_EltexWeaponry</li>
+                            </researchPrerequisites>
+                        </ThingDef>
+                    </value>
+                </li>
+
+                <!-- CE -->
+				<!--
+				<li Class="PatchOperationReplace" MayRequire="CETeam.CombatExtended">
+                    <xpath>Defs/ThingDef[defName = "EW_WC_EltexGreatsword"]/tools
+                    </xpath>
+                    <value>
+                        <tools>
+                            <li Class="CombatExtended.ToolCE">
+                                <label>point</label>
+							    <capacities>
+								  <li>Stab</li>
+							    </capacities>
+							    <power>20</power>
+							    <cooldownTime>2.3</cooldownTime>
+							    <armorPenetrationBlunt>10</armorPenetrationBlunt>
+							    <armorPenetrationSharp>7</armorPenetrationSharp>
+							    <linkedBodyPartsGroup>Point</linkedBodyPartsGroup>
+						    </li>
+						    <li Class="CombatExtended.ToolCE">
+							    <label>edge</label>
+							    <capacities>
+								  <li>Cut</li>
+							    </capacities>
+							    <power>30</power>
+							    <cooldownTime>3.25</cooldownTime>
+							    <armorPenetrationBlunt>18</armorPenetrationBlunt>
+							    <armorPenetrationSharp>6</armorPenetrationSharp>
+							    <linkedBodyPartsGroup>Edge</linkedBodyPartsGroup>
+                            </li>
+                        </tools>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationAdd" MayRequire="CETeam.CombatExtended">
+                    <xpath>Defs/ThingDef[defName = "EW_WC_EltexGreatsword"]/equippedStatOffsets</xpath>
+                    <value>
+					  <MeleeCritChance>0.03</MeleeCritChance>
+					  <MeleeParryChance>0.5</MeleeParryChance>
+					  <MeleeDodgeChance>0.2</MeleeDodgeChance>	
+				    </value>
+                </li>
+				-->
+            </operations>
+        </match>
+    </Operation>
+</Patch>
