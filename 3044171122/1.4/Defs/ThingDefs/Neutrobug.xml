@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="BodyPartBase">
+		<defName>DRNE_Neutrobug</defName>
+		<label>neutrobug</label>
+		<description>This curious parasite is capable of producing neutroamine. To do so, it needs to be inside of a human brain. The neutrobug feasts itself on the neural tissue, killing the afflicted individual over the span of 3 days.\n\nThe origin of these strange worms is unknown. However, scholars theorize they were created as a cruel type of torture. Today, they are most frequently used as punishment for murder or heresy in tribal societies. As tribals don't have any use of neutroamine, they experiment on it, sometimes creating crude drugs or makeshift antibiotics.</description>
+		<techLevel>Neolithic</techLevel>
+		<thingCategories>
+			<li>BodyPartsProsthetic</li>
+		</thingCategories>
+		<graphicData>
+			<texPath>2NahItsAnItem/Neutrobug</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+			<drawSize>0.80</drawSize>
+		</graphicData>
+		<stackLimit>5</stackLimit>
+		<resourceReadoutPriority>Middle</resourceReadoutPriority>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<useHitPoints>true</useHitPoints>
+		<statBases>
+			<DeteriorationRate>4.0</DeteriorationRate>
+			<MarketValue>100</MarketValue>
+			<Mass>0.5</Mass>
+			<Flammability>1</Flammability>
+		</statBases>
+	</ThingDef>
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DRNE_NeutrobugHediff</defName>
+		<label>neutrobug infection</label>
+		<labelNoun>a neutrobug infection</labelNoun>
+		<description>A mature neutrobug consuming the brain. If it isn't removed the afflicted will die.</description>
+		<descriptionHyperlinks><ThingDef>DRNE_Neutrobug</ThingDef></descriptionHyperlinks>
+		<spawnThingOnRemoved>DRNE_Neutrobug</spawnThingOnRemoved>
+		<hediffClass>DRNE_NeutroamineExpansion.HediffThatKillsAndSpawnsResource</hediffClass>
+		<defaultLabelColor>(0.5,1,1)</defaultLabelColor>
+		<initialSeverity>0.001</initialSeverity>
+		<makesSickThought>true</makesSickThought>
+		<maxSeverity>1</maxSeverity>
+		<isBad>true</isBad>
+		<priceImpact>false</priceImpact>
+		<countsAsAddedPartOrImplant>false</countsAsAddedPartOrImplant>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>0.333</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>minor</label>
+				<painOffset>0.2</painOffset>
+			</li> 
+			<li>
+				<minSeverity>0.33</minSeverity>
+				<label>major</label>
+				<painOffset>0.5</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.1</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.667</minSeverity>
+				<label>extreme</label>
+				<lifeThreatening>true</lifeThreatening>
+				<painOffset>0.8</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.95</minSeverity>
+				<label>finishing</label>
+				<lifeThreatening>true</lifeThreatening>
+				<painOffset>1</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<setMax>0.1</setMax>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<modExtensions>
+			<li Class="DRNE_NeutroamineExpansion.ModExt_Neutrobug">
+				<amountOfResource>10</amountOfResource>
+				<resource>Neutroamine</resource>
+				<amountOfSecondResource>3</amountOfSecondResource>
+				<secondResource>DRNE_Neutrobug</secondResource>
+			</li>
+		</modExtensions>
+	</HediffDef>
+  
+	<ThoughtDef>
+		<defName>DRNE_NeutrobugThought</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>DRNE_NeutrobugHediff</hediff>
+		<validWhileDespawned>false</validWhileDespawned>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<stages>
+			<li>
+				<label>Neutrobug</label>
+				<description>There's a bug in my head eating my brain! These psychos put it in there and expect me to accept it. How can I accept it if I CAN FEEL IT MOVE.</description>
+				<baseMoodEffect>-20</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>DRNE_ImplantNeutrobug</defName>
+		<label>implant neutrobug</label>
+		<description>Implant a neutrobug into the person's head</description>
+		<descriptionHyperlinks>
+			<ThingDef>DRNE_Neutrobug</ThingDef>
+			<HediffDef>DRNE_NeutrobugHediff</HediffDef>
+		</descriptionHyperlinks>
+		<skillRequirements>
+			<Medicine>2</Medicine>
+		</skillRequirements>
+		<jobString>Implanting a neutrobug.</jobString>
+		<anesthetize>true</anesthetize>
+		<isViolation>true</isViolation>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DRNE_Neutrobug</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DRNE_Neutrobug</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DRNE_NeutrobugHediff</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryRemoveImplantBase">
+		<defName>DRNE_RemoveNeutrobug</defName>
+		<label>remove neutrobug</label>
+		<description>Remove a neutrobug from this person's brain. High chance of failure.</description>
+		<surgerySuccessChanceFactor>0.6</surgerySuccessChanceFactor>
+		<descriptionHyperlinks>
+			<ThingDef>DRNE_Neutrobug</ThingDef>
+			<HediffDef>DRNE_NeutrobugHediff</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Removing neutrobug.</jobString>
+		<removesHediff>DRNE_NeutrobugHediff</removesHediff>
+	</RecipeDef>
+</Defs>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="DrugBase">
+		<defName>DRNE_NeutrogenesisMutagen</defName>
+		<label>neutrogenesis mutagen</label>
+		<description>This is a targeted mutagen with inert mechanites. When applied orally to a human or animal the mechanites awaken and quickly change the body and genetic structure of the subject. This creates an animal that produces neutroamine. The procedure is NOT reversible. This process can end in death if the individual was weakened, too small or under the effects of certain drugs.\n\nA rather cheap and valuable drug, the neutrogenesis mutagen sees frequent use on early urbworlds and glitterworlds as it allows for a cheap and sustainable source of neutroamine.\n\nEven though the discovery of mutagens and mechanites often means a civilisation is entering it's interplanetary phase, there have been many cases where warlords and authoritarian regimes have forcefully mutated their enemies into mindless livestock, powering their soldiers supply of wake-up and go-juice.</description>
+		<descriptionHyperlinks>
+			<ThingDef>Neutroamine</ThingDef>
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>2NahItsAnItem/NeutrogenesisSerum</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>2400</WorkToMake>
+			<MarketValue>300</MarketValue>
+			<Mass>0.1</Mass>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<foodType>Processed, Fluid</foodType>
+			<baseIngestTicks>80</baseIngestTicks>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<chairSearchRadius>0</chairSearchRadius>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+				<hediffDef>DRNE_Neutrogenesis</hediffDef>
+				<severity>0.01</severity>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<recipeMaker>
+			<researchPrerequisite>DRNE_NeutrogenesisRes</researchPrerequisite>
+			<recipeUsers>
+				<li>FabricationBench</li>
+			</recipeUsers>
+			<soundWorking>Recipe_Machining</soundWorking>
+			<skillRequirements>
+				<Crafting>10</Crafting>
+			</skillRequirements>
+		</recipeMaker>
+		<costList>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Neutroamine>10</Neutroamine>
+		</costList>
+		<comps>
+			<li Class="CompProperties_Drug">
+			<listOrder>2000</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	
+	<HediffDef>
+		<defName>DRNE_Neutrogenesis</defName>
+		<label>undergoing neutrogenesis</label>
+		<labelNoun>a mutation</labelNoun>
+		<description>Neutrogenesis mechanites in the bloodstream and body. The subjected creature will soon transform into an animal capable of producing neutroamine. There is no return, as removing all the mechanites would require ancient mechanoid technology, something far too hard to replicate on this rimworld.</description>
+		<hediffClass>DRNE_NeutroamineExpansion.HediffThatNeutrogenesisates</hediffClass>
+		<defaultLabelColor>(0.5,1,1)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<isBad>true</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>4.0</severityPerDay>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>mildly weakened</label>
+				<painOffset>0.2</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.10</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.2</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.6</minSeverity>
+				<label>very weakened</label>
+				<painOffset>0.5</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.20</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.60</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.9</minSeverity>
+				<label>transforming</label>
+				<painOffset>1</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-1.0</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<modExtensions>
+			<li Class="DRNE_NeutroamineExpansion.ModExt_NeutrogenesisXMLSettings">
+				<primaryPawnKind>DRNE_Neutrobiofactory</primaryPawnKind>
+				<secondaryPawnKind>DRNE_Neutrogoat</secondaryPawnKind>
+				<ternaryPawnKind>DRNE_Neutrorat</ternaryPawnKind>
+				<requiredSizeForPrimary>3</requiredSizeForPrimary>
+				<requiredSizeForSecondary>1</requiredSizeForSecondary>
+				<requiredSizeForTernary>0.15</requiredSizeForTernary>
+				<ChangedBioAge>1</ChangedBioAge>
+			</li>
+		</modExtensions>
+	</HediffDef>
+  
+  
+	<ThoughtDef>
+    <defName>DRNE_NeutrogenesisThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>DRNE_Neutrogenesis</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>undergoing neutrogenesis</label>
+        <description>There is nothing I can do. The mechanites are slowly transforming me. Changing me into an animal. And there's nothing that can help me now...</description>
+        <baseMoodEffect>-30</baseMoodEffect>
+      </li>
+    </stages>
+	</ThoughtDef>
+</Defs>
