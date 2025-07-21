@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>WhiteCrystal</defName>
+    <label>white crystals</label>
+    <description>Drug less refined and pure compared to the methylamine counterpart.</description>
+    <descriptionHyperlinks>
+      <HediffDef>WhiteCrystalHigh</HediffDef>
+      <HediffDef>CrystalTolerance</HediffDef>
+      <HediffDef>CrystalAddiction</HediffDef>
+      <HediffDef>ChemicalDamageSevere</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/TexWhiteCrystal</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.75</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+	<stackLimit>600</stackLimit>
+    <statBases>
+      <WorkToMake>2900</WorkToMake>
+      <MarketValue>40</MarketValue>
+      <Mass>0.03</Mass>
+    </statBases>
+	<costList>
+	<MedicineIndustrial>1</MedicineIndustrial>
+	</costList>
+    <techLevel>Industrial</techLevel>
+    <minRewardCount>6</minRewardCount>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.65</joy>
+      <drugCategory>Hard</drugCategory>
+      <baseIngestTicks>175</baseIngestTicks>
+      <ingestSound>Ingest_Snort</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.21,0,0.05)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Snort {0}</ingestCommandString>
+      <ingestReportString>Snorting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>WhiteCrystalHigh</hediffDef>
+          <severity>0.55</severity>
+          <toleranceChemical>CrystalDrug</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.4</offset>
+          <toleranceChemical>CrystalDrug</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>CrystalTolerance</hediffDef>
+          <severity>0.030</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>CrystalDrug</chemical>
+        <addictiveness>0.01</addictiveness>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>100</listOrder>
+        <overdoseSeverityOffset>0.12~0.30</overdoseSeverityOffset>
+        <largeOverdoseChance>0.01</largeOverdoseChance>
+      </li>
+    </comps>
+    <allowedArchonexusCount>200</allowedArchonexusCount>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>WhiteCrystalHigh</defName>
+    <label>high on white crystal</label>
+    <labelNoun>a white crystal high</labelNoun>
+    <description>Active white crystals chemicals in bloodstream.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>0.85</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>0.6</painFactor>
+          <restFallFactor>0.33</restFallFactor>
+          <capMods>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>0.1</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>WhiteCrystalHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>WhiteCrystalHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+	<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>high on white crystals</label>
+        <description>Yeah, science! Yeah crystals!</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>
