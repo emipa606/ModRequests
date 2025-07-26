@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<!--============================== 
+    Step 1: Add sensory collapse hediff 
+    - This is triggered only when unwaveringly loyal prisoner uses sensory collapser.
+    - It will initiate step 2 and go away if prisoners are forced to leave the sensory collapser too soon. 
+    - It will initiate step 3 for stockholm syndrome if this hediff reaches 1.0 severity.
+	==============================-->
+
+	<HediffDef>
+		<defName>SilkCircuit_SensoryCollapse</defName>
+		<label>sensory collapse</label>
+		<labelNoun>is unraveling—memories blur, resistance fades</labelNoun>
+		<description>The mind is a delicate thing—easily bent, easily broken. Assaulted by sound, light, and just the right amount of suffering, this pawn is beginning to lose track of where the pain ends and the gratitude begins. Reality bends to the captor’s will. The cracks are forming.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<isBad>false</isBad>
+		<alwaysShowSeverity>true</alwaysShowSeverity>
+		<duplicationAllowed>false</duplicationAllowed>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<everCurableByItem>false</everCurableByItem>
+		<cureAllAtOnceIfCuredByItem>false</cureAllAtOnceIfCuredByItem>
+		<battleStateLabel>senses collapsing</battleStateLabel>
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-1.00</offset>
+					</li>
+					<li>
+						<capacity>Hearing</capacity>
+						<offset>-1.00</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-1.00</offset>
+					</li>
+					<li>
+						<capacity>Talking</capacity>
+						<offset>-1.00</offset>
+					</li>
+					<li>
+						<capacity>Eating</capacity>
+						<offset>-1.00</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>-0.50</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>0.25</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.25</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<comps>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_TriggerOnMaxSeverity">
+				<triggerHediffDef>SilkCircuit_SensoryCollapse</triggerHediffDef>
+				<!-- Hediff to unapply (i.e. this current hediff node) -->
+				<applyHediffDef>SilkCircuit_StockholmSyndrome</applyHediffDef>
+				<!-- Hediff to apply (i.e. the next hediff node) -->
+				<!-- Optional: Set this to true if the trigger hediff should be removed -->
+				<removeHediffAtMaxSeverity>true</removeHediffAtMaxSeverity>
+				<!-- Optional: Specify a different hediff to remove instead of the trigger hediff -->
+				<removeHediffDef>SilkCircuit_Immobile</removeHediffDef>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_StockholmSyndrome">
+				<severityIncreasePerDay>5.0</severityIncreasePerDay>
+				<!-- The speed at which the severity of this current hediff increases per day -->
+				<showHoursUntilStockholm>true</showHoursUntilStockholm>
+				<!-- Whether to show the time remaining -->
+			</li>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<hediffs>
+					<li>SilkCircuit_StockholmSyndrome</li>
+				</hediffs>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_WaterEffect">
+				<moteDefs>
+					<li>SilkCircuit_Mote_Bad</li>
+					<li>SilkCircuit_Mote_Blood</li>
+					<li>SilkCircuit_Mote_Deepchat</li>
+					<li>SilkCircuit_Mote_Heart</li>
+					<li>SilkCircuit_Mote_Insult</li>
+					<li>SilkCircuit_Mote_PrisonerRecruit</li>
+					<li>SilkCircuit_Mote_Run</li>
+					<li>SilkCircuit_Mote_Skull</li>
+					<li>SilkCircuit_Mote_Speech</li>
+				</moteDefs>
+				<tickMin>250</tickMin>
+				<tickMax>500</tickMax>
+				<sizeMin>0.8</sizeMin>
+				<sizeMax>1.2</sizeMax>
+				<velocityMin>0.1</velocityMin>
+				<velocityMax>0.4</velocityMax>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_RandomThoughts">
+				<possibleThoughts>
+					<li>SilkCircuit_SensoryShock</li>
+				</possibleThoughts>
+				<minTicksBetweenThoughts>8000</minTicksBetweenThoughts>
+				<maxTicksBetweenThoughts>16000</maxTicksBetweenThoughts>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_FoodDrain">
+				<foodNeedIncreaseRate>0.0022</foodNeedIncreaseRate>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<!--============================== 
+    Step 2: Add temporary hediff to send message to player that resisted sensory collapse
+    - This is triggered only when sensory collapse hediff is removed while stockholm syndrome is inactive.
+    - It goes away immediately once message sent to player. 
+	- It adds temporary debuffs when triggered.
+	- It ends the progression and resets the cycle.
+	==============================-->
+
+	<HediffDef>
+		<defName>SilkCircuit_ResistedSensoryCollapse</defName>
+		<label>resisted sensory collapse</label>
+		<labelNoun>resisted sensory collapse</labelNoun>
+		<hediffClass>HediffWithComps</hediffClass>
+		<description>The pawn endured the torment and emerged unbroken. They won’t forget.</description>
+		<duplicationAllowed>false</duplicationAllowed>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<initialSeverity>0.99</initialSeverity>
+		<minSeverity>0.00</minSeverity>
+		<maxSeverity>1.00</maxSeverity>
+		<alwaysShowSeverity>true</alwaysShowSeverity>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<everCurableByItem>false</everCurableByItem>
+		<cureAllAtOnceIfCuredByItem>false</cureAllAtOnceIfCuredByItem>
+		<comps>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+				<discoverLetterLabel>Failed sensory collapse: {0}</discoverLetterLabel>
+				<discoverLetterText>{PAWN} exited the sensory collapser unfazed.\n\nDespite relentless propaganda, dehumanization, and sensory deprivation, their mind held firm. No attachment, no dependency—just a simmering resentment.\n\nNext time, leave them in longer. Everyone breaks eventually.</discoverLetterText>
+				<messageType>NegativeEvent</messageType>
+				<letterType>NegativeEvent</letterType>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDayRange>-10.5~-20</severityPerDayRange>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_HediffsToAddOnApply">
+				<additionalHediffs>
+					<li>SilkCircuit_SensoryShock</li>
+				</additionalHediffs>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>defiant</label>
+				<minSeverity>0.20</minSeverity>
+			</li>
+			<li>
+				<label>defiant</label>
+				<minSeverity>0.80</minSeverity>
+			</li>
+		</stages>
+	</HediffDef>
+	
+
+	<!--============================== 
+    Step 3: Add stockholm syndrome progression hediff.
+    - This is used to progress toward full blown stockholm syndrome.
+    - It will slowly increase over time.
+    - This triggers step 4 when 1.0 severity.
+	==============================-->
+	
+	<HediffDef>
+		<defName>SilkCircuit_StockholmSyndrome</defName>
+		<label>stockholm syndrome</label>
+		<labelNoun>has started to develop stockholm syndrome tendancies</labelNoun>
+		<description>Early-stage symptoms of stockholm syndrome have set in and will gradually progress over time. Once the symptoms have fully developed, the pawn will lose their unwavering loyalty and become recruitable by wardens.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.0</minSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<alwaysShowSeverity>true</alwaysShowSeverity>
+		<isBad>false</isBad>
+		<duplicationAllowed>false</duplicationAllowed>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<everCurableByItem>false</everCurableByItem>
+		<cureAllAtOnceIfCuredByItem>false</cureAllAtOnceIfCuredByItem>
+		<battleStateLabel>showing signs of stockholm syndrome</battleStateLabel>
+		<stages>
+			<li>
+				<label>non-compliant</label>
+				<becomeVisible>true</becomeVisible>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.01</offset>
+						<setMax>0.99</setMax>
+					</li>
+				</capMods>
+				<statOffsets>
+					<MentalBreakThreshold>0.10</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.2</minSeverity>
+				<label>behavior drift</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.03</offset>
+						<setMax>0.97</setMax>
+					</li>
+				</capMods>
+				<statOffsets>
+					<MentalBreakThreshold>0.04</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.5</minSeverity>
+				<label>dependency onset</label>
+				<socialFightChanceFactor>-0.5</socialFightChanceFactor>
+				<hungerRateFactorOffset>-0.5</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.5</offset>
+						<setMax>0.5</setMax>
+					</li>
+				</capMods>
+				<statOffsets>
+					<MentalBreakThreshold>0.02</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.8</minSeverity>
+				<label>emotional realignment</label>
+				<socialFightChanceFactor>-2</socialFightChanceFactor>
+				<hungerRateFactorOffset>-2</hungerRateFactorOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.07</offset>
+						<setMax>0.93</setMax>
+					</li>
+				</capMods>
+				<statOffsets>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_TriggerOnMaxSeverity">
+				<triggerHediffDef>SilkCircuit_StockholmSyndrome</triggerHediffDef>
+				<!-- Hediff to unapply (i.e. this current hediff node) -->
+				<applyHediffDef>SilkCircuit_WaveringLoyalty</applyHediffDef>
+				<!-- Hediff to apply (i.e. the next hediff node) -->
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_StockholmSyndrome">
+				<severityIncreasePerDay>0.3</severityIncreasePerDay>
+				<!-- The speed at which the severity of this current hediff increases per day -->
+				<showHoursUntilStockholm>true</showHoursUntilStockholm>
+				<!-- Whether to show the time remaining -->
+			</li>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+				<discoverLetterLabel>Successful sensory collapse: {0}</discoverLetterLabel>
+				<discoverLetterText>{PAWN} has started to develop stockholm syndrome tendancies.\n\nThe isolation, the colony propaganda, the careful balance of cruelty and kindness—something in them snapped, then reformed. They look to the wardens not with hatred, but with trust. Broken, but obedient. Just as planned.\n\nKeep up the psychological manipulation. Over time, a pawn with full-blown stockholm syndrome will develop wavering loyalty and can be persuaded to join the colony.</discoverLetterText>
+				<messageType>PositiveEvent</messageType>
+				<letterType>PositiveEvent</letterType>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_SeverityFromHediff">
+				<affectingHediff>SilkCircuit_Immobile</affectingHediff>
+				<severityIncreasePerDay>2.0</severityIncreasePerDay>
+				<!-- Increases by 0.5/day if the hediff is present -->
+				<severityDecreasePerDay>0.1</severityDecreasePerDay>
+				<!-- Decreases by 0.2/day if the hediff is absent -->
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_HediffsToAddOnApply">
+				<additionalHediffs>
+					<li>SilkCircuit_SensoryShock</li>
+				</additionalHediffs>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<!--============================== 
+    Step 4: Add full blown stockholm syndrome.
+    - While active, this will remove the unwaveringly loyal flag from the prisoner and reduce their resistance to a marginal amount (0-2).
+    - It will decay over time giving players a window of time to recruit the prisoner if they choose to.
+    - This hediff is removed once recruited or if the window of time to recruit runs out.
+	==============================-->
+	
+	<HediffDef>
+		<defName>SilkCircuit_WaveringLoyalty</defName>
+		<label>wavering loyalty</label>
+		<hediffClass>HediffWithComps</hediffClass>
+		<labelNoun>has capture-bonded with the wardens and is no longer unwaveringly loyal</labelNoun>
+		<initialSeverity>0.99</initialSeverity>
+		<minSeverity>0</minSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<description>This prisoner has capture-bonded with the wardens and is no longer unwaveringly loyal. Prisoners with wavering loyalty are available for recruitment attempts.</description>
+		<alwaysShowSeverity>true</alwaysShowSeverity>
+		<duplicationAllowed>false</duplicationAllowed>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<everCurableByItem>false</everCurableByItem>
+		<cureAllAtOnceIfCuredByItem>false</cureAllAtOnceIfCuredByItem>
+		<stages>
+			<li>
+				<capMods>
+					<li>
+						<!-- Placeholder capacity offset -->
+						<capacity>Hearing</capacity>
+						<offset>-0.10</offset>
+						<setMax>0.9</setMax>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<comps>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_SecondThoughts">
+				<removePrisonerStatus>true</removePrisonerStatus>
+				<!-- Removes prisoner/slave status -->
+				<resistanceReduction>10</resistanceReduction>
+				<!-- Reduces resistance by 10 -->
+				<instantRecruit>false</instantRecruit>
+				<!-- If true, pawn joins colony instantly -->
+				<finalResistanceMin>0</finalResistanceMin>
+				<!-- Minimum resistance after prisoner status restored -->
+				<finalResistanceMax>0</finalResistanceMax>
+				<!-- Maximum resistance after prisoner status restored -->
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDayRange>-0.5~-0.9</severityPerDayRange>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+				<discoverLetterLabel>Wavering loyalty: {0}</discoverLetterLabel>
+				<discoverLetterText>{PAWN} has full-blown stockholm syndrome and is no longer unwaveringly loyal.\n\nTheir resistance is nearly gone, and with a little persuasion, they'll join willingly. Somewhere along the line, the fight left their eyes—they became grateful for the moments spent being dehumanized, stabbed, and threatened by the wardens. It's the little things.\n\nBut don’t take too long to decide whether to recruit or kill. Pawns won’t have stockholm syndrome forever, and when they come to their senses, they’ll remember exactly where their loyalty lies and no longer be recruitable.</discoverLetterText>				<messageType>PositiveEvent</messageType>
+				<letterType>PositiveEvent</letterType>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_TriggerOnMinSeverity">
+				<triggerHediffDef>SilkCircuit_WaveringLoyalty</triggerHediffDef>
+				<!-- Hediff to unapply (i.e. this current hediff node) -->
+				<applyHediffDef>SilkCircuit_PrisonerUnwaveringlyLoyalAgain</applyHediffDef>
+				<!-- Hediff to apply (i.e. the next hediff node) -->
+				<threshold>0.01</threshold>
+				<!-- Optional, defaults to 0.05 -->
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_RemoveOnRecruitment"/>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<hediffs>
+					<li>SilkCircuit_PrisonerUnwaveringlyLoyalAgain</li>
+				</hediffs>
+			</li>
+		</comps>
+	</HediffDef>
+
+
+	<!--============================== 
+    Step 5: Hediff to message to player that the time window for recruitment ran out. 
+   
+	==============================-->
+
+	<HediffDef>
+		<defName>SilkCircuit_PrisonerUnwaveringlyLoyalAgain</defName>
+		<label>prisoner unwaveringly loyal again</label>
+		<labelNoun>prisoner unwaveringly loyal again</labelNoun>
+		<hediffClass>HediffWithComps</hediffClass>
+		<description>Pawn prisoner unwaveringly loyal again.</description>
+		<duplicationAllowed>false</duplicationAllowed>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<initialSeverity>0.00</initialSeverity>
+		<minSeverity>0.00</minSeverity>
+		<maxSeverity>1.00</maxSeverity>
+		<alwaysShowSeverity>true</alwaysShowSeverity>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<cureAllAtOnceIfCuredByItem>false</cureAllAtOnceIfCuredByItem>
+		<everCurableByItem>false</everCurableByItem>
+		<comps>
+			<li Class="HediffCompProperties_Discoverable">
+				<sendLetterWhenDiscovered>true</sendLetterWhenDiscovered>
+				<discoverLetterLabel>Unwaveringly loyal: {0}</discoverLetterLabel>
+				<discoverLetterText>{PAWN} shook off the delusion like a bad hangover. Their wavering loyalty is gone, and they are no longer recruitable—unless you collapse their senses again.\n\nThe forced devotion, the twisted admiration—it’s all faded. They see clearly now, and they don’t like what they see. No more obedience, no more trust—just the cold realization that they were nothing more than a pawn in your game.\n\nGuess that programming didn’t stick. Try harder next time.</discoverLetterText>
+				<messageType>NegativeEvent</messageType>
+				<letterType>NegativeEvent</letterType>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDayRange>-10~-20</severityPerDayRange>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+			<li Class="ResistanceRestraintsMod.HediffCompProperties_NonRecruitableOnRemoval"/>
+		</comps>
+		<stages>
+			<li>
+				<label>defiant</label>
+				<minSeverity>0.01</minSeverity>
+			</li>
+			<li>
+				<label>defiant</label>
+				<minSeverity>0.80</minSeverity>
+			</li>
+		</stages>
+	</HediffDef>
+
+
+
+
+
+</Defs>

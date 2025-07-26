@@ -1,0 +1,553 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+
+
+	<ThingDef ParentName="SleepingSpotBase" Name="SilkCircuit_PrisonerRestraintsBase" Abstract="True">
+		<placeWorkers>
+			<li>ResistanceRestraintsMod.PlaceWorker_OnlyInPrisonCell</li>
+		</placeWorkers>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<comps>
+			<li Class="ResistanceRestraintsMod.CompProperties_TortureBed"/>
+		</comps>
+		<researchPrerequisites Inherit="False">
+			<li>SilkCircuit_PrisonerRestraints</li>
+		</researchPrerequisites>
+		<tickerType Inherit="False">Normal</tickerType>
+		<drawerType Inherit="False">MapMeshAndRealTime</drawerType>
+		<useHitPoints>True</useHitPoints>
+		<passability>PassThroughOnly</passability>
+		<thingCategories>
+			<li>BuildingsPrisonerRestraints</li>
+		</thingCategories>
+		<pathCost>800</pathCost>
+		<designationCategory Inherit="False">Misc</designationCategory>
+		<techLevel Inherit="False">Industrial</techLevel>
+	</ThingDef>
+
+
+	<ThingDef ParentName="SilkCircuit_PrisonerRestraintsBase">
+		<defName>SilkCircuit_TortureBed</defName>
+		<label>restraining table</label>
+		<description>A simple steel slab with unyielding restraints, designed to keep the subject completely immobilized. Reduces prisoner resistance at a slow, steady rate by depriving them of all movement. Hunger and sleep needs drop to negligible levels, ensuring minimal upkeep. A long-term solution for those who need time to reconsider their loyalty.</description>
+		<uiIconScale>0.90</uiIconScale>
+		<uiIconPath>Things/Building/Furniture/ResistanceRestraints/ResistanceRestraints_MenuIcon</uiIconPath>
+		<graphicData>
+			<texPath>Things/Building/Furniture/ResistanceRestraints/TortureBed</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<size>(1,2)</size>
+		<comps>
+			<li Class="ResistanceRestraintsMod.CompProperties_ReduceResistanceInBed">
+				<baseReduction>0.00005</baseReduction>
+				<!-- Resistance reduction per tick -->
+				<immobileMultiplier>1.0</immobileMultiplier>
+				<!-- Doubles effect if pawn is immobilized -->
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_DrawRestraintsOverlay">
+				<texNorth>Things/Building/Furniture/ResistanceRestraints/NorthOverlay</texNorth>
+				<texSouth>Things/Building/Furniture/ResistanceRestraints/SouthOverlay</texSouth>
+				<texEast>Things/Building/Furniture/ResistanceRestraints/EastOverlay</texEast>
+				<texWest>Things/Building/Furniture/ResistanceRestraints/WestOverlay</texWest>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_TogglePrisonerGizmo">
+				<onlyNonRecruitablePrisoners>false</onlyNonRecruitablePrisoners>
+				<onlyRecruitablePrisoners>false</onlyRecruitablePrisoners>
+				<recruitableOrSpecificHediff>true</recruitableOrSpecificHediff>
+				<includedHediffs>
+					<li>SilkCircuit_StockholmSyndrome</li>
+					<li>SilkCircuit_WaveringLoyalty</li>
+				</includedHediffs>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestrainedHediff">
+				<hediffsToApply>
+					<li>
+						<hediffDef>SilkCircuit_Suffocating</hediffDef>
+						<minSeverity>0.50</minSeverity>
+						<removeOnExit>true</removeOnExit>
+					</li>
+				</hediffsToApply>
+			</li>
+		</comps>
+		<costStuffCount>65</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<costList>
+			<ComponentIndustrial>1</ComponentIndustrial>
+		</costList>
+		<fillPercent>0.8</fillPercent>
+		<staticSunShadowHeight>0.17</staticSunShadowHeight>
+		<castEdgeShadows>True</castEdgeShadows>
+		<statBases>
+			<Flammability>0.2</Flammability>
+			<MaxHitPoints>140</MaxHitPoints>
+			<Beauty>0.1</Beauty>
+			<WorkToBuild>1000</WorkToBuild>
+			<Mass>80</Mass>
+			<BedRestEffectiveness>0.05</BedRestEffectiveness>
+			<Comfort>0.05</Comfort>
+		</statBases>
+		<building>
+			<bed_healPerDay>0</bed_healPerDay>
+			<ai_chillDestination>false</ai_chillDestination>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+		</building>
+		<uiOrder>3090</uiOrder>
+	</ThingDef>
+
+
+
+
+
+	<ThingDef ParentName="SilkCircuit_PrisonerRestraintsBase">
+		<defName>SilkCircuit_PrisonerCage</defName>
+		<label>humiliation cage</label>
+		<description>A reinforced cage, fully exposed to the colony’s judgment. Reduces prisoner resistance at a moderate rate by stripping away dignity, privacy, and their apparel. The prisoner is left to be watched, ignored, or ridiculed—an ongoing reminder of their helplessness. Effective, though prolonged use risks mental collapse.</description>
+		<uiIconScale>1.00</uiIconScale>
+		<uiIconPath>Things/Building/Furniture/PrisonerCage/PrisonerCage_MenuIcon</uiIconPath>
+		<graphicData>
+			<texPath>Things/Building/Furniture/PrisonerCage/PrisonerCage_Base</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<size>(1,2)</size>
+		<comps>
+			<li Class="ResistanceRestraintsMod.CompProperties_ReduceResistanceInBed">
+				<baseReduction>0.00005</baseReduction>
+				<!-- Resistance reduction per tick -->
+				<immobileMultiplier>1.25</immobileMultiplier>
+				<!-- Doubles effect if pawn is immobilized -->
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestraintsOverlay">
+				<inheritParentColor>true</inheritParentColor>
+				<onlyShowOverlayWhileInUse>false</onlyShowOverlayWhileInUse>
+				<overlays>
+					<li>
+						<direction>North</direction>
+						<texPath>Things/Building/Furniture/PrisonerCage/NorthOverlay</texPath>
+						<size>(2.0, 1.0, 2.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>South</direction>
+						<texPath>Things/Building/Furniture/PrisonerCage/SouthOverlay</texPath>
+						<size>(2.0, 1.0, 2.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>East</direction>
+						<texPath>Things/Building/Furniture/PrisonerCage/EastOverlay</texPath>
+						<size>(2.0, 1.0, 2.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>West</direction>
+						<texPath>Things/Building/Furniture/PrisonerCage/WestOverlay</texPath>
+						<size>(2.0, 1.0, 2.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+				</overlays>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestrainedHediff">
+				<hediffsToApply>
+					<li>
+						<hediffDef>SilkCircuit_Humiliated</hediffDef>
+						<minSeverity>0.10</minSeverity>
+						<removeOnExit>true</removeOnExit>
+					</li>
+					<li>
+						<hediffDef>BadBack</hediffDef>
+						<minSeverity>0.10</minSeverity>
+						<removeOnExit>false</removeOnExit>
+					</li>
+				</hediffsToApply>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_TogglePrisonerGizmo">
+				<onlyNonRecruitablePrisoners>false</onlyNonRecruitablePrisoners>
+				<onlyRecruitablePrisoners>false</onlyRecruitablePrisoners>
+				<recruitableOrSpecificHediff>true</recruitableOrSpecificHediff>
+				<includedHediffs>
+					<li>SilkCircuit_StockholmSyndrome</li>
+					<li>SilkCircuit_WaveringLoyalty</li>
+				</includedHediffs>
+			</li>
+		</comps>
+		<costStuffCount>120</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+		</stuffCategories>
+		<costList>
+			<ComponentIndustrial>1</ComponentIndustrial>
+		</costList>
+		<fillPercent>0.85</fillPercent>
+		<staticSunShadowHeight>0.17</staticSunShadowHeight>
+		<castEdgeShadows>True</castEdgeShadows>
+		<statBases>
+			<Flammability>0.001</Flammability>
+			<MaxHitPoints>250</MaxHitPoints>
+			<Beauty>0.1</Beauty>
+			<WorkToBuild>2500</WorkToBuild>
+			<Mass>80</Mass>
+			<BedRestEffectiveness>0.05</BedRestEffectiveness>
+			<Comfort>0.05</Comfort>
+		</statBases>
+		<building>
+			<bed_healPerDay>0</bed_healPerDay>
+			<ai_chillDestination>false</ai_chillDestination>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+		</building>
+		<rotatable>false</rotatable>
+		<defaultPlacingRot Inherit="False">East</defaultPlacingRot>
+		<placeWorkers>
+			<li>ResistanceRestraintsMod.PlaceWorker_PreventAdjacentOverlap</li>
+		</placeWorkers>
+		<uiOrder>3091</uiOrder>
+	</ThingDef>
+
+
+
+
+	<ThingDef ParentName="SilkCircuit_PrisonerRestraintsBase">
+		<defName>SilkCircuit_SensoryCollapser</defName>
+		<label>sensory collapser</label>
+		<description>Triggers the early stages of stockholm syndrome upon a successful sensory collapse, but only affects unwaveringly loyal prisoners. This high-intensity deprivation chamber bombards the subject with disorienting stimuli—blinding light, deafening noise, and unrelenting propaganda. Over time, resistance fades, and in some cases, so does their sense of self.</description>
+		<uiIconScale>1.00</uiIconScale>
+		<uiIconPath>Things/Building/Furniture/SensoryCollapser/SilkCircuit_SensoryCollapser_south</uiIconPath>
+		<graphicData>
+			<texPath>Things/Building/Furniture/SensoryCollapser/SilkCircuit_SensoryCollapser</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(1,2)</drawSize>
+			<shadowData>
+				<volume>(0.85, 0.3, 1.7)</volume>
+			</shadowData>
+		</graphicData>
+		<size>(1,2)</size>
+		<comps>
+			<li Class="ResistanceRestraintsMod.CompProperties_ReduceResistanceInBed">
+				<baseReduction>0.00005</baseReduction>
+				<!-- Resistance reduction per tick -->
+				<immobileMultiplier>1.0</immobileMultiplier>
+				<!-- Doubles effect if pawn is immobilized -->
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestraintsOverlay">
+				<inheritParentColor>false</inheritParentColor>
+				<onlyShowOverlayWhileInUse>true</onlyShowOverlayWhileInUse>
+				<dynamicColorChange>true</dynamicColorChange>
+				<colorChangeInterval>60</colorChangeInterval>
+				<overlays>
+					<li>
+						<direction>North</direction>
+						<texPath>Things/Building/Furniture/SensoryCollapser/NorthOverlay</texPath>
+						<size>(1.0, 1.0, 2.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>South</direction>
+						<texPath>Things/Building/Furniture/SensoryCollapser/SouthOverlay</texPath>
+						<size>(1.0, 1.0, 2.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>East</direction>
+						<texPath>Things/Building/Furniture/SensoryCollapser/EastOverlay</texPath>
+						<size>(2.0, 1.0, 1.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>West</direction>
+						<texPath>Things/Building/Furniture/SensoryCollapser/WestOverlay</texPath>
+						<size>(2.0, 1.0, 1.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+				</overlays>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_AdditionalPrisonerRestraintsOverlay">
+				<adoptBaseColor>false</adoptBaseColor>
+				<showOnlyWhenEngaged>false</showOnlyWhenEngaged>
+				<enableColorCycling>false</enableColorCycling>
+				<overlayLayers>
+					<li>
+						<facingDirection>North</facingDirection>
+						<texturePath>Things/Building/Furniture/SensoryCollapser/AdditionalNorthOverlay</texturePath>
+						<dimensions>(1.0, 1.0, 2.0)</dimensions>
+						<depthOffset>0.05</depthOffset>
+					</li>
+					<li>
+						<facingDirection>South</facingDirection>
+						<texturePath>Things/Building/Furniture/SensoryCollapser/AdditionalSouthOverlay</texturePath>
+						<dimensions>(1.0, 1.0, 2.0)</dimensions>
+						<depthOffset>0.05</depthOffset>
+					</li>
+					<li>
+						<facingDirection>East</facingDirection>
+						<texturePath>Things/Building/Furniture/SensoryCollapser/AdditionalEastOverlay</texturePath>
+						<dimensions>(2.0, 1.0, 1.0)</dimensions>
+						<depthOffset>0.05</depthOffset>
+					</li>
+					<li>
+						<facingDirection>West</facingDirection>
+						<texturePath>Things/Building/Furniture/SensoryCollapser/AdditionalWestOverlay</texturePath>
+						<dimensions>(2.0, 1.0, 1.0)</dimensions>
+						<depthOffset>0.05</depthOffset>
+					</li>
+				</overlayLayers>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestrainedHediff">
+				<hediffsToApply>
+					<li>
+						<hediffDef>SilkCircuit_SensoryCollapse</hediffDef>
+						<minSeverity>0.001</minSeverity>
+						<removeOnExit>true</removeOnExit>
+						<onlyApplyToNonRecruitable>true</onlyApplyToNonRecruitable>
+					</li>
+					<li>
+						<hediffDef>Blindness</hediffDef>
+						<minSeverity>0.1</minSeverity>
+						<removeOnExit>true</removeOnExit>
+						<onlyApplyToNonRecruitable>true</onlyApplyToNonRecruitable>
+					</li>
+					<li>
+						<hediffDef>HearingLoss</hediffDef>
+						<minSeverity>0.1</minSeverity>
+						<removeOnExit>true</removeOnExit>
+						<onlyApplyToNonRecruitable>true</onlyApplyToNonRecruitable>
+					</li>
+				</hediffsToApply>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_HediffOnExit">
+				<hediffToApplyOnExit>SilkCircuit_ResistedSensoryCollapse</hediffToApplyOnExit>
+				<hediffsToCheck>
+					<li>SilkCircuit_StockholmSyndrome</li>
+					<li>SilkCircuit_SensoryCollapse</li>
+					<li>SilkCircuit_WaveringLoyalty</li>
+				</hediffsToCheck>
+				<severity>0.0</severity>
+				<onlyApplyToHumans>true</onlyApplyToHumans>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_TogglePrisonerGizmo">
+				<onlyNonRecruitablePrisoners>true</onlyNonRecruitablePrisoners>
+				<onlyRecruitablePrisoners>false</onlyRecruitablePrisoners>
+				<recruitableOrSpecificHediff>false</recruitableOrSpecificHediff>
+				<excludedHediffs>
+					<li>SilkCircuit_StockholmSyndrome</li>
+					<li>SilkCircuit_WaveringLoyalty</li>
+				</excludedHediffs>
+				<includedHediffs>
+					<li>SilkCircuit_StockholmSyndrome</li>
+					<li>SilkCircuit_WaveringLoyalty</li>
+				</includedHediffs>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<shortCircuitInRain>true</shortCircuitInRain>
+				<basePowerConsumption>210</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Glower">
+				<glowRadius>2</glowRadius>
+				<glowColor>(80,112,180,0)</glowColor>
+			</li>
+		</comps>
+		<costStuffCount>100</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+		</stuffCategories>
+		<costList>
+			<Steel>75</Steel>
+			<Plasteel>25</Plasteel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+		<fillPercent>0.85</fillPercent>
+		<castEdgeShadows>True</castEdgeShadows>
+		<statBases>
+			<Flammability>0.4</Flammability>
+			<MaxHitPoints>350</MaxHitPoints>
+			<Beauty>0.1</Beauty>
+			<WorkToBuild>3500</WorkToBuild>
+			<Mass>80</Mass>
+			<BedRestEffectiveness>0.05</BedRestEffectiveness>
+			<Comfort>0.05</Comfort>
+		</statBases>
+		<building>
+			<bed_healPerDay>0</bed_healPerDay>
+			<ai_chillDestination>false</ai_chillDestination>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+		</building>
+		<uiOrder>3093</uiOrder>
+	</ThingDef>
+
+
+
+	<ThingDef ParentName="SilkCircuit_PrisonerRestraintsBase">
+		<defName>SilkCircuit_ChemfuelBath</defName>
+		<label>chemfuel bath</label>
+		<description>A reinforced vat filled with volatile chemfuel, designed to dissolve defiance as efficiently as it dissolves skin. Reduces prisoner resistance at expedited rates by subjecting them to repeated chemical burns. Requires frequent refueling to maintain effectiveness. The prisoner’s compliance is neither expected nor necessary.</description>
+		<uiIconScale>0.90</uiIconScale>
+		<uiIconPath>Things/Building/Furniture/ChemfuelBath/SilkCircuit_ChemfuelBath_MenuIcon</uiIconPath>
+		<graphicData>
+			<texPath>Things/Building/Furniture/ChemfuelBath/SilkCircuit_ChemfuelBath</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(3,4)</drawSize>
+			<shadowData>
+				<volume>(0.85, 0.3, 1.7)</volume>
+			</shadowData>
+		</graphicData>
+		<size>(1,2)</size>
+		<comps>
+			<li Class="ResistanceRestraintsMod.CompProperties_ReduceResistanceInBed">
+				<baseReduction>0.00005</baseReduction>
+				<!-- Resistance reduction per tick -->
+				<immobileMultiplier>1.5</immobileMultiplier>
+				<!-- Doubles effect if pawn is immobilized -->
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_TogglePrisonerGizmo">
+				<onlyNonRecruitablePrisoners>false</onlyNonRecruitablePrisoners>
+				<onlyRecruitablePrisoners>false</onlyRecruitablePrisoners>
+				<recruitableOrSpecificHediff>true</recruitableOrSpecificHediff>
+				<includedHediffs>
+					<li>SilkCircuit_StockholmSyndrome</li>
+					<li>SilkCircuit_WaveringLoyalty</li>
+				</includedHediffs>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_MoteOverlayForThings">
+				<moteDefs>
+					<li>SilkCircuit_Mote_ChemfuelBubbles</li>
+					<li>SilkCircuit_Mote_ChemfuelBubblesTwo</li>
+					<li>SilkCircuit_Mote_ChemfuelBubblesThree</li>
+					<li>SilkCircuit_Mote_ChemfuelBubblesFour</li>
+				</moteDefs>
+				<tickMin>150</tickMin>
+				<tickMax>400</tickMax>
+				<sizeMin>0.9</sizeMin>
+				<sizeMax>1.3</sizeMax>
+				<velocityMin>0.1</velocityMin>
+				<velocityMax>0.4</velocityMax>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>30.0</fuelConsumptionRate>
+				<fuelCapacity>15.0</fuelCapacity>
+				<fuelFilter>
+					<thingDefs>
+						<li>Chemfuel</li>
+					</thingDefs>
+				</fuelFilter>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_BedFuelController"/>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestraintsOverlay">
+				<inheritParentColor>true</inheritParentColor>
+				<onlyShowOverlayWhileInUse>true</onlyShowOverlayWhileInUse>
+				<dynamicColorChange>false</dynamicColorChange>
+				<colorChangeInterval>60</colorChangeInterval>
+				<overlays>
+					<li>
+						<direction>North</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/NorthOverlay</texPath>
+						<size>(3.0, 1.0, 4.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>South</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/SouthOverlay</texPath>
+						<size>(3.0, 1.0, 4.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>East</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/EastOverlay</texPath>
+						<size>(4.0, 1.0, 3.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>West</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/WestOverlay</texPath>
+						<size>(4.0, 1.0, 3.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+				</overlays>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_BuildingOverlayWhenFueled">
+				<inheritParentColor>false</inheritParentColor>
+				<overlays>
+					<li>
+						<direction>north</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/Overlay_North</texPath>
+						<size>(3.0, 1.0, 4.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>south</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/Overlay_South</texPath>
+						<size>(3.0, 1.0, 4.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>east</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/Overlay_East</texPath>
+						<size>(4.0, 1.0, 3.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+					<li>
+						<direction>west</direction>
+						<texPath>Things/Building/Furniture/ChemfuelBath/Overlay_West</texPath>
+						<size>(4.0, 1.0, 3.0)</size>
+						<zOffset>0.0</zOffset>
+					</li>
+				</overlays>
+			</li>
+			<li Class="ResistanceRestraintsMod.CompProperties_PrisonerRestrainedHediff">
+				<hediffsToApply>
+					<li>
+						<hediffDef>ChemicalBurn</hediffDef>
+						<minSeverity>0.75</minSeverity>
+						<removeOnExit>false</removeOnExit>
+						<!-- Removed only if pawn is NOT immobile -->
+					</li>
+					<li>
+						<hediffDef>SilkCircuit_FlammableSweat</hediffDef>
+						<minSeverity>0.50</minSeverity>
+						<removeOnExit>true</removeOnExit>
+						<!-- Removed only if pawn is NOT immobile -->
+					</li>
+				</hediffsToApply>
+			</li>
+		</comps>
+		<costList>
+			<Steel>35</Steel>
+			<Chemfuel>15</Chemfuel>
+		</costList>
+		<fillPercent>0.9</fillPercent>
+		<castEdgeShadows>True</castEdgeShadows>
+		<statBases>
+			<Flammability>0.7</Flammability>
+			<MaxHitPoints>200</MaxHitPoints>
+			<Beauty>0.1</Beauty>
+			<WorkToBuild>2000</WorkToBuild>
+			<Mass>80</Mass>
+			<BedRestEffectiveness>0.05</BedRestEffectiveness>
+			<Comfort>0.05</Comfort>
+		</statBases>
+		<building>
+			<bed_healPerDay>0</bed_healPerDay>
+			<ai_chillDestination>false</ai_chillDestination>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+			<bed_showSleeperBody>False</bed_showSleeperBody>
+		</building>
+		<costStuffCount>85</costStuffCount>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<uiOrder>3092</uiOrder>
+	</ThingDef>
+
+
+
+
+
+</Defs>
