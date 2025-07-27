@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThingCategoryDef>
+        <defName>SZ_ChengYinPin</defName>
+        <label>神州-娱乐用品和中医药</label>
+        <parent>Drugs</parent>
+        <resourceReadoutRoot>true</resourceReadoutRoot>
+        <iconPath>UiRuJia</iconPath>
+      </ThingCategoryDef>
+      
+    <ThingDef Name="SZDrugsBase" ParentName="DrugBase" Abstract="True">
+        <thingCategories>
+        <li>SZ_ChengYinPin</li>
+        </thingCategories>
+    </ThingDef>
+
+    
+    <HediffDef>
+        <defName>NaiJiuHigh</defName>
+        <label>奶酒增效</label>
+        <labelNoun>沉醉</labelNoun>
+        <description>奶酒色清而味甜，且无膻昧，由于其在制作的过程中混合了酒精和乳制品，因此殖民者在享用完奶酒后能获得不错的健康收益，殖民者会获得饱腹感，精神也会更好，同时，血液循环能力会得到提升。\n\n由于奶酒的酒精浓度不高，因此殖民者不容易喝醉，也更难变得易怒且容易打架，同时受到的意识影响更小。</description>
+        <hediffClass>Hediff_Alcohol</hediffClass>
+        <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <isBad>false</isBad>
+        <comps>
+            <li Class="HediffCompProperties_Effecter">
+                <stateEffecter>Drunk</stateEffecter>
+                <severityIndices>3~5</severityIndices>
+            </li>
+            <li Class="HediffCompProperties_SeverityPerDay">
+                <severityPerDay>-0.35</severityPerDay>
+                <showHoursToRecover>true</showHoursToRecover>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <label>微醺</label>
+                <painFactor>0.7</painFactor>
+                <hungerRateFactorOffset>-0.4</hungerRateFactorOffset>
+                <restFallFactorOffset>-0.2</restFallFactorOffset>
+                <socialFightChanceFactor>1.1</socialFightChanceFactor>
+                <capMods>
+                    <li>
+                        <capacity>BloodFiltration</capacity>
+                        <offset>0.15</offset>
+                    </li>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.05</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>0.25</minSeverity>
+                <label>略醉</label>
+                <hungerRateFactorOffset>-0.5</hungerRateFactorOffset>
+                <restFallFactorOffset>-0.3</restFallFactorOffset>
+                <painFactor>0.6</painFactor>
+                <socialFightChanceFactor>1.25</socialFightChanceFactor>
+                <capMods>
+                    <li>
+                        <capacity>BloodFiltration</capacity>
+                        <offset>0.25</offset>
+                    </li>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <postFactor>0.9</postFactor>
+                    </li>
+                    <li>
+                        <capacity>Moving</capacity>
+                        <offset>-0.05</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>0.4</minSeverity>
+                <label>陶醉</label>
+                <painFactor>0.4</painFactor>
+                <hungerRateFactorOffset>-0.65</hungerRateFactorOffset>
+                <restFallFactorOffset>-0.4</restFallFactorOffset>
+                <socialFightChanceFactor>1.4</socialFightChanceFactor>
+                <vomitMtbDays>0.75</vomitMtbDays>
+                <tale>Drunk</tale>
+                <capMods>
+                    <li>
+                        <capacity>BloodFiltration</capacity>
+                        <offset>0.35</offset>
+                    </li>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <postFactor>0.65</postFactor>
+                    </li>
+                    <li>
+                        <capacity>Moving</capacity>
+                        <offset>-0.10</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>0.7</minSeverity>
+                <label>烂醉</label>
+                <painFactor>0.2</painFactor>
+                <hungerRateFactorOffset>-0.7</hungerRateFactorOffset>
+                <restFallFactorOffset>-0.5</restFallFactorOffset>
+                <socialFightChanceFactor>3</socialFightChanceFactor>
+                <vomitMtbDays>0.2</vomitMtbDays>
+                <capMods>
+                    <li>
+                        <capacity>BloodFiltration</capacity>
+                        <offset>0.5</offset>
+                    </li>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <postFactor>0.5</postFactor>
+                    </li>
+                    <li>
+                        <capacity>Moving</capacity>
+                        <offset>-0.10</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>0.9</minSeverity>
+                <label>断片</label>
+                <painFactor>0.1</painFactor>
+                <hungerRateFactorOffset>-0.8</hungerRateFactorOffset>
+                <restFallFactorOffset>-0.7</restFallFactorOffset>
+                <capMods>
+                    <li>
+                        <capacity>BloodFiltration</capacity>
+                        <offset>0.75</offset>
+                    </li>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <setMax>0.1</setMax>
+                    </li>
+                </capMods>
+                <hediffGivers>
+                    <li Class="HediffGiver_Random">
+                        <hediff>ChemicalDamageModerate</hediff>
+                        <mtbDays>10</mtbDays>
+                        <partsToAffect>
+                            <li>Brain</li>
+                        </partsToAffect>
+                    </li>
+                </hediffGivers>
+            </li>
+        </stages>
+    </HediffDef>
+
+<ThoughtDef>
+    <defName>Thought_NaiJiu</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>NaiJiuHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+        <li>
+            <label>奶酒-微醺</label>
+            <description>淡淡的奶香味和酒精混合在一起，这让我的身心都感到了不错的放松</description>
+            <baseMoodEffect>10</baseMoodEffect>
+        </li>
+        <li>
+            <label>神州酒类-些许醉意</label>
+            <description>尽管我现在走路有点摇摇晃晃的，但我真是快活了不少啊</description>
+            <baseMoodEffect>14</baseMoodEffect>
+        </li>
+        <li>
+            <label>神州酒类-陶醉</label>
+            <description>来自神州-蒙古的美酒令我深深陶醉！我感觉我的新陈代谢得到了加快，饥饿感似乎也完全消失了！这种感觉真美妙啊！</description>
+            <baseMoodEffect>20</baseMoodEffect>
+        </li>
+        <li>
+            <label>神州酒类—烂醉如泥</label>
+            <description>嗯。。现在我在哪？</description>
+            <baseMoodEffect>28</baseMoodEffect>
+        </li>
+    </stages>
+</ThoughtDef>
+
+
+<!--神州酒类成瘾品-->
+
+<ChemicalDef>
+    <defName>ZhongHuaJiuLei</defName>
+    <label>神州酒类</label>
+    <addictionHediff>ShenZhouJiuAddiction</addictionHediff>
+    <toleranceHediff>ShenZhouJiuTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.25</onGeneratedAddictedToleranceChance>
+    <onGeneratedAddictedEvents>
+        <li>
+            <hediff>Cirrhosis</hediff>
+            <chance>0.02</chance>
+            <partsToAffect>
+                <li>Liver</li>
+            </partsToAffect>
+        </li>
+    </onGeneratedAddictedEvents>
+</ChemicalDef>
+
+
+<HediffDef ParentName="DrugToleranceBase">
+    <defName>ShenZhouJiuTolerance</defName>
+    <label>神州酒类耐受</label>
+    <description>殖民者因为饮用神州酒类所产生，这种耐受性越严重，获得同样效果所需要的神州酒类就越多。\n\n好在神州酒类的原料的负面作用很小，因此这种耐受性的消散速度也很快。</description>
+    <comps>
+        <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.35</severityPerDay>
+        </li>
+        <li Class="HediffCompProperties_DrugEffectFactor">
+            <chemical>ZhongHuaJiuLei</chemical>
+        </li>
+    </comps>
+    <hediffGivers>
+        <li Class="HediffGiver_RandomDrugEffect">
+            <hediff>Cirrhosis</hediff>
+            <severityToMtbDaysCurve>
+                <points>
+                    <li>(0.45, 99999)</li>
+                    <li>(0.5, 60)</li>
+                    <li>(1, 45)</li>
+                </points>
+            </severityToMtbDaysCurve>
+            <partsToAffect>
+                <li>Liver</li>
+            </partsToAffect>
+        </li>
+        <li Class="HediffGiver_RandomDrugEffect">
+            <hediff>Carcinoma</hediff>
+            <severityToMtbDaysCurve>
+                <points>
+                    <li>(0.45, 99999)</li>
+                    <li>(0.5, 180)</li>
+                    <li>(1, 150)</li>
+                </points>
+            </severityToMtbDaysCurve>
+            <partsToAffect>
+                <li>Liver</li>
+            </partsToAffect>
+        </li>
+    </hediffGivers>
+</HediffDef>
+
+
+<HediffDef ParentName="AddictionBase">
+    <defName>ShenZhouJiuAddiction</defName>
+    <label>神州酒类成瘾</label>
+    <description>享用过量神州酒类可能会导致殖民者对神州酒类产生成瘾依赖性，尽管和啤酒等酒类相比，神州酒类在酿造时所用的原料对神经的危害度较低，但这并不意味着殖民者对神州酒类上瘾就是一件好事情。\n\n而如果缺乏酒精制品的供应（包括啤酒、神州酒类），殖民者就会出现戒断反应，经过一段时间后大脑就会恢复正常状态，这样就能够从根本上解决成瘾问题，当然，殖民者们想要戒除对神州酒类的依赖则需要更长的一段时间。</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>Chemical_Alcohol</causesNeed>
+    <comps>
+        <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.0433</severityPerDay>
+            <showDaysToRecover>true</showDaysToRecover>
+        </li>
+    </comps>
+    <stages>
+        <li>
+        </li>
+        <li>
+            <label>戒断反应</label>
+            <socialFightChanceFactor>1.0</socialFightChanceFactor>
+            <capMods>
+                <li>
+                    <capacity>Consciousness</capacity>
+                    <offset>-0.1</offset>
+                </li>
+                <li>
+                    <capacity>Moving</capacity>
+                    <offset>-0.15</offset>
+                </li>
+                <li>
+                    <capacity>Manipulation</capacity>
+                    <postFactor>0.8</postFactor>
+                </li>
+            </capMods>
+            <mentalStateGivers>
+                <li>
+                    <mentalState>Binging_DrugMajor</mentalState>
+                    <mtbDays>50</mtbDays>
+                </li>
+            </mentalStateGivers>
+        </li>
+    </stages>
+</HediffDef>
+
+<ThoughtDef>
+    <defName>ShenZhouJiuWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>ShenZhouJiuAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+        <li>
+            <visible>false</visible>
+        </li>
+        <li>
+            <label>神州酒类的戒断反应</label>
+            <description>我现在走路感觉摇摇晃晃的，没有了那些美酒，我现在真的很无聊又生气，给我点酒吧，不管什么酒类都可以！</description>
+            <baseMoodEffect>-20</baseMoodEffect>
+        </li>
+    </stages>
+</ThoughtDef>
+
+
+
+
+<ThingDef ParentName="SZDrugsBase">
+    <defName>MG_NaiJiu</defName>
+    <label>奶酒</label>
+    <description>神州游牧地区盛产的一种美酒，是蒙兀人在舞会上最喜欢的饮品之一，在边缘世界里，蒙兀人通常将奶制品和少量素食混合在一起制作奶酒，而由于蒙兀人独特游牧的文化，奶酒在酿造省去了发酵的过程，直接在酿造台上就能制作而成，虽然其做工稍显粗糙，但奶酒淡淡的奶香味正是蒙兀人豪放文化的体现，这种“半酒半食物”的美酒深受广大牧民们的推崇。\n\n和其他神州酒类一样，奶酒也有健康加成，成瘾以及耐受机制，但和普通的啤酒等酒类相比奶酒往往更不容易上瘾。</description>
+    <descriptionHyperlinks>
+        <HediffDef>NaiJiuHigh</HediffDef>
+        <HediffDef>ShenZhouJiuTolerance</HediffDef>
+        <HediffDef>Hangover</HediffDef>
+        <HediffDef>ShenZhouJiuAddiction</HediffDef>
+        <HediffDef>Cirrhosis</HediffDef>
+        <HediffDef>ChemicalDamageModerate</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+        <texPath>Things/Food/NaiJiu</texPath>
+        <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <equippedAngleOffset>-150</equippedAngleOffset>
+    <rotatable>false</rotatable>
+    <stackLimit>50</stackLimit>
+    <statBases>
+        <DeteriorationRate>0.5</DeteriorationRate>
+        <MarketValue>22</MarketValue>
+        <Mass>0.35</Mass>
+        <Flammability>0.3</Flammability>
+        <Nutrition>0.5</Nutrition>
+    </statBases>
+    <ingestible>
+        <foodType>Fluid, Processed, Liquor</foodType>
+        <joyKind>Chemical</joyKind>
+        <joy>0.4</joy>
+        <nurseable>true</nurseable>
+        <drugCategory>Social</drugCategory>
+        <ingestSound>Ingest_Beer</ingestSound>
+        <ingestHoldOffsetStanding>
+            <northDefault>
+                <offset>(0.18,0,0)</offset>
+            </northDefault>
+        </ingestHoldOffsetStanding>
+        <ingestCommandString>喝{0}</ingestCommandString>
+        <ingestReportString>喝{0}。</ingestReportString>
+        <chairSearchRadius>25</chairSearchRadius>
+        <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+        <tableDesired>false</tableDesired>
+        <outcomeDoers>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+                <hediffDef>NaiJiuHigh</hediffDef>
+                <severity>0.1</severity>
+                <toleranceChemical>ZhongHuaJiuLei</toleranceChemical>
+            </li>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+                <hediffDef>ShenZhouJiuTolerance</hediffDef>
+                <severity>0.04</severity>
+                <divideByBodySize>true</divideByBodySize>
+            </li>
+        </outcomeDoers>
+    </ingestible>
+    <equipmentType>Primary</equipmentType>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+        <li Class="CompProperties_Drug">
+            <chemical>ZhongHuaJiuLei</chemical>
+            <addictiveness>0.008</addictiveness>
+            <minToleranceToAddict>0.35</minToleranceToAddict>
+            <existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+            <needLevelOffset>0.9</needLevelOffset>
+            <listOrder>12</listOrder>
+        </li>
+        <li>
+            <compClass>CompEquippable</compClass>
+        </li>
+    </comps>
+    <weaponClasses>
+        <li>Melee</li>
+        <li>MeleeBlunt</li>
+    </weaponClasses>
+    <tools>
+        <li>
+            <label>瓶身</label>
+            <capacities>
+                <li>Blunt</li>
+            </capacities>
+            <power>9</power>
+            <cooldownTime>2</cooldownTime>
+        </li>
+        <li>
+            <label>瓶颈</label>
+            <capacities>
+                <li>Poke</li>
+            </capacities>
+            <power>9</power>
+            <cooldownTime>2</cooldownTime>
+        </li>
+    </tools>
+</ThingDef>
+
+
+<RecipeDef>
+    <defName>Make_NaiJiu_One</defName>
+    <label>制作奶酒</label>
+    <description>用奶和少量素食制作奶酒。</description>
+    <jobString>正在制作奶酒</jobString>
+    <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <ingredientValueGetterClass>IngredientValueGetter_Nutrition</ingredientValueGetterClass>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <workAmount>500</workAmount>
+    <recipeUsers>
+      <li>Brewery</li>
+    </recipeUsers>
+    <ingredients>
+        <li>
+            <filter>
+                <thingDefs>
+                    <li>Milk</li>
+                </thingDefs>
+            </filter>
+            <count>0.3</count>
+        </li>
+        <li>
+            <filter>
+              <categories>
+                <li>PlantFoodRaw</li>
+              </categories>
+            </filter>
+            <count>0.05</count>
+          </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Milk</li>
+      </thingDefs>
+      <categories>
+        <li>PlantFoodRaw</li>
+      </categories>
+    </fixedIngredientFilter>
+    <products>
+      <MG_NaiJiu>1</MG_NaiJiu>
+    </products>
+    <researchPrerequisite>MG_Start</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>3</Crafting>
+    </skillRequirements>
+    <workSkill>Crafting</workSkill>
+  </RecipeDef>
+
+
+
+  <RecipeDef>
+    <defName>Make_NaiJiu_Five</defName>
+    <label>制作奶酒 x5</label>
+    <description>用奶和少量素食制作奶酒。</description>
+    <jobString>正在制作奶酒</jobString>
+    <ingredientValueGetterClass>IngredientValueGetter_Nutrition</ingredientValueGetterClass>
+    <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <workAmount>2500</workAmount>
+    <recipeUsers>
+      <li>Brewery</li>
+    </recipeUsers>
+    <ingredients>
+        <li>
+            <filter>
+                <thingDefs>
+                    <li>Milk</li>
+                </thingDefs>
+            </filter>
+            <count>1.5</count>
+        </li>
+        <li>
+            <filter>
+              <categories>
+                <li>PlantFoodRaw</li>
+              </categories>
+            </filter>
+            <count>0.25</count>
+          </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Milk</li>
+      </thingDefs>
+      <categories>
+        <li>PlantFoodRaw</li>
+      </categories>
+    </fixedIngredientFilter>
+    <products>
+      <MG_NaiJiu>5</MG_NaiJiu>
+    </products>
+    <researchPrerequisite>MG_Start</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>3</Crafting>
+    </skillRequirements>
+    <workSkill>Crafting</workSkill>
+  </RecipeDef>
+
+
+  <RecipeDef>
+    <defName>Make_NaiJiu_Ten</defName>
+    <label>制作奶酒 x10</label>
+    <description>用奶和少量素食制作奶酒。</description>
+    <jobString>正在制作奶酒</jobString>
+    <ingredientValueGetterClass>IngredientValueGetter_Nutrition</ingredientValueGetterClass>
+    <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <workAmount>5000</workAmount>
+    <recipeUsers>
+      <li>Brewery</li>
+    </recipeUsers>
+    <ingredients>
+        <li>
+            <filter>
+                <thingDefs>
+                    <li>Milk</li>
+                </thingDefs>
+            </filter>
+            <count>3</count>
+        </li>
+        <li>
+            <filter>
+              <categories>
+                <li>PlantFoodRaw</li>
+              </categories>
+            </filter>
+            <count>0.5</count>
+          </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Milk</li>
+      </thingDefs>
+      <categories>
+        <li>PlantFoodRaw</li>
+      </categories>
+    </fixedIngredientFilter>
+    <products>
+      <MG_NaiJiu>10</MG_NaiJiu>
+    </products>
+    <researchPrerequisite>MG_Start</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>3</Crafting>
+    </skillRequirements>
+    <workSkill>Crafting</workSkill>
+  </RecipeDef>
+</Defs>
