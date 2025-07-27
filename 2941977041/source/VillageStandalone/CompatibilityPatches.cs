@@ -32,19 +32,19 @@ namespace VillageStandalone
         }
     }
 
-    class ShowHairPatches
-    {
-        public static bool Patch_PawnRenderer_RenderPawnInternal_Postfix_Prefix(Pawn ___pawn)
-        {
-            return !(___pawn?.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() == true);
-        }
-    }
+    //class ShowHairPatches
+    //{
+   //     public static bool Patch_PawnRenderer_RenderPawnInternal_Postfix_Prefix(Pawn ___pawn)
+   //     {
+   //         return !(___pawn?.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() == true);
+   //     }
+  // }
 
-    class FacialHairStuffPatches
-    {
-        public static bool HarmonyPatch_PawnRenderer_Prefix_Prefix(PawnRenderer __instance)
-        {
-            return !(__instance?.graphics?.pawn?.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() == true);
-        }
-    }
+   // class FacialHairStuffPatches
+  //  {
+   //     public static bool HarmonyPatch_PawnRenderer_Prefix_Prefix(PawnRenderer __instance)
+   //     {
+   //         return !(__instance?.graphics?.pawn?.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() == true);
+   //     }
+   // }
 }

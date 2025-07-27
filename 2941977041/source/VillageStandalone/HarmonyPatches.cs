@@ -24,15 +24,34 @@ namespace VillageStandalone
         }
     }
 
-    [HarmonyPatch(typeof(PawnRenderer), "RenderPawnInternal", new[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags) })]
-    public class PawnRenderer_RenderPawnInternal
+    [HarmonyPatch(typeof(PawnRenderer), "RenderPawnAt", new Type[]
+{
+    typeof(Vector3),
+    typeof(Rot4?),
+    typeof(bool)
+})]
+    public class PawnRenderer_RenderPawnAt
     {
-        public static bool Prefix(Vector3 rootLoc, bool renderBody, Pawn ___pawn)
+        public static bool Prefix(Pawn ___pawn)
         {
-            if (renderBody || ___pawn?.Map == null || ___pawn?.RaceProps?.Humanlike != true) return true;
-            return !(___pawn?.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() == true);
+            if (___pawn?.Map == null || ___pawn == null || ___pawn.RaceProps?.Humanlike != true)
+            {
+                return true;
+            }
+            return ___pawn == null || ___pawn.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() != true;
         }
-    } 
+    }
+
+
+    // [HarmonyPatch(typeof(PawnRenderer), "RenderPawnInternal", new[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags) })]
+    // public class PawnRenderer_RenderPawnInternal
+    // {
+    //    public static bool Prefix(Vector3 rootLoc, bool renderBody, Pawn ___pawn)
+    //   {
+    //      if (renderBody || ___pawn?.Map == null || ___pawn?.RaceProps?.Humanlike != true) return true;
+    //     return !(___pawn?.CurrentBed()?.def?.HasModExtension<VillageStandaloneModExtension>() == true);
+    // }
+    //} 
 
     [HarmonyPatch(typeof(Pawn_MindState), "MindStateTick")]
     public class Pawn_MindState_MindStateTick
@@ -47,9 +66,9 @@ namespace VillageStandalone
                 if (modExt == null || !modExt.RemoveSoakingWet) return;
 
                 WeatherDef curWeatherLerped = __instance.pawn.Map.weatherManager.CurWeatherLerped;
-                if (curWeatherLerped.exposedThought != null && curWeatherLerped.exposedThought == ThoughtDef.Named("SoakingWet") && !__instance.pawn.Position.Roofed(__instance.pawn.Map))
+                if (curWeatherLerped.weatherThought != null && curWeatherLerped.weatherThought == ThoughtDef.Named("SoakingWet") && !__instance.pawn.Position.Roofed(__instance.pawn.Map))
                 {
-                    __instance.pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDef(curWeatherLerped.exposedThought);
+                    __instance.pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDef(curWeatherLerped.weatherThought);
                 }
             }
         }
