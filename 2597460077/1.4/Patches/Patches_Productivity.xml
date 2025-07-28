@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.UseSettings">
+		<modId>SSResearchableStatUpgrades</modId>
+		<keys>
+			<li>product1_statbonus_globalwrkspd</li>
+			<li>product2_statbonus_globalwrkspd</li>
+			<li>product3_statbonus_globalwrkspd</li>
+			<li>product3_statbonus_movespd</li>
+			<li>product4_statbonus_globalwrkspd</li>
+			<li>product4_statbonus_movespd</li>
+			<li>product5_statbonus_globalwrkspd</li>
+			<li>product5_statbonus_movespd</li>
+			<li>productrep_statbonus_globalwrkspd</li>
+			<li>productrep_statbonus_movespd</li>
+		</keys>
+		<defaultValues>
+			<li>1.05</li>
+			<li>1.05</li>
+			<li>1.1</li>
+			<li>1.05</li>
+			<li>1.1</li>
+			<li>1.1</li>
+			<li>1.1</li>
+			<li>1.1</li>
+			<li>1.01</li>
+			<li>1.01</li>
+		</defaultValues>
+		<apply>
+			<Operation Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationConditional">
+						<success>Always</success>
+						<xpath>/Defs/StatDef[defName="WorkSpeedGlobal"]/parts</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/StatDef[defName="WorkSpeedGlobal"]</xpath>
+							<value>
+								<parts/>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/StatDef[defName = "WorkSpeedGlobal"]/parts</xpath>
+						<value>
+							<li Class="ResearchableStatUpgrades.StatPart_ResearchDependent">
+								<researchFactors>
+									<li>
+										<def>ProductivityI</def>
+										<factor>{product1_statbonus_globalwrkspd}</factor>
+									</li>
+									<li>
+										<def>ProductivityII</def>
+										<factor>{product2_statbonus_globalwrkspd}</factor>
+									</li>
+									<li>
+										<def>ProductivityIII</def>
+										<factor>{product3_statbonus_globalwrkspd}</factor>
+									</li>
+									<li>
+										<def>ProductivityIV</def>
+										<factor>{product4_statbonus_globalwrkspd}</factor>
+									</li>
+									<li>
+										<def>ProductivityV</def>
+										<factor>{product5_statbonus_globalwrkspd}</factor>
+									</li>
+								</researchFactors>
+								<repeatables>
+									<li>
+										<def>ProductivityRepeatable</def>
+										<factor>{productrep_statbonus_globalwrkspd}</factor>
+									</li>
+								</repeatables>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</Operation>
+
+			<Operation Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationConditional">
+						<success>Always</success>
+						<xpath>/Defs/StatDef[defName="MoveSpeed"]/parts</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/StatDef[defName="MoveSpeed"]</xpath>
+							<value>
+								<parts/>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/StatDef[defName = "MoveSpeed"]/parts</xpath>
+						<value>
+							<li Class="ResearchableStatUpgrades.StatPart_ResearchDependent">
+								<researchFactors>
+									<li>
+										<def>ProductivityIII</def>
+										<factor>{product3_statbonus_movespd}</factor>
+									</li>
+									<li>
+										<def>ProductivityIV</def>
+										<factor>{product4_statbonus_movespd}</factor>
+									</li>
+									<li>
+										<def>ProductivityV</def>
+										<factor>{product5_statbonus_movespd}</factor>
+									</li>
+								</researchFactors>
+								<repeatables>
+									<li>
+										<def>ProductivityRepeatable</def>
+										<factor>{productrep_statbonus_movespd}</factor>
+									</li>
+								</repeatables>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</Operation>
+		</apply>
+	</Operation>
+</Patch>

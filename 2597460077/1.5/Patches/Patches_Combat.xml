@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="XmlExtensions.UseSettings">
+		<modId>SSResearchableStatUpgrades</modId>
+		<keys>
+			<li>combat1_statbonus_mdodgechance</li>
+			<li>combat1_statbonus_mhitchance</li>
+			<li>combat1_statbonus_shootacc</li>
+			<li>combat2_statbonus_aimdelay</li>
+			<li>combat2_statbonus_mdodgechance</li>
+			<li>combat2_statbonus_mhitchance</li>
+		</keys>
+		<defaultValues>
+			<li>1.05</li>
+			<li>1.05</li>
+			<li>1.05</li>
+			<li>0.95</li>
+			<li>1.05</li>
+			<li>1.05</li>
+		</defaultValues>
+		<apply>
+			<Operation Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationConditional">
+						<success>Always</success>
+						<xpath>/Defs/StatDef[defName="MeleeHitChance"]/parts</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/StatDef[defName="MeleeHitChance"]</xpath>
+							<value>
+								<parts/>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationConditional">
+						<success>Always</success>
+						<xpath>/Defs/StatDef[defName="MeleeDodgeChance"]/parts</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/StatDef[defName="MeleeDodgeChance"]</xpath>
+							<value>
+								<parts/>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/StatDef[defName="MeleeDodgeChance"]/parts</xpath>
+						<value>
+							<li Class="ResearchableStatUpgrades.StatPart_ResearchDependent">
+								<researchFactors>
+									<li>
+										<def>CombatI</def>
+										<factor>{combat1_statbonus_mdodgechance}</factor>
+										<applyToSlave>false</applyToSlave>
+									</li>
+									<li>
+										<def>CombatII</def>
+										<factor>{combat2_statbonus_mdodgechance}</factor>
+										<applyToSlave>false</applyToSlave>
+									</li>
+								</researchFactors>
+							</li>
+						</value>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/StatDef[defName="MeleeHitChance"]/parts</xpath>
+						<value>
+							<li Class="ResearchableStatUpgrades.StatPart_ResearchDependent">
+								<researchFactors>
+									<li>
+										<def>CombatI</def>
+										<factor>{combat1_statbonus_mhitchance}</factor>
+										<applyToSlave>false</applyToSlave>
+									</li>
+									<li>
+										<def>CombatII</def>
+										<factor>{combat2_statbonus_mhitchance}</factor>
+										<applyToSlave>false</applyToSlave>
+									</li>
+								</researchFactors>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</Operation>
+
+			<Operation Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationConditional">
+						<success>Always</success>
+						<xpath>/Defs/StatDef[defName="ShootingAccuracyPawn"]/parts</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/StatDef[defName="ShootingAccuracyPawn"]</xpath>
+							<value>
+								<parts/>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/StatDef[defName = "ShootingAccuracyPawn"]/parts</xpath>
+						<value>
+							<li Class="ResearchableStatUpgrades.StatPart_ResearchDependent">
+								<researchFactors>
+									<li>
+										<def>CombatI</def>
+										<factor>{combat1_statbonus_shootacc}</factor>
+										<applyToSlave>false</applyToSlave>
+									</li>
+								</researchFactors>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</Operation>
+
+			<Operation Class="PatchOperationSequence">
+				<operations>
+					<li Class="PatchOperationConditional">
+						<success>Always</success>
+						<xpath>/Defs/StatDef[defName="AimingDelayFactor"]/parts</xpath>
+						<nomatch Class="PatchOperationAdd">
+							<xpath>/Defs/StatDef[defName="AimingDelayFactor"]</xpath>
+							<value>
+								<parts/>
+							</value>
+						</nomatch>
+					</li>
+					<li Class="PatchOperationAdd">
+						<xpath>/Defs/StatDef[defName = "AimingDelayFactor"]/parts</xpath>
+						<value>
+							<li Class="ResearchableStatUpgrades.StatPart_ResearchDependent">
+								<researchFactors>
+									<li>
+										<def>CombatII</def>
+										<factor>{combat2_statbonus_aimdelay}</factor>
+										<applyToSlave>false</applyToSlave>
+									</li>
+								</researchFactors>
+							</li>
+						</value>
+					</li>
+				</operations>
+			</Operation>
+		</apply>
+	</Operation>
+</Patch>
