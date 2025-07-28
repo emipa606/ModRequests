@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--父本-->
+<Defs>
+    <HediffDef Name="COF_Torture_HediffsBase" Abstract="True">
+        <hediffClass>HediffWithComps</hediffClass>
+        <defaultLabelColor>(0.8, 0.8, 0.2)</defaultLabelColor>
+        <makesSickThought>false</makesSickThought>
+        <isBad>false</isBad>
+        <tendable>false</tendable>
+        <scenarioCanAdd>false</scenarioCanAdd>
+        <initialSeverity>0.01</initialSeverity>
+    </HediffDef>
+    <!--隐藏信息，目前只在处刑中使用-->
+    <HediffDef MayRequire="rim.job.world" ParentName="COF_Torture_HediffsBase">
+        <defName>COF_Torture_Licentious</defName>
+        <label>过于淫乱</label>
+        <description>恭喜你把它调出来了，但是它只是起了标识死亡信息的作用，并不会在游戏中出现</description>
+    </HediffDef>
+    <!--并不是真正的状态-->
+    <HediffDef ParentName="COF_Torture_HediffsBase">
+        <defName>COF_Torture_IsAbusing</defName>
+        <hediffClass>COF_Torture.Hediffs.Hediff_COF_Torture_IsAbusing</hediffClass>
+        <label>WIP</label>
+        <description>正在执行被处刑状态。</description>
+        <stages>
+            <li>
+                <!--<becomeVisible>false</becomeVisible>-->
+            </li>
+        </stages>
+    </HediffDef>
+    <!--特质带来的状态 TODO:还没有特质-->
+    <HediffDef ParentName="COF_Torture_HediffsBase">
+        <defName>COF_Torture_NeverPainDowned</defName>
+        <label>清醒意识</label>
+        <description>不管身上再痛也不会昏倒，但是受到的疼痛加剧。同时，收到的痛感会超过100%的上限。</description>
+        <stages>
+            <li>
+                <painFactor>1.2</painFactor>
+                <becomeVisible MayRequire="Ludeon.RimWorld.Biotech">false</becomeVisible>
+            </li>
+        </stages>
+    </HediffDef>
+    <!--特质带来的状态 TODO:还没有特质-->
+    <HediffDef ParentName="COF_Torture_HediffsBase">
+        <defName>COF_Torture_Barbecued</defName>
+        <label>烧烤中</label>
+        <description>持有这种状态的个体死后会变成烤肉而不是尸体</description>
+        <stages>
+            <li>
+                <becomeVisible>false</becomeVisible>
+            </li>
+        </stages>
+    </HediffDef>
+    <!--其他内容：-->
+    <HediffDef ParentName="COF_Torture_HediffsBase">
+        <defName>COF_Torture_Fixed</defName>
+        <hediffClass>COF_Torture.Hediffs.Hediff_Fixed</hediffClass>
+        <label>被固定</label>
+        <description>被以某种方式固定住了，如果进行了设置，这个状态会同时补充各项数值让殖民者不会死去。</description>
+        <stages>
+            <li>
+                <capMods>
+                    <li>
+                        <capacity>Moving</capacity>
+                        <setMax>0</setMax>
+                    </li>
+                </capMods>
+                <statOffsets>
+                    <ComfyTemperatureMin>-50</ComfyTemperatureMin>
+                    <ComfyTemperatureMax>50</ComfyTemperatureMax>
+                </statOffsets>
+            </li>
+        </stages>
+    </HediffDef>
+    <!--高潮-->
+    <HediffDef MayRequire="rim.job.world" ParentName="COF_Torture_HediffsBase">
+        <hediffClass>COF_Torture.Hediffs.Hediff_Orgasm</hediffClass>
+        <defName>COF_Torture_Orgasm</defName>
+        <label>高潮状态</label>
+        <description>高潮了，计划中这可以提高性需求上限让你更长时间不需要做爱，但是没有做好</description>
+        <initialSeverity>1</initialSeverity>
+        <comps>
+            <li Class="HediffCompProperties_Disappears">
+                <disappearsAfterTicks>9000~18000</disappearsAfterTicks>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <minSeverity>0.01</minSeverity>
+                <overrideLabel>高潮中</overrideLabel>
+                <statOffsets>
+                    <Vulnerability>0.10</Vulnerability>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>2</minSeverity>
+                <overrideLabel>连续高潮中</overrideLabel>
+                <statOffsets>
+                    <Vulnerability>0.20</Vulnerability>
+                </statOffsets>
+            </li>
+        </stages>
+    </HediffDef>
+    <!--性兴奋指示条-->
+    <HediffDef MayRequire="rim.job.world">
+        <defName>COF_Torture_OrgasmIndicator</defName>
+        <hediffClass>COF_Torture.Hediffs.Hediff_COF_Sexual_Gratification</hediffClass>
+        <label>性兴奋等级</label>
+        <description>感到了性兴奋，当高潮时可以获得性满足</description>
+        <isBad>false</isBad>
+        <defaultLabelColor>(0.8, 0.8, 0.2)</defaultLabelColor>
+        <makesSickThought>false</makesSickThought>
+        <tendable>false</tendable>
+        <scenarioCanAdd>false</scenarioCanAdd>
+        <initialSeverity>0.01</initialSeverity>
+        <comps>
+            <!--<li Class="COF_Torture.HediffComp.HediffCompProperties_OrgasmIndicator">
+                <canMultiOrgasm>True</canMultiOrgasm>                在高潮指示条多倍于高潮需求时可以连续高潮吗？还是高潮一次整个指示条归零。PS：在连续高潮情况下，最后一次高潮也会清零高潮指示条
+                <ticksToCount>4000</ticksToCount>
+            COF_Torture.HediffComp.HediffCompProperties_OrgasmIndicator已经弃用
+            </li>-->
+            <li Class="s16_extension.HediffCompProperties_ItemSpawner" MayRequire="s16.core">
+                <DaysForItemSpawning>0.1</DaysForItemSpawning>
+                <thingToSpawn>S16GirlCum</thingToSpawn>
+                <spawnCount>1</spawnCount>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <minSeverity>0.01</minSeverity>
+                <label>没啥感觉</label>
+                <statOffsets>
+                    <Vulnerability>0.10</Vulnerability>                    <!--脆弱度-->
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>0.10</minSeverity>
+                <label>有点湿了</label>
+                <statOffsets>
+                    <Vulnerability>0.15</Vulnerability>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>0.20</minSeverity>
+                <label>兴奋</label>
+                <statOffsets>
+                    <Vulnerability>0.30</Vulnerability>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>0.60</minSeverity>
+                <label>颤抖</label>
+                <statOffsets>
+                    <Vulnerability>0.80</Vulnerability>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>1</minSeverity>
+                <label>高潮边缘</label>
+                <statOffsets>
+                    <Vulnerability>1.0</Vulnerability>
+                </statOffsets>
+            </li>
+            <li>
+                <minSeverity>2</minSeverity>
+                <label>高潮边缘（即将连续高潮）</label>
+                <statOffsets>
+                    <Vulnerability>1.0</Vulnerability>
+                </statOffsets>
+            </li>
+        </stages>
+    </HediffDef>
+    <!--通过痛苦获得快感-->
+    <HediffDef MayRequire="rim.job.world" ParentName="COF_Torture_HediffsBase">
+        <defName>COF_Torture_SexualHeatWithPain</defName>
+        <label>性兴奋（疼痛）</label>
+        <description>可以因为疼痛获得性兴奋。</description>
+        <isBad>false</isBad>
+        <defaultLabelColor>(0.8, 0.8, 0.2)</defaultLabelColor>
+        <makesSickThought>false</makesSickThought>
+        <tendable>false</tendable>
+        <scenarioCanAdd>false</scenarioCanAdd>
+        <initialSeverity>0.01</initialSeverity>
+        <comps>
+            <li Class="COF_Torture.HediffComp.HediffCompProperties_GetSexualHeatWithPain">
+                <SexualHeatConversionRatePerHour>0.2</SexualHeatConversionRatePerHour>                <!--间隔时间为一小时，严重度为1时高潮-->
+            </li>
+        </comps>
+    </HediffDef>
+</Defs>
+
+
+
+

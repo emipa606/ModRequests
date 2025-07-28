@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <!--建筑物-->
+    <ThingDef ParentName="COF_Torture_Building_JobToyBase">
+        <defName>COF_Torture_Building_Impalement</defName>
+        <label>穿刺杆</label>
+        <graphicData>
+            <texPath>COF_Torture/Building/Impalement/Impalement</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(2,2)</drawSize>
+        </graphicData>
+        <stuffCategories>
+            <li>Metallic</li>
+            <li>Woody</li>
+            <li>Stony</li>
+        </stuffCategories>
+        <uiIconPath>COF_Torture/Building/Impalement/Impalement_icon</uiIconPath>
+        <comps>
+            <li Class="COF_Torture.Component.CompProperties_BuildingSitHediffGiver">
+                <hediff>COF_Torture_Impalement_JobToy</hediff>
+                <part>Torso</part>
+            </li>
+            <!-- 使用效果 -->
+            <li Class="COF_Torture.Component.CompProperties_EffectForBondage">
+                <hediff>COF_Torture_Impalement_Execute</hediff>
+                <part>Torso</part>
+            </li>
+        </comps>
+    </ThingDef>
+    <!--普通buff-->
+    <HediffDef ParentName="COF_Torture_Hediffs_JobToyBase">
+        <defName>COF_Torture_Impalement_JobToy</defName>
+        <label>贯通</label>
+        <description>被一根金属长杆避开要害贯通。</description>
+        <stages>
+            <li>
+                <label>全身上下的痛感</label>
+                <painOffset>0.2</painOffset>
+            </li>
+        </stages>
+        <injuryProps>
+            <bleedRate>0.10</bleedRate>
+        </injuryProps>
+    </HediffDef>
+    <!--处刑buff-->
+    <HediffDef ParentName="COF_Torture_Hediffs_ExecuteBase">
+        <defName>COF_Torture_Impalement_Execute</defName>
+        <label>贯通处刑</label>
+        <description>被一根金属长杆贯通。</description>
+        <lethalSeverity>10</lethalSeverity>
+        <!--并不使用原版的lethalSeverity来致死，只是作为标识让Comp和UI模组识别-->
+        <comps>
+            <li Class="COF_Torture.HediffComp.HediffCompProperties_ExecuteIndicatorAddHediff">
+            </li>
+            <!-- 运行效果 -->
+            <li Class="COF_Torture.HediffComp.HediffCompProperties_ExecuteEffector_AddHediff">
+                <addHediff>Execute_Stab</addHediff>
+                <severityToAdd>5~10</severityToAdd>
+                <addBodyParts>
+                <li>Torso</li>
+                </addBodyParts>
+                <ticksToAdd>360</ticksToAdd>
+                <addHediffNumInt>3</addHediffNumInt>
+                <addHediffNumMax>5</addHediffNumMax>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <minSeverity>0.01</minSeverity>
+                <label>刚刚刺穿</label>
+                <painOffset>0.4</painOffset>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.02</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>2</minSeverity>
+                <label>穿透</label>
+                <painOffset>0.4</painOffset>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.02</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>6</minSeverity>
+                <label>血流如注</label>
+                <painOffset>0.4</painOffset>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.02</offset>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+        <injuryProps>
+            <bleedRate>0.30</bleedRate>
+        </injuryProps>
+    </HediffDef>
+</Defs>

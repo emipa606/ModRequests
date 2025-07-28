@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <!--建筑物-->
+    <ThingDef ParentName="COF_Torture_Building_JobToyBase" Class="COF_Torture.Things.Building_TortureBedDef">
+        <defName>COF_Torture_Building_IronMaiden</defName>
+        <label>铁处女</label>
+        <graphicData>
+            <texPath>COF_Torture/Building/IronMaiden/IronMaiden</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(2.7,2.7)</drawSize>
+            <shaderType>CutoutComplex</shaderType>
+        </graphicData>
+        <stuffCategories>
+            <li>Metallic</li>
+            <li>Woody</li>
+            <li>Stony</li>
+        </stuffCategories>
+        <uiIconPath>COF_Torture/Building/IronMaiden/IronMaiden_icon</uiIconPath>
+        <shiftPawnDrawPosZ>-0.4</shiftPawnDrawPosZ>
+        <comps>
+            <li Class="COF_Torture.Component.CompProperties_BuildingSitHediffGiver">
+                <hediff>COF_Torture_IronMaiden_JobToy</hediff>
+                <part>Torso</part>
+            </li>
+            <!-- 使用效果 -->
+            <li Class="COF_Torture.Component.CompProperties_EffectForBondage">
+                <hediff>COF_Torture_IronMaiden_Execute</hediff>
+                <part>Torso</part>
+            </li>
+        </comps>
+    </ThingDef>
+    <!--普通buff-->
+    <HediffDef ParentName="COF_Torture_Hediffs_JobToyBase">
+        <defName>COF_Torture_IronMaiden_JobToy</defName>
+        <label>铁处女</label>
+        <description>轻轻靠在打开的铁处女里面造成的小伤。</description>
+        <stages>
+            <li>
+                <label>钉刺</label>
+                <painOffset>0.1</painOffset>
+            </li>
+        </stages>
+        <injuryProps>
+            <bleedRate>0.03</bleedRate>
+        </injuryProps>
+    </HediffDef>
+    <!--处刑buff-->
+    <HediffDef ParentName="COF_Torture_Hediffs_ExecuteBase">
+        <defName>COF_Torture_IronMaiden_Execute</defName>
+        <label>铁处女处刑</label>
+        <description>被关入铁处女，执行处刑。</description>
+        <lethalSeverity>10</lethalSeverity>
+        <!--并不使用原版的lethalSeverity来致死，只是作为标识让Comp和UI模组识别-->
+        <comps>
+            <li Class="COF_Torture.HediffComp.HediffCompProperties_ExecuteIndicatorAddHediff">
+            </li>
+            <!-- 运行效果 -->
+            <li Class="COF_Torture.HediffComp.HediffCompProperties_ExecuteEffector_AddHediff">
+                <addHediff>Execute_Stab</addHediff>
+                <severityToAdd>3~5</severityToAdd>
+                <ticksToAdd>360</ticksToAdd>
+                <addHediffNumInt>30</addHediffNumInt>
+                <addHediffNumMax>40</addHediffNumMax>
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <minSeverity>0.01</minSeverity>
+                <label>刚刚刺穿</label>
+                <painOffset>0.4</painOffset>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.02</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>2</minSeverity>
+                <label>穿透</label>
+                <painOffset>0.4</painOffset>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.02</offset>
+                    </li>
+                </capMods>
+            </li>
+            <li>
+                <minSeverity>6</minSeverity>
+                <label>血流如注</label>
+                <painOffset>0.4</painOffset>
+                <capMods>
+                    <li>
+                        <capacity>Manipulation</capacity>
+                        <offset>-0.02</offset>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+        <injuryProps>
+            <bleedRate>0.50</bleedRate>
+        </injuryProps>
+    </HediffDef>
+</Defs>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+     <!--建筑物-->
+    <ThingDef ParentName="COF_Torture_Building_JobToyBase">
+        <defName>COF_Torture_Building_Gallows</defName>
+        <label>绞刑架</label>
+        <graphicData>
+            <texPath>COF_Torture/Building/Gallows/Gallows</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(2,2)</drawSize>
+        </graphicData>
+        <stuffCategories>
+            <li>Metallic</li>
+            <li>Woody</li>
+            <li>Stony</li>
+        </stuffCategories>
+        <uiIconPath>COF_Torture/Building/Gallows/Gallows_icon</uiIconPath>
+        <comps>
+            <li Class="COF_Torture.Component.CompProperties_BuildingSitHediffGiver">
+                <hediff>COF_Torture_Gallows_JobToy</hediff>
+                <part>Head</part>
+            </li>
+            <!-- 使用效果 -->
+            <li Class="COF_Torture.Component.CompProperties_EffectForBondage">
+                <hediff>COF_Torture_Gallows_Execute</hediff>
+                <part>Head</part>
+            </li>
+        </comps>
+    </ThingDef>
+    <!--普通buff-->
+    <HediffDef ParentName="COF_Torture_Hediffs_JobToyBase">
+        <defName>COF_Torture_Gallows_JobToy</defName>
+        <label>窒息</label>
+        <description>窒息了，减少意识的同时心灵和肉体变得更加敏感。</description>
+        <stages>
+            <li>
+                <painOffset>0.03</painOffset>
+                <painFactor>1.4</painFactor>
+                <statOffsets>
+                    <PsychicSensitivity>0.25</PsychicSensitivity>
+                </statOffsets>
+                <capMods>
+                    <li>
+                        <capacity>Consciousness</capacity>
+                        <offset>-0.3</offset>
+                    </li>
+                </capMods>
+            </li>
+        </stages>
+    </HediffDef>
+    <!--处刑buff-->
+    <HediffDef ParentName="COF_Torture_Hediffs_ExecuteBase">
+        <defName>COF_Torture_Gallows_Execute</defName>
+        <label>绞刑</label>
+        <description>被施以绞刑，在窒息中一点点失去生命。</description>
+        <lethalSeverity>10</lethalSeverity>
+        <!--并不使用原版的lethalSeverity来致死，只是作为标识让Comp和UI模组识别-->
+        <comps>
+            <li Class="COF_Torture.HediffComp.HediffCompProperties_ExecuteIndicator">
+            </li>
+        </comps>
+        <stages>
+            <li>
+                <minSeverity>0.01</minSeverity>
+                <label>未开始</label>
+                <painOffset>0.03</painOffset>
+            </li>
+            <li>
+                <minSeverity>1</minSeverity>
+                <label>呼吸急促</label>
+                <painOffset>0.03</painOffset>
+            </li>
+            <li>
+                <minSeverity>2.5</minSeverity>
+                <label>呼吸困难</label>
+                <painOffset>0.03</painOffset>
+            </li>
+            <li>
+                <minSeverity>5</minSeverity>
+                <label>意识模糊</label>
+                <painOffset>0.03</painOffset>
+            </li>
+            <li>
+                <minSeverity>7</minSeverity>
+                <label>意识微弱</label>
+                <painOffset>0.03</painOffset>
+            </li>
+            <li>
+                <minSeverity>9</minSeverity>
+                <label>濒临死亡</label>
+                <painOffset>0.03</painOffset>
+            </li>
+            <li>
+                <minSeverity>10</minSeverity>
+                <label>死去</label>
+            </li>
+        </stages>
+    </HediffDef>
+</Defs>
