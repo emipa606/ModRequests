@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef Name="MAP_Mech_Commander" ParentName="SuperHeavyMechanoid">
+    <defName>MAP_Mech_Commander</defName>
+    <label>Commander</label>
+    <description>A mechanoid with a built-in NEO shortwave communication station that can communicate remotely with the mechanitor and thus can access the caravan independently. has a special weapon system and thus can use human weapons.</description>
+    <statBases>
+      <MoveSpeed>3</MoveSpeed>
+      <ArmorRating_Blunt>0.60</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.90</ArmorRating_Sharp>
+      <BandwidthCost>5</BandwidthCost>
+      <WorkSpeedGlobal>1.0</WorkSpeedGlobal>
+      <EnergyShieldEnergyMax>2.5</EnergyShieldEnergyMax>
+      <EnergyShieldRechargeRate>0.5</EnergyShieldRechargeRate>
+    </statBases>
+    <race>
+      <body>Mech_Centurion</body>
+      <baseBodySize>3.6</baseBodySize>
+      <baseHealthScale>4</baseHealthScale>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Centurion_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centurion_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centurion_Call</soundCall>
+        </li>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>100</minAge>
+          <soundWounded>Pawn_Mech_Centurion_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centurion_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centurion_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <mechEnabledWorkTypes>
+        <li>BasicWorker</li>
+      </mechEnabledWorkTypes>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>0</texOverrideIndex>
+          <spawnChance>0.5</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>3</texOverrideIndex>
+          <spawnChance>0.5</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>1</texOverrideIndex>
+          <spawnChance>0.5</spawnChance>
+        </li>
+      </detritusLeavings>
+      <mechWeightClass>UltraHeavy</mechWeightClass>
+    </race>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Demolish</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <comps>
+      <li Class="MAP.Commander.CompProperties_CommanderSkillToOverseer" />
+      <li Class="MAP.Commander.RangeControl.CompProperties_CommanderControlRange" />
+      <li Class="CompProperties_ProjectileInterceptor">
+        <radius>3</radius>
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <color>(0.4, 0.4, 0.4)</color>
+        <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+        <activeSound>BulletShield_Ambience</activeSound>
+        <hitPoints>125</hitPoints>
+        <hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
+        <chargeDurationTicks>1200</chargeDurationTicks>
+        <!-- 30s -->
+        <rechargeHitPointsIntervalTicks>90</rechargeHitPointsIntervalTicks>
+        <minIdleAlpha>0.2</minIdleAlpha>
+        <drawWithNoSelection>True</drawWithNoSelection>
+        <disarmedByEmpForTicks>1500</disarmedByEmpForTicks>
+        <gizmoTipKey>ProjectileInterceptorTip</gizmoTipKey>
+      </li>
+      <li Class="MAP.Commander.CompBuff.CompProperties_CommanderBuff">
+        <hediffDef1>RaidCommand</hediffDef1>
+        <hediffDef2>DefensiveCommand</hediffDef2>
+        <bodyPart>Reactor</bodyPart>
+      </li>
+      <li Class="CompProperties_TurretGun">
+        <turretDef>Gun_ChargeBlasterTurret</turretDef>
+        <angleOffset>-90</angleOffset>
+        <renderNodeProperties>
+          <li>
+            <nodeClass>PawnRenderNode_TurretGun</nodeClass>
+            <workerClass>PawnRenderNodeWorker_TurretGun</workerClass>
+            <parentTagDef>Body</parentTagDef>
+            <overrideMeshSize>(1, 1)</overrideMeshSize>
+            <baseLayer>20</baseLayer>
+            <pawnType>Any</pawnType>
+            <drawData>
+              <dataWest>
+                <rotationOffset>180</rotationOffset>
+              </dataWest>
+            </drawData>
+          </li>
+        </renderNodeProperties>
+      </li>
+    </comps>
+  </ThingDef>
+  <PawnKindDef Name="CommanderKind" ParentName="HeavyMechanoidKind">
+    <defName>MAP_Mech_Commander</defName>
+    <label>Commander</label>
+    <race>MAP_Mech_Commander</race>
+    <combatPower>250</combatPower>
+    <maxPerGroup>2</maxPerGroup>
+    <allowInMechClusters>false</allowInMechClusters>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/Commander</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Commander</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3.5</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/Commander</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Commander</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3.5</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+</Defs>
