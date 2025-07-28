@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- Adds New Corpse types to correct RecipeDefs -->
+	<Operation Class="PatchOperationSequence">
+	<!-- <success>Always</success> -->
+		<operations>		
+			<!-- Adds Non-Fleshy Corpses to ButcherCorpseMechanoid categories -->
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/RecipeDef[@Name = "ButcherCorpseMechanoidBase"]/fixedIngredientFilter/categories</xpath>
+				<!--success>Always</success-->
+				
+				<match Class="PatchOperationAdd">
+					<success>Always</success>
+					<xpath>Defs/RecipeDef[@Name = "ButcherCorpseMechanoidBase"]/fixedIngredientFilter/categories</xpath>
+					<value>
+						<li>AvP_Corpses_Synth</li>
+					</value>
+				</match>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName = "ButcherCorpseMechanoid"]/fixedIngredientFilter/categories</xpath>
+					<value>
+						<li>AvP_Corpses_Synth</li>
+					</value>
+				</nomatch>
+			</li>
+			<!-- Adds Non-Fleshy Corpses to ButcherCorpseFlesh disallowedCategories -->
+			<li Class="PatchOperationAdd">
+				<xpath>/Defs/RecipeDef[defName = "ButcherCorpseFlesh"]/fixedIngredientFilter/disallowedCategories</xpath>
+					<value>
+						<li>AvP_Corpses_Synth</li>
+					</value>
+			</li>	
+		</operations>	
+	</Operation>
+
+	<!-- Harvest Organs Post Mortem Patches -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Harvest Organs Post Mortem</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<success>Always</success>
+			<operations>
+				<!-- Adds Humanlike Corpses to Autopsy Categories -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/RecipeDef[defName = "AutopsyBasic" or defName = "AutopsyAdvanced" or defName = "AutopsyGlitterworld"]/fixedIngredientFilter/categories</xpath>
+					<value>
+						<li>AvP_Corpses_Yautja</li>
+					</value>
+				</li>	
+				<!-- Adds Non-Humanlike Corpses to Autopsy disallowedCategories -->
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/RecipeDef[defName = "AutopsyBasic" or defName = "AutopsyAdvanced" or defName = "AutopsyGlitterworld" or defName = "AutopsyAnimal"]/fixedIngredientFilter/disallowedCategories</xpath>
+					<value>
+						<li>AvP_Corpses_Xenomorph</li>
+						<li>AvP_Corpses_Synth</li>
+					</value>
+				</li>	
+			</operations>
+		</match>
+	</Operation>
+</Patch>

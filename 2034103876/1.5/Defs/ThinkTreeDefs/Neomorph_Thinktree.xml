@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThinkTreeDef>
+    <defName>AvP_Neomorph_ThinkTree</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Keep lying down if we have to -->
+		<li Class="ThinkNode_ConditionalMustKeepLyingDown">
+			<subNodes>
+            <!-- Do a queued job if possible -->
+            <li Class="ThinkNode_QueuedJob">
+              <inBedOnly>true</inBedOnly>
+            </li>
+
+            <!-- Keep lying down -->
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+		
+        <!-- Downed -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateCritical</treeDef>
+        </li>
+		
+		<li Class="JobGiver_Xenomorph_FleeFire" />
+		
+		<li Class="JobGiver_Neomorph_GetFood"> 
+		  <minCategory>Hungry</minCategory>
+		</li>
+        <!-- Conditional Not Fully Grown -->
+        <li Class="ThinkNode_ConditionalNotGrown">
+          <subNodes>
+		  
+			<li Class="JobGiver_Neomorph_Flee" />
+			
+			
+				<li Class="JobGiver_WanderAnywhere">
+				  <maxDanger>Deadly</maxDanger>
+				  <ticksBetweenWandersRange>
+					<min>120</min>
+					<max>240</max>
+				  </ticksBetweenWandersRange>
+				</li>
+			
+          </subNodes>
+        </li>
+		
+        <!-- Conditional Fully Grown -->
+        <li Class="ThinkNode_ConditionalFullyGrown">
+          <subNodes>
+			
+				<!-- React to close melee threat -->
+				<li Class="JobGiver_ReactToCloseMeleeThreat" />
+				
+				<!-- Do a queued job -->
+				<li Class="ThinkNode_QueuedJob" />
+
+				<!-- Mental state non critical -->
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>MentalStateNonCritical</treeDef>
+				</li>
+
+				<!-- Satisfy basic needs -->
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>AvP_SatisfyNeomorphNeeds</treeDef>
+				</li>
+				
+				<!-- Forced goto -->
+				<li Class="ThinkNode_ConditionalForcedGoto">
+				  <subNodes>
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Misc</tagToGive>
+					  <subNodes>
+						<li Class="JobGiver_ForcedGoto" />
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+						
+				<!-- Lord -->	
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>LordDuty</treeDef>
+				</li>
+				
+          </subNodes>
+        </li>
+				
+        <!-- Idle -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+		
+        <!-- Idle error -->
+        <li Class="JobGiver_IdleError"/>
+		
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+	<ThinkTreeDef>
+		<defName>NeomorphConstant</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+        <li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+          <subNodes>
+            <!-- Flee enemies, tornados, meteorites, etc. -->
+            <li Class="JobGiver_Neomorph_Flee" />
+
+            <!-- Join auto joinable caravan -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>JoinAutoJoinableCaravan</treeDef>
+            </li>
+            
+            <!-- Lord directives -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDutyConstant</treeDef>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+</Defs>

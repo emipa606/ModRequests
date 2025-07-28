@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThinkTreeDef>
+    <defName>AvP_Xenomorph_ThinkTree</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Keep lying down if we have to -->
+		<li Class="ThinkNode_ConditionalMustKeepLyingDown">
+			<subNodes>
+            <!-- Do a queued job if possible -->
+            <li Class="ThinkNode_QueuedJob">
+              <inBedOnly>true</inBedOnly>
+            </li>
+
+            <!-- Keep lying down -->
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+		
+        <!-- Downed -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+		<li Class="ThinkNode_ConditionalNotPawnKind">
+		  <pawnKind>AvP_Xenomorph_FaceHugger</pawnKind>
+			<subNodes>
+				<li Class="JobGiver_Xenomorph_FleeFire" />
+				<li Class="JobGiver_Xenomorph_Flee" />
+			</subNodes>
+        </li>
+		
+		<!-- Face Hugger Hunting -->
+		<li Class="ThinkNode_ConditionalPawnKind">
+		  <pawnKind>AvP_Xenomorph_FaceHugger</pawnKind>
+		  <subNodes>
+			<li Class="ThinkNode_Tagger">
+			  <tagToGive>Idle</tagToGive>
+			  <subNodes>
+				<!-- Hunt -->
+				<li Class="ThinkNode_ConditionalFacehuggerFertile">
+				  <subNodes>
+					<li Class="JobGiver_Xenomorph_FacehuggerHunt" />
+				  </subNodes>
+				</li>
+				<!-- Exit -->
+				<li Class="JobGiver_Xenomorph_Flee" />
+				<!-- Wander -->
+				<li Class="JobGiver_WanderAnywhere">
+				  <maxDanger>Deadly</maxDanger>
+				  <ticksBetweenWandersRange>
+					<min>120</min>
+					<max>240</max>
+				  </ticksBetweenWandersRange>
+				</li>
+			  </subNodes>
+			</li>
+		  </subNodes>
+		</li>
+		
+		<!-- Royal Hugger Hunting -->
+		<li Class="ThinkNode_ConditionalPawnKind">
+		  <pawnKind>AvP_Xenomorph_RoyaleHugger</pawnKind>
+		  <subNodes>
+			<li Class="ThinkNode_Tagger">
+			  <tagToGive>Idle</tagToGive>
+			  <subNodes>
+				<!-- Hunt -->
+				<li Class="ThinkNode_ConditionalFacehuggerFertile">
+				  <subNodes>
+					<li Class="JobGiver_Xenomorph_FacehuggerHunt" />
+				  </subNodes>
+				</li>
+				<!-- Exit -->
+				<!--li Class="JobGiver_Xenomorph_Flee" /-->
+				<!-- Wander -->
+				<li Class="JobGiver_WanderAnywhere">
+				  <maxDanger>Deadly</maxDanger>
+				  <ticksBetweenWandersRange>
+					<min>120</min>
+					<max>240</max>
+				  </ticksBetweenWandersRange>
+				</li>
+			  </subNodes>
+			</li>
+		  </subNodes>
+		</li>
+		
+        <!-- Conditional Not Fully Grown -->
+        <li Class="ThinkNode_ConditionalNotGrown">
+          <subNodes>
+			<li Class="JobGiver_Xenomorph_Flee" />
+			<li Class="JobGiver_Xenomorph_GetFood"> 
+			</li>
+			<li Class="JobGiver_Xenomorph_WanderHive">
+				<maxDanger>Deadly</maxDanger>
+			</li>
+          </subNodes>
+        </li>
+		
+        <!-- Conditional Fully Grown -->
+        <li Class="ThinkNode_ConditionalFullyGrown">
+          <subNodes>
+			<!--
+			<li Class="JobGiver_Xenomorph_Flee" />
+			<li Class="JobGiver_Xenomorph_GetFood"> 
+			  <minCategory>Fed</minCategory>
+			</li>
+			-->
+				
+		<li Class="ThinkNode_ConditionalNotPawnKind">
+		  <pawnKind>AvP_Xenomorph_FaceHugger</pawnKind>
+		  <subNodes>
+				<!-- React to close melee threat -->
+				<li Class="JobGiver_ReactToCloseMeleeThreat" />
+				
+				<!-- Do a queued job -->
+				<li Class="ThinkNode_QueuedJob" />
+
+				<!-- Mental state non critical -->
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>MentalStateNonCritical</treeDef>
+				</li>
+
+				<!-- Forced goto -->
+				<li Class="ThinkNode_ConditionalForcedGoto">
+				  <subNodes>
+					<li Class="ThinkNode_Tagger">
+					  <tagToGive>Misc</tagToGive>
+					  <subNodes>
+						<li Class="JobGiver_ForcedGoto" />
+					  </subNodes>
+					</li>
+				  </subNodes>
+				</li>
+				
+				<li Class="JobGiver_Xenomorph_Neohunter"> 
+				</li>
+						
+				<!-- Lord -->	
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>LordDuty</treeDef>
+				</li>
+				
+				<!-- Drone Gather Infectable Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>AvP_Xenomorph_Drone</pawnKind>
+				  <subNodes>
+						<li Class="ThinkNode_ConditionalAnyDownedInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_Xenomorph_Kidnap" />
+						  </subNodes>
+						</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Drone Gather Infectable Hunting -->
+				<li Class="ThinkNode_ConditionalPawnKind">
+				  <pawnKind>AvP_Xenomorph_Predalien</pawnKind>
+				  <subNodes>
+						<li Class="ThinkNode_ConditionalAnyDownedInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_Xenomorph_Kidnap" />
+							<li Class="JobGiver_Xenomorph_Predalien_Impregnate" />
+						  </subNodes>
+						</li>
+						<li Class="ThinkNode_ConditionalAnyInfectableSpawnedNearby">
+						  <subNodes>
+							<li Class="JobGiver_Xenomorph_Hosthunter" />
+						  </subNodes>
+						</li>
+				  </subNodes>
+				</li>
+				
+				<!-- Lay eggs you need to -->
+				<li Class="JobGiver_Xenomorph_LayEgg" />
+				
+				<!-- Satisfy very urgent needs -->
+				<li Class="ThinkNode_Subtree">
+				  <treeDef>AvP_Xenomorph_SatisfyNeeds</treeDef>
+				</li>
+				
+		  </subNodes>
+		</li>
+		
+          </subNodes>
+        </li>
+
+			
+				
+        <!-- Idle -->
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Satisfy basic needs -->
+        <!--li Class="ThinkNode_Subtree">
+          <treeDef>AvP_Xenomorph_SatisfyNeeds</treeDef>
+        </li-->
+		
+        <!-- Idle error -->
+        <li Class="JobGiver_IdleError"/>
+		
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+	<ThinkTreeDef>
+		<defName>XenomorphConstant</defName>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+        <li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
+          <subNodes>
+            <!-- Flee enemies, tornados, meteorites, etc. -->
+            <li Class="JobGiver_Xenomorph_Flee" />
+
+            <!-- Join auto joinable caravan -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>JoinAutoJoinableCaravan</treeDef>
+            </li>
+            
+            <!-- Lord directives -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDutyConstant</treeDef>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+
+</Defs>
