@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="RawFungus"]</xpath>
+        <value>
+			<descriptionHyperlinks>
+            	<RecipeDef>RefineFungus</RecipeDef>
+			</descriptionHyperlinks>
+        </value>
+    </Operation>
+
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<!-- Comms console for traders -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>/Defs/FactionDef[@Name="OutlanderFactionBase" or @Name="TribeBase"]/caravanTraderKinds</xpath>
+				<value>
+					<li>Caravan_GreenHouseTrader</li>
+				</value>
+			</li>
+			<!-- Wild heatroot patch -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="Plant_HealrootWild"]/plant</xpath>
+				<value>
+					<harvestedThingDef>RawHealroot</harvestedThingDef>
+				</value>
+			</li>
+			<!-- Add seeds to any traders that sell plant-related, resource, or genetic (modified seeds exist!) goods -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/TraderKindDef/stockGenerators[li/categoryDef="ResourcesRaw" or 
+					li/categoryDef="FoodRaw" or 
+					li/thingDef="WoodLog" or 
+					li/thingDef="Pemmican" or 
+					li/thingDef="Kibble" or 
+					li/thingDef="Hay" or 
+					li/thingDef="Dye" or 
+					li/thingDef="Cloth" or 
+					li/thingDef="Genepack" or 
+					li/thingDef="MedicineHerbal" or 
+					li/thingDef="Beer" or 
+					li/thingDef="MealSurvivalPack" or 
+					li/thingDef="VFEI_DroneGenome" or 
+					li/thingDef="VFEM_Wine"]</xpath>
+				<value>
+					<li Class="StockGenerator_Tag">
+						<tradeTag>Seeds</tradeTag>
+						<thingDefCountRange>
+							<min>5</min>
+							<max>8</max>
+						</thingDefCountRange>
+						<countRange>
+							<min>20</min>
+							<max>40</max>
+						</countRange>
+					</li>
+				</value>
+			</li>
+			<!-- This patch will be applied in addition to the generic seed-patch above this one -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs/TraderKindDef[defName = "Orbital_BulkGoods"]/stockGenerators</xpath>
+				<value>
+					<li Class="StockGenerator_Tag">
+						<tradeTag>Seeds</tradeTag>
+						<thingDefCountRange>
+							<min>4</min>
+							<max>8</max>
+						</thingDefCountRange>
+						<countRange>
+							<min>20</min>
+							<max>50</max>
+						</countRange>
+					</li>
+					<li Class="StockGenerator_SingleDef">
+						<thingDef>RawCotton</thingDef>
+						<countRange>
+							<min>200</min>
+							<max>600</max>
+						</countRange>
+					</li>
+				</value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<success>Always</success>
+				<xpath>Defs/ThingDef[defName="GauranlenSeed"]/thingCategories/li[text()="Items"]</xpath>
+				<value>
+					<li>SeedsCategory</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAddModExtension">
+				<xpath>Defs/ThingDef[defName="Plant_Haygrass" or defName="Plant_TreeBonsai"]</xpath>
+				<value>
+					<li Class="SeedsPleaseLite.Seedless" />
+				</value>
+			</li>
+			<!-- Check if the extraction recipe should be applied to the butcher spot -->
+			<li Class="PatchOperationAdd">
+				<success>Always</success>
+				<xpath>Defs[ThingDef[defName="FueledStove"]/researchPrerequisites]/RecipeDef[defName="ExtractSeeds"]/recipeUsers</xpath>
+				<value>
+					<li>ButcherSpot</li>
+				</value>
+			</li>
+
+			<!-- Add related buildings -->
+			<li Class="PatchOperationAdd">
+
+				<xpath>Defs/ThingDef[label[contains(text(), "stove")] and building and building/isMealSource]/building[not(relatedBuildCommands)]</xpath>
+				<value>
+					<relatedBuildCommands />
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+
+				<xpath>Defs/ThingDef[label[contains(text(), "stove")] and building and building/isMealSource]/building/relatedBuildCommands</xpath>
+				<value>
+					<li>SeedExtractionSpot</li>
+				</value>
+			</li>
+		</operations>
+	</Operation>
+</Patch> 
