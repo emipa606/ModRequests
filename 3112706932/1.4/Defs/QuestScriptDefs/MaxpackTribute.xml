@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>IF_MaxpackTribute</defName>
+    <rootSelectionWeight>1</rootSelectionWeight>
+    <rootMinPoints>400</rootMinPoints>
+    <expireDaysRange>4~8</expireDaysRange>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Maxpack Tribute</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->You’ve received a transmission from a nearby noble [asker_nameDef] that a Maxpack Tribute is nearby and ready to be received however [asker_nameDef] warns you that this is bound to attract deserters so a fight is inevitable.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+        </li>
+        <li Class="QuestNode_GetMap" />
+		
+		<li Class="ImperialFunctionality.QuestNode_AnyRoyalColonists"></li>
+        <!-- Get asker -->
+        <li Class="QuestNode_RandomNode">
+          <nodes>
+            <li Class="QuestNode_GetPawn">
+              <storeAs>asker</storeAs>
+              <selectionWeight>0.5</selectionWeight>
+              <mustBeFactionLeader>true</mustBeFactionLeader>
+              <allowPermanentEnemyFaction>false</allowPermanentEnemyFaction>
+              <hostileWeight>0.15</hostileWeight>
+            </li>
+			
+            <li Class="QuestNode_GetPawn">
+              <storeAs>asker</storeAs>
+              <selectionWeight>0.5</selectionWeight>
+              <canGeneratePawn>true</canGeneratePawn>
+              <allowPermanentEnemyFaction>false</allowPermanentEnemyFaction>
+              <mustHaveRoyalTitleInCurrentFaction>true</mustHaveRoyalTitleInCurrentFaction>
+              <hostileWeight>0.15</hostileWeight>
+            </li>
+          </nodes>
+        </li>
+		
+		<li Class="ImperialFunctionality.QuestNode_SpawnSupplyCrates">
+			
+		</li>
+		
+        <li Class="QuestNode_DropPods">
+          <contents>$itemPodsContents</contents>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>$(randInt(2500,5000))</delayTicks>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SubScript">
+                <def>Util_Raid</def>
+              </li>
+				<li Class="QuestNode_End" />
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>
