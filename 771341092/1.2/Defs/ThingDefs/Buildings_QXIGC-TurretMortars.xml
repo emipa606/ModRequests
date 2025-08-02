@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<!--QX========================= Imperial Turrets - Turrets Base NO HAUL ==========================QX-->
+	
+	<ThingDef Name="IG_BaseArtilleryBuilding" ParentName="IG_BuildingBase" Abstract="True">
+		<thingClass>Building_TurretGun</thingClass>
+		<altitudeLayer>Building</altitudeLayer>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<stealable>false</stealable>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<fillPercent>0.4</fillPercent>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Security</designationCategory>
+		<inspectorTabs>
+			<li>ITab_Shells</li>
+		</inspectorTabs>
+		<comps>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Mannable">
+				<manWorkType>Violent</manWorkType>
+			</li>
+		</comps>
+		<statBases>
+			<Flammability>0.7</Flammability>
+			<Mass>30</Mass>
+		</statBases>
+		<building>
+			<turretBurstWarmupTime>4.0</turretBurstWarmupTime>
+			<turretBurstCooldownTime>10.0</turretBurstCooldownTime>
+			<buildingTags>
+				<li>IG_Artillery</li>
+			</buildingTags>
+		</building>
+		<isMechClusterThreat>true</isMechClusterThreat>
+		<placeWorkers>
+			<li>PlaceWorker_NotUnderRoof</li>
+			<li>PlaceWorker_TurretTop</li>
+			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>Mortars</li>
+		</researchPrerequisites>
+		<uiIconScale>1.1</uiIconScale>
+	</ThingDef>
+	
+	<ThingDef Abstract="True" Name="IG_BaseWeaponTurret" ParentName="BaseIGGun">
+		<destroyOnDrop>True</destroyOnDrop>
+		<menuHidden>true</menuHidden>
+		<tradeability>None</tradeability>
+		<useHitPoints>false</useHitPoints>
+		<weaponTags>
+			<li>IG_TurretGun</li>
+		</weaponTags>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+	</ThingDef>
+
+	<ThingDef Abstract="True" Name="IG_BaseArtilleryWeapon" ParentName="IG_BaseWeaponTurret">
+		<weaponTags Inherit="False">
+			<li>IG_Artillery</li> <!-- CHANGED SO THAT OTHER FACTIONS CANT USE IT -->
+		</weaponTags>
+	</ThingDef>
+	
+	
+	<!--QX==================== Imperial Guard Turret Addon Mod - Base Desfense ThudGun Turret Building =========================QX-->
+
+	<ThingDef ParentName="IG_BaseArtilleryBuilding">
+		<defName>BDThudGun</defName>
+		<label>ThudGun Mortar</label>
+		<description>Manned Thudgun Base Defense turret is designed for Long Range base defense. Slow firing but with devastating Melta Atrillery Rounds, this is a true Terror Weapon! with a minimum range of 30. High chance to explode causing massive damage when destroyed and all Imperial Turrets self destruct when they have taken too much damange to leave no resources for the enemy</description>
+		<graphicData>
+			<texPath>Things/IGTurrets/BaseDefTurrets/Base/BDHeavyBaseMk1</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(4,4)</drawSize>
+			<damageData>
+				<rect>(0.38,0.2,0.56375,0.8)</rect>
+				<cornerTL>Damage/Corner</cornerTL>
+			</damageData>
+		</graphicData>
+		<uiIconPath>Things/IGTurrets/BaseDefTurrets/ThudGun_MenuIcon</uiIconPath>
+		<uiIconScale>0.90</uiIconScale>
+		<statBases>
+			<MaxHitPoints>2500</MaxHitPoints>
+			<WorkToBuild>30000</WorkToBuild>
+			<Beauty>-100</Beauty>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>6</explosiveRadius>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.50</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>7000</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until rearm</fuelLabel>
+				<fuelGizmoLabel>Barrel durability</fuelGizmoLabel>
+				<fuelFilter>
+					<thingDefs>
+						<li>IG_Ammo_Thudd</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>8</fuelCapacity>
+				<initialFuelPercent>1</initialFuelPercent>
+				<autoRefuelPercent>0.50</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<fuelMultiplier>1</fuelMultiplier>
+				<factorByDifficulty>true</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<outOfFuelMessage>Cannot shoot: Needs rearm</outOfFuelMessage>
+				<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+			</li>
+		</comps>
+		<castEdgeShadows>true</castEdgeShadows>
+		<costList>
+			<Steel>5000</Steel>
+			<Ceramite>2000</Ceramite>
+			<ImperialComponent>30</ImperialComponent>
+		</costList>
+		<size>(4,4)</size>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<!-- <specialDisplayRadius>20</specialDisplayRadius> -->
+		<building>
+			<turretGunDef>Turret_BDThudGun</turretGunDef>
+			<buildingTags>
+				<li>IG_Artillery_BaseDestroyer</li>
+				<li>IG_Artillery_MannedMortar</li>
+			</buildingTags>
+		</building>
+		<rotatable>true</rotatable>
+		<researchPrerequisites>
+			<li>TRDBThudGun</li>
+		</researchPrerequisites>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+	</ThingDef>
+	
+	<!--QX==================== Imperial Guard Turret Addon Mod - Base Desfense ThudGun Mortar TOP =========================QX-->
+
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_BDThudGun</defName>
+		<label>ThudGun Artillery Mortar</label>
+		<graphicData>
+			<texPath>Things/IGTurrets/BaseDefTurrets/ThudGun/ThudGunMk1-Projectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<damageDef>Flame</damageDef>
+			<damageAmountBase>30</damageAmountBase>
+			<explosionRadius>8</explosionRadius>
+			<preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.75</preExplosionSpawnChance>
+			<speed>20</speed>
+			<soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+			<soundExplode>IGLRG_Explosion</soundExplode>
+			<soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+			<soundAmbient>MortarRound_Ambient</soundAmbient>
+			<flyOverhead>true</flyOverhead>
+		</projectile>
+	</ThingDef>
+
+	<ThingDef ParentName="IG_BaseArtilleryWeapon">
+		<defName>Turret_BDThudGun</defName>
+		<label>ThudGun Artillery Mortar</label>
+		<description>Thud Gun Artillery, terror weapon extreme!</description>
+		<graphicData>
+			<texPath>Things/IGTurrets/BaseDefTurrets/ThudGun/ThudGunMk2-Gun</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>InteractIGRWeapons</soundInteract>
+		<statBases>
+			<AccuracyTouch>0.70</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.70</AccuracyMedium>
+			<AccuracyLong>0.70</AccuracyLong>
+			<RangedWeapon_Cooldown>4.00</RangedWeapon_Cooldown>
+		</statBases>
+		<weaponTags>
+			<li>IG_Artillery_BaseDestroyer</li>
+		</weaponTags>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Bullet_BDThudGun</defaultProjectile>
+				<forcedMissRadius>15.0</forcedMissRadius>
+				<requireLineOfSight>false</requireLineOfSight>
+				<warmupTime>5</warmupTime>
+				<range>500</range>
+				<minRange>35</minRange>
+				<ticksBetweenBurstShots>160</ticksBetweenBurstShots>
+				<burstShotCount>4</burstShotCount>
+				<soundCast>ThudGunSound</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>15</muzzleFlashScale>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+				<consumeFuelPerShot>1</consumeFuelPerShot>
+			</li>
+		</verbs>
+		<thingCategories>
+			<li>IGManTurrets</li>
+		</thingCategories>
+	</ThingDef>
+
+</Defs>

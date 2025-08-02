@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <!--QX========================= Imperial Guard - Base Story Teller ==========================QX-->
+
+	<StorytellerDef Name="IGBaseStoryteller" Abstract="True">
+		<populationIntentFactorFromPopCurve>
+			<points>
+				<li>0,  8.0</li>
+				<li>1,  2.0</li>
+				<li>4,  1.0</li>
+				<li>7,  0.35</li>
+				<li>11, 0.0</li>
+				<li>20,-1.0</li>
+			</points>
+		</populationIntentFactorFromPopCurve>
+		<populationIntentFactorFromPopAdaptDaysCurve>
+			<points>
+				<li>( 0, 0)</li>
+				<li>(10, 1.00)</li>
+			</points>
+		</populationIntentFactorFromPopAdaptDaysCurve>
+		<pointsFactorFromDaysPassed>
+			<points>
+				<li>(10, 0.70)</li>
+				<li>(40, 1.00)</li>
+			</points>
+		</pointsFactorFromDaysPassed>
+		<adaptDaysMin>-60</adaptDaysMin>
+		<adaptDaysMax>100</adaptDaysMax>
+		<adaptDaysGameStartGraceDays>30</adaptDaysGameStartGraceDays> <!-- only applies to adaptDays past 0 -->
+		<adaptDaysLossFromColonistLostByPostPopulation>
+			<points>
+				<li>( 0, 30)</li> <!-- 30 days at normal pops; lower at really high pop -->
+				<li>(11, 30)</li>
+				<li>(20, 20)</li>
+			</points>
+		</adaptDaysLossFromColonistLostByPostPopulation>
+		<adaptDaysLossFromColonistViolentlyDownedByPopulation>
+			<points>
+				<li>(1,  8)</li>
+				<li>(2,  6)</li>
+				<li>(3,  6)</li>
+				<li>(11, 5)</li>
+				<li>(20, 3.5)</li>
+			</points>
+		</adaptDaysLossFromColonistViolentlyDownedByPopulation>
+		<adaptDaysGrowthRateCurve>
+			<points>
+				<li>(-30.01, 6)</li>   <!-- under: 8.00 -->
+				<li>(-30,    3)</li>   <!--   -30: 3.00 -->
+				<li>(-0.01,  3)</li>
+				<li>(0,      1)</li>   <!--     0: 1.00 -->
+				<li>(59.99,  1)</li>
+				<li>(60,     0.5)</li> <!--    60: 0.50 -->
+				<li>(119.99, 0.5)</li>
+				<li>(120,    0.25)</li> <!--  120: 0.25 -->
+			</points>
+		</adaptDaysGrowthRateCurve>
+		<pointsFactorFromAdaptDays>
+			<points>
+				<li>(-30, 0.40)</li>  <!-- recover in 10 days -->
+				<li>(  0, 0.80)</li>  <!-- start at     0.80  -->
+				<li>( 30, 1.00)</li>  <!-- 0.5 years to 1.00  -->
+				<li>( 60, 1.20)</li>  <!-- 0.5 years to 1.20  -->
+				<li>(120, 1.60)</li>  <!-- 2   years to 1.60  -->
+				<li>(180, 2.00)</li>  <!-- 4   years to 2.00  -->
+			</points>
+		</pointsFactorFromAdaptDays>
+		<comps>
+			<!-- Endgame - ship escape quest -->
+			<li Class="StorytellerCompProperties_SingleOnceFixed">
+				<fireAfterDaysPassed>20</fireAfterDaysPassed>
+				<incident>GiveQuest_EndGame_ShipEscape</incident>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+			</li>
+			<!-- Endgame - royal ascent quest (Royalty only) -->
+			<li Class="StorytellerCompProperties_RefiringUniqueQuest">
+				<minDaysPassed>18</minDaysPassed>
+				<refireEveryDays>22</refireEveryDays>
+				<incident MayRequire="Ludeon.RimWorld.Royalty">GiveQuest_EndGame_RoyalAscent</incident>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<enableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</enableIfAnyModActive>
+			</li>
+			<!-- Infestations from deep drilling -->
+			<li Class="StorytellerCompProperties_DeepDrillInfestation">
+				<baseMtbDaysPerDrill>20</baseMtbDaysPerDrill>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+					<li>Map_TempIncident</li>
+					<li>Map_Misc</li>
+					<li>Map_RaidBeacon</li>
+				</allowedTargetTags>
+			</li>
+			<!-- Royalty intro quests -->
+			<li Class="StorytellerCompProperties_SingleOnceFixed">
+				<fireAfterDaysPassed>3</fireAfterDaysPassed>
+				<incident MayRequire="Ludeon.RimWorld.Royalty">GiveQuest_Intro_Wimp</incident>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<enableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</enableIfAnyModActive>
+			</li>
+			<li Class="StorytellerCompProperties_SingleOnceFixed">
+				<fireAfterDaysPassed>26</fireAfterDaysPassed>
+				<incident MayRequire="Ludeon.RimWorld.Royalty">GiveQuest_Intro_Deserter</incident>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<enableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</enableIfAnyModActive>
+			</li>
+			<!-- Royalty tribute collector -->
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident MayRequire="Ludeon.RimWorld.Royalty">CaravanArrivalTributeCollector</incident>
+				<minDaysPassed>20</minDaysPassed>
+				<baseIncidentsPerYear>2</baseIncidentsPerYear>
+				<minSpacingDays>30</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+				<enableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</enableIfAnyModActive>
+			</li>
+			<!-- Orbital trader -->
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<incident>OrbitalTraderArrival</incident>
+				<onDays>4</onDays>
+				<offDays>4</offDays>
+				<numIncidentsRange>2</numIncidentsRange>
+			</li>
+		</comps>
+	</StorytellerDef>
+
+	<!--QX========================= Imperial Guard - Raid Focused Story Teller ==========================QX-->
+	
+	<StorytellerDef ParentName="IGBaseStoryteller">
+		<defName>UrlockGaur</defName>
+		<label>Urlock Gaur</label>
+		<description>Urlock Gaur is the commander of the Blood Pact and Archon of Chaos forces in the Sabbat Worlds Crusade. One of the original founders of the Blood Pact, his emphasis on military-style discipline over the mindless fanaticism seen in other Chaos Cults allowed his forces to rise to fame in the Sabbat Worlds and gain favor with the Chaos Archon there. He will send raid after raid your way, and prioritised this over everything else. He will break you!, but will usually give you 10 days of peace to prepare, usually! Events with weighting toward larger threats plus more raids, with smaller incidents occuring not as frequently, but still more than vanilla Storytellers.</description>
+		<portraitLarge>Things/IGCore/StoryTeller/TGStoryTeller</portraitLarge>
+		<portraitTiny>Things/IGCore/StoryTeller/TGStoryTellerTiny</portraitTiny>
+		<listOrder>71</listOrder>
+		<comps>
+			<!-- Intro -->
+			<li Class="StorytellerCompProperties_ClassicIntro"/>
+			<!-- Home threats -->
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<category>ThreatBig</category>
+				<minDaysPassed>8.0</minDaysPassed>
+				<onDays>8.0</onDays>
+				<offDays>4.0</offDays>
+				<minSpacingDays>2</minSpacingDays>
+				<numIncidentsRange>2~3</numIncidentsRange>
+				<forceRaidEnemyBeforeDaysPassed>5</forceRaidEnemyBeforeDaysPassed>
+				<disallowedTargetTags>
+					<li>Map_RaidBeacon</li>
+				</disallowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_ThreatsGenerator">
+				<allowedTargetTags>
+					<li>Map_RaidBeacon</li>
+				</allowedTargetTags>
+				<parms>
+					<allowedThreats>Raids</allowedThreats>
+					<onDays>1.0</onDays>
+					<offDays>0.5</offDays>
+					<minSpacingDays>0.02</minSpacingDays>
+					<numIncidentsRange>1~2</numIncidentsRange>
+				</parms>
+			</li>
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<category>ThreatSmall</category>
+				<minDaysPassed>10.0</minDaysPassed>
+				<onDays>5.6</onDays>
+				<offDays>6.0</offDays>
+				<numIncidentsRange>0.2~1</numIncidentsRange>
+				<acceptPercentFactorPerThreatPointsCurve>
+					<points>
+						<li>(800, 1)</li>
+						<li>(2800, 0)</li>
+					</points>
+				</acceptPercentFactorPerThreatPointsCurve>
+			</li>
+			<!-- Home misc incidents-->
+			<li Class="StorytellerCompProperties_CategoryMTB">
+				<category>Misc</category>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+				<minDaysPassed>5</minDaysPassed>
+				<mtbDays>3.5</mtbDays>
+			</li>
+			<li Class="StorytellerCompProperties_ShipChunkDrop"/>
+			<li Class="StorytellerCompProperties_Disease">
+				<category>DiseaseHuman</category>
+				<minDaysPassed>10</minDaysPassed>
+			</li>
+			<li Class="StorytellerCompProperties_Disease">
+				<category>DiseaseAnimal</category>
+				<minDaysPassed>10</minDaysPassed>
+			</li>
+			<!-- Ally/neutral interaction -->
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>RaidFriendly</incident>
+				<baseIncidentsPerYear>15</baseIncidentsPerYear>
+				<minSpacingDays>0.4</minSpacingDays>
+				<fullAlliesOnly>true</fullAlliesOnly>
+				<minDanger>High</minDanger>
+			</li>
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>TraderCaravanArrival</incident>
+				<minDaysPassed>5</minDaysPassed>
+				<baseIncidentsPerYear>5</baseIncidentsPerYear>
+				<minSpacingDays>6</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>VisitorGroup</incident>
+				<minDaysPassed>3</minDaysPassed>
+				<baseIncidentsPerYear>4</baseIncidentsPerYear>
+				<minSpacingDays>5</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>TravelerGroup</incident>
+				<minDaysPassed>1</minDaysPassed>
+				<baseIncidentsPerYear>6</baseIncidentsPerYear>
+				<minSpacingDays>1</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+			</li>
+			<!-- Caravan / temp map -->
+			<li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+				<category>Misc</category>
+				<allowedTargetTags>
+					<li>Caravan</li>
+					<li>Map_TempIncident</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+				<category>ThreatSmall</category>
+				<applyCaravanVisibility>true</applyCaravanVisibility>
+				<allowedTargetTags>
+					<li>Caravan</li>
+					<li>Map_TempIncident</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+				<category>ThreatBig</category>
+				<applyCaravanVisibility>true</applyCaravanVisibility>
+				<allowedTargetTags>
+					<li>Caravan</li>
+					<li>Map_TempIncident</li>
+				</allowedTargetTags>
+			</li>
+			<!-- Quests - non-Royalty -->
+			<li Class="StorytellerCompProperties_RandomQuest">
+				<category>GiveQuest</category>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<onDays>10</onDays>
+				<numIncidentsRange>4</numIncidentsRange>
+				<acceptFractionByDaysPassedCurve>
+					<points>
+						<li>(5, 0)</li>
+						<li>(30, 1)</li>
+					</points>
+				</acceptFractionByDaysPassedCurve>
+				<minSpacingDays>1</minSpacingDays>
+				<disableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</disableIfAnyModActive>
+			</li>
+			<!-- Quests - Royalty -->
+			<li Class="StorytellerCompProperties_RandomQuest">
+				<category>GiveQuest</category>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<onDays>10</onDays>
+				<numIncidentsRange>4</numIncidentsRange>
+				<acceptFractionByDaysPassedCurve>
+					<points>
+						<li>(5, 0)</li>
+						<li>(11, 1)</li>
+					</points>
+				</acceptFractionByDaysPassedCurve>
+				<minSpacingDays>1</minSpacingDays>
+				<enableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</enableIfAnyModActive>
+			</li>
+			<!-- World misc incidents-->
+			<li Class="StorytellerCompProperties_CategoryMTB">
+				<category>Misc</category>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<minDaysPassed>15</minDaysPassed>
+				<mtbDays>15</mtbDays>
+			</li>
+			<!-- Triggered -->
+			<li Class="StorytellerCompProperties_Triggered">
+				<incident>StrangerInBlackJoin</incident>
+				<delayTicks>180</delayTicks>
+			</li>
+		</comps>
+	</StorytellerDef>
+
+	<!--QX========================= Imperial Guard - Psycho Story Teller ==========================QX-->
+	
+	<StorytellerDef ParentName="IGBaseStoryteller">
+		<defName>IG_AbbadonDespoiler</defName>
+		<label>Abbadon the Despoiler</label>
+		<description>Abbadon the Despoiler will Destroy you. Have him tell your story at you own peril!!!</description>
+		<portraitLarge>Things/IGCore/StoryTeller/Abbadon_Lrg</portraitLarge>
+		<portraitTiny>Things/IGCore/StoryTeller/Abbadon_Tiny</portraitTiny>
+		<listOrder>72</listOrder>
+		<comps>
+			<!-- Intro -->
+			<li Class="StorytellerCompProperties_ClassicIntro"/>
+			<!-- Home threats -->
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<category>ThreatBig</category>
+				<minDaysPassed>4.0</minDaysPassed>
+				<onDays>4.0</onDays>
+				<offDays>2.0</offDays>
+				<minSpacingDays>1</minSpacingDays>
+				<numIncidentsRange>1~2</numIncidentsRange>
+				<forceRaidEnemyBeforeDaysPassed>2</forceRaidEnemyBeforeDaysPassed>
+				<disallowedTargetTags>
+					<li>Map_RaidBeacon</li>
+				</disallowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_ThreatsGenerator">
+				<allowedTargetTags>
+					<li>Map_RaidBeacon</li>
+				</allowedTargetTags>
+				<parms>
+					<allowedThreats>Raids</allowedThreats>
+					<onDays>1.0</onDays>
+					<offDays>0.5</offDays>
+					<minSpacingDays>0.02</minSpacingDays>
+					<numIncidentsRange>1~2</numIncidentsRange>
+				</parms>
+			</li>
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<category>ThreatSmall</category>
+				<minDaysPassed>3</minDaysPassed>
+				<onDays>3</onDays>
+				<offDays>2</offDays>
+				<numIncidentsRange>1~2</numIncidentsRange>
+				<acceptPercentFactorPerThreatPointsCurve>
+					<points>
+						<li>(800, 1)</li>
+						<li>(2800, 0)</li>
+					</points>
+				</acceptPercentFactorPerThreatPointsCurve>
+			</li>
+			<!-- Home misc incidents-->
+			<li Class="StorytellerCompProperties_CategoryMTB">
+				<category>Misc</category>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+				<minDaysPassed>4</minDaysPassed>
+				<mtbDays>2</mtbDays>
+			</li>
+			<li Class="StorytellerCompProperties_ShipChunkDrop"/>
+			<li Class="StorytellerCompProperties_Disease">
+				<category>DiseaseHuman</category>
+				<minDaysPassed>8</minDaysPassed>
+			</li>
+			<li Class="StorytellerCompProperties_Disease">
+				<category>DiseaseAnimal</category>
+				<minDaysPassed>8</minDaysPassed>
+			</li>
+			<!-- Ally/neutral interaction -->
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>RaidFriendly</incident>
+				<baseIncidentsPerYear>7</baseIncidentsPerYear>
+				<minSpacingDays>0.4</minSpacingDays>
+				<fullAlliesOnly>false</fullAlliesOnly>				<!-- Usually True set to false for test -->
+				<minDanger>High</minDanger>
+			</li>
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>TraderCaravanArrival</incident>
+				<minDaysPassed>5</minDaysPassed>
+				<baseIncidentsPerYear>5</baseIncidentsPerYear>
+				<minSpacingDays>6</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>VisitorGroup</incident>
+				<minDaysPassed>3</minDaysPassed>
+				<baseIncidentsPerYear>8</baseIncidentsPerYear>
+				<minSpacingDays>3</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_FactionInteraction">
+				<incident>TravelerGroup</incident>
+				<minDaysPassed>1</minDaysPassed>
+				<baseIncidentsPerYear>6</baseIncidentsPerYear>
+				<minSpacingDays>1</minSpacingDays>
+				<allowedTargetTags>
+					<li>Map_PlayerHome</li>
+				</allowedTargetTags>
+			</li>
+			<!-- Caravan / temp map -->
+			<li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+				<category>Misc</category>
+				<allowedTargetTags>
+					<li>Caravan</li>
+					<li>Map_TempIncident</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+				<category>ThreatSmall</category>
+				<applyCaravanVisibility>true</applyCaravanVisibility>
+				<allowedTargetTags>
+					<li>Caravan</li>
+					<li>Map_TempIncident</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+				<category>ThreatBig</category>
+				<applyCaravanVisibility>true</applyCaravanVisibility>
+				<allowedTargetTags>
+					<li>Caravan</li>
+					<li>Map_TempIncident</li>
+				</allowedTargetTags>
+			</li>
+			<!-- Quests - non-Royalty -->
+			<li Class="StorytellerCompProperties_RandomQuest">
+				<category>GiveQuest</category>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<onDays>10</onDays>
+				<numIncidentsRange>8</numIncidentsRange>
+				<acceptFractionByDaysPassedCurve>
+					<points>
+						<li>(5, 0)</li>
+						<li>(30, 1)</li>
+					</points>
+				</acceptFractionByDaysPassedCurve>
+				<minSpacingDays>1</minSpacingDays>
+				<disableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</disableIfAnyModActive>
+			</li>
+			<!-- Quests - Royalty -->
+			<li Class="StorytellerCompProperties_RandomQuest">
+				<category>GiveQuest</category>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<onDays>10</onDays>
+				<numIncidentsRange>8</numIncidentsRange>
+				<acceptFractionByDaysPassedCurve>
+					<points>
+						<li>(5, 0)</li>
+						<li>(11, 1)</li>
+					</points>
+				</acceptFractionByDaysPassedCurve>
+				<minSpacingDays>1</minSpacingDays>
+				<enableIfAnyModActive>
+					<li>Ludeon.RimWorld.Royalty</li>
+				</enableIfAnyModActive>
+			</li>
+			<!-- World misc incidents-->
+			<li Class="StorytellerCompProperties_CategoryMTB">
+				<category>Misc</category>
+				<allowedTargetTags>
+					<li>World</li>
+				</allowedTargetTags>
+				<minDaysPassed>8</minDaysPassed>
+				<mtbDays>5</mtbDays>
+			</li>
+			<!-- Triggered -->
+			<li Class="StorytellerCompProperties_Triggered">
+				<incident>StrangerInBlackJoin</incident>
+				<delayTicks>180</delayTicks>
+			</li>
+		</comps>
+	</StorytellerDef>
+
+
+	<!--QX========================= Imperial Guard - Random Focused Story Teller ==========================QX-->
+	
+	<StorytellerDef ParentName="IGBaseStoryteller">
+		<defName>Chaos_Undivided</defName>
+		<label>Chaos Undivided</label>
+		<description>Followers of Chaos Undivided venerate Chaos itself, seeing the four major Chaos Gods as a single pantheon to be worshipped equally as different emanations of the same universal force. Of all the worshippers of Chaos they follow Chaos in its purest form. They can interpret the meaning of Chaos in a variety of ways, including as a single God, worship the four major Chaos Gods equally, or favour one slightly over the others. The Chaos Lords and Daemon Princes of Chaos Undivided are at an advantage in their ability to unite any of the Forces of Chaos under their leadership, even if they would normally worship opposing Gods like Khorne and Slaanesh, so the warbands of Chaos Undivided are always the most diverse. The majority of the Traitor Legions worship Chaos Undivided, including the feared Black Legion of Abaddon the Despoiler, the greatest Champion of Chaos Undivided. The Chaos Undivided StoryTeller is just That CHAOS! All events are Random with weighting toward Major Threats.</description>
+		<portraitLarge>Things/IGCore/StoryTeller/ChaosUndividedLrg</portraitLarge>
+		<portraitTiny>Things/IGCore/StoryTeller/ChaosUndividedSml</portraitTiny>
+		<listOrder>73</listOrder>
+		<comps>
+		  <!-- Home all -->
+		  <li Class="StorytellerCompProperties_RandomMain">
+			<allowedTargetTags>
+			  <li>Map_PlayerHome</li>
+			</allowedTargetTags>
+			<minDaysPassed>1</minDaysPassed>
+			<mtbDays>1.00</mtbDays>
+			<maxThreatBigIntervalDays>10</maxThreatBigIntervalDays>
+			<minIncChancePopulationIntentFactor>0.2</minIncChancePopulationIntentFactor>
+			<randomPointsFactorRange>0.5~1.5</randomPointsFactorRange>
+			<skipThreatBigIfRaidBeacon>true</skipThreatBigIfRaidBeacon>
+			<categoryWeights>
+			  <Misc>1</Misc>
+			  <ThreatBig>1</ThreatBig>
+			  <OrbitalVisitor>0.7</OrbitalVisitor>
+			  <FactionArrival>0.7</FactionArrival>
+			  <ThreatSmall>0.8</ThreatSmall>
+			  <ShipChunkDrop>0.7</ShipChunkDrop>
+			</categoryWeights>
+		  </li>
+		  <li Class="StorytellerCompProperties_Disease">
+			<category>DiseaseHuman</category>
+			<minDaysPassed>7</minDaysPassed>
+		  </li>
+		  <li Class="StorytellerCompProperties_Disease">
+			<category>DiseaseAnimal</category>
+			<minDaysPassed>7</minDaysPassed>
+		  </li>
+		  <!-- Home special threats -->
+		  <li Class="StorytellerCompProperties_ThreatsGenerator">
+			<allowedTargetTags>
+			  <li>Map_RaidBeacon</li>
+			</allowedTargetTags>
+			<parms>
+			  <allowedThreats>Raids</allowedThreats>
+			  <onDays>1.0</onDays>
+			  <offDays>0.5</offDays>
+			  <minSpacingDays>0.04</minSpacingDays>
+			  <numIncidentsRange>1~2</numIncidentsRange>
+			</parms>
+		  </li>
+		  <!-- Ally/neutral interaction -->
+		  <li Class="StorytellerCompProperties_FactionInteraction">
+			<incident>RaidFriendly</incident>
+			<baseIncidentsPerYear>10</baseIncidentsPerYear>
+			<minSpacingDays>0.4</minSpacingDays>
+			<fullAlliesOnly>true</fullAlliesOnly>
+			<minDanger>High</minDanger>
+		  </li>
+		  <!-- Caravan / temp map -->
+		  <li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+			<category>Misc</category>
+			<allowedTargetTags>
+			  <li>Caravan</li>
+			  <li>Map_TempIncident</li>
+			</allowedTargetTags>
+		  </li>
+		  <li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+			<category>ThreatSmall</category>
+			<applyCaravanVisibility>true</applyCaravanVisibility>
+			<allowedTargetTags>
+			  <li>Caravan</li>
+			  <li>Map_TempIncident</li>
+			</allowedTargetTags>
+		  </li>
+		  <li Class="StorytellerCompProperties_CategoryIndividualMTBByBiome">
+			<category>ThreatBig</category>
+			<applyCaravanVisibility>true</applyCaravanVisibility>
+			<allowedTargetTags>
+			  <li>Caravan</li>
+			  <li>Map_TempIncident</li>
+			</allowedTargetTags>
+		  </li>
+		  <!-- Quests - non-Royalty -->
+		  <li Class="StorytellerCompProperties_RandomQuest">
+			<category>GiveQuest</category>
+			<allowedTargetTags>
+			  <li>World</li>
+			</allowedTargetTags>
+			<onDays>10</onDays>
+			<numIncidentsRange>1</numIncidentsRange>
+			<acceptFractionByDaysPassedCurve>
+			  <points>
+				<li>(5, 0)</li>
+				<li>(30, 1)</li>
+			  </points>
+			</acceptFractionByDaysPassedCurve>
+			<minSpacingDays>0.2</minSpacingDays>
+			<disableIfAnyModActive>
+			  <li>Ludeon.RimWorld.Royalty</li>
+			</disableIfAnyModActive>
+		  </li>
+		  <!-- Quests - Royalty -->
+		  <li Class="StorytellerCompProperties_RandomQuest">
+			<category>GiveQuest</category>
+			<allowedTargetTags>
+			  <li>World</li>
+			</allowedTargetTags>
+			<onDays>10</onDays>
+			<numIncidentsRange>4</numIncidentsRange>
+			<acceptFractionByDaysPassedCurve>
+			  <points>
+				<li>(5, 0)</li>
+				<li>(11, 1)</li>
+			  </points>
+			</acceptFractionByDaysPassedCurve>
+			<minSpacingDays>1</minSpacingDays>
+			<enableIfAnyModActive>
+			  <li>Ludeon.RimWorld.Royalty</li>
+			</enableIfAnyModActive>
+		  </li>
+		  <!-- World misc incidents-->
+		  <li Class="StorytellerCompProperties_CategoryMTB">
+			<category>Misc</category>
+			<allowedTargetTags>
+			  <li>World</li>
+			</allowedTargetTags>
+			<minDaysPassed>1</minDaysPassed>
+			<mtbDays>15</mtbDays>
+		  </li>
+		  <!-- Triggered -->
+		  <li Class="StorytellerCompProperties_Triggered">
+			<incident>StrangerInBlackJoin</incident>
+			<delayTicks>180</delayTicks>
+		  </li>
+		</comps>
+	</StorytellerDef>
+	
+</Defs>

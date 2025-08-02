@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!--QX==================== Imperial Guard Core Mod - Building Base =========================QX-->
+
+	<ThingDef Name="IG_BuildingBase" Abstract="True">
+		<category>Building</category>
+		<thingClass>Building</thingClass>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<selectable>true</selectable>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<repairEffect>Repair</repairEffect>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<filthLeaving>Filth_RubbleBuilding</filthLeaving>
+		<statBases>
+			<Flammability>0</Flammability>
+			<Mass>10</Mass>
+		</statBases>
+	</ThingDef>
+
+	<!--QX==================== Imperial Guard Core Mod - Natural Building Base =========================QX-->
+
+	<ThingDef Name="IG_BuildingNaturalBase" Abstract="True">
+		<category>Building</category>
+		<selectable>true</selectable>
+		<drawerType>MapMeshOnly</drawerType>
+		<filthLeaving>Filth_RubbleRock</filthLeaving>
+	</ThingDef>
+
+	<!--QX==================== Imperial Guard Core Mod - Rock Base =========================QX-->
+
+	<ThingDef Name="IG_RockBase" ParentName="IG_BuildingNaturalBase" Abstract="True" >
+		<thingClass>Mineable</thingClass>
+		<graphicData>
+			<texPath>Things/Building/Linked/Rock_Atlas</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<linkType>CornerFiller</linkType>
+			<linkFlags>
+				<li>Rock</li>
+				<li>MapEdge</li>
+			</linkFlags>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<blockWind>true</blockWind>
+		<castEdgeShadows>true</castEdgeShadows>
+		<fillPercent>1</fillPercent>
+		<coversFloor>true</coversFloor>
+		<neverMultiSelect>true</neverMultiSelect>
+		<rotatable>false</rotatable>
+		<saveCompressible>true</saveCompressible>
+		<holdsRoof>true</holdsRoof>
+		<staticSunShadowHeight>1.0</staticSunShadowHeight>
+		<blockLight>true</blockLight>
+		<mineable>true</mineable>
+		<statBases>
+			<Flammability>0</Flammability>
+		</statBases>
+		<building>
+			<isInert>true</isInert>
+			<isNaturalRock>true</isNaturalRock>
+			<canBuildNonEdificesUnder>false</canBuildNonEdificesUnder>
+			<deconstructible>false</deconstructible>
+		</building>
+	</ThingDef>
+
+	<!--QX==================== Imperial Guard Core Mod - Doorbase =========================QX-->
+
+	<ThingDef ParentName="IG_BuildingBase" Name="IG_DoorBase" Abstract="True">
+		<thingClass>Building_Door</thingClass>
+		<category>Building</category>
+		<altitudeLayer>DoorMoveable</altitudeLayer>
+		<fillPercent>1</fillPercent>
+		<useHitPoints>true</useHitPoints>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<statBases>
+			<MaxHitPoints>250</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<selectable>true</selectable>
+		<tickerType>Normal</tickerType>
+		<rotatable>false</rotatable>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Structure</designationCategory>
+		<holdsRoof>true</holdsRoof>
+		<staticSunShadowHeight>1.0</staticSunShadowHeight>
+		<blockLight>true</blockLight>
+		<drawerType>RealtimeOnly</drawerType>
+		<building>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<soundDoorOpenPowered>Door_OpenPowered</soundDoorOpenPowered>
+			<soundDoorClosePowered>Door_ClosePowered</soundDoorClosePowered>
+			<soundDoorOpenManual>Door_OpenManual</soundDoorOpenManual>
+			<soundDoorCloseManual>Door_CloseManual</soundDoorCloseManual>
+			<blueprintClass>Blueprint_Door</blueprintClass>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Door/Door_Blueprint</texPath>
+			</blueprintGraphicData>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<comps>
+			<li Class="CompProperties_Forbiddable"/>
+		</comps>
+		<placeWorkers>
+			<li>PlaceWorker_DoorLearnOpeningSpeed</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<!--QX==================== Imperial Guard Core Mod - Base Furniture =========================QX-->
+
+	<ThingDef Name="IG_FurnitureBase" ParentName="IG_BuildingBase" Abstract="True">
+		<designationCategory>Furniture</designationCategory>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsFurniture</li>
+		</thingCategories>
+	</ThingDef>
+
+	<!--QX==================== Imperial Guard Core Mod - Base Beds =========================QX-->
+
+	<ThingDef Name="IG_BedBase" ParentName="IG_FurnitureBase" Abstract="True">
+		<thingClass>Building_Bed</thingClass>
+		<altitudeLayer>Building</altitudeLayer>
+		<comps>
+			<li Class="CompProperties_AssignableToPawn">
+				<drawAssignmentOverlay>false</drawAssignmentOverlay>
+				<compClass>CompAssignableToPawn_Bed</compClass>
+			</li>
+		</comps>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<canOverlapZones>false</canOverlapZones>
+		<placeWorkers>
+			<li>PlaceWorker_ShowFacilitiesConnections</li>
+		</placeWorkers>
+		<passability>PassThroughOnly</passability>
+		<defaultPlacingRot>South</defaultPlacingRot>
+	</ThingDef>
+
+	<ThingDef Name="IG_HighQualityBedBase" ParentName="IG_BedBase" Abstract="True">
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_Art">
+				<nameMaker>NamerArtFurniture</nameMaker>
+				<descriptionMaker>ArtDescription_Furniture</descriptionMaker>
+				<minQualityForArtistic>Excellent</minQualityForArtistic>
+			</li>
+		</comps>
+		<inspectorTabs>
+			<li>ITab_Art</li>
+		</inspectorTabs>
+	</ThingDef>
+
+    <!--QX========================= Imperial Assembler - Bench Base ==========================QX-->
+
+	<ThingDef Name="IG_BenchBase" ParentName="IG_BuildingBase" Abstract="True">
+		<castEdgeShadows>true</castEdgeShadows>
+		<staticSunShadowHeight>0.20</staticSunShadowHeight>
+		<thingCategories>
+			<li>BuildingsProduction</li>
+		</thingCategories>
+		<statBases>
+			<Mass>20.0</Mass>
+		</statBases>
+	</ThingDef>
+
+	<!--QX========================= Imperial Guard Core Mod - Sculpture Base ==========================QX-->
+	
+	<ThingDef ParentName="IG_BuildingBase" Name="IG_SculptureBase" Abstract="True">
+		<thingClass>Building_Art</thingClass>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<pathCost>70</pathCost>
+		<castEdgeShadows>true</castEdgeShadows>
+		<useHitPoints>true</useHitPoints>
+		<thingCategories>
+			<li>BuildingsArt</li>
+		</thingCategories>
+		<statBases>
+			<Flammability>1.0</Flammability>
+			<SellPriceFactor>1.20</SellPriceFactor>
+			<Mass>10.0</Mass>
+		</statBases>
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_Art">
+				<nameMaker>NamerArtSculpture</nameMaker>
+				<descriptionMaker>ArtDescription_Sculpture</descriptionMaker>
+				<canBeEnjoyedAsArt>true</canBeEnjoyedAsArt>
+			</li>
+		</comps>
+		<inspectorTabs>
+			<li>ITab_Art</li>
+		</inspectorTabs>
+		<recipeMaker>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Artistic</workSkill>
+			<unfinishedThingDef>IG_Unfinished_IMPSculpt</unfinishedThingDef>
+			<effectWorking>Sculpt</effectWorking>
+			<soundWorking>IG_Recipe_Fabricators</soundWorking>
+			<recipeUsers>
+				<li>ImperialFabricator</li>
+			</recipeUsers>
+				<defaultIngredientFilter>
+					<categories>
+						<li>Root</li>
+					</categories>
+					<disallowedThingDefs>
+						<li>Uranium</li>
+					</disallowedThingDefs>
+				</defaultIngredientFilter>
+		</recipeMaker>
+	</ThingDef>
+	
+	<!--QX========================= Imperial Guard Core Mod - Floor Art Metal Base NEW ==========================QX-->
+	
+	<ThingDef ParentName="IG_BuildingBase" Name="IG_FloorArtMetal" Abstract="True">
+		<building>
+			<isEdifice>false</isEdifice>
+		</building>
+		<clearBuildingArea>false</clearBuildingArea>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<thingCategories>
+			<li>BuildingsArt</li>
+		</thingCategories>
+		<statBases>
+			<Mass>10.0</Mass>
+		</statBases>
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_Art">
+				<nameMaker>NamerArtSculpture</nameMaker>
+				<descriptionMaker>ArtDescription_Sculpture</descriptionMaker>
+				<canBeEnjoyedAsArt>true</canBeEnjoyedAsArt>
+			</li>
+		</comps>
+		<inspectorTabs>
+			<li>ITab_Art</li>
+		</inspectorTabs>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<tradeTags>
+			<li>Furniture</li>
+		</tradeTags>
+		<recipeMaker>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Artistic</workSkill>
+			<effectWorking>Sculpt</effectWorking>
+			<unfinishedThingDef>IG_Unfinished_IMPSculpt</unfinishedThingDef>
+			<soundWorking>IG_Recipe_Fabricators</soundWorking>
+			<recipeUsers>
+				<li>ImperialFabricator</li>
+			</recipeUsers>
+		</recipeMaker>
+	</ThingDef>
+	
+	<!--QX========================= Imperial Guard Core Mod - Floor Art Material Base NEW ==========================QX-->
+	
+	<ThingDef ParentName="IG_BuildingBase" Name="IG_FloorArtMaterial" Abstract="True">
+		<building>
+			<isEdifice>false</isEdifice>
+		</building>
+		<clearBuildingArea>false</clearBuildingArea>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<thingCategories>
+			<li>BuildingsArt</li>
+		</thingCategories>
+		<statBases>
+			<Mass>10.0</Mass>
+		</statBases>
+		<comps>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+			<li Class="CompProperties_Art">
+				<nameMaker>NamerArtSculpture</nameMaker>
+				<descriptionMaker>ArtDescription_Sculpture</descriptionMaker>
+				<canBeEnjoyedAsArt>true</canBeEnjoyedAsArt>
+			</li>
+		</comps>
+		<inspectorTabs>
+			<li>ITab_Art</li>
+		</inspectorTabs>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<tradeTags>
+			<li>Furniture</li>
+		</tradeTags>
+		<recipeMaker>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Artistic</workSkill>
+			<effectWorking>Tailor</effectWorking>
+			<unfinishedThingDef>IG_Unfinished_IMPApparel</unfinishedThingDef>
+			<soundWorking>IG_Recipe_Fabricators</soundWorking>
+			<recipeUsers>
+				<li>ImperialFabricator</li>
+			</recipeUsers>	
+		</recipeMaker>
+	</ThingDef>
+	
+	<!--QX========================= Imperial Guard Core Mod - Wall Lighting Base ==========================QX-->
+	
+	<ThingDef Name="IG_WallLightBase" ParentName="IG_BuildingBase" Abstract="True">
+		<thingClass>Building</thingClass>
+		<altitudeLayer>Blueprint</altitudeLayer>
+		<passability>Standable</passability>
+		<building>
+			<isEdifice>false</isEdifice>
+		</building>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<WorkToBuild>100</WorkToBuild>
+			<Flammability>1.0</Flammability>
+			<Mass>1.0</Mass>
+		</statBases>
+		<costList>
+			<Steel>5</Steel>
+		</costList>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>5</basePowerConsumption>
+				<shortCircuitInRain>false</shortCircuitInRain>
+			</li>
+			<li Class="CompProperties_Flickable" />
+		</comps>
+		<designationCategory>IG_ImperialMenuA</designationCategory>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsFurniture</li>
+		</thingCategories>
+		<rotatable>true</rotatable>
+		<selectable>true</selectable>
+		<destroyable>true</destroyable>
+		<clearBuildingArea>false</clearBuildingArea>
+		<researchPrerequisites>
+			<li>Electricity</li>
+		</researchPrerequisites>
+	</ThingDef>
+	
+	<!--QX========================= Imperial Guard Core Mod - Floor Lighting Base ==========================QX-->
+	
+	<ThingDef Name="IG_FloorLightBase" ParentName="IG_BuildingBase" Abstract="True">
+		<thingClass>Building</thingClass>
+		<altitudeLayer>Floor</altitudeLayer>
+		<passability>Standable</passability>
+		<building>
+			<isInert>true</isInert>
+			<isEdifice>false</isEdifice>
+		</building>
+		<statBases>
+			<MaxHitPoints>75</MaxHitPoints>
+			<WorkToMake>120</WorkToMake>
+			<Flammability>1.0</Flammability>
+			<Beauty>2</Beauty>
+		</statBases>
+		<selectable>true</selectable>
+		<size>(1,1)</size>
+		<costList>
+			<Steel>3</Steel>
+		</costList>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<designationCategory>IG_ImperialMenuA</designationCategory>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<comps>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>5</basePowerConsumption>
+				<shortCircuitInRain>false</shortCircuitInRain>
+			</li>
+		<li Class="CompProperties_Flickable"/>
+		</comps>
+		<rotatable>true</rotatable>
+		<clearBuildingArea>false</clearBuildingArea>
+		<researchPrerequisites>
+			<li>Electricity</li>
+		</researchPrerequisites>
+	</ThingDef>
+	
+	<!--QX========================= Imperial Turrets - Turrets Base CAN HAUL ==========================QX-->
+
+	<ThingDef Name="IG_TurretBase_CH" ParentName="IG_BuildingBase" Abstract="True">
+		<thingCategories>
+			<li>IGDefenses</li>
+		</thingCategories>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<statBases>
+			<Mass>25.0</Mass>
+		</statBases>
+	</ThingDef>
+	
+	<!--QX========================= Imperial Turrets - Turrets Base NO HAUL ==========================QX-->
+
+	<ThingDef Name="IG_TurretBase_NH" ParentName="IG_BuildingBase" Abstract="True">
+		<statBases>
+			<Mass>50.0</Mass>
+		</statBases>
+	</ThingDef>
+
+</Defs>
