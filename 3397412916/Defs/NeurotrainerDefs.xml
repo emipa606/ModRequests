@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+
+
+
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>EmptySkilltrainer</defName>
+		<label>empty skilltrainer</label>
+		<description>A blank slate waiting to be filled with someone else’s hard-earned expertise. The empty skilltrainer is an essential tool for the self sacrifice process, designed to absorb and preserve a colonist’s greatest skill in form of a skilltrainer.</description>
+		<possessionCount>5</possessionCount>
+		<graphicData>
+			<texPath>Things/Item/Resource/EmptySkilltrainer</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+			<color>(100, 100, 100)</color>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>450</WorkToMake>
+			<MarketValue>11</MarketValue>
+			<Mass>0.05</Mass>
+			<DeteriorationRate>6</DeteriorationRate>
+			<Flammability>1.3</Flammability>
+		</statBases>
+		<techLevel>Neolithic</techLevel>
+		<recipeMaker>
+			<recipeUsers>
+				<li>CraftingSpot</li>
+				<li>FueledSmithy</li>
+				<li>ElectricSmithy</li>
+			</recipeUsers>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Crafting</workSkill>
+			<displayPriority>1400</displayPriority>
+		</recipeMaker>
+		<costList>
+			<ComponentIndustrial>1</ComponentIndustrial>
+			<Steel>20</Steel>
+		</costList>
+		<allowedArchonexusCount>50</allowedArchonexusCount>
+	</ThingDef>
+
+
+
+
+
+	
+
+
+
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>NeuroTrainerWorkbench</defName>
+		<label>altar of self-sacrifice</label>
+		<description>A grim monument to efficiency: the altar of self-sacrifice. Because why let Bob’s cooking skill die with him when he can sacrifice himself to immortalize it in a skilltrainer? Sure, there’s screaming, blood, and moral ambiguity, but hey—progress waits for no one. Simply supply an Empty Skill Trainer, a sharp blade, and a colonist willing—or 'voluntold'—to give it all for the colony. Don't worry, you'll get your knife back.</description>
+		<thingClass>Building_WorkTable_HeatPush</thingClass>
+		<uiIconPath>Things/Building/Production/NeuroTrainerWorkbench</uiIconPath>
+		<graphicData>
+			<texPath>Things/Building/Production/NeuroTrainerWorkbench</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(1.5,1.5)</drawSize>
+			<shadowData>
+				<volume>(1.95,0.5,1.3)</volume>
+			</shadowData>
+			<damageData>
+				<rect>(0.3,0.1,2.4,1.8)</rect>
+			</damageData>
+		</graphicData>
+		<stuffCategories>
+			<li>Stony</li>
+			<li>Metallic</li>
+			<li>Woody</li>
+		</stuffCategories>
+		<costStuffCount>150</costStuffCount>
+		<rotatable>false</rotatable>
+		<costList>
+			<Steel>30</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+		<altitudeLayer>Building</altitudeLayer>
+		<useHitPoints>True</useHitPoints>
+		<statBases>
+			<WorkToBuild>1000</WorkToBuild>
+			<MaxHitPoints>300</MaxHitPoints>
+			<Cleanliness>5</Cleanliness>
+			<Beauty>2</Beauty>
+		</statBases>
+		<size>(1,1)</size>
+		<designationCategory>Misc</designationCategory>
+		<fillPercent>1</fillPercent>
+		<passability>PassThroughOnly</passability>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,0)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<canOverlapZones>false</canOverlapZones>
+		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+		<recipes>
+			<li>CreateNeurotrainer</li>
+		</recipes>
+		<inspectorTabs>
+			<li>ITab_Bills</li>
+		</inspectorTabs>
+		<comps>
+			<li Class="CompProperties_Glower">
+				<glowRadius>4</glowRadius>
+				<glowColor>(139, 0, 0)</glowColor>
+			</li>
+		</comps>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+			<heatPerTickWhileWorking>0.0</heatPerTickWhileWorking>
+			<forceShowRoomStats>true</forceShowRoomStats>
+			<buildingTags>
+				<li>Production</li>
+			</buildingTags>
+			<paintable>true</paintable>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<placeWorkers>
+			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+			<li>PlaceWorker_NeverAdjacentUnstandable</li>
+		</placeWorkers>
+		<designationHotKey>Misc5</designationHotKey>
+		<researchPrerequisites>
+			<li>Smithing</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+
+
+	<RecipeDef>
+		<defName>CreateNeurotrainer</defName>
+		<label>sacrifice colonist</label>
+		<description>A ritual of ultimate dedication—or desperation—where a colonist sacrifices themselves at the altar of self-sacrifice to create a skilltrainer imbued with their highest skill. Requires an empty skilltrainer, a melee weapon, and one colonist ready to give everything for the greater good. The result? A tangible piece of progress, at the small cost of a life.</description>
+		<jobString>Pawn is offering themselves for the greater good... or so they were told.</jobString>
+		<workAmount>400</workAmount>
+		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<effectWorking>ButcherFlesh</effectWorking>
+		<soundWorking>Recipe_ButcherCorpseFlesh</soundWorking>
+		<workerClass>SacrificeYourself.RecipeWorker_RecycleItem</workerClass>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>WeaponsMelee</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>EmptySkilltrainer</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>WeaponsMelee</li>
+			</categories>
+		</fixedIngredientFilter>
+		<defaultIngredientFilter>
+			<categories>
+				<li>WeaponsMelee</li>
+			</categories>
+		</defaultIngredientFilter>
+	</RecipeDef>
+
+
+
+	<WorkGiverDef>
+		<defName>DoBillsCreateNeurotrainer</defName>
+		<label>perform self sacrifice</label>
+		<giverClass>WorkGiver_DoBill</giverClass>
+		<workType>SacrificeSelf</workType>
+		<priorityInType>40</priorityInType>
+		<fixedBillGiverDefs>
+			<li>NeuroTrainerWorkbench</li>
+		</fixedBillGiverDefs>
+		<verb>sacrificing self</verb>
+		<gerund>sacrificing self for a skilltrainer</gerund>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<prioritizeSustains>true</prioritizeSustains>
+		<canBeDoneByMutants>false</canBeDoneByMutants>
+	</WorkGiverDef>
+
+
+	<WorkTypeDef>
+		<defName>SacrificeSelf</defName>
+		<labelShort>sacrifice</labelShort>
+		<pawnLabel>sacrificial lamb</pawnLabel>
+		<gerundLabel>self sacrifice</gerundLabel>
+		<description>Colonist willing to sacrifice themselves in return for a skilltrainer of their highest skill level.</description>
+		<verb>Sacrificing self at</verb>
+		<naturalPriority>100</naturalPriority>
+		<alwaysStartActive>true</alwaysStartActive>
+		<disabledForSlaves>false</disabledForSlaves>
+		<workTags>
+			<li>AllWork</li>
+		</workTags>
+	</WorkTypeDef>
+
+
+
+
+
+
+
+
+
+
+
+</Defs>
