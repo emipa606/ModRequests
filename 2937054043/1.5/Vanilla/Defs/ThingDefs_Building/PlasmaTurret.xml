@@ -1,0 +1,958 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<DesignatorDropdownGroupDef>
+		<defName>Group_PlasmaTurrets</defName>
+		<label>plasma turrets</label>
+	</DesignatorDropdownGroupDef>
+
+	<!--==================== Dual turret =========================-->
+	<ThingDef ParentName="AutocannonTurret">
+		<thingClass>BillDoorsFramework.Building_TurretGunWithGizmo</thingClass>
+		<defName>BDP_Turret_Plasma</defName>
+		<label>dual lizion blaster turret</label>
+		<description>Automatic turret equipped with two lizion plasma blasters.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<specialDisplayRadius>35.9</specialDisplayRadius>
+		<tradeability>None</tradeability>
+		<graphicData>
+			<texPath>Things/Building/PlasmaTurret_Base</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1.8,1.8)</drawSize>
+			<drawOffset>(0,0,-0.1)</drawOffset>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurret_Icon</uiIconPath>
+		<statBases>
+			<MaxHitPoints>600</MaxHitPoints>
+			<Flammability>0</Flammability>
+			<WorkToBuild>24000</WorkToBuild>
+			<Mass>8</Mass>
+			<ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>240</wickTicks>
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>LizionExplosion</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>400</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until tank depletion</fuelLabel>
+				<fuelGizmoLabel>Gas remaining</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs lizion supply</outOfFuelMessage>
+				<fuelFilter>
+					<thingDefs>
+						<li>Gas_Lizion</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>150</fuelCapacity>
+				<fuelMultiplier>1</fuelMultiplier>
+				<initialFuelPercent>0</initialFuelPercent>
+				<autoRefuelPercent>0</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>Things/Ammo/LizionSmall/Normal/SmallLizionCanister_Normal_c</fuelIconPath>
+			</li>
+			<li Class="PipeSystem.CompProperties_RefillWithPipes">
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+				<thing>Gas_Lizion</thing>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_PowerTurretGun">
+				<rechargePowerConsumption>2500</rechargePowerConsumption>
+				<rechargePower>Recharge power consumption</rechargePower>
+				<cooldownTime>3.5</cooldownTime>
+				<rechargePower_Stat>The amount of power the weapon will draw from the power grid during cool down.\n\Plasma turret' built in capacitors need to be recharged after each salvo, leading to a power consumption spike.\n\nThe power consumption is calculated as: Power draw x Turret cooldown / 1000\n{0} W x {1} s / 1000 = {2} Wd</rechargePower_Stat>
+			</li>
+		</comps>
+		<costList>
+			<Steel>325</Steel>
+			<Plasteel>140</Plasteel>
+			<ComponentIndustrial>20</ComponentIndustrial>
+			<ComponentSpacer>4</ComponentSpacer>
+			<Jade>50</Jade>
+		</costList>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<building>
+			<turretGunDef>BDP_PlasmaTurretGun</turretGunDef>
+			<turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+			<turretTopDrawSize>5</turretTopDrawSize>
+		</building>
+		<researchPrerequisites>
+			<li>GunTurrets</li>
+			<li>ChargedShot</li>
+		</researchPrerequisites>
+		<placeWorkers Inherit="False">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+		<defName>BDP_PlasmaTurretGun</defName>
+		<label>dual lizion blaster</label>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_Turret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>Two lizion blasters attached to a turret mount.</description>
+		<statBases>
+			<AccuracyTouch>0.28</AccuracyTouch>
+			<AccuracyShort>0.72</AccuracyShort>
+			<AccuracyMedium>0.66</AccuracyMedium>
+			<AccuracyLong>0.5</AccuracyLong>
+			<RangedWeapon_Cooldown>3.5</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>5</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+				<defaultProjectile>Projectile_LizionSniperNormal</defaultProjectile>
+				<warmupTime>0</warmupTime>
+				<range>35.9</range>
+				<ticksBetweenBurstShots>15</ticksBetweenBurstShots>
+				<burstShotCount>5</burstShotCount>
+				<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+				<consumeFuelPerShot>5</consumeFuelPerShot>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+					<defaultProjectile>Projectile_LizionSniperOvercharged</defaultProjectile>
+					<warmupTime>0</warmupTime>
+					<range>35.9</range>
+					<ticksBetweenBurstShots>15</ticksBetweenBurstShots>
+					<burstShotCount>5</burstShotCount>
+					<soundCast>BDP_Shot_PlasmaSniper</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+					<consumeFuelPerShot>10</consumeFuelPerShot>
+					<forcedMissRadius>2</forcedMissRadius>
+				</verbProps>
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_VerbOverchargeDamage">
+				<overchargeDamageChance>0.8</overchargeDamageChance>
+				<overchargeDamageMultiplier>20</overchargeDamageMultiplier>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaLongFastMF</def>
+				<drawSize>(4,4)</drawSize>
+				<isAlternately>true</isAlternately>
+				<offsets>
+					<li>(1.3,0.1)</li>
+					<li>(1.3,-0.1)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	<!--==================== Heavy turret =========================-->
+	<ThingDef ParentName="AutocannonTurret">
+		<thingClass>BillDoorsFramework.Building_TurretGunWithGizmo</thingClass>
+		<defName>BDP_Turret_Plasmaheavy</defName>
+		<label>heavy lizion turret</label>
+		<tradeability>None</tradeability>
+		<specialDisplayRadius>28.9</specialDisplayRadius>
+		<description>Automatic turret equipped with a heavy lizion cannon.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<graphicData>
+			<texPath>Things/Building/PlasmaTurret_Base</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1.8,1.8)</drawSize>
+			<drawOffset>(0,0,-0.1)</drawOffset>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurretHeavy_icon</uiIconPath>
+		<statBases>
+			<MaxHitPoints>600</MaxHitPoints>
+			<Flammability>0</Flammability>
+			<WorkToBuild>24000</WorkToBuild>
+			<Mass>8</Mass>
+			<ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>240</wickTicks>
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>LizionExplosion</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>500</basePowerConsumption>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_PowerTurretGun">
+				<rechargePowerConsumption>5000</rechargePowerConsumption>
+				<rechargePower>Recharge power consumption</rechargePower>
+				<cooldownTime>6</cooldownTime>
+				<rechargePower_Stat>The amount of power the weapon will draw from the power grid during cool down.\n\Plasma turret' built in capacitors need to be recharged after each salvo, leading to a power consumption spike.\n\nThe power consumption is calculated as: Power draw x Turret cooldown / 1000\n{0} W x {1} s / 1000 = {2} Wd</rechargePower_Stat>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until tank depletion</fuelLabel>
+				<fuelGizmoLabel>Gas remaining</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs lizion supply</outOfFuelMessage>
+				<fuelFilter>
+					<thingDefs>
+						<li>Gas_Lizion</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>300</fuelCapacity>
+				<fuelMultiplier>1</fuelMultiplier>
+				<initialFuelPercent>0</initialFuelPercent>
+				<autoRefuelPercent>0</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>Things/Ammo/LizionSmall/Normal/SmallLizionCanister_Normal_c</fuelIconPath>
+			</li>
+			<li Class="PipeSystem.CompProperties_RefillWithPipes">
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+				<thing>Gas_Lizion</thing>
+			</li>
+		</comps>
+		<costList>
+			<Steel>325</Steel>
+			<Plasteel>140</Plasteel>
+			<ComponentIndustrial>20</ComponentIndustrial>
+			<ComponentSpacer>4</ComponentSpacer>
+			<Jade>50</Jade>
+		</costList>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<building>
+			<turretGunDef>BDP_PlasmaTurretGunHeavy</turretGunDef>
+			<turretBurstCooldownTime>6</turretBurstCooldownTime>
+			<turretTopDrawSize>5</turretTopDrawSize>
+		</building>
+		<placeWorkers Inherit="False">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>GunTurrets</li>
+			<li>ChargedShot</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+		<defName>BDP_PlasmaTurretGunHeavy</defName>
+		<label>heavy lizion blaster</label>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_TurretHeavy</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>A single heavy lizion blaster cannon attached to a turret mount.</description>
+		<statBases>
+			<AccuracyTouch>0.28</AccuracyTouch>
+			<AccuracyShort>0.72</AccuracyShort>
+			<AccuracyMedium>0.66</AccuracyMedium>
+			<AccuracyLong>0.5</AccuracyLong>
+			<RangedWeapon_Cooldown>6</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>5</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+				<defaultProjectile>Projectile_LizionHeavyNormal</defaultProjectile>
+				<warmupTime>0</warmupTime>
+				<range>28.9</range>
+				<ticksBetweenBurstShots>20</ticksBetweenBurstShots>
+				<burstShotCount>2</burstShotCount>
+				<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+				<consumeFuelPerShot>50</consumeFuelPerShot>
+				<minRange>4.9</minRange>
+				<forcedMissRadius>5</forcedMissRadius>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+					<defaultProjectile>Projectile_LizionHeavyOvercharged</defaultProjectile>
+					<warmupTime>0</warmupTime>
+					<range>28.9</range>
+					<ticksBetweenBurstShots>20</ticksBetweenBurstShots>
+					<burstShotCount>2</burstShotCount>
+					<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+					<consumeFuelPerShot>50</consumeFuelPerShot>
+					<minRange>4.9</minRange>
+					<forcedMissRadius>5</forcedMissRadius>
+				</verbProps>
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_VerbOverchargeDamage">
+				<overchargeDamageChance>0.8</overchargeDamageChance>
+				<overchargeDamageMultiplier>50</overchargeDamageMultiplier>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaCannonMF</def>
+				<drawSize>(2,2)</drawSize>
+				<offsets>
+					<li>(1.63,0.05)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	<!--==================== Small turret =========================-->
+	<ThingDef ParentName="BuildingBase">
+		<thingClass>BillDoorsFramework.Building_TurretGunWithGizmo</thingClass>
+		<defName>BDP_Turret_PlasmaSmall</defName>
+		<label>small lizion turret</label>
+		<description>Automatic turret equipped with a lizion plasma machinegun.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<graphicData>
+			<texPath>Things/Building/BDP_PlasmTurret_SmallBase</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2.3,2.3)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurretSmall_Icon</uiIconPath>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<stealable>false</stealable>
+		<rotatable>false</rotatable>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<statBases>
+			<MaxHitPoints>140</MaxHitPoints>
+			<Flammability>0.3</Flammability>
+			<WorkToBuild>4800</WorkToBuild>
+			<Mass>8</Mass>
+			<Beauty>-20</Beauty>
+			<ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>240</wickTicks>
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>LizionExplosion</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>200</basePowerConsumption>
+			</li>
+
+			<li Class="BillDoorsFramework.CompProperties_PowerTurretGun">
+				<rechargePowerConsumption>1000</rechargePowerConsumption>
+				<rechargePower>Recharge power consumption</rechargePower>
+				<cooldownTime>1.5</cooldownTime>
+				<rechargePower_Stat>The amount of power the weapon will draw from the power grid during cool down.\n\Plasma turret' built in capacitors need to be recharged after each salvo, leading to a power consumption spike.\n\nThe power consumption is calculated as: Power draw x Turret cooldown / 1000\n{0} W x {1} s / 1000 = {2} Wd</rechargePower_Stat>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until tank depletion</fuelLabel>
+				<fuelGizmoLabel>Gas remaining</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs lizion supply</outOfFuelMessage>
+				<fuelFilter>
+					<thingDefs>
+						<li>Gas_Lizion</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>60</fuelCapacity>
+				<fuelMultiplier>1</fuelMultiplier>
+				<initialFuelPercent>0</initialFuelPercent>
+				<autoRefuelPercent>0</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>Things/Ammo/LizionSmall/Normal/SmallLizionCanister_Normal_c</fuelIconPath>
+			</li>
+			<li Class="PipeSystem.CompProperties_RefillWithPipes">
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+				<thing>Gas_Lizion</thing>
+			</li>
+		</comps>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<fillPercent>0.4</fillPercent>
+		<hasTooltip>true</hasTooltip>
+		<costList>
+			<Steel>65</Steel>
+			<Plasteel>30</Plasteel>
+			<ComponentIndustrial>12</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>15</Jade>
+		</costList>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Security</designationCategory>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<building>
+			<combatPower>80</combatPower>
+			<ai_combatDangerous>true</ai_combatDangerous>
+			<turretGunDef>BDP_PlasmaTurretGunSmall</turretGunDef>
+			<turretBurstCooldownTime>4.8</turretBurstCooldownTime>
+			<turretTopDrawSize>1.5</turretTopDrawSize>
+		</building>
+		<placeWorkers Inherit="False">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>GunTurrets</li>
+			<li>ChargedShot</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<thingClass>BillDoorsFramework.Building_TurretGunWithGizmo</thingClass>
+		<defName>BDP_Turret_PlasmaSmallManned</defName>
+		<label>manned lizion turret</label>
+		<description>Stationary tripod equipped with a lizion plasma machinegun.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<graphicData>
+			<texPath>Things/Building/BDP_PlasmTurret_SmallBase</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2.3,2.3)</drawSize>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.27,0.25,0.27)</volume>
+				<offset>(0,0,0)</offset>
+			</shadowData>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurretSmall_Icon</uiIconPath>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<stealable>false</stealable>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<statBases>
+			<MaxHitPoints>140</MaxHitPoints>
+			<Flammability>0.3</Flammability>
+			<WorkToBuild>4800</WorkToBuild>
+			<Mass>8</Mass>
+			<Beauty>-20</Beauty>
+			<ShootingAccuracyTurret>0.98</ShootingAccuracyTurret>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li Class="CompProperties_Mannable">
+				<manWorkType>Violent</manWorkType>
+			</li>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>240</wickTicks>
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>LizionExplosion</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.5</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>10</basePowerConsumption>
+			</li>
+
+			<li Class="BillDoorsFramework.CompProperties_PowerTurretGun">
+				<rechargePowerConsumption>1000</rechargePowerConsumption>
+				<rechargePower>Recharge power consumption</rechargePower>
+				<cooldownTime>1.5</cooldownTime>
+				<rechargePower_Stat>The amount of power the weapon will draw from the power grid during cool down.\n\Plasma turret' built in capacitors need to be recharged after each salvo, leading to a power consumption spike.\n\nThe power consumption is calculated as: Power draw x Turret cooldown / 1000\n{0} W x {1} s / 1000 = {2} Wd</rechargePower_Stat>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until tank depletion</fuelLabel>
+				<fuelGizmoLabel>Gas remaining</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs lizion supply</outOfFuelMessage>
+				<fuelFilter>
+					<thingDefs>
+						<li>Gas_Lizion</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>60</fuelCapacity>
+				<fuelMultiplier>1</fuelMultiplier>
+				<initialFuelPercent>0</initialFuelPercent>
+				<autoRefuelPercent>0</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>Things/Ammo/LizionSmall/Normal/SmallLizionCanister_Normal_c</fuelIconPath>
+			</li>
+			<li Class="PipeSystem.CompProperties_RefillWithPipes">
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+				<thing>Gas_Lizion</thing>
+			</li>
+		</comps>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<fillPercent>0.4</fillPercent>
+		<hasTooltip>true</hasTooltip>
+		<costList>
+			<Steel>65</Steel>
+			<Plasteel>30</Plasteel>
+			<ComponentIndustrial>8</ComponentIndustrial>
+			<ComponentSpacer>1</ComponentSpacer>
+			<Jade>15</Jade>
+		</costList>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Security</designationCategory>
+		<constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+		<building>
+			<combatPower>80</combatPower>
+			<ai_combatDangerous>true</ai_combatDangerous>
+			<turretGunDef>BDP_PlasmaTurretGunSmall</turretGunDef>
+			<turretBurstCooldownTime>2.5</turretBurstCooldownTime>
+			<turretTopDrawSize>1.5</turretTopDrawSize>
+		</building>
+		<placeWorkers Inherit="False">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>GunTurrets</li>
+			<li>ChargedShot</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+		<defName>BDP_PlasmaTurretGunSmall</defName>
+		<label>small lizion blaster</label>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_Small</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>Lizion plasma machinegun attached to a turret mount.</description>
+		<statBases>
+			<AccuracyTouch>0.77</AccuracyTouch>
+			<AccuracyShort>0.70</AccuracyShort>
+			<AccuracyMedium>0.45</AccuracyMedium>
+			<AccuracyLong>0.24</AccuracyLong>
+			<RangedWeapon_Cooldown>4.8</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>5</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+				<defaultProjectile>Projectile_LizionRifleNormal</defaultProjectile>
+				<warmupTime>0</warmupTime>
+				<range>22.9</range>
+				<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+				<burstShotCount>3</burstShotCount>
+				<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+				<consumeFuelPerShot>2</consumeFuelPerShot>
+			</li>
+		</verbs>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_SecondaryVerb">
+				<verbProps>
+					<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+					<defaultProjectile>Projectile_LizionRifleOvercharged</defaultProjectile>
+					<warmupTime>0</warmupTime>
+					<range>22.9</range>
+					<ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+					<burstShotCount>3</burstShotCount>
+					<soundCast>BDP_Shot_PlasmaRifle</soundCast>
+					<soundCastTail>GunTail_Heavy</soundCastTail>
+					<muzzleFlashScale>12</muzzleFlashScale>
+					<consumeFuelPerShot>2</consumeFuelPerShot>
+				</verbProps>
+				<mainCommandIcon>UI/Icons/FireModes/BDP_Overcharge_Off</mainCommandIcon>
+				<secondaryCommandIcon>UI/Icons/FireModes/BDP_Overcharge_On</secondaryCommandIcon>
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="BDsPlasmaWeaponVanilla.DefModExtension_VerbOverchargeDamage">
+				<overchargeDamageChance>0.5</overchargeDamageChance>
+				<overchargeDamageMultiplier>10</overchargeDamageMultiplier>
+			</li>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaNormalMF</def>
+				<drawSize>(1.2,1.2)</drawSize>
+				<offsets>
+					<li>(0.8,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<!--ExtinguisherTurret-->
+	<ThingDef ParentName="BuildingBase">
+		<defName>BDP_Turret_Extinguisher</defName>
+		<label>lizion extinguisher turret</label>
+		<description>An automated turret for extinguishing fires. It will automatically spray large amounts of cryogenic lizion gas on any flames in sight.</description>
+		<thingClass>Building_TurretFoam</thingClass>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<graphicData>
+			<texPath>Things/Building/ExtinguisherTurret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_ExtinguisherTurret_Icon</uiIconPath>
+		<altitudeLayer>Building</altitudeLayer>
+		<stealable>false</stealable>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Flammability>0.7</Flammability>
+			<WorkToBuild>1800</WorkToBuild>
+			<Mass>8</Mass>
+			<Beauty>-20</Beauty>
+			<ShootingAccuracyTurret>1</ShootingAccuracyTurret>
+		</statBases>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>0</wickTicks>
+				<explosiveRadius>0</explosiveRadius>
+				<explodeOnKilled>true</explodeOnKilled>
+				<explosiveExpandPerFuel>1.25</explosiveExpandPerFuel>
+				<explosiveDamageType>Extinguish</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>1</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>80</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until tank depletion</fuelLabel>
+				<fuelGizmoLabel>Gas remaining</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs lizion supply</outOfFuelMessage>
+				<fuelFilter>
+					<thingDefs>
+						<li>Gas_Lizion</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>10</fuelCapacity>
+				<fuelMultiplier>0.14</fuelMultiplier>
+				<initialFuelPercent>0</initialFuelPercent>
+				<autoRefuelPercent>0.25</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>Things/Ammo/LizionSmall/Normal/SmallLizionCanister_Normal_c</fuelIconPath>
+			</li>
+			<li Class="PipeSystem.CompProperties_RefillWithPipes">
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+				<thing>Gas_Lizion</thing>
+			</li>
+		</comps>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<fillPercent>0.4</fillPercent>
+		<hasTooltip>true</hasTooltip>
+		<costList>
+			<Steel>100</Steel>
+			<ComponentIndustrial>3</ComponentIndustrial>
+			<Chemfuel>140</Chemfuel>
+		</costList>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<designationCategory>Security</designationCategory>
+		<constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+		<building>
+			<combatPower>5</combatPower>
+			<ai_combatDangerous>false</ai_combatDangerous>
+			<turretGunDef>BDP_PlasmaTurretGunExtinguisher</turretGunDef>
+			<turretTopDrawSize>1.8</turretTopDrawSize>
+			<turretBurstCooldownTime>0.1</turretBurstCooldownTime>
+			<playTargetAcquiredSound>false</playTargetAcquiredSound>
+			<turretBurstWarmupTime>0</turretBurstWarmupTime>
+		</building>
+		<placeWorkers>
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>FoamTurret</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+		<defName>BDP_PlasmaTurretGunExtinguisher</defName>
+		<label>lizion gas sprayer</label>
+		<description>A high-pressure cryogenic lizion gas sprayer usually mounted on a turret.</description>
+		<graphicData>
+			<texPath>Things/Weapons/ExtinguisherTurret</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<statBases>
+			<AccuracyTouch>1</AccuracyTouch>
+			<AccuracyShort>1</AccuracyShort>
+			<AccuracyMedium>1</AccuracyMedium>
+			<AccuracyLong>1</AccuracyLong>
+			<RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>5</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<verbs>
+			<li>
+				<verbClass>Verb_ArcSprayProjectile</verbClass>
+				<defaultProjectile>Projectile_LizionFireExtinguisherFluid</defaultProjectile>
+				<warmupTime>0</warmupTime>
+				<range>19.9</range>
+				<consumeFuelPerBurst>1</consumeFuelPerBurst>
+				<ticksBetweenBurstShots>2</ticksBetweenBurstShots>
+				<burstShotCount>41</burstShotCount>
+				<sprayWidth>5.5</sprayWidth>
+				<sprayArching>1.5</sprayArching>
+				<sprayThicknessCells>4</sprayThicknessCells>
+				<sprayNumExtraCells>40</sprayNumExtraCells>
+				<sprayEffecterDef>FoamSpray_Directional</sprayEffecterDef>
+			</li>
+		</verbs>
+	</ThingDef>
+
+	<ThingDef Name="ProjectileFoamBase">
+		<defName>Projectile_LizionFireExtinguisherFluid</defName>
+		<label>lizion gas</label>
+		<thingClass>Projectile_Liquid</thingClass>
+		<category>Projectile</category>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Projectile</altitudeLayer>
+		<useHitPoints>False</useHitPoints>
+		<neverMultiSelect>True</neverMultiSelect>
+		<graphicData>
+			<texPath>Things/Gas/Puff</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1.4,1.4)</drawSize>
+			<color>(225,225,225)</color>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionExplosion</damageDef>
+			<speed>25</speed>
+			<damageAmountBase>1</damageAmountBase>
+			<arcHeightFactor>0.4</arcHeightFactor>
+			<armorPenetrationBase>0.8</armorPenetrationBase>
+			<stoppingPower>1</stoppingPower>
+			<shadowSize>0</shadowSize>
+			<preExplosionSpawnThingDef>Filth_Water</preExplosionSpawnThingDef>
+			<preExplosionSpawnChance>0.1</preExplosionSpawnChance>
+			<landedEffecter>ExtinguisherPuffSmall</landedEffecter>
+			<numExtraHitCells>4</numExtraHitCells>
+			<soundImpact>Foam_Impact</soundImpact>
+		</projectile>
+	</ThingDef>
+
+	<!-- BIG FKING GUN-->
+
+	<ThingDef ParentName="AutocannonTurret">
+		<defName>BDP_Turret_PlasmaHuge</defName>
+		<label>Class-4A Plasma Accelerator</label>
+		<tradeability>None</tradeability>
+		<rotatable>true</rotatable>
+		<specialDisplayRadius>20.9</specialDisplayRadius>
+		<description>Ship-board heavy plasma accelerator repurposed for ground use, does not include fire control and will need to be manually controlled directly or via some more advanced methods.\n\nAn AI persona core is required to maintain the plasma containment.</description>
+		<designatorDropdown>Group_PlasmaTurrets</designatorDropdown>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-3)</interactionCellOffset>
+		<graphicData>
+			<texPath>Things/Building/BDP_PlasmaTurret_HugeBase</texPath>
+			<drawSize>(6,6)</drawSize>
+			<graphicClass>Graphic_Multi</graphicClass>
+		</graphicData>
+		<uiIconPath>UI/Icons/BDP_PlasmaTurret_Huge_Icon</uiIconPath>
+		<statBases>
+			<WorkToBuild>48000</WorkToBuild>
+			<MaxHitPoints>14000</MaxHitPoints>
+			<Mass>8700</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<techLevel>Spacer</techLevel>
+		<fillPercent>0.5</fillPercent>
+		<comps>
+			<li Class="CompProperties_Mannable">
+				<manWorkType>Violent</manWorkType>
+			</li>
+			<li Class="CompProperties_Explosive">
+				<wickTicks>800</wickTicks>
+				<explosiveRadius>20.9</explosiveRadius>
+				<explosiveDamageType>LizionExplosion</explosiveDamageType>
+				<chanceNeverExplodeFromDamage>0.8</chanceNeverExplodeFromDamage>
+			</li>
+			<li Class="CompProperties_Forbiddable"/>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>2000</basePowerConsumption>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_PowerTurretGun">
+				<rechargePowerConsumption>16000</rechargePowerConsumption>
+				<rechargePower>Recharge power consumption</rechargePower>
+				<cooldownTime>30</cooldownTime>
+				<rechargePower_Stat>The amount of power the weapon will draw from the power grid during cool down.\n\Plasma turret' built in capacitors need to be recharged after each salvo, leading to a power consumption spike.\n\nThe power consumption is calculated as: Power draw x Turret cooldown / 1000\n{0} W x {1} s / 1000 = {2} Wd</rechargePower_Stat>
+			</li>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Breakdownable"/>
+			<li Class="CompProperties_Refuelable">
+				<fuelLabel>Shots until tank depletion</fuelLabel>
+				<fuelGizmoLabel>Gas remaining</fuelGizmoLabel>
+				<outOfFuelMessage>Cannot shoot: Needs lizion supply</outOfFuelMessage>
+				<fuelFilter>
+					<thingDefs>
+						<li>Gas_Lizion</li>
+					</thingDefs>
+				</fuelFilter>
+				<fuelCapacity>2000</fuelCapacity>
+				<fuelMultiplier>1</fuelMultiplier>
+				<initialFuelPercent>0</initialFuelPercent>
+				<autoRefuelPercent>0</autoRefuelPercent>
+				<showFuelGizmo>true</showFuelGizmo>
+				<minimumFueledThreshold>1</minimumFueledThreshold>
+				<factorByDifficulty>false</factorByDifficulty>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<fuelIconPath>Things/Ammo/LizionSmall/Normal/SmallLizionCanister_Normal_c</fuelIconPath>
+			</li>
+			<li Class="PipeSystem.CompProperties_RefillWithPipes">
+				<pipeNet>BDP_LizionNetwork</pipeNet>
+				<thing>Gas_Lizion</thing>
+			</li>
+		</comps>
+		<costList>
+			<Plasteel>900</Plasteel>
+			<ComponentIndustrial>50</ComponentIndustrial>
+			<ComponentSpacer>15</ComponentSpacer>
+			<Jade>666</Jade>
+			<AIPersonaCore>1</AIPersonaCore>
+		</costList>
+		<constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+		<building>
+			<turretGunDef>BDP_PlasmaTurretGunHuge</turretGunDef>
+			<ai_combatDangerous>true</ai_combatDangerous>
+			<turretTopDrawSize>6</turretTopDrawSize>
+			<turretBurstCooldownTime>30</turretBurstCooldownTime>
+			<turretBurstWarmupTime>5.0</turretBurstWarmupTime>
+		</building>
+		<size>(3,6)</size>
+		<placeWorkers Inherit="False">
+			<li>PlaceWorker_TurretTop</li>
+		</placeWorkers>
+		<researchPrerequisites>
+			<li>GunTurrets</li>
+			<li>ChargedShot</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseWeaponTurret">
+		<defName>BDP_PlasmaTurretGunHuge</defName>
+		<label>Class-4A plasma accelerator</label>
+		<recoilPower>8</recoilPower>
+		<graphicData>
+			<texPath>Things/Weapons/BDP_PlasmaTurret_Huge</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<description>Ship-board heavy plasma accelerator repurposed for ground use, does not include fire control and will need to be manually controlled directly or via some more advanced methods.</description>
+		<statBases>
+			<AccuracyTouch>0</AccuracyTouch>
+			<AccuracyShort>0.1</AccuracyShort>
+			<AccuracyMedium>0.6</AccuracyMedium>
+			<AccuracyLong>0.8</AccuracyLong>
+			<RangedWeapon_Cooldown>30</RangedWeapon_Cooldown>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>5</Mass>
+			<Flammability>0</Flammability>
+		</statBases>
+		<verbs>
+			<li>
+				<verbClass>BDsPlasmaWeaponVanilla.Verb_ShootOverchargeDamage</verbClass>
+				<defaultProjectile>Projectile_LizionHuge</defaultProjectile>
+				<warmupTime>0</warmupTime>
+				<range>74.9</range>
+				<soundCast>BDP_Shot_PlasmaHeavy</soundCast>
+				<soundCastTail>GunTail_Heavy</soundCastTail>
+				<muzzleFlashScale>12</muzzleFlashScale>
+				<consumeFuelPerShot>2000</consumeFuelPerShot>
+				<minRange>20.9</minRange>
+				<forcedMissRadius>1</forcedMissRadius>
+				<targetParams>
+					<canTargetLocations>true</canTargetLocations>
+				</targetParams>
+			</li>
+		</verbs>
+		<modExtensions>
+			<li Class="MuzzleFlash.MuzzleFlashProps" MayRequire="issaczhuang.muzzleflash">
+				<def>BDP_PlasmaHugeMF</def>
+				<drawSize>(5,5)</drawSize>
+				<offsets>
+					<li>(3,0)</li>
+				</offsets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseLizionBullet">
+		<defName>Projectile_LizionHuge</defName>
+		<thingClass>BillDoorsFramework.DisintegratingProjectileExplosive</thingClass>
+		<graphicData>
+			<drawSize>(8.0,5.0)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>LizionPlasma</damageDef>
+			<damageAmountBase>800</damageAmountBase>
+			<armorPenetrationBase>1.5</armorPenetrationBase>
+			<explosionRadius>54.9</explosionRadius>
+			<speed>60</speed>
+			<stoppingPower>10</stoppingPower>
+			<explosionDamageFalloff>true</explosionDamageFalloff>
+			<screenShakeFactor>5</screenShakeFactor>
+			<extraDamages>
+				<li>
+					<def>Burn</def>
+					<amount>35</amount>
+				</li>
+			</extraDamages>
+		</projectile>
+		<modExtensions>
+			<li Class="BillDoorsFramework.DefModExtension_ConeExplosion">
+				<angle>15</angle>
+			</li>
+			<li Class="BillDoorsFramework.DefModExtension_DisintegratingProjectile">
+				<shouldIgnoreColorable>false</shouldIgnoreColorable>
+			</li>
+		</modExtensions>
+	</ThingDef>
+</Defs>
