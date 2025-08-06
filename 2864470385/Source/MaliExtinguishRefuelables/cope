@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using HarmonyLib;
+using RimWorld;
+using UnityEngine;
+using Verse;
+
+namespace MaliExtinguishRefuelables
+{
+    [StaticConstructorOnStartup]
+    public static class MaliExtinguishPatch
+    {
+        static MaliExtinguishPatch()
+        {
+            var harmony = new Harmony("mali.Extinguish.patch");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+        }
+
+        [HarmonyPatch(typeof(CompFireOverlay), "PostDraw")]
+        class FireOverlayPatch
+        {
+            public static readonly Graphic FireGraphic = GraphicDatabase.Get<Graphic_Flicker>("Things/Special/Fire", ShaderDatabase.TransparentPostLight, Vector2.one, Color.white);
+
+            public static void Prefix(ref CompRefuelable refuelableComp, ref Thing parent, ref CompFlickable flickComp)
+            {
+                if (refuelableComp == null || (refuelableComp.HasFuel && flickComp.SwitchIsOn))
+                {
+                    Vector3 drawPos = parent.DrawPos;
+                    drawPos.y += 3f / 74f;
+                    FireGraphic.Draw(drawPos, Rot4.North, parent);
+                }
+            }
+        }
+    }
+}

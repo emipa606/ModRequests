@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+<!-- vanilla -->
+  <Operation Class="PatchOperationAdd">
+    <order>Prepend</order>
+    <xpath>Defs/ThingDef[defName="Campfire" or defName="TorchWallLamp"]/comps</xpath>
+    <value>
+      <li Class="CompProperties_Flickable" />
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAttributeSet">
+    <xpath>Defs/ThingDef[defName="Campfire" or defName="TorchWallLamp"]/comps/li[@Class="CompProperties_FireOverlay"]</xpath>
+    <value>MaliExtinguishRefuelables.CompProperties_FireOverlayExtinguishable</value>
+    <attribute>Class</attribute>
+  </Operation>
+  
+  <!-- the normal patchoperationadd doesnt work since 1.5 added torchbase, lmk if im missing somethin obvious (issue is related to the <comp> list order i think)-->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="TorchLamp"]/comps</xpath>
+    <value>
+	  <comps Inherit="False">
+		<li Class="CompProperties_Glower">
+			<glowRadius>10</glowRadius>
+			<glowColor>(184,136,83,0)</glowColor>
+		</li>
+		<li Class="CompProperties_Flickable" />
+		  <li Class="MaliExtinguishRefuelables.CompProperties_FireOverlayExtinguishable">
+			<fireSize>0.4</fireSize>
+			<offset>(0,0,0.2)</offset>
+		</li>
+		<li Class="CompProperties_Styleable" />
+		<li Class="CompProperties_Refuelable">
+			<fuelConsumptionRate>2.0</fuelConsumptionRate>
+			<fuelCapacity>20.0</fuelCapacity>
+			<fuelConsumptionPerTickInRain>0.0006</fuelConsumptionPerTickInRain>
+			<fuelFilter>
+			  <thingDefs>
+				<li>WoodLog</li>
+			  </thingDefs>
+			</fuelFilter>
+			<initialFuelPercent>1</initialFuelPercent>
+			<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+		</li>
+		<li Class="CompProperties_HeatPusher">
+			<compClass>CompHeatPusherPowered</compClass>
+			<heatPerSecond>3.5</heatPerSecond>
+			<heatPushMaxTemperature>23</heatPushMaxTemperature>
+		</li>
+		<li Class="CompProperties_MeditationFocus">
+			<statDef>MeditationFocusStrength</statDef>
+			<focusTypes>
+			<li>Flame</li>
+			</focusTypes>
+			<offsets>
+			<li Class="FocusStrengthOffset_Lit">
+				<offset>0.1</offset>
+			</li>
+			<li Class="FocusStrengthOffset_BuildingDefsLit">
+				<defs>
+				<li>Campfire</li>
+				<li>TorchLamp</li>
+				<li>TorchWallLamp</li>
+				<li MayRequire="Ludeon.RimWorld.Royalty">Brazier</li>
+				<li MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">Darktorch</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">DarktorchFungus</li>
+				</defs>
+				<offsetPerBuilding>0.01</offsetPerBuilding>
+				<radius>9.9</radius>
+				<maxBuildings>8</maxBuildings>
+				<explanationKey>MeditationFocusPerFlame</explanationKey>
+				<explanationKeyAbstract>MeditationFocusPerFlameAbstract</explanationKeyAbstract>
+				<drawRingRadius>false</drawRingRadius>
+			</li>
+			</offsets>
+		</li>
+	  </comps>
+    </value>
+  </Operation>
+  
+ <!-- dlc -->
+  <Operation Class="PatchOperationSequence">
+	<operations>
+		<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Royalty">
+			<order>Prepend</order>
+			<xpath>Defs/ThingDef[defName="Brazier"]/comps</xpath>
+			<value>
+			  <li Class="CompProperties_Flickable" />
+			</value>
+		</li>
+		<li Class="PatchOperationAttributeSet" MayRequire="Ludeon.RimWorld.Royalty">
+			<xpath>Defs/ThingDef[defName="Brazier"]/comps/li[@Class="CompProperties_FireOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_FireOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+		<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">
+			<order>Prepend</order>
+			<xpath>Defs/ThingDef[defName="DarklightBrazier"]/comps</xpath>
+			<value>
+			  <li Class="CompProperties_Flickable" />
+			</value>
+		</li>
+		<li Class="PatchOperationAttributeSet" MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">
+			<xpath>Defs/ThingDef[defName="DarklightBrazier"]/comps/li[@Class="CompProperties_DarklightOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_DarklightOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+		<li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Ideology">
+			<order>Prepend</order>
+			<xpath>Defs/ThingDef[defName="Darktorch" or defName="DarktorchFungus"]/comps</xpath>
+			<value>
+			  <li Class="CompProperties_Flickable" />
+			</value>
+		</li>
+		<li Class="PatchOperationAttributeSet" MayRequire="Ludeon.RimWorld.Ideology">
+			<xpath>Defs/ThingDef[defName="Darktorch" or defName="DarktorchFungus"]/comps/li[@Class="CompProperties_DarklightOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_DarklightOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+	</operations>
+  </Operation>
+  
+
+  
+ <!-- VE -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Furniture Expanded</li>
+    </mods>
+	<match Class="PatchOperationSequence">
+       <operations>
+	    <li Class="PatchOperationAdd">
+			<order>Prepend</order>
+			<xpath>Defs/ThingDef[defName="Stone_Campfire" or defName="Stone_DarklightCampfire"]/comps</xpath>
+			<value>
+			  <li Class="CompProperties_Flickable" />
+			</value>
+		</li>
+		<li Class="PatchOperationAttributeSet">
+			<xpath>Defs/ThingDef[defName="Stone_Campfire"]/comps/li[@Class="CompProperties_FireOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_FireOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+		<li Class="PatchOperationAttributeSet">
+			<xpath>Defs/ThingDef[defName="Stone_DarklightCampfire"]/comps/li[@Class="CompProperties_DarklightOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_DarklightOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+	  </operations>
+    </match>
+  </Operation>
+  
+  <!-- smokepit -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Smoked meat</li>
+    </mods>
+	<match Class="PatchOperationSequence">
+       <operations>
+	    <li Class="PatchOperationAdd">
+			<order>Prepend</order>
+			<xpath>Defs/ThingDef[defName="Smokepit"]/comps</xpath>
+			<value>
+			  <li Class="CompProperties_Flickable" />
+			</value>
+		</li>
+		<li Class="PatchOperationAttributeSet">
+			<xpath>Defs/ThingDef[defName="Smokepit"]/comps/li[@Class="CompProperties_FireOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_FireOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+	  </operations>
+    </match>
+  </Operation>
+  
+  <!-- MLH -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Medieval Lighting and Heat</li>
+    </mods>
+	<match Class="PatchOperationSequence">
+       <operations>
+	    <li Class="PatchOperationRemove"> <!-- gotta remove original authors attempt at flickable first -->
+			<xpath>Defs/ThingDef[defName="MLH_Bonfire"]/comps/li[@Class="CompProperties_Flickable"]</xpath>
+		</li>
+	    <li Class="PatchOperationAdd"><!-- then we readd it properly -->
+			<order>Prepend</order>
+			<xpath>Defs/ThingDef[defName="MLH_Bonfire" or defName="MLH_Lantern"]/comps</xpath>
+			<value>
+			  <li Class="CompProperties_Flickable" />
+			</value>
+		</li>
+		<li Class="PatchOperationAttributeSet">
+			<xpath>Defs/ThingDef[defName="MLH_Bonfire" or defName="MLH_Lantern"]/comps/li[@Class="CompProperties_FireOverlay"]</xpath>
+			<value>MaliExtinguishRefuelables.CompProperties_FireOverlayExtinguishable</value>
+			<attribute>Class</attribute>
+		</li>
+	  </operations>
+    </match>
+  </Operation>
+  
+</Patch>
