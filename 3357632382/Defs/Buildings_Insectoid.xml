@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+	<ThingDef ParentName="VFEI2_PherocoreBase">
+		<defName>VFEI2_IsopodaPherocore</defName>
+		<label>isopoda pherocore</label>
+		<description>A pheromone controlling micro-organ. It is necessary to construct certain types of insectoid hives. Pherocores have been embedded deep into the brains of geneline leaders which allowed ancient civilizations to control the hives.\n\nThis pherocore belongs to The battle geneline used in the Isopoda Plan to destroy the mechanoid, known for their ability to use powerful bioelectric attacks their enemies.</description>
+		<graphicData>
+			<texPath>Things/Item/Pherocores/Pherocore_Isopoda</texPath>
+		</graphicData>
+		<statBases>
+			<MarketValue>1000</MarketValue>
+		</statBases>
+		<tradeability>Sellable</tradeability>
+		<comps>
+			<li Class="VFEInsectoids.CompProperties_TargetableHive">
+				<hive>VFEI2_ArtificialIsopodaHive</hive>
+			</li>
+			<li>
+				<compClass>VFEInsectoids.CompTargetEffect_UpgradeHive</compClass>
+			</li>
+			<li MayRequire="vanillaracesexpanded.insector">
+				<compClass>Isopoda_Geneline_Insector.CompIngestPherocore</compClass>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<VFEInsectoids.InsectGenelineDef>
+		<defName>VFEI_Isopoda</defName>
+		<hive>VFEI2_IsopodaHive</hive>
+		<spawnWeight>0.05</spawnWeight>
+		<boss>SW_Emperorisopod</boss>
+		<waveIconPath>UI/WaveSurvivalUI/Wave_Isopoda</waveIconPath>
+		<insects>
+			<SW_Electricfish>10</SW_Electricfish>
+			<SW_Electricgryllotalpa>3</SW_Electricgryllotalpa>
+			<SW_Grenadierworm>3</SW_Grenadierworm>
+			<SW_Juggernautbeetles>3</SW_Juggernautbeetles>
+		</insects>
+	</VFEInsectoids.InsectGenelineDef>
+	
+	<ThingDef ParentName="VFEI2_ThumperBase">
+    <defName>VFEI2_Thumper_Isopoda</defName>
+    <label>emperorisopod thumper</label>
+    <description>A vibration-producing thumper device. When activated, it starts emitting powerful thump pulses, which will attract an insectoid emperorisopod to attack with its escorts. If you can defeat her, you can collect a special pherocore from her corpse. The thumps destabilise the thumper, so this building can only be used once.</description>
+    <graphicData>
+      <texPath>Things/Building/Thumpers/IsopodaThumper_Base</texPath>
+    </graphicData>
+	<uiIconPath>Things/Building/Thumpers/IsopodaThumper_MenuIcon</uiIconPath>
+    <costList>
+      <Steel>70</Steel>
+	  <ComponentIndustrial>4</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+        <li>VFEI2_StandardHivetech</li>
+		<li>Electricity</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="VFEInsectoids.CompProperties_Thumper">
+		<topGraphic>
+			<texPath>Things/Building/Thumpers/IsopodaThumper_Top</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(2,2)</drawSize>
+		</topGraphic>
+		<wave>VFEI2_Thumper_Isopoda</wave>
+      </li>
+    </comps>
+	</ThingDef>
+	<ThingDef ParentName="VFEI2_BuildingInsectoidBase">
+		<defName>VFEI2_IsopodaHive</defName>
+		<label>isopoda hive</label>
+		<description>A hive of giant insects of the isopoda geneline. If activated, it will spawn additional insects and hives over time, as well as valuable insect jelly.</description>
+		<thingClass>Hive</thingClass>
+		<graphicData>
+			<texPath>Things/Building/IsopodaHive</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>1.6</drawSize>
+		</graphicData>
+		<uiIconScale>0.5</uiIconScale>
+		<altitudeLayer>Building</altitudeLayer>
+		<rotatable>false</rotatable>
+		<fillPercent>0.5</fillPercent>
+		<statBases>
+			<MaxHitPoints>130</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<pathCost>42</pathCost>
+		<receivesSignals>true</receivesSignals>
+		<blockWind>true</blockWind>
+		<tickerType>Normal</tickerType>
+		<passability>PassThroughOnly</passability>
+		<killedLeavings>
+			<InsectJelly>30</InsectJelly>
+		</killedLeavings>
+		<comps>
+			<li Class="CompProperties_CanBeDormant">
+				<startsDormant>true</startsDormant>
+				<canWakeUpFogged>false</canWakeUpFogged>
+			</li>
+			<li Class="CompProperties_WakeUpDormant"/>
+			<li Class="VFEInsectoids.CompProperties_InsectSpawner">
+				<geneline>VFEI_Isopoda</geneline>
+				<lordJob>LordJob_DefendAndExpandHive</lordJob>
+				<spawnSound>Hive_Spawn</spawnSound>
+				<initialPawnsPoints>200</initialPawnsPoints>
+				<maxSpawnedPawnsPoints>500</maxSpawnedPawnsPoints>
+			</li>
+			<li Class="CompProperties_SelfhealHitpoints">
+				<ticksPerHeal>6000</ticksPerHeal>
+				<!-- 60k ticks = 1 day, 10 hp per day -->
+			</li>
+			<li Class="CompProperties_SpawnerHives"/>
+			<li Class="CompProperties_Spawner">
+				<thingToSpawn>InsectJelly</thingToSpawn>
+				<spawnCount>20</spawnCount>
+				<spawnIntervalRange>26000~30000</spawnIntervalRange>
+				<spawnMaxAdjacent>40</spawnMaxAdjacent>
+				<spawnForbidden>true</spawnForbidden>
+				<saveKeysPrefix>jelly</saveKeysPrefix>
+			</li>
+			<li Class="CompProperties_Spawner">
+				<thingToSpawn>VFEI2_IsopodaGlowPod</thingToSpawn>
+				<spawnCount>1</spawnCount>
+				<spawnIntervalRange>30000~60000</spawnIntervalRange>
+				<spawnMaxAdjacent>1</spawnMaxAdjacent>
+				<saveKeysPrefix>pod</saveKeysPrefix>
+				<inheritFaction>true</inheritFaction>
+			</li>
+			<li Class="CompProperties_HeatPusher">
+				<heatPerSecond>6</heatPerSecond>
+				<heatPushMaxTemperature>38</heatPushMaxTemperature>
+			</li>
+			<li Class="CompProperties_SpawnerFilth">
+				<filthDef>Filth_Slime</filthDef>
+				<spawnCountOnSpawn>10</spawnCountOnSpawn>
+				<spawnMtbHours>4</spawnMtbHours>
+				<spawnRadius>5</spawnRadius>
+			</li>
+			<li Class="CompProperties_Maintainable">
+				<compClass>VFEInsectoids.CompMaintenableHive</compClass>
+				<ticksHealthy>60000</ticksHealthy>
+				<ticksNeedsMaintenance>60000</ticksNeedsMaintenance>
+				<damagePerTickRare>10</damagePerTickRare>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="VFEI2_BuildingInsectoidBase">
+		<defName>VFEI2_ArtificialIsopodaHive</defName>
+		<label>artificial isopoda hive</label>
+		<description>An artificially constructed hive of giant insects. It is capable of spawning various isopoda geneline insectoids over time, as well as some amount of insect jelly. It requires regular maintenance, and constructing too many hives near each other will increase the maintenance required.</description>
+		<thingClass>VFEInsectoids.ArtificialHive</thingClass>
+		<graphicData>
+			<texPath>Things/Building/IsopodaHive</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>1.6</drawSize>
+		</graphicData>
+		<uiIconScale>0.65</uiIconScale>
+		<altitudeLayer>Building</altitudeLayer>
+		<rotatable>false</rotatable>
+		<fillPercent>0.5</fillPercent>
+		<statBases>
+			<MaxHitPoints>200</MaxHitPoints>
+			<Flammability>0</Flammability>
+			<MarketValue>500</MarketValue>
+			<WorkToBuild>3000</WorkToBuild>
+		</statBases>
+		<pathCost>42</pathCost>
+		<receivesSignals>true</receivesSignals>
+		<blockWind>true</blockWind>
+		<tickerType>Normal</tickerType>
+		<passability>PassThroughOnly</passability>
+		<killedLeavings>
+			<InsectJelly>40</InsectJelly>
+		</killedLeavings>
+		<placeWorkers>
+			<li>VFEInsectoids.PlaceWorker_ArtificialHivesNear</li>
+		</placeWorkers>
+		<building>
+			<buildingTags>
+				<li>VFEI_ArtificialHive</li>
+			</buildingTags>
+		</building>
+		<comps>
+			<li Class="VFEInsectoids.CompProperties_Hive">
+				<insectTypes>
+					<li>
+						<insect>SW_Electricfish</insect>
+						<insectType>Worker</insectType>
+					</li>
+					<li>
+						<insect>SW_Electricgryllotalpa</insect>
+						<insectType>Defender</insectType>
+					</li>
+					<li>
+						<insect>SW_Grenadierworm</insect>
+						<insectType>Defender</insectType>
+					</li>
+					<li>
+						<insect>SW_Juggernautbeetles</insect>
+						<insectType>Hunter</insectType>
+					</li>
+				</insectTypes>
+				<insectoidRespawnTime>180000</insectoidRespawnTime>
+				<spawnSound>Hive_Spawn</spawnSound>
+			</li>
+			<li Class="CompProperties_SelfhealHitpoints">
+				<ticksPerHeal>6000</ticksPerHeal>
+				<!-- 60k ticks = 1 day, 10 hp per day -->
+			</li>
+			<li Class="CompProperties_Spawner">
+				<thingToSpawn>InsectJelly</thingToSpawn>
+				<spawnCount>20</spawnCount>
+				<spawnIntervalRange>26000~30000</spawnIntervalRange>
+				<spawnMaxAdjacent>40</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+				<saveKeysPrefix>jelly</saveKeysPrefix>
+			</li>
+			<li Class="CompProperties_Spawner">
+				<thingToSpawn>VFEI2_IsopodaGlowPod</thingToSpawn>
+				<spawnCount>1</spawnCount>
+				<spawnIntervalRange>30000~60000</spawnIntervalRange>
+				<spawnMaxAdjacent>1</spawnMaxAdjacent>
+				<saveKeysPrefix>pod</saveKeysPrefix>
+				<inheritFaction>true</inheritFaction>
+			</li>
+			<li Class="CompProperties_HeatPusher">
+				<heatPerSecond>6</heatPerSecond>
+				<heatPushMaxTemperature>36</heatPushMaxTemperature>
+			</li>
+			<li Class="CompProperties_SpawnerFilth">
+				<filthDef>Filth_Slime</filthDef>
+				<spawnCountOnSpawn>10</spawnCountOnSpawn>
+				<spawnMtbHours>4</spawnMtbHours>
+				<spawnRadius>5</spawnRadius>
+			</li>
+			<li Class="CompProperties_Maintainable">
+				<compClass>VFEInsectoids.CompMaintenableHive</compClass>
+				<ticksHealthy>60000</ticksHealthy>
+				<ticksNeedsMaintenance>60000</ticksNeedsMaintenance>
+				<damagePerTickRare>10</damagePerTickRare>
+			</li>
+		</comps>
+		<costList>
+			<Plasteel>200</Plasteel>
+			<InsectJelly>150</InsectJelly>
+			<VFEI2_RoyalInsectJelly>50</VFEI2_RoyalInsectJelly>
+			<VFEI2_IsopodaPherocore>1</VFEI2_IsopodaPherocore>
+		</costList>
+		<designationCategory>VFEI2_Insectoids</designationCategory>
+		<researchPrerequisites>
+			<li>VFEI2_ExoticHivetech</li>
+		</researchPrerequisites>
+	</ThingDef>
+	<ThingDef ParentName="VFEI2_InsectoidWallBase">
+		<defName>VFEI2_IsopodaJellyWall</defName>
+		<label>isopoda jelly wall</label>
+		<description>An impassable wall made from plasteel and insect jelly, constructed by the worker caste of an insectoid geneline. Capable of holding up a roof.</description>
+		<graphicData>
+			<texPath>Things/Building/WallIsopodaJelly_Atlas</texPath>
+		</graphicData>
+		<uiIconPath>Things/Building/WallIsopodaJelly_MenuIcon</uiIconPath>
+		<statBases>
+			<MaxHitPoints>2000</MaxHitPoints>
+			<WorkToBuild>2000</WorkToBuild>
+			<Flammability>0</Flammability>
+		</statBases>
+		<building>
+			<blueprintGraphicData>
+				<texPath>Things/Building/WallIsopodaJelly_Atlas</texPath>
+			</blueprintGraphicData>
+		</building>
+		<researchPrerequisites>
+			<li>VFEI2_BasicHivetech</li>
+		</researchPrerequisites>
+		<costList>
+			<Plasteel>4</Plasteel>
+			<InsectJelly>4</InsectJelly>
+		</costList>
+		<killedLeavings>
+			<Plasteel>2</Plasteel>
+			<InsectJelly>2</InsectJelly>
+		</killedLeavings>
+		<uiOrder>2001</uiOrder>
+		<comps>
+			<li Class="VFEInsectoids.CompProperties_OnDestroyWall">
+				<filthSpawnAmount>2~3</filthSpawnAmount>
+				<radius>1.5</radius>
+				<filth>VFEI2_Filth_InsectJelly</filth>
+				<chaining>true</chaining>
+			</li>
+		</comps>
+	</ThingDef>
+	<ThingDef ParentName="VFEI2_BuildingInsectoidBase">
+		<defName>VFEI2_IsopodaGlowPod</defName>
+		<label>isopoda glow pod</label>
+		<description>A bioluminescent pod produced by isopoda insects. Generating small amounts of electricity and glows under its own light for a long time, then dies.</description>
+		<thingClass>Building</thingClass>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Rare</tickerType>
+		<thingCategories>
+			<li>BuildingsSpecial</li>
+		</thingCategories>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<Mass>4</Mass>
+			<Flammability>0</Flammability>
+			<MarketValue>20</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Glower">
+				<glowRadius>1.9</glowRadius>
+				<glowColor>(184,136,83,0)</glowColor>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerPlant</compClass>
+				<basePowerConsumption>-50</basePowerConsumption>
+				<transmitsPower>true</transmitsPower>
+			</li>
+			<li Class="CompProperties_Lifespan">
+				<lifespanTicks>1200000</lifespanTicks>
+			</li>
+		</comps>
+		<costList>
+			<Plasteel>10</Plasteel>
+			<InsectJelly>10</InsectJelly>
+		</costList>
+		<designationCategory>VFEI2_Insectoids</designationCategory>
+		<researchPrerequisites>
+			<li>VFEI2_StandardHivetech</li>
+		</researchPrerequisites>
+		<graphicData>
+			<texPath>Things/Building/IsopodaGlowPod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+	</ThingDef>
+	<ThingDef ParentName="VFEI2_BuildingInsectoidBase">
+		<defName>VFEI2_IsopodaGlowPodSpire</defName>
+		<label>isopoda glow pod spire</label>
+		<description>A large bioluminescent pod produced by isopoda insects. Generating large amounts of electricity and lights an area brightly enough to grow crops and does not perish with time. Needs to be constructed on the creep.</description>
+		<graphicData>
+			<texPath>Things/Building/IsopodaGlowPodSpire</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(2.3, 2.6, 2.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>(4, 4)</drawSize>
+			<damageData>
+				<rect>(2.2,2.2,2.6,2.6)</rect>
+			</damageData>
+		</graphicData>
+		<uiIconScale>0.8</uiIconScale>
+		<thingClass>Building</thingClass>
+		<minifiedDef Inherit="False"/>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.60</fillPercent>
+		<size>(3, 3)</size>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Rare</tickerType>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Mass>50</Mass>
+			<Flammability>0</Flammability>
+			<MarketValue>100</MarketValue>
+			<WorkToBuild>4500</WorkToBuild>
+		</statBases>
+		<specialDisplayRadius>15.7</specialDisplayRadius>
+		<comps>
+			<li Class="CompProperties_Glower">
+				<overlightRadius>16.9</overlightRadius>
+				<glowRadius>22.9</glowRadius>
+				<glowColor>(113,141,117,0)</glowColor>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerPlant</compClass>
+				<basePowerConsumption>-8000</basePowerConsumption>
+				<transmitsPower>true</transmitsPower>
+			</li>
+			<li Class="CompProperties_SelfhealHitpoints">
+				<ticksPerHeal>6000</ticksPerHeal>
+			</li>
+			<li Class="CompProperties_Maintainable">
+				<compClass>VFEInsectoids.CompMaintenableHive</compClass>
+				<ticksHealthy>60000</ticksHealthy>
+				<ticksNeedsMaintenance>60000</ticksNeedsMaintenance>
+				<damagePerTickRare>10</damagePerTickRare>
+			</li>
+		</comps>
+		<costList>
+			<Plasteel>150</Plasteel>
+			<InsectJelly>150</InsectJelly>
+			<VFEI2_IsopodaPherocore>1</VFEI2_IsopodaPherocore>
+		</costList>
+		<designationCategory>VFEI2_Insectoids</designationCategory>
+		<researchPrerequisites>
+			<li>VFEI2_ExoticHivetech</li>
+		</researchPrerequisites>
+		<terrainAffordanceNeeded>VFEI2_Creep</terrainAffordanceNeeded>
+	</ThingDef>
+
+	<VFEInsectoids.InsectWaveDef>
+	  <defName>VFEI2_Thumper_Isopoda</defName>
+	  <minWaveRepeatIndex>2</minWaveRepeatIndex>
+	  <waves>
+		<li>
+			<insects>
+				<SW_Emperorisopod>1</SW_Emperorisopod>
+				<SW_Juggernautbeetles>2</SW_Juggernautbeetles>
+				<SW_Grenadierworm>2</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>2</SW_Electricgryllotalpa>
+				<SW_Electricfish>4</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>1</SW_Emperorisopod>
+				<SW_Juggernautbeetles>3</SW_Juggernautbeetles>
+				<SW_Grenadierworm>3</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>3</SW_Electricgryllotalpa>
+				<SW_Electricfish>6</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>1</SW_Emperorisopod>
+				<SW_Juggernautbeetles>4</SW_Juggernautbeetles>
+				<SW_Grenadierworm>4</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>4</SW_Electricgryllotalpa>
+				<SW_Electricfish>8</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>2</SW_Emperorisopod>
+				<SW_Juggernautbeetles>5</SW_Juggernautbeetles>
+				<SW_Grenadierworm>5</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>5</SW_Electricgryllotalpa>
+				<SW_Electricfish>10</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>2</SW_Emperorisopod>
+				<SW_Juggernautbeetles>6</SW_Juggernautbeetles>
+				<SW_Grenadierworm>6</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>6</SW_Electricgryllotalpa>
+				<SW_Electricfish>12</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>2</SW_Emperorisopod>
+				<SW_Juggernautbeetles>7</SW_Juggernautbeetles>
+				<SW_Grenadierworm>7</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>7</SW_Electricgryllotalpa>
+				<SW_Electricfish>14</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>2</SW_Emperorisopod>
+				<SW_Juggernautbeetles>8</SW_Juggernautbeetles>
+				<SW_Grenadierworm>8</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>8</SW_Electricgryllotalpa>
+				<SW_Electricfish>16</SW_Electricfish>
+			</insects>
+		</li>
+		<li>
+			<insects>
+				<SW_Emperorisopod>3</SW_Emperorisopod>
+				<SW_Juggernautbeetles>10</SW_Juggernautbeetles>
+				<SW_Grenadierworm>10</SW_Grenadierworm>
+				<SW_Electricgryllotalpa>10</SW_Electricgryllotalpa>
+				<SW_Electricfish>20</SW_Electricfish>
+			</insects>
+		</li>
+	  </waves>
+	</VFEInsectoids.InsectWaveDef>
+
+
+
+</Defs>
