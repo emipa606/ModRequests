@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<GeneCategoryDef>
+		<defName>Euglena</defName>
+		<label>euglena genes</label>
+		<displayPriorityInXenotype>1250</displayPriorityInXenotype>
+	</GeneCategoryDef>
+
+	<GeneDef Name="GeneEuglenBase" Abstract="True">
+		<displayCategory>Euglena</displayCategory>
+		<minAgeActive>0</minAgeActive>
+	</GeneDef>
+
+	<XenotypeDef>
+		<defName>Euglena</defName>
+		<label>Euglena</label>
+		<description>The resulting xenotype got the opportunity to eat both ordinary food and replenish its strength from the sun. They practically do not require any special conditions. Which makes them ideal field workers or livestock keepers. However, their natural weakness prevents them from moving quickly and defending themselves effectively in combat.</description>
+		<descriptionShort>The result of an unusual genetic experiment to introduce the gene of a single-celled plant into a human. Nourishing in the sun, slowing down in the shade, covered with keratinized skin that resembles tree bark..</descriptionShort>
+		<iconPath>Gene/Xenotypes/Euglena</iconPath>
+		<chanceToUseNameMaker>1</chanceToUseNameMaker>
+		<inheritable>True</inheritable>
+		<genes>
+			<li>Photosynthesis</li>
+			<li>PlantRegenerate</li>
+			<li>ComfortDisable</li>
+			<li>Superclotting</li>
+			<li>Sterile</li>
+			<li>Woodskin</li>
+			<li>Photosensitization</li>
+			<li>PieceGreatTree</li>
+		</genes>
+	</XenotypeDef>
+	
+	
+	<!--Питанице от солнца-->
+	<GeneDef ParentName="GeneEuglenBase">
+		<defName>Photosynthesis</defName>
+		<label>photosynthesis</label>
+		<description>Plant cells, integrated into the structure of the host body, allow the process of photosynthesis to be carried out, producing nutrients while in the light.</description>
+		<iconPath>Gene/Genes/Gene_Photosynthesis</iconPath>
+		<causesNeed>LightAbsorbed</causesNeed>
+		<biostatCpx>3</biostatCpx>
+		<biostatMet>1</biostatMet>
+		<marketValueFactor>1.6</marketValueFactor>
+		<minAgeActive>0</minAgeActive>
+	</GeneDef>
+
+	<NeedDef>
+		<defName>LightAbsorbed</defName>
+		<needClass>X_Euglena.Eug_Need_LightAbsorbed</needClass>
+		<label>light absorbed</label>
+		<description>Absorbed light is the amount of light that the wearer has recently absorbed. If it is equal to the maximum, the pawn does not lose its Hunger supply, as it feeds on the amount of consumed light. But when the supply decreases, the speed of starvation increases rapidly.</description>
+		<listPriority>800</listPriority>
+		<freezeWhileSleeping>false</freezeWhileSleeping>
+		<onlyIfCausedByGene>true</onlyIfCausedByGene>
+		<baseLevel>0.8</baseLevel>
+		<modExtensions>
+			<li Class="X_Euglena.X_DefModExtensionInfo">
+				<HediffAdd>Photosynthesis</HediffAdd>
+				<multiplierRandom>5</multiplierRandom>
+				<GlowLvL>0.75</GlowLvL>
+				<FallNeedTick>15</FallNeedTick>
+			</li>
+		</modExtensions>
+	</NeedDef>
+
+	<JobDef>
+		<defName>LightAbsorbed</defName>
+		<driverClass>X_Euglena.Eug_JobDriver_StandStill</driverClass>
+		<reportString>absorbed light</reportString>
+	</JobDef>
+
+	<DutyDef>
+		<defName>LightAbsorbed</defName>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="X_Euglena.Eug_JobGiver_LightAbsorbedNeed" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+	<HediffDef>
+		<defName>Photosynthesis</defName>
+		<label>photosynthesis</label>
+		<description>Absorbed sunlight slowly transforms into nutrients and glucose, which sustains the organism, keeping the level of regular hunger unchanged..</description>
+		<stages>
+			<li>
+				<hungerRateFactor>0</hungerRateFactor>
+			</li>
+		</stages>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(169,182,108)</defaultLabelColor>
+		<isBad>false</isBad>
+		<priceImpact>true</priceImpact>
+		<chronic>true</chronic>
+		<allowMothballIfLowPriorityWorldPawn>true</allowMothballIfLowPriorityWorldPawn>
+	</HediffDef>
+
+
+	<!--Регенерация-->
+	<GeneDef ParentName="GeneEuglenBase">
+		<defName>PlantRegenerate</defName>
+		<label>plant regenerate</label>
+		<description>The host cells undergo a process of transformation and become closer to the cells of the plant, which leads to an increase in the regenerative abilities of the body. Over time, restoring lost body parts.</description>
+		<iconPath>Gene/Genes/Gene_PlantRregeneration</iconPath>
+		<displayOrderInCategory>100</displayOrderInCategory>
+		<biostatMet>-1</biostatMet>
+		<biostatCpx>2</biostatCpx>
+		<customEffectDescriptions>
+			<li>Allows you to regenerate almost any part of the body, or organ, if the pawn is alive.</li>
+		</customEffectDescriptions>
+		<geneClass>X_Euglena.Eug_Gene_Regenerate</geneClass>
+	</GeneDef>
+
+
+	<!--Отключение комфорта-->
+	<GeneDef ParentName="GeneEuglenBase">
+		<defName>ComfortDisable</defName>
+		<label>comfort disable</label>
+		<description>Carriers of this gene have simple needs and do not require comfortable conditions.</description>
+		<iconPath>Gene/Genes/Gene_ComfortDisable</iconPath>
+		<disablesNeeds>
+			<li>Comfort</li>
+		</disablesNeeds>
+		<biostatCpx>2</biostatCpx>
+		<biostatMet>-1</biostatMet>
+		<marketValueFactor>1.6</marketValueFactor>
+	</GeneDef>
+
+	<!--Фотосенсибилизация-->
+
+	<GeneDef ParentName="GeneEuglenBase">
+		<defName>Photosensitization</defName>
+		<label>photosensitization</label>
+		<description>The standard speed of all processes in the carrier's body in the light gets a significant acceleration, while in the shade it slows down.</description>
+		<iconPath>Gene/Genes/Gene_Photosensitization</iconPath>
+		<statFactors>
+			<MoveSpeed>0.9</MoveSpeed>
+			<WorkSpeedGlobal>0.3</WorkSpeedGlobal>
+		</statFactors>
+		<conditionalStatAffecters>
+			<li Class="ConditionalStatAffecter_InSunlight">
+				<statOffsets>
+					<MoveSpeed>2</MoveSpeed>
+					<WorkSpeedGlobal>1.5</WorkSpeedGlobal>
+				</statOffsets>
+			</li>
+		</conditionalStatAffecters>
+		<biostatCpx>2</biostatCpx>
+		<biostatMet>1</biostatMet>
+	</GeneDef>
+
+
+	<!--Косметические гены-->
+
+	<GeneDef ParentName="GeneEuglenBase">
+		<defName>Woodskin</defName>
+		<label>wood skin</label>
+		<labelShortAdj>woodskinned</labelShortAdj>
+		<description>Due to a change in the structure of the host's skin cells, the old skin is no longer cleansed normally, resulting in a layered skin that is very similar to tree bark in both strength and appearance.</description>
+		<displayOrderInCategory>1000</displayOrderInCategory>
+		<iconPath>Gene/Genes/Gene_WoodSkin</iconPath>
+		<iconColor>(0.75, 0.75, 0.75)</iconColor>
+		<hairTagFilter>
+			<whitelist>true</whitelist>
+			<tags>
+				<li>Bald</li>
+			</tags>
+		</hairTagFilter>
+		<forcedHeadTypes>
+			<li>WoodskinHead_Average1</li>
+			<li>WoodskinHead_Average2</li>
+			<li>WoodskinHead_Average3</li>
+			<li>WoodskinHead_Average4</li>
+		</forcedHeadTypes>
+		<beardTagFilter>
+			<whitelist>true</whitelist>
+			<tags>
+				<li>NoBeard</li>
+			</tags>
+		</beardTagFilter>
+		<exclusionTags>
+			<li>HairStyle</li>
+			<li>Fur</li>
+			<li>BeardStyle</li>
+		</exclusionTags>
+		<statOffsets>
+			<ComfyTemperatureMin>-10</ComfyTemperatureMin>
+			<Flammability>3</Flammability>
+		</statOffsets>
+		<missingGeneRomanceChanceFactor>0.2</missingGeneRomanceChanceFactor>
+		<fur>WoodCovering</fur>
+		<skinIsHairColor>true</skinIsHairColor>
+		<tattoosVisible>false</tattoosVisible>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-1</biostatMet>
+		<renderNodeProperties>
+			<li>
+				<debugLabel>WoodCovering</debugLabel>
+				<nodeClass>PawnRenderNode_Fur</nodeClass>
+				<workerClass>PawnRenderNodeWorker_Fur</workerClass>
+				<baseLayer>5</baseLayer>
+				<rotDrawMode>Fresh, Rotting</rotDrawMode>
+				<colorType>Skin</colorType>
+				<parentTagDef>Body</parentTagDef>
+			</li>
+		</renderNodeProperties>
+	</GeneDef>
+
+	<FurDef>
+		<defName>WoodCovering</defName>
+		<noGraphic>true</noGraphic>
+		<bodyTypeGraphicPaths>
+			<Male>Gene/Bodies/Naked_Male</Male>
+			<Female>Gene/Bodies/Naked_Female</Female>
+			<Hulk>Gene/Bodies/Naked_Hulk</Hulk>
+			<Fat>Gene/Bodies/Naked_Fat</Fat>
+			<Thin>Gene/Bodies/Naked_Thin</Thin>
+			<Child>Gene/Bodies/Naked_Child</Child>
+			<Baby>Gene/Bodies/Naked_Child</Baby>
+		</bodyTypeGraphicPaths>
+	</FurDef>
+
+
+	<!--Голова-->
+
+	<HeadTypeDef Name="WoodAverageBase"  Abstract="True">
+		<hairMeshSize>(1.5, 1.5)</hairMeshSize>
+		<beardMeshSize>(1.5, 1.5)</beardMeshSize>
+		<randomChosen>true</randomChosen>
+		<gender>None</gender>
+		<requiredGenes>
+			<li>Woodskin</li>
+		</requiredGenes>
+	</HeadTypeDef>
+
+	<HeadTypeDef ParentName="WoodAverageBase">
+		<defName>WoodskinHead_Average1</defName>
+		<graphicPath>Gene/Heads/Evglen1</graphicPath>
+	</HeadTypeDef>
+
+	<HeadTypeDef ParentName="WoodAverageBase">
+		<defName>WoodskinHead_Average2</defName>
+		<graphicPath>Gene/Heads/Evglen2</graphicPath>
+	</HeadTypeDef>
+
+	<HeadTypeDef ParentName="WoodAverageBase">
+		<defName>WoodskinHead_Average3</defName>
+		<graphicPath>Gene/Heads/Evglen3</graphicPath>
+	</HeadTypeDef>
+
+	<HeadTypeDef ParentName="WoodAverageBase">
+		<defName>WoodskinHead_Average4</defName>
+		<graphicPath>Gene/Heads/Evglen4</graphicPath>
+	</HeadTypeDef>
+	
+</Defs>

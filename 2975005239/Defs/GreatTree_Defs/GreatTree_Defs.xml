@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--GreatTree-->
+    <ThingDef ParentName="TreeBase">
+        <defName>GreatTree</defName>
+        <label>Great Tree</label>
+        <description>The great tree is a living symbol of the wisdom, strength, and unity of the euglena race. It is not just a tree, it is a sacred place where the rebirth of life takes place. The bodies left at its base are not just decomposed, but processed by the Great Tree into cocoons. From these cocoons, new euglena emerge after a while. This reminds us of the euglena's past, present and future, as well as the close connection it maintains with its environment.</description>
+		<graphicData>
+            <texPath>GreatTree/GreatTree</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.2, 0.2, 0.2)</volume>
+				<offset>(0,0,0.05)</offset>
+			</shadowData>
+        </graphicData>
+		<tickerType>Normal</tickerType>
+		<minifiedDef IsNull="True" />
+        <statBases>
+			<Beauty>30</Beauty>
+			<BeautyOutdoors>30</BeautyOutdoors>
+			<Flammability>2</Flammability>
+			<MaxHitPoints>1000</MaxHitPoints>
+        </statBases>
+		<canScatterOver>false</canScatterOver>
+        <plant>
+			<topWindExposure>0.2</topWindExposure>
+			<pollution>Any</pollution>
+			<growDays>15</growDays>
+			<visualSizeRange>2.2~3</visualSizeRange>
+			<sowMinSkill>0</sowMinSkill>
+			<sowTags Inherit="False"/>
+			<lifespanDaysPerGrowDays>0</lifespanDaysPerGrowDays>
+			<fertilityMin>0.3</fertilityMin>
+			<fertilitySensitivity>0.3</fertilitySensitivity>
+			<wildClusterWeight>0</wildClusterWeight>
+			<sowWork>400</sowWork>
+			<harvestYield>30</harvestYield>
+			<treeCategory>Super</treeCategory>
+			<dieIfNoSunlight>false</dieIfNoSunlight>
+			<growMinGlow>0</growMinGlow>
+			<sowResearchPrerequisites Inherit="False" />
+			<dieFromToxicFallout>False</dieFromToxicFallout>
+			<showGrowthInInspectPane>false</showGrowthInInspectPane>
+			<minSpacingBetweenSamePlant>100</minSpacingBetweenSamePlant>
+			<warnIfMarkedForCut>true</warnIfMarkedForCut>
+			<harvestWork>1000</harvestWork>  
+        </plant>
+		<comps>
+			<li Class="CompProperties_Spawner">
+				<thingToSpawn>GreatTreeSap</thingToSpawn>
+				<spawnCount>10</spawnCount>
+				<spawnIntervalRange>100000</spawnIntervalRange>
+				<writeTimeLeftToSpawn>true</writeTimeLeftToSpawn>
+				<showMessageIfOwned>true</showMessageIfOwned>
+			</li>
+			<li Class="CompProperties_SelfhealHitpoints">
+				<ticksPerHeal>2000</ticksPerHeal>
+			</li>
+			<li Class="CompProperties_Glower">
+				<overlightRadius>7.0</overlightRadius>
+				<glowRadius>14</glowRadius>
+				<glowColor>(252,187,113,0)</glowColor>
+			</li>
+			<li Class="Euglena.Eug_CompProperties_SpawnOnCorpse">
+				<spawnThingOnCorpse>Plant_Human</spawnThingOnCorpse>
+				<radius>7</radius>
+				<ticksToAbsorption>500</ticksToAbsorption>
+				<chanceToAbsorb>0.5</chanceToAbsorb>
+			</li>
+		</comps>
+    </ThingDef>
+	
+	<!--PlantHuman-->
+	<ThingDef>
+		<defName>Plant_Human</defName>
+		<label>Humanoid Cocoon</label>
+		<category>Plant</category>
+		<thingClass>Plant</thingClass>
+		<altitudeLayer>Building</altitudeLayer>
+		<useHitPoints>True</useHitPoints>
+		<description>A cocoon in which a new representative of the human race is formed, having the entire set of genes of the Euglena xenotype.</description>
+		<statBases>
+			<Flammability>1</Flammability>
+			<MaxHitPoints>150</MaxHitPoints>
+		</statBases>
+		<pathCost>10</pathCost>
+		<tickerType>Normal</tickerType>
+		<selectable>true</selectable>
+		<neverMultiSelect>True</neverMultiSelect>
+		<drawerType>MapMeshOnly</drawerType>
+		<pathCostIgnoreRepeat>false</pathCostIgnoreRepeat>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutPlant</shaderType>
+			<texPath>GreatTree/Cocoon_Large</texPath>
+		</graphicData>
+		<plant>
+			<maxMeshCount>1</maxMeshCount>
+			<soundHarvesting>Harvest_Standard</soundHarvesting>
+			<soundHarvestFinish>Harvest_Standard_Finish</soundHarvestFinish>
+			<sowWork>100</sowWork>
+			<harvestWork>250</harvestWork>
+			<harvestMinGrowth>0.99</harvestMinGrowth>
+			<fertilitySensitivity>1.0</fertilitySensitivity>
+			<fertilityMin>0.99</fertilityMin>
+			<harvestTag>Standard</harvestTag>
+			<topWindExposure>0.3</topWindExposure>
+			<growDays>15</growDays>
+			<growMinGlow>0.1</growMinGlow>
+			<immatureGraphicPath>GreatTree/Cocoon_Large</immatureGraphicPath>
+			<visualSizeRange>1.5~2</visualSizeRange>
+			<wildOrder>2</wildOrder>
+			<purpose>Misc</purpose>
+			<humanFoodPlant>False</humanFoodPlant>			
+			<harvestedThingDef>Mote_MakeHuman</harvestedThingDef>
+			<harvestYield>1</harvestYield>
+			<harvestFailable>false</harvestFailable>
+		</plant>
+		<comps>
+			<li Class="Euglena.CompProperties_InstantGrow"></li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="MoteBase">
+		<defName>Mote_MakeHuman</defName>
+		<thingClass>Euglena.Eug_GetPawnThing</thingClass>
+		<modExtensions>
+			<li Class="Euglena.Eug_DefModExtensionInfo">
+				<XenotypeDef>Euglena</XenotypeDef>
+				<DevelopmentalLifeStage>Newborn</DevelopmentalLifeStage>
+				<PawnKindDef>Colonist</PawnKindDef>
+			</li>
+		</modExtensions>
+		<graphicData>
+			<texPath>Things/Mote/Bombardment</texPath>
+			<shaderType>MoteGlow</shaderType>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<drawOffscreen>true</drawOffscreen>
+		<mote>
+			<fadeInTime>0.01</fadeInTime>
+			<solidTime>0.01</solidTime>
+			<fadeOutTime>0.01</fadeOutTime>
+		</mote>
+	</ThingDef>
+
+	<!--Сок великого древа-->
+	<ThingDef ParentName="OrganicProductBase">
+		<defName>GreatTreeSap</defName>
+		<label>great tree sap</label>
+		<description>The juice of the great tree. It is soft, rich and satisfies the needs of those who consume it for relaxation. Because of its unique biological properties, it can nourish almost any creature.</description>
+		<possessionCount>10</possessionCount>
+		<graphicData>
+			<texPath>GreatTree/TreeSap</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+			<drawSize>(0.9, 0.9)</drawSize>
+		</graphicData>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<statBases>
+			<MarketValue>8.0</MarketValue>
+			<Mass>0.025</Mass>
+			<Nutrition>0.05</Nutrition>
+			<FoodPoisonChanceFixedHuman>0.02</FoodPoisonChanceFixedHuman>
+		</statBases>
+		<ingestible>
+			<preferability>MealFine</preferability>
+			<tasteThought>AteFineMeal</tasteThought>
+			<ingestEffect>EatVegetarian</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+			<foodType>Meal</foodType>
+			<joy>0.01</joy>
+			<joyKind>Gluttonous</joyKind>
+			<canAutoSelectAsFoodForCaravan>true</canAutoSelectAsFoodForCaravan>
+			<babiesCanIngest>true</babiesCanIngest>
+		</ingestible>
+		<thingCategories>
+			<li>Foods</li>
+		</thingCategories>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+	</ThingDef>
+
+	<ThingDef ParentName="StoneBlocksBase">
+		<defName>BlocksAmber</defName>
+		<label>amber blocks</label>
+		<description>Blocks of amber.</description>
+		<graphicData>
+			<texPath>GreatTree/BlocksAmber</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<statBases>
+			<Mass>1.1</Mass>
+		</statBases>
+		<stuffProps>
+			<color>(252, 152, 3)</color>
+			<soundImpactBullet>BulletImpact_Ground</soundImpactBullet>
+			<soundMeleeHitSharp>MeleeHit_Stone</soundMeleeHitSharp>
+			<soundMeleeHitBlunt>MeleeHit_Stone</soundMeleeHitBlunt>
+			<stuffAdjective>amber</stuffAdjective>
+			<statFactors>
+				<MaxHitPoints>1.25</MaxHitPoints>
+			</statFactors>
+			<canSuggestUseDefaultStuff>true</canSuggestUseDefaultStuff>
+		</stuffProps>
+	</ThingDef>
+
+	<RecipeDef>
+		<defName>SmeltAmberFromSap</defName>
+		<label>smelt amber blocks from tree sap</label>
+		<description>Use heat and to form from the tree sap, a solid block of amber.</description>
+		<jobString>Smelting amber blocks from tree sap.</jobString>
+		<workAmount>400</workAmount>
+		<workSpeedStat>SmeltingSpeed</workSpeedStat>
+		<effectWorking>Smelt</effectWorking>
+		<soundWorking>Recipe_Smelt</soundWorking>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>GreatTreeSap</li>
+					</thingDefs>
+				</filter>
+				<count>300</count>
+			</li>
+		</ingredients>
+		<products>
+			<BlocksAmber>10</BlocksAmber>
+		</products>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>ChunkSlagSteel</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<!--Семечко великого древа-->
+	<ThingDef ParentName="ResourceBase">
+		<defName>GreatTreeSeed</defName>
+		<label>great tree seed</label>
+		<description>A seed from which to grow a new great tree.</description>
+		<thingClass>ThingWithComps</thingClass>
+		<graphicData>
+			<texPath>GreatTree/GreatTreeSeed/GreatTreeSeed</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(0.9, 0.9)</drawSize>
+		</graphicData>
+		<comps>
+			<li Class="CompProperties_Plantable">
+				<plantDefToSpawn>GreatTree</plantDefToSpawn>
+			</li>
+		</comps>
+		<stackLimit>1</stackLimit>
+		<possessionCount>10</possessionCount>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<FoodPoisonChanceFixedHuman>0.02</FoodPoisonChanceFixedHuman>
+			<Mass>1</Mass>
+			<MarketValue>1200</MarketValue>
+		</statBases>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<tickerType>Rare</tickerType>
+		<thingCategories>
+			<li>ItemsMisc</li>
+		</thingCategories>
+		<allowedArchonexusCount>10</allowedArchonexusCount>
+	</ThingDef>
+
+</Defs>
