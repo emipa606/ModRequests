@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/RecipeDef[defName="BloodTransfusion"]</xpath>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationInsert">
+          <xpath>/Defs/RecipeDef[defName="BloodTransfusion"]</xpath>
+          <value>
+
+            <RecipeDef ParentName="SurgeryFlesh">
+              <defName>KOM_BloodTransfusionAnimal</defName>
+              <label>blood transfusion (animal)</label>
+              <description>Use animal hemogen packs to reduce the effects of blood loss in an animal. Each hemogen pack used recovers 35% blood loss, modified by body size. The operation will also restore hemogen to hemogenic individuals. But hemogenic animals are probably pretty rare....</description>
+              <jobString>performing blood transfusion on TargetA.</jobString>
+              <workAmount>800</workAmount>
+              <hideBodyPartNames>true</hideBodyPartNames>
+              <targetsBodyPart>false</targetsBodyPart>
+              <anesthetize>false</anesthetize>
+              <workerClass>Komishne.SanguophageTweaks.Conditional.VRES.Recipe_BloodTransfusionAnimal</workerClass>
+              <surgeryOutcomeEffect IsNull="True" /> <!-- Always succeeds -->
+              <ingredients>
+                <li>
+                  <filter>
+                    <thingDefs>
+                      <li>VRE_HemogenPack_Animal</li>
+                    </thingDefs>
+                  </filter>
+                </li>
+              </ingredients>
+              <fixedIngredientFilter>
+                <thingDefs>
+                  <li>VRE_HemogenPack_Animal</li>
+                </thingDefs>
+              </fixedIngredientFilter>
+            </RecipeDef>
+          </value>
+        </li>
+
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+            <value>
+              <li>KOM_BloodTransfusionAnimal</li>
+            </value>
+          </match>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>

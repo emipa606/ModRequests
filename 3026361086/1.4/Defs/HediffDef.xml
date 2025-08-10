@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- This hediff is meant to be an indirect replacement for the
+       deathOnFailedSurgeryChance property of recipes (surgeries). That effect,
+       when it triggers, simply kills the, and the pawn has no way to interrupt
+       or stop the effect. A deathless pawn, however, should not... just die.
+
+       This hediff gets around that in a slightly clumsy way. First, it is
+       always immediately lethal, as the lethal severity is 1. Non-deathless
+       pawns will immediately die, though they will still have this hediff. But
+       they're dead, so it doesn't really make a difference.
+
+       A deathless pawn will also first get this hediff, which will cause them
+       to immediately start deathresting or go into a regenerative coma.
+       However, because this hediff is lethal and is still applied to the pawn,
+       their timer for exiting deathrest or the regenerative coma does not
+       start. Which means they'll never wake up again.
+
+       To get around this, I set the one and only stage for this hediff to
+       destroy the part it is affecting. With the part destroyed, the hediff
+       goes away, and thus the deathless pawn will eventually wake up again. If
+       the affected part is required for living (e.g., their heart), the pawn
+       will not wake up until the part is restored. Which is a pain, but not as
+       much of a pain as the pawn... just dying.
+
+       As an added bonus, if the affected part is the neck/head/brain, the
+       deathless *will*... just die. Because that's how deathless pawns die. So
+       there's still a chance!
+
+       To handle the case where the surgery did not affect a specific body
+       part, this hediff disappears after a short while. For pawns that die, it
+       will not disappear and the effect is unchanged. For deathless pawns,
+       when the hediff disappears, they will be able to then start their
+       countdown timer for waking up from their deathrest or regenerative coma
+       (assuming nothing else would prevent that).
+
+       If the affected pawn is later resurrected, the resurrection process
+       removes this hediff, so it will not, for example, immediately kill them
+       again. (This was tested with resurrector mech serums, so it is possible
+       other methods of resurrection might not remove it, needing additional
+       handling.)
+  -->
+  <HediffDef>
+    <defName>KOM_FatalSurgeryMishap</defName>
+    <label>fatal surgery mishap</label>
+    <!-- #b9731f, a dark orange color -->
+    <defaultLabelColor>(0.725, 0.451, 0.122)</defaultLabelColor>
+    <description>The result of a catestrohpic error during surgery that has led to the unavoidable demise of the pawn.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <scenarioCanAdd>false</scenarioCanAdd>
+
+    <recordDownedTale>true</recordDownedTale>
+    <everCurableByItem>false</everCurableByItem>
+    <!-- <removeOnDeathrestStart>false</removeOnDeathrestStart> --> <!-- This is for effects from deathrest buildings. -->
+    <allowMothballIfLowPriorityWorldPawn>true</allowMothballIfLowPriorityWorldPawn>
+
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <lethalSeverity>0</lethalSeverity> <!-- always immediately lethal  -->
+    <tendable>false</tendable>
+
+    <makesSickThought>true</makesSickThought>
+    <isBad>true</isBad>
+
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <!-- 30 mins - 2 hours -->
+        <disappearsAfterTicks>1250~5000</disappearsAfterTicks>
+        <showRemainingTime>false</showRemainingTime>
+      </li>
+    </comps>
+
+    <stages>
+      <li>
+        <minSeverity>0.00</minSeverity>
+        <destroyPart>true</destroyPart>
+      </li>
+    </stages>
+
+  </HediffDef>
+
+</Defs>

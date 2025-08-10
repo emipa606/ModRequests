@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/RecipeDef[defName="ExtractHemogenPack"]</xpath>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationInsert">
+          <xpath>/Defs/RecipeDef[defName="ExtractHemogenPack"]</xpath>
+          <value>
+            <RecipeDef ParentName="SurgeryFlesh">
+              <defName>KOM_ExtractHemogenPackAnimal</defName>
+              <label>extract hemogen pack (animal)</label>
+              <description>Extract an animal hemogen pack from the target. The operation will fail to produce a hemogen pack if the target does not have enough blood.\n\nAnimal hemogen packs can be administered to other animals to reduce blood loss or to satiate those who feed on blood.</description>
+              <workerClass>Komishne.SanguophageTweaks.Conditional.VRES.Recipe_ExtractHemogenAnimal</workerClass>
+              <jobString>Extracting hemogen pack.</jobString>
+              <workAmount>500</workAmount>
+              <hideBodyPartNames>true</hideBodyPartNames>
+              <targetsBodyPart>false</targetsBodyPart>
+              <isViolation>true</isViolation>
+              <descriptionHyperlinks>
+                <ThingDef>VRE_HemogenPack_Animal</ThingDef>
+              </descriptionHyperlinks>
+              <uiIconThing>VRE_HemogenPack_Animal</uiIconThing>
+              <anesthetize>false</anesthetize>
+              <workSkillLearnFactor>2</workSkillLearnFactor>
+            </RecipeDef>
+          </value>
+        </li>
+
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/ThingDef[@Name="AnimalThingBase"]/recipes</xpath>
+            <value>
+              <li>KOM_ExtractHemogenPackAnimal</li>
+            </value>
+          </match>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>
