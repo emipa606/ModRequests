@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+
+
+	<ThingDef ParentName="RoughPlantBase">
+		<defName>Artemiish_CrushedEltex</defName>
+		<label>crushed eltex</label>
+		<description>Even though it's called Crushed Eltex the process to make eltex edible is considerably more complicated than just crushing. In this form it's safe to consume and known to increase psychic sensitivity.</description>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/Condiments/CrushedEltex</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<statBases>
+			<MarketValue>180</MarketValue>
+			<Nutrition>0</Nutrition>
+			<Flammability>0.6</Flammability>
+		</statBases>
+		<thingCategories>
+			<li>VCE_Condiments</li>
+		</thingCategories>
+		<ingestible>
+			<preferability>NeverForNutrition</preferability>
+			<specialThoughtAsIngredient>Artemiish_CosumedCrushedEltex</specialThoughtAsIngredient>
+			<optimalityOffsetFeedingAnimals>-50</optimalityOffsetFeedingAnimals>
+		</ingestible>
+		<ingredient>
+		  <mergeCompatibilityTags>
+			<li>Condiments</li>
+		  </mergeCompatibilityTags>
+		</ingredient>
+		<modExtensions>
+			<li Class="AnimalBehaviours.AnimalStatExtension">
+				<statToAdd>
+					<li>VCE_CondimentEffects</li>
+				</statToAdd>
+				<statValues>
+					<li>VCE_CondimentEffectsTitle</li>
+				</statValues>
+				<statDescriptions>
+					<li>Artemiish_CondimentEffectsEltex</li>
+				</statDescriptions>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<HediffDef>
+		<defName>Artemiish_CosumedCrushedEltex</defName>
+		<label>consumed crushed eltex (from meal)</label>
+		<makesSickThought>false</makesSickThought>
+		<description>Crushed eltex is a tasteless and odorless ingredient. It will boost psychic sensitivity for two days.</description>
+		<tendable>false</tendable>
+		<isBad>false</isBad>
+		<defaultLabelColor>(92,62,198)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>1.0</initialSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<comps>
+			<li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+				<thoughtDefs>
+					<li>Artemiish_CosumedCrushedEltex</li>
+				</thoughtDefs>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statOffsets>
+					<PsychicSensitivity>1.2</PsychicSensitivity>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ThoughtDef>
+		<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+		<hediff>Artemiish_CosumedCrushedEltex</hediff>
+		<defName>Artemiish_CosumedCrushedEltex</defName>
+		<durationDays>2</durationDays>
+		<stages>
+			<li>
+				<label>consumed crushed eltex</label>
+				<description>Just like eating rocks.</description>
+				<baseMoodEffect>0</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<RecipeDef>
+		<defName>Artemiish_CrushedEltexRecipe</defName>
+		<label>make crushed eltex</label>
+		<description>Process eltex into an edible form.</description>
+		<jobString>Making crushed eltex.</jobString>
+		<workSpeedStat>CookSpeed</workSpeedStat>
+		<effectWorking>Cook</effectWorking>
+		<soundWorking>Recipe_CookMeal</soundWorking>
+		<workAmount>250</workAmount>
+		<recipeUsers>
+			<li>VCE_CondimentPrepTable</li>
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>VPE_Eltex</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>VPE_Eltex</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<Artemiish_CrushedEltex>1</Artemiish_CrushedEltex>
+		</products>
+		<researchPrerequisite>VCE_CondimentsResearch</researchPrerequisite>
+	</RecipeDef>
+	
+</Defs>

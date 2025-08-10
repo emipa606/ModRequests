@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<ThingDef ParentName="DrugBase">
+		<defName>Artemiish_BloodWine</defName>
+		<label>blood wine</label>
+		<description>A finer way of consuming hemogen. Consumption increases the body's hemogen absorption. Not recommended for non-sanguophages.
+		\n\nIncreases move speed when mixed into a concoction.</description>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/Drinks/BloodWine</texPath>
+			<graphicClass>PotionEffects.Graphic_StackCountAndHeld</graphicClass>
+		</graphicData>
+		<thingCategories>
+			<li>VBE_DrinksLuxurySpirits</li>
+		</thingCategories>
+		<equippedAngleOffset>-150</equippedAngleOffset>
+		<rotatable>false</rotatable>
+		<stackLimit>25</stackLimit>
+		<statBases>
+			<MarketValue>400</MarketValue>
+			<Beauty>200</Beauty>
+			<DeteriorationRate>0.5</DeteriorationRate>
+			<Mass>0.3</Mass>
+			<Flammability>0.5</Flammability>
+			<Nutrition>0.08</Nutrition>
+		</statBases>
+		<ingestible>
+			<specialThoughtAsIngredient>Artemiish_BloodAsIngredient</specialThoughtAsIngredient>
+			<foodType>Fluid, Processed, Liquor</foodType>
+			<joyKind>Chemical</joyKind>
+			<joy>0.17</joy>
+			<nurseable>true</nurseable>
+			<drugCategory>Social</drugCategory>
+			<ingestSound>Ingest_Beer</ingestSound>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<ingestCommandString>Drink {0}</ingestCommandString>
+			<ingestReportString>Drinking {0}.</ingestReportString>
+			<chairSearchRadius>25</chairSearchRadius>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_OffsetHemogen">
+					<offset>0.2</offset>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>Artemiish_DrankBloodWineEffect</hediffDef>
+					<severity>1</severity>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AlcoholHigh</hediffDef>
+					<severity>0.25</severity>
+					<toleranceChemical>Alcohol</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AlcoholTolerance</hediffDef>
+					<severity>0.021</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="PotionEffects.CompProperties_QualityToThought">
+				<thoughtDef>Artemiish_DrankBloodWine</thoughtDef>
+			</li>
+			<li Class="CompProperties_Drug">
+				<chemical>Alcohol</chemical>
+				<addictiveness>0.010</addictiveness>
+				<minToleranceToAddict>0.25</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<listOrder>10</listOrder>
+			</li>
+			<li>
+				<compClass>CompQuality</compClass>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThoughtDef>	
+		<defName>Artemiish_DrankBloodWine</defName>
+		<durationDays>1</durationDays>
+		<stages>
+            <li>
+                <label>drank awful blood wine</label>
+                <description>What a waste of blood</description>
+                <baseMoodEffect>-5</baseMoodEffect>
+            </li>
+            <li>
+                <label>drank poor blood wine</label>
+                <description>At least it's blood.</description>
+                <baseMoodEffect>-2</baseMoodEffect>
+            </li>
+            <li>
+                <label>drank normal blood wine</label>
+                <visible>false</visible>
+                <baseMoodEffect>0</baseMoodEffect>
+            </li>
+            <li>
+                <label>drank good blood wine</label>
+				<description>I drank some fine wine.</description>
+				<baseMoodEffect>5</baseMoodEffect>
+            </li>
+            <li>
+                <label>drank excellent blood wine</label>
+				<description>This wine was fit for a golden chalice.</description>
+				<baseMoodEffect>10</baseMoodEffect>
+            </li>
+            <li>
+                <label>drank masterwork blood wine</label>
+				<description>Masterfully aged wine, as red as a ruby.</description>
+				<baseMoodEffect>15</baseMoodEffect>
+            </li>
+            <li>
+                <label>drank legendary blood wine</label>
+				<description>I can smell, even see from whom the blood in this wine came from.</description>
+				<baseMoodEffect>20</baseMoodEffect>
+            </li>
+		</stages>
+	</ThoughtDef>
+	
+	<HediffDef>
+		<defName>Artemiish_DrankBloodWineEffect</defName>
+		<label>blood wine high</label>
+		<labelNoun>effect given by blood wine</labelNoun>
+		<description>Blood wine increases the body's absorption of hemogen.</description>
+		<hediffClass>Hediff_Alcohol</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<isBad>false</isBad>
+		<initialSeverity>1</initialSeverity>
+		<maxSeverity>1</maxSeverity>
+		<stages>
+			<li>
+				<statOffsets>
+					<HemogenGainFactor>0.5</HemogenGainFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li Class="PotionEffects.HediffCompProperties_SanguoPuke">
+				<thoughtDef>Artemiish_DrankBloodWine</thoughtDef>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.5</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>Artemiish_BloodAsIngredient</defName>
+		<label>drank blood wine based cocktail</label>
+		<makesSickThought>false</makesSickThought>
+		<description>This colonist drank a cocktail that had blood wine as one of its ingredients. Increases move speed.</description>
+		<tendable>false</tendable>
+		<isBad>false</isBad>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>1</initialSeverity>
+		<maxSeverity>1</maxSeverity>
+		<stages>
+			<li>
+				<statOffsets>
+					<MoveSpeed>5</MoveSpeed>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+				<thoughtDefs>
+					<li>Artemiish_BloodAsIngredient</li>
+				</thoughtDefs>
+			</li>
+			<li Class="PotionEffects.HediffCompProperties_SanguoPuke">
+				<thoughtDef>Artemiish_BloodAsIngredient</thoughtDef>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<ThoughtDef>	
+		<defName>Artemiish_BloodAsIngredient</defName>
+		<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+		<hediff>Artemiish_BloodAsIngredient</hediff>
+		<durationDays>1</durationDays>
+		<stages>
+			<li>
+				<label>Drank blood wine based cocktail</label>
+				<description>Very bloody.</description>
+				<baseMoodEffect>0</baseMoodEffect>
+			</li>
+		</stages>	
+	</ThoughtDef>
+	
+	<RecipeDef>
+		<defName>Artemiish_BloodMustRecipe</defName>
+		<label>make blood must</label>
+		<description>Make must from hemogen.</description>
+		<jobString>Making must.</jobString>
+		<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+		<workSkill>Cooking</workSkill>
+		<effectWorking>Cook</effectWorking>
+		<soundWorking>Recipe_Brewing</soundWorking>
+		<allowMixingIngredients>true</allowMixingIngredients>
+		<workAmount>1000</workAmount>
+		<targetCountAdjustment>1</targetCountAdjustment>
+		<recipeUsers>
+			<li>Brewery</li>
+			<li>VBE_Bar</li>
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>HemogenPack</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>HemogenPack</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<Artemiish_BloodMust>5</Artemiish_BloodMust>
+		</products>
+		<researchPrerequisite>VBE_LiquorBrewing</researchPrerequisite>
+	</RecipeDef>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>Artemiish_BloodMust</defName>
+		<label>blood must</label>
+		<description>A bucket full of a viscous blood-red liquid. It's used to produce blood wine.</description>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/Drinks/Musts/BloodMust</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<stackLimit>25</stackLimit>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+		<statBases>
+			<DeteriorationRate>1.0</DeteriorationRate>
+			<MarketValue>2.5</MarketValue>
+			<Mass>0.8</Mass>
+			<Flammability>0.2</Flammability>
+			<MaxHitPoints>60</MaxHitPoints>
+		</statBases>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="CompProperties_Rottable">
+				<daysToRotStart>5</daysToRotStart>
+				<rotDestroys>true</rotDestroys>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>Artemiish_FancyBarrel</defName>
+		<label>gilded barrel</label>
+		<description>A wooden barrel decorated with gold, used for the fermentation and aging of blood wine.</description>
+		<thingClass>ItemProcessor.Building_ItemProcessor</thingClass>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<graphicData>
+			<texPath>ArtemiishThings/Structures/FancyBarrel</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(1.5,1.5)</drawSize>
+			<shaderType>CutoutComplex</shaderType>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+		<thingCategories>
+			<li>BuildingsProduction</li>
+		</thingCategories>
+		<statBases>
+			<WorkToBuild>600</WorkToBuild>
+			<Mass>10</Mass>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+		</statBases>
+		<costStuffCount>30</costStuffCount>
+		<stuffCategories>
+			<li>Woody</li>
+		</stuffCategories>
+		<costList>
+			<Gold>15</Gold>
+		</costList>
+		<altitudeLayer>Building</altitudeLayer>
+		<rotatable>true</rotatable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<uiIconScale>1</uiIconScale>
+		<fillPercent>1</fillPercent>
+		<useHitPoints>True</useHitPoints>
+		<tickerType>Rare</tickerType>
+		<size>(1,1)</size>
+		<designationCategory>Production</designationCategory>
+		<passability>PassThroughOnly</passability>
+		<pathCost>70</pathCost>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<comps>
+			
+			<li Class="ItemProcessor.CompProperties_ItemProcessor">
+				<buildingOnGraphic>ArtemiishThings/Structures/FancyBarrel</buildingOnGraphic>
+				<numberOfInputs>1</numberOfInputs>
+				<acceptsNoneAsInput>false</acceptsNoneAsInput>
+				<InsertFirstItemDesc>Artemiish_BringBloodMustDesc</InsertFirstItemDesc>
+				<ignoresIngredientLists>true</ignoresIngredientLists>
+				<showProgressBar>true</showProgressBar>
+				<isSemiAutomaticMachine>true</isSemiAutomaticMachine>
+				<resetSemiautomaticIcon>ArtemiishThings/UI/ResetBloodMust</resetSemiautomaticIcon>
+				<qualitySelector>true</qualitySelector>
+				<chooseIngredientsIcon>UI/VBE_EmptySyrupIcon</chooseIngredientsIcon>
+
+				<bringIngredientsText>Artemiish_BringMust</bringIngredientsText>
+				<bringIngredientsDesc>Artemiish_InsertMust</bringIngredientsDesc>
+				<bringIngredientsIcon>ArtemiishThings/UI/InsertBloodMust</bringIngredientsIcon >
+
+				<cancelIngredientsText>Artemiish_CancelBringMust</cancelIngredientsText> 
+				<cancelIngredientsDesc>Artemiish_CancelBringMustDesc</cancelIngredientsDesc>
+				<cancelIngredientsIcon>ArtemiishThings/UI/CancelBloodMust</cancelIngredientsIcon> 
+				
+				<removeProductText>Artemiish_RemoveBloodWine</removeProductText>
+				<removeProductDesc>Artemiish_RemoveBloodWineDesc</removeProductDesc>
+				<removeProductIcon>ArtemiishThings/UI/RemoveBloodWine</removeProductIcon>
+
+				<isTemperatureDependingMachine>true</isTemperatureDependingMachine>
+				<minTemp>-1</minTemp>
+				<maxTemp>32</maxTemp>
+				
+				<destroyIngredientsAtStartOfProcess>true</destroyIngredientsAtStartOfProcess>
+				
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>Brewing</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+		<minifiedDef>MinifiedThing</minifiedDef>
+	</ThingDef>
+	
+	<ItemProcessor.ItemAcceptedDef>
+		<defName>Artemiish_FancyBarrelInput</defName>
+		<building>Artemiish_FancyBarrel</building>
+		<slot>1</slot>
+		<items>
+			<li>Artemiish_BloodMust</li>					
+		</items>							
+	</ItemProcessor.ItemAcceptedDef>
+	
+	<ItemProcessor.CombinationDef>
+		<defName>Artemiish_FancyBarrelRecipe</defName>
+		<building>Artemiish_FancyBarrel</building>
+		<items>
+			<li>Artemiish_BloodMust</li>
+		</items>	
+		<amount>
+			<li>25</li>
+		</amount>
+		
+		<yield>25</yield>
+		<useQualityIncreasing>true</useQualityIncreasing>
+		<awfulQualityAgeDaysThreshold>1</awfulQualityAgeDaysThreshold>
+		<poorQualityAgeDaysThreshold>2</poorQualityAgeDaysThreshold>
+		<normalQualityAgeDaysThreshold>3</normalQualityAgeDaysThreshold>
+		<goodQualityAgeDaysThreshold>4</goodQualityAgeDaysThreshold>
+		<excellentQualityAgeDaysThreshold>5</excellentQualityAgeDaysThreshold>
+		<masterworkQualityAgeDaysThreshold>6</masterworkQualityAgeDaysThreshold>
+		<legendaryQualityAgeDaysThreshold>7</legendaryQualityAgeDaysThreshold>
+		<result>Artemiish_BloodWine</result>
+	</ItemProcessor.CombinationDef>
+	
+</Defs>

@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="DrugBase">
+		<defName>Artemiish_AnimaLiqueur</defName>
+		<label>anima liqueur</label>
+		<description>A blue liqueur made by infusing anima grass in a spirit. Even when mixed it will still replenish a psycaster's energy to a lesser degree.</description>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/Drinks/AnimaLiqueur</texPath>
+			<graphicClass>PotionEffects.Graphic_StackCountAndHeld</graphicClass>
+		</graphicData>
+		<thingCategories>
+			<li>VBE_DrinksLuxurySpirits</li>
+		</thingCategories>
+		<equippedAngleOffset>-150</equippedAngleOffset>
+		<rotatable>false</rotatable>
+		<stackLimit>25</stackLimit>
+		<statBases>
+			<DeteriorationRate>0.5</DeteriorationRate>
+			<MarketValue>240</MarketValue>
+			<Beauty>80</Beauty>
+			<Mass>0.3</Mass>
+			<Flammability>0.5</Flammability>
+			<Nutrition>0.08</Nutrition>
+		</statBases>
+		<ingestible>
+			<specialThoughtAsIngredient>Artemiish_AnimaAsIngredient</specialThoughtAsIngredient>
+			<foodType>Fluid, Processed, Liquor</foodType>
+			<joyKind>Chemical</joyKind>
+			<joy>0.17</joy>
+			<nurseable>true</nurseable>
+			<drugCategory>Social</drugCategory>
+			<ingestSound>Ingest_Beer</ingestSound>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<ingestCommandString>Drink {0}</ingestCommandString>
+			<ingestReportString>Drinking {0}.</ingestReportString>
+			<chairSearchRadius>25</chairSearchRadius>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>Artemiish_AnimaLiqueurEffect</hediffDef>
+					<severity>0.25</severity>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AlcoholHigh</hediffDef>
+					<severity>0.25</severity>
+					<toleranceChemical>Alcohol</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>AlcoholTolerance</hediffDef>
+					<severity>0.02</severity>
+					<divideByBodySize>true</divideByBodySize>
+					<multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>Alcohol</chemical>
+				<addictiveness>0.025</addictiveness>
+				<minToleranceToAddict>0.25</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+				<needLevelOffset>1</needLevelOffset>
+				<listOrder>10</listOrder>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<HediffDef>
+		<defName>Artemiish_AnimaLiqueurEffect</defName>
+		<label>anima liqueur high</label>
+		<labelNoun>recovery effect from an anima liqueur</labelNoun>
+		<description>Drank anima liqueur, it recovers the drinker's psyfocus.</description>
+		<hediffClass>Hediff_Alcohol</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-5.5</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+			<li Class="PotionEffects.HediffCompProperties_RecoverPsyfocus">
+				<offset>0.3</offset>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>Artemiish_AnimaAsIngredient</defName>
+		<label>drank anima liqueur based cocktail</label>
+		<makesSickThought>false</makesSickThought>
+		<description>This colonist drank a cocktail that had anima liqueur as one of its ingredients. Recovers psyfocus.</description>
+		<tendable>false</tendable>
+		<isBad>false</isBad>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>1.0</initialSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<comps>
+			<li Class="VanillaCookingExpanded.HediffCompProperties_WhileHavingThoughts">
+				<thoughtDefs>
+					<li>Artemiish_AnimaAsIngredient</li>
+				</thoughtDefs>
+			</li>
+			<li Class="PotionEffects.HediffCompProperties_RecoverPsyfocus">
+				<offset>0.2</offset>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<ThingDef ParentName="ResourceBase">
+		<defName>Artemiish_PreAnimaLiqueurJar</defName>
+		<label>anima grass jar</label>
+		<description>A mixture of anima grass and a spirit left to rest.</description>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/Drinks/Musts/PreAnimaLiqueurJar</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<rotatable>false</rotatable>
+		<stackLimit>1</stackLimit>
+		<tradeability>None</tradeability>
+		<thingCategories>
+			<li>VBE_Musts</li>
+		</thingCategories>
+		<statBases>
+			<DeteriorationRate>1.0</DeteriorationRate>
+			<MarketValue>2.5</MarketValue>
+			<Mass>0.8</Mass>
+			<Flammability>0.2</Flammability>
+			<MaxHitPoints>60</MaxHitPoints>
+		</statBases>
+		<tickerType>Rare</tickerType>
+		<comps>
+			<li Class="VanillaCookingExpanded.CompProperties_MaturingAlcohol">
+				<daysToRotStart>6</daysToRotStart>
+				<rotDestroys>true</rotDestroys>
+				<maturingString>Artemiish_LiqueurResting</maturingString>
+				<maturingProperly>Artemiish_RestingCorrectly</maturingProperly>
+				<maturingSlowly>Artemiish_MixtureCurrentlyRefrigerated</maturingSlowly>
+				<maturingStopped>Artemiish_MixtureCurrentlyFrozen</maturingStopped>
+				<thingToTransformTo>Artemiish_AnimaLiqueurJar</thingToTransformTo>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="ResourceBase">
+		<defName>Artemiish_AnimaLiqueurJar</defName>
+		<label>anima liqueur jar</label>
+		<description>A liqueur made of anima grass and a spirit ready to be bottled.</description>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/Drinks/Musts/AnimaLiqueurJar</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<rotatable>false</rotatable>
+		<stackLimit>1</stackLimit>
+		<thingCategories>
+			<li>VBE_Musts</li>
+		</thingCategories>
+		<tradeability>None</tradeability>
+		<statBases>
+			<DeteriorationRate>1.0</DeteriorationRate>
+			<MarketValue>2.5</MarketValue>
+			<Mass>0.8</Mass>
+			<Flammability>0.2</Flammability>
+			<MaxHitPoints>60</MaxHitPoints>
+		</statBases>
+		<tickerType>Rare</tickerType>
+	</ThingDef>
+	
+	<ThingDef ParentName="RoughPlantBase">
+		<defName>Artemiish_AnimaGrass</defName>
+		<label>anima grass</label>
+		<description>A grass infused with luminous microorganisms. Tribal peoples find that anima grass grows around the base of an anima tree as they meditate. It seems to reflect some kind of strengthening of the tree's psychic power.\n\nOffworld scientists have tried to study the phenomenon, but the grass degenerates into normal plant matter when observed too closely.\n\nAnimals refuse eat anima grass. Tribal stories say this is done out of respect and fear.</description>
+		<soundInteract>Grain_Drop</soundInteract>
+		<soundDrop>Grain_Drop</soundDrop>
+		<graphicData>
+			<texPath>ArtemiishThings/Items/RawPlants/AnimaGrass</texPath>
+		</graphicData>
+		<statBases>
+			<MarketValue>15</MarketValue>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Rottable">
+				<daysToRotStart>60</daysToRotStart>
+				<rotDestroys>true</rotDestroys>
+			</li>
+		</comps>
+		<thingCategories>
+			<li>PlantMatter</li>
+		</thingCategories>
+		<ingestible>
+			<preferability>DesperateOnly</preferability>
+			<canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+					<offset>0.15</offset>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+	</ThingDef>
+	
+	<RecipeDef>
+		<defName>Artemiish_AnimaMixtureRecipe</defName>
+		<label>make anima liqueur mixture</label>
+		<description>Mix anima grass with a spirit, can be left alone to mix into a liqueur.</description>
+		<jobString>Making liqueur mixture.</jobString>
+		<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+		<workSkill>Cooking</workSkill>
+		<effectWorking>Cook</effectWorking>
+		<workAmount>1000</workAmount>
+		<soundWorking>Recipe_Brewing</soundWorking>
+		<allowMixingIngredients>true</allowMixingIngredients>
+		<recipeUsers>
+			<li>Brewery</li>	
+			<li>VBE_Bar</li>			
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>VBE_DrinksSimpleSpirits</li>
+						<li>VBE_DrinksLuxurySpirits</li>
+					</categories>
+				</filter>
+				<count>10</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Artemiish_AnimaGrass</li>
+					</thingDefs>
+				</filter>
+				<count>10</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>	
+			<categories>
+				<li>VBE_DrinksSimpleSpirits</li>
+				<li>VBE_DrinksLuxurySpirits</li>
+			</categories>
+			<thingDefs>
+				<li>Artemiish_AnimaGrass</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<defaultIngredientFilter>	
+			<categories>
+				<li>VBE_DrinksSimpleSpirits</li>
+				<li>VBE_DrinksLuxurySpirits</li>
+			</categories>
+			<thingDefs>
+				<li>Artemiish_AnimaGrass</li>
+			</thingDefs>
+		</defaultIngredientFilter>
+		<products>
+			<Artemiish_PreAnimaLiqueurJar>1</Artemiish_PreAnimaLiqueurJar>
+		</products>
+		<researchPrerequisite>VBE_LiquorBrewing</researchPrerequisite>
+	</RecipeDef>
+	
+	<RecipeDef>
+		<defName>Artemiish_BottlingRecipe</defName>
+		<label>bottle anima liqueur</label>
+		<description>bottle the anima liqueur.</description>
+		<jobString>Bottling anima liqueur.</jobString>
+		<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+		<workSkill>Cooking</workSkill>
+		<effectWorking>Cook</effectWorking>
+		<workAmount>1000</workAmount>
+		<soundWorking>Recipe_Brewing</soundWorking>
+		<allowMixingIngredients>true</allowMixingIngredients>
+		<recipeUsers>
+			<li>Brewery</li>	
+			<li>VBE_Bar</li>			
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Artemiish_AnimaLiqueurJar</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>	
+			<thingDefs>
+				<li>Artemiish_AnimaLiqueurJar</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<defaultIngredientFilter>
+			<thingDefs>
+				<li>Artemiish_AnimaLiqueurJar</li>
+			</thingDefs>
+		</defaultIngredientFilter>
+		<products>
+			<Artemiish_AnimaLiqueur>10</Artemiish_AnimaLiqueur>
+		</products>
+		<researchPrerequisite>VBE_LiquorBrewing</researchPrerequisite>
+	</RecipeDef>
+	
+	<ThoughtDef>	
+		<defName>Artemiish_AnimaAsIngredient</defName>
+		<thoughtClass>VanillaCookingExpanded.Thought_Hediff</thoughtClass>
+		<hediff>Artemiish_AnimaAsIngredient</hediff>
+		<durationDays>0.01</durationDays>
+		<stages>
+			<li>
+				<label>Drank anima liqueur based cocktail</label>
+				<description>Mystical...</description>
+				<baseMoodEffect>0</baseMoodEffect>
+			</li>
+		</stages>	
+	</ThoughtDef>
+
+</Defs>
