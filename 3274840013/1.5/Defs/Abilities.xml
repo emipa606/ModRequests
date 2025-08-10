@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <AbilityDef>
+    <defName>NAT_HussarFrenzy</defName>
+    <label>hussar rage</label>
+    <description>Enter a rage state that make rusted soldier more powerfull for a short time.</description>
+    <iconPath>UI/NAT_HussarRage</iconPath>
+    <cooldownTicksRange>2500</cooldownTicksRange>
+    <hostile>false</hostile>
+    <groupAbility>true</groupAbility>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <aiCanUse>true</aiCanUse>
+    <ai_IsOffensive>true</ai_IsOffensive>
+    <targetRequired>false</targetRequired>
+    <statBases>
+      <Ability_Duration>20</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <soundCast>Pawn_Ghoul_Frenzy</soundCast>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>NAT_HussarRage</hediffDef>
+        <onlyApplyToSelf>True</onlyApplyToSelf>
+        <replaceExisting>true</replaceExisting>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <HediffDef>
+    <defName>NAT_HussarRage</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>hussar rage</label>
+    <description>This rusted soldier is in powerful rage for a short time.</description>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <statFactors>
+          <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
+		  <StaggerDurationFactor>0</StaggerDurationFactor>
+		  <Flammability>0.1</Flammability>
+        </statFactors>
+        <statOffsets>
+          <MoveSpeed>2</MoveSpeed>
+		  <MeleeHitChance>15</MeleeHitChance>
+		  <MeleeDodgeChance>15</MeleeDodgeChance>
+        </statOffsets>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_Effecter">
+        <stateEffecter>Berserk</stateEffecter>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <AbilityDef>
+    <defName>NAT_RustedCharge</defName>
+    <label>hate charge</label>
+    <description>Activate power of Hate.</description>
+    <iconPath>UI/NAT_HateCharge</iconPath>
+    <cooldownTicksRange>15000</cooldownTicksRange> <!-- 6 hours -->
+    <hostile>false</hostile>
+    <groupAbility>true</groupAbility>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+    <aiCanUse>true</aiCanUse>
+    <ai_IsOffensive>true</ai_IsOffensive>
+    <targetRequired>false</targetRequired>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <statBases>
+      <Ability_Duration>100</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <requireLineOfSight>false</requireLineOfSight>
+      <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+      <soundCast>Pawn_Ghoul_Frenzy</soundCast>
+      <targetable>false</targetable>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>NAT_RustedCharge</hediffDef>
+        <onlyApplyToSelf>True</onlyApplyToSelf>
+        <replaceExisting>true</replaceExisting>
+      </li>
+    </comps>
+  </AbilityDef>
+  
+  <HediffDef>
+    <defName>NAT_RustedCharge</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>hate charge</label>
+    <description>This creatureis buffed by power of Hate for a short period of time.</description>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <statFactors>
+          <IncomingDamageFactor>0.75</IncomingDamageFactor>
+		  <MoveSpeed>1.5</MoveSpeed>
+		  <Flammability>0</Flammability>
+        </statFactors>
+		<capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <postFactor>1.5</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Biotech" Class="HediffCompProperties_Effecter">
+        <stateEffecter>NAT_RustedCharge</stateEffecter>
+      </li>
+    </comps>
+  </HediffDef>
+  
+  <EffecterDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>NAT_RustedCharge</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <ticksBetweenMotes>50</ticksBetweenMotes>
+        <moteDef>NAT_Mote_RustedCharge</moteDef>
+        <rotation>0~0</rotation>
+        <absoluteAngle>true</absoluteAngle>
+        <attachToSpawnThing>true</attachToSpawnThing>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+  <ThingDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="MoteBase">
+    <defName>NAT_Mote_RustedCharge</defName>
+    <thingClass>MoteAttached</thingClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <mote>
+      <fadeInTime>2</fadeInTime>
+      <solidTime>0</solidTime>
+      <fadeOutTime>1</fadeOutTime>
+    </mote>
+    <graphicData>
+      <graphicClass>Graphic_PawnBodySilhouette</graphicClass>
+      <color>(0.8, 0.35, 0.1, 0.35)</color>
+      <shaderType>MotePawnBodyColor</shaderType>
+      <texPath>Things/Mote/Transparent</texPath>
+    </graphicData>
+  </ThingDef>
+
+</Defs>

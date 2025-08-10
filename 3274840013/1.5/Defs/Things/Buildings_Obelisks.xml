@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+  
+  <ThingDef ParentName="WarpedObelisk">
+    <defName>NAT_WarpedObelisk_Inducer</defName>
+    <label>crannied obelisk</label>
+    <graphicData>
+      <texPath>Things/Building/NAT_Obelisk_Crannied/NAT_CranniedObelisk</texPath>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Obelisk">
+        <compClass>NAT.CompObelisk_Inducer</compClass>
+        <interactionEffectCooldownDays>5</interactionEffectCooldownDays>
+      </li>
+      <li Class="CompProperties_StudyUnlocks">
+        <studyNotes>
+          <li>
+            <threshold>2</threshold>
+            <label>Obelisk study progress</label> <!-- text in this is the same as other obelisk so player can't tell which it is -->
+            <text>Investigation of the obelisk has revealed some information. It is an archotechnological device that seems to interact with matter in some indefinite way. It is probably a piece of a much larger archotech structure that was destroyed or broken apart long ago. The machinery at its core is inhumanly complex and frighteningly powerful. Its purpose and method of action remain totally mysterious.\n\nIf not suppressed, its activity level will increase over time. You can't tell what will happen when the device fully activates.</text>
+          </li>
+          <li>
+            <threshold>10</threshold>
+            <label>Obelisk study progress</label>
+            <text>You've learned more about the obelisk. It is an archotech machine that manipulate pain. The device can create pain from matter or induce it into living creatures.\n\nThe obelisk's energy level rises unless suppressed. If it fully activates, it could create insane forms of pain.\n\n{PAWN_nameDef} thinks that it may be possible to safely shut down the obelisk but this will need significantly more study.\n\nYou can now intentionally provoke a response from the crannied obelisk.</text>
+          </li>
+          <li>
+            <threshold>30</threshold>
+            <label>Obelisk study complete</label>
+            <text>{PAWN_nameDef} has completed {PAWN_possessive} investigation of the crannied obelisk. {PAWN_pronoun} has discovered a method for safely deactivating the obelisk using shards of archotechnology.\n\nYou can no longer study the obelisk after deactivating it.</text>
+          </li>
+        </studyNotes>
+      </li>
+      <li Class="CompProperties_ObeliskTriggerInteractor">
+        <activeTicks>1</activeTicks>
+        <ticksToActivate>180</ticksToActivate>
+        <cooldownTicks>1200000</cooldownTicks> <!-- 5 days -->
+        <onCooldownString>Pain pulse cooldown</onCooldownString>
+        <activateTexPath>UI/NAT_TriggerPropagatorObelisk</activateTexPath>
+        <activateLabelString>Trigger...</activateLabelString>
+        <activateDescString>Trigger obelisk to induce pain in creatures nearby.</activateDescString>
+        <guiLabelString>Choose who should do this</guiLabelString>
+        <jobString>Trigger pulse</jobString>
+        <activatingStringPending>triggering obelisk pulse</activatingStringPending>
+        <activatingString>triggering obelisk pulse: {1}s</activatingString>
+        <messageCompletedString>{PAWN_nameDef} has successfully triggered obelisk pulse.</messageCompletedString>
+        <messageCooldownEnded>The crannied obelisk is ready to use again.</messageCooldownEnded>
+        <showMustBeActivatedByColonist>false</showMustBeActivatedByColonist>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+        </targetingParameters>
+      </li>
+      <li Class="CompProperties_ObeliskDeactivationInteractor">
+        <shardsRequired>2</shardsRequired>
+        <activeTicks>1</activeTicks>
+        <ticksToActivate>180</ticksToActivate>
+        <activateTexPath>UI/Commands/DisableObelisk</activateTexPath>
+        <activateLabelString>Deactivate...</activateLabelString>
+        <activateDescString>Permanently and safely disable the crannied obelisk. This will prevent it from activating and being studied further.\n\nRequires 2 shards.</activateDescString>
+        <guiLabelString>Choose who should do this</guiLabelString>
+        <jobString>Deactivate obelisk</jobString>
+        <activatingStringPending>deactivating obelisk</activatingStringPending>
+        <activatingString>deactivating obelisk: {1}s</activatingString>
+        <messageCompletedString>{PAWN_nameDef} has successfully deactivated the obelisk.</messageCompletedString>
+        <showMustBeActivatedByColonist>false</showMustBeActivatedByColonist>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+        </targetingParameters>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <NAT.TransformationDef>
+    <defName>Walls</defName>
+	<transformingThings>
+	  <li>SmoothedSandstone</li>
+	  <li>SmoothedGranite</li>
+	  <li>SmoothedLimestone</li>
+	  <li>SmoothedSlate</li>
+	  <li>SmoothedMarble</li>
+	  <li>Wall</li>
+	</transformingThings>
+	<outputThing>NAT_PainWall</outputThing>
+  </NAT.TransformationDef>
+  
+  <NAT.TransformationDef>
+    <defName>Figures</defName>
+	<transformingThings>
+	  <li>HorseshoesPin</li>
+	  <li>HoopstoneRing</li>
+	  <li>GameOfUrBoard</li>
+	  <li>Stool</li>
+	  <li>PlantPot</li>
+	  <li>TorchLamp</li>
+	  <li MayRequire="Ludeon.RimWorld.Ideology">Darktorch</li>
+	  <li MayRequire="Ludeon.RimWorld.Ideology">DarktorchFungus</li>
+	  <li>StandingLamp</li>
+	  <li>SunLamp</li>
+	  <li>OrbitalTradeBeacon</li>
+	  <li>SculptureSmall</li>
+	  <li>SculptureLarge</li>
+	  <li>ChessTable</li>
+	  <li>TubeTelevision</li>
+	  <li>Telescope</li>
+	  <li>DiningChair</li>
+	  <li>Armchair</li>
+	  <li>EndTable</li>
+	  <li MayRequire="Ludeon.RimWorld.Royalty">Brazier</li>
+	  <li MayRequire="Ludeon.RimWorld.Royalty">DarklightBrazier</li>
+	  <li>Campfire</li>
+	  <li>PassiveCooler</li>
+	  <li>Heater</li>
+	  <li>FermentingBarrel</li>
+	  <li>DeepDrill</li>
+	  <li>PassiveCooler</li>
+	  <li>TrapIED_EMP</li>
+	  <li>TrapIED_Smoke</li>
+	  <li>TrapIED_Firefoam</li>
+	  <li>TrapIED_Incendiary</li>
+	  <li>TrapIED_HighExplosive</li>
+	  <li>TrapSpike</li>
+	  <li>Barricade</li>
+	  <li>Sandbags</li>
+	  <li MayRequire="Ludeon.RimWorld.Biotech">ToyBox</li>
+	  <li MayRequire="Ludeon.RimWorld.Biotech">BabyDecoration</li>
+	  <li MayRequire="Ludeon.RimWorld.Biotech">Crib</li>
+	  <!--<li></li>
+	  <li></li>
+	  <li></li>
+	  <li></li>
+	  <li></li>
+	  <li></li>
+	  <li></li>
+	  <li></li>
+	  <li></li>-->
+	</transformingThings>
+	<outputThing>NAT_PainFigure</outputThing>
+  </NAT.TransformationDef>
+  
+  <ThingDef ParentName="BuildingBase">
+	<defName>NAT_PainFigure</defName>
+	<label>pain figure</label>
+    <description>A figure of clotted pain. It hurts to look on.</description>
+    <size>(1, 1)</size>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0</Flammability>
+	  <WorkToBuild>1000</WorkToBuild>
+      <Beauty>-6</Beauty>
+    </statBases>
+    <useHitPoints>true</useHitPoints>
+    <graphicData>
+      <texPath>Things/Building/NAT_PainFigure</texPath>
+      <graphicClass>Graphic_Random</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <building>
+      <paintable>false</paintable>
+      <claimable>false</claimable>
+      <canBuildNonEdificesUnder>false</canBuildNonEdificesUnder>
+      <deconstructible>true</deconstructible>
+      <supportsWallAttachments>true</supportsWallAttachments>
+      <isTargetable>true</isTargetable>
+	  <alwaysDeconstructible>true</alwaysDeconstructible>
+      <destroyShakeAmount>0</destroyShakeAmount>
+    </building>
+    <tickerType>Rare</tickerType>
+	<comps>
+      <li Class="NAT.CompProperties_PainFigure" />
+	  <li Class="CompProperties_Studiable">
+        <frequencyTicks>120000</frequencyTicks>
+        <knowledgeCategory>Basic</knowledgeCategory>
+        <anomalyKnowledge>0.5</anomalyKnowledge>
+        <minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+        <showToggleGizmo>true</showToggleGizmo>
+      </li>
+    </comps>
+	<killedLeavingsRanges>
+      <NAT_PainClot>2~5</NAT_PainClot>
+    </killedLeavingsRanges>
+	<costList>
+      <NAT_PainClot>5</NAT_PainClot>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>NAT_PainWall</defName>
+    <label>pain wall</label>
+    <description>A solid mass of clotted pain. It hurts to look on.</description>
+	<killedLeavingsRanges>
+      <NAT_PainClot>3~5</NAT_PainClot>
+    </killedLeavingsRanges>
+	<costList>
+      <NAT_PainClot>5</NAT_PainClot>
+    </costList>
+    <graphicData>
+      <texPath>Things/Building/Linked/NAT_PainWall_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Rock</li>
+		<li>Wall</li>
+      </linkFlags>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>1</fillPercent>
+    <coversFloor>false </coversFloor>
+    <neverMultiSelect>true</neverMultiSelect>
+    <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <saveCompressible>false</saveCompressible>
+    <holdsRoof>true</holdsRoof>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <blockLight>true</blockLight>
+    <mineable>false</mineable>
+    <fertility>0</fertility>
+    <canOverlapZones>false</canOverlapZones>
+    <autoTargetNearbyIdenticalThings>true</autoTargetNearbyIdenticalThings>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>-6</Beauty>
+	  <WorkToMake>1500</WorkToMake>
+	  <WorkToBuild>1500</WorkToBuild>
+    </statBases>
+    <building>
+      <claimable>false</claimable>
+      <canBuildNonEdificesUnder>false</canBuildNonEdificesUnder>
+      <deconstructible>true</deconstructible>
+      <supportsWallAttachments>true</supportsWallAttachments>
+      <isTargetable>true</isTargetable>
+      <destroyShakeAmount>0</destroyShakeAmount>
+	  <alwaysDeconstructible>true</alwaysDeconstructible>
+    </building>
+    <comps>
+      <li Class="NAT.CompProperties_PainFigure" />
+	  <li Class="CompProperties_Studiable">
+        <frequencyTicks>120000</frequencyTicks>
+        <knowledgeCategory>Basic</knowledgeCategory>
+        <anomalyKnowledge>0.5</anomalyKnowledge>
+        <minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+        <showToggleGizmo>true</showToggleGizmo>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>NAT_DarkLairCasket</defName>
+    <label>warped cage</label>
+    <description>Cage made from dark oily metal.</description>
+    <thingClass>NAT.Building_DarkLairCasket</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+	<rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Things/Building/NAT_DarkLairCasket</texPath>
+      <graphicClass>Graphic_Indexed</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <shadowData>
+        <volume>(0.83, 0.3, 1.7)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>0.5</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <statBases>
+      <MaxHitPoints>450</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <size>(1,1)</size>
+    <killedLeavings>
+      <ChunkSlagSteel>2</ChunkSlagSteel>
+	  <Bioferrite>15</Bioferrite>
+    </killedLeavings>
+    <comps>
+	  <li Class="CompProperties_Interactable">
+        <compClass>NAT.CompDarkLairCasket</compClass>
+        <ticksToActivate>500</ticksToActivate>
+        <remainingSecondsInInspectString>true</remainingSecondsInInspectString>
+        <maintainProgress>true</maintainProgress>
+        <activateTexPath>UI/Designators/Open</activateTexPath>
+        <jobString>open warped cage</jobString>
+		<activateLabelString>Order opening</activateLabelString>
+		<activateDescString>Order a pawn to open {THING_definite}.</activateDescString>
+		<guiLabelString>Choose who should open this.</guiLabelString>
+		<activatingString>opening warped cage</activatingString>
+		<activatingStringPending>opening warped cage</activatingStringPending>
+        <ignoreForbidden>true</ignoreForbidden>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+        </targetingParameters>
+      </li>
+    </comps>
+	<building>
+      <deconstructible>false</deconstructible>
+      <isTargetable>true</isTargetable>
+      <destroyShakeAmount>0</destroyShakeAmount>
+	  <neverBuildable>true</neverBuildable>
+	  <ai_chillDestination>true</ai_chillDestination>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+  </ThingDef>
+  
+  <!--<ThingDef ParentName="CrateBase">
+    <defName>NAT_RustedBox</defName>
+    <label>rusted box</label>
+    <description>A strange gray container. It is featureless and the surfaces are smooth. The material is not metal, concrete, or any other identifiable material.</description>
+    <size>(1, 1)</size>
+    <destroyable>true</destroyable>
+    <useHitPoints>true</useHitPoints>
+	<statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/GrayBox/GrayBox</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1, 1)</drawSize>
+      <drawRotated>false</drawRotated>
+      <shadowData>
+        <volume>(1, 0.45, 1)</volume>
+      </shadowData>
+    </graphicData>
+    <interactionCellOffset>(0,0,1)</interactionCellOffset>
+    <building>
+      <openingEffect>GrayBoxOpened</openingEffect>
+      <paintable>false</paintable>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <neverBuildable>true</neverBuildable>
+    </building>
+    <comps>
+      <li Class="CompProperties_EmptyStateGraphic">
+        <graphicData>
+          <texPath>Things/Building/GrayBox/GrayBox_Open</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <drawSize>(1, 1)</drawSize>
+        </graphicData>
+      </li>
+    </comps>
+    <tickerType>Normal</tickerType>
+  </ThingDef>-->
+  
+  <ThingDef ParentName="BuildingBase">
+    <defName>NAT_PainBeacon</defName>
+    <label>pain inhibitor</label>
+    <description>A big piece of clotted pain on special platform that sends impulses to it, causing pain de-inducing field.\n\nThis field will prevent pain clotting in radius</description>
+    <drawerType>MapMeshAndRealTime</drawerType>
+	<rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Things/Building/NAT_PainBeacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <designationCategory>Anomaly</designationCategory>
+	<uiOrder>100</uiOrder>
+    <canOverlapZones>false</canOverlapZones>
+	<thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <statBases>
+      <MaxHitPoints>450</MaxHitPoints>
+	  <Mass>10</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <tickerType>Rare</tickerType>
+    <size>(1,1)</size>
+    <comps>
+	  <li Class="NAT.CompProperties_PainBeacon">
+        <radius>21.9</radius>
+      </li>
+    </comps>
+	<costList>
+	  <NAT_PainClot>35</NAT_PainClot>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <Steel>25</Steel>
+      <Bioferrite>40</Bioferrite>
+    </costList>
+    <researchPrerequisites>
+      <li>EntityContainment</li>
+	  <li>NAT_PainWeaponry</li>
+    </researchPrerequisites>
+    <placeWorkers>
+      <li>NAT.PlaceWorker_ShowPainBeaconRadius</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <building>
+      <buildingTags>
+        <li>Anomaly</li>
+      </buildingTags>
+    </building>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+  </ThingDef>
+  
+</Defs>

@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="SerumBase">
+    <defName>NAT_PainQuenchSerum</defName>
+    <label>pain quench serum</label>
+    <description>A syringe of turbid plum fluid that fully suppresses any pain, even induced.\n\nThe effect is temporary and does not stack.</description>
+    <graphicData>
+      <texPath>Things/Item/Serum/NAT_SerumPainQuench</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>40</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_UseEffectAddHediff">
+        <hediffDef>NAT_PainQuenchSerum</hediffDef>
+        <allowRepeatedUse>true</allowRepeatedUse>
+      </li>
+      <li Class="CompProperties_UseEffectPlaySound">
+        <soundOnUsed>MechSerumUsed</soundOnUsed>
+      </li>
+    </comps>
+    <costList>
+      <NAT_PainClot>2</NAT_PainClot>
+	  <Meat_Twisted>10</Meat_Twisted>
+      <Bioferrite>10</Bioferrite>
+    </costList>
+    <recipeMaker>
+      <workAmount>700</workAmount>
+	  <researchPrerequisites>
+	    <li>NAT_PainWeaponry</li>
+		<li>SerumSynthesis</li>
+	  </researchPrerequisites>
+    </recipeMaker>
+  </ThingDef>
+  
+  <ThingDef>
+    <defName>NAT_FleshChunkWithNotes</defName>
+    <label>flesh chunk with strange symbols</label>
+    <description>A strip of leathery, desiccated flesh that sloughed off a collector when it was killed. The tissue is covered in strange symbols.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <genericMarketSellable>false</genericMarketSellable>
+    <drawerType>MapMeshOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Item</altitudeLayer>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+	<useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <graphicData>
+      <texPath>Things/Item/NAT_CollectorNotes</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.75, 0.75)</drawSize>
+    </graphicData>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>1</stackLimit>
+    <intricate>true</intricate>
+    <statBases>
+      <Mass>0.05</Mass>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <hiddenWhileUndiscovered>true</hiddenWhileUndiscovered>
+    <comps>
+      <li Class="CompProperties_Forbiddable">
+        <forbidOnMake>true</forbidOnMake>
+      </li>
+	  <li Class="CompProperties_Studiable">
+        <frequencyTicks>120000</frequencyTicks>
+        <knowledgeCategory>Advanced</knowledgeCategory>
+        <anomalyKnowledge>0.5</anomalyKnowledge>
+        <minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+        <showToggleGizmo>true</showToggleGizmo>
+      </li>
+      <li Class="CompProperties_StudyUnlocks">
+        <studyNotes>
+          <li>
+            <threshold>2</threshold>
+            <label>Flesh chunk study progress</label>
+            <text>Investigation of the strange symbols has revealed some information. Symbols on that chunk look like some sort of language, used by collector. They probably contain some information.\n\nEvery single collector uses it's own symbols to store information.</text>
+          </li>
+          <li>
+            <threshold>10</threshold>
+            <label>Flesh chunk study progress</label>
+            <text>You've learned more about the strange inscriptions. They contain information about collector's plans and routes.\n\n{PAWN_nameDef} thinks that it may be possible to decrypt symbols and understand, where are all stolen things.</text>
+          </li>
+          <li>
+            <threshold>20</threshold>
+            <label>Flesh chunk study complete</label>
+            <text>{PAWN_nameDef} has completed {PAWN_possessive} decryption of the strange inscriptions. {PAWN_pronoun} has discovered how to read them. Order someone to peruse them.</text>
+          </li>
+        </studyNotes>
+      </li>
+      <li Class="NAT.CompProperties_NotesTriggerInteractor">
+        <activeTicks>1</activeTicks>
+        <ticksToActivate>180</ticksToActivate>
+        <activateTexPath>UI/NAT_CollectorNote</activateTexPath>
+        <jobString>read inscriptions</jobString>
+		<activateLabelString>Order inscriptions perusing</activateLabelString>
+		<activateDescString>Order a pawn to peruse inscriptions.</activateDescString>
+		<guiLabelString>Choose who should peruse this.</guiLabelString>
+		<activatingString>trying to understand inscriptions</activatingString>
+		<activatingStringPending>perusing inscriptions</activatingStringPending>
+        <showMustBeActivatedByColonist>false</showMustBeActivatedByColonist>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+        </targetingParameters>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef>
+    <defName>NAT_CollectorBag</defName>
+    <label>collector's bag</label>
+    <description>Unremarkable leather bag, empty inside.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <genericMarketSellable>false</genericMarketSellable>
+    <drawerType>MapMeshOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Item</altitudeLayer>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+	<useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <graphicData>
+      <texPath>Things/Item/NAT_CollectorBag</texPath>
+      <graphicClass>Graphic_Indexed</graphicClass>
+      <drawSize>(0.85, 0.85)</drawSize>
+    </graphicData>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>1</stackLimit>
+    <intricate>true</intricate>
+    <statBases>
+      <Mass>0.05</Mass>
+      <Beauty>-2</Beauty>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <hiddenWhileUndiscovered>true</hiddenWhileUndiscovered>
+    <comps>
+      <li Class="CompProperties_Forbiddable">
+        <forbidOnMake>true</forbidOnMake>
+      </li>
+	  <li Class="CompProperties_Studiable">
+        <frequencyTicks>120000</frequencyTicks>
+        <knowledgeCategory>Advanced</knowledgeCategory>
+        <anomalyKnowledge>0.5</anomalyKnowledge>
+        <minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+        <showToggleGizmo>true</showToggleGizmo>
+      </li>
+      <li Class="CompProperties_StudyUnlocks">
+        <studyNotes>
+          <li>
+            <threshold>2</threshold>
+            <label>Collector's bag study progress</label>
+            <text>Investigation of the strange bag has revealed some information. It seems that this bag has a connection with a pocket dimension where the stolen items ended up.\n\n{PAWN_nameDef} believes that he can find, open this dimension and get things, but for this he wants to conduct additional research.</text>
+          </li>
+          <li>
+            <threshold>8</threshold>
+            <label>Collector's bag study complete</label>
+            <text>{PAWN_nameDef} has completed {PAWN_possessive} studying. {PAWN_pronoun} finds a way to open the pocket dimension associated with it. Order someone to peruse them.</text>
+          </li>
+        </studyNotes>
+      </li>
+      <li Class="NAT.CompProperties_CollectorBag">
+        <activeTicks>1</activeTicks>
+        <ticksToActivate>180</ticksToActivate>
+        <activateTexPath>UI/NAT_CollectorBagOpen</activateTexPath>
+        <jobString>open bag</jobString>
+		<activateLabelString>Order bag opening</activateLabelString>
+		<activateDescString>Order someone to open the bag.</activateDescString>
+		<guiLabelString>Choose who should open bag.</guiLabelString>
+		<activatingString>opening bag</activatingString>
+		<activatingStringPending>opening bag</activatingStringPending>
+        <showMustBeActivatedByColonist>false</showMustBeActivatedByColonist>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+        </targetingParameters>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef>
+    <defName>NAT_BoxOfFate</defName>
+    <label>box of fate</label>
+    <description>A strip of leathery, desiccated flesh that sloughed off a collector when it was killed. The tissue is covered in strange symbols.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <genericMarketSellable>false</genericMarketSellable>
+    <drawerType>MapMeshOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Item</altitudeLayer>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+	<useHitPoints>false</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <graphicData>
+      <texPath>Things/Item/NAT_CollectorNotes</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.75, 0.75)</drawSize>
+    </graphicData>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>1</stackLimit>
+    <intricate>true</intricate>
+    <statBases>
+      <Mass>0.05</Mass>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <hiddenWhileUndiscovered>true</hiddenWhileUndiscovered>
+    <comps>
+      <li Class="CompProperties_Forbiddable">
+        <forbidOnMake>true</forbidOnMake>
+      </li>
+	  <li Class="CompProperties_Studiable">
+        <frequencyTicks>120000</frequencyTicks>
+        <knowledgeCategory>Advanced</knowledgeCategory>
+        <anomalyKnowledge>0.5</anomalyKnowledge>
+        <minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+        <showToggleGizmo>true</showToggleGizmo>
+      </li>
+      <li Class="CompProperties_StudyUnlocks">
+        <studyNotes>
+          <li>
+            <threshold>2</threshold>
+            <label>Flesh chunk study progress</label>
+            <text>Investigation of the strange symbols has revealed some information. Symbols on that chunk look like some sort of language, used by collector. They probably contain some information.\n\nEvery single collector uses it's own symbols to store information.</text>
+          </li>
+          <li>
+            <threshold>10</threshold>
+            <label>Flesh chunk study progress</label>
+            <text>You've learned more about the strange inscriptions. They contain information about collector's plans and routes.\n\n{PAWN_nameDef} thinks that it may be possible to decrypt symbols and understand, where are all stolen things.</text>
+          </li>
+          <li>
+            <threshold>20</threshold>
+            <label>Flesh chunk study complete</label>
+            <text>{PAWN_nameDef} has completed {PAWN_possessive} decryption of the strange inscriptions. {PAWN_pronoun} has discovered how to read them. Order someone to peruse them.</text>
+          </li>
+        </studyNotes>
+      </li>
+      <li Class="NAT.CompProperties_BoxOfFate">
+        <activeTicks>1</activeTicks>
+        <ticksToActivate>180</ticksToActivate>
+		<cooldownTicks>3000</cooldownTicks>
+		<onCooldownString>Cooldown</onCooldownString>
+		<messageCooldownEnded>Box of fate is ready for activating</messageCooldownEnded>
+        <activateTexPath>UI/NAT_CollectorNote</activateTexPath>
+        <jobString>press button</jobString>
+		<activateLabelString>Order box activating</activateLabelString>
+		<activateDescString>Order a pawn press the button.</activateDescString>
+		<guiLabelString>Choose who should do this.</guiLabelString>
+		<activatingString>pressing</activatingString>
+		<activatingStringPending>activating</activatingStringPending>
+        <showMustBeActivatedByColonist>false</showMustBeActivatedByColonist>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <onlyTargetControlledPawns>true</onlyTargetControlledPawns>
+        </targetingParameters>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef>
+    <defName>NAT_PainClot</defName>
+    <label>pain clot</label>
+    <description>A piece of clotted pain.</description>
+    <thingClass>ThingWithComps</thingClass>
+	<tradeability>None</tradeability>
+    <category>Item</category>
+    <genericMarketSellable>false</genericMarketSellable>
+    <drawerType>MapMeshOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Item</altitudeLayer>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+	<useHitPoints>true</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <graphicData>
+      <texPath>Things/Item/NAT_PainClot</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(0.75, 0.75)</drawSize>
+    </graphicData>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>25</stackLimit>
+    <intricate>true</intricate>
+    <statBases>
+      <Mass>0.05</Mass>
+      <Beauty>-10</Beauty>
+	  <Flammability>0</Flammability>
+	  <MaxHitPoints>55</MaxHitPoints>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <hiddenWhileUndiscovered>true</hiddenWhileUndiscovered>
+    <comps>
+      <li Class="CompProperties_Forbiddable">
+        <forbidOnMake>true</forbidOnMake>
+      </li>
+    </comps>
+  </ThingDef>
+  
+</Defs>

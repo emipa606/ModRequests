@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  
+  <ThingDef Name="NAT_ItemUsableByRust" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <genericMarketSellable>false</genericMarketSellable>
+    <drawerType>MapMeshOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Item</altitudeLayer>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+	<useHitPoints>true</useHitPoints>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <soundInteract>Standard_Pickup</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <stackLimit>10</stackLimit>
+    <intricate>true</intricate>
+    <statBases>
+      <Mass>0.05</Mass>
+      <Beauty>-10</Beauty>
+	  <Flammability>0</Flammability>
+	  <MaxHitPoints>55</MaxHitPoints>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+    </comps>
+	<recipeMaker>
+      <researchPrerequisite>NAT_RustedSoldiers</researchPrerequisite>
+	  <workAmount>700</workAmount>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+	  <productCount>1</productCount>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+	  <soundWorking>Recipe_Machining</soundWorking>
+	  <effectWorking>Cook</effectWorking>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>BioferriteShaper</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+  
+  <ThingDef ParentName="NAT_ItemUsableByRust">
+    <defName>NAT_RustedActivator_Speed</defName>
+    <label>rusted speed activator</label>
+    <description>A small device that increase speed of rusted soldier.</description>
+    <graphicData>
+      <texPath>Things/Item/NAT_RustedActivator_Speed</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.75</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>55</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="NAT.CompProperties_UsableByRust">
+        <hediff>NAT_ActiveRustedSpeed</hediff>
+        <destroyAfterUse>true</destroyAfterUse>
+      </li>
+    </comps>
+    <costList>
+	  <ComponentIndustrial>1</ComponentIndustrial>
+      <Bioferrite>15</Bioferrite>
+    </costList>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>NAT_ActiveRustedSpeed</defName>
+    <label>activated speed</label>
+    <hediffClass>HediffWithComps</hediffClass>
+    <description>This rusted soldier moves faster.</description>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_DisappearsDisableable">
+        <disappearsAfterTicks>300000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0.4</MoveSpeed>
+		  <MeleeDodgeChance>10</MeleeDodgeChance>
+        </statOffsets>
+		<capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>1.25</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="NAT_ItemUsableByRust">
+    <defName>NAT_RustedActivator_Regeneration</defName>
+    <label>rusted regeneration activator</label>
+    <description>A small device that activate regeneration of rusted soldier, but causes statis condition.</description>
+    <graphicData>
+      <texPath>Things/Item/NAT_RustedActivator_Regeneration</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.75</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>125</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="NAT.CompProperties_UsableByRust">
+        <hediff>NAT_RegenerationBoost</hediff>
+        <destroyAfterUse>true</destroyAfterUse>
+      </li>
+    </comps>
+    <costList>
+      <ComponentIndustrial>1</ComponentIndustrial>
+	  <Meat_Twisted>20</Meat_Twisted>
+      <Bioferrite>25</Bioferrite>
+    </costList>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>NAT_RegenerationBoost</defName>
+    <label>actvated regeneration</label>
+    <hediffClass>HediffWithComps</hediffClass>
+    <description>This rusted soldier is in regeneration stasis.</description>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_DisappearsDisableable">
+        <disappearsAfterTicks>5000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+    <stages>
+      <li>
+        <regeneration>3600</regeneration>
+        <showRegenerationStat>false</showRegenerationStat>
+		<capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThingDef ParentName="NAT_ItemUsableByRust">
+    <defName>NAT_ShardUpgrader</defName>
+    <label>shard upgrader</label>
+    <description>Special device that can upgrade rusted soldier using shard of dark archotechnology.</description>
+    <graphicData>
+      <texPath>Things/Item/NAT_ShardRustUpgrader</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>1250</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="NAT.CompProperties_UsableByRust">
+        <hediff>NAT_ShardUpgrade</hediff>
+        <destroyAfterUse>true</destroyAfterUse>
+      </li>
+    </comps>
+    <costList>
+      <Shard>1</Shard>
+	  <ComponentIndustrial>4</ComponentIndustrial>
+      <Bioferrite>65</Bioferrite>
+    </costList>
+	<recipeMaker>
+	  <workAmount>2100</workAmount>
+    </recipeMaker>
+	<stackLimit>1</stackLimit>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>NAT_ShardUpgrade</defName>
+    <label>shard upgrade</label>
+    <hediffClass>HediffWithComps</hediffClass>
+    <description>This rusted soldier is upgraded using shard of dark archotechnology.</description>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+		<statFactors>
+          <IncomingDamageFactor>0.75</IncomingDamageFactor>
+		  <Flammability>0.25</Flammability>
+        </statFactors>
+		<regeneration>15</regeneration>
+      </li>
+    </stages>
+  </HediffDef>
+  
+</Defs>
