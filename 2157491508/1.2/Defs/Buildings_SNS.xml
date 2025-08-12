@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <DesignatorDropdownGroupDef>
+    <defName>PRF_SNS</defName>
+  </DesignatorDropdownGroupDef>
+
+  <!--==================== SNS Base ====================-->
+  <ThingDef Name="PRF_SNSBase" ParentName="PRFBuildingBase" Abstract="True">
+    <thingClass>ProjectRimFactory.SAL3.Things.Assemblers.Building_SimpleAssembler</thingClass>    <!-- Using assembler type -->
+    <blockLight>false</blockLight>
+    <blockWind>true</blockWind>
+    <designationCategory>Industrial</designationCategory>
+    <altitudeLayer>Building</altitudeLayer>
+    <constructEffect>ConstructMetal</constructEffect>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <designatorDropdown>PRF_SNS</designatorDropdown>
+    <size>(2,2)</size>
+    <statBases>
+      <WorkToBuild>5000</WorkToBuild>
+      <MaxHitPoints>350</MaxHitPoints>
+      <Flammability>0.0</Flammability>
+			<Cleanliness>-2</Cleanliness>
+      <Mass>60</Mass>
+    </statBases>
+    <inspectorTabs>
+      <li>ProjectRimFactory.SAL3.UI.ITab_SAL3Bills</li>
+      <li>ProjectRimFactory.Common.ITab_PowerSupply</li>      <!-- Power boost -->
+    </inspectorTabs>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <rotatable>false</rotatable>
+    <pathCost>70</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <thingCategories>
+      <li>BuildingsAutomation</li>
+    </thingCategories>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <castEdgeShadows>true</castEdgeShadows>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <building>
+      <uninstallWork>1800</uninstallWork>
+    </building>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <comps>
+      <li Class="CompProperties_Flickable" />
+      <li>
+        <compClass>ProjectRimFactory.Common.CompOutputAdjustable</compClass>
+      </li>
+    </comps>
+    <tickerType>Normal</tickerType>
+    <staticSunShadowHeight>1</staticSunShadowHeight>
+  </ThingDef>
+
+  <!--==================== Cosmic Autoforge ====================-->
+  <ThingDef ParentName="PRF_SNSBase">
+		<defName>PRF_Unobtainer</defName>
+		<label>Cosmic AutoForge</label>
+		<description>An automated version of the Cosmic Forge. The Cosmic AutoForge collects Cosmic Matter from the Eternal Planes without input, and then can weave it into a Plasteel and Gold catalyst in the form of Cosmic Alloy, along with providing other ways to refine Cosmic Alloy.</description>
+    <graphicData>
+			<texPath>Things/Building/Production/SNS/Unobtainer</texPath>
+    </graphicData>
+    <statBases>
+			<Cleanliness>-2</Cleanliness>
+    </statBases>
+    <costList>
+      <PRFRoboticArm>2</PRFRoboticArm>
+      <PRFWeakAIChip>2</PRFWeakAIChip>
+      <PRFMachineFrame>1</PRFMachineFrame>
+			<Plasteel>75</Plasteel>
+			<ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <recipes/>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>30000</basePowerConsumption>
+      </li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>3</glowRadius>
+				<glowColor>(255,240,89,0)</glowColor>
+			</li>
+      <li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+        <!-- speed settings -->
+        <speedSetting>true</speedSetting>
+        <minPowerForSpeed>0</minPowerForSpeed>
+        <minSpeedFactor>1</minSpeedFactor>
+        <maxPowerForSpeed>60000</maxPowerForSpeed>
+        <maxSpeedFactor>3</maxSpeedFactor>
+        <!-- range settings -->
+        <rangeSetting>true</rangeSetting>
+        <minPowerForRange>0</minPowerForRange>
+        <minRange>1</minRange>
+        <maxPowerForRange>1500</maxPowerForRange>
+        <maxRange>4</maxRange>
+        <rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+        <drawStatus>true</drawStatus>
+        <doEffect>false</doEffect>
+        <skillLevel>20</skillLevel>
+        <importRecipesFrom>
+          <li>Table_SNS_Unobtainer</li>
+        </importRecipesFrom>
+      </li>
+    </modExtensions>
+		<researchPrerequisites><li>SNS_Research_I</li></researchPrerequisites>
+  </ThingDef>
+
+  <!--==================== Atomic Fabricator ====================-->
+  <ThingDef ParentName="PRF_SNSBase">
+		<defName>PRF_Constructor</defName>
+		<label>Atomic AutoFabricator</label>
+		<description>An automated version of the Atomic Fabricator. The Atomic AutoFabricator is able to assemble many items from pure Cosmic Matter with extreme speed and ease. Such a wonderful device.</description>
+    <graphicData>
+			<texPath>Things/Building/Production/SNS/AtomicFabricator/AtomFabricator</texPath>
+    </graphicData>
+    <costList>
+      <PRFRoboticArm>2</PRFRoboticArm>
+      <PRFWeakAIChip>2</PRFWeakAIChip>
+      <PRFMachineFrame>1</PRFMachineFrame>
+			<SNS_CosmicAlloy>100</SNS_CosmicAlloy>
+			<SNS_CosmicMatter>200</SNS_CosmicMatter>
+			<ComponentSpacer>10</ComponentSpacer>
+    </costList>
+    <recipes/>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>10000</basePowerConsumption>
+      </li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>2</glowRadius>
+				<glowColor>(150,150,255,0)</glowColor>
+			</li>
+      <li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+        <!-- speed settings -->
+        <speedSetting>true</speedSetting>
+        <minPowerForSpeed>0</minPowerForSpeed>
+        <minSpeedFactor>1</minSpeedFactor>
+        <maxPowerForSpeed>20000</maxPowerForSpeed>
+        <maxSpeedFactor>3</maxSpeedFactor>
+        <!-- range settings -->
+        <rangeSetting>true</rangeSetting>
+        <minPowerForRange>0</minPowerForRange>
+        <minRange>1</minRange>
+        <maxPowerForRange>1500</maxPowerForRange>
+        <maxRange>4</maxRange>
+        <rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+        <drawStatus>true</drawStatus>
+        <doEffect>false</doEffect>
+        <skillLevel>20</skillLevel>
+        <importRecipesFrom>
+          <li>Table_SNS_Constructor</li>
+        </importRecipesFrom>
+      </li>
+    </modExtensions>
+		<researchPrerequisites><li>SNS_Research_IV</li></researchPrerequisites>
+  </ThingDef>
+
+  <!--==================== Cosmic Manipulator ====================-->
+  <ThingDef ParentName="PRF_SNSBase">
+		<defName>PRF_CosmicDrawer</defName>
+		<label>Cosmic AutoManipulator</label>
+		<description>An automated version of the Cosmic Manipulator. The Cosmic AutoManipulator draws pure Cosmic Matter from the Eternal Plane, trading a vast amount of energy and time for stable, well-contained Cosmic Matter or the creation of a highly pure Cosmic Alloy.</description>
+    <graphicData>
+			<texPath>Things/Building/Production/SNS/CosmicDrawer/CosmicDrawer</texPath>
+    </graphicData>
+    <costList>
+      <PRFRoboticArm>2</PRFRoboticArm>
+      <PRFWeakAIChip>2</PRFWeakAIChip>
+      <PRFMachineFrame>1</PRFMachineFrame>
+			<SNS_Unobtainium>50</SNS_Unobtainium>
+			<Plasteel>25</Plasteel>
+			<ComponentSpacer>12</ComponentSpacer>
+    </costList>
+    <recipes/>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100000</basePowerConsumption>
+      </li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>4</glowRadius>
+				<glowColor>(150,150,255,0)</glowColor>
+			</li>
+      <li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+        <!-- speed settings -->
+        <speedSetting>true</speedSetting>
+        <minPowerForSpeed>0</minPowerForSpeed>
+        <minSpeedFactor>1</minSpeedFactor>
+        <maxPowerForSpeed>200000</maxPowerForSpeed>
+        <maxSpeedFactor>3</maxSpeedFactor>
+        <!-- range settings -->
+        <rangeSetting>true</rangeSetting>
+        <minPowerForRange>0</minPowerForRange>
+        <minRange>1</minRange>
+        <maxPowerForRange>1500</maxPowerForRange>
+        <maxRange>4</maxRange>
+        <rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+        <drawStatus>true</drawStatus>
+        <doEffect>false</doEffect>
+        <skillLevel>20</skillLevel>
+        <importRecipesFrom>
+          <li>Table_SNS_CosmicDrawer</li>
+        </importRecipesFrom>
+      </li>
+    </modExtensions>
+		<researchPrerequisites><li>SNS_Research_III_base</li></researchPrerequisites>
+  </ThingDef>
+
+  <!--==================== The Call of the Cosmos ====================-->
+  <ThingDef ParentName="PRF_SNSBase">
+		<defName>PRF_CosmicCall</defName>
+		<label>The Automated Call of the Cosmos</label>
+		<description>An automated version of the Call of the Cosmos. This device is the culmination of all ambition, all dreams, all desire. If its energy demands are met, it can create anything from nothing but the very fabric of reality.\n\nThe investment will be worth it, trust me. You can make it all back, and ten-thousand times more...</description>
+    <graphicData>
+			<texPath>Things/Building/Production/SNS/CosmicCall/CosmicCall</texPath>
+    </graphicData>
+    <costList>
+      <PRFRoboticArm>2</PRFRoboticArm>
+      <PRFWeakAIChip>2</PRFWeakAIChip>
+      <PRFMachineFrame>1</PRFMachineFrame>
+			<SNS_CosmicAlloy>150</SNS_CosmicAlloy>
+			<SNS_CosmicMatter>500</SNS_CosmicMatter>
+			<SNS_CosmicCall_Component_I>1</SNS_CosmicCall_Component_I>
+			<SNS_CosmicCall_Component_II>1</SNS_CosmicCall_Component_II>
+			<SNS_CosmicCall_Component_III>1</SNS_CosmicCall_Component_III>
+			<SNS_CosmicCall_Component_IV>1</SNS_CosmicCall_Component_IV>
+			<SNS_CosmicCall_Component_V>1</SNS_CosmicCall_Component_V>
+    </costList>
+    <recipes/>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>1500000</basePowerConsumption>
+      </li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>2</glowRadius>
+				<glowColor>(150,150,255,0)</glowColor>
+			</li>
+      <li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+        <!-- speed settings -->
+        <speedSetting>true</speedSetting>
+        <minPowerForSpeed>0</minPowerForSpeed>
+        <minSpeedFactor>1</minSpeedFactor>
+        <maxPowerForSpeed>3000000</maxPowerForSpeed>
+        <maxSpeedFactor>3</maxSpeedFactor>
+        <!-- range settings -->
+        <rangeSetting>true</rangeSetting>
+        <minPowerForRange>0</minPowerForRange>
+        <minRange>1</minRange>
+        <maxPowerForRange>0</maxPowerForRange>
+        <maxRange>1</maxRange>
+        <rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+        <drawStatus>true</drawStatus>
+        <doEffect>false</doEffect>
+        <skillLevel>20</skillLevel>
+        <importRecipesFrom>
+          <li>Table_SNS_CosmicCall</li>
+        </importRecipesFrom>
+      </li>
+    </modExtensions>
+		<researchPrerequisites><li>SNS_Research_V</li></researchPrerequisites>
+  </ThingDef>
+
+  <!--==================== The Utopia Device ====================-->
+  <ThingDef ParentName="PRF_SNSBase">
+		<defName>PRF_PinnacleFabricator</defName>
+		<label>Automatic Utopia</label>
+    <description>This device is perfection itself, automated. The device fabricates things out of pure Eternium rather than from Cosmic Matter, allowing things to be constructed at a pace never seen before.\n\nThis item is ridiculously powerful and not balanced in the slightest, nor will it ever be. This is your reward for achieving the Pinnacle of Creation. Good luck.</description>
+    <graphicData>
+			<texPath>Things/Building/Production/SNS/PinnacleFabricator/PinnacleFabricator</texPath>
+      <drawSize>(6,6)</drawSize>
+    </graphicData>
+    <size>(6,6)</size>
+    <statBases>
+      <Mass>120</Mass>
+    </statBases>
+    <costList>
+      <PRFRoboticArm>1</PRFRoboticArm>
+      <AIPersonaCore>1</AIPersonaCore>
+      <PRFMachineFrameLarge>4</PRFMachineFrameLarge>
+			<SNS_CosmicAlloy>500</SNS_CosmicAlloy>
+			<SNS_Eternium>750</SNS_Eternium>
+    </costList>
+    <recipes/>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>150000</basePowerConsumption>
+      </li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>30</glowRadius>
+				<glowColor>(150,150,255,0)</glowColor>
+			</li>
+      <li Class="ProjectRimFactory.Common.CompProperties_PowerWorkSetting">
+        <!-- speed settings -->
+        <speedSetting>true</speedSetting>
+        <minPowerForSpeed>0</minPowerForSpeed>
+        <minSpeedFactor>1</minSpeedFactor>
+        <maxPowerForSpeed>300000</maxPowerForSpeed>
+        <maxSpeedFactor>3</maxSpeedFactor>
+        <!-- range settings -->
+        <rangeSetting>true</rangeSetting>
+        <minPowerForRange>0</minPowerForRange>
+        <minRange>1</minRange>
+        <maxPowerForRange>0</maxPowerForRange>
+        <maxRange>1</maxRange>
+        <rangeType>ProjectRimFactory.Common.RectRange</rangeType>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="ProjectRimFactory.SAL3.Exposables.AssemblerDefModExtension">
+        <drawStatus>true</drawStatus>
+        <doEffect>false</doEffect>
+        <skillLevel>20</skillLevel>
+        <importRecipesFrom>
+          <li>Table_SNS_PinnacleFabricator</li>
+        </importRecipesFrom>
+      </li>
+    </modExtensions>
+		<researchPrerequisites><li>SNS_Research_VII</li></researchPrerequisites>
+  </ThingDef>
+
+</Defs>
