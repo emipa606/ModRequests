@@ -1,0 +1,1 @@
+I literally stole the silver raw textures from rimworld art source. Sorry, since I'm replacing the vanilla silver texture there isnt much I can do. Same with gold
