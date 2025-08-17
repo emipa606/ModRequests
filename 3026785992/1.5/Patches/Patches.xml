@@ -1,0 +1,949 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	
+	<!-- Patches recipes into their according facilities -->
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="CraftingSpot"]/recipes</xpath>
+		<value>
+			<li>Med_Make_ElectricalCable</li>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="CraftingSpot"]/recipes</xpath>
+		<value>
+			<li>Med_Make_Pipe</li>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="CraftingSpot"]/recipes</xpath>
+		<value>
+			<li>Med_Extract_ElectricalCable</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="TableMachining"]/recipes</xpath>
+		<value>
+			<li>Med_Manufacture_Pipe</li>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="FueledSmithy" or defName="ElectricSmithy"]</xpath>
+		<value>
+		  <recipes>
+			<li>Med_Manufacture_Pipe</li>
+		  </recipes>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="TableMachining"]/recipes</xpath>
+		<value>
+			<li>Med_Manufacture_ElectricalCable</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="ElectricSmelter"]/recipes</xpath>
+		<value>
+			<li>Med_Smelt_Pipe</li>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="ElectricSmelter"]/recipes</xpath>
+		<value>
+			<li>Med_Smelt_ElectricalCable</li>
+		</value>
+	</Operation>
+	
+	
+	<!-- Vanilla conduits -->
+	
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="PowerConduit"]/costList</xpath>
+		<value>
+		  <costList>
+			<Med_ElectricalCable>1</Med_ElectricalCable>
+		  </costList>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="HiddenConduit"]/costList</xpath>
+		<value>
+		  <costList>
+			<Med_ElectricalCable>2</Med_ElectricalCable>
+		  </costList>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="WaterproofConduit"]/costList</xpath> <!-- Who even builds these -->
+		<value>
+		  <costList>
+			<Med_ElectricalCable>1</Med_ElectricalCable>
+			<Steel>5</Steel>
+		  </costList>
+		</value>
+	</Operation>
+	
+	
+	<!-- This patch gives you some cables on a classic start, how kind of him -->
+	
+	<Operation Class="PatchOperationInsert">
+		<xpath>Defs/ScenarioDef[defName="Crashlanded"]/scenario/parts/li[16]</xpath>
+		<value>
+			<li Class="ScenPart_ScatterThingsNearPlayerStart">
+			  <def>ScatterThingsNearPlayerStart</def>
+			  <thingDef>Med_ElectricalCable</thingDef>
+			  <count>75</count>
+			</li>
+		</value>
+	</Operation>
+	
+	<!-- DBH compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Dubs Bad Hygiene</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationRemove">
+			<xpath>Defs/ThingDef[defName="sewagePipeStuff"]/stuffCategories</xpath>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="sewagePipeStuff"]/costStuffCount</xpath>
+			<value>
+				<costList>
+					<Med_Pipe>1</Med_Pipe>
+				</costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="sewagePipeStuff"]</xpath>
+			<value>
+			  <graphicData>
+				<color>(0.4,0.4,0.4)</color>
+			  </graphicData>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="airPipe"]/costList</xpath>
+			<value>
+			  <costList>
+				<Med_Pipe>1</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Rimefeller compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Rimefeller</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="OilPipeline"]/costList</xpath>
+			<value>
+				<costList>
+					<Med_Pipe>1</Med_Pipe>
+				</costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[@Name="RimefellerPipeBase"]/statBases/WorkToBuild</xpath>
+			<value>
+				<WorkToBuild>90</WorkToBuild> <!-- Too long otherwise -->
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Rimatomics compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Dubs Rimatomics</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[@Name="RimatomicsPipeBase"]/costList</xpath>
+			<value>
+				<costList>
+					<Med_Pipe>3</Med_Pipe> <!-- Needs a comically big pipe, overall cost is still less than original cost -->
+				</costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="HighVoltage"]</xpath>
+			<value>
+				<costList Inherit="False">
+					<Med_ElectricalCable>3</Med_ElectricalCable> <!-- 3 phases -->
+				</costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="controllerLoom"]</xpath>
+			<value>
+				<costList Inherit="False">
+					<Med_ElectricalCable>2</Med_ElectricalCable> <!-- 2 cables for console input and output -->
+				</costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- V. Chemfuel Expanded, V. Helixien Gas Expanded and Underground Pipes Rebalance compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+	  <mods>
+		<li>Vanilla Chemfuel Expanded</li>
+	  </mods>
+	  <match Class="PatchOperationFindMod">
+		<mods>
+		  <li>Underground Pipes Rebalance</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VCHE_ChemfuelPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>2</Med_Pipe>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VCHE_DeepchemPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>3</Med_Pipe>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace" MayRequire="VanillaExpanded.VChemfuelE">
+					<xpath>Defs/ThingDef[defName="VCHE_UndergroundChemfuelPipe"]/statBases/WorkToBuild</xpath>
+					<value>
+						<WorkToBuild>550</WorkToBuild>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace" MayRequire="VanillaExpanded.VChemfuelE">
+					<xpath>Defs/ThingDef[defName="VCHE_UndergroundChemfuelPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>2</Med_Pipe>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace" MayRequire="VanillaExpanded.VChemfuelE">
+					<xpath>Defs/ThingDef[defName="VCHE_UndergroundDeepchemPipe"]/statBases/WorkToBuild</xpath>
+					<value>
+						<WorkToBuild>600</WorkToBuild>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace" MayRequire="VanillaExpanded.VChemfuelE">
+					<xpath>Defs/ThingDef[defName="VCHE_UndergroundDeepchemPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>3</Med_Pipe>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+		 <operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VCHE_ChemfuelPipe"]/costList/Steel</xpath>
+			<value>
+				<Med_Pipe>2</Med_Pipe>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VCHE_UndergroundChemfuelPipe"]/costList/Steel</xpath>
+			<value>
+				<Med_Pipe>3</Med_Pipe>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VCHE_UndergroundChemfuelPipe"]/statBases/WorkToBuild</xpath>
+			<value>
+				<WorkToBuild>180</WorkToBuild>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VCHE_DeepchemPipe"]/costList/Steel</xpath>
+			<value>
+				<Med_Pipe>3</Med_Pipe>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VCHE_UndergroundDeepchemPipe"]/costList/Steel</xpath>
+			<value>
+				<Med_Pipe>5</Med_Pipe>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VCHE_UndergroundDeepchemPipe"]/statBases/WorkToBuild</xpath>
+			<value>
+				<WorkToBuild>180</WorkToBuild>
+			</value>
+		  </li>	
+		 </operations>
+		</nomatch>
+	  </match>
+	</Operation>
+
+	<Operation Class="PatchOperationFindMod">
+	  <mods>
+		<li>Vanilla Helixien Gas Expanded</li>
+	  </mods>
+	  <match Class="PatchOperationFindMod">
+		<mods>
+		  <li>Underground Pipes Rebalance</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VHGE_HelixienPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>2</Med_Pipe>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VHGE_SubterraneanHelixienPipe"]/statBases/WorkToBuild</xpath>
+					<value>
+						<WorkToBuild>550</WorkToBuild>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VHGE_SubterraneanHelixienPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>2</Med_Pipe>
+					</value>
+				</li>
+			</operations>
+		</match>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VHGE_HelixienPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>2</Med_Pipe>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VHGE_SubterraneanHelixienPipe"]/costList/Steel</xpath>
+					<value>
+						<Med_Pipe>3</Med_Pipe>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="VHGE_SubterraneanHelixienPipe"]/statBases/WorkToBuild</xpath>
+					<value>
+						<WorkToBuild>180</WorkToBuild>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
+	  </match>
+	</Operation>
+	
+	
+	<!-- Underground Power Conduits compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Underground Power Conduits</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="PowerConduitInvisible"]</xpath>
+			<value>
+			  <costList Inherit="False"> <!-- Might be redundant as it may already inherits power conduits-->
+				<Med_ElectricalCable>1</Med_ElectricalCable>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="WaterproofPowerConduitInvisible"]/costList</xpath>
+			<value>
+			  <costList>
+				<Med_ElectricalCable>1</Med_ElectricalCable>
+				<Steel>5</Steel>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Expanded Materials - Metals compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+	  <mods>
+		<li>Expanded Materials - Metals</li>
+	  </mods>
+	  <match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Make_ElectricalCable"]/ingredients/li[1]/filter/thingDefs/li</xpath>
+			<value>
+			  <li>EM_Copper</li>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Make_ElectricalCable"]/ingredients/li[1]/count</xpath>
+			<value>
+			  <count>0.5</count>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Make_ElectricalCable"]/fixedIngredientFilter/thingDefs/li[1]</xpath>
+			<value>
+			  <li>EM_Copper</li>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Manufacture_ElectricalCable"]/ingredients/li[1]/filter/thingDefs/li</xpath>
+			<value>
+			  <li>EM_Copper</li>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Manufacture_ElectricalCable"]/ingredients/li[1]/count</xpath>
+			<value>
+			  <count>5</count>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Manufacture_ElectricalCable"]/fixedIngredientFilter/thingDefs/li[1]</xpath>
+			<value>
+			  <li>EM_Copper</li>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/RecipeDef[defName="Med_Smelt_ElectricalCable"]/products/Steel</xpath>
+			<value>
+			  <EM_Copper>15</EM_Copper>
+			</value>
+		  </li>
+		</operations>
+	  </match>
+	</Operation>
+	
+	
+	<!-- VFE Mechs compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+	  <mods>
+		<li>Vanilla Factions Expanded - Mechanoids</li>
+	  </mods>
+	  <match Class="PatchOperationFindMod">
+	    <mods>
+		  <li>Expanded Materials - Metals</li>
+		</mods>
+		<nomatch Class="PatchOperationSequence">
+		 <operations>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs</xpath>
+			<value>
+			  <ItemProcessor.CombinationDef>
+				<defName>VFEM_VersatileAssembler_Med_ElectricalCables</defName>
+				<building>VFEM_VersatileAssembler</building>
+				<items>
+					<li>Steel</li>
+				</items>	
+				<secondItems>
+					<li>Chemfuel</li>
+				</secondItems>
+				<thirdItems>
+					<li>Chemfuel</li>
+				</thirdItems>
+				<amount>
+					<li>50</li>
+					<li>25</li>
+					<li>25</li>
+				</amount>
+				<result>Med_ElectricalCable</result>	
+				<yield>150</yield>	
+				<outputLimitControlled>true</outputLimitControlled>
+				<maxTotalOutput>1000</maxTotalOutput>		
+				<useQualityIncreasing>false</useQualityIncreasing>
+				<resultUsesSpecialIcon>true</resultUsesSpecialIcon>
+				<resultSpecialIcon>Items/ElectricalCable/ElectricalCable_c</resultSpecialIcon>
+				<singleTimeIfNotQualityIncreasing>0.1</singleTimeIfNotQualityIncreasing>
+			  </ItemProcessor.CombinationDef>
+			</value>
+		  </li>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs</xpath>
+			<value>
+			  <ItemProcessor.CombinationDef>
+				<defName>VFEM_VersatileAssembler_Med_Pipes</defName>
+				<building>VFEM_VersatileAssembler</building>
+				<items>
+					<li>Steel</li>
+				</items>	
+				<secondItems>
+					<li>Steel</li>
+				</secondItems>
+				<thirdItems>
+					<li>Steel</li>
+				</thirdItems>
+				<amount>
+					<li>17</li>
+					<li>16</li>
+					<li>17</li>
+				</amount>
+				<result>Med_Pipe</result>	
+				<yield>75</yield>	
+				<outputLimitControlled>true</outputLimitControlled>
+				<maxTotalOutput>1000</maxTotalOutput>		
+				<useQualityIncreasing>false</useQualityIncreasing>
+				<resultUsesSpecialIcon>true</resultUsesSpecialIcon>
+				<resultSpecialIcon>Items/Pipe/Pipe_c</resultSpecialIcon>
+				<singleTimeIfNotQualityIncreasing>0.1</singleTimeIfNotQualityIncreasing>
+			  </ItemProcessor.CombinationDef>
+			</value>
+		  </li>
+		 </operations>
+		</nomatch>
+		<match Class="PatchOperationSequence">
+		 <operations>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs</xpath>
+			<value>
+			  <ItemProcessor.CombinationDef>
+				<defName>VFEM_VersatileAssembler_Med_ElectricalCables</defName>
+				<building>VFEM_VersatileAssembler</building>
+				<items>
+					<li>EM_Copper</li>
+				</items>	
+				<secondItems>
+					<li>Chemfuel</li>
+				</secondItems>
+				<thirdItems>
+					<li>Chemfuel</li>
+				</thirdItems>
+				<amount>
+					<li>50</li>
+					<li>25</li>
+					<li>25</li>
+				</amount>
+				<result>Med_ElectricalCable</result>	
+				<yield>150</yield>	
+				<outputLimitControlled>true</outputLimitControlled>
+				<maxTotalOutput>1000</maxTotalOutput>		
+				<useQualityIncreasing>false</useQualityIncreasing>
+				<resultUsesSpecialIcon>true</resultUsesSpecialIcon>
+				<resultSpecialIcon>Items/ElectricalCable/ElectricalCable_c</resultSpecialIcon>
+				<singleTimeIfNotQualityIncreasing>0.1</singleTimeIfNotQualityIncreasing>
+			  </ItemProcessor.CombinationDef>
+			</value>
+		  </li>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs</xpath>
+			<value>
+			  <ItemProcessor.CombinationDef>
+				<defName>VFEM_VersatileAssembler_Med_Pipes</defName>
+				<building>VFEM_VersatileAssembler</building>
+				<items>
+					<li>Steel</li>
+				</items>	
+				<secondItems>
+					<li>Steel</li>
+				</secondItems>
+				<thirdItems>
+					<li>Steel</li>
+				</thirdItems>
+				<amount>
+					<li>17</li>
+					<li>16</li>
+					<li>17</li>
+				</amount>
+				<result>Med_Pipe</result>	
+				<yield>75</yield>	
+				<outputLimitControlled>true</outputLimitControlled>
+				<maxTotalOutput>1000</maxTotalOutput>		
+				<useQualityIncreasing>false</useQualityIncreasing>
+				<resultUsesSpecialIcon>true</resultUsesSpecialIcon>
+				<resultSpecialIcon>Items/Pipe/Pipe_c</resultSpecialIcon>
+				<singleTimeIfNotQualityIncreasing>0.1</singleTimeIfNotQualityIncreasing>
+			  </ItemProcessor.CombinationDef>
+			</value>
+		  </li>
+		 </operations>
+		</match>
+	  </match>
+	</Operation>
+	
+	
+	<!-- Subsurface Conduit compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Subsurface Conduit</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="MUR_SubsurfaceConduit"]/costList</xpath>
+			<value>
+			  <costList Inherit="False"> 
+				<Med_ElectricalCable>2</Med_ElectricalCable>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- VRE - Sanguophage compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Vanilla Races Expanded - Sanguophage</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VRE_HemogenPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>2</Med_Pipe>
+				<Gold>1</Gold>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VRE_UndergroundHemogenPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>3</Med_Pipe>
+				<Gold>1</Gold>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- VRE - Androids compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Vanilla Races Expanded - Android</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VREA_NeutroPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>3</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VREA_SubterraneanNeutroPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>5</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- V Nutrient Paste E compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Vanilla Nutrient Paste Expanded</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VNPE_NutrientPastePipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>2</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="VNPE_UndergroundNutrientPastePipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>3</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Fortification Industrial - Citadel compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Fortification Industrial - Citadel</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="FTC_PowerConduit"]/costList</xpath>
+			<value>
+				<costList>
+					<FT_BlocksConcrete>1</FT_BlocksConcrete>
+					<Med_ElectricalCable>1</Med_ElectricalCable>
+				</costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Milk Pipe Network compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Milk Pipe Network</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="MP_MilkPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>1</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="MP_UndergroundMilkPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>2</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Dubs Central Heating compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Dubs Central Heating</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationRemove">
+			<xpath>Defs/ThingDef[defName="HeatingPipe"]/stuffCategories</xpath>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="HeatingPipe"]/costStuffCount</xpath>
+			<value>
+				<costList>
+					<Med_Pipe>1</Med_Pipe>
+				</costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="HeatingPipe"]</xpath>
+			<value>
+			  <graphicData>
+				<color>(0.4,0.4,0.4)</color>
+			  </graphicData>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="airPipe"]/costList</xpath>
+			<value>
+			  <costList>
+				<Med_Pipe>1</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- RimForge - Power poles only compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>RimForge - Only Power Poles</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="RF_PowerPole"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_ElectricalCable>5</Med_ElectricalCable>
+				<WoodLog>10</WoodLog>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- RimForge compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>RimForge</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="RF_PowerPole"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_ElectricalCable>5</Med_ElectricalCable>
+				<WoodLog>10</WoodLog>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Geneforge compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Gene Forge - Make Genepacks with slurry</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="GF_GeneSlurryPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>2</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="GF_UndergroundGeneSlurryPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>2</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Akeron decorations compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Akeron - Decorations</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="AKN_NeatCables"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_ElectricalCable>2</Med_ElectricalCable>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="AKN_OverheadCables"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_ElectricalCable>3</Med_ElectricalCable>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="AKN_LooseCablesA"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_ElectricalCable>1</Med_ElectricalCable>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="AKN_LooseCablesB"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_ElectricalCable>1</Med_ElectricalCable>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+	
+	<!-- Bill Doors' Plasma Weapons compat -->
+	
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+		  <li>Bill Doors' Plasma Weapons</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+		<operations>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="BDP_AirPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>2</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="BDP_AirPipeUnderground"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>3</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="BDP_LizionPipe"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>3</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		  <li Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="BDP_LizionPipeUnderground"]/costList</xpath>
+			<value>
+			  <costList> 
+				<Med_Pipe>5</Med_Pipe>
+			  </costList>
+			</value>
+		  </li>
+		</operations>
+		</match>
+	</Operation>
+	
+</Patch>
