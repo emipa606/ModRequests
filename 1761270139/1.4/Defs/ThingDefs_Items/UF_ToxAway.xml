@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="UF_MakeableDrugBase">
+		<defName>UF_ToxAwayDrug</defName>
+		<label>ToxAway</label>
+		<description>ToxAway floods the user's system with toxin-consuming bacteria, granting effective immunity to toxic fallout. Must be taken every 3 days to maintain protection.\n\nThis drug is usually instantly addictive but withdrawl symptoms last a short amount of time.</description>
+		<descriptionHyperlinks>
+			<HediffDef>UF_ToxAwayHigh</HediffDef>
+			<!--HediffDef>UF_ToxAwayTolerance</HediffDef-->
+			<!--HediffDef>UF_ToxAwayAddiction</HediffDef-->
+			<!--HediffDef>ChemicalDamageModerate</HediffDef-->
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>Resource/UF_ToxAway</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>false</socialPropernessMatters>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>600</WorkToMake>
+			<MarketValue>22</MarketValue>
+			<Mass>0.005</Mass>
+			<Flammability>0.7</Flammability>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<drugCategory>Medical</drugCategory>
+			<foodType>Processed, Fluid</foodType>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>UF_ToxAwayHigh</hediffDef>
+					<severity>1.0</severity>
+					<toleranceChemical>WakeUp</toleranceChemical>
+					<!--toleranceChemical>UF_ChemicalToxAway</toleranceChemical-->
+				</li>
+				<!--li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>UF_ToxAwayTolerance</hediffDef>
+					<severity>0.044</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li-->
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+		  <li Class="CompProperties_Drug">
+			<chemical>WakeUp</chemical>
+			<addictiveness>0.9</addictiveness>
+			<minToleranceToAddict>0.00</minToleranceToAddict>
+			<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+			<needLevelOffset>1</needLevelOffset>
+			<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+			<listOrder>200</listOrder>
+			<overdoseSeverityOffset>
+			  <min>0.18</min>
+			  <max>0.35</max>
+			</overdoseSeverityOffset>
+			<largeOverdoseChance>0.01</largeOverdoseChance>
+		  </li>
+		</comps>
+	</ThingDef>
+  
+  <HediffDef>
+    <defName>UF_ToxAwayHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>ToxAway</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+	<description>System flooded with toxin-consuming bacteria, granting near immunity to toxic fallout.</description>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.32</severityPerDay>
+		<showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+		<li>
+			<statOffsets>
+				<ToxicEnvironmentResistance>2.0</ToxicEnvironmentResistance>
+			</statOffsets>
+		</li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_ToxAwayHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_ToxAwayHigh</hediff>
+    <stages>
+      <li>
+        <label>ToxAway</label>
+        <description>This feels kind of strange.</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- ToxAway addiction -->
+<!--
+  <ChemicalDef>
+    <defName>UF_ChemicalToxAway</defName>
+    <label>ToxAway</label>
+    <addictionHediff>UF_ToxAwayAddiction</addictionHediff>
+    <toleranceHediff>UF_ToxAwayTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>UF_ChemicalNeedToxAway</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>ToxAway</label>
+    <description>Because of a ToxAway addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>30</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>UF_ToxAwayTolerance</defName>
+    <label>ToxAway tolerance</label>
+	<description>A built-up tolerance to ToxAway. The more severe this tolerance is, the more ToxAway it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.1</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>UF_ChemicalToxAway</chemical>
+      </li>
+    </comps>
+		<hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>ChemicalDamageModerate</hediff>
+				<minSeverity>0.50</minSeverity>
+				<baseMtbDays>120</baseMtbDays>
+				<partsToAffect>
+					<li>Kidney</li>
+				</partsToAffect>
+				<countToAffect>1</countToAffect>
+			</li>
+		</hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>UF_ToxAwayAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>ToxAway addiction</label>
+    <causesNeed>UF_ChemicalNeedToxAway</causesNeed>
+	<description>A chemical addiction to ToxAway. Long-term presence of ToxAway has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of ToxAway, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <capMods>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+			<li>
+				<mentalState>Binging_DrugExtreme</mentalState>
+				<mtbDays>40</mtbDays>
+			</li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_ToxAwayWithdrawl</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_ToxAwayAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>ToxAway withdrawal</label>
+        <description>I feel like I'm being eaten away from the inside!</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+-->    
+</Defs>

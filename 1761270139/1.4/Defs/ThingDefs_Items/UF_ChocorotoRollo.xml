@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="UF_MakeableDrugBase">
+		<defName>UF_ChocorotoRolloDrug</defName>
+		<label>Chocoroto rollo</label>
+		<description>This smooth blend of smokeweed, meltorus and chocolate gives a mood boost, but has been known tocause cancer.\n\nWhile this drug is highly addictive, withdrawl symptoms are mild.</description>
+		<descriptionHyperlinks>
+			<HediffDef>UF_ChocorotoHigh</HediffDef>
+			<HediffDef>SmokeleafTolerance</HediffDef>
+			<HediffDef>SmokeleafAddiction</HediffDef>
+			<!--HediffDef>UF_ChocorotoTolerance</HediffDef-->
+			<!--HediffDef>UF_ChocorotoAddiction</HediffDef-->
+			<HediffDef>Carcinoma</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>Resource/UF_ChocorotoRollo</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>false</socialPropernessMatters>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>600</WorkToMake>
+			<MarketValue>13</MarketValue>
+			<Mass>0.05</Mass>
+			<DeteriorationRate>6</DeteriorationRate>
+			<Flammability>1.7</Flammability>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<foodType>Plant, Processed</foodType>
+			<joyKind>Chemical</joyKind>
+			<joy>0.90</joy>
+			<drugCategory>Social</drugCategory>
+			<baseIngestTicks>720</baseIngestTicks>
+			<nurseable>true</nurseable>
+			<ingestSound>Ingest_Smoke</ingestSound>
+			<ingestEffect>Smoke_Joint</ingestEffect>
+			<ingestEffectEat>EatVegetarian</ingestEffectEat>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Smoke {0}</ingestCommandString>
+      <ingestReportString>Smoking {0}.</ingestReportString>
+      <ingestReportStringEat>Consuming {0}.</ingestReportStringEat>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>UF_ChocorotoHigh</hediffDef>
+					<severity>0.75</severity>
+					<toleranceChemical>Smokeleaf</toleranceChemical>
+					<!--toleranceChemical>UF_ChemicalChocoroto</toleranceChemical-->
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetNeed">
+					<need>Rest</need>
+					<offset>0.1</offset>
+					<toleranceChemical>Smokeleaf</toleranceChemical>
+					<!--toleranceChemical>UF_ChemicalChocoroto</toleranceChemical-->
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>SmokeleafTolerance</hediffDef>
+					<!--hediffDef>UF_ChocorotoTolerance</hediffDef-->
+					<severity>0.01</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+		  <li Class="CompProperties_Drug">
+  			<!--chemical>UF_ChemicalChocoroto</chemical-->
+			<chemical>Smokeleaf</chemical>
+  			<addictiveness>0.1</addictiveness>
+  			<minToleranceToAddict>0.03</minToleranceToAddict>
+  			<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+  			<needLevelOffset>1</needLevelOffset>
+  			<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+  			<listOrder>25</listOrder>
+		  </li>
+		</comps>
+	</ThingDef>
+  
+  <HediffDef>
+    <defName>UF_ChocorotoHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>chocoroto rollo</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+	<description>High on a wonderful combination of smokeleaf, chocolate and melrotus.</description>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.0</severityPerDay>
+		<showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+		<li>
+			<painOffset>-0.05</painOffset>
+			<capMods>
+				<li>
+					<capacity>Consciousness</capacity>
+					<offset>0.10</offset>
+				</li>
+			</capMods>
+		</li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_ChocorotoHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_ChocorotoHigh</hediff>
+    <stages>
+      <li>
+        <label>high on chocoroto</label>
+        <description>Smoking this chocolate blend is bliss. I feel like an Aztec god.</description>
+        <baseMoodEffect>9</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- chocoroto rollo addiction -->
+<!--
+  <ChemicalDef>
+    <defName>UF_ChemicalChocoroto</defName>
+    <label>chocoroto rollo</label>
+    <addictionHediff>UF_ChocorotoAddiction</addictionHediff>
+    <toleranceHediff>UF_ChocorotoTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>UF_ChemicalNeedChocoroto</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>chocoroto rollo</label>
+    <description>Because of a chocoroto rollo addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>25</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>UF_ChocorotoTolerance</defName>
+    <label>chocoroto rollo tolerance</label>
+	<description>A built-up tolerance to Chocoroto rollo. The more severe this tolerance is, the more Chocoroto rollos it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>UF_ChemicalChocoroto</chemical>
+      </li>
+    </comps>
+		<hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Carcinoma</hediff>
+        <baseMtbDays>140</baseMtbDays>
+        <minSeverity>0.40</minSeverity>
+        <partsToAffect>
+          <li>Lung</li>
+        </partsToAffect>
+        <countToAffect>1</countToAffect>
+      </li>
+		</hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>UF_ChocorotoAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>chocoroto rollo addiction</label>
+    <causesNeed>UF_ChemicalNeedChocoroto</causesNeed>
+	<description>A chemical addiction to Chocoroto rollo. Long-term presence of Chocoroto rollo has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of Chocoroto rollo, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <capMods>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+    			<li>
+    				<mentalState>Binging_DrugMajor</mentalState>
+    				<mtbDays>50</mtbDays>
+    			</li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_ChocorotoRolloWithdrawl</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_ChocorotoAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>chocoroto rollo withdrawal</label>
+        <description>I'd like some more of that smooth, smooth chocolate blend.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+    -->
+</Defs>

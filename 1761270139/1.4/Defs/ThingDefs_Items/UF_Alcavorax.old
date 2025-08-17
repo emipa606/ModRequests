@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="MakeableDrugPillBase">
+		<defName>UF_AlcavoraxDrug</defName>
+		<label>alcavorax</label>
+		<description>Fills the body with the Alcavorax bacteria, used for preventing infestations before they occur. Blocks fibrous mechanites, sensory mechanites, gut worms, and muscle parasites. Must be taken every eight days to remain effective. The alcavorax bacteria make the user miserable with a constant itching feeling.\n\nThis drug only prevents new infestations. It does not cure existing infestations - even those that are not yet discovered.</description>
+		<descriptionHyperlinks>
+			<HediffDef>UF_AlcavoraxHigh</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>Resource/UF_Alcavorax</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>false</socialPropernessMatters>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>600</WorkToMake>
+			<MarketValue>12</MarketValue>
+			<Mass>0.005</Mass>
+			<Flammability>0.7</Flammability>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<foodType>Processed</foodType>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>UF_AlcavoraxHigh</hediffDef>
+					<severity>1.0</severity>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<recipeMaker>
+			<researchPrerequisite>UF_XenofungusPharmacology</researchPrerequisite>
+			<recipeUsers>
+				<li>DrugLab</li>
+			</recipeUsers>
+		</recipeMaker>
+		<costList>
+			<UF_RawSanozite>10</UF_RawSanozite>
+			<Neutroamine>1</Neutroamine>
+		</costList>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<listOrder>1000</listOrder>
+				<overdoseSeverityOffset>
+				<min>0.08</min>
+				<max>0.14</max>
+				</overdoseSeverityOffset>
+			</li>
+		</comps>
+	</ThingDef>
+  
+  <HediffDef>
+    <defName>UF_AlcavoraxHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>alcavorax</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+	<description>Alcavorax bacteria flood the bloodstream, destroying mechanites and other parasites before they can cause illness. This only blocks new infections; it does nothing for those already infected.</description>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.12</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+		<li>
+			<makeImmuneTo>
+				<li>GutWorms</li>
+				<li>MuscleParasites</li>
+				<li>FibrousMechanites</li>
+				<li>SensoryMechanites</li>
+			</makeImmuneTo>
+		</li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_AlcavoraxHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_AlcavoraxHigh</hediff>
+    <stages>
+      <li>
+        <label>Itchy</label>
+        <description>My skin is itchy. This is unbearable!</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>

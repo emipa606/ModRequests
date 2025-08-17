@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="UF_MakeableDrugBase">
+		<defName>UF_BrainLokDrug</defName>
+		<label>BrainLok</label>
+		<description>BrainLok shuts down sections of the brain, greatly reducing psychic sensitivity. Unfortunately it also reduces other higher brain functions, making learning new skills next to impossible.\n\nThis drug can be considerably addictive.</description>
+		<descriptionHyperlinks>
+			<HediffDef>UF_BrainLokHigh</HediffDef>
+			<HediffDef>PsychiteTolerance</HediffDef>
+			<HediffDef>PsychiteAddiction</HediffDef>
+			<!--HediffDef>UF_BrainLokTolerance</HediffDef-->
+			<!--HediffDef>UF_BrainLokAddiction</HediffDef-->
+			<!--HediffDef>ChemicalDamageModerate</HediffDef-->
+			<!--MentalStateDef>Wander_OwnRoom</MentalStateDef-->
+			<!--MentalStateDef>Wander_Psychotic</MentalStateDef-->
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>Resource/UF_BrainLok</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>false</socialPropernessMatters>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>1000</WorkToMake>
+			<MarketValue>30</MarketValue>
+			<Mass>0.005</Mass>
+			<Flammability>0.7</Flammability>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+			<foodType>Processed</foodType>
+			<drugCategory>Medical</drugCategory>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>UF_BrainLokHigh</hediffDef>
+					<severity>1.0</severity>
+					<toleranceChemical>Psychite</toleranceChemical>
+					<!--toleranceChemical>UF_ChemicalBrainLok</toleranceChemical-->
+				</li>
+				<!--li Class="IngestionOutcomeDoer_GiveHediff"-->
+					<!--hediffDef>UF_BrainLokTolerance</hediffDef-->
+					<!--severity>0.044</severity-->
+					<!--divideByBodySize>true</divideByBodySize-->
+				<!--/li-->
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+				  <hediffDef>PsychiteTolerance</hediffDef>
+				  <severity>0.044</severity>
+				  <divideByBodySize>true</divideByBodySize>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<comps>
+		  <li Class="CompProperties_Drug">
+			<!--chemical>UF_ChemicalBrainLok</chemical-->
+			<chemical>Psychite</chemical>
+			<addictiveness>0.1</addictiveness>
+			<minToleranceToAddict>0.03</minToleranceToAddict>
+			<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+			<needLevelOffset>1</needLevelOffset>
+			<isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+			<listOrder>200</listOrder>
+			<overdoseSeverityOffset>
+			  <min>0.18</min>
+			  <max>0.35</max>
+			</overdoseSeverityOffset>
+			<largeOverdoseChance>0.01</largeOverdoseChance>
+		  </li>
+		</comps>
+	</ThingDef>
+  
+  <HediffDef>
+    <defName>UF_BrainLokHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>BrainLok</label>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+	<description>Brain activity dulled by BrainLok. Dulls psychic sensitivity, but makes mental tasks next to impossible.</description>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.35</severityPerDay>
+		<showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+		<li>
+			<statOffsets>
+				<PsychicSensitivity>-2.0</PsychicSensitivity>
+				<GlobalLearningFactor>-1.0</GlobalLearningFactor>
+				<MentalBreakThreshold>-0.25</MentalBreakThreshold>
+				<WorkSpeedGlobal>-0.5</WorkSpeedGlobal>
+				<ResearchSpeed>-1.0</ResearchSpeed>
+			</statOffsets>
+			<capMods>
+				<li>
+					<capacity>Moving</capacity>
+					<offset>-0.10</offset>
+				</li>
+			</capMods>
+		</li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_BrainLokHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_BrainLokHigh</hediff>
+    <stages>
+      <li>
+        <label>numbed by BrainLok</label>
+        <description>My brain is full of cotton. Luxuriously fluffy cotton.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- BrainLok addiction -->
+<!--
+  <ChemicalDef>
+    <defName>UF_ChemicalBrainLok</defName>
+    <label>BrainLok</label>
+    <addictionHediff>UF_BrainLokAddiction</addictionHediff>
+    <toleranceHediff>UF_BrainLokTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>UF_ChemicalNeedBrainLok</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>BrainLok</label>
+    <description>Because of a BrainLok addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>UF_BrainLokTolerance</defName>
+    <label>BrainLok tolerance</label>
+	<description>A built-up tolerance to BrainLok. The more severe this tolerance is, the more BrainLok it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.015</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>UF_ChemicalBrainLok</chemical>
+      </li>
+    </comps>
+		<hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>ChemicalDamageModerate</hediff>
+				<minSeverity>0.50</minSeverity>
+				<baseMtbDays>120</baseMtbDays>
+				<partsToAffect>
+					<li>Brain</li>
+				</partsToAffect>
+			</li>
+		</hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>UF_BrainLokAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>BrainLok addiction</label>
+    <causesNeed>UF_ChemicalNeedBrainLok</causesNeed>
+	<description>A chemical addiction to BrainLok. Long-term presence of BrainLok has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of BrainLok, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.03</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.35</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+			<li>
+				<mentalState>Wander_OwnRoom</mentalState>
+				<mtbDays>2</mtbDays>
+			</li>
+			<li>
+				<mentalState>Wander_Psychotic</mentalState>
+				<mtbDays>8</mtbDays>
+			</li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>UF_BrainLokWithdrawl</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>UF_BrainLokAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>BrainLok withdrawal</label>
+        <description>The universe is screaming at me. Make it stop!</description>
+        <baseMoodEffect>-35</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+-->    
+</Defs>
