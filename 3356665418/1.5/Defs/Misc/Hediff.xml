@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<HediffDef>
+		<defName>EntangledLivingBarbed</defName>
+		<label>entangled in living wire</label>
+		<hediffClass>HediffWithComps</hediffClass>
+		<description>This person is entangled by a mass of barbed wire, causing intense pain and rendering them unable to move. The barbed wire must be removed through surgery.</description>
+		<stages>
+			<li>
+				<painOffset>0.60</painOffset>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<setMax>0</setMax>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<setMax>0.5</setMax>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<comps>
+		</comps>
+		<isBad>true</isBad>
+        <renderNodeProperties>
+            <li>
+                <debugLabel>BodyPart_EntangledLivingBarbed</debugLabel>
+                <workerClass>PawnRenderNodeWorker_AttachmentBody</workerClass>
+                <texPaths>
+                    <li>Things/Pawn/BodyPart/EntangledLivingBarbed</li>
+                </texPaths>
+                <baseLayer>50</baseLayer>
+				<visibleFacing>
+					<li>South</li>
+					<li>North</li>
+					<li>East</li>
+					<li>West</li>
+				</visibleFacing>
+				<drawData>
+					<scaleOffsetByBodySize>true</scaleOffsetByBodySize>
+					<childScale>0.7</childScale>
+					<bodyTypeScales>
+						<Hulk>1.2</Hulk>
+						<Fat>1.4</Fat>
+						<Thin>0.8</Thin>
+					</bodyTypeScales>
+				</drawData>
+            </li>
+        </renderNodeProperties>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>BarbedWireStart</defName>
+		<label>living barbed wire</label>
+		<hediffClass>HediffWithComps</hediffClass>
+		<description>The living wire shifts unpredictably.</description>
+		<initialSeverity>0.01</initialSeverity>
+		<maxSeverity>1</maxSeverity>
+		<stages>
+			<li>
+				<painFactor>0</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>1</offset>
+						<setMax>1</setMax>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>1</offset>
+						<setMax>1</setMax>
+					</li>
+				</capMods>
+				<statFactors>
+					<IncomingDamageFactor>0.3</IncomingDamageFactor>
+					<StaggerDurationFactor>0</StaggerDurationFactor>
+				</statFactors>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>LivingBarbedAdd</defName>
+		<label>living wire bound</label>
+		<description>Bind this person with the wire.</description>
+		<workerClass>Recipe_AddHediff</workerClass>
+		<addsHediff>EntangledLivingBarbed</addsHediff>
+		<jobString>bounding.</jobString>
+		<workAmount>600</workAmount>
+		<targetsBodyPart>false</targetsBodyPart>
+		<surgerySuccessChanceFactor>1</surgerySuccessChanceFactor>
+		<isViolation>true</isViolation>
+		<deathOnFailedSurgeryChance>0</deathOnFailedSurgeryChance>
+		<developmentalStageFilter>Child, Adult</developmentalStageFilter>
+		<skillRequirements>
+			<Medicine>4</Medicine>
+		</skillRequirements>
+		<researchPrerequisite>
+			<li>BioferriteSecurity</li>
+		</researchPrerequisite>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>Medicine</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Bioferrite</li>
+					</thingDefs>
+				</filter>
+				<count>20</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Bioferrite</li>
+			</thingDefs>
+			<categories>
+				<li>Medicine</li>
+			</categories>
+		</fixedIngredientFilter>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>LivingBarbedRemove</defName>
+		<label>remove living wire</label>
+		<description>Remove the wire net from this person to restore their mobility.</description>
+		<jobString>unbounding.</jobString>
+		<workerClass>Recipe_RemoveHediff</workerClass>
+		<removesHediff>EntangledLivingBarbed</removesHediff>
+		<displayPriority>0</displayPriority>
+		<workAmount>60</workAmount>
+		<surgerySuccessChanceFactor>0.95</surgerySuccessChanceFactor>
+		<isViolation>true</isViolation>
+		<targetsBodyPart>false</targetsBodyPart>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>Medicine</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>Medicine</li>
+			</categories>
+		</fixedIngredientFilter>
+	</RecipeDef>
+	
+</Defs>

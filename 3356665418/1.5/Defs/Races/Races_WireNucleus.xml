@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="MysteriousSphereEntityBase">
+		<defName>WireNucleus</defName>
+		<label>wire bud</label>
+		<description>The core of the living wire—a delicate, metallic bud with a strangely eerie beauty. This bud is the core organ of the Living Iron Web, continually regenerating wire mesh and serving as its reproductive organ, though exactly how it reproduces remains unclear.\n\nIf its ever-growing Bioferrite strands are not suppressed, the reappearance of the writhing wire creature is only a matter of time.</description>
+		<uiIconPath>Things/Pawn/WireNucleus/WireNucleusA</uiIconPath>
+		<hiddenWhileUndiscovered>true</hiddenWhileUndiscovered>
+		<race>
+			<body>FleshmassNucleus</body>
+			<thinkTreeMain>FleshmassNucleus</thinkTreeMain>
+			<thinkTreeConstant>FleshmassNucleusConstant</thinkTreeConstant>
+			<baseHealthScale>1</baseHealthScale>
+			<baseBodySize>1</baseBodySize>
+		</race>
+		<descriptionHyperlinks>
+			<ThingDef>LivingBarbedWire</ThingDef>
+		</descriptionHyperlinks>
+		<comps>
+			<li Class="CompProperties_Studiable">
+				<frequencyTicks>120000</frequencyTicks>
+				<knowledgeCategory>Advanced</knowledgeCategory>
+				<anomalyKnowledge>3</anomalyKnowledge>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+				<requiresHoldingPlatform>true</requiresHoldingPlatform>
+			</li>
+			<li Class="CompProperties_ProducesBioferrite">
+				<bioferriteDensity>3</bioferriteDensity>
+			</li>
+			<li Class="CompProperties_Pushable">
+				<offsetDistance>0.5</offsetDistance>
+			</li>
+			<li Class="CompProperties_Activity">
+				<startingRange>0.3~0.6</startingRange>
+				<changePerDayOutside>0.15</changePerDayOutside>
+				<workerClass>PawnActivityWorker</workerClass>
+				<showLetterOnActivated>true</showLetterOnActivated>
+				<dirtyGraphicsOnActivityChange>true</dirtyGraphicsOnActivityChange>
+				<changePerDamage>0.1</changePerDamage>
+				<letterDef>ThreatBig</letterDef>
+				<letterTitle>Thorn proliferation</letterTitle>
+				<letterDesc>The living wire has been reborn from the bud!</letterDesc>
+				<activityResearchFactorCurve>
+					<points>
+						<li>0, 0.5</li>
+						<li>0.5, 1</li>
+						<li>0.99, 2</li>
+					</points>
+				</activityResearchFactorCurve>
+			</li>
+			<li Class="CompProperties_LivingWireNucleus">
+				<activityOnRoofCollapsed>0.4</activityOnRoofCollapsed>
+				<activityMeatPerDayCurve>
+					<points>
+						<li>0.1, 20</li>
+						<li>0.9, 120</li>
+					</points>
+				</activityMeatPerDayCurve>
+			</li>
+			<li Class="CompProperties_AttachPoints">
+				<points>
+					<li>
+						<offset>(-.35, 0, .35)</offset>
+						<type>PlatformRestraint0</type>
+					</li>
+					<li>
+						<offset>(.35, 0, .35)</offset>
+						<type>PlatformRestraint1</type>
+					</li>
+					<li>
+						<offset>(.35, 0, -.35)</offset>
+						<type>PlatformRestraint2</type>
+					</li>
+					<li>
+						<offset>(-.35, 0, -.35)</offset>
+						<type>PlatformRestraint3</type>
+					</li>
+				</points>
+			</li>
+		</comps>
+		<killedLeavingsRanges>
+			<Bioferrite>100~200</Bioferrite>
+			<Shard>2</Shard>
+		</killedLeavingsRanges>
+	</ThingDef>
+
+	<PawnKindDef>
+		<defName>WireNucleus</defName>
+		<label>wire bud</label>
+		<race>WireNucleus</race>
+		<canMeleeAttack>false</canMeleeAttack>
+		<hostileToAll>true</hostileToAll>
+		<allowOldAgeInjuries>false</allowOldAgeInjuries>
+		<defaultFactionType>Entities</defaultFactionType>
+		<immuneToGameConditionEffects>true</immuneToGameConditionEffects>
+		<preventIdeo>true</preventIdeo>
+		<canStrip>false</canStrip>
+		<immuneToTraps>true</immuneToTraps>
+		<collidesWithPawns>false</collidesWithPawns>
+		<ignoresPainShock>true</ignoresPainShock>
+		<minGenerationAge>200</minGenerationAge>
+		<useFixedRotation>true</useFixedRotation>
+		<fixedRotation>South</fixedRotation>
+		<overrideDebugActionCategory>Entity</overrideDebugActionCategory>
+		<startingHediffs>
+			<li>
+				<def>Regeneration</def>
+				<severity>0.1</severity>
+			</li>
+		</startingHediffs>
+		<combatPower>100</combatPower>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/WireNucleus</texPath>
+					<graphicClass>Graphic_ActivityStaged</graphicClass>
+					<drawSize>2</drawSize>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+	</PawnKindDef>
+  
+	<EntityCodexEntryDef>
+		<defName>WireNucleus</defName>
+		<label>wire bud</label>
+		<useDescriptionFrom>WireNucleus</useDescriptionFrom>
+		<uiIconPath>UI/WireNucleus</uiIconPath>
+		<category>Advanced</category>
+		<linkedThings>
+			<li>WireNucleus</li>
+		</linkedThings>
+		<discoveredResearchProjects>
+			<li>BioferriteSecurity</li>
+		</discoveredResearchProjects>
+		<provocationIncidents>
+			<li>LivingBarbedWire</li>
+		</provocationIncidents>
+		<orderInCategory>400</orderInCategory>
+	</EntityCodexEntryDef>
+	
+	<IncidentDef ParentName="AnomalyIncidentBase">
+		<defName>LivingBarbedWire</defName>
+		<label>living wire attack</label> 
+		<targetTags>
+			<li>Map_PlayerHome</li>
+		</targetTags>
+		<workerClass>IncidentWorker_LivingWire</workerClass>
+		<letterLabel>living wire closes in</letterLabel> 
+		<letterText>A constantly moving creature, resembling a tangled mass of iron wire, now approaches the colony with hunger and curiosity.\n\nIts movements are erratic; it must be subdued before it can inflict any damage.</letterText>
+		<letterDef>ThreatBig</letterDef>
+		<baseChance>0.6</baseChance>
+		<earliestDay>60</earliestDay>
+		<minAnomalyThreatLevel>2</minAnomalyThreatLevel>
+		<pointsScaleable>true</pointsScaleable>
+		<category>ThreatBig</category>
+		<minRefireDays>120</minRefireDays>
+	</IncidentDef>
+</Defs>

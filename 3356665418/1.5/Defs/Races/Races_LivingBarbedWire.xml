@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ThingDef ParentName="BasePawn">
+      <defName>LivingBarbedWire</defName>
+      <label>living barbed wire</label>
+      <description>A mass of writhing, living metal wires. Its intertwined limbs hook into the ground, dragging itself toward prey, nourished by the blood of the living to sustain the core protected within the metal web.The excessive growth of surrounding metal webbing hinders the core's regeneration. Composed of bioferrite, it lacks toughness and is highly flammable. Cutting or burning it might effectively restrict this creature’s movement.\n\nSome research suggests that this creature may be related to barbed wire from a battlefield environment in an ancient, prolonged war, though precise details remain elusive.</description>
+      <statBases>
+		<ComfyTemperatureMin>-100</ComfyTemperatureMin>
+		<ComfyTemperatureMax>250</ComfyTemperatureMax>
+		<ArmorRating_Sharp>1.2</ArmorRating_Sharp>
+		<ArmorRating_Blunt>3.0</ArmorRating_Blunt>
+		<ArmorRating_Heat>0.4</ArmorRating_Heat>
+		<Flammability>1</Flammability>
+		<MeatAmount>0</MeatAmount>
+		<LeatherAmount>0</LeatherAmount>
+		<MoveSpeed>3</MoveSpeed>
+		<PsychicSensitivity>0</PsychicSensitivity>
+		<ToxicResistance>2</ToxicResistance>
+      </statBases>
+	  <tradeability>None</tradeability>
+      <race>
+		<thinkTreeMain>Noctol</thinkTreeMain>
+		<thinkTreeConstant>NoctolConstant</thinkTreeConstant>
+        <body>LivingBarbedWire</body>
+        <baseBodySize>4.0</baseBodySize>
+        <baseHealthScale>1</baseHealthScale>
+        <fleshType>EntityFlesh</fleshType>
+        <leatherDef>Leather_Dread</leatherDef>
+		<intelligence>ToolUser</intelligence>
+        <foodType>None</foodType>
+        <needsRest>false</needsRest>
+		<renderTree>LivingBarbedWire</renderTree>
+		<isImmuneToInfections>true</isImmuneToInfections>
+        <bleedRateFactor>0</bleedRateFactor>
+        <hasGenders>false</hasGenders>
+		<bloodDef IsNull="True"/>
+        <hasMeat>false</hasMeat>
+		<lifeExpectancy>0.1</lifeExpectancy>
+        <soundCallIntervalRange>500~1000</soundCallIntervalRange>
+        <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+        <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+        <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+        <soundMeleeDodge>Pawn_MeleeDodge</soundMeleeDodge>
+        <disableIgniteVerb>true</disableIgniteVerb>
+        <trainability>None</trainability>
+        <canBecomeShambler>false</canBecomeShambler>
+		<lifeStageAges>
+            <li>
+				<def>EntityFullyFormed</def>
+				<soundCall>Pawn_Sightstealer_Call</soundCall>
+				<soundWounded>Pawn_Sightstealer_Wounded</soundWounded>
+				<soundDeath>Pawn_Mech_Centurion_Death</soundDeath>
+			</li>
+		</lifeStageAges>
+		<hediffGiverSets>
+			<li>AnomalyEntity</li>
+		</hediffGiverSets>
+		<deathAction Class="DeathActionProperties_Divide">
+			<divideBloodFilthCountRange>1</divideBloodFilthCountRange>
+			<dividePawnCount>1</dividePawnCount>
+			<dividePawnKindOptions>
+				<li>WireNucleus</li>
+			</dividePawnKindOptions>
+		</deathAction>
+      </race>
+	  <comps>
+		<li Class="CompProperties_EffecterOnDeath">
+			<effecterDef>AgonyPulseExplosion</effecterDef>
+		</li>
+        <li Class="LivingWire.CompProperties_AreaDamageAndHediff">
+            <damageDef>Scratch</damageDef> <!-- 伤害类型，例如 Burn -->
+            <damageAmount>6</damageAmount> <!-- 伤害量 -->
+            <effectRadius>5.9</effectRadius> <!-- 影响范围 -->
+            <hediffToApply>EntangledLivingBarbed</hediffToApply>
+            <hediffChance>0.25</hediffChance> <!-- 附加 Hediff 的几率 -->
+            <tickInterval>90</tickInterval> <!-- 每1秒执行一次 -->
+        </li>
+	  </comps>
+	  <tools>
+		<li>
+			<label>barbed tentacles</label>
+			<labelNoLocation>tentacles</labelNoLocation>
+			<capacities>
+				<li>Cut</li>
+				<li>Stab</li>
+				<li>Scratch</li>
+			</capacities>
+			<power>5</power>
+			<cooldownTime>1</cooldownTime>
+			<linkedBodyPartsGroup>TentaclesAttackTool</linkedBodyPartsGroup>
+			<chanceFactor>1</chanceFactor>
+		</li>
+	  </tools>
+    </ThingDef>
+  
+	<BodyDef>
+		<defName>LivingBarbedWire</defName>
+		<label>living barbed wire</label>
+		<corePart>
+			<def>LivingBarbedWireCore</def>
+			<height>Middle</height>
+			<depth>Outside</depth>
+			<groups>
+				<li>Torso</li>
+			</groups>
+			<parts>
+				<li>
+					<def>LivingBarbedWireTentacles</def>
+					<coverage>0.75</coverage>
+					<depth>Outside</depth>
+					<groups>
+						<li>TentaclesAttackTool</li>
+					</groups>
+				</li>
+			</parts>
+		</corePart>
+	</BodyDef>
+
+	<BodyPartGroupDef>
+		<defName>TentaclesAttackTool</defName>
+		<label>tentacle</label>
+	</BodyPartGroupDef>
+	
+	<BodyPartDef>
+		<defName>LivingBarbedWireCore</defName>
+		<label>core</label>
+		<hitPoints>50</hitPoints>
+		<permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+		<skinCovered>false</skinCovered>
+		<solid>true</solid>
+		<alive>true</alive>
+		<bleedRate>0</bleedRate>
+		<frostbiteVulnerability>0.1</frostbiteVulnerability>
+		<tags>
+			<li>ConsciousnessSource</li>
+			<li>BloodPumpingSource</li>
+			<li>BloodFiltrationSource</li>
+			<li>SightSource</li>
+			<li>HearingSource</li>
+			<li>MetabolismSource</li>
+			<li>BreathingSource</li>
+			<li>EatingSource</li>
+			<li>TalkingSource</li>
+			<li>BreathingPathway</li>
+			<li>EatingPathway</li>
+			<li>TalkingPathway</li>
+			<li>BreathingSourceCage</li>
+		</tags><!-- 泰南笑传之上面这些功能全都得有否则生成会失败还没有提示，这些个Pathway有什么用啊我请问了 -->
+	</BodyPartDef>
+	
+	<BodyPartDef>
+		<defName>LivingBarbedWireTentacles</defName>
+		<label>tentacles</label>
+		<hitPoints>350</hitPoints>
+		<permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+		<skinCovered>false</skinCovered>
+		<solid>true</solid>
+		<alive>false</alive>
+		<bleedRate>0</bleedRate>
+		<frostbiteVulnerability>0.1</frostbiteVulnerability>
+		<tags>
+			<li>ManipulationLimbCore</li>
+			<li>MovingLimbCore</li>
+			<li>MovingLimbSegment</li>
+		</tags>
+	</BodyPartDef>
+
+    <PawnKindDef>
+      <defName>LivingBarbedWire</defName>
+      <label>living barbed wire</label>
+      <race>LivingBarbedWire</race>
+	  <canMeleeAttack>false</canMeleeAttack>
+	  <hostileToAll>true</hostileToAll>
+      <defaultFactionType>Entities</defaultFactionType>
+      <allowOldAgeInjuries>false</allowOldAgeInjuries>
+      <immuneToGameConditionEffects>true</immuneToGameConditionEffects>
+      <immuneToTraps>true</immuneToTraps>
+      <overrideDebugActionCategory>Entity</overrideDebugActionCategory>
+      <combatPower>8000</combatPower>
+	  <meleeAttackInfectionPathways>
+		<li>EntityAttacked</li>
+      </meleeAttackInfectionPathways>
+      <lifeStages>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/LivingBarbedWire/BarbedWire</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>5</drawSize>
+            <shadowData>
+              <volume>(1, 1, 1)</volume>
+              <offset>(0,-1,0)</offset>
+            </shadowData>
+          </bodyGraphicData>
+        </li>
+      </lifeStages>
+	  <startingHediffs>
+		<li>
+		  <def>BarbedWireStart</def>
+		</li>
+	  </startingHediffs>
+    </PawnKindDef>
+	
+</Defs>
