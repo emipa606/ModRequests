@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+		<!-- Fix a few Vanilla screwups -->
+	<Operation Class="PatchOperationAdd">
+	  <xpath>Defs/ThingDef[defName = "Apparel_FlakPants"]</xpath>
+	  <value>
+		<techLevel>Industrial</techLevel>
+	  </value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+	  <xpath>Defs/ThingDef[defName = "Apparel_FlakJacket"]</xpath>
+	  <value>
+		<techLevel>Industrial</techLevel>
+	  </value>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+	  <xpath>Defs/ThingDef[defName = "MeleeWeapon_Spear"]/tools/li[label = "point"]/armorPenetration</xpath>
+	</Operation>
+	
+		<!-- Armor Stats -->
+		
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/StatDef[@Name="ArmorRatingBase"]/maxValue</xpath>
+		<match Class = "PatchOperationRemove">
+			<xpath>Defs/StatDef[@Name="ArmorRatingBase"]/maxValue</xpath>
+		</match>	
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/StatDef[@Name="ArmorRatingBase"]/parts</xpath>
+		<value>
+			<li Class="ArmoredUp.StatPart_ArmorHealth" />
+			<li Class="ArmoredUp.StatPart_LayerBonus" />
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/StatDef[defName="ArmorRating_Blunt"]/parts</xpath>
+		<value>
+			<li Class="ArmoredUp.StatPart_BluntAdjustment" />
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/StatDef[defName="ArmorRating_Sharp"]/description</xpath>
+		<value>
+			<description>Ability to resist 'sharp' damage such as from bullets, blades, claws, and arrows. \n\n  Armor Penetration (AP) is compared to this rating, and blocked 1:1. Each seperate apparel hit will provide their rated protection, and then finally any natural armor. Armor rating may be increased by covering multiple layers. Armor rating is (potentially, dependent on settings) degraded by durability - or the 'battered' health effect for natural armor, warcasket armor, and any other armor item without durability - to a configurable minimum. The 'battered' effect disapperas naturally at a rate of 100%/day. It may additionally be weakened for 'primitive' (medieval tech level or earlier) armors (and many clothes, including dusters!) against any ranged industrial tech or later attack.\n\n  If AP is higher than AR, then damage gets through, proportional to the amount not blocked: eg, a 100% AP attack hitting 80% Rating armor will do 20% of its original damage. \n\n  All AP blocked by sharp armor is converted to a 'blunt trauma' hit at the layer it impacts, with damage and blunt AP equal to the amount blocked. The blunt trauma damage and AP are then modified by settings, and then again by stopping power according to settings.</description>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/StatDef[defName="ArmorRating_Blunt"]/description</xpath>
+		<value>
+			<description>Ability to resist 'blunt' hits, such as fists, hammers, and the impact of stopped impacts.\n\n  See the description for Sharp Armor Rating for details of how armor works. Blunt armor may additionally receive bonus scaling from having a higher ratio of blunt:sharp than a set level; see mod settings for Armored Up for details.\n\n Stopped 'naturally' blunt hits do not generate blunt trauma.</description>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/StatDef[defName="ArmorRating_Heat"]/description</xpath>
+		<value>
+			<description>Ability to resist 'heat' based damage, such as fires and beam weapons.\n\n  See the description for Sharp Armor Rating for details of how armor works. Being on fire has a set AP, based on settings. Heat armor does not necessarily protect against hot environments, only immediate damage from extreme temperatures.\n\n  Heat damage from some weapons may cause blunt trauma, depending on settings.</description>
+		</value>
+	</Operation>
+</Patch>
