@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<!-- Ember Celica custom bullet -->
+
+	<ThingDef ParentName="BaseBullet">
+		<defName>Bullet_Ember_Celica</defName>
+		<label>Ember Celica bullet</label>
+		<graphicData>
+			<texPath>Things/Projectile/Ember_Celica_Projectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<damageDef>Bomb_Ember_Celica</damageDef>
+			<explosionRadius>0.5</explosionRadius>
+			<speed>50</speed>
+		</projectile>
+	</ThingDef>
+
+	<ThingDef Class="RWBYRemnant.ThingDef_RideBullet" ParentName="BaseBullet">
+		<defName>Bullet_Ember_Celica_Gravity</defName>
+		<label>Ember Celica bullet</label>
+		<thingClass>RWBYRemnant.Projectile_RideBullet</thingClass>
+		<graphicData>
+			<texPath>Things/Projectile/Empty_Projectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<projectile>
+			<damageDef>Blunt</damageDef>
+			<damageAmountBase>0</damageAmountBase>
+			<speed>30</speed>
+		</projectile>
+	</ThingDef>
+
+	<!-- Ember Celica base weapon, melee can do blunt damage, uses the same bomb type for melee and ranged  -->
+
+	<ThingDef ParentName="BaseMakeableGun_RWBY">
+		<defName>RWBY_Ember_Celica_Gun</defName>
+		<label>Ember Celica</label>
+		<description>Ember Celica are Yang Xiao Long's signature weapons. They are a pair of Dual Ranged Shot Gauntlets (DRSG).</description>
+		<graphicData>
+			<texPath>Things/Item/Equipment/Weapons/Ember_Celica</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.9</drawSize>
+		</graphicData>
+		<soundInteract>Interact_Shotgun</soundInteract>
+		<statBases>
+			<WorkToMake>30000</WorkToMake>
+			<MarketValue>800</MarketValue>
+			<Mass>1.5</Mass>
+			<AccuracyTouch>0.85</AccuracyTouch>
+			<AccuracyShort>0.77</AccuracyShort>
+			<AccuracyMedium>0.38</AccuracyMedium>
+			<AccuracyLong>0.20</AccuracyLong>
+			<RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+		</statBases>
+		<costList>
+			<Steel>200</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<FireDustCrystal>20</FireDustCrystal>
+			<GravityDustCrystal>30</GravityDustCrystal>
+		</costList>
+		<verbs>
+			<li>
+				<verbClass>Verb_Shoot</verbClass>
+				<hasStandardCommand>true</hasStandardCommand>
+				<defaultProjectile>Bullet_Ember_Celica</defaultProjectile>
+				<forcedMissRadius>0.5</forcedMissRadius>
+				<warmupTime>0.5</warmupTime>
+				<range>20</range>
+				<burstShotCount>3</burstShotCount>
+				<ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+				<soundCast>Shot_Shotgun</soundCast>
+				<soundCastTail>GunTail_Light</soundCastTail>
+				<muzzleFlashScale>9</muzzleFlashScale>
+			</li>
+		</verbs>
+		<equippedAngleOffset>-45</equippedAngleOffset>
+		<comps>		
+			<li Class="CompOversizedWeapon.CompProperties_OversizedWeapon">
+				<eastOffset>(0,0,0)</eastOffset>
+				<westOffset>(0,0,0)</westOffset>
+			</li>
+			<li Class="RWBYRemnant.CompProperties_WeaponTransform">
+				<TransformLabel>Melee only</TransformLabel>
+				<TransformDesc>dectivates ranged fire</TransformDesc>
+				<TransformIcon>Things/Item/Equipment/Weapons/Ember_Celica</TransformIcon>
+				<transformSound>Interact_Shotgun</transformSound>
+				<transformTime>0.0</transformTime>
+				<transformInto>RWBY_Ember_Celica_Melee</transformInto>
+			</li>
+			<li Class="RWBYRemnant.CompProperties_WeaponProjectile">
+				<AbilityLabel>Use Gravity Dust</AbilityLabel>
+				<AbilityDesc>Launches the caster into a certain direction</AbilityDesc>
+				<AbilityIcon>Things/UI/Gravity_Dust_UI</AbilityIcon>
+				<AbilitySound>Shot_Shotgun</AbilitySound>				
+				<AbilityProjectile>Bullet_Ember_Celica_Gravity</AbilityProjectile>
+				<Range>12</Range>
+				<targetingParameters>
+					<canTargetPawns>true</canTargetPawns>
+					<canTargetBuildings>false</canTargetBuildings>
+					<canTargetSelf>false</canTargetSelf>
+					<canTargetItems>true</canTargetItems>
+					<canTargetLocations>true</canTargetLocations>
+					<mapObjectTargetsMustBeAutoAttackable>false</mapObjectTargetsMustBeAutoAttackable>					
+				</targetingParameters>
+				<cannotMiss>true</cannotMiss>
+				<usesAmmunition>GravityDustPowder</usesAmmunition>
+			</li>
+		</comps>
+		<tools>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Bomb_Ember_Celica</li>
+				</capacities>
+				<power>13</power>
+				<cooldownTime>0.8</cooldownTime>
+			</li>
+		</tools>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseMeleeWeapon_RWBY">
+		<defName>RWBY_Ember_Celica_Melee</defName>
+		<label>Ember Celica (melee only)</label>
+		<description>Ember Celica are Yang Xiao Long's signature weapons. They are a pair of Dual Ranged Shot Gauntlets (DRSG).</description>
+		<graphicData>
+			<texPath>Things/Item/Equipment/Weapons/Ember_Celica</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.9</drawSize>
+		</graphicData>
+		<soundInteract>Interact_Shotgun</soundInteract>
+		<statBases>
+			<MarketValue>800</MarketValue>
+			<Mass>1.5</Mass>
+		</statBases>
+		<equippedAngleOffset>-45</equippedAngleOffset>
+		<costList>
+			<Steel>200</Steel>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<FireDustCrystal>20</FireDustCrystal>
+			<GravityDustCrystal>30</GravityDustCrystal>
+		</costList>
+		<comps>		
+			<li Class="CompOversizedWeapon.CompProperties_OversizedWeapon">
+				<eastOffset>(0,0,0)</eastOffset>
+				<westOffset>(0,0,0)</westOffset>
+			</li>
+			<li Class="RWBYRemnant.CompProperties_WeaponTransform">
+				<TransformLabel>Activate ranged</TransformLabel>
+				<TransformDesc>Activates ranged fire</TransformDesc>
+				<TransformIcon>Things/Item/Equipment/Weapons/Ember_Celica</TransformIcon>
+				<transformSound>Interact_Shotgun</transformSound>
+				<transformTime>0.0</transformTime>
+				<transformInto>RWBY_Ember_Celica_Gun</transformInto>
+			</li>
+			<li Class="RWBYRemnant.CompProperties_WeaponProjectile">
+				<AbilityLabel>Use Gravity Dust</AbilityLabel>
+				<AbilityDesc>Launches the caster into a certain direction</AbilityDesc>
+				<AbilityIcon>Things/UI/Gravity_Dust_UI</AbilityIcon>
+				<AbilitySound>Shot_Shotgun</AbilitySound>				
+				<AbilityProjectile>Bullet_Ember_Celica_Gravity</AbilityProjectile>
+				<WarmupTime>0.5</WarmupTime>
+				<Range>12</Range>
+				<targetingParameters>
+					<canTargetPawns>true</canTargetPawns>
+					<canTargetBuildings>false</canTargetBuildings>
+					<canTargetSelf>false</canTargetSelf>
+					<canTargetItems>true</canTargetItems>
+					<canTargetLocations>true</canTargetLocations>
+					<mapObjectTargetsMustBeAutoAttackable>false</mapObjectTargetsMustBeAutoAttackable>					
+				</targetingParameters>
+				<cannotMiss>true</cannotMiss>
+				<usesAmmunition>GravityDustPowder</usesAmmunition>
+			</li>
+		</comps>
+		<tools>
+			<li>
+				<label>barrel</label>
+				<capacities>
+					<li>Blunt</li>
+					<li>Bomb_Ember_Celica</li>
+				</capacities>
+				<power>13</power>
+				<cooldownTime>0.8</cooldownTime>
+			</li>
+		</tools>
+	</ThingDef>
+
+</Defs>
