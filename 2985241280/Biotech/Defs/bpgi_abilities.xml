@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <!-- Sanguophage -->
+    <AbilityDef ParentName="AbilityTouchBase">
+        <defName>PGISanguophage_Coagulate</defName>
+        <label>coagulate</label>
+        <description>Use special glands in the wrists to quickly tend someone's wounds.</description>
+        <iconPath>UI/Icons/Genes/Gene_Coagulate</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <stunTargetWhileCasting>true</stunTargetWhileCasting>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+        <warmupMote>Mote_CoagulateStencil</warmupMote>
+        <warmupEffecter>Coagulate</warmupEffecter>
+        <warmupStartSound>Coagulate_Cast</warmupStartSound>
+        <jobDef>CastAbilityOnThingMelee</jobDef>
+        <category>Sanguophage</category>
+        <displayOrder>400</displayOrder>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbilityTouch</verbClass>
+            <drawAimPie>false</drawAimPie>
+            <range>-1</range>
+            <warmupTime>0</warmupTime>
+            <targetParams>
+                <canTargetAnimals>true</canTargetAnimals>
+                <canTargetSelf>true</canTargetSelf>
+                <canTargetBuildings>false</canTargetBuildings>
+                <canTargetMechs>false</canTargetMechs>
+                <canTargetBloodfeeders>true</canTargetBloodfeeders>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityCoagulate">
+                <tendQualityRange>114514~1919810</tendQualityRange>
+            </li>
+        </comps>
+    </AbilityDef>
+    <AbilityDef ParentName="AbilityTouchBase">
+        <defName>PGISanguophage_Bloodfeed</defName>
+        <label>bloodfeed</label>
+        <description>Bite the target and extract hemogen directly from their blood. The target will lose blood and will be horrified by the interaction, but will be otherwise unharmed. A fast-acting coagulant will seal the wound to prevent bleeding.\n\nCan only target non-hemogenic humans. Hemogen gain is affected by the target's body size.</description>
+        <iconPath>UI/Icons/Genes/Gene_Bloodfeeder</iconPath>
+        <category>Sanguophage</category>
+        <warmupEffecter>Bloodfeed_Warmup</warmupEffecter>
+        <warmupStartSound>Bloodfeed_Cast</warmupStartSound>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbilityTouch</verbClass>
+            <drawAimPie>false</drawAimPie>
+            <range>-1</range>
+            <warmupTime>0</warmupTime>
+            <targetParams>
+                <canTargetSelf>false</canTargetSelf>
+                <canTargetBuildings>false</canTargetBuildings>
+                <canTargetMechs>false</canTargetMechs>
+                <canTargetAnimals>true</canTargetAnimals>
+                <canTargetBloodfeeders>true</canTargetBloodfeeders>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityBloodfeederBite">
+                <hemogenGain>9999</hemogenGain>
+                <bloodFilthToSpawnRange>3</bloodFilthToSpawnRange>
+                <thoughtDefToGiveTarget>FedOn</thoughtDefToGiveTarget>
+                <opinionThoughtDefToGiveTarget />
+                <resistanceGain>-9999</resistanceGain>
+            </li>
+            <li Class="CompProperties_AbilityFleckOnTarget">
+                <fleckDef>BloodSplash</fleckDef>
+            </li>
+            <li Class="CompProperties_AbilityRequiresCapacity">
+                <capacity>Eating</capacity>
+            </li>
+        </comps>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGISanguophage_PiercingSpine</defName>
+        <label>piercing spine</label>
+        <description>Use a hemogenic chemical reaction to launch a bony spine at the target. The spine exits through the skin from an opening between the collarbones. Given the method of launch, it is surprisingly easy to aim.</description>
+        <iconPath>UI/Abilities/PiercingSpine</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <stunTargetWhileCasting>true</stunTargetWhileCasting>
+        <category>Sanguophage</category>
+        <displayOrder>200</displayOrder>
+        <aiCanUse>false</aiCanUse>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>99.9</range>
+            <warmupTime>0</warmupTime>
+            <soundCast>PiercingSpine_Launch</soundCast>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityLaunchProjectile">
+                <projectileDef>Proj_PGISanguophage_PiercingSpine</projectileDef>
+            </li>
+        </comps>
+    </AbilityDef>
+    <ThingDef ParentName="BaseBullet">
+        <defName>Proj_PGISanguophage_PiercingSpine</defName>
+        <label>keratin spine</label>
+        <graphicData>
+            <texPath>Things/Projectile/PiercingSpine</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <projectile>
+            <damageDef>RangedStab</damageDef>
+            <damageAmountBase>114514</damageAmountBase>
+            <armorPenetrationBase>114514</armorPenetrationBase>
+            <stoppingPower>114514</stoppingPower>
+            <speed>2000</speed>
+        </projectile>
+    </ThingDef>
+    <AbilityDef ParentName="AbilityTouchBase">
+        <defName>PGISanguophage_Resurrect</defName>
+        <label>resurrect</label>
+        <description>Use archites in the bloodstream to infuse a corpse's body with new life, repairing degenerated cell structures and kickstarting vital functions. The older and worse-preserved the corpse is, the more likely it is that they will come back with memory loss or health conditions. This ability seems to exhaust the archites somehow, so it can only be used very rarely.</description>
+        <iconPath>UI/Abilities/Resurrect</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <warmupMote>Mote_ResurrectAbility</warmupMote>
+        <warmupStartSound>Resurrect_Cast</warmupStartSound>
+        <category>Sanguophage</category>
+        <displayOrder>600</displayOrder>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbilityTouch</verbClass>
+            <drawAimPie>false</drawAimPie>
+            <range>-1</range>
+            <warmupTime>2</warmupTime>
+            <soundCast>Resurrect_Resolve</soundCast>
+            <targetParams>
+                <canTargetPawns>false</canTargetPawns>
+                <canTargetBuildings>false</canTargetBuildings>
+                <canTargetCorpses>true</canTargetCorpses>
+                <canTargetMechs>false</canTargetMechs>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_Resurrect" />
+        </comps>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGISanguophage_Longjump</defName>
+        <label>longjump</label>
+        <description>Jump to a distant location using super-strong hemogen-powered legs.</description>
+        <iconPath>UI/Abilities/Longjump</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbilityJump</verbClass>
+            <label>jump</label>
+            <violent>false</violent>
+            <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+            <warmupTime>0</warmupTime>
+            <range>99.9</range>
+            <requireLineOfSight>false</requireLineOfSight>
+            <soundCast>Longjump_Jump</soundCast>
+            <soundLanding>Longjump_Land</soundLanding>
+            <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+                <canTargetPawns>false</canTargetPawns>
+                <canTargetBuildings>false</canTargetBuildings>
+            </targetParams>
+        </verbProperties>
+        <jobDef>CastJump</jobDef>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGISanguophage_AcidSpray</defName>
+        <label>acid spray</label>
+        <description>Spray a sticky acid substance from glands in the neck up through the mouth and all over the target area. The acid will stick to targets and burn them.</description>
+        <iconPath>UI/Abilities/AcidSpray</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <aiCanUse>false</aiCanUse>
+        <displayOrder>300</displayOrder>
+        <category>Sanguophage</category>
+        <warmupStartSound>AcidSpray_Warmup</warmupStartSound>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>56.4</range>
+            <warmupTime>0</warmupTime>
+            <soundCast>AcidSpray_Resolve</soundCast>
+            <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilitySprayLiquid">
+                <projectileDef>Proj_PGISanguophage_Acid</projectileDef>
+                <numCellsToHit>99</numCellsToHit>
+                <sprayEffecter>AcidSpray_Directional</sprayEffecter>
+            </li>
+        </comps>
+    </AbilityDef>
+    <ThingDef>
+        <defName>Proj_PGISanguophage_Acid</defName>
+        <label>acid</label>
+        <thingClass>Projectile_Liquid</thingClass>
+        <category>Projectile</category>
+        <tickerType>Normal</tickerType>
+        <altitudeLayer>Projectile</altitudeLayer>
+        <useHitPoints>False</useHitPoints>
+        <neverMultiSelect>True</neverMultiSelect>
+        <graphicData>
+            <texPath>Things/Projectile/Acid</texPath>
+            <graphicClass>Graphic_Random</graphicClass>
+            <shaderType>MoteGlow</shaderType>
+            <drawSize>0.85</drawSize>
+        </graphicData>
+        <projectile>
+            <damageDef>AcidBurn</damageDef>
+            <speed>2000</speed>
+            <damageAmountBase>114514</damageAmountBase>
+            <arcHeightFactor>0.4</arcHeightFactor>
+            <armorPenetrationBase>114514</armorPenetrationBase>
+            <stoppingPower>114514</stoppingPower>
+            <shadowSize>0</shadowSize>
+            <filth>Filth_SpentAcid</filth>
+            <filthCount>1</filthCount>
+        </projectile>
+    </ThingDef>
+    <AbilityDef>
+        <defName>PGISanguophage_FoamSpray</defName>
+        <label>foam spray</label>
+        <description>Spray thick fire-retardant foam from glands in the neck up through the mouth. The foam will cover a small area and extinguish any fire it touches.</description>
+        <iconPath>UI/Icons/Genes/Gene_FoamSpray</iconPath>
+        <charges>200</charges>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <warmupStartSound>FoamSpray_Warmup</warmupStartSound>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>56.4</range>
+            <warmupTime>0</warmupTime>
+            <soundCast>FoamSpray_Resolve</soundCast>
+            <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilitySprayLiquid">
+                <projectileDef>Proj_PGISanguophage_Foam</projectileDef>
+                <numCellsToHit>25</numCellsToHit>
+                <sprayEffecter>FoamSpray_Directional</sprayEffecter>
+            </li>
+        </comps>
+    </AbilityDef>
+    <ThingDef ParentName="ProjectileFoamBase">
+        <defName>Proj_PGISanguophage_Foam</defName>
+        <projectile>
+            <speed>2000</speed>
+            <numExtraHitCells>0</numExtraHitCells>
+            <filthCount>3~3</filthCount>
+        </projectile>
+        <graphicData>
+            <texPath>Things/Mote/FoamSpray</texPath>
+            <graphicClass>Graphic_Random</graphicClass>
+            <shaderType>MoteGlow</shaderType>
+            <drawSize>1.35</drawSize>
+        </graphicData>
+    </ThingDef>
+    <AbilityDef>
+        <defName>PGISanguophage_FireSpew</defName>
+        <label>fire spew</label>
+        <description>Spit a stream of sticky, flammable bile from the mouth. The bile can ignite anything or anyone it hits, and also form flaming pools on the ground.\n\nThe bile is generated and stored by an organ in the neck, along with a separate pouch of hypergolic reactant for ignition.</description>
+        <iconPath>UI/Abilities/FireSpew</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <aiCanUse>false</aiCanUse>
+        <warmupStartSound>FireSpew_Warmup</warmupStartSound>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <range>56.4</range>
+            <warmupTime>0</warmupTime>
+            <soundCast>FireSpew_Resolve</soundCast>
+            <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityFireSpew">
+                <range>56.4</range>
+                <lineWidthEnd>16</lineWidthEnd>
+                <filthDef>Filth_FlammableBile</filthDef>
+                <effecterDef>Fire_Spew</effecterDef>
+                <canHitFilledCells>true</canHitFilledCells>
+            </li>
+        </comps>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGISanguophage_AnimalWarcall</defName>
+        <label>animal warcall</label>
+        <description>With a powerful bellow and psychic connection, call an animal to fight your enemies for a few hours.</description>
+        <iconPath>UI/Abilities/AnimalWarcall</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <canUseAoeToGetTargets>false</canUseAoeToGetTargets>
+        <jobDef>CastAbilityOnThingWithoutWeaponInterruptible</jobDef>
+        <groupAbility>true</groupAbility>
+        <statBases>
+            <Ability_Duration>500</Ability_Duration>
+        </statBases>
+        <charges>200</charges>
+        <cooldownPerCharge>true</cooldownPerCharge>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <label>warcall</label>
+            <warmupTime>0</warmupTime>
+            <range>99.9</range>
+            <drawAimPie>true</drawAimPie>      
+            <requireLineOfSight>false</requireLineOfSight>
+            <warmupEffecter>AnimalWarcall_Warmup</warmupEffecter>
+            <mouseTargetingText>Choose an animal to call</mouseTargetingText>
+            <targetParams>
+                <canTargetLocations>false</canTargetLocations>
+                <canTargetPawns>true</canTargetPawns>
+                <canTargetAnimals>true</canTargetAnimals>
+                <canTargetBuildings>false</canTargetBuildings>
+                <canTargetHumans>false</canTargetHumans>
+                <canTargetMechs>false</canTargetMechs>
+                <canTargetSelf>false</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityGiveMentalState">
+                <compClass>CompAbilityEffect_GiveMentalState</compClass>
+                <stateDef>BerserkWarcall</stateDef>
+                <goodwillImpact>0</goodwillImpact>
+                <casterEffect>AnimalWarcall_Cast</casterEffect>
+                <targetEffect>AnimalWarcall_CastOnTarget</targetEffect>
+                <excludeNPCFactions>true</excludeNPCFactions>
+            </li>
+        </comps>
+    </AbilityDef>
+
+    <!-- Mechanitor -->
+    <AbilityDef ParentName="LongJumpMech">
+        <defName>PGIMechanitor_LongjumpMech</defName>
+        <label>jump launcher</label>
+        <description>Jump to a distant location using a built-in jump launcher.</description>
+        <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+        <charges>200</charges>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <hostile>false</hostile>
+        <verbProperties>
+            <range>56.4</range>
+            <warmupEffecter>JumpMechWarmupEffect</warmupEffecter>
+            <warmupTime>0</warmupTime>
+            <requireLineOfSight>true</requireLineOfSight>
+            <flightEffecterDef>JumpMechFlightEffect</flightEffecterDef>
+            <flyWithCarriedThing>true</flyWithCarriedThing>
+            <soundLanding>JumpMechLand</soundLanding>
+            <soundCast Inherit="False" />
+        </verbProperties>
+        <jobDef>CastJump</jobDef>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGIMechanitor_SmokepopMech</defName>
+        <label>mech smokepop</label>
+        <description>Release compressed smoke from concealed vents. Smoke reduces the accuracy of any shot fired through it, and prevents turrets from locking on entirely.</description>
+        <iconPath>UI/Abilities/MechSmokepop</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <targetRequired>false</targetRequired>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <warmupTime>0</warmupTime>
+            <range>34.9</range>
+            <drawAimPie>false</drawAimPie>        
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilitySmokepop">
+                <smokeRadius>34.9</smokeRadius>
+                <clamorType>Ability</clamorType>
+                <clamorRadius>34.9</clamorRadius>
+            </li>
+        </comps>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGIMechanitor_FirefoampopMech</defName>
+        <label>firefoam pop</label>
+        <description>Release a fire-retardant foam in a circular area.</description>
+        <iconPath>UI/Abilities/MechFirefoamPop</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+        <targetRequired>false</targetRequired>
+        <hostile>false</hostile>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <warmupTime>0</warmupTime>
+            <requireLineOfSight>false</requireLineOfSight>
+            <drawAimPie>false</drawAimPie>            
+            <range>34.9</range>
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityFirefoampop">
+                <firefoamRadius>34.9</firefoamRadius>
+                <clamorType>Ability</clamorType>
+                <clamorRadius>34.9</clamorRadius>
+            </li>
+        </comps>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGIMechanitor_FireBurst</defName>
+        <label>fire burst</label>
+        <description>Emit a burst of burning fuel in all directions to form puddles of ignited liquid on the ground.</description>
+        <jobDef>CastAbilityOnThingWithoutWeapon</jobDef>
+        <iconPath>UI/Abilities/FireBurst</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <aiCanUse>false</aiCanUse>
+        <ai_SearchAOEForTargets>false</ai_SearchAOEForTargets>
+        <targetRequired>false</targetRequired>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <warmupEffecter>Fire_Burst_Warmup</warmupEffecter>
+            <warmupTime>0</warmupTime>
+            <requireLineOfSight>false</requireLineOfSight>
+            <range>34.9</range>
+            <drawAimPie>false</drawAimPie>            
+            <targetParams>
+                <canTargetSelf>true</canTargetSelf>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityFireBurst">
+                <radius>34.9</radius>
+            </li>
+        </comps>
+    </AbilityDef>
+    <AbilityDef>
+        <defName>PGIMechanitor_ResurrectionMech</defName>
+        <label>resurrect mech</label>
+        <description>Resurrect a recently-killed mechanoid by externally supercharging its self-repair processes. The mechanoid will come back with some but not all of its wounds healed.</description>
+        <iconPath>UI/Abilities/MechResurrection</iconPath>
+        <cooldownTicksRange>0</cooldownTicksRange>
+        <warmupStartSound>MechResurrect_Warmup</warmupStartSound>
+        <warmupEffecter>ApocrionAoeWarmup</warmupEffecter>
+        <jobDef>CastAbilityOnThingUninterruptible</jobDef>
+        <canUseAoeToGetTargets>true</canUseAoeToGetTargets>
+        <useAverageTargetPositionForWarmupEffecter>true</useAverageTargetPositionForWarmupEffecter>
+        <hostile>false</hostile>
+        <statBases> 
+            <Ability_EffectRadius>13.9</Ability_EffectRadius>
+        </statBases>
+        <verbProperties>
+            <verbClass>Verb_CastAbility</verbClass>
+            <drawAimPie>true</drawAimPie>
+            <range>56.4</range>
+            <warmupTime>0</warmupTime>
+            <soundCast>MechResurrect_Cast</soundCast>
+            <requireLineOfSight>false</requireLineOfSight>
+            <targetParams>
+                <canTargetPawns>false</canTargetPawns>
+                <canTargetBuildings>false</canTargetBuildings>
+                <canTargetAnimals>false</canTargetAnimals>
+                <canTargetHumans>false</canTargetHumans>
+                <canTargetCorpses>true</canTargetCorpses>
+                <canTargetMechs>true</canTargetMechs>
+            </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_ResurrectMech">
+                <maxCorpseAgeTicks>3600000</maxCorpseAgeTicks>
+                <costs>
+                    <li>
+                        <weightClass>Light</weightClass>
+                        <cost>0</cost>
+                    </li>
+                    <li>
+                        <weightClass>Medium</weightClass>
+                        <cost>0</cost>
+                    </li>
+                    <li>
+                        <weightClass>Heavy</weightClass>
+                        <cost>0</cost>
+                    </li>
+                </costs>
+                <appliedEffecterDef>MechResurrected</appliedEffecterDef>
+            </li>
+        </comps>
+    </AbilityDef>
+</Defs>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Mechanoid Foundry</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Modules and Install -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <HediffDef Name="PGI_MF_MechanoidModsBase" Abstract="True">
+	                    	<hediffClass>MechanoidFoundry.Hediff_MechanoidModification</hediffClass>
+	                    	<description>An installed perfect thing.</description>
+                            <defaultLabelColor>(36,120,36)</defaultLabelColor>
+                            <isBad>false</isBad>
+                            <spawnThingOnRemoved>PGI_PerfectlyGenericItem</spawnThingOnRemoved>
+	                    </HediffDef>
+                        <RecipeDef Name="PGI_MF_InstallModuleBase" Abstract="True">
+	                    	<description>Install a perfect item.</description>
+	                    	<workerClass>MechanoidFoundry.RecipeModifyMechanoid</workerClass>
+	                    	<jobString>Installing perfectly generic item.</jobString>
+	                    	<workAmount>50</workAmount>
+	                    	<skillRequirements>
+	                    		<Crafting>0</Crafting>
+	                    	</skillRequirements>
+	                    	<workSkill>Crafting</workSkill>
+	                    	<ingredients>
+	                    		<li>
+	                    			<filter>
+	                    				<thingDefs>
+	                    					<li>PGI_PerfectlyGenericItem</li>
+	                    				</thingDefs>
+	                    			</filter>
+	                    			<count>1</count>
+	                    		</li>
+	                    	</ingredients>
+	                    	<targetsBodyPart>false</targetsBodyPart>
+	                    	<modExtensions>
+	                    		<li Class="MechanoidFoundry.RecipeInstallOnHackableMechanoid"/>
+	                    	</modExtensions>
+	                    </RecipeDef>
+
+	                    <HediffDef ParentName="PGI_MF_MechanoidModsBase">
+	                    	<defName>PGI_MFModule_PowerArmor</defName>
+	                    	<label>power armor</label>
+	                    	<stages>
+                                <li>
+                                    <statFactors>
+                                        <IncomingDamageFactor>0</IncomingDamageFactor>
+                                        <MeleeDamageFactor>114514</MeleeDamageFactor>
+                                        <Flammability>0</Flammability>
+                                        <RangedCooldownFactor>0</RangedCooldownFactor>
+                    					<StaggerDurationFactor>0</StaggerDurationFactor>
+          								<AimingDelayFactor>0</AimingDelayFactor>
+                                    </statFactors>
+	                            </li>
+                            </stages>
+	                    </HediffDef>
+                        <RecipeDef ParentName="PGI_MF_InstallModuleBase">
+                            <defName>PGI_MFInstall_PowerArmor</defName>
+		                    <label>install power armor module</label>
+		                    <addsHediff>PGI_MFModule_PowerArmor</addsHediff>
+                        </RecipeDef>
+                    </value>
+				</li>
+
+                <!-- Modifications -->
+				<li Class="PatchOperationReplace">
+                    <xpath>Defs/HediffDef[defName="MF_HaulingModule" or defName="MF_FirefighterModule" or defName="MF_DoctorModule" or defName="MF_ConstructionModule" or defName="MF_GrowingModule" or defName="MF_MiningModule" or defName="MF_PlantCuttingModule" or defName="MF_CraftingModule" or defName="MF_CleaningModule" or defName="MF_ResearchModule" or defName="MF_HandlingModule" or defName="MF_ArtModule"]/modExtensions/li[@Class="MechanoidFoundry.HediffExtension"]/skillLevel</xpath>
+                    <value>
+                        <skillLevel>9999</skillLevel>
+                    </value>
+				</li>
+            </operations>
+	    </match>
+    </Operation>
+    
+</Patch>

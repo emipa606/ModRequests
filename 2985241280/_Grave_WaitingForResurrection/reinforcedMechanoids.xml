@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Reinforced Mechanoid 2</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Damages -->
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <DamageDef>
+							<defName>PGI_RM_ShardDamage</defName>
+							<label>shard</label>
+							<workerClass>DamageWorker_AddInjury</workerClass>
+							<externalViolence>true</externalViolence>
+							<deathMessage>{0} has been torn to death.</deathMessage>
+							<hediff>Gunshot</hediff>
+							<harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+							<impactSoundType>Blunt</impactSoundType>
+							<soundExplosion>RM_Explosion_Shard</soundExplosion>
+	    					<explosionColorCenter>(238,167,241)</explosionColorCenter>
+	    					<explosionColorEdge>(238,167,241)</explosionColorEdge>
+							<armorCategory>Sharp</armorCategory>
+							<overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+							<isRanged>true</isRanged>
+							<makesAnimalsFlee>true</makesAnimalsFlee>
+							<additionalHediffs>
+								<li>
+									<hediff>PGI_RM_ShardBuildup</hediff>
+									<severityPerDamageDealt>99</severityPerDamageDealt>
+								</li>
+							</additionalHediffs>
+							<applyAdditionalHediffsIfHuntingForFood>true</applyAdditionalHediffsIfHuntingForFood>
+						</DamageDef>
+                    </value>
+                </li>
+                <!-- Recipes -->
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <RecipeDef ParentName="PGIRecipe_BiotechWorksiteBase">
+                            <defName>Makr_PGI_RM_VanometricMechanoidCell</defName>
+                            <label>make vanometric mechanoid cell</label>
+                            <products>
+                                <RM_VanometricMechanoidCell>5</RM_VanometricMechanoidCell>
+                            </products>
+                        </RecipeDef>
+                    </value>
+				</li>
+				<!-- Hediff -->
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <HediffDef>
+							<defName>PGI_RM_ShardBuildup</defName>
+							<label>super shard buildup</label>
+							<description>Not yet exploded crystalline shards sticking out of the body.</description>
+							<hediffClass>HediffWithComps</hediffClass>
+							<isBad>true</isBad>
+							<stages>
+								<li>
+									<becomeVisible>true</becomeVisible>
+								</li>
+							</stages>
+							<comps>
+								<li Class="HediffCompProperties_DisappearsOnDeath"/>
+								<li Class="HediffCompProperties_SeverityPerDay">
+									<compClass>ReinforcedMechanoids.HediffComp_SeverityPerDay</compClass>
+									<severityPerDay>-99</severityPerDay>
+								</li>
+								<li Class="ReinforcedMechanoids.HediffCompProperties_Damage">
+									<severityThreshold>1</severityThreshold>
+									<damageDef>PGI_RM_ShardDamage</damageDef>
+									<damageAmount>114514</damageAmount>
+									<explosionRadius>14.9</explosionRadius>
+								</li>
+							</comps>
+						</HediffDef>
+                    </value>
+                </li>
+                <!-- Turrets -->
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <ThingDef ParentName="PGI_PMinigunBase">
+                            <defName>PGI_RM_PerfectShardTurret</defName>
+                            <label>perfect shard turret</label>
+                            <description>sometimes this can cause a chain reaction.</description>
+		                    <graphicData>
+		                    	<texPath>Building/Turret/perfectminigun_rm_shard</texPath>
+		                    </graphicData>
+		                    <uiIconPath>Building/Turret/perfectminigun_rm_shard</uiIconPath>
+                            <building>
+                                <turretGunDef>Gun_PGI_RM_PerfectShardTurret</turretGunDef>
+                            </building>
+                        </ThingDef>
+                        <ThingDef ParentName="PGI_PTurretGunMinigunBase">
+                            <defName>Gun_PGI_RM_PerfectShardTurret</defName>
+                            <label>perfect shard cannon</label>
+                            <verbs>
+                                <li>
+                                    <defaultProjectile>Bullet_PGI_RM_PerfectShardTurret</defaultProjectile>
+                                    <verbClass>Verb_Shoot</verbClass>
+                                    <hasStandardCommand>true</hasStandardCommand>
+                                    <warmupTime>0</warmupTime>
+                                    <range>99.9</range>
+                                    <burstShotCount>6</burstShotCount>
+                                    <soundCast>Shot_TurretSniper</soundCast>
+                                    <soundCastTail>GunTail_Heavy</soundCastTail>
+                                    <muzzleFlashScale>18</muzzleFlashScale>
+                                    <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+                                    <canGoWild>false</canGoWild>
+                                    <targetParams>
+                                        <canTargetLocations>false</canTargetLocations>
+                                        <canTargetBuildings>true</canTargetBuildings>
+                                        <canTargetAnimals>true</canTargetAnimals>
+                                        <canTargetMechs>true</canTargetMechs>
+                                    </targetParams>
+                                </li>
+                            </verbs>
+                        </ThingDef>
+                        <ThingDef ParentName="BaseBullet">
+                            <defName>Bullet_PGI_RM_PerfectShardTurret</defName>
+                            <label>perfect shard bullet</label>
+                            <graphicData>
+                                <texPath>Item/Projectiles/pgibullet</texPath>
+                                <graphicClass>Graphic_Single</graphicClass>
+                                <color>(238,167,241)</color>
+                                <drawSize>0.4</drawSize>
+                            </graphicData>
+                            <projectile>
+                                <damageDef>PGI_RM_ShardDamage</damageDef>
+                                <damageAmountBase>1</damageAmountBase>
+                                <speed>2000</speed>
+                            </projectile>
+                        </ThingDef>
+                    </value>
+                </li>
+                <!-- Buffers -->
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+    					<ThingDef ParentName="PGI_PHediffGiverBadBase">
+    					    <defName>PGI_Buffer_RM_ShardBuildup</defName>
+    					    <label>perfect shard builder</label>
+    					    <description>a facility that accumulates explosive crystalline shards in nearby pawns.</description>
+						    <comps>
+						    	<li Class="VFECore.CompProperties_HediffGiver">
+    					            <hediffDef>RM_ShardBuildup</hediffDef>
+						    		<radius>14.9</radius>
+						    		<severityIncrease>1</severityIncrease>
+    					            <tickRate>60</tickRate>
+						    	</li>
+						    </comps>
+    					</ThingDef>
+                    </value>
+				</li>
+            </operations>
+	    </match>
+    </Operation>
+    
+</Patch>

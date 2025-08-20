@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Dubs Bad Hygiene</li>
+            <li>Dubs Bad Hygiene Lite</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Terrains -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <TerrainDef ParentName="DBHMosaicBase">
+		                    <defName>PGI_DBH_MosaicTilePGI</defName>
+		                    <label>perfect mosaic tile</label>
+		                    <color>(36,120,36)</color>
+                            <statBases>
+			                    <WorkToBuild>20</WorkToBuild>
+			                    <Beauty>2000</Beauty>
+                                <Cleanliness>2000</Cleanliness>
+		                    </statBases>
+		                    <costList/>
+	                    </TerrainDef>
+                    </value>
+				</li>
+				<!-- Implants and Recipes -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+    					<HediffDef ParentName="PGI_PImplantsBase">
+    					    <defName>PGI_TM_DubsBadHygiene</defName>
+    					    <label>torso bodule: hygiene</label>
+    					    <description>A torso module that can automatically deal with hygiene issues.</description>
+    					    <stages>
+    					        <li>
+    					            <partIgnoreMissingHP>true</partIgnoreMissingHP>
+    					            <socialFightChanceFactor>0</socialFightChanceFactor>
+                					<statFactors>
+                					    <BladderRateMultiplier>0</BladderRateMultiplier>
+                					    <ThirstRateMultiplier>0</ThirstRateMultiplier>
+		        					    <HygieneRateMultiplier>0</HygieneRateMultiplier>
+                					</statFactors>
+						        </li>
+    					    </stages>
+    					    <comps>
+    					        <li Class="HediffCompProperties_ReactOnDamage">
+    					            <damageDefIncoming>EMP</damageDefIncoming>
+    					            <createHediff>PGI_DBH_HediffSuperClean</createHediff>
+    					        </li>
+    					    </comps>
+    					</HediffDef>
+    					<RecipeDef ParentName="PGI_PSurgeryCostBase">
+                            <workerClass>Recipe_InstallImplant</workerClass>
+                            <jobString>implanting perfectly generic item</jobString>
+                            <description>implant a perfectly generic item</description>
+                            <appliedOnFixedBodyParts>
+                                <li>Torso</li>
+                            </appliedOnFixedBodyParts>
+    					    <defName>PGI_TMInstall_DubsBadHygiene</defName>
+    					    <label>implant torso module (hygiene)</label>
+    					    <addsHediff>PGI_TM_DubsBadHygiene</addsHediff>
+    					</RecipeDef>
+					</value>
+				</li>
+				<!-- Hediffs -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+    					<HediffDef ParentName="PGI_PImplantsBase">
+    					    <defName>PGI_DBH_HediffSuperClean</defName>
+    					    <label>super clean</label>
+    					    <description>Caused by torso module (hygiene) and EMP shock.</description>
+    					    <stages>
+    					        <li>
+    					            <partIgnoreMissingHP>true</partIgnoreMissingHP>
+    					            <socialFightChanceFactor>0</socialFightChanceFactor>
+                					<statOffsets>
+                					    <PawnBeauty>10</PawnBeauty>
+                					</statOffsets>
+						        </li>
+    					    </stages>
+    					</HediffDef>
+					</value>
+				</li>
+				<!-- Thoughts -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<ThoughtDef>
+    					    <defName>PGI_DBH_HediffSuperClean</defName>
+    					    <workerClass>ThoughtWorker_Hediff</workerClass>
+    					    <hediff>PGI_DBH_HediffSuperClean</hediff>
+    					    <validWhileDespawned>true</validWhileDespawned>
+    					    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    					    <stages>
+    					        <li>
+    					            <label>super clean</label>
+    					            <description>I've never been so clean!</description>
+    					            <baseMoodEffect>50</baseMoodEffect>
+    					        </li>
+    					    </stages>
+    					</ThoughtDef>
+					</value>
+				</li>
+            </operations>
+	    </match>
+    </Operation>
+
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Dubs Rimatomics</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Buildings -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <ThingDef ParentName="BasedPower" Class="Rimatomics.RimatomicsThingDef">
+                            <defName>PGI_Dubs_AirColler</defName>
+                            <label>perfect air cooler</label>
+	                        <CoolingCapacityWatts>6000000000</CoolingCapacityWatts>
+                            <description>A perfect air cooler for nuclear reactors.</description>
+                            <thingClass>Rimatomics.Radiator</thingClass>
+                            <graphicData>
+                                <texPath>Building/Various/pgiradiator</texPath>
+                                <graphicClass>Graphic_Single</graphicClass>
+                                <shaderType>CutoutComplex</shaderType>
+                                <drawSize>(1,1)</drawSize>
+                                <shadowData>
+                                    <volume>(0.9, 0.9, 0.9)</volume>
+                                    <offset>(0,0,0)</offset>
+                                </shadowData>
+                                <allowFlip>false</allowFlip>
+                            </graphicData>
+                            <rotatable>false</rotatable>
+                            <altitudeLayer>Building</altitudeLayer>
+                            <passability>Standable</passability>
+                            <canOverlapZones>false</canOverlapZones>
+                            <blockWind>true</blockWind>
+                            <castEdgeShadows>true</castEdgeShadows>
+                            <fillPercent>0.5</fillPercent>
+                            <blockLight>true</blockLight>
+                            <holdsRoof>true</holdsRoof>
+                            <useHitPoints>false</useHitPoints>
+                            <statBases>
+                                <WorkToBuild>8000</WorkToBuild>
+                                <Flammability>0</Flammability>
+                            </statBases>
+                            <pathCost>0</pathCost>
+                            <size>(1,1)</size>
+                            <costList>
+                                <PGI_PerfectlyGenericItem>1</PGI_PerfectlyGenericItem>
+                            </costList>
+                            <tickerType>Normal</tickerType>
+                            <comps>
+                                <li Class="Rimatomics.CompProperties_Pipe">
+                                    <mode>Cooling</mode>
+                                </li>
+                                <li Class="CompProperties_Flickable"/>
+                                <li Class="CompProperties_Power">
+                                    <compClass>CompPowerTrader</compClass>
+                                    <basePowerConsumption>0</basePowerConsumption>
+                                    <shortCircuitInRain>false</shortCircuitInRain>
+                                    <transmitsPower>true</transmitsPower>
+                                </li>
+                            </comps>
+                            <terrainAffordanceNeeded />
+                            <placeWorkers>
+                                <li>PlaceWorker_Heater</li>
+                            </placeWorkers>
+                            <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+                            <building>
+                                <canPlaceOverWall>false</canPlaceOverWall>
+                            </building>
+                            <constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+                        </ThingDef>
+
+	                    <ThingDef ParentName="BasedWeapon" Class="Rimatomics.RimatomicsThingDef">
+	                    	<defName>PGI_Dubs_PPC</defName>
+	                    	<label>perfect PPC</label>
+	                    	<description>A perfect ppc that can store really a large amounts of energy</description>
+	                    	<thingClass>Rimatomics.Building_PPC</thingClass>
+	                    	<graphicData>
+	                    		<texPath>Building/Various/perfectppc</texPath>
+	                    		<graphicClass>Graphic_Single</graphicClass>
+	                    		<drawSize>4</drawSize>
+	                    	</graphicData>
+	                    	<size>(2,4)</size>
+	                    	<fillPercent>0.60</fillPercent>
+                            <useHitPoints>false</useHitPoints>
+	                    	<statBases>
+	                    		<WorkToBuild>100</WorkToBuild>
+	                    		<Mass>1</Mass>
+	                    		<Flammability>0</Flammability>
+	                    	</statBases>
+	                    	<castEdgeShadows>false</castEdgeShadows>
+	                    	<building>
+	                    		<ai_combatDangerous>true</ai_combatDangerous>
+	                    	</building>
+	                    	<costList>
+	                    		<PGI_PerfectlyGenericItem>1</PGI_PerfectlyGenericItem>
+	                    	</costList>
+                            <terrainAffordanceNeeded Inherit="false" />
+	                    	<comps>
+	                    		<li Class="CompProperties_Battery">
+	                    			<storedEnergyMax>6000000000</storedEnergyMax>
+	                    			<efficiency>1</efficiency>
+	                    			<shortCircuitInRain>false</shortCircuitInRain>
+	                    			<transmitsPower>true</transmitsPower>
+	                    		</li>
+	                    	</comps>
+	                    	<constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+	                    </ThingDef>
+                    </value>
+                </li>
+
+                <!-- Sabots -->
+
+                <!-- Recipes -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <RecipeDef ParentName="PGI_PRecipe_PConvertSiteBase">
+                            <defName>PGI_Dubs_FissionWarhead</defName>
+                            <label>make nuclear warhead</label>
+                            <products>
+                                <FissionWarhead>1</FissionWarhead>
+                            </products>
+                        </RecipeDef>
+
+                        <RecipeDef ParentName="PGI_PRecipe_MatterToMatter">
+                            <defName>PGI_Dubs_FuelRods</defName>
+                            <label>make fuel rod</label>
+                            <products>
+                                <FuelRods>1</FuelRods>
+                            </products>
+                        </RecipeDef>
+                        <RecipeDef ParentName="PGI_PRecipe_MatterToMatter">
+                            <defName>PGI_Dubs_FuelRodsMOX</defName>
+                            <label>make fuel rod MOX</label>
+                            <products>
+                                <FuelRodsMOX>1</FuelRodsMOX>
+                            </products>
+                        </RecipeDef>
+
+                        <RecipeDef ParentName="PGI_PRecipe_MatterToMatter">
+                            <defName>PGI_Dubs_RailgunSabot</defName>
+                            <label>make sabot round</label>
+                            <products>
+                                <RailgunSabot>25</RailgunSabot>
+                            </products>
+                        </RecipeDef>
+                        <RecipeDef ParentName="PGI_PRecipe_MatterToMatter">
+                            <defName>PGI_Dubs_RailgunSabotDU</defName>
+                            <label>make DU sabot round</label>
+                            <products>
+                                <RailgunSabotDU>25</RailgunSabotDU>
+                            </products>
+                        </RecipeDef>
+                    </value>
+				</li>
+
+                <!-- Addons -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs/ThingDef[defName="PGI_PerfectPowerConduit" or defName="PGI_PerfectPowerConduit_Hide"]/comps</xpath>
+                    <value>
+                        <li Class="Rimatomics.CompProperties_Pipe">
+                            <mode>Cooling</mode>
+                        </li>
+
+                        <li Class="Rimatomics.CompProperties_Pipe">
+                            <mode>Steam</mode>
+                        </li>
+
+                        <li Class="Rimatomics.CompProperties_Pipe">
+                            <mode>ColdWater</mode>
+                        </li>
+
+                        <li Class="Rimatomics.CompProperties_Pipe">
+                            <mode>HighVoltage</mode>
+                        </li>
+
+                        <li Class="Rimatomics.CompProperties_Pipe">
+                            <mode>Loom</mode>
+                        </li>
+                    </value>
+                </li>
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs/ThingDef[@Name="PGI_ApparelBase"]/modExtensions/li[@Class="VFECore.ApparelExtension"]/equippedStatFactors</xpath>
+                    <value>
+                        <Radiation>0</Radiation>
+                    </value>
+                </li>
+            </operations>
+	    </match>
+    </Operation>
+
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Rimefeller</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Addons -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs/ThingDef[defName="PGI_PerfectPowerConduit" or defName="PGI_PerfectPowerConduit_Hide"]/comps</xpath>
+                    <value>
+                        <li Class="Rimefeller.CompProperties_Pipe"/>
+                    </value>
+                </li>
+            </operations>
+	    </match>
+    </Operation>
+    
+</Patch>

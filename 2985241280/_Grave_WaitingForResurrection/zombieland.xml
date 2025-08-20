@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Zombieland</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Recipes -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <RecipeDef ParentName="PGIRecipe_PerfectWorksiteBase">
+                            <defName>PGI_Zombieland_Zombie100Serum</defName>
+                            <label>make zombie serum</label>
+                            <products>
+                                <Zombie100Serum>100</Zombie100Serum>
+                            </products>
+                        </RecipeDef>
+                        <RecipeDef ParentName="PGIRecipe_PerfectWorksiteBase">
+                            <defName>PGI_Zombieland_ZombieSerumSimple</defName>
+                            <label>make zombie serum (simple)</label>
+                            <products>
+                                <ZombieSerumSimple>100</ZombieSerumSimple>
+                            </products>
+                        </RecipeDef>
+                    </value>
+				</li>
+                <!-- Surgeries -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <RecipeDef ParentName="PGI_PSurgeryBase">
+                            <defName>PGI_Zombieland_ContaminationEffect</defName>
+                            <label>suppress contamination</label>
+                            <removesHediff>ContaminationEffect</removesHediff>
+                        </RecipeDef>
+                        <RecipeDef ParentName="PGI_PSurgeryCostBase">
+                            <defName>PGI_Zombieland_AntiContaminationInstall</defName>
+                            <label>anti-contamination therapy</label>
+                            <addsHediff>PGI_Zombieland_AntiContamination</addsHediff>
+                        </RecipeDef>
+                    </value>
+				</li>
+                <!-- Hediffs -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <HediffDef ParentName="PGI_PImplantsBase">
+                            <defName>PGI_Zombieland_AntiContamination</defName>
+                            <label>anti-contamination</label>
+                            <description>Anti-contamination effect that can last for a while.</description>
+                            <disablesNeeds>
+                                <li>Contamination</li>
+                            </disablesNeeds>
+                            <stages>
+                                <li>
+                                    <painOffset>0</painOffset>
+                                </li>
+                            </stages>
+                        </HediffDef>
+                    </value>
+				</li>
+                <!-- Modifications -->
+				<li Class="PatchOperationReplace">
+                    <xpath>Defs/HediffDef[defName="ContaminationEffect"]/isBad</xpath>
+                    <value>
+                        <isBad>true</isBad>
+                    </value>
+				</li>
+				<li Class="PatchOperationReplace">
+                    <xpath>Defs/NeedDef[defName="Contamination"]/showOnNeedList</xpath>
+                    <value>
+                        <showOnNeedList>true</showOnNeedList>
+                    </value>
+				</li>
+				<li Class="PatchOperationReplace">
+                    <xpath>Defs/NeedDef[defName="Contamination"]/fallPerDay</xpath>
+                    <value>
+                        <fallPerDay>60000</fallPerDay>
+                    </value>
+				</li>
+            </operations>
+	    </match>
+    </Operation>
+    
+</Patch>

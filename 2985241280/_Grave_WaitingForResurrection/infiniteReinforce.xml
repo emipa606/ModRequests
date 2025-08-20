@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+	    <mods>
+            <li>Infinite Reinforce</li>
+	    </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- Recipes -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <RecipeDef ParentName="PGIRecipe_ConverterWorksiteBase">
+                            <defName>Make_PGI_MechReinforcer</defName>
+                            <label>make reinforcer mechanite</label>
+                            <products>
+                                <MechReinforcer>50</MechReinforcer>
+                            </products>
+                        </RecipeDef>
+                    </value>
+				</li>
+                <!-- Buildings -->
+				<li Class="PatchOperationAdd">
+                    <xpath>Defs</xpath>
+                    <value>
+                        <ThingDef ParentName="PGI_PFurnitureBase">
+	                    	<defName>PGI_InfiniteReinforcer</defName>
+	                    	<label>perfect reinforcer</label>
+	                    	<description>A perfect reinforcer. Must be built by hand.</description>
+	                    	<thingClass>InfiniteReinforce.Building_Reinforcer</thingClass>
+	                    	<graphicData>
+	                    		<texPath>Building/Various/preinforcer</texPath>
+	                    		<graphicClass>Graphic_Single</graphicClass>
+	                    		<drawSize>(1,1)</drawSize>
+                                <drawRotated>false</drawRotated>
+	                    	</graphicData>
+	                    	<size>(1,1)</size>
+        					<inspectorTabs>
+        					    <li>ITab_Storage</li>
+        					</inspectorTabs>
+	                    	<comps>
+        			    		<li Class="CompProperties_Power">
+        			    		    <compClass>CompPowerTrader</compClass>
+        			    		    <basePowerConsumption>0</basePowerConsumption>
+									<transmitsPower>true</transmitsPower>
+        			   			</li>
+        			    		<li Class="InfiniteReinforce.CompProperties_ReinforceFuel">
+        			        		<fuelCapacity>50.0</fuelCapacity>
+        			        		<fuelConsumptionPerReinforce>0</fuelConsumptionPerReinforce>
+        			        		<alwaysSuccess>true</alwaysSuccess>
+        			        		<applyMultiplier>false</applyMultiplier>
+        			        		<SpecialOptions>
+        			        		    <li Class="InfiniteReinforce.SpecialOption_Repiar"/>
+        			        		</SpecialOptions>
+        			        		<effectClass>InfiniteReinforce.ReinforcerEffect_Discount</effectClass>
+        			        		<initialFuelPercent>0</initialFuelPercent>
+        			        		<autoRefuelPercent>100</autoRefuelPercent>
+        			        		<fuelConsumptionRate>0</fuelConsumptionRate>
+        			        		<drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        			       			<allowRefuelIfNotEmpty>true</allowRefuelIfNotEmpty>
+        			        		<factorByDifficulty>false</factorByDifficulty>
+        			        		<fuelFilter>
+        			        		    <thingDefs>
+        			        		        <li>MechReinforcer</li>
+        			        		    </thingDefs>
+        			        		</fuelFilter>
+        			    		</li>
+        			    		<li Class="CompProperties_ThingContainer">
+       			        			<compClass>InfiniteReinforce.CompReinforcerContainer</compClass>
+        			    		    <containedThingOffset>(0,0,0)</containedThingOffset>
+        			    		    <stackLimit>1</stackLimit>
+            					</li>
+	                    	</comps>
+	                    </ThingDef>
+                    </value>
+				</li>
+                <!-- Modifications -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/InfiniteReinforce.ReinforceDef[defName="Reinforce_Hitpoint" or defName="Reinforce_Reloadable" or defName="Reinforce_Range"]/levelRange</xpath>
+					<value>
+						<levelRange>1</levelRange>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/InfiniteReinforce.ReinforceDef[defName="Reinforce_Hitpoint" or defName="Reinforce_Reloadable" or defName="Reinforce_Range"]/offsetPerLevel</xpath>
+					<value>
+						<offsetPerLevel>0.5</offsetPerLevel>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/InfiniteReinforce.ReinforceableStatDef[defName="RangedWeapon_DamageMultiplier" or defName="MeleeWeapon_DamageMultiplier" or defName="StuffEffectMultiplierArmor" or defName="AccuracyTouch" or defName="AccuracyShort" or defName="AccuracyMedium" or defName="AccuracyLong" or defName="ArmorRating_Sharp" or defName="ArmorRating_Blunt" or defName="ArmorRating_Heat"]/offsetPerLevel</xpath>
+					<value>
+						<offsetPerLevel>0.5</offsetPerLevel>
+					</value>
+				</li>
+            </operations>
+	    </match>
+    </Operation>
+    
+</Patch>
