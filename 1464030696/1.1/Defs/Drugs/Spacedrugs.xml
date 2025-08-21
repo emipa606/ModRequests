@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>SpaceDrugsDrug</defName>
+    <label>space drugs</label>
+    <description>An illegal compound which induces a number of effects such as loss of balance and visual artefacts.</description>
+    <descriptionHyperlinks><HediffDef>SpaceDrugsHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/spacedrugspill</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>300</WorkToMake>
+      <MarketValue>14</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.70</joy>
+	        <nurseable>true</nurseable>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SpaceDrugsHigh</hediffDef>
+          <severity>1.00</severity>
+          <toleranceChemical>SpaceDrugs</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SpaceDrugsTolerance</hediffDef>
+          <severity>0.040</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+			<researchPrerequisite>DrugProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <PsychoidLeaves>4</PsychoidLeaves>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>SpaceDrugs</chemical>
+        <addictiveness>0.30</addictiveness>
+        <minToleranceToAddict>0.00</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.30</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>890</listOrder>
+        <overdoseSeverityOffset>
+          <min>0.18</min>
+          <max>0.35</max>
+        </overdoseSeverityOffset>
+				<largeOverdoseChance>0.015</largeOverdoseChance>
+			</li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>SpaceDrugsHigh</defName>
+	<description>you thought it was medicine, but chemist said no it space drug</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>space drugs</label>
+    <labelNoun>a space drugs high</labelNoun>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <capMods>
+            <li>
+              <capacity>Moving</capacity>
+              <offset>-0.10</offset>
+            </li>
+            <li>
+              <capacity>Sight</capacity>
+              <offset>-0.10</offset>
+            </li>
+          </capMods>
+        </li>
+      </stages>
+  </HediffDef>
+  
+   <ThoughtDef>
+    <defName>SpaceDrugsHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SpaceDrugsHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on space drugs</label>
+        <description>Woah man!</description>
+        <baseMoodEffect>20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+ <ChemicalDef>
+    <defName>SpaceDrugs</defName>
+    <label>space drugs</label>
+    <addictionHediff>SpaceDrugsAddiction</addictionHediff>
+    <toleranceHediff>SpaceDrugsTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.6</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_SpaceDrugs</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>space drugs</label>
+    <description>Because of a space drugs addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>40</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>SpaceDrugsTolerance</defName>
+    <label>space drugs tolerance</label>
+    <description>took too many drug, now drug not feel good anymore unga dunga</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.016</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>SpaceDrugs</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="AddictionBase">
+    <defName>SpaceDrugsAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <description>chemist got arrested and can't provide any more spess drug</description>
+    <label>space drugs addiction</label>
+    <causesNeed>Chemical_SpaceDrugs</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+		<restFallFactorOffset>0.3</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugMajor</mentalState>
+						<mtbDays>40</mtbDays>
+					</li>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>10</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>SpaceDrugsWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SpaceDrugsAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>space drugs withdrawal</label>
+        <description>I need more drugs.</description>
+        <baseMoodEffect>-25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>

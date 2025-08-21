@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MakeableDrugPillBase">
+    <defName>BathSaltsDrug</defName>
+    <label>bath salts</label>
+    <description>Salt intended for taking a bath, not consumption. Extreme painkiller with severe side effects.</description>
+    <descriptionHyperlinks><HediffDef>BathSaltsHigh</HediffDef></descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/bathsaltspill</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>400</WorkToMake>
+      <MarketValue>22</MarketValue>
+      <Mass>0.005</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.90</joy>
+	        <nurseable>true</nurseable>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>BathSaltsHigh</hediffDef>
+          <severity>1.00</severity>
+          <toleranceChemical>BathSalts</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>BathSaltsTolerance</hediffDef>
+          <severity>0.040</severity>
+					<divideByBodySize>true</divideByBodySize>
+				</li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+			<researchPrerequisite>DrugProduction</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <PsychoidLeaves>10</PsychoidLeaves>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>BathSalts</chemical>
+        <addictiveness>0.80</addictiveness>
+        <minToleranceToAddict>0.00</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.30</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>890</listOrder>
+        <overdoseSeverityOffset>
+          <min>0.18</min>
+          <max>0.35</max>
+        </overdoseSeverityOffset>
+				<largeOverdoseChance>0.050</largeOverdoseChance>
+			</li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>BathSaltsHigh</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>bath salts</label>
+<description>spacemen bath water</description>
+    <labelNoun>a bath salts high</labelNoun>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-3.0</severityPerDay>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <painFactor>-2.0</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <offset>-0.10</offset>
+            </li>
+            <li>
+              <capacity>Manipulation</capacity>
+              <offset>-0.15</offset>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>ChemicalDamageModerate</hediff>
+              <mtbDays>30</mtbDays>
+              <partsToAffect>
+                <li>Brain</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+		  </li>
+      </stages>
+  </HediffDef>
+  
+   <ThoughtDef>
+    <defName>BathSaltsHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>BathSaltsHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>high on bath salts</label>
+        <description>This feels amazing.</description>
+        <baseMoodEffect>50</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+ <ChemicalDef>
+    <defName>BathSalts</defName>
+    <label>bath salts</label>
+    <addictionHediff>BathSaltsAddiction</addictionHediff>
+    <toleranceHediff>BathSaltsTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.6</onGeneratedAddictedToleranceChance>
+	</ChemicalDef>
+  
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_BathSalts</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>bath salts</label>
+    <description>Because of a bath salts addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+    <listPriority>40</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>BathSaltsTolerance</defName>
+    <label>bath salts tolerance</label>
+	<description>yes</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.016</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>BathSalts</chemical>
+      </li>
+    </comps>
+		<hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>ChemicalDamageSevere</hediff>
+				<minSeverity>0.30</minSeverity>
+				<baseMtbDays>20</baseMtbDays>
+				<partsToAffect>
+					<li>Brain</li>
+				</partsToAffect>
+			</li>
+		</hediffGivers>
+  </HediffDef>
+  
+  <HediffDef ParentName="AddictionBase">
+    <defName>BathSaltsAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>bath salts addiction</label>
+	<description>why does it need a description aaaaa</description>
+    <causesNeed>Chemical_BathSalts</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+		<restFallFactorOffset>0.3</restFallFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.90</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-1.00</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.50</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugExtreme</mentalState>
+						<mtbDays>10</mtbDays>
+					</li>
+          <li>
+            <mentalState>MurderousRage</mentalState>
+            <mtbDays>5</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>BathSaltsWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>BathSaltsAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>bath salts withdrawal</label>
+        <description>I NEED MY BATH SALTS!</description>
+        <baseMoodEffect>-80</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+</Defs>
