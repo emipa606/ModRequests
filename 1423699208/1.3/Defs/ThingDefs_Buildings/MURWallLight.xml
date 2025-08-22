@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <DesignatorDropdownGroupDef>
+    <defName>MURWallLights</defName>
+  </DesignatorDropdownGroupDef>
+
+  <!-- Base light -->
+
+  <ThingDef Abstract="True" Name="MURWallLightBase" ParentName="BuildingBase">
+	<thingCategories>
+      <li>BuildingsFurniture</li>
+    </thingCategories>
+	<thingClass>MURWallLight.WallLight</thingClass>
+	<graphicData>
+      <texPath>Things/Building/MURWallLightOff</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>1.1,1.1</drawSize>
+    </graphicData>
+	<minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Item</altitudeLayer>
+    <passability>Standable</passability>
+	<statBases>
+      <MaxHitPoints>10</MaxHitPoints>
+      <WorkToBuild>100</WorkToBuild>
+      <Flammability>0</Flammability>
+	  <Mass>2</Mass>
+    </statBases>
+    <size>(1,1)</size>
+	<placeWorkers>
+		<li>MURWallLight.PlaceWorker_WallLight</li>
+	</placeWorkers>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>10</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+	  <li Class="MURWallLight.CompProperties_AttachableToWall" />
+    </comps>
+    <building>
+      <isEdifice>false</isEdifice>
+	  <canPlaceOverWall>true</canPlaceOverWall>
+    </building>
+	<tickerType>Never</tickerType>
+    <designationCategory>Furniture</designationCategory>
+    <rotatable>true</rotatable>
+	<selectable>true</selectable>
+	<destroyable>true</destroyable>
+	<useHitPoints>false</useHitPoints>
+	<tradeability>None</tradeability>
+	<isAutoAttackableMapObject>false</isAutoAttackableMapObject>
+	<clearBuildingArea>false</clearBuildingArea>
+	<defaultPlacingRot>South</defaultPlacingRot>
+	<researchPrerequisites><li>Electricity</li></researchPrerequisites>
+	<techLevel>Industrial</techLevel>
+  </ThingDef>
+
+  <!-- Main wall light -->
+
+  <ThingDef Name="MURWallLight" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLight</defName>
+    <label>Wall light</label>
+    <uiIconPath>Things/Building/MURWallLight_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_Glower</glowerDefName>
+	  </li>
+    </comps>
+	<designatorDropdown>MURWallLights</designatorDropdown>
+  </ThingDef>
+
+  <!-- Sun light -->
+
+  <ThingDef Name="MURWallSunLight" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallSunLight</defName>
+	<thingClass>MURWallLight.WallSunLight</thingClass>
+    <label>Wall sun light</label>
+    <uiIconPath>Things/Building/MURWallLightSun_UI</uiIconPath>
+    <description>A sun light fixture for growing plants, designed to be mounted on a wall.</description>
+	<tickerType>Rare</tickerType>
+	<comps>
+	  <li Class="CompProperties_Schedule">
+	    <!-- Match plant growing times -->
+        <startTime>0.25</startTime>
+        <endTime>0.8</endTime>
+        <offMessage>Off for plant resting period.</offMessage>
+      </li>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallSunLight_Glower</glowerDefName>
+	  </li>
+    </comps>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+<!-- Wall darklight -->
+
+  <ThingDef Name="MURWallLightDark" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightDark</defName>
+    <label>Wall darklight</label>
+    <uiIconPath>Things/Building/MURWallLightDark_UI</uiIconPath>
+    <description>A low intensity light fixture designed to be mounted on a wall.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerDark</glowerDefName>
+	  </li>
+    </comps>
+	<designationCategory>Furniture</designationCategory>
+	<designatorDropdown>MURWallLights</designatorDropdown>
+  </ThingDef>
+  
+  <!-- Colored lights: Primary -->
+
+  <ThingDef Name="MURWallLightRed" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightRed</defName>
+    <label>Wall light (red)</label>
+    <uiIconPath>Things/Building/MURWallLightRed_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored red.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerRed</glowerDefName>
+	  </li>
+    </comps>
+	<designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGreen" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightGreen</defName>
+    <label>Wall light (green)</label>
+    <uiIconPath>Things/Building/MURWallLightGreen_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored green.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerGreen</glowerDefName>
+	  </li>
+    </comps>
+	<designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightBlue" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightBlue</defName>
+    <label>Wall light (blue)</label>
+    <uiIconPath>Things/Building/MURWallLightBlue_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored blue.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerBlue</glowerDefName>
+	  </li>
+    </comps>
+	<designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <!-- Colored lights: Secondary -->
+
+  <ThingDef Name="MURWallLightYellow" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightYellow</defName>
+    <label>Wall light (yellow)</label>
+    <uiIconPath>Things/Building/MURWallLightYellow_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored yellow.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerYellow</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightMagenta" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightMagenta</defName>
+    <label>Wall light (magenta)</label>
+    <uiIconPath>Things/Building/MURWallLightMagenta_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored magenta.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerMagenta</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightCyan" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightCyan</defName>
+    <label>Wall light (cyan)</label>
+    <uiIconPath>Things/Building/MURWallLightCyan_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored cyan.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerCyan</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <!-- Colored lights: Tertiary -->
+
+  <ThingDef Name="MURWallLightRose" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightRose</defName>
+    <label>Wall light (rose)</label>
+    <uiIconPath>Things/Building/MURWallLightRose_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored rose.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerRose</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightViolet" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightViolet</defName>
+    <label>Wall light (violet)</label>
+    <uiIconPath>Things/Building/MURWallLightViolet_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored violet.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerViolet</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightAzure" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightAzure</defName>
+    <label>Wall light (azure)</label>
+    <uiIconPath>Things/Building/MURWallLightAzure_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored azure.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerAzure</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightSpringGreen" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightSpringGreen</defName>
+    <label>Wall light (spring green)</label>
+    <uiIconPath>Things/Building/MURWallLightSpringGreen_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored spring green.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerSpringGreen</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightChartreuse" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightChartreuse</defName>
+    <label>Wall light (chartreuse)</label>
+    <uiIconPath>Things/Building/MURWallLightChartreuse_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored chartreuse (yellow-green).</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerChartreuse</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightOrange" ParentName="MURWallLightBase">
+	<defName>Lighting_MURWallLightOrange</defName>
+    <label>Wall light (orange)</label>
+    <uiIconPath>Things/Building/MURWallLightOrange_UI</uiIconPath>
+    <description>A light fixture designed to be mounted on a wall. Colored orange.</description>
+	<comps>
+      <li Class="MURWallLight.CompProperties_OffsetGlower">
+		<glowerDefName>Lighting_MURWallLight_GlowerOrange</glowerDefName>
+	  </li>
+    </comps>
+    <designatorDropdown>MURWallLights</designatorDropdown>
+	<researchPrerequisites><li>ColoredLights</li></researchPrerequisites>
+  </ThingDef>
+
+  <!-- Base glower -->
+
+  <ThingDef Abstract = "True" Name="MURWallLightGlowerBase" ParentName = "BuildingBase">
+	<thingClass>Building</thingClass>
+	<label>UNUSED</label>
+	<description>UNUSED</description>
+	<category>Mote</category>
+    <defName>Lighting_MURWallLight_GlowerBase</defName>
+	<graphicData>
+      <texPath>Things/Building/MURWallLight_T</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1,1</drawSize>
+    </graphicData>
+	<building>
+		<isEdifice>false</isEdifice>
+	</building>
+	<statBases>
+		<Flammability>0</Flammability>
+	</statBases>
+	<tickerType>Never</tickerType>
+	<altitudeLayer>ItemImportant</altitudeLayer>
+	<passability>Standable</passability>
+	<destroyable>false</destroyable>
+	<rotatable>false</rotatable>
+	<clearBuildingArea>false</clearBuildingArea>
+	<selectable>false</selectable>
+	<coversFloor>false</coversFloor>
+	<useHitPoints>false</useHitPoints>
+	<tradeability>None</tradeability>
+	<isAutoAttackableMapObject>false</isAutoAttackableMapObject>
+  </ThingDef>
+
+  <!-- Main light glower -->
+
+  <ThingDef Name="MURWallLightGlower" ParentName = "MURWallLightGlowerBase">
+    <defName>Lighting_MURWallLight_Glower</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(217,217,208,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <!-- Darklight glower -->
+
+  <ThingDef Name="MURWallLightGlowerDark" ParentName = "MURWallLightGlowerBase">
+    <defName>Lighting_MURWallLight_GlowerDark</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(78,226,229,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Sun light glower -->
+
+  <ThingDef Name="MURWallSunLightGlower" ParentName = "MURWallLightGlowerBase">
+    <defName>Lighting_MURWallSunLight_Glower</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <overlightRadius>5</overlightRadius>
+        <glowRadius>10</glowRadius>
+        <glowColor>(226,80,515,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Colored glowers: Primary -->
+
+  <ThingDef Name="MURWallLightGlowerRed" ParentName = "MURWallLightGlowerBase">
+    <defName>Lighting_MURWallLight_GlowerRed</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(482,80,80,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerGreen" ParentName = "MURWallLightGlowerBase">
+    <defName>Lighting_MURWallLight_GlowerGreen</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(80,482,80,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerBlue" ParentName = "MURWallLightGlowerBase">
+    <defName>Lighting_MURWallLight_GlowerBlue</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(80,80,482,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Colored glowers: Secondary -->
+
+  <ThingDef Name="MURWallLightGlowerYellow" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerYellow</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(281,281,80,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerMagenta" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerMagenta</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(281,80,281,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerCyan" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerCyan</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(80,281,281,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Colored glowers: Tertiary -->
+
+  <ThingDef Name="MURWallLightGlowerRose" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerRose</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(388,80,174,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerViolet" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerViolet</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(174,80,388,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerAzure" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerAzure</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(80,174,388,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerSpringGreen" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerSpringGreen</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(80,388,174,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerChartreuse" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerChartreuse</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(174,388,80,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="MURWallLightGlowerOrange" ParentName = "MURWallLightGlowerBase">
+	<defName>Lighting_MURWallLight_GlowerOrange</defName>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(388,174,80,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>
