@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+		<!-- If not Mannable (static defenses from VFE-S, mortar) && not CanBeDormat or WakeUpDormant(MechClusters) && not SOS2 BaseShipWeapon or BaseShipArtillery or BaseShipTorpedoBuilding && not less than 0.2 turretBurstCooldownTime -->
+		<li Class="PatchOperationReplace">
+		<success>Always</success> <!-- I hate using success tags, but in order to make this whole mod in two patches, I needed to include it. Everything that matches in the lists below gets patched, and the game doesn't throw errors if you aren't running a supported mod. -->
+			<xpath>/Defs/ThingDef
+				[not(comps/li[@Class="CompProperties_Mannable"] or
+				comps/li[@Class="CompProperties_CanBeDormant"] or
+				comps/li[@Class="CompProperties_WakeUpDormant"] or
+				defName="VFES_Turret_TriRocket" or
+				defName="VFES_Turret_Flame" or
+				defName="VFES_Turret_Searchlight" or
+				@ParentName="BaseArtilleryBuilding" or
+				@ParentName="BaseShipWeaponTurret" or
+				@ParentName="BaseShipArtilleryBuilding" or
+				@ParentName="BaseShipTorpedoBuilding" or
+				@ParentName="BaseArtilleryBuilding_GT" or
+				@ParentName="BaseArtilleryWeapon_GT" or
+				defName="CMissileTurret" or
+				defName="Turret_Auto_Mortar" or
+				building/buildingTags/li[text()="RE_Reaper" or
+				@ParentName="CaslteDefendsBase"]
+				)] 
+			/building[turretBurstCooldownTime > 0.2]/turretBurstCooldownTime</xpath>
+			<value><turretBurstCooldownTime>0.2</turretBurstCooldownTime></value>
+		</li>
+		<!-- If not Mannable (static defenses from VFE-S, mortar) && not CanBeDormat or WakeUpDormant(MechClusters) && not SOS2 BaseShipWeapon or BaseShipArtillery or BaseShipTorpedoBuilding && not less than 1 turretBurstWarmupTime -->
+		<li Class="PatchOperationReplace">
+		<success>Always</success>
+			<xpath>/Defs/ThingDef
+				[not(comps/li[@Class="CompProperties_Mannable"] or
+				comps/li[@Class="CompProperties_CanBeDormant"] or
+				comps/li[@Class="CompProperties_WakeUpDormant"] or
+				defName="VFES_Turret_TriRocket" or
+				defName="VFES_Turret_Flame" or
+				defName="VFES_Turret_Searchlight" or
+				@ParentName="BaseArtilleryBuilding" or
+				@ParentName="BaseShipWeaponTurret" or
+				@ParentName="BaseShipArtilleryBuilding" or
+				@ParentName="BaseShipTorpedoBuilding" or
+				@ParentName="BaseArtilleryBuilding_GT" or
+				@ParentName="BaseArtilleryWeapon_GT" or
+				defName="CMissileTurret" or
+				defName="Turret_Auto_Mortar" or
+				building/buildingTags/li[text()="RE_Reaper" or
+				@ParentName="CaslteDefendsBase"]
+				)]
+			/building[turretBurstWarmupTime > 1]/turretBurstWarmupTime</xpath>
+			<value><turretBurstWarmupTime>1</turretBurstWarmupTime></value>
+		</li>
+		</operations>
+	</Operation>
+</Patch>
