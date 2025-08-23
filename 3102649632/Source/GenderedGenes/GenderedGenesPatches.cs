@@ -12,13 +12,13 @@ using System.Reflection;
 using Verse.AI;
 using System.Linq;
 using RimWorld.Planet;
+using System.Runtime.Remoting.Messaging;
 
 /*
-todo: modded xenotypes (not the usual customxenotype class but the xenotype class)
- todo: test random chosen genes
+todo: modded xenotypes (not the usual customxenotype class but the xenotype class for people creating their own mods with this)
 
 todo: after creating xenogerm with genders the xenotype creation screen gets a little iffy (displays the genders of the genes from the xenogerm)
-todo: dependers
+
  */
 
 namespace GenderedGenes
@@ -35,7 +35,6 @@ namespace GenderedGenes
             harmony.Patch(CreateXenotypePatches.getDelegate1(), postfix: new HarmonyMethod(typeof(CreateXenotypePatches).GetMethod("loadXenotypePatch1")));
             harmony.Patch(CreateXenotypePatches.getDelegate2(), postfix: new HarmonyMethod(typeof(CreateXenotypePatches).GetMethod("loadXenotypePatch2")));
             harmony.Patch(CreateXenogermPatches.getDelegate(), postfix: new HarmonyMethod(typeof(CreateXenogermPatches).GetMethod("loadXenogermPatch")));
-
         }
     }
 
@@ -72,13 +71,21 @@ namespace GenderedGenes
             }
             else
             {
-                //todo make prettier
                 GeneTrackerPatches.overrideGene(__instance.pawn, __instance, overriddenBy);
             }
             return false;
-            //return true;
-            //return true
         }
+
+        /*[HarmonyPatch("OverrideBy")]
+        [HarmonyPrefix]
+        public static bool overridePatch(Gene __instance, Gene overriddenBy)
+        {
+
+            GenderGeneStorage storage = Current.Game.GetComponent<GenderGeneStorage>();
+
+            if (storage.trackerGeneGenders.TryGetValue(__instance, out Gender gender) && __instance.pawn.gender != gender && gender != Gender.None)
+            {}
+        }*/
     }
 
     [HarmonyPatch(typeof(Pawn_GeneTracker))]
@@ -102,14 +109,17 @@ namespace GenderedGenes
                     {
                         ___xenogenes.Add(gene);
                         gene.overriddenByGene = gene;
+                        storage.trackerGeneGenders[gene] = gender;
                     }
                     else
                     {
                         ___endogenes.Add(gene);
                         gene.overriddenByGene = gene;
+                        storage.trackerGeneGenders[gene] = gender;
                     }
 
                     __result = gene;
+                    //notifyGenesChangedPatch(gene.def, __instance);
                     return false;
                 }
             }
@@ -151,7 +161,7 @@ namespace GenderedGenes
                     skill.passion = gene.NewPassionForOnRemoval(skill);
                 }
                 gene.PostRemove();
-                pawn.skills?.Notify_GenesChanged();
+                pawn.skills?.DirtyAptitudes();
                 pawn.Notify_DisabledWorkTypesChanged();
             }
             List<Gene> ret = new List<Gene>();
@@ -198,7 +208,7 @@ namespace GenderedGenes
                     }
                 }
             }*/
-            __instance.pawn.Drawer.renderer.graphics.SetGeneGraphicsDirty();
+            __instance.pawn.Drawer.renderer.SetAllGraphicsDirty();//.graphics.SetGeneGraphicsDirty();
         }
 
         [HarmonyReversePatch]
@@ -208,7 +218,141 @@ namespace GenderedGenes
             throw new NotImplementedException("It's a stub");
         }
 
+        /*
+        [HarmonyReversePatch]
+        [HarmonyPatch("Notify_GenesChanged")]
+        public static void NotifyGenesChanged(object instance, GeneDef addedOrRemovedGene)
+        {
+            throw new NotImplementedException("It's a stub");
+        }*/
+
+        /*
+        [HarmonyPatch("SelectGene")]
+        [HarmonyPrefix]
+        public static bool selectGenePatch(Gene __instance, Predicate<Gene> validator, bool __result)
+        {
+            validator = (Gene g) => (validator(g) && false);
+            return true;
+        }*/
+
+        
+        [HarmonyPatch("Notify_GenesChanged")]
+        [HarmonyPostfix]
+        public static void notifyGenesChangedPatch(GeneDef addedOrRemovedGene, Pawn_GeneTracker __instance)
+        {
+            if (!addedOrRemovedGene.RandomChosen)
+            {
+                return;
+            }
+
+            List<Gene> genes = __instance.GenesListForReading;
+
+            //Predicate<Gene> validator = ((Gene g) => g.Active && g.def.ConflictsWith(addedOrRemovedGene));
+
+            List<Gene> tmpGenes = new List<Gene>();
+
+            GenderGeneStorage storage = Current.Game.GetComponent<GenderGeneStorage>();
+            
+            for (int i = 0; i < genes.Count; i++)
+            {
+                //if ((genes[i].Active || genes[i].Overridden) && validator(genes[i]))
+                
+                if(genes[i].def.ConflictsWith(addedOrRemovedGene)){
+
+                    if (storage.trackerGeneGenders.TryGetValue(genes[i], out Gender gender) && gender!=Gender.None && gender != __instance.pawn.gender)
+                    {
+                        genes[i].OverrideBy(genes[i]);
+                    }
+                    else
+                    {
+                        genes[i].OverrideBy(null);
+                        tmpGenes.Add(genes[i]);
+                    }
+                }
+            }
+
+            if(!tmpGenes.Where((Gene g) => __instance.Xenogenes.Contains(g)).TryRandomElement(out Gene chosen))
+            {
+                tmpGenes.TryRandomElement(out chosen);
+            }
+            if (chosen != null)
+            {
+                //chosen.OverrideBy(chosen);
+                foreach (Gene item in genes)
+                {
+                    if (item != chosen && item.def.ConflictsWith(chosen.def))
+                    {
+                        item.OverrideBy(chosen);
+                    }
+                }
+            }
+        }
+
     }
+
+        /*[HarmonyPatch(MethodBase.GetMethodFromHandle())]
+        [HarmonyPrefix]
+        public static bool selectGenePatch(Pawn_GeneTracker __instance, Predicate<Gene> validator, bool __result)
+        {
+            /*GenderGeneStorage storage = Current.Game.GetComponent<GenderGeneStorage>();
+            if (storage.trackerGeneGenders.TryGetValue(__instance, out Dictionary<GeneDef, Gender> genders))
+            {
+                if (genders.TryGetValue(addedOrRemovedGene, out Gender gender) && gender != Gender.None && gender != __instance.pawn.gender)
+                {
+
+                }
+            }
+            validator = (Gene g) => (validator(g) && false);
+            return true;
+        }*/
+    
+    /*
+    [HarmonyPatch]
+    class MyPatch
+    {
+        public static MethodBase TargetMethod()
+        {
+            
+            return typeof(Pawn_GeneTracker).GetNestedTypes(AccessTools.all).SelectMany(AccessTools.GetDeclaredMethods).First(mi => mi.Name.Contains("SelectGene"));
+
+        }
+
+        class PredWrapper<T>
+        {
+            public Predicate<T> pred;
+            public PredWrapper(Predicate<T> pred){
+                this.pred=pred;
+            }
+        }
+
+        
+        public static void Prefix(Pawn_GeneTracker __instance, ref Predicate<Gene> validator)
+        {
+            GenderGeneStorage storage = Current.Game.GetComponent<GenderGeneStorage>();
+
+
+
+            Predicate<Gene> p = (Gene g) =>
+            {
+
+
+                if (storage.trackerGeneGenders.TryGetValue(g, out Gender gender))
+                {
+                    return gender == Gender.None || __instance.pawn.gender == gender;
+                }
+
+                return true;
+
+            };
+
+            PredWrapper<Gene> wrap = new PredWrapper<Gene>(validator);
+
+            //validator.Method
+            validator = (Gene g) => (wrap.pred(g) && p(g));
+        }
+
+
+    }*/
 
 
     [HarmonyPatch(typeof(ITab_GenesPregnancy))]
@@ -326,16 +470,11 @@ namespace GenderedGenes
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch("DrawGeneDef_NewTemp")]
+        [HarmonyPatch("DrawGeneDef")]
         public static void drawGeneDefPatch(GeneDef gene, Rect geneRect)
         {
             Gender gender;
-            if (!GenderGeneStorage.trackerInspectedGeneSet.TryGetValue(gene, out gender))
-            {
-                gender = Gender.None;
-            }
-
-            if (Gender.None == gender)
+            if (GenderGeneStorage.trackerInspectedGeneSet==null || !GenderGeneStorage.trackerInspectedGeneSet.TryGetValue(gene, out gender) || Gender.None==gender)
             {
                 return;
             }
@@ -729,7 +868,7 @@ namespace GenderedGenes
 
 
         [HarmonyPostfix]
-        [HarmonyPatch("ApplyBirthOutcome")]
+        [HarmonyPatch("ApplyBirthOutcome_NewTemp")]
         public static void addGenderingToBabbyPatch(List<GeneDef> genes, Thing __result)
         {
             Pawn pawn = null;
@@ -741,10 +880,11 @@ namespace GenderedGenes
             {
                 pawn = __result as Pawn;
             }
+
+
             if (pawn != null)
             {
                 GenderGeneStorage storage = Current.Game.GetComponent<GenderGeneStorage>();
-
 
                 if (genes != null && storage.trackerGeneSetGenders.TryGetValue(genes, out Dictionary<GeneDef, Gender> genders))
                 {
@@ -757,6 +897,14 @@ namespace GenderedGenes
                         }
                     }
 
+                    foreach(Gene gene in pawn.genes.GenesListForReading)
+                    {
+                        if (gene.def.RandomChosen)
+                        {
+                            GeneTrackerPatches.notifyGenesChangedPatch(gene.def, pawn.genes);
+                            //GeneTrackerPatches.NotifyGenesChanged(pawn.genes, gene.def);
+                        }
+                    }
                     GeneTrackerPatches.CheckForOverrides(pawn.genes);
                     //GeneTrackerPatches.overridePatch(ref pawn.genes);
                 }
