@@ -1,0 +1,107 @@
+<Defs>
+  <ChemicalDef>
+    <defName>AP_Snakeoil_Chemical</defName>
+    <label>snakeoil</label>
+    <addictionHediff>GoJuiceAddiction</addictionHediff>
+    <geneOverdoseChanceFactorResist>0</geneOverdoseChanceFactorResist>
+    <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+  </ChemicalDef>
+
+    <ThingDef ParentName="MakeableDrugBase">
+        <defName>AP_Snakeoil</defName>
+        <label>snakeoil</label>
+        <description>"Good day, sir/madam/other unmentioned gender! Do you suffer aches? Boils? Plague or incontinence? Suffer no more with our patented Snake oil! Slather it on your skin, drink it down, feed it to your dog or baby, you're guaranteed to feel better after just the first application!" (Warning: may or may not contain actual Snake oil, do not consult a physician before use, side effects may include [Redacted].)\n\nEditors note: documents from the Ordo Historia reference this kind of "miracle cure" cropping up on many Steamworlds across the Rim, with various recipes and names. Though not scientifically proven, many colonists swear by it's healing powers. Likely a placebo effect.</description>
+        <descriptionHyperlinks>
+          <HediffDef>AP_Snakeoil_Hediff</HediffDef>
+        </descriptionHyperlinks>
+        <graphicData>
+          <texPath>AP_TumbleWeed/snakeoil</texPath>
+          <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+        <rotatable>false</rotatable>
+        <statBases>
+          <WorkToMake>300</WorkToMake>
+          <MarketValue>25</MarketValue>
+          <Mass>0.1</Mass>
+        </statBases>
+        <techLevel>Industrial</techLevel>
+        <ingestible>
+          
+          <joyKind>Chemical</joyKind>
+          <joy>0.10</joy>
+          <drugCategory>Hard</drugCategory>
+          <foodType>Processed, Fluid</foodType>
+          <baseIngestTicks>40</baseIngestTicks>
+          <ingestSound>Ingest_Inject</ingestSound>
+          <ingestHoldOffsetStanding>
+            <northDefault>
+              <offset>(0.18,0,0)</offset>
+            </northDefault>
+          </ingestHoldOffsetStanding>
+          <ingestCommandString>Drink {0}</ingestCommandString>
+          <ingestReportString>Drinking {0}.</ingestReportString>
+          <useEatingSpeedStat>false</useEatingSpeedStat>
+          <chairSearchRadius>0</chairSearchRadius>
+          <outcomeDoers>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+              <hediffDef>AP_Snakeoil_Hediff</hediffDef>
+              <severity>0.5</severity>
+            </li>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+                <hediffDef>ToxicBuildup</hediffDef>
+                <severity>0.1</severity>
+              </li>
+          </outcomeDoers>
+        </ingestible>
+        <recipeMaker>
+          <recipeUsers>
+            <li>DrugLab</li>
+          </recipeUsers>
+          <soundWorking>Recipe_Drug</soundWorking>
+        </recipeMaker>
+        <costList>
+          <Chemfuel>5</Chemfuel>
+          <MedicineHerbal>5</MedicineHerbal>
+        </costList>
+        <comps>
+          <li Class="CompProperties_Drug">
+            <chemical>AP_Snakeoil_Chemical</chemical>
+            <addictiveness>0</addictiveness>
+            <minToleranceToAddict>999999</minToleranceToAddict>
+            <existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+            <needLevelOffset>0.9</needLevelOffset>
+            <listOrder>30</listOrder>
+          </li>
+
+        </comps>
+      </ThingDef>
+      <HediffDef>
+        <defName>AP_Snakeoil_Hediff</defName>
+        <hediffClass>Hediff_High</hediffClass>
+        <label>panacea</label>
+        <labelNoun>panacea</labelNoun>
+        <description>Now that's good healing! Whatever's got you down, you'll feel right as rain in no time. Don't worry about the burning feeling and blurred vision, that just means it's working!</description>
+        <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+        <scenarioCanAdd>false</scenarioCanAdd>
+        <maxSeverity>1.0</maxSeverity>
+        <isBad>false</isBad>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.82</severityPerDay>
+            <showHoursToRecover>true</showHoursToRecover>
+          </li>
+        </comps>
+          <stages>
+            <li>
+              <naturalHealingFactor>1.2</naturalHealingFactor>
+              <painFactor>0.9</painFactor>
+              <capMods>
+                <li>
+                  <capacity>BloodFiltration</capacity>
+                  <offset>0.20</offset>
+                </li>
+              </capMods>
+            </li>
+          </stages>
+      </HediffDef>
+</Defs>
