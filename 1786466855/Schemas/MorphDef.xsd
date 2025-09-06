@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="Windows-1252" ?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:include schemaLocation="include/Recipe.xsd" />
+	<xs:element name="Defs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Pawnmorph.MorphDef" minOccurs="1" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:all>
+							<xs:element name="defName" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="label" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="race" type="xs:string" minOccurs="0" maxOccurs="1" />
+							<xs:element name="group" type="MorphGroups" minOccurs="0" maxOccurs="1" />
+							<xs:element name="associatedAnimals" type="ListOfStrings" minOccurs="0" maxOccurs="1" />
+							<xs:element name="categories" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="li" type="MorphCategory" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="raceSettings" type="HybridRaceSettings" minOccurs="0" maxOccurs="1" />
+							<xs:element name="noInjector" type="xs:boolean" minOccurs="0" />
+							<xs:element name="injectorDef" type="xs:string" minOccurs="0" />
+							<xs:element name="transformSettings" type="TransformationSettings" minOccurs="0" maxOccurs="1" />
+							<xs:element name="fullTransformation" type="xs:string" minOccurs="0" />
+							<xs:element name="partialTransformation" type="xs:string" minOccurs="0"/>
+							<xs:element name="addedAspects" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="li" type="AddedAspect" minOccurs="1" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="classification" type="AnimalClassification" minOccurs="0"/>
+							<xs:element name="injectorProperties" type="MorphInjectorProperties" minOccurs="0" nillable="true" />
+							<xs:element name="fullTfHediffProps" type="MorphHediffProperties" minOccurs="0" nillable="true" />
+							<xs:element name="partialTfHediffProps" type="MorphHediffProperties" minOccurs="0" nillable="true" />
+						</xs:all>
+						<xs:attribute name="ParentName" type="xs:string" use="optional" />
+						<xs:attribute name="Name" type="xs:string" use="optional" />
+						<xs:attribute name="Abstract" type="xs:boolean" use="optional" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="StatModifiersList">
+		<xs:sequence>
+			<xs:element name="li" type="StatModifier" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HybridThoughtSettings">
+		<xs:sequence>
+			<xs:element name="replacerList" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="original" type="xs:string" />
+									<xs:element name="replacer" type="xs:string" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ateAnimalThought" minOccurs="0" maxOccurs="1" type="AteThought"></xs:element>
+			<xs:element name="butcheredAnimalThought" type="ButcherThought" minOccurs="0" maxOccurs="1" />
+			<xs:element name="suppressHumanlikeCannibalThoughts" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+			<xs:element name="canEatRaw" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+			<xs:element name="thoughtsBlackList" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" type="xs:string" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ateThoughtsSpecifics" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" type="AteThought" minOccurs="1" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="butcherThoughtsSpecifics" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" maxOccurs="unbounded" type="ButcherThought" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AteThought">
+		<xs:sequence>
+			<xs:element name="thought" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="thoughtCannibal" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="ingredientThought" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="ingredientThoughtCannibal" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="raceList" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" type="xs:string" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ButcherThought">
+		<xs:sequence>
+			<xs:element name="thought" type="xs:string" />
+			<xs:element name="knowThought" type="xs:string" />
+			<xs:element name="raceList" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" type="xs:string" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransformationSettings">
+		<xs:sequence>
+			<xs:element name="transformationTale" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="transformationMessageID" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="messageDef" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="transformationMemory" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="revertedMemory" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="revertedMemoryFurry" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="revertedMemoryBP" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddedAspect">
+		<xs:sequence>
+			<xs:element name="def" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="keepOnReversion" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StageAlert">
+		<xs:all>
+			<xs:element name="letterLabelText" type="xs:string" minOccurs="0" />
+			<xs:element name="letterContentText" type="xs:string" minOccurs="0" />
+			<xs:element name="letterDef" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="TFMiscSettings">
+		<xs:all>
+			<xs:element name="tfTale" type="xs:string" minOccurs="0" />
+			<xs:element name="warningLabelOverride" type="xs:string" minOccurs="0" />
+			<xs:element name="warningContentOverride" type="xs:string" minOccurs="0" />
+			<xs:element name="warningLetterDef" type="xs:string" minOccurs="0" />
+			<xs:element name="displayWarning" type="xs:boolean" minOccurs="0" />
+			<xs:element name="forcedSapience" type="xs:float" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="MorphHediffProperties">
+		<xs:all>
+			<xs:element name="label" type="xs:string" minOccurs="0" />
+			<xs:element name="description" type="xs:string" minOccurs="0" />
+			<xs:element name="labelColor" type="Color" minOccurs="0" />
+			<xs:element name="MutagenDef" type="xs:string" minOccurs="0" />
+			<xs:element name="tfAlert" type="StageAlert" minOccurs="0" />
+			<xs:element name="removeNonMorphPartChance" type="xs:float" minOccurs="0" />
+			<xs:element name="tfSettings" type="TFMiscSettings" minOccurs="0" />
+			<xs:element name="hungerRateFactor" type="xs:float" minOccurs="0" />
+			<xs:element name="capMods" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any processContents="lax" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="aspectGivers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" minOccurs="1" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any processContents="lax" maxOccurs="unbounded" />
+								</xs:sequence>
+								<xs:attribute name="Class" use="required" type="xs:string" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="MorphInjectorProperties">
+		<xs:all>
+			<xs:element name="label" type="xs:string" minOccurs="0" />
+			<xs:element name="statBases" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any processContents="lax" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="workAmount" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="techLevel" type="TechLevel" minOccurs="0" />
+			<xs:element name="traderTags" type="ListOfStrings" minOccurs="0" />
+			<xs:element name="description" type="xs:string" minOccurs="0" />
+			<xs:element name="useDefaultTags" type="xs:boolean" minOccurs="0" />
+			<xs:element name="costList" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any processContents="lax" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="slurryCost" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="neutroamineCost" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="mutaniteCost" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="outcomeDoers" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" minOccurs="1" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any processContents="lax" maxOccurs="unbounded" />
+								</xs:sequence>
+								<xs:attribute name="Class" use="required" type="xs:string" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="graphicData" type="GraphicData" minOccurs="0" />
+
+			<xs:element name="recipeMaker" type="RecipeMaker" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="HybridRaceSettings">
+		<xs:all>
+			<xs:element name="restrictionSettings" type="xs:anyType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>https://github.com/erdelf/AlienRaces/wiki/Race-Restriction</xs:documentation>
+			  	</xs:annotation>
+			</xs:element>
+			<xs:element name="statModifiers" type="StatModifiersList" minOccurs="0" maxOccurs="1" />
+			<xs:element name="thoughtSettings" type="HybridThoughtSettings" maxOccurs="1" minOccurs="0" />
+			<xs:element name="graphicsSettings" type="GraphicsSettings" minOccurs="0" maxOccurs="1" />
+
+			<xs:element name="explicitHybridRace" type="xs:string" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>AlienRace.ThingDef_AlienRace def to use as hybrid race.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="transferHumanBodyAddons" type="xs:boolean" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>If true and explicitHybridRace is set, human hediff graphics will be added onto the explicit hybrid race.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="requiredMutations" type="ListOfStrings" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>A list of mutations that will be added to a pawn when they become a hybrid if they do not have them already.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="hairstyles" type="ListOfStrings" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>A list of hair styles that will be used as a pool and be randomly added to a pawn when they become a hybrid.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="coverPercent" type="xs:float" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>How much cover this race provides.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="forceRequiredMutations" type="xs:boolean" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>If true the required mutations will be added to the pawn when they become a hybrid, otherwise not having the required part will prevent the pawn from becoming a hybrid.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="lifeExpectancy" type="xs:string" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>Overrides life expectancy for pawn.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="baseHungerRate" type="xs:string" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>Overrides base hunger rate for pawn.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="bodyDef" type="xs:string" minOccurs="0" maxOccurs="1">
+          			<xs:annotation>
+            				<xs:documentation>Hybrid body reference.</xs:documentation>
+          			</xs:annotation>
+			</xs:element>
+			<xs:element name="comps" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					  <xs:documentation>Components added to the hybrid race.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="li" type="xs:anyType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="GraphicsSettings">
+		<xs:all>
+			<xs:element name="skinColorOverride" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="skinColorOverrideSecond" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="femaleSkinColorOverride" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="femaleSkinColorOverrideSecond" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="hairColorOverride" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="hairColorOverrideSecond" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="femaleHairColorOverride" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="femaleHairColorOverrideSecond" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="customDrawSize" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="customHeadDrawSize" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:all>
+	</xs:complexType>
+
+
+
+</xs:schema>
