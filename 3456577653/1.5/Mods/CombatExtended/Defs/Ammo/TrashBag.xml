@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>Ai_TrashBagAmmoCategory</defName>
+		<label>Trash bag</label>
+		<description>A trash bag filled with waste, fired from trash can as a make-shift weapon.</description>
+	</CombatExtended.AmmoCategoryDef>
+
+	<ThingCategoryDef>
+		<defName>Ai_TrashBagThingCategory</defName>
+		<label>Trash bag</label>
+		<parent>AmmoShells</parent>
+		<iconPath>UI/Icons/ThingCategories/TrashBags</iconPath>
+	</ThingCategoryDef>
+
+	<!-- ==================== AmmoSet ========================== -->
+
+	<CombatExtended.AmmoSetDef>
+		<defName>AmmoSet_Ai_TrashBag</defName>
+		<label>Trash bag</label>
+		<ammoTypes>
+			<Ammo_Ai_TrashBag>Ai_Proj_TrashCannon</Ammo_Ai_TrashBag>
+		</ammoTypes>
+	</CombatExtended.AmmoSetDef>
+
+	<!-- ==================== Ammo ========================== -->
+
+	<ThingDef Class="CombatExtended.AmmoDef" Name="Ai_TrashBagBase" ParentName="HeavyAmmoBase" Abstract="True">
+		<thingCategories>
+			<li>Ai_TrashBagThingCategory</li>
+		</thingCategories>
+		<stackLimit>500</stackLimit>
+		<tradeTags>
+			<li>CE_AutoEnableTrade</li>
+			<li>CE_AutoEnableCrafting_FueledSmithy</li>
+			<li>CE_AutoEnableCrafting_ElectricSmithy</li>
+		</tradeTags>
+		<statBases>
+			<MaxHitPoints>200</MaxHitPoints>
+			<Mass>0.27</Mass>
+			<Bulk>0.38</Bulk>
+		</statBases>
+		<techLevel>Industrial</techLevel>
+	</ThingDef>
+
+	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Ai_TrashBagBase">
+		<defName>Ammo_Ai_TrashBag</defName>
+		<label>trash bag</label>
+		<description>A trash bag filled with waste, exploding before impact and producing wide spread metal splinters.</description>
+		<graphicData>
+			<texPath>Things/Ammo/TrashBag</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<ammoClass>Ai_TrashBagAmmoCategory</ammoClass>
+		<cookOffProjectile>Ai_Proj_TrashCannon</cookOffProjectile>
+	</ThingDef>
+
+	<!-- ==================== Recipes ========================== -->
+
+	<RecipeDef ParentName="AmmoRecipeBase">
+		<defName>MakeAmmo_Ai_TrashBag</defName>
+		<label>Make trash bags x10</label>
+		<description>Craft 10 trash bags.</description>
+		<jobString>Making trash bags.</jobString>
+		<researchPrerequisite>Ai_WasteOfResearch</researchPrerequisite>
+		<workAmount>1400</workAmount>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Steel</li>
+					</thingDefs>
+				</filter>
+				<count>10</count>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">
+				<filter>
+					<thingDefs>
+						<li>Wastepack</li>
+					</thingDefs>
+				</filter>
+				<count>4</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Steel</li>
+				<li MayRequire="Ludeon.RimWorld.Biotech">Wastepack</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<Ammo_Ai_TrashBag>10</Ammo_Ai_TrashBag>
+		</products>
+	</RecipeDef>
+
+</Defs>

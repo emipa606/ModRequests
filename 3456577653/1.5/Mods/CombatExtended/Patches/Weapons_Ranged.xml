@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+		<defName>Ai_TrashCannon</defName>
+		<statBases>
+			<Mass>14</Mass>
+			<Bulk>10</Bulk>
+			<WorkToMake>10400</WorkToMake>
+			<SightsEfficiency>0.7</SightsEfficiency>
+			<ShotSpread>0.14</ShotSpread>
+			<SwayFactor>1.0</SwayFactor>
+			<RangedWeapon_Cooldown>0.7</RangedWeapon_Cooldown>
+		</statBases>
+		<Properties>
+			<label>launch trash bags</label>
+			<verbClass>CombatExtended.Verb_ShootCE</verbClass>
+			<recoilAmount>1</recoilAmount>
+			<hasStandardCommand>true</hasStandardCommand>
+			<defaultProjectile>Ai_Proj_TrashCannon</defaultProjectile>
+			<ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+			<warmupTime>1.4</warmupTime>
+			<range>41</range>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+			<soundCast>Ai_TrashCannon_Shot</soundCast>
+			<muzzleFlashScale>4</muzzleFlashScale>
+			<ignorePartialLoSBlocker>true</ignorePartialLoSBlocker>
+		</Properties>
+		<AmmoUser>
+			<magazineSize>1</magazineSize>
+			<reloadTime>4</reloadTime>
+			<ammoSet>AmmoSet_Ai_TrashBag</ammoSet>
+		</AmmoUser>
+		<FireModes>
+			<aiUseBurstMode>false</aiUseBurstMode>
+			<aiAimMode>AimedShot</aiAimMode>
+		</FireModes>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Ai_TrashCannon"]/tools</xpath>
+		<value>
+			<tools>
+				<li Class="CombatExtended.ToolCE">
+					<label>barrel</label>
+					<capacities>
+						<li>Blunt</li>
+					</capacities>
+					<power>10</power>
+					<cooldownTime>2.56</cooldownTime>
+					<armorPenetrationBlunt>1.550</armorPenetrationBlunt>
+				</li>
+			</tools>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Ai_TrashCannon"]/weaponTags</xpath>
+		<value>
+			<li>NoSwitch</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAttributeSet">
+		<xpath>Defs/ThingDef[defName="Ai_Proj_TrashCannon"]</xpath>
+		<attribute>ParentName</attribute>
+		<value>BaseBulletCE</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Ai_Proj_TrashCannon"]/graphicData/texPath</xpath>
+		<value>
+			<texPath>Things/Projectile/Trash_Projectile_Singular</texPath>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Ai_Proj_TrashCannon"]/graphicData/drawSize</xpath>
+		<value>
+			<drawSize>0.5</drawSize>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="Ai_Proj_TrashCannon"]/thingClass</xpath>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Ai_Proj_TrashCannon"]/projectile</xpath>
+		<value>
+			<projectile Class="CombatExtended.ProjectilePropertiesCE">
+				<damageDef>Ai_TrashDamage</damageDef>
+				<speed>73</speed>
+				<damageAmountBase>14</damageAmountBase>
+				<pelletCount>4</pelletCount>
+				<armorPenetrationSharp>2.8</armorPenetrationSharp>
+				<armorPenetrationBlunt>15.3</armorPenetrationBlunt>
+				<spreadMult>14.1</spreadMult>
+				<preExplosionSpawnChance>1</preExplosionSpawnChance>
+				<preExplosionSpawnThingDef>Filth_Trash</preExplosionSpawnThingDef>
+			</projectile>
+		</value>
+	</Operation>
+
+</Patch>
