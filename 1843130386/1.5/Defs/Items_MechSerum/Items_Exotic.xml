@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+  <!--=============== Mech serums ====================-->
+
+  <ThingDef ParentName="ResourceBase" Name="RH_UACMechSerumBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <DeteriorationRate>2.0</DeteriorationRate>
+      <Flammability>0.2</Flammability>
+    </statBases>
+	<tradeability>true</tradeability>
+    <techLevel>Ultra</techLevel>
+    <tradeTags>
+      <li>RH_ExoticMisc</li>
+    </tradeTags>
+  </ThingDef>
+
+  <ThingDef ParentName="RH_UACMechSerumBase">
+    <defName>RH_UACHealerMechSerum</defName>
+    <label>UAC health dispenser</label>
+    <description>A Union Aerospace health dispenser. A one-use super-dose of mechanites tuned to heal health conditions. The mechanites will target and heal the single worst health condition affecting someone at any given time. Works even on health conditions that would otherwise be incurable. The mechanites can even transmute themselves into organic matter, forming new limbs or organs as needed.</description>
+    <graphicData>
+      <texPath>Things/Item/Special/UAC_HealthShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MarketValue>1500</MarketValue>
+    </statBases>
+	  	<costList>
+			<ComponentSpacer>2</ComponentSpacer>
+			<Plasteel>5</Plasteel>
+			<Luciferium>20</Luciferium>
+		</costList>
+  		<recipeMaker>
+			<unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+			<researchPrerequisite>AdvancedFabrication</researchPrerequisite>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Crafting</workSkill>
+			<effectWorking>Smith</effectWorking>
+			<soundWorking>Recipe_Machining</soundWorking>
+			<recipeUsers>
+				<li>RHBench_UACFabricationBench</li>
+			</recipeUsers>
+			<skillRequirements>
+				<Crafting>10</Crafting>
+			</skillRequirements>
+		</recipeMaker>
+    <thingCategories>
+      <li>Items</li>
+    </thingCategories>
+    <tradeability>All</tradeability>
+    <comps>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Use UAC Health dispenser</useLabel>
+        <useDuration>250</useDuration>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_FixWorstHealthCondition</compClass>
+      </li>
+      <li Class="CompProperties_UseEffect">
+        <compClass>CompUseEffect_DestroySelf</compClass>
+      </li>
+    </comps>
+    <thingSetMakerTags>
+      <li>RewardStandardHighFreq</li>
+    </thingSetMakerTags>
+  </ThingDef>
+  
+    <RecipeDef>
+    <defName>AdministerRHUACHealerMechSerum</defName> <!-- Dear modder, this needs a patch to work with pawns -->
+    <label>administer UAC Health dispenser</label>
+    <description>Administer a UAC Health dispenser.</description>
+    <workerClass>Recipe_AdministerUsableItem</workerClass>
+    <jobString>Administering UAC Health dispenser.</jobString>
+    <targetsBodyPart>false</targetsBodyPart>
+    <anesthetize>false</anesthetize>
+    <workAmount>600</workAmount>
+    <dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+    <surgerySuccessChanceFactor>99999</surgerySuccessChanceFactor>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RH_UACHealerMechSerum</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>RH_UACHealerMechSerum</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+</Defs>
