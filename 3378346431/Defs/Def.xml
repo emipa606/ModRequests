@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>Ashes</defName>
+		<label>ashes</label>
+		<description>The gritty leftovers of something—or someone—who had dreams once. Perfect for crafting macabre art, rolling into a guilt-laden smoke, or just sprinkling around like confetti. You monster.</description>
+		<possessionCount>2</possessionCount>
+		<graphicData>
+			<texPath>Things/Item/Resource/Ashes</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<soundInteract>Standard_Drop</soundInteract>
+		<soundDrop>Standard_Drop</soundDrop>
+		<stackLimit>200</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<statBases>
+			<MaxHitPoints>180</MaxHitPoints>
+			<MarketValue>8</MarketValue>
+			<Mass>0.6</Mass>
+			<Flammability>0.1</Flammability>
+		</statBases>
+		<intricate>true</intricate>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+		<stuffProps>
+			<stuffAdjective>ashy</stuffAdjective>
+			<categories>
+				<li>Ashy</li>
+			</categories>
+			<color>(200,200,183)</color>
+		</stuffProps>
+	</ThingDef>
+
+
+
+
+
+
+
+
+	<ThingDef ParentName="MakeableDrugBase">
+		<defName>SoulSpliff</defName>
+		<label>soul spliff</label>
+		<description>Ashes prepared in small rolls for smoking. Nothing says “closure” like grinding your loved ones into a joint.</description>
+		<possessionCount>5</possessionCount>
+		<descriptionHyperlinks>
+			<HediffDef>SoulSpliffHigh</HediffDef>
+			<HediffDef>SoulSpliffTolerance</HediffDef>
+			<HediffDef>SoulSpliffAddiction</HediffDef>
+			<HediffDef>Carcinoma</HediffDef>
+			<HediffDef>Asthma</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+			<texPath>Things/Item/Drug/SoulSpliff</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+			<WorkToMake>350</WorkToMake>
+			<MarketValue>19</MarketValue>
+			<Mass>0.05</Mass>
+			<Flammability>0.2</Flammability>
+		</statBases>
+		<techLevel>Neolithic</techLevel>
+		<ingestible>
+			<foodType>Plant, Processed</foodType>
+			<joyKind>Chemical</joyKind>
+			<joy>1.40</joy>
+			<baseIngestTicks>720</baseIngestTicks>
+			<nurseable>true</nurseable>
+			<drugCategory>Social</drugCategory>
+			<ingestSound>Ingest_Smoke</ingestSound>
+			<ingestEffect>Smoke_SoulSpliff</ingestEffect>
+			<ingestEffectEat>EatVegetarian</ingestEffectEat>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.27,0,0.08)</offset>
+					<behind>true</behind>
+				</northDefault>
+				<east>
+					<offset>(0.45,0,0.08)</offset>
+				</east>
+				<south>
+					<offset>(0.27,0,0.08)</offset>
+				</south>
+				<west>
+					<offset>(-0.50,0,0.08)</offset>
+					<flip>true</flip>
+				</west>
+			</ingestHoldOffsetStanding>
+			<ingestHoldUsesTable>false</ingestHoldUsesTable>
+			<ingestCommandString>Smoke {0}</ingestCommandString>
+			<ingestReportString>Smoking {0}.</ingestReportString>
+			<ingestReportStringEat>Consuming {0}.</ingestReportStringEat>
+			<useEatingSpeedStat>false</useEatingSpeedStat>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>SoulSpliffHigh</hediffDef>
+					<severity>0.3</severity>
+					<toleranceChemical>SoulSpliff</toleranceChemical>
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetNeed">
+					<need>Rest</need>
+					<offset>-0.3</offset>
+				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>SoulSpliffTolerance</hediffDef>
+					<toleranceChemical>SoulSpliff</toleranceChemical>
+					<severity>0.030</severity>
+					<divideByBodySize>true</divideByBodySize>
+					<multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<recipeMaker>
+			<recipeUsers>
+				<li>CraftingSpot</li>
+				<li>DrugLab</li>
+			</recipeUsers>
+			<workSpeedStat>DrugCookingSpeed</workSpeedStat>
+			<workSkill>Cooking</workSkill>
+			<displayPriority>1400</displayPriority>
+		</recipeMaker>
+		<costList>
+			<Ashes>25</Ashes>
+		</costList>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>SoulSpliff</chemical>
+				<addictiveness>0.02</addictiveness>
+				<minToleranceToAddict>0.10</minToleranceToAddict>
+				<existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+				<needLevelOffset>0.9</needLevelOffset>
+				<listOrder>888888888888</listOrder>
+			</li>
+		</comps>
+		<allowedArchonexusCount>50</allowedArchonexusCount>
+		<researchPrerequisites>
+			<li>DrugProduction</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+
+
+	<!-- SoulSpliff Effects -->
+
+
+
+
+
+
+	<HediffDef>
+		<defName>SoulSpliffHigh</defName>
+		<label>high on soul spliff</label>
+		<labelNoun>a high that whispers, 'they're still with you... well, inside you.'</labelNoun>
+		<description>Soul Spliff's active chemical in the bloodstream. Provides a soothing buzz, with the unsettling comfort of inhaling someone's literal remains.</description>
+		<hediffClass>Hediff_High</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<scenarioCanAdd>true</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1.0</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<hungerRateFactorOffset>-0.5</hungerRateFactorOffset>
+				<painOffset>0.1</painOffset>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.2</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.3</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ThoughtDef>
+		<defName>SoulSpliffHigh</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>SoulSpliffHigh</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<stages>
+			<li>
+				<label>high on soul spliff</label>
+				<description>I'd, like, rather be buried, man.</description>
+				<baseMoodEffect>15</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<!-- SoulSpliff addiction -->
+
+	<ChemicalDef>
+		<defName>SoulSpliff</defName>
+		<label>soul spliff</label>
+		<addictionHediff>SoulSpliffAddiction</addictionHediff>
+		<toleranceHediff>SoulSpliffTolerance</toleranceHediff>
+		<onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+		<geneToleranceBuildupFactorResist>0.4</geneToleranceBuildupFactorResist>
+		<geneToleranceBuildupFactorImmune>0</geneToleranceBuildupFactorImmune>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>Chemical_SoulSpliff</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>SoulSpliff</label>
+		<description>Because of a soul spliff dependence, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+		<listPriority>25</listPriority>
+	</NeedDef>
+
+	<HediffDef ParentName="DrugToleranceBase">
+		<defName>SoulSpliffTolerance</defName>
+		<label>SoulSpliff tolerance</label>
+		<description>A built-up tolerance to soul spliff. The more severe this tolerance is, the more soul spliff it takes to get the same effect.</description>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.015</severityPerDay>
+			</li>
+			<li Class="HediffCompProperties_DrugEffectFactor">
+				<chemical>SoulSpliff</chemical>
+			</li>
+		</comps>
+		<hediffGivers>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>Asthma</hediff>
+				<severityToMtbDaysCurve>
+					<points>
+						<li>(0.55, 99999)</li>
+						<li>(0.66, 180)</li>
+						<li>(1, 135)</li>
+					</points>
+				</severityToMtbDaysCurve>
+				<partsToAffect>
+					<li>Lung</li>
+				</partsToAffect>
+				<countToAffect>2</countToAffect>
+			</li>
+			<li Class="HediffGiver_RandomDrugEffect">
+				<hediff>Carcinoma</hediff>
+				<severityToMtbDaysCurve>
+					<points>
+						<li>(0.44, 99999)</li>
+						<li>(0.66, 180)</li>
+						<li>(1, 135)</li>
+					</points>
+				</severityToMtbDaysCurve>
+				<partsToAffect>
+					<li>Lung</li>
+				</partsToAffect>
+				<countToAffect>1</countToAffect>
+			</li>
+		</hediffGivers>
+	</HediffDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>SoulSpliffAddiction</defName>
+		<label>SoulSpliff dependence</label>
+		<description>A cursed addiction to soul spliffs. Long-term use of soul spliffs has caused ghostly adaptations at the cellular level, so the soul can no longer function properly without the inhaling the cremated remains of others. \nWithout regular doses of soul spliffs, withdrawal symptoms will begin. However, extended abstinence will force the soul to adapt back to its normal state, resolving this strange addiction.</description>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<causesNeed>Chemical_SoulSpliff</causesNeed>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.0333</severityPerDay>
+				<showDaysToRecover>true</showDaysToRecover>
+			</li>
+		</comps>
+		<stages>
+			<li>
+			</li>
+			<li>
+				<label>withdrawal</label>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.40</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.3</offset>
+					</li>
+				</capMods>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Binging_DrugMajor</mentalState>
+						<mtbDays>50</mtbDays>
+					</li>
+				</mentalStateGivers>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ThoughtDef>
+		<defName>SoulSpliffWithdrawal</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>SoulSpliffAddiction</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<stages>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<label>soul spliff withdrawal</label>
+				<description>Really wish I could light up a soul spliff right now. The urge to cremate myself is becoming overwhelming.</description>
+				<baseMoodEffect>-25</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+
+
+	<!-- Motes -->
+
+
+
+
+
+	<EffecterDef>
+		<defName>Smoke_SoulSpliff</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+				<moteDef>Mote_SmokeSoulSpliff</moteDef>
+				<ticksBetweenMotes>30</ticksBetweenMotes>
+				<scale>0.35~0.45</scale>
+				<absoluteAngle>true</absoluteAngle>
+				<angle>30~70</angle>
+				<speed>0.18~0.3</speed>
+			</li>
+		</children>
+	</EffecterDef>
+
+	<ThingDef ParentName="MoteBase">
+		<defName>Mote_SmokeSoulSpliff</defName>
+		<thingClass>MoteThrown</thingClass>
+		<graphicData>
+			<texPath>Things/Mote/SoulSpliffSmoke</texPath>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<mote>
+			<fadeInTime>0.25</fadeInTime>
+			<solidTime>2.75</solidTime>
+			<fadeOutTime>4.7</fadeOutTime>
+			<growthRate>0.47</growthRate>
+			<acceleration>(0,0,0.0014)</acceleration>
+		</mote>
+	</ThingDef>
+
+
+
+
+	<!-- Stuff category for ashy art -->
+
+
+
+
+
+	<StuffCategoryDef>
+		<defName>Ashy</defName>
+		<label>ashy</label>
+		<noun>ash</noun>
+		<destroySoundSmall>BuildingDestroyed_Stone_Small</destroySoundSmall>
+		<destroySoundMedium>BuildingDestroyed_Stone_Medium</destroySoundMedium>
+		<destroySoundLarge>BuildingDestroyed_Stone_Big</destroySoundLarge>
+	</StuffCategoryDef>
+
+
+
+
+
+
+</Defs>
