@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <Vehicles.VehicleDef Name = "BA_WakamoHover_Base" ParentName = "BaseSeaVehicle" Abstract = "True">
+  </Vehicles.VehicleDef>
+
+  <Vehicles.VehicleDef ParentName="BA_WakamoHover_Base">
+    <defName>BA_WakamoHover</defName>
+    <label>hovercraft</label>
+    <description>a hovercraft similar to the Zubr-class LCAC. It is amphibious vehicle.\n\n&lt;color=#bb8f04&gt;Crew:&lt;/color&gt; Driver x1, Passenger x18\n&lt;color=#bb8f04&gt;Fuel type:&lt;/color&gt; Chemfuel</description>
+
+    <graphicData>
+      <texPath>BA_WakamoHover/BA_WakamoHover</texPath>
+      <graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+      <shaderType>CutoutComplexPattern</shaderType>
+      <drawSize>(14,14)</drawSize>
+      <drawOffset>(0,0,0.33)</drawOffset>
+      <color>(255, 255, 255)</color>
+      <colorTwo>(255, 255, 255)</colorTwo>
+      <colorThree>(255, 255, 255)</colorThree>
+    </graphicData>
+
+    <fillPercent>0.8</fillPercent>
+
+    <buildDef>BA_WakamoHover_Blueprint</buildDef>
+
+    <size>(6,13)</size>
+
+    <vehicleMovementPermissions>DriverNeeded</vehicleMovementPermissions>
+    <vehicleCategory>Transport</vehicleCategory>
+    <techLevel>Industrial</techLevel>
+    <vehicleType>Land</vehicleType>
+
+    <statBases>
+      <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.80</ArmorRating_Sharp>
+      <ArmorRating_Heat>1.0</ArmorRating_Heat>
+      <Flammability>0.15</Flammability>
+      <MarketValue>4420</MarketValue>
+    </statBases>
+
+    <vehicleStats>
+      <Mass>420</Mass>
+      <MoveSpeed>12.5</MoveSpeed>
+      <CargoCapacity>6200</CargoCapacity>
+      <RepairRate>1.0</RepairRate>
+			<!-- <AccelerationRate MayRequire="oskarpotocki.vanillavehiclesexpanded">3.085</AccelerationRate> -->
+    </vehicleStats>
+
+
+    <soundSustainersOnEvent>
+      <li>
+        <start>IgnitionOn</start>
+        <stop>IgnitionOff</stop>
+        <value>WakamoHover_loop</value>
+      </li>
+    </soundSustainersOnEvent>
+    <!-- 
+    <soundSustainersOnEvent>
+      <li>
+        <start>IgnitionOn</start>
+        <stop>IgnitionOff</stop>
+        <value>VVE_VehicleEngineMuscleCar</value>
+        <removalKey>DefaultEngine</removalKey>
+      </li>
+    </soundSustainersOnEvent> -->
+
+    <race>
+      <baseBodySize>78.0</baseBodySize>
+    </race>
+
+    <properties>
+
+      <!-- worldmap -->
+      <defaultBiomesImpassable>false</defaultBiomesImpassable>
+      <worldSpeedMultiplier>1.8</worldSpeedMultiplier>
+      <offRoadMultiplier>1</offRoadMultiplier>
+      <winterCost>0.0</winterCost>
+      <winterSpeedMultiplier>0.0</winterSpeedMultiplier>
+      <customRoadCosts AssignDefaults = "1"/>
+      <customBiomeCosts>
+        <li>
+          <key>IceSheet</key>
+          <value>1</value>
+        </li>
+        <li>
+          <key>SeaIce</key>
+          <value>1</value>
+        </li>
+      </customBiomeCosts>
+      <customHillinessCosts>
+        <li>
+          <key>SmallHills</key>
+          <value>2.0</value>
+        </li>
+        <li>
+          <key>LargeHills</key>
+          <value>4.0</value>
+        </li>
+        <li>
+          <key>Mountainous</key>
+          <value>6.5</value>
+        </li>
+      </customHillinessCosts>
+
+      <!-- localmap -->
+      <defaultTerrainImpassable>false</defaultTerrainImpassable>
+      <customTerrainCosts AllowTerrainWithTag="Water" PathCost="1" AssignDefaults = "1"/>
+      <customSnowCategoryTicks AssignDefaults="0"/>
+
+      <track Class = "Vehicles.VehicleTrack_Wake">
+        <speed>1</speed>
+        <size>2</size>
+      </track>
+
+      <roles>
+        <li>
+          <key>driver</key>
+          <label>Driver</label>
+          <slots>1</slots>
+          <slotsToOperate>1</slotsToOperate>
+          <handlingTypes>
+            <li>Movement</li>
+          </handlingTypes>
+          <hitbox>
+            <cells>
+              <li>(0, 1)</li>
+              <li>(1, 1)</li>
+            </cells>
+          </hitbox>
+        </li>
+        <li>
+          <key>passenger</key>
+          <label>Passenger</label>
+          <slots>18</slots>
+          <hitbox>
+            <cells>
+              <li>(0, 1)</li>
+              <li>(1, 1)</li>
+              <li>(0, 0)</li>
+              <li>(1, 0)</li>
+            </cells>
+          </hitbox>
+        </li>
+      </roles>
+    </properties>
+
+    <components>
+      <li>
+        <key>PropellerMain</key>
+        <label>Main Propeller</label>
+        <health>1800</health>
+        <depth>External</depth>
+
+        <armor>
+          <ArmorRating_Blunt>1.2</ArmorRating_Blunt>
+          <ArmorRating_Sharp>1.0</ArmorRating_Sharp>
+        </armor>
+
+        <hitbox>
+          <fallthrough>false</fallthrough>
+          <cells>
+            <li>(0, -3)</li>
+            <li>(1, -3)</li>
+            <li>(0, -4)</li>
+            <li>(1, -4)</li>
+          </cells>
+        </hitbox>
+
+        <categories>
+          <li>MoveSpeed</li>
+        </categories>
+      </li>
+      <li>
+        <key>PropellerRight</key>
+        <label>Right Propeller</label>
+        <health>1800</health>
+        <depth>External</depth>
+
+        <armor>
+          <ArmorRating_Blunt>1.2</ArmorRating_Blunt>
+          <ArmorRating_Sharp>1.0</ArmorRating_Sharp>
+        </armor>
+
+        <hitbox>
+          <fallthrough>false</fallthrough>
+          <cells>
+            <li>(2, -3)</li>
+            <li>(2, -4)</li>
+          </cells>
+        </hitbox>
+
+        <categories>
+          <li>MoveSpeed</li>
+        </categories>
+      </li>
+      <li>
+        <key>PropellerLeft</key>
+        <label>Left Propeller</label>
+        <health>1800</health>
+        <depth>External</depth>
+
+        <armor>
+          <ArmorRating_Blunt>1.2</ArmorRating_Blunt>
+          <ArmorRating_Sharp>1.0</ArmorRating_Sharp>
+        </armor>
+
+        <hitbox>
+          <fallthrough>false</fallthrough>
+          <cells>
+            <li>(-1, -3)</li>
+            <li>(-1, -4)</li>
+          </cells>
+        </hitbox>
+
+        <categories>
+          <li>MoveSpeed</li>
+        </categories>
+      </li>
+
+      <li>
+        <key>LeftSidePanel</key>
+        <label>Left Side Panel</label>
+        <health>3300</health>
+        <depth>External</depth>
+
+        <hitbox>
+          <side>Left</side>
+        </hitbox>
+      </li>
+      <li>
+        <key>RightSidePanel</key>
+        <label>Right Side Panel</label>
+        <health>3300</health>
+        <depth>External</depth>
+
+        <hitbox>
+          <side>Right</side>
+        </hitbox>
+      </li>
+      <li>
+        <key>Chemtank</key>
+        <label>Chemtank</label>
+        <health>2400</health>
+        <depth>Internal</depth>
+
+        <reactors>
+          <li Class = "Vehicles.Reactor_FuelLeak"/>
+        </reactors>
+
+        <hitbox>
+          <cells>
+            <li>(0, -1)</li>
+            <li>(1, -1)</li>
+            <li>(0, -2)</li>
+            <li>(1, -2)</li>
+          </cells>
+        </hitbox>
+      </li>
+      <li>
+        <key>FrontBumper</key>
+        <label>Front Bumper</label>
+        <health>3300</health>
+        <depth>External</depth>
+
+        <hitbox>
+          <side>Front</side>
+        </hitbox>
+      </li>
+      <li>
+        <key>RearBumper</key>
+        <label>Rear Bumper</label>
+        <health>3300</health>
+        <depth>External</depth>
+
+        <hitbox>
+          <side>Back</side>
+        </hitbox>
+      </li>
+      <li>
+        <key>Hood</key>
+        <label>Hood</label>
+        <health>4000</health>
+        <depth>External</depth>
+        <hitWeight>5</hitWeight>
+      </li>
+      <li>
+        <key>Roof</key>
+        <label>Roof</label>
+        <health>4000</health>
+        <depth>External</depth>
+        <hitWeight>5</hitWeight>
+      </li>
+    </components>
+
+    <comps>
+      <li Class="Vehicles.CompProperties_FueledTravel">
+        <fuelType>Chemfuel</fuelType>
+        <fuelConsumptionRate>32</fuelConsumptionRate>
+        <fuelCapacity>1200</fuelCapacity>
+        <fuelConsumptionWorldMultiplier>0.8</fuelConsumptionWorldMultiplier>
+      </li>
+
+      <li Class="CompProperties_HovercraftEffect">
+        <draftFleckDef>WakamoHover_DustPuff</draftFleckDef>
+        <draftFleckSideDef>WakamoHover_DustPuffSide</draftFleckSideDef>
+        <moveFleckDef>WakamoHover_Propeller</moveFleckDef>
+        <size>1.0</size>
+        <interval>1</interval>
+      </li>
+    </comps>
+  </Vehicles.VehicleDef>
+</Defs>
