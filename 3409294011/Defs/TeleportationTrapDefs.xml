@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+
+	<!--============================== Thingdef ==============================-->
+
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>TeleporterTrapSpike</defName>
+		<label>teleportation trap</label>
+		<description>This trap employs advanced technology to teleport enemies to a pre-linked destination. While chemfuel provides the raw power, psychite tea refines and amplifies psychic energy to isolate and project a target's physical form. When triggered, it locks onto an intruder’s signature and violently ejects them to the designated location.</description>
+		<thingClass>TeleportationTrap.Building_TrapTeleporter</thingClass>
+		<graphicData>
+			<texPath>Things/Building/Security/TeleporterTrapSpike</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<damageData>
+				<rect>(0,0,1,0.15)</rect>
+			</damageData>
+			<drawSize>(1,1)</drawSize>
+		</graphicData>
+		<size>(1,1)</size>
+		<uiIconPath>Things/Building/Linked/TeleporterTrapSpike_MenuIcon</uiIconPath>
+		<altitudeLayer>Building</altitudeLayer>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<stealable>false</stealable>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<uiOrder>30</uiOrder>
+		<costList>
+			<Steel>30</Steel>
+			<Chemfuel>10</Chemfuel>
+			<PsychiteTea>1</PsychiteTea>
+		</costList>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<statBases>
+			<Mass>2.5</Mass>
+			<MaxHitPoints>40</MaxHitPoints>
+			<WorkToBuild>3200</WorkToBuild>
+			<Flammability>1</Flammability>
+			<Beauty>-18</Beauty>
+			<Cleanliness>-5</Cleanliness>
+			<TrapMeleeDamage>100</TrapMeleeDamage>
+			<TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<designationCategory>Security</designationCategory>
+		<designationHotKey>Misc6</designationHotKey>
+		<building>
+			<isTrap>true</isTrap>
+			<trapDestroyOnSpring>true</trapDestroyOnSpring>
+			<trapDamageCategory>Sharp</trapDamageCategory>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+		<comps>
+			<li Class="TeleportationTrap.CompProperties_Linkable">
+				<maxLinkDistance>250</maxLinkDistance>
+				<allowedLinkableDefs>
+					<li>TeleporterTrapSpike</li>
+				</allowedLinkableDefs>
+			</li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>1.5</glowRadius>
+				<glowColor>(255, 0, 0, 0)</glowColor>
+				<colorPickerEnabled>true</colorPickerEnabled>
+			</li>
+		</comps>
+		<researchPrerequisites>
+			<li>PsychoidBrewing</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+
+	<!--============================== EffecterDef ==============================-->
+
+
+	<EffecterDef>
+		<defName>CustomBlastEMPEffect</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+				<fleckDef>BlastExtinguisher</fleckDef>
+				<burstCount>1~2</burstCount>
+				<scale>1.0~2.0</scale>
+				<spawnLocType>OnSource</spawnLocType>
+			</li>
+			<li>
+				<subEffecterClass>SubEffecter_SoundTriggered</subEffecterClass>
+				<soundDef>Interceptor_BlockProjectile</soundDef>
+				<spawnLocType>OnSource</spawnLocType>
+			</li>
+		</children>
+	</EffecterDef>
+
+
+	<!--============================== Jobdef ==============================-->
+
+
+	<JobDef>
+		<defName>TeleportPawn</defName>
+		<driverClass>TeleportationTrap.JobDriver_TeleportPawn</driverClass>
+		<reportString>Teleporting to the linked object...</reportString>
+		<casualInterruptible>true</casualInterruptible>
+	</JobDef>
+
+
+
+
+
+
+</Defs>
