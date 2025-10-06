@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Alpha Biomes</li>
+		</mods> 
+		<match Class="PatchOperationSequence">
+			<operations>
+
+	<!-- Add pickled alien fish. Just when you thought regular pickled fish was bad. -->
+	<li Class="PatchOperationAdd">
+		<xpath>/Defs</xpath>
+		<value>
+
+			<RecipeDef>
+				<defName>GAB_PickleAlienFish</defName>
+				<label>pickle alien fish x20</label>
+				<description>Store cooked alien fish in a jar full of vinegar. Pickling food greatly extends its shelf life.</description>
+				<jobString>Pickling fish.</jobString>
+				<workSpeedStat>CookSpeed</workSpeedStat>
+				<effectWorking>Cook</effectWorking>
+				<soundWorking>Recipe_CookMeal</soundWorking>
+				<allowMixingIngredients>true</allowMixingIngredients>
+				<workAmount>700</workAmount>
+				<recipeUsers>
+					<li MayRequire="VanillaExpanded.VCookE">VCE_CondimentPrepTable</li>
+				</recipeUsers>
+				<ingredients>
+					<li>
+						<filter>
+							<categories>
+								<li>AB_RawFishCategory</li>
+
+							</categories>
+						</filter>
+						<count>20</count>
+					</li>
+					<li>
+						<filter>
+							<thingDefs>
+								<li>GAB_Vinegar</li>
+							</thingDefs>
+						</filter>
+						<count>1</count>
+					</li>
+				</ingredients>
+				<fixedIngredientFilter>
+					<categories>
+						<li>AB_RawFishCategory</li>
+					</categories>
+				</fixedIngredientFilter>
+				<defaultIngredientFilter>
+					<categories>
+						<li>AB_RawFishCategory</li>
+					</categories>
+					<disallowedCategories>		
+					</disallowedCategories>
+				</defaultIngredientFilter>
+				<products>
+					<GAB_PickledFish>20</GAB_PickledFish>
+				</products>
+			</RecipeDef>
+		</value>
+	</li>
+
+<!-- Prevent pickled meat from being made with alien fish -->
+	<li Class="PatchOperationAdd">
+		<xpath>/Defs/RecipeDef[defName="GAB_PickleMeat"]/defaultIngredientFilter/disallowedCategories</xpath>
+		<value>
+			<li>AB_RawFishCategory</li>
+		</value>
+	</li>
+
+			</operations>
+		</match>
+	</Operation>
+	
+		<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Alpha Biomes</li>
+		</mods> 
+		<match Class="PatchOperationFindMod">
+		<mods>
+		<li>Vanilla Cooking Expanded</li>
+		</mods>
+		<nomatch Class="PatchOperationAdd">
+		<xpath>/Defs/RecipeDef[defName="GAB_PickleAlienFish"]/recipeUsers</xpath>
+		<value>
+						<li>ElectricStove</li>	
+						<li>FueledStove</li>	
+		</value>
+
+</nomatch>
+		</match>
+	</Operation>
+	
+</Patch>
+

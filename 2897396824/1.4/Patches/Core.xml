@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[defName="Brewery"]/recipes</xpath>
+			<value>
+		<li>GAB_Make_Wort_Barley</li>
+					</value>
+	</Operation>
+	
+		<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[defName="BiofuelRefinery"]/recipes</xpath>
+			<value>
+		<li>GAB_Make_Ethanol</li>
+					</value>
+	</Operation>
+	
+		<Operation Class="PatchOperationFindMod">
+ <mods>
+    <li>Medieval Overhaul</li>
+  </mods>
+  <match Class="PatchOperationAddModExtension">
+    <xpath>Defs/ThingDef[defName="DankPyon_Plant_Flax"]</xpath>
+    <value>
+      <li Class="VanillaPlantsExpanded.DualCropExtension">
+		<secondaryOutput>GAB_Flaxseed</secondaryOutput>
+		<outPutAmount>20</outPutAmount>
+	</li>
+    </value>
+  </match>
+</Operation>
+
+<Operation Class="PatchOperationFindMod">
+ <mods>
+    <li>Textiles+</li>
+	<li>Textiles+(continued)</li>
+  </mods>
+  <match Class="PatchOperationAddModExtension">
+    <xpath>Defs/ThingDef[defName="Plant_Flax"]</xpath>
+    <value>
+      <li Class="VanillaPlantsExpanded.DualCropExtension">
+		<secondaryOutput>GAB_Flaxseed</secondaryOutput>
+		<outPutAmount>10</outPutAmount>
+	</li>
+    </value>
+  </match>
+</Operation>
+
+<Operation Class="PatchOperationFindMod">
+ <mods>
+    <li>VGP Garden Fabrics</li>
+	<li>VGP Garden Fabrics Simplified</li>
+  </mods>
+  <match Class="PatchOperationAddModExtension">
+    <xpath>Defs/ThingDef[defName="PlantFlax"]</xpath>
+    <value>
+      <li Class="VanillaPlantsExpanded.DualCropExtension">
+		<secondaryOutput>GAB_Flaxseed</secondaryOutput>
+		<outPutAmount>9</outPutAmount>
+	</li>
+    </value>
+  </match>
+</Operation>
+
+<Operation Class="PatchOperationFindMod">
+ <mods>
+    <li>VGP Garden Fabrics</li>
+	<li>VGP Garden Fabrics Simplified</li>
+	<li>Textiles+</li>
+	<li>Textiles+(continued)</li>
+	<li>Medieval Overhaul</li>
+  </mods>
+  <match Class="PatchOperationSequence">
+  <operations>
+  <li Class="PatchOperationAdd">
+    <xpath>Defs</xpath>
+    <value>
+      	<ThingDef ParentName="GAB_GrainFoodRawBase">
+		<defName>GAB_Flaxseed</defName>
+		<label>flaxseed</label>
+		<description>Raw flaxseed. Can be used in cooking or ground into flour.</description>
+		<statBases>
+		  	<MarketValue>1.5</MarketValue>
+		</statBases>
+		<graphicData>
+		  	<texPath>Things/Items/Raw/GAB_RawFlaxseed</texPath>
+		</graphicData>
+	</ThingDef>
+    </value>
+	</li>  
+	<li Class="PatchOperationAdd" MayRequire="VanillaExpanded.VCookE">
+   	<xpath>Defs/RecipeDef[defName="GAB_MakeFlour" or defName="GAB_MakeFlourBulk"]/ingredients/li/filter/thingDefs</xpath>
+					<value>
+						<li>GAB_Flaxseed</li>
+					</value>
+	</li>
+	
+		<li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+   	<xpath>Defs</xpath>
+					<value>
+						<RecipeDef>
+	<defName>DankPyon_CraftFlourFlaxseed</defName>
+	<label>grind flaxseed kernels into flour</label>
+	<description>Grind flaxseed kernels into flour.</description>
+	<jobString>Grinding flaxseed kernels into flour.</jobString>
+	<workSpeedStat>CookSpeed</workSpeedStat>
+	<effectWorking>Cook</effectWorking>
+	<workAmount>100</workAmount>
+    <soundWorking>Recipe_CookMeal</soundWorking>          	
+	<allowMixingIngredients>true</allowMixingIngredients>
+	<ingredients>
+
+	  <li>
+	    <filter>
+	      <thingDefs>
+	        <li>GAB_Flaxseed</li>
+	      </thingDefs>
+	    </filter>
+	    <count>1</count>
+	  </li>
+
+	</ingredients>
+	<fixedIngredientFilter>
+	  <thingDefs>
+	    <li>GAB_Flaxseed</li>
+	  </thingDefs>
+      <specialFiltersToDisallow>
+        <li>AllowRotten</li>
+      </specialFiltersToDisallow>
+	</fixedIngredientFilter>
+	<products>
+	  <DankPyon_Flour>1</DankPyon_Flour>
+	  <Hay>1</Hay>
+	</products>
+	<workSkill>Cooking</workSkill>
+	<recipeUsers>
+         <li>DankPyon_Millstone</li>
+    </recipeUsers>
+  </RecipeDef>
+
+
+  <RecipeDef>
+	<defName>DankPyon_CraftFlourBulkFlaxseed</defName>
+	<label>grind flaxseed into flour x10</label>
+	<description>Grind flaxseed into flour.</description>
+	<jobString>Grinding flaxseed into 10 flour.</jobString>
+	<workSpeedStat>CookSpeed</workSpeedStat>
+		<effectWorking>Cook</effectWorking>
+	<workAmount>800</workAmount>
+    <soundWorking>Recipe_CookMeal</soundWorking>          	
+	<allowMixingIngredients>true</allowMixingIngredients>
+	<ingredients>
+	  <li>
+	    <filter>
+	      <thingDefs>
+	        <li>GAB_Flaxseed</li>
+	      </thingDefs>
+	    </filter>
+	    <count>10</count>
+	  </li>
+	</ingredients>
+	<fixedIngredientFilter>
+	  <thingDefs>
+	    <li>GAB_Flaxseed</li>
+	  </thingDefs>
+      <specialFiltersToDisallow>
+        <li>AllowRotten</li>
+      </specialFiltersToDisallow>
+	</fixedIngredientFilter>
+    <products>
+    	<DankPyon_Flour>10</DankPyon_Flour>
+		<Hay>10</Hay>      
+    </products>
+	<workSkill>Cooking</workSkill>
+	<recipeUsers>
+         <li>DankPyon_Millstone</li>
+    </recipeUsers>
+  </RecipeDef>
+</value>
+
+	</li>
+	
+	
+	</operations>
+  </match>
+</Operation>
+
+
+
+</Patch>
+
