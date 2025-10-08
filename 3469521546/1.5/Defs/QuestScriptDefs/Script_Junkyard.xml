@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<QuestScriptDef>
+		<defName>SEX_OpportunitySite_Junkyard</defName>
+		<rootSelectionWeight>0</rootSelectionWeight>
+		<rootMinPoints>0</rootMinPoints>
+		<autoAccept>true</autoAccept>
+		<questNameRules>
+			<rulesStrings>
+				<li>questName(priority=1)->[ancient] [junkyard] [found]</li>
+				<li>ancient->ancient</li>
+				<li>ancient->old</li>
+				<li>ancient->derelict</li>
+				<li>junkyard->wrecks</li>
+				<li>junkyard->salvage</li>
+				<li>junkyard->junkyard</li>
+				<li>found->discovered</li>
+				<li>found->found</li>
+				<li>found->located</li>
+			</rulesStrings>
+		</questNameRules>
+		<questDescriptionRules>
+			<rulesStrings>
+				<li>questDescription(askerIsNull==true)->One of your colonists has intercepted a radio signal talking about some ancient remains containing an unusual amount of vehicle wrecks not far from [map_definite]. It might be worthwhile to investigate if there's any wrecks worth salvaging.</li>
+			</rulesStrings>
+		</questDescriptionRules>
+		<root Class="QuestNode_Sequence">
+			<nodes>
+				<li Class="QuestNode_SubScript">
+					<def>Util_GetDefaultRewardValueFromPoints</def>
+				</li>
+				<li Class="QuestNode_SubScript">
+					<def>Util_AdjustPointsForDistantFight</def>
+				</li>
+				<li Class="QuestNode_GetMap"/>
+				<li Class="QuestNode_IsSet">
+					<name>asker</name>
+					<elseNode Class="QuestNode_RandomNode">
+						<nodes>
+							<li Class="QuestNode_Set">
+								<name>askerIsNull</name>
+								<value>true</value>
+								<selectionWeight>1</selectionWeight>
+							</li>
+						</nodes>
+					</elseNode>
+				</li>
+				<li Class="QuestNode_GetSiteTile">
+					<storeAs>siteTile</storeAs>
+					<preferCloserTiles>true</preferCloserTiles>
+				</li>
+				<li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+					<storeAs>sitePartDefs</storeAs>
+					<storeFactionAs>siteFaction</storeFactionAs>
+					<sitePartsTags>
+						<li>
+							<tag>SEX_JunkyardSite</tag>
+						</li>
+					</sitePartsTags>
+				</li>
+				<li Class="QuestNode_GetDefaultSitePartsParams">
+					<tile>$siteTile</tile>
+					<faction>$siteFaction</faction>
+					<sitePartDefs>$sitePartDefs</sitePartDefs>
+					<storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+				</li>
+				<li Class="QuestNode_SubScript">
+					<def>Util_GenerateSite</def>
+					<parms>
+						<hiddenSitePartsPossible>true</hiddenSitePartsPossible>
+					</parms>
+				</li>
+				<li Class="QuestNode_SpawnWorldObjects">
+					<worldObjects>$site</worldObjects>
+				</li>
+				<li Class="QuestNode_WorldObjectTimeout">
+					<worldObject>$site</worldObject>
+					<isQuestTimeout>true</isQuestTimeout>
+					<delayTicks>$(randInt(12,28)*60000)</delayTicks>
+					<inSignalDisable>site.MapGenerated</inSignalDisable>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="QuestNode_Letter">
+								<label>Quest expired: [resolvedQuestName]</label>
+								<text>Your colonists pick up another transmission indicating that the remains have been picked clean. The quest [resolvedQuestName] has expired.</text>
+							</li>
+							<li Class="QuestNode_End">
+								<outcome>Fail</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+				<li Class="QuestNode_NoWorldObject">
+					<worldObject>$site</worldObject>
+					<node Class="QuestNode_End"/>
+				</li>
+			</nodes>
+		</root>
+	</QuestScriptDef>
+</Defs>
