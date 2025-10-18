@@ -1,0 +1,133 @@
+﻿using RimWorld;
+using Verse;
+using HarmonyLib;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
+
+namespace Umbrellas
+{
+    [HarmonyPatch(typeof(WeatherManager), "TransitionTo")]
+    class RBHarmonyOnWeatherChange
+    {
+        static void Postfix(ref WeatherManager __instance, Map ___map)
+        {
+            foreach (Pawn pawn in ___map.mapPawns.AllPawnsSpawned)
+            {
+                if (!pawn.AnimalOrWildMan())
+                {
+                    pawn.Drawer.renderer.renderTree.SetDirty();
+                    PortraitsCache.SetDirty(pawn);
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderTree), "ProcessApparel")]
+    class RBHarmonyShowFoldables
+    {
+        static bool Prefix(ref PawnRenderTree __instance, Apparel ap)
+        {
+            if (!UmbrellaDefMethods.HideableUmbrellaDefs.Contains(ap.def)) return true; // Only check the following logic for umbrellas, not all apparel
+
+            if (!__instance.pawn.Spawned) return true; // If pawn not spawned, just don't mess with execution flow
+            if (!(RimbrellasMod.settings.showUmbrellasInRain || RimbrellasMod.settings.showUmbrellasInSnow)) return false;
+            if ((!RimbrellasMod.settings.showUmbrellas) || (!(ShowFoldablesNow(__instance.pawn.Map)) || (__instance.pawn.Map.roofGrid.Roofed(__instance.pawn.Position) && !RimbrellasMod.settings.showUmbrellasWhenInside)))
+            {
+                return false;
+            }
+            return true;
+        }
+        private static bool ShowFoldablesNow(Map map)
+        {
+            if (map.weatherManager.curWeather.rainRate == 0)
+            {
+                return false;
+            }
+            if (RimbrellasMod.settings.showUmbrellasInSnow && map.weatherManager.curWeather.snowRate > 0)
+            {
+                return true;
+            }
+            if (RimbrellasMod.settings.showUmbrellasInRain && map.weatherManager.curWeather.snowRate == 0)
+            { // it's already been determined that rainRate > 0 because if it was 0 it would have returned false above
+                return true;
+            }
+            return false;
+        }
+    }
+
+    // PATCHES MOD METHOD, SHOULD NOT BE PATCHED UNLESS Dubwise.DubsApparelTweaks ACTIVE
+    // Note: disabled in 1.5 (for now) as Dubs Apparel Tweaks is not updated
+    //[HarmonyPatch]
+    //class RBHarmonyDubsRendererPatch
+    //{
+    //    // When Dubs Apparel Tweaks is active, it recalculates each pawn's graphics with every step using bs.SwitchIndoors and bs.SwitchOutdoors.
+    //    // This patch slaps it in the face each time and removes umbrella graphics that should be hidden but were just re-added in those methods.
+    //    private static List<MethodBase> target = new List<MethodBase>();
+    //    static void Postfix(Pawn pawn)
+    //    {
+    //        if (!pawn.Spawned) return; // Should never be the case here but copied from previous logic anyway just in case
+    //        if (!(RimbrellasMod.settings.showUmbrellasInRain || RimbrellasMod.settings.showUmbrellasInSnow)) return;
+    //        if ((!RimbrellasMod.settings.showUmbrellas) || (!(ShowFoldablesNow(pawn.Map)) || (pawn.Map.roofGrid.Roofed(pawn.Position) && !RimbrellasMod.settings.showUmbrellasWhenInside)))
+    //        {
+    //            List<ApparelGraphicRecord> remove = new List<ApparelGraphicRecord>();
+    //            foreach (ApparelGraphicRecord rec in pawn.Drawer.renderer.graphics.apparelGraphics)
+    //            {
+    //                if (UmbrellaDefMethods.HideableUmbrellaDefs.Contains(rec.sourceApparel.def) || (UmbrellaDefMethods.UmbrellaDefs.Contains(rec.sourceApparel.def) && !RimbrellasMod.settings.showUmbrellas))
+    //                {
+    //                    remove.Add(rec);
+    //                }
+    //            }
+    //            foreach (ApparelGraphicRecord rec in remove)
+    //            {
+    //                pawn.Drawer.renderer.graphics.apparelGraphics.Remove(rec);
+    //            }
+    //            PortraitsCache.SetDirty(pawn); // this gets called twice (once in the patched method) which is a bit unfortunate but makes the portraits correct at least
+    //        }
+    //    }
+    //    private static bool ShowFoldablesNow(Map map)
+    //    {
+    //        if (map.weatherManager.curWeather.rainRate == 0)
+    //        {
+    //            return false;
+    //        }
+    //        if (RimbrellasMod.settings.showUmbrellasInSnow && map.weatherManager.curWeather.snowRate > 0)
+    //        {
+    //            return true;
+    //        }
+    //        if (RimbrellasMod.settings.showUmbrellasInRain && map.weatherManager.curWeather.snowRate == 0)
+    //        { // it's already been determined that rainRate > 0 because if it was 0 it would have returned false above
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+    //    static bool Prepare()
+    //    {
+    //        var mod = LoadedModManager.RunningMods.FirstOrDefault(m => m.PackageId == "dubwise.dubsappareltweaks");
+    //        if (mod == null)
+    //        {
+    //            return false;
+    //        }
+    //        var type = mod.assemblies.loadedAssemblies.FirstOrDefault(a => a.GetName().Name == "QuickFast").GetType("QuickFast.bs");
+    //        if (type == null)
+    //        {
+    //            Log.Warning("Rimbrellas: failed to patch Dubs Apparel Tweaks; no QuickFast.bs found!");
+    //            return false;
+    //        }
+    //        target.Clear(); // just in case
+    //        target.Add(AccessTools.DeclaredMethod(type, "SwitchIndoors"));
+    //        target.Add(AccessTools.DeclaredMethod(type, "SwitchOutdoors"));
+    //        if (target[0] == null || target[1] == null)
+    //        {
+    //            Log.Warning("Rimbrellas: failed to patch Dubs Apparel Tweaks; methods SwitchIndoors and SwitchOutdoors from QuickFast.bs not found");
+    //            return false;
+    //        }
+    //        return true;
+    //    }
+    //    static IEnumerable<MethodBase> TargetMethods()
+    //    {
+    //        return target;
+    //    }
+    //}
+}
+//if (map.weatherManager.RainRate > 0) {
