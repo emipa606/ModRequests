@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>VBY_Irori</defName>
+    <label>irori</label>
+    <description>An indoor fire pit with a hanging pot. Great for producing food, warming up and relaxing.</description>    
+    <thingClass>Building_WorkTable</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Things/Building/Misc/VBY_IroriLongShadow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <damageData>
+        <rect>(0.2,0,0.6,0.1)</rect>
+      </damageData>
+	  <drawSize>(2,3)</drawSize>
+    </graphicData>
+    <uiIconPath>Things/Building/Misc/VBY_IroriLongShadow</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>80</pathCost>
+    <constructEffect>ConstructDirt</constructEffect>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <fillPercent>0.20</fillPercent>
+	<size>(2,3)</size>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>400</WorkToBuild>
+      <Flammability>0.05</Flammability>
+      <WorkTableWorkSpeedFactor>0.85</WorkTableWorkSpeedFactor>
+      <MeditationFocusStrength>0.18</MeditationFocusStrength>
+	  <Beauty>10</Beauty>
+	  <Cleanliness>-4</Cleanliness>
+    </statBases>
+    <selectable>true</selectable>
+    <costList>
+      <WoodLog>50</WoodLog>
+      <Steel>30</Steel>	 
+    </costList>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+	<killedLeavings>
+		<ChunkSlagSteel>1</ChunkSlagSteel>
+	</killedLeavings>
+    <resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+      <li>PlaceWorker_Heater</li>
+	  <li>PlaceWorker_ReportWorkSpeedPenalties</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>10.0</fuelConsumptionRate>
+        <fuelCapacity>30.0</fuelCapacity>
+        <fuelConsumptionPerTickInRain>0.0006</fuelConsumptionPerTickInRain>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>21</heatPerSecond>
+        <heatPushMaxTemperature>28</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.45</fireSize>
+		<offset>(0,0,-0.2)</offset>
+      </li>
+      <li>
+        <compClass>CompGatherSpot</compClass>
+      </li>
+      <li Class="CompProperties_MeditationFocus">
+        <statDef>MeditationFocusStrength</statDef>
+        <focusTypes>
+          <li>Natural</li>
+		  <li>Flame</li>
+        </focusTypes>
+        <offsets>
+          <li Class="FocusStrengthOffset_Lit">
+            <offset>0.12</offset>
+          </li>
+          <li Class="FocusStrengthOffset_BuildingDefsLit">
+            <defs>
+              <li>Campfire</li>
+              <li>VBY_Irori</li>
+              <li>TorchLamp</li>
+              <li>VBY_JapaneseTorchLamp</li>
+              <li>VBY_JapaneseTorchLamp_Red</li>
+              <li MayRequire="Ludeon.RimWorld.Royalty">Brazier</li>
+              <li MayRequire="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+            </defs>
+            <offsetPerBuilding>0.02</offsetPerBuilding>
+            <radius>9.9</radius>
+            <maxBuildings>8</maxBuildings>
+            <explanationKey>MeditationFocusPerFlame</explanationKey>
+            <explanationKeyAbstract>MeditationFocusPerFlameAbstract</explanationKeyAbstract>
+          </li>
+        </offsets>
+      </li>
+	  <li>
+        <compClass>CompReportWorkSpeed</compClass>
+      </li>
+      <li MayRequire="owlchemist.simplefx.smoke2" Class="Flecker.CompProperties_Smoker">
+		<fleckDef>Owl_SmokeIndoors</fleckDef>
+		<particleSize>1.25</particleSize>
+	  </li>
+      <li MayRequire="LongerCFloor.ProxyHeat" Class="ProxyHeat.CompProperties_TemperatureSource">
+		<radius>2.5</radius>
+		<tempOutcome>16</tempOutcome>
+		<dependsOnFuel>true</dependsOnFuel>
+		<smeltSnowRadius>2.25</smeltSnowRadius>
+		<smeltSnowAtTemperature>5</smeltSnowAtTemperature>
+		<smeltSnowPower>0.001</smeltSnowPower>
+	  </li>
+    </comps>
+    <designationCategory>Temperature</designationCategory>
+    <designationHotKey>Misc1</designationHotKey>
+    <hasInteractionCell>True</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <recipes>
+      <li>CookMealSimple</li>
+      <li>CookMealSimpleBulk</li>
+	  <li>CookMealFine</li>
+      <li>CookMealFineBulk</li>
+	  <li>CookMealLavish</li>
+      <li>CookMealLavishBulk</li>
+      <li>Make_Pemmican</li>
+      <li>Make_PemmicanBulk</li>
+      <li>BurnApparel</li>
+      <li>BurnWeapon</li>
+      <li>BurnDrugs</li>
+      <li MayRequire="dismarzero.VGP.CuproPandasDrinks">CPD_BrewCoffee</li>
+      <li MayRequire="dismarzero.VGP.CuproPandasDrinks">CPD_BrewCoffeeBulk</li>
+      <li MayRequire="dismarzero.VGP.CuproPandasDrinks">CPD_BrewDecafCoffee</li>
+      <li MayRequire="dismarzero.VGP.CuproPandasDrinks">CPD_BrewDecafCoffeeBulk</li>
+      <li MayRequire="dismarzero.VGP.CuproPandasDrinks">CPD_BrewDECoffee</li>
+      <li MayRequire="spoonshortage.gourimet">CookMealSimplemeat</li>
+      <li MayRequire="spoonshortage.gourimet">CookSCSoup</li>
+      <li MayRequire="spoonshortage.gourimet">MakeMeatPie</li>
+      <li MayRequire="spoonshortage.gourimet">MakeSmokedMeat</li>
+      <li MayRequire="spoonshortage.gourimet">CookMealSimplemeat_Bulk</li>
+      <li MayRequire="spoonshortage.gourimet">CookSCSoup_Bulk</li>
+      <li MayRequire="spoonshortage.gourimet">MakeSmokedMeat_Bulk</li>
+      <li MayRequire="spoonshortage.gourimet">MakeMeatPie_bulk</li>
+      <li MayRequire="spoonshortage.gourimet">MakeHotCocoa</li>
+      <li MayRequire="spoonshortage.gourimet">MakeHotTea</li>
+      <li MayRequire="IAmHungry.velcroboy333">ProperMeal_Popcorn</li>
+      <li MayRequire="IAmHungry.velcroboy333">ProperMeal_CookShrimp</li>
+      <li MayRequire="IAmHungry.velcroboy333">ProperMeal_CookSalmon</li>
+      <li MayRequire="IAmHungry.velcroboy333">CookMealComplete</li>
+      <li MayRequire="IAmHungry.velcroboy333">CookMealExquisite</li>
+      <li MayRequire="IAmHungry.velcroboy333">LunchPack_MealSurvival</li>
+      <li MayRequire="IAmHungry.velcroboy333">ProperMeal_Knuckle</li>
+      <li MayRequire="IAmHungry.velcroboy333">ProperMeal_Haunch</li>
+      <li MayRequire="IAmHungry.velcroboy333">ProperMeal_Steak</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealJerkedMeats</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealJerkedMeatsBulk</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealDriedAgaveFruit</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealDriedAgaveFruitBulk</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealDriedBerries</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealDriedBerriesBulk</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealCheese</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealCheeseBulk</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealWeakStew</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealWeakStewBulk</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealHeartyStew</li>
+      <li MayRequire="vindar.medievaltimes">MedTimes_CookMealHeartyStewBulk</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealJerkedMeats</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealJerkedMeatsBulk</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealDriedAgaveFruit</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealDriedAgaveFruitBulk</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealDriedBerries</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealDriedBerriesBulk</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealCheese</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealCheeseBulk</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealWeakStew</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealWeakStewBulk</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealHeartyStew</li>
+      <li MayRequire="GotGass.medievaltimesNoNan">MedTimes_CookMealHeartyStewBulk</li>
+      <li MayRequire="zal.NinjaPackage">MakeNinjarationball</li>
+      <li MayRequire="zal.NinjaPackage">MakeNinjarationballBulk</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBoiledEdamame</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookYakitori</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookHiyayakko</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookRiceCracker</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookMisotanpo</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookPuffedRice</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookOkoshi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookKasutera</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookKompeito</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookThreeColoredDumplings</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookASUDorayaki</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookASUPancake</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookMisosiru</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookSaltGrilledFish</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookSasimi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookSteamedFish</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookOden</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookUdon4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookOkonomiyaki4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRTKG</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRTKG4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRTKG</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRTKG4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRGyudon</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRGyudon4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRGyudon</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRGyudon4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookGRTakikomi4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookNattoRice</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookNattoRice4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookSalmonRiceBall4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookTempuraRiceBall4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRSushi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookRamen4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookTyannko4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRJubako4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRJubako4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWRJPCurryRice8</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookTendon4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookJingisukan4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookHorseMeatSashimi4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookRoastedMochi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookVinegarMochi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookIsobeMochi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookGoheiMochi</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRGohan</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBRGohan4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookGohan</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookGohan4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookBROnigiri4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookWROnigiri4</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookMealSurvival_1st</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookMealSurvival_2nd</li>
+      <li MayRequire="tosenbo.Ricecultivatingcivilization">CookMealSurvival_3rd</li>
+      <li MayRequire="Crustypeanut.RC2.Core">RC2_ProcessCoffee</li>
+      <li MayRequire="Crustypeanut.RC2.Core">RC2_BrewTea</li>
+      <li MayRequire="Crustypeanut.RC2.Core">CookThinPottage</li>
+      <li MayRequire="Crustypeanut.RC2.Core">RC2_CookThickPottage</li>
+      <li MayRequire="Crustypeanut.RC2.Core">RC2_MakeHardtack</li>
+      <li MayRequire="Crustypeanut.RC2.BaBE">RC2_MakeHotCocoaBulk</li>
+      <li MayRequire="syrchalis.coffeeandtea">Brew_SyrCoffee</li>
+      <li MayRequire="syrchalis.coffeeandtea">Brew_SyrTea</li>
+      <li MayRequire="syrchalis.coffeeandtea">Brew_SyrHotChocolate</li>
+      <li MayRequire="Mlie.TakisRandomStuff">CookPotOfPorridge</li>
+      <li MayRequire="Mlie.TakisRandomStuff">CookPotOfCreamyPorridge</li>
+      <li MayRequire="Mlie.TakisRandomStuff">CookPotOfSweetPorridge</li>
+      <li MayRequire="Mlie.TakisRandomStuff">CookPotOfCreamySweetPorridge</li>
+      <li MayRequire="akairo.Tamagomeshi">CookTKG</li>
+      <li MayRequire="akairo.Tamagomeshi">CookMedamayaki</li>
+      <li MayRequire="akairo.Tamagomeshi">CookTamagoyaki</li>
+      <li MayRequire="akairo.Tamagomeshi">CookEggToast</li>
+      <li MayRequire="akairo.Tamagomeshi">CookOmuraisu</li>
+      <li MayRequire="akairo.Tamagomeshi">CookPurin</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Bakedpudding</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Ricecakefilled</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Riceporridge</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_RiceporridgeBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Popcorn</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_PopcornBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Boiledmeat</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_BoiledmeatBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Boiledpotato</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_BoiledpotatoBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Roastedcorn</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_RoastedcornBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Cornbread</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_CornbreadBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Grilledriceball</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_GrilledriceballBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Shallowfrypotato</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_ShallowfrypotatoBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Friedegg</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_FriedeggBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Meatball</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_MeatballBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Churrasco</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_ChurrascoBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Potagesoup</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_PotagesoupBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Smeatvegelargebowl</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_SmeatvegelargebowlBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Potatobutter</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_PotatobutterBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Hamburgersteak</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_HamburgersteakBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Eggsbenedict</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_EggsbenedictBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Omelettet</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_OmelettetBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Pancakewithb</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_PancakewithBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Risotto</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_RisottoBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Piccata</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_PiccataBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Vegetablesfriedrice</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_VegetablesfriedriceBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Soupingredients</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_SoupingredientsBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Stew</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_StewBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Meatpie</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_MeatpieBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Pizza</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_PizzaBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Dria</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_DriaBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Steaktower</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_SteaktowerBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_LuRouFan</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_LuRouFanBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_MincedMeatCutlet</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_MincedMeatCutletBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Jambalaya</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_JambalayaBulk</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_Thrumbosandwich</li>
+      <li MayRequire="daylight.VanillaGourmetParade">Cook_VAGP_ThrumbosandwichBulk</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_DeepFryMeats</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_DeepFryVegetables</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillSimple</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillSimpleBulk</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillFine</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillFineBulk</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillLavish</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillLavishhBulk</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookGrillGourmet</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookMealGourmet</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookSoupSimple</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookSoupFine</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookSoupLavish</li>
+      <li MayRequire="VanillaExpanded.VCookE">VCE_CookSoupGourmet</li>
+      <li MayRequire="VanillaExpanded.VCookEStews">VCE_CookStewSimple</li>
+      <li MayRequire="VanillaExpanded.VCookEStews">VCE_CookStewFine</li>
+      <li MayRequire="VanillaExpanded.VCookEStews">VCE_CookStewLavish</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_WasabiPaste</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_DeepFrySushi</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookChirashizushiSimple</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookChirashizushiSimpleBulk</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookNorimakiSimple</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookNorimakiSimpleBulk</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookUramakiFine</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookUramakiFineBulk</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookNigiriFine</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookNigiriFineBulk</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookTemakiLavish</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookTemakiLavishBulk</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookFutomakiLavish</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookFutomakiLavishBulk</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookGunkanmakiGourmet</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_CookOshizushiiGourmet</li>
+      <li MayRequire="VanillaExpanded.VCookESushi">VCE_MakeHumanSurimi</li>
+      <li MayRequire="dismarzero.VGP.VGPVegetableGarden">BrewCoffee</li>
+      <li MayRequire="dismarzero.VGP.VGPVegetableGarden">BulkBrewCoffee</li>
+      <li MayRequire="dismarzero.VGP.VGPVegetableGarden">BrewTea</li>
+      <li MayRequire="dismarzero.VGP.VGPVegetableGarden">BulkBrewTea</li>
+      <li MayRequire="dismarzero.VGP.VGPVegetableGarden">Stirfrymeal</li>
+      <li MayRequire="dismarzero.VGP.VGPVegetableGarden">Cookstewpot</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">Bakepizza</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">DryFruit</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">Bakepolenta</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">BakeMeatPie</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">GrillKabob</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">Grillsteak</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">GrillVegetables</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">CookGrillcheese</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">GrillPolenta</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">Cookgrilledsandwich</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">CookTacos</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">CookPorridge</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">MakePolenta</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">MakebulkPolenta</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">CookMakiRoll</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">Make_Nigiri</li>
+      <li MayRequire="dismarzero.VGP.VGPGardenGourmet">MakeCaramel</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_MakeTallow</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_MakeTallowBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealBoneSoup</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealBoneSoupBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealGrilledSausages</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealGrilledSausagesBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealWeakStew</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealWeakStewBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealFriedEggs</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealFriedEggsBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealMashedPotatoes</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealMashedPotatoesBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealWinterLentilSoup</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealWinterLentilSoupBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealMushroomSoup</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealMushroomSoupBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealVegetablePot</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealVegetablePotBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealPumpkinFritters</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealPumpkinFrittersBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealBoiledBeansAndOnion</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealBoiledBeanAndOnionBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealGrilledSkewers</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealGrilledSkewersBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealHeartyStew</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealHeartyStewBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealBreadSoup</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealBreadSoupBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealHuntersStew</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealHuntersStewBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealGrilledCheese</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealGrilledCheeseBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealSweetPancakes</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealSweetPancakesBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealTomatoOmelette</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealTomatoOmeletteBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealPumpkinSoup</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealPumpkinSoupBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealCheeseSoup</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealCheeseSoupBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealSteakWithWine</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealSteakWithWineBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealRoxSteak</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealRoxSteakBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealRations</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealRationsBulk</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealRationsVegan</li>
+      <li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_CookMealRationsVeganBulk</li>
+    </recipes>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <building>
+      <isMealSource>true</isMealSource>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+      <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+    </building>
+  </ThingDef>
+  
+</Defs>  
