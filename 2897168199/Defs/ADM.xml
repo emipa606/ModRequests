@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--Only here to prevent chain reaction-->
+	<DamageDef ParentName="Bomb">
+		<defName>Bomb_ADM</defName>
+		<workerClass>BillDoorsFramework.DamageWorker_AddInjuryWithBlacklist</workerClass>
+		<modExtensions>
+			<li Class="BillDoorsFramework.ModExtension_DamageBlacklist">
+				<ignoredDefs>
+					<li>Trap_AerialDeployedMine</li>
+					<li>TrapIED_HighExplosiveProximity</li>
+				</ignoredDefs>
+			</li>
+		</modExtensions>
+	</DamageDef>
+
+	<ThingDef>
+		<defName>Trap_AerialDeployedMine</defName>
+		<label>aerial deployed mine</label>
+		<description>A tiny anti-personnel proximity mine deployed en masse via LGIS missiles and detonates once hostile personnel is detected within blast radius. Due to the ADM's nature of missile deployment, your colonists don't know their exact location thus won't automatically avoid them! Its small size prohibits complicated IFF system to be installed, rendering it impossible to deconstruct it safely, requiring manual detonation via gunfire or EMP blast to defuse. Its proximity sensor may be accidently triggered by colonists.</description>
+		<thingClass>BillDoorsFramework.ThingWithFaction</thingClass>
+		<category>Item</category>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+			<texPath>BDF_none</texPath>
+		</graphicData>
+		<uiIconPath>Things/Building/Aerial_Deployed_Mine</uiIconPath>
+		<altitudeLayer>Filth</altitudeLayer>
+		<tickerType>Normal</tickerType>
+		<drawerType>MapMeshOnly</drawerType>
+		<selectable>false</selectable>
+		<statBases>
+			<Mass>0.25</Mass>
+			<MaxHitPoints>20</MaxHitPoints>
+			<Flammability>1</Flammability>
+			<TrapSpringChance>10</TrapSpringChance>
+		</statBases>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_ProximityExplosive">
+				<explosiveDamageType>Bomb_ADM</explosiveDamageType>
+				<explosiveRadius>1.9</explosiveRadius>
+				<damageAmountBase>35</damageAmountBase>
+				<wildAnimalSpringChance>0.001</wildAnimalSpringChance>
+				<colonistSpringChance>0.001</colonistSpringChance>
+				<selfExplodeChance>0.8</selfExplodeChance>
+				<minSelfExplodeTick>600000</minSelfExplodeTick>
+				<maxSelfExplodeTick>3110400</maxSelfExplodeTick>
+				<disarmTime>3</disarmTime>
+				<disableByEMP>true</disableByEMP>
+				<EMPstunTick>6000</EMPstunTick>
+				<disarmEnabled>true</disarmEnabled>
+				<applyDamageToExplosionCellsNeighbors>false</applyDamageToExplosionCellsNeighbors>
+				<disarmSuccessRateCurve>
+					<points>
+						<li>(0,0)</li>
+						<li>(16,0.5)</li>
+						<li>(36,0.99)</li>
+						<li>(400,0.99)</li>
+					</points>
+				</disarmSuccessRateCurve>
+				<disarmLeavings>
+					<Weapon_ThrownADM MayRequire="ceteam.combatextended">1</Weapon_ThrownADM>
+				</disarmLeavings>
+				<startWickOnDamageTaken>
+					<li MayRequire="ceteam.combatextended">PrometheumFlame</li>
+					<li>Flame</li>
+				</startWickOnDamageTaken>
+				<wickTicks>
+					<min>20</min>
+					<max>60</max>
+				</wickTicks>
+				<detectionRadius>3</detectionRadius>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_ShowConcept">
+				<concepts>
+					<li>BDGW_Mines</li>
+				</concepts>
+			</li>
+			<li Class="CombatExtended.CompProperties_Fragments" MayRequire="ceteam.combatextended">
+				<fragments>
+					<Fragment_Small>25</Fragment_Small>
+					<Fragment_ADMEFP MayRequire="smashphil.vehicleframework">1</Fragment_ADMEFP>
+				</fragments>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_RandomPositionPrint">
+				<graphicData>
+					<graphicClass>Graphic_Single</graphicClass>
+					<texPath>Things/Building/Aerial_Deployed_Mine</texPath>
+					<drawSize>(0.4,0.4)</drawSize>
+					<damageData>
+						<enabled>false</enabled>
+					</damageData>
+				</graphicData>
+				<maxDeviation>0.5</maxDeviation>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ConceptDef>
+		<defName>BDGW_Mines</defName>
+		<label>Aerial deployed mines</label>
+		<priority>50</priority>
+		<needsOpportunity>True</needsOpportunity>
+		<helpText>Aerial deployed mines are proximity mines made extremely simple to fit in shells, thus they lack any proper friend and foe identification system and have a risk of self-detonation after half a year. Your colonist and animals are more likely to accidently trigger them, and it's never safe to deconstruct one, leaving alone the fact They blend in the terrain so well that you can't select them, and they're buried in the ground so bullets can't harm them.\n\nTo safely disarm an ADM, you'll need to use incendiary weapons to ignite the mine, or simply blow'em up with explosives like HE or thermobaric shells.\n\nWith more than level 4 in crafting and intelletual. and not severely impaired visually and manipulatively, you can also attempt to safely disarm an ADM, getting a detached ADM back if succeeds.\n(Faliure of mine disposal or lack of skill will result in explosive consequences)\nAn hostile ADM can be disabled by an EMP blast, then attempt to disarm it in time.</helpText>
+		<highlightTags>
+			<li>Trap_AerialDeployedMine</li>
+		</highlightTags>
+	</ConceptDef>
+
+	<ThingDef>
+		<defName>BDLW_ADMdistrobution</defName>
+		<label>ADM</label>
+		<useHitPoints>False</useHitPoints>
+		<neverMultiSelect>True</neverMultiSelect>
+		<category>Projectile</category>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Projectile</altitudeLayer>
+		<thingClass>Bullet</thingClass>
+		<graphicData>
+			<texPath>Things/Projectile/ADM_projectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(0.4,0.4)</drawSize>
+		</graphicData>
+		<projectile>
+			<damageDef>Bullet</damageDef>
+			<damageAmountBase>12</damageAmountBase>
+			<stoppingPower>1</stoppingPower>
+			<speed>55</speed>
+		</projectile>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_SpawnThingOnDestroy">
+				<compClass>BillDoorsFramework.CompSpawnThingOnDestroy</compClass>
+				<def>Trap_AerialDeployedMine</def>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>BDLM_ADMdistributor</defName>
+		<label>ADM distributor</label>
+		<description>This single-use building will distribute ADM landmines around it self after a half hour timer when triggered.</description>
+		<graphicData>
+			<texPath>Things/Building/ADMdistributor</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.25, 0.35, 0.25)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.2,0.2,0.6,0.6)</rect>
+			</damageData>
+		</graphicData>
+		<comps>
+			<li Class="CompProperties_Flickable"/>
+			<li Class="CompProperties_Usable">
+				<useJob>TriggerObject</useJob>
+				<useLabel>Trigger {0_label}</useLabel>
+			</li>
+			<li Class="BillDoorsFramework.CompProperties_BuildingDistributor">
+				<spawnedThingProjectile>BDLW_ADMdistrobution</spawnedThingProjectile>
+				<distributeAmount>10</distributeAmount>
+				<delayTick>2500</delayTick>
+			</li>
+		</comps>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Building</altitudeLayer>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<WorkToBuild>1500</WorkToBuild>
+			<Mass>10</Mass>
+			<Flammability>1.0</Flammability>
+			<Beauty>-8</Beauty>
+		</statBases>
+		<fillPercent>0.30</fillPercent>
+		<costList>
+			<Steel>75</Steel>
+			<ComponentIndustrial>1</ComponentIndustrial>
+			<BDLM_Shell_Minelayer>1</BDLM_Shell_Minelayer>
+		</costList>
+		<specialDisplayRadius>9.9</specialDisplayRadius>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<pathCost>30</pathCost>
+		<passability>PassThroughOnly</passability>
+		<designationCategory>Misc</designationCategory>
+		<rotatable>false</rotatable>
+		<researchPrerequisites>
+			<li>IEDs</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+	</ThingDef>
+</Defs>

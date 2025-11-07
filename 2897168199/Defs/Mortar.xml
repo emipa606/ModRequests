@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ThingDef ParentName="MakeableShellBase">
+		<defName>BDLM_Shell_Minelayer</defName>
+		<label>mine laying shell</label>
+		<description>A shell containing several ADM landmines. Can be fired from mortars. Explodes when damaged.</description>
+		<possessionCount>1</possessionCount>
+		<graphicData>
+			<texPath>Things/Ammo/Minelayer_Vanilla</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>2.9</explosiveRadius>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<explosiveExpandPerStackcount>0.4</explosiveExpandPerStackcount>
+				<startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+				<wickTicks>30~60</wickTicks>
+			</li>
+		</comps>
+		<projectileWhenLoaded>BDLM_Bullet_Shell_Minelayer</projectileWhenLoaded>
+		<costList>
+			<Steel>15</Steel>
+			<Chemfuel>10</Chemfuel>
+		</costList>
+		<costListForDifficulty>
+			<difficultyVar>classicMortars</difficultyVar>
+			<costList>
+				<Steel>25</Steel>
+				<Chemfuel>15</Chemfuel>
+			</costList>
+		</costListForDifficulty>
+		<recipeMaker>
+			<researchPrerequisite>Mortars</researchPrerequisite>
+		</recipeMaker>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseBullet">
+		<defName>BDLM_Bullet_Shell_Minelayer</defName>
+		<label>mine laying shell</label>
+		<graphicData>
+			<texPath>Things/Ammo/Minelayer_Vanilla_projectile</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+		<thingClass>Projectile_Explosive</thingClass>
+		<projectile>
+			<damageDef>Smoke</damageDef>
+			<speed>41</speed>
+			<explosionRadius>0</explosionRadius>
+			<flyOverhead>true</flyOverhead>
+			<soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+			<soundExplode>Explosion_Smoke</soundExplode>
+			<soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+			<soundAmbient>MortarRound_Ambient</soundAmbient>
+			<postExplosionGasType>BlindSmoke</postExplosionGasType>
+		</projectile>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_SpawnThingOnDestroy">
+				<compClass>BillDoorsFramework.CompSpawnThingOnDestroy</compClass>
+				<def>BDLM_MinelayerAdaptor</def>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef>
+		<defName>BDLM_MinelayerAdaptor</defName>
+		<label>mine laying shell</label>
+		<category>Projectile</category>
+		<thingClass>BillDoorsFramework.ThingWithFaction</thingClass>
+		<altitudeLayer>Filth</altitudeLayer>
+		<tickerType>Normal</tickerType>
+		<drawerType>MapMeshOnly</drawerType>
+		<selectable>false</selectable>
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<graphicData>
+			<graphicClass>Graphic_Single</graphicClass>
+			<texPath>BDF_none</texPath>
+		</graphicData>
+		<statBases>
+			<Flammability>0</Flammability>
+		</statBases>
+		<comps>
+			<li Class="BillDoorsFramework.CompProperties_BuildingDistributor">
+				<spawnedThingProjectile>BDLW_ADMdistrobution</spawnedThingProjectile>
+				<distributeAmount>10</distributeAmount>
+				<defaultActivated>true</defaultActivated>
+			</li>
+		</comps>
+	</ThingDef>
+</Defs>
