@@ -1,0 +1,430 @@
+Building_TurretGunWithGizmo: Thingclass, inherited from Building_TurretGun
+Passes the weapon's gizmo onto the turret.
+Vanilla V CE X
+
+======
+
+CompColorableFaction, CompColorableFactionCE: Comp
+Colors things based on their faction.
+Vanilla V CE V
+
+CompProperties_ColorableFaction:
+Bool overrideExistingColoring: Normally, if something has defined color via graphic data, faction coloring won't be applied. Having this value set to true disables such behavior.
+
+======
+
+CompPawnEquipmentGizmo: Comp
+Put this in pawn's thingdef's comp. This passes pawn's equipment's gizmos onto pawns.
+Built-in patches are included in this mod for human and humanlike intellegence pawns.
+
+Vanilla V CE X(not required)
+
+======
+
+CompPowerTrader_ForTurretGun: Comp
+This comp allows power consume per shot behavior on turrets.
+ When a turret finishes current burst and enters cool down, the turret's power consumption will be replaced to recharge Power Consumption * shots fired in previous burst, for the duration of cool down.
+ The actual power consumed per shot is Power draw x Turret cooldown / 1000.
+Vanilla V CE V
+
+CompProperties_PowerTurretGun:
+
+float rechargePowerConsumption: The power draw added for each shot fired.
+float cooldownTime: You're expected to copy the turret's cool down time here. This value only affects data caculated in various info cards, and does not affect actual logic.
+string rechargePower: The title of recharge power stat entry in the info card.
+string rechargePower_Stat: The description of recharge power stat entry in the info card. Formatting: {0}:rechargePowerConsumption, {1}:cooldownTime, {2}:actual caculated power per shot
+example:
+Plasma turret' built in capacitors need to be recharged after each salvo, leading to a power consumption spike.\n\nThe power consumption is calculated as: Power draw x Turret cooldown / 1000\n{0} W x {1} s / 1000 = {2} Wd.
+
+======
+
+CompProximityExplosive, CompProximityExplosiveCE: Comp inherited from CompExplosive
+
+Vanilla version still under construction, not functional right now. It does work in CE.
+This comp will try to search for hostile pawns in a set radius, if hostiles are detected, it will start wicking.
+When animals and colonists (does not include friendly NPC for gameplay sake) ENTER then detection range, it will have a chance to accidentally trigger wicking.
+If disarmEnabled is true, player may select pawns then right click on things with this comp to attempt to disarm it, yielding disarmLeavings on successful attempt, and start wicking if otherwise.
+This comp has a self detonation function, configurable in comp properties.
+If disableByEMP is true, this comp will stop detection behavior when stuck by EMP attack for EMPstunTick amount of time.
+
+Vanilla V CE V
+
+CompProperties_ProximityExplosive
+
+float detectionRadius default = 5f: The detection radius.
+float wildAnimalSpringChance default = 0.05f: the chance of accidental activation when a wild animal enters detection range.
+float colonistSpringChance default = 0.05f: the chance of accidental activation when a player pawn enters detection range.
+
+float selfExplodeChance default = 0.05f: the chance of this comp being marked for self-detonation when spawned.
+int minSelfExplodeTick default = 0: the minimal time for this comp to self-detonate after spawning, if marked for self-detonation.
+int maxSelfExplodeTick default = 3600: the maximal time for this comp to self-detonate after spawning, if marked for self-detonation.
+
+float disarmTime default = 6f: how much time it takes to disarm.
+List<ThingDefCountClass> disarmLeavings: disarmed results.
+SimpleCurve disarmSuccessRateCurve: The difficulty curve of disarming. 
+format: (point,chance)
+<disarmSuccessRateCurve>
+	<points>
+		<li>(0,0)</li>
+		<li>(16,0.5)</li>
+		<li>(36,0.99)</li>
+		<li>(400,0.99)</li>
+	</points>
+</disarmSuccessRateCurve> 
+disarm ability point is caculated as (intellectual skill-4)*(crafting skill-4)*manipulation*sight.
+
+bool disarmEnabled default = true: whether this comp can be disarmed.
+bool disableByEMP default =  true: whether this comp can be disabled by EMP damage.
+int EMPstunTick default = 30000: how long this comp is disabled by EMP damage.
+
+======
+
+CompRandomPositionPrint: comp
+This comp will display a set texture at a random location around a set area.
+Vanilla V CE V
+
+CompProperties_RandomPositionPrint
+GraphicData graphicData: the graphic data of the texture.
+float maxDeviation: the maximal deviation of the texture displayed. with 1 being one grid.
+
+======
+
+CompSecondaryVerb CompSecondaryVerbCE : comp
+This comp allows an alternative verb for a same weapon, toggled via a gizmo. Requires CompPawnEquipmentGizmo to use on pawns if not already applied.
+This comp however can't switch verbclass, which will stay as the primary verb's.
+Vanilla V CE V
+
+CompProperties_SecondaryVerb
+VerbProperties verbProps: the verb properties of the second verb. Do note that verbclass assigned here has no use.
+string mainCommandIcon: the icon of switch mode gizmo at main mode.
+string mainWeaponLabel: the label of switch mode gizmo at main mode.
+
+string secondaryCommandIcon: above, but for secondary mode.
+string secondaryWeaponLabel: above, but for secondary mode.
+string description: the description when mouse hovers above the gizmo.
+
+======
+
+CompSecondaryAmmo: comp
+Almost behaves the same as above comp, but this one addes CE ammo support.
+Different ammo sets can be assigned to secondary mode.
+if both mode does not share ammo, two independent magazines will be assigned, however if both mode uses same ammo item (does not have to be the same ammoset, say, direct and indirect LGIS missile ammo sets), they'll fire from a same magazine.
+Vanilla X CE V
+
+CompProperties_SecondaryAmmo
+VerbPropertiesCE secondaryVerb: the verbpropertiesCE for the second verb. Do note that verb class restriction still applies.
+CompProperties_AmmoUser secondaryAmmoProps: the ammo user of the secondary mode.
+float loadedAmmoBulkFactor default = 0: the ammo loaded in secondary mode's bulk will be multiplied against this value, so UBGL's ammo doesn't add extra bulk.
+bool showSecondaryAmmoStat default = true: whether to display the secondary ammo's magazine.
+
+string mainCommandIcon: the icon of switch mode gizmo at main mode.
+string mainWeaponLabel: the label of switch mode gizmo at main mode.
+
+string secondaryCommandIcon: above, but for secondary mode.
+string secondaryWeaponLabel: above, but for secondary mode.
+string description: the description when mouse hovers above the gizmo.
+
+List<int> secondaryWeaponChargeSpeeds: the charge speeds for secondary mode, if the secondary mode fires flyoverwall projectile.
+
+======
+
+ModExtension_LGISdualModeNPCpatch: defmodextension
+if this modextension is present on a weapon with CompSecondaryVerb, CompSecondaryVerbCE or CompSecondaryAmmo, and a NPC is spawned with this weapon, it'll have a chance to be set to secondary mode.
+Vanilla V CE X
+
+float chance default = 1f: the chance of it being in secondary mode when spawned on NPC.
+
+======
+
+CompShieldSpawner: comp
+
+unfunctional in 1.4
+
+======
+
+CompShowConcept: comp
+Absolutely forces a concept's opportunity to activate (if not already) when things with this comp shows up.
+Vanilla V CE V
+
+CompProperties_ShowConcept:
+List<ConceptDef> concepts: the list of concepts to show.
+
+======
+
+CompSpawnThingOnDestroy CompSpawnThingOnDestroyCE: comp
+Spawns a thing with its faction assigned to the parent. If used in CE on a projectile, use CE version of this comp, otherwise either should work.
+Vanilla V CE V
+
+ThingDef def: the thing to spawn.
+
+======
+
+CompUseEffect_BuildingDistributor: comp inherited from CompUseEffect
+When activated by a pawn, starts a count down timer, and when timer ends, distribute several vanilla projectiles around set radius.
+Works in CE, but must assign a vanilla projectile to it, or just use CE compfragment instead.
+Vanilla V CE V
+
+CompProperties_BuildingDistributor inherited from CompProperties_UseEffect
+ThingDef spawnedThingProjectile: the projectile to spawn.
+float radius default = 10: the radius to spread projectiles.
+int distributeAmount default = 1: how many projectiles are spawned.
+int delayTick default = 25000: the count down timer's delay.
+bool defaultActivated default = false: whether this comp should activate and spread things the same moment it spawns.
+
+======
+
+DamageWorker_AddInjuryWithBlacklist: damage worker inherited from DamageWorker_AddInjury
+adds a blacklist of things it shouldn't harm in an explosion. meant to stop mine fields from chain reaction.
+Vanilla V CE V
+
+ModExtension_DamageBlacklist: defmodextension
+List<ThingDef> ignoredDefs: the thingdefs explosion of DamageWorker_AddInjuryWithBlacklist should ignore.
+
+======
+
+DisintegratingProjectile DisintegratingProjectileCE: projectile inherited from bullet
+This projectile will slowly fade out during its flight, until 1.33 times of its launcher's range. It however does not harm anything beyond weapon range, and anything after that is pure visual.
+Vanilla V CE V
+
+DefModExtension_DisintegratingProjectile: defmodextension
+This mod extension alters some characteristics of disintegrating projectile.
+
+float fadeOutStartPercentage default = 0.666f: the percentage of weapon range should the projectile start fading.
+float fadeOutExpandMultiplier default = 1f: how much the projectile will expand at the end of its life.
+bool shouldStartFire default = false: whether this projectile should ignite things on impact.
+
+float chanceOfFire = 1f: the chance of starting fire, if allowed.
+float minFireSize = 0.1f: the minimal size of fire started.
+float maxFireSize = 1: the maximal size of fire started.
+bool shouldIgnoreColorable = true: whether this projectile should ignore compcolorablefaction.
+
+DefModExtension_DisintegratingProjectileSoundExtension: defmodextension
+This mod extension allows disintegrating projectiles to play extra sound when hit something, originally added for SW blasters.
+
+SoundDef fleshImpactSound;
+SoundDef metalImpactSound;
+SoundDef stoneImpactSound;
+SoundDef terrainImpactSound;
+SoundDef waterImpactSound;
+SoundDef woodImpactSound; self explantory
+
+======
+
+JobDriver_BombDisarm, WorkGiver_BombDisarm
+
+jobs for disarming proximity explosives, should be patched in by the framework itself.
+
+======
+
+PenetratingBullet PenetratingBulletCE: projectile inherited from bullet
+This bullet penetrates weak targets. When it does penetrate, its damage is multiplied by overpenDamageMulti (which is usually lower than 1).
+This bullet is given a penetrative power of bullet's own AP*penetrationPotentialMultiplier. And if it falls below AP*PenetrationFloorPercentage, it fails and disintegrates.
+The penetrative power is reduced by hitting things. when hitting a pawn, it's reduced by pawn's armor*2 + pawn's body size*bodysizeEquivalentMulti.
+When hitting building, penetrative power is reduced by building remaining hitpoint*buildingEquivalentMulti.
+When hitting trees, reduced by treeEquivalent, hitting chunks reduce it by chunkEquivalent.
+If hitting ground , it will have a chance to bounce, based on how many penetrative power left relative to full, reducing power by bounceEquivalent when successful.
+A projectile's AP will also decrease as penetrative power decreases.
+When hitting something, the projectile will deflect by postPenetrationDeviationAngle in degrees. having a chance to select anything and tile within maxSearchRadius, and self-destructs after flying over extraRange away from weapon range.
+Vanilla V CE V
+
+ModExtension_PenetratingProjectile: defmodextension
+
+float overpenDamageMulti = 0.5f: the damage multiplier when overpenetrated.
+float PenetrationFloorPercentage =0.2f: the percentage of penetrative power remaining for the projectile to be considered destablized
+float penetrationPotentialMultiplier = 1f: how many times the penetrative power is the projectile's AP.
+float postPenetrationDeviationAngle = 15f: the maximal angle a projectile may deflect when penetrating.
+float maxSearchRadius = 20f: the maximal range for the next victim of a deflection, higher number of this causes lag.
+float extraRange = 20f: the range a projectile may fly beyond its weapon range.
+float buildingEquivalentMulti = 0.005f: a building's equivalent penetrative power reduction is its remaining HP * this value. Determines how good this projectile is at penetrating buildings.
+float bodysizeEquivalentMulti = 0.1f: same for above, but for a pawn's body size.
+float treeEquivalent = 0.1f: the penetrative power is reduced by this amount when hitting a tree.
+float chunkEquivalent = 0.25f: above, but for chunks.
+float bounceEquivalent = 0.2f: above, but for terrain.
+
+======
+
+PlaceWorker_ShowVerbRadius: placeworker
+This placeworker allows large range turret's range to be displayed.
+Vanilla V CE V
+
+PlaceWorker_ShowVerbRadiusBySight: placeworker
+In addition to above, displays actual fire cone affected by obstacles. Lags a LOT when placing a turret with great range (say, 55+), but it should only affect before blueprint is placed, when player's still deciding the building's location.
+Vanilla V CE V
+
+======
+
+ThingWithFaction: thing with comps
+Ignores category restriction when assigning faction.
+Vanilla V CE V
+
+======
+
+Verb_ArcSprayProjectileFix: Verb inherited from Verb_ArcSprayProjectile
+Apparently tynan forgot to check if a turret has fuel for this verb, so I added it here.
+If a turret uses fuel and has ran out of fuel, it will be unavaliable.
+Vanilla V CE X
+
+======
+
+Projectile_LiquidFix: projectile inherited from Projectile_Liquid
+Makes preExplosionSpawnThingDef work on projectile liquid.
+Vanilla V CE X
+
+======
+
+Verb_ShootNotUnderRoof Verb_ShootNotUnderRoofOneUse Verb_ShootNotUnderRoofCE Verb_ShootNotUnderRoofOneUseCE: verb
+Disables this verb when under roof, meant for infantry fly-over-wall weapons
+DO note that you need to put this in the MAIN verb for secondary verb weapons, even if it should be fired under roof in primary mode, and uses mod extension to control its behavior.
+Vanilla V CE V
+
+ModExtension_VerbNotUnderRoof: modextensiom
+This mod extension is meant to be used for dual-mode wepaons.
+
+Bool appliesInPrimaryMode default = true: whether this weapon shouldn't fire under roof in primary mode.
+Bool appliesInSecondaryModedefault = true: whether this weapon shouldn't fire under roof in second mode.
+
+======
+
+ModExtension_Verb_Shotgun: mod extension
+An extension used by several of my own verbs for shotguns. Applicable verbs are marked in their entries.
+Vanilla V CE X (no need in CE)
+
+int ShotgunPellets = 1: amount of pellets.
+If this mod extension is not found, shotgun behavior will not be triggered.
+
+=====
+
+Verb_ShootUsingMechBattery Verb_ShootUsingMechBatteryCE: verb
+
+This verb drains an amount of power from friendly mech's battery when fired.
+Vanilla V CE V
+Applicable for ModExtension_Verb_Shotgun and DefModExtension_ShootUsingRandomProjectile.
+
+DefModExtension_ShootUsingMechBattery: modextension
+
+float energyConsumption = 0.001f: power consumed per shot, caculated in percentage (1f=1%)
+
+======
+
+Verb_ShootWithRandomProjectile: verb
+A random projectile will be selected in a list which will be the projectile used in this burst.
+Vanilla V CE X
+
+DefModExtension_ShootUsingRandomProjectile: mod extension 
+List<ThingDef> projectiles: the list of projectiles to choose from.
+
+======
+
+Projectile_HeightFuseCE: projectile inherited from projectileCE
+This projectile will detonate at set height. The fuse height is the aimHeightOffset of the projectile.
+Vanilla X CE V
+
+DefModExtension_HeightFuse
+bool detonateOnAscend = false: if this is false, this projectile will detonate when it has fallen below set height on DESCENT. if true, it will detonate when it rise above the set height on ASCENT.
+If this modextension is not found, fly overhead projectile will detonate on descent, and otherwise on ascent.
+
+=====
+
+ProjectileCE_AirExplode: Projectile inherited from projectileCE_explosive
+This projectile will PRETEND it's air-exploding, detonating mid-air. it is however pure visual. Obsolete,
+
+ProjectileCE_FromAirExplode: projectile inherited from bulletCE
+This projectile will PRETEND it's from an air-exploding projectile, spawning mid-air. It is pure visual, but since current CE has issue handling mid-air spawned projectiles, this class is yet considered obsolete.
+
+Vanilla X CE V
+
+ModExtension_AirExplode
+The height of exposion/origin the two classes above uses.
+float airExplodeHeight = 7f
+if this extension is not present, the default value of 7 is used.
+
+===
+
+ProjectileGuidedBulletCE ProjectileGuidedPenetratingBulletCE ProjectileMissileCE: bulletCE
+This projectile will home in to its intended target. GuidedBullet is meant for direct firing weapons, ProjectileMissileCE is meant for mortars alike, and guided penetrating will remain its vector when penetrated intended target.
+Vanilla X CE V
+
+======
+
+CompDurability: comp
+decreases weapon HP when it's used in melee or range.
+Vanilla V CE V
+
+CompProperties_Durability:
+int time: how many times a damage roll will be performed
+float chance: the chance of dealing 1 damage each roll.
+bool melee: whether to damage weapon in melee
+bool range: whether to damage weapon in ranged.
+
+=====
+
+CompPostPenetrationExplosive: comp
+Detonates projectile after a set amount of time after it hits something. can only be used on penetrating projectiles.
+
+CompProperties_PostPenetrationExplosive:
+Completely the same as comp properties explosive. except:
+
+IntRange wickTicks: this value now represent the time length of delay fuze in ticks.
+
+======
+
+Verb_ShootCustom： Verb
+Basically put all my custom verbs together.
+Also fixes turrets whose weapon uses consumeFuelPerBurst instead of consumeFuelPerShot still able to fire even when depleted.
+Vanilla V CE X
+
+=====
+
+Building_GraphicDataByTechLevel: building
+ThingWithComps_GraphicDataByTechLevel: thingwithcomp
+Things of this class will have different texture based on player faction's tech level. If this thing is spawned on traders, they'll use trader faction's techlevel, or if is orbital trader, set as spacer tech.
+
+DefModExtension_GraphicDataByTechLevel:
+defines graphic data for each tech level, those undefined will use default texture.
+<li Class="BillDoorsFramework.DefModExtension_GraphicDataByTechLevel">
+	<graphicDatas>
+		<li>
+			<techLevel>Neolithic</techLevel>
+			<graphicData>
+				<texPath>Things/Item/Drug/BDBE_BerryCiderPreIndustrial</texPath>
+				<graphicClass>Graphic_StackCount</graphicClass>
+			</graphicData>
+		</li>
+	</graphicDatas>
+</li>
+
+=====
+
+Building_TurretMulti Building_TurretMultiCE : building
+Turret of this class does a bit more than vanilla rocket turret: This class allows different graphic to be used based on the fuel percentage.
+So a fire launcher with 5 tubes will show up with 4 when one of them fired, etc. 
+Vanilla V CE V
+
+ModExtension_Building_TurretMulti:
+defines graphic data for each fuel percentage, when the fuel percentage is smaller or equal than this value, the graphic data will apply.
+If under CE enviroment, the fuelpercent however implies the exact amount of ammo left in magazine.
+<li Class="BillDoorsFramework.DefModExtension_GraphicDataByTechLevel">
+	<graphicDatas>
+		<li>
+			<fuelPercent>999</fuelPercent>
+			<graphicData>
+				<texPath>Things/Building/BDsWolf_ClusterFire</texPath>
+				<graphicClass>Graphic_Single</graphicClass>
+			</graphicData>
+		</li>
+		<li>
+			<fuelPercent>0.5</fuelPercent>
+			<graphicData>
+				<texPath>Things/Building/BDsWolf_ClusterFire_Half</texPath>
+				<graphicClass>Graphic_Single</graphicClass>
+			</graphicData>
+		</li>
+		<li>
+			<fuelPercent>0.001</fuelPercent>
+			<graphicData>
+				<texPath>Things/Building/BDsWolf_ClusterFire_Empty</texPath>
+				<graphicClass>Graphic_Single</graphicClass>
+			</graphicData>
+		</li>
+	</graphicDatas>
+</li>

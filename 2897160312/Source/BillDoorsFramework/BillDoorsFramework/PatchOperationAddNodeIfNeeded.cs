@@ -1,0 +1,34 @@
+﻿using System.Xml;
+using Verse;
+
+namespace BillDoorsFramework
+{
+    public class PatchOperationAddNodeIfNeeded : PatchOperationPathed
+    {
+        private string nodeToAdd = "comps";
+
+        private XmlContainer value;
+
+        protected override bool ApplyWorker(XmlDocument xml)
+        {
+            XmlNode node = value.node;
+            bool result = false;
+            foreach (object item in xml.SelectNodes(xpath))
+            {
+                XmlNode xmlNode = item as XmlNode;
+                XmlNode xmlNode2 = xmlNode[nodeToAdd];
+                if (xmlNode2 == null)
+                {
+                    xmlNode2 = xmlNode.OwnerDocument.CreateElement(nodeToAdd);
+                    xmlNode.AppendChild(xmlNode2);
+                }
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    xmlNode2.AppendChild(xmlNode.OwnerDocument.ImportNode(childNode, deep: true));
+                }
+                result = true;
+            }
+            return result;
+        }
+    }
+}
