@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>AmmoMillsGrenades</defName>
+    <label>Mills Grenade</label>
+    <parent>AmmoGrenades</parent>
+    <iconPath>UI/Icons/ThingCategories/CaliberGrenade</iconPath>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
+    <defName>AmmoWFFuelCell</defName>
+    <label>WF Fuel Cell</label>
+    <parent>AmmoGrenades</parent>
+    <iconPath>UI/Icons/ThingCategories/CaliberGrenade</iconPath>
+  </ThingCategoryDef>
+
+  <!-- ==================== AmmoSet ========================== -->
+
+  <CombatExtended.AmmoSetDef>
+    <defName>AmmoSet_MillsGrenade</defName>
+    <label>Mills Grenades</label>
+    <ammoTypes>
+      <Ammo_MillsGrenade_HE>Bullet_MillsGrenade_HE</Ammo_MillsGrenade_HE>
+      <Ammo_MillsGrenade_HEDP>Bullet_MillsGrenade_HEDP</Ammo_MillsGrenade_HEDP>
+      <Ammo_MillsGrenade_EMP>Bullet_MillsGrenade_EMP</Ammo_MillsGrenade_EMP>
+    </ammoTypes>
+    <similarTo>AmmoSet_LauncherGrenade</similarTo>
+  </CombatExtended.AmmoSetDef>
+
+  <CombatExtended.AmmoSetDef>
+    <defName>AmmoSet_WFFuel</defName>
+    <label>WF Fuel Cell</label>
+    <ammoTypes>
+      <Ammo_WFFuel_Incendiary>Bullet_WFFuel_Incendiary</Ammo_WFFuel_Incendiary>
+    </ammoTypes>
+    <similarTo>AmmoSet_MechShell</similarTo>
+  </CombatExtended.AmmoSetDef>
+  
+
+  <!-- ==================== Ammo ========================== -->
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="MillsGrenadeBase" ParentName="MediumAmmoBase" Abstract="True">
+    <description>Relatively small, low velocity grenade for use in wwi rifles.</description>
+    <statBases>
+      <Mass>0.36</Mass>
+      <Bulk>0.28</Bulk>
+    </statBases>
+    <tradeTags>
+      <li>CE_AutoEnableTrade</li>
+      <li>CE_AutoEnableCrafting_TableMachining</li>
+    </tradeTags>
+    <thingCategories>
+      <li>AmmoMillsGrenades</li>
+    </thingCategories>
+    <stackLimit>2000</stackLimit>
+    <cookOffFlashScale>20</cookOffFlashScale>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="MillsGrenadeBase">
+    <defName>Ammo_MillsGrenade_HE</defName>
+    <label>Mills grenade (HE)</label>
+    <graphicData>
+      <texPath>Things/Ammo/HandGrenades/Frag</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>2.85</MarketValue>
+    </statBases>
+    <ammoClass>GrenadeHE</ammoClass>
+	<detonateProjectile>Bullet_MillsGrenade_HE</detonateProjectile>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="MillsGrenadeBase">
+    <defName>Ammo_MillsGrenade_HEDP</defName>
+    <label>Mills grenade (HEDP)</label>
+    <graphicData>
+      <texPath>Things/Ammo/HandGrenades/StickBomb</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>2.85</MarketValue>
+    </statBases>
+    <ammoClass>GrenadeHE</ammoClass>
+	<detonateProjectile>Bullet_MillsGrenade_HE</detonateProjectile>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="MillsGrenadeBase">
+    <defName>Ammo_MillsGrenade_EMP</defName>
+    <label>Mills grenade (EMP)</label>
+    <graphicData>
+      <texPath>Things/Ammo/HandGrenades/EMP</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>4.72</MarketValue>
+    </statBases>
+    <ammoClass>GrenadeEMP</ammoClass>
+    <generateAllowChance>0.5</generateAllowChance>
+	<detonateProjectile>Bullet_MillsGrenade_EMP</detonateProjectile>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" Name="WFFuelBase" ParentName="SpacerMediumAmmoBase" Abstract="True">
+    <description>Large fuel container for incendiary shot cannons.</description>
+    <statBases>
+      <Mass>0.85</Mass>
+      <Bulk>2.87</Bulk>
+    </statBases>
+    <thingCategories>
+      <li>AmmoWFFuelCell</li>
+    </thingCategories>
+    <stackLimit>50</stackLimit>
+    <tradeTags>
+      <li>CE_AutoEnableTrade_Sellable</li>
+      <li>CE_AutoEnableCrafting_FabricationBench</li>
+    </tradeTags>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="WFFuelBase">
+    <defName>Ammo_WFFuel_Incendiary</defName>
+    <label>White phosphorus shell</label>
+    <graphicData>
+      <texPath>Things/Ammo/FuelCell/Large</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>10.38</MarketValue> <!-- value intentionally decreased to help reduce wealth bloat/free silver -->
+    </statBases>
+    <ammoClass>GrenadeIncendiary</ammoClass>
+	<detonateProjectile>Bullet_WFFuel_Incendiary</detonateProjectile>
+	<comps>
+	    <li Class="CompProperties_Explosive">
+		<explosiveRadius>1.0</explosiveRadius>
+		<damageAmountBase>5</damageAmountBase>
+		<explosiveDamageType>MYDE_Damage_WhitePhosphorus</explosiveDamageType>
+		<explosiveExpandPerStackcount>0.10</explosiveExpandPerStackcount>
+		<startWickHitPointsPercent>0.33</startWickHitPointsPercent>
+		<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+		<explodeOnKilled>True</explodeOnKilled>
+		<wickTicks>60~300</wickTicks>
+	    </li>
+	</comps>
+  </ThingDef>
+
+
+  <!-- ================== Projectiles ================== -->
+
+  <ThingDef Name="BaseMillsGrenadeBullet" ParentName="BaseExplosiveBullet" Abstract="true">
+    <thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/LauncherShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.4,0.4)</drawSize>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <speed>65</speed>
+      <flyOverhead>false</flyOverhead>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMillsGrenadeBullet">
+    <defName>Bullet_MillsGrenade_HE</defName>
+    <label>Mills grenade (HE)</label>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <explosionRadius>1</explosionRadius >
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+    </projectile>
+    <comps>
+      <li Class="CombatExtended.CompProperties_Fragments">
+        <fragments>
+          <Fragment_Small>28</Fragment_Small>
+        </fragments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMillsGrenadeBullet">
+		<defName>Bullet_MillsGrenade_HEDP</defName>
+		<label>Mills grenade(HEDP)</label>
+		<thingClass>CombatExtended.BulletCE</thingClass>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
+			<damageDef>Bullet</damageDef>
+			<damageAmountBase>35</damageAmountBase>
+			<armorPenetrationSharp>25</armorPenetrationSharp>      
+			<armorPenetrationBlunt>2.418</armorPenetrationBlunt>
+		</projectile>
+		<comps>
+		  <li Class="CombatExtended.CompProperties_ExplosiveCE">
+			<damageAmountBase>20</damageAmountBase>
+			<explosiveDamageType>Bomb</explosiveDamageType>
+			<explosiveRadius>0.5</explosiveRadius>
+			<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+		  </li>
+		  <li Class="CombatExtended.CompProperties_Fragments">
+			<fragments>
+			  <Fragment_Small>10</Fragment_Small>
+			</fragments>
+		  </li>
+		</comps>
+	</ThingDef>
+
+  <ThingDef ParentName="BaseMillsGrenadeBullet">
+    <defName>Bullet_MillsGrenade_EMP</defName>
+    <label>Mills grenade (EMP)</label>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <explosionRadius>1.5</explosionRadius>
+      <damageDef>EMP</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef Name="BaseWFFuelIncendiaryBullet" ParentName="BaseExplosiveBullet">
+    <defName>Bullet_WFFuel_Incendiary</defName>
+    <label>White phosphorus shell</label>
+    <graphicData>
+      <texPath>Things/Projectile/LauncherShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>MYDE_Damage_WhitePhosphorus</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <speed>60</speed>
+      <flyOverhead>false</flyOverhead>
+      <explosionRadius>2</explosionRadius>
+      <preExplosionSpawnThingDef>FilthPrometheum</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.5</preExplosionSpawnChance>
+      <soundExplode>MortarIncendiary_Explode</soundExplode>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+    </projectile>
+  </ThingDef>
+
+  <!-- ==================== Recipes ========================== -->
+
+  <RecipeDef ParentName="LauncherAmmoRecipeBase">
+    <defName>MakeAmmo_MillsGrenade_HE</defName>
+    <label>make Mills HE grenades x100</label>
+    <description>Craft 100 Mills HE grenades.</description>
+    <jobString>Making Mills HE grenades.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>37</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FSX</li>
+          </thingDefs>
+        </filter>
+        <count>7</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>FSX</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_MillsGrenade_HE>100</Ammo_MillsGrenade_HE>
+    </products>
+    <workAmount>11400</workAmount>
+  </RecipeDef>
+  
+  <RecipeDef ParentName="LauncherAmmoRecipeBase">
+    <defName>MakeAmmo_MillsGrenade_HEDP</defName>
+    <label>make Mills HE airburst grenades x100</label>
+    <description>Craft 100 Mills HE airburst grenades.</description>
+    <jobString>Making Mills HE airburst grenades.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>37</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>FSX</li>
+          </thingDefs>
+        </filter>
+        <count>7</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>FSX</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_MillsGrenade_HEDP>100</Ammo_MillsGrenade_HEDP>
+    </products>
+    <workAmount>13400</workAmount>
+  </RecipeDef>
+
+  <RecipeDef ParentName="LauncherAmmoRecipeBase">
+    <defName>MakeAmmo_MillsGrenade_EMP</defName>
+    <label>make Mills EMP grenades x100</label>
+    <description>Craft 100 Mills EMP grenades.</description>
+    <jobString>Making Mills EMP grenades.</jobString>
+    <researchPrerequisites>
+      <li>MicroelectronicsBasics</li>
+      <li>CE_Launchers</li>
+    </researchPrerequisites>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>37</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_MillsGrenade_EMP>100</Ammo_MillsGrenade_EMP>
+    </products>
+    <workAmount>13400</workAmount>
+  </RecipeDef>
+
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>MakeAmmo_WF_Incendiary</defName>
+    <label>make White phosphorus shell x50</label>
+    <description>Craft 50 White phosphorus shells.</description>
+    <jobString>Making White phosphorus shells.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Prometheum</li>
+          </thingDefs>
+        </filter>
+        <count>14</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>	  
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>ComponentIndustrial</li>	  
+        <li>Steel</li>
+        <li>Prometheum</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Ammo_WFFuel_Incendiary>50</Ammo_WFFuel_Incendiary>
+    </products>
+    <workAmount>7600</workAmount>		
+  </RecipeDef>
+
+</Defs>
