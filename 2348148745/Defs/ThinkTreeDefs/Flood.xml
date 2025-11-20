@@ -4,6 +4,27 @@
 <Defs>
 
   <ThinkTreeDef>
+    <defName>FloodConstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+
+        <li Class="ThinkNode_ConditionalCanDoLordJobNow">
+          <subNodes>
+            <!-- Lord directives -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDutyConstant</treeDef>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
+  <ThinkTreeDef>
     <defName>Flood</defName>
     <thinkRoot Class="ThinkNode_Priority">
       <subNodes>
@@ -20,8 +41,13 @@
 
 
         <!-- Lord -->
-        <li Class="ThinkNode_Subtree">
-          <treeDef>LordDuty</treeDef>
+         <li Class="ThinkNode_JoinVoluntarilyJoinableLord">
+          <dutyHook>HighPriority</dutyHook>
+          <subNodes>
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDuty</treeDef>
+            </li>
+          </subNodes>
         </li>
 		<li Class="MoharAiJob.AiCorpse_JobGiver" />
 
@@ -58,11 +84,16 @@
 
 
         <!-- Lord -->
-        <li Class="ThinkNode_Subtree">
-          <treeDef>LordDuty</treeDef>
+         <li Class="ThinkNode_JoinVoluntarilyJoinableLord">
+          <dutyHook>HighPriority</dutyHook>
+          <subNodes>
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDuty</treeDef>
+            </li>
+          </subNodes>
         </li>
 		<li Class="JobGiver_HaulCorpseToPublicPlace" />
-		<!--<li Class="MoharAiJob.Ai_GraveDigger_JobGiver" /> -->
+		<!--li Class="MoharAiJob.Ai_GraveDigger_JobGiver" /-->
         <!-- Idle -->
         <li Class="ThinkNode_Tagger">
           <tagToGive>Idle</tagToGive>
@@ -78,6 +109,28 @@
       </subNodes>
     </thinkRoot>
   </ThinkTreeDef>
+  
+   <ThinkTreeDef>
+    <defName>ForerunnerConstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+
+        <li Class="ThinkNode_ConditionalCanDoLordJobNow">
+          <subNodes>
+            <!-- Lord directives -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDutyConstant</treeDef>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  
   <ThinkTreeDef>
     <defName>Forerunner</defName>
     <thinkRoot Class="ThinkNode_Priority">
@@ -160,6 +213,15 @@
           </subNodes>
         </li>
 		
+		<li Class="ThinkNode_JoinVoluntarilyJoinableLord">
+          <dutyHook>HighPriority</dutyHook>
+          <subNodes>
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDuty</treeDef>
+            </li>
+          </subNodes>
+        </li>
+		
 		<li Class="ThinkNode_ChancePerHour_Constant">
               <mtbDays>60</mtbDays>
               <subNodes>
@@ -179,75 +241,6 @@
 				<subNodes>
 				<li Class="ThinkNode_Tagger">
 					<tagToGive>TrainedAnimalBehavior</tagToGive>
-					<subNodes>
-						
-					<!-- Modded: Uninstall-->
-					<li Class="ThinkNode_WPChancePerHour_Constant">
-						<mtbHours>1</mtbHours>
-						<subNodes>
-							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-								<workGiverDef>Uninstall</workGiverDef>
-							</li>				
-						</subNodes>
-					</li> 
-					
-					<!-- Modded: Repair-->
-					<li Class="ThinkNode_WPChancePerHour_Constant">
-						<mtbHours>1</mtbHours>
-						<subNodes>
-							<li Class="JobGiver_WPRepair" />					
-						</subNodes>
-					</li> 
-					
-					<!-- Modded: Repair-->
-					<li Class="ThinkNode_WPChancePerHour_Constant">
-						<mtbHours>1</mtbHours>
-						<subNodes>
-						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-							<workGiverDef>WPConstructDeliverResourcesToBlueprints</workGiverDef>
-						</li>
-						<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-							<workGiverDef>WPConstructDeliverResourcesToFrames</workGiverDef>
-						</li>				
-						</subNodes>
-					</li> 
-
-					<!-- Modded: Construction -->
-					<li Class="ThinkNode_WPChancePerHour_Constant">
-						<mtbHours>1</mtbHours>
-						<subNodes>
-							<!--
-							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-								<workGiverDef>WPConstructFinishFrames</workGiverDef>
-							</li>
-							-->
-							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-								<workGiverDef>BuildRoofs</workGiverDef>
-							</li>		
-							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-								<workGiverDef>ConstructSmoothFloors</workGiverDef>
-							</li>
-						</subNodes>
-					</li> 
-					
-
-					<!--
-					-->
-					<!-- Modded: deconstruct -->
-					<li Class="ThinkNode_WPChancePerHour_Constant">
-					<mtbHours>1</mtbHours>
-						<subNodes>
-							<li Class="JobGiver_WPDeconstruct" />		
-							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-								<workGiverDef>RemoveRoofs</workGiverDef>
-							</li>
-							<li Class="AnimalJobs.JobGiver_GenericWorkGiver">					
-								<workGiverDef>ConstructRemoveFloors</workGiverDef>
-							</li>			
-						</subNodes>
-					</li>				
-
-				</subNodes>
 				</li>
 			</subNodes>
 			</li>
@@ -258,28 +251,25 @@
     </thinkRoot>
   </ThinkTreeDef>
   
-    <ThinkTreeDef>
-				<defName>Passiveconstant</defName>
-				<thinkRoot Class="ThinkNode_Priority">
-					<subNodes>
-				<li Class="ThinkNode_ConditionalCanDoConstantThinkTreeJobNow">
-				<subNodes>
-					<!-- Flee enemies, tornados, meteorites, etc. -->
-					<li Class="JobGiver_AnimalFlee" />
+  <ThinkTreeDef>
+    <defName>Passiveconstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Despawned -->
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
 
-					<!-- Join auto joinable caravan -->
-					<li Class="ThinkNode_Subtree">
-					<treeDef>JoinAutoJoinableCaravan</treeDef>
-					</li>
-					
-					<!-- Lord directives -->
-					<li Class="ThinkNode_Subtree">
-					<treeDef>LordDutyConstant</treeDef>
-					</li>
-				</subNodes>
-				</li>
-			</subNodes>
-				</thinkRoot>
-    </ThinkTreeDef>
+        <li Class="ThinkNode_ConditionalCanDoLordJobNow">
+          <subNodes>
+            <!-- Lord directives -->
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDutyConstant</treeDef>
+            </li>
+          </subNodes>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
   
 </Defs>

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
   <Defs>
   	<!-- Lancer Spawner -->
-   <ThingDef ParentName="SpawnerBase">
+   <ThingDef ParentName="BuildingFloodBase">
       <defName>Sentinel_Factory</defName>
       <label>Sentinel spawner</label>
       <description>Passively fabricates sentinels of various types</description>
 	  <thingClass>ExtraHives.Hive</thingClass>
+	  <modExtensions>
+		<li Class="ExtraHives.HiveDefExtension">
+			<Faction>Forerunner</Faction>
+		</li>
+		</modExtensions>
 	   <statBases>
         <Flammability>0</Flammability>
       </statBases>
@@ -18,18 +23,24 @@
           <offset>(0.0, 0.0, 0.0)</offset>
         </shadowData>
       </graphicData>
+	   <receivesSignals>true</receivesSignals>
+	   <tickerType>Normal</tickerType>
       <comps>
-	  		<li Class="BuildingDefaultFaction.CompProperties_BuildingDefaultFaction">
+	  	<li Class="BuildingDefaultFaction.CompProperties_BuildingDefaultFaction">
 			<compClass>BuildingDefaultFaction.CompBuildingDefaultFaction</compClass>
             <faction>Forerunner</faction>
         </li>
+	  <li Class="CompProperties_CanBeDormant">
+        <startsDormant>true</startsDormant>
+        <canWakeUpFogged>false</canWakeUpFogged>
+      </li>
         <li Class="CompProperties_SpawnerPawn">
           <spawnablePawnKinds>
             <li>Sentinel</li>
 			<li>SentinelMajor</li>
 			<li>Constructor</li>
           </spawnablePawnKinds>
-          <chooseSingleTypeToSpawn>True</chooseSingleTypeToSpawn>
+          <chooseSingleTypeToSpawn>false</chooseSingleTypeToSpawn>
           <nextSpawnInspectStringKey>MechAssemblyCompleteIn</nextSpawnInspectStringKey>
           <initialPawnsPoints>2</initialPawnsPoints>
           <maxSpawnedPawnsPoints>300</maxSpawnedPawnsPoints>
@@ -45,11 +56,31 @@
       </comps>
     </ThingDef>
 	
-	<ThingDef ParentName="SpawnerBase">
+	<ThingDef ParentName="EtherealThingBase">
+	<defName>Forerunnertunnel</defName>
+	<label>forerunner tunnel</label>
+	<thingClass>ExtraHives.TunnelHiveSpawner</thingClass>
+	<modExtensions>
+		<li Class="ExtraHives.TunnelExtension">
+			<Faction>Forerunner</Faction>
+			<HiveDef>Sentinel_Factory</HiveDef>
+		</li>
+	</modExtensions>
+	<tickerType>Normal</tickerType>
+	<drawerType>RealtimeOnly</drawerType>
+	<alwaysFlee>true</alwaysFlee>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingFloodBase">
       <defName>Floodhive</defName>
       <label>Flood hive</label>
       <description>Produces flood</description>
 	  <thingClass>ExtraHives.Hive</thingClass>
+	  <modExtensions>
+		<li Class="ExtraHives.HiveDefExtension">
+			<Faction>Flood</Faction>
+		</li>
+	</modExtensions>
       <graphicData>
         <texPath>Pawn/Flood/Body/pod</texPath>
         <graphicClass>Graphic_Single</graphicClass>
@@ -60,22 +91,21 @@
         </shadowData>
       </graphicData>
 	   <receivesSignals>true</receivesSignals>
+	   <tickerType>Normal</tickerType>
       <comps>
+	  	<li Class="BuildingDefaultFaction.CompProperties_BuildingDefaultFaction">
+			<compClass>BuildingDefaultFaction.CompBuildingDefaultFaction</compClass>
+            <faction>Flood</faction>
+        </li>
 	  <li Class="CompProperties_CanBeDormant">
         <startsDormant>true</startsDormant>
         <canWakeUpFogged>false</canWakeUpFogged>
       </li>
-	  		<li Class="BuildingDefaultFaction.CompProperties_BuildingDefaultFaction">
-			<compClass>BuildingDefaultFaction.CompBuildingDefaultFaction</compClass>
-            <faction>Flood</faction>
-        </li>
         <li Class="CompProperties_SpawnerPawn">
           <spawnablePawnKinds>
             <li>Infested_Form</li>
 			<li>Infested_FormA</li>
 			<li>Infested_FormB</li>
-			<li>Combatform</li>
-			<li>Houndform</li>
 			<li>Stalkerform</li>
 			<li>FloodCarrier</li>
 			<li>Pureform</li>
@@ -94,7 +124,7 @@
         <spawnCount>1</spawnCount>
         <spawnIntervalRange>1800~20000</spawnIntervalRange>
         <spawnMaxAdjacent>2</spawnMaxAdjacent>
-      </li>
+		</li>
 	  <li Class="CompProperties_Spawner">
         <thingToSpawn>FilthFlood</thingToSpawn>
         <spawnCount>1</spawnCount>
@@ -108,11 +138,32 @@
       </comps>
     </ThingDef>
 	
-	<ThingDef ParentName="SpawnerBase">
+	<ThingDef ParentName="EtherealThingBase">
+	<defName>Floodtunnel</defName>
+	<label>Flood tunnel</label>
+	<thingClass>ExtraHives.TunnelHiveSpawner</thingClass>
+	<modExtensions>
+		<li Class="ExtraHives.TunnelExtension">
+			<Faction>Flood</Faction>
+			<HiveDef>Floodhive</HiveDef>
+		</li>
+	</modExtensions>
+	<tickerType>Normal</tickerType>
+	<drawerType>RealtimeOnly</drawerType>
+	<alwaysFlee>true</alwaysFlee>
+	</ThingDef>
+
+	
+	<ThingDef ParentName="BuildingFloodBase">
       <defName>Floodlargehive</defName>
       <label>large Flood hive</label>
       <description>Produces flood</description>
 	  <thingClass>ExtraHives.Hive</thingClass>
+	 <modExtensions>
+		<li Class="ExtraHives.HiveDefExtension">
+			<Faction>Flood</Faction>
+		</li>
+	</modExtensions>
       <graphicData>
         <texPath>Pawn/Flood/Body/truehive</texPath>
         <graphicClass>Graphic_Single</graphicClass>
@@ -124,15 +175,16 @@
       </graphicData>
 	   <receivesSignals>true</receivesSignals>
 	  <size>3,3</size>
+	  <tickerType>Normal</tickerType>
       <comps>
+	  	<li Class="BuildingDefaultFaction.CompProperties_BuildingDefaultFaction">
+			<compClass>BuildingDefaultFaction.CompBuildingDefaultFaction</compClass>
+            <faction>Flood</faction>
+        </li>
 	  <li Class="CompProperties_CanBeDormant">
         <startsDormant>true</startsDormant>
         <canWakeUpFogged>false</canWakeUpFogged>
       </li>
-	  		<li Class="BuildingDefaultFaction.CompProperties_BuildingDefaultFaction">
-			<compClass>BuildingDefaultFaction.CompBuildingDefaultFaction</compClass>
-            <faction>Flood</faction>
-        </li>
 		 <li Class="CompProperties_AnimalInsanityPulser">
         <pulseInterval>300~600</pulseInterval>
         <radius>10</radius>
@@ -174,6 +226,21 @@
         </li>
       </comps>
     </ThingDef>
+	
+	<ThingDef ParentName="EtherealThingBase">
+	<defName>LargeFloodtunnel</defName>
+	<label>Flood tunnel</label>
+	<thingClass>ExtraHives.TunnelHiveSpawner</thingClass>
+	<modExtensions>
+		<li Class="ExtraHives.TunnelExtension">
+			<Faction>Flood</Faction>
+			<HiveDef>Floodlargehive</HiveDef>
+		</li>
+	</modExtensions>
+	<tickerType>Normal</tickerType>
+	<drawerType>RealtimeOnly</drawerType>
+	<alwaysFlee>true</alwaysFlee>
+	</ThingDef>
 
 
 </Defs>
