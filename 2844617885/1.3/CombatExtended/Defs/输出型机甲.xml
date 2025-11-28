@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="XFMParmor_MechanicalArmorCore">
+    <defName>XFMParmor_MechanicalArmorCore_Aqua</defName>
+	  <label>mechframe core: owl</label>
+	  <description>the core of owl mechframe.</description>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Aqua</mechanicalArmor>
+        <AiClass>MParmorLibrary.MParmorT_AITracker_Aqua</AiClass>
+		  <AiText>>Attacks hostiles with ranged attack.\n>Adjust weapon mode according to target distance.\n>If avaliable, automatically use frozen flood.\n>When harmed by melee damage, use frozen flood towards damage source if avaliable.\n>Attack targets currently bleeding with arctic gale if avaliable.</AiText>
+	  </li>
+      <li Class="MParmorLibrary.SkillSystem.CompProperties_Skills">
+        <skills>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_AquaChangeMode</verbClass>
+				<label>mode switch</label>
+              <violent>false</violent>
+              <commandIcon>XFMParmor/MParmor/Aqua/SkillA</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <targetable>false</targetable>
+              <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+              <onlyManualCast>True</onlyManualCast>
+            </verb>
+            <energy>60</energy>
+            <id>ChangeMode</id>
+			  <description>Toggles the compound lance between speed mode and precision mode.</description>
+		  </li>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_ArcticWind</verbClass>
+				<label>arctic gale</label>
+				<violent>false</violent>
+              <range>37.9</range>
+              <warmupTime>0.05</warmupTime>
+              <commandIcon>XFMParmor/MParmor/Aqua/SkillB</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <onlyManualCast>True</onlyManualCast>
+              <requireLineOfSight>true</requireLineOfSight>
+              <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+              </targetParams>
+            </verb>
+            <energy>1020</energy>
+            <id>ArcticWind</id>
+			  <description>Spawns the arctic gale at target location. The arctic gale damages enemy within effect area and transform their spilling blood into deadly ice splinters.</description>
+		  </li>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_ColdWave</verbClass>
+				<label>frozen flood</label>
+				<violent>false</violent>
+              <range>23.9</range>
+              <warmupTime>0.05</warmupTime>
+              <commandIcon>XFMParmor/MParmor/Aqua/SkillC</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <onlyManualCast>True</onlyManualCast>
+              <requireLineOfSight>true</requireLineOfSight>
+              <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+              </targetParams>
+            </verb>
+            <skillValueA>60</skillValueA>
+            <energy>1140</energy>
+            <id>ColdWave</id>
+			  <description>Sprays out a wave of ice spikes that can be used as cover or to harm passing enemies.</description>
+		  </li>
+        </skills>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="XFMParmor_MechanicalArmorWeapon">
+    <defName>XFMParmor_Weapon_Aqua</defName>
+	  <label>compound lance</label>
+	  <description>Under speed mode, the compound lance can rapidly fire powerful charge shots.</description>
+	  <techLevel>Spacer</techLevel>
+    <generateCommonality>0</generateCommonality>
+    <graphicData>
+      <texPath>XFMParmor/MParmor/Aqua/Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <statBases>
+      <Mass>4.6</Mass>
+      <RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+    </statBases>
+    <thingSetMakerTags Inherit = "False"/>
+    <weaponTags Inherit = "False"/>
+    <weaponClasses Inherit = "False"/>
+    <verbs>
+      <li Class="CombatExtended.VerbPropertiesCE">
+        <verbClass>CombatExtended.Verb_ShootCE</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>XFMParmor_Weapon_Aqua_Bullet</defaultProjectile>
+        <warmupTime>0.5</warmupTime>
+        <range>51.9</range>
+        <ticksBetweenBurstShots>9</ticksBetweenBurstShots>
+        <burstShotCount>9</burstShotCount>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>2</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li Class="CombatExtended.ToolCE">
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>35</power>
+        <cooldownTime>2.4</cooldownTime>
+        <armorPenetrationSharp>0</armorPenetrationSharp>
+        <armorPenetrationBlunt>15</armorPenetrationBlunt>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Aqua</mechanicalArmor>
+      </li>
+      <li Class="Weapon_HarmonyPatch.CompProperties_WeaponDraw">
+        <rotOffset>
+          <north>
+            <offset>(0,0,0)</offset>
+          </north>
+          <south>
+            <offset>(-0.35,0.004,0)</offset>
+          </south>
+          <east>
+            <offset>(0,0.004,0)</offset>
+          </east>
+          <west>
+            <offset>(0,0.004,0)</offset>
+          </west>
+          <stand>
+            <offset>(0.01,0.01,-0.1)</offset>
+            <angle>-30</angle>
+          </stand>
+        </rotOffset>
+      </li>
+      <li Class="CombatExtended.CompProperties_AmmoUser">
+        <magazineSize>135</magazineSize>
+        <reloadTime>3</reloadTime>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>XFMParmor_Weapon_Aqua_Bullet</defName>
+    <label>charge shot</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charge_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>21</damageAmountBase>
+      <speed>180</speed>
+      <armorPenetrationSharp>27.26</armorPenetrationSharp>
+      <armorPenetrationBlunt>65.26</armorPenetrationBlunt>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="XFMParmor_MechanicalArmorWeapon">
+    <defName>XFMParmor_Weapon_AquaB</defName>
+	  <label>compound lance</label>
+	  <description>Under precision mode, the compound lance shoots laser aiming at enemy's brain with pinpoint accuracy. The laser also inflicts frozen effect which enables more wounds to be caused by attacks, and spreads to nearby enemy upon death.</description>
+	  <techLevel>Spacer</techLevel>
+    <generateCommonality>0</generateCommonality>
+    <graphicData>
+      <texPath>XFMParmor/MParmor/Aqua/WeaponB</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <statBases>
+      <Mass>4.6</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>0.89</AccuracyShort>
+      <AccuracyMedium>0.7</AccuracyMedium>
+      <AccuracyLong>0.7</AccuracyLong>
+      <RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown>
+    </statBases>
+    <thingSetMakerTags Inherit = "False"/>
+    <weaponTags Inherit = "False"/>
+    <weaponClasses Inherit = "False"/>
+    <verbs>
+      <li>
+        <verbClass>MParmorLibrary.Verb_Laser</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>XFMParmor_Weapon_Frost_Bullet</defaultProjectile>
+        <warmupTime>0.9</warmupTime>
+        <range>69.9</range>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>7</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li Class="CombatExtended.ToolCE">
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>35</power>
+        <cooldownTime>2.4</cooldownTime>
+        <armorPenetrationSharp>0</armorPenetrationSharp>
+        <armorPenetrationBlunt>15</armorPenetrationBlunt>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Aqua</mechanicalArmor>
+      </li>
+      <li Class="Weapon_HarmonyPatch.CompProperties_WeaponDraw">
+        <rotOffset>
+          <north>
+            <offset>(0,0,0)</offset>
+          </north>
+          <south>
+            <offset>(-0.35,0.004,0)</offset>
+          </south>
+          <east>
+            <offset>(0,0.004,0)</offset>
+          </east>
+          <west>
+            <offset>(0,0.004,0)</offset>
+          </west>
+          <stand>
+            <offset>(0.01,0.01,-0.1)</offset>
+            <angle>-30</angle>
+          </stand>
+        </rotOffset>
+      </li>
+      <li Class="CombatExtended.CompProperties_AmmoUser">
+        <magazineSize>2</magazineSize>
+        <reloadTime>1.2</reloadTime>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>XFMParmor_Weapon_Frost_Bullet</defName>
+    <label>frost ray</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charge_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>MParmor_FrostBullet</damageDef>
+      <damageAmountBase>38</damageAmountBase>
+      <armorPenetrationBase>2</armorPenetrationBase>
+      <speed>90</speed>
+    </projectile>
+  </ThingDef>
+  
+  <HediffDef>
+    <defName>XFMParmor_Freeze</defName>
+    <hediffClass>MParmorLibrary.Hediff_Freeze</hediffClass>
+	  <label>frozen</label>
+	  <description>More wounds may be tore up from frozen bodies.The frozen status will be spread to pawns nearby upon death.</description>
+	  <defaultLabelColor>(0,0.7,0.7)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>true</isBad>
+    <maxSeverity>0.25</maxSeverity>
+    <initialSeverity>0.25</initialSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="InjuryBase">
+    <defName>XFMParmor_Frostbite</defName>
+	  <label>frostbite</label>
+	  <description>Tears and wounds caused by external damage acting on frozen tissues.</description>
+	  <displayWound>false</displayWound>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <labelTendedWell>bandaged</labelTendedWell>
+        <labelTendedWellInner>tended</labelTendedWellInner>
+        <labelSolidTendedWell>tended</labelSolidTendedWell>
+      </li>
+      <li Class="HediffCompProperties_Infecter">
+        <infectionChance>0</infectionChance>
+      </li>
+      <li Class="HediffCompProperties_GetsPermanent">
+        <permanentLabel>frostbite scar</permanentLabel>
+      </li>
+    </comps>
+    <injuryProps>
+      <painPerSeverity>0.0125</painPerSeverity>
+      <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+      <canMerge>false</canMerge>
+      <bleedRate>0.05</bleedRate>
+      <destroyedLabel>Lost to frostbite</destroyedLabel>
+    </injuryProps>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>XFMParmor_ArcticWind</defName>
+    <hediffClass>MParmorLibrary.Hediff_ArcticWind</hediffClass>
+	  <label>arctic gale</label>
+	  <labelNoun>arctic gale</labelNoun>
+	  <description>When under effect of the arctic gale, the victim's body will be torn apart rapidly. Blood spilling from the wounds may also freeze into sharp fragments, harming anyone in proximity.</description>
+	  <defaultLabelColor>(0,0.7,0.7)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>true</isBad>
+    <maxSeverity>1</maxSeverity>
+    <initialSeverity>1</initialSeverity>
+  </HediffDef>  
+  <ThingDef ParentName="BaseBullet">
+    <defName>XFMParmor_Weapon_BloodIce</defName>
+    <label>blood ice</label>
+    <thingClass>MParmorLibrary.Bullet_BloodIce</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Charge_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(1.0,0,0)</color>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>Cut</damageDef>
+      <damageAmountBase>12</damageAmountBase>
+      <speed>60</speed>
+      <armorPenetrationSharp>4.2</armorPenetrationSharp>
+      <armorPenetrationBlunt>65.26</armorPenetrationBlunt>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>XFMParmor_ArcticWind</defName>
+	  <label>arctic gale</label>
+	  <category>Ethereal</category>
+    <thingClass>MParmorLibrary.ArcticWind</thingClass>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>XFMParmor/air</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <selectable>true</selectable>
+    <specialDisplayRadius>7.9</specialDisplayRadius>
+    <drawerType>MapMeshAndRealTime</drawerType>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>XFMParmor_IceSpike</defName>
+	  <label>ice spike</label>
+	  <description>The ice spikes provide cover for mechframes, pierce enemy that step onto it and detonates, potentially setting off adjacent ice spikes in a chain reaction. They self-detonate if remain inactive for too long.</description>
+	  <thingClass>MParmorLibrary.Building_IceSpike</thingClass>
+    <graphicData>
+      <texPath>XFMParmor/MParmor/Aqua/IceSpike</texPath>
+      <graphicClass>Graphic_Random</graphicClass>
+    </graphicData>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <fillPercent>0.75</fillPercent>
+    <statBases>
+      <Mass>0.6</Mass>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <building>
+      <repairable>false</repairable>
+      <isTrap>true</isTrap>
+      <expandHomeArea>false</expandHomeArea>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+  </ThingDef>
+
+
+</Defs>

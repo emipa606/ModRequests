@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>  
+<ThingDef ParentName="XFMParmor_MechanicalArmorCore">
+    <defName>XFMParmor_MechanicalArmorCore_Black</defName>
+	<label>mechframe core: crow</label>
+	<description>The core of mechframe crow</description>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Black</mechanicalArmor>
+        <AiClass>MParmorLibrary.MParmorT_AITracker_Black</AiClass>
+		  <AiText>>Attacks hostiles with ranged attack.\n>If avaliable, ssist with rocket barrage when firing.\n>When harmed by ranged attack, automatically deploys shield barrier towards the origin of damage.\n>When harmed by melee attack, automatically fires shock blast.</AiText>
+	  </li>
+      <li Class="MParmorLibrary.SkillSystem.CompProperties_Skills">
+        <skills>
+          <li>
+            <verb Class="CombatExtended.VerbPropertiesCE">
+              <verbClass>MParmorLibrary.Verb_ShootCE_Skill</verbClass>
+              <label>rocket barrage</label>
+				<commandIcon>XFMParmor/MParmor/Black/skillA</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <targetable>true</targetable>
+              <onlyManualCast>True</onlyManualCast>
+              <defaultProjectile>XFMParmor_Bullet_BlackA</defaultProjectile>
+              <forcedMissRadius>1.8</forcedMissRadius>
+              <burstShotCount>9</burstShotCount>
+              <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+              <range>64.9</range>
+              <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+              <soundCast>InfernoCannon_Fire</soundCast>
+              <soundCastTail>GunTail_Heavy</soundCastTail>
+              <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+              </targetParams>
+              <muzzleFlashScale>14</muzzleFlashScale>
+            </verb>
+            <energy>540</energy>
+            <id>Rockets</id>
+			  <description>Fires a volley of rockets in rapid succession, saturating target with firepower.</description>
+		  </li>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_SpawnShield</verbClass>
+				<label>shield barrier</label>
+				<violent>false</violent>
+              <range>4.2</range>
+              <commandIcon>XFMParmor/MParmor/Black/skillB</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <onlyManualCast>True</onlyManualCast>
+              <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+              <requireLineOfSight>false</requireLineOfSight>
+              <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+              <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+                <canTargetPawns>false</canTargetPawns>
+                <canTargetBuildings>false</canTargetBuildings>
+              </targetParams>
+            </verb>
+            <id>ShieldBarrier</id>
+            <energy>780</energy>
+			  <description>Raise a shield wall at target location, blocking hostile projectiles and blastwaves, while allowing friendly projectiles to pass.</description>
+			  <skillValueA>9000</skillValueA>
+          </li>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_ShockWave</verbClass>
+				<label>shock blast</label>
+				<violent>true</violent>
+              <range>10.9</range>
+              <commandIcon>XFMParmor/MParmor/Black/skillC</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <targetable>false</targetable>
+              <nonInterruptingSelfCast>true</nonInterruptingSelfCast>
+              <onlyManualCast>True</onlyManualCast>
+            </verb>
+            <id>ShockWave</id>
+            <energy>1140</energy>
+			  <description>Unleashes a shock blast that slows down enemies within range, interrupts their attacks, and have a chance to disarm them.</description>
+		  </li>
+        </skills>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseExplosiveBullet">
+    <defName>XFMParmor_Bullet_BlackA</defName>
+	  <label>rocket artillery</label>
+	  <graphicData>
+      <texPath>XFMParmor/MParmor/Black/missile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <speed>120</speed>
+      <damageDef>MParmor_FlameWithoutShake</damageDef>
+      <armorPenetrationSharp>0</armorPenetrationSharp>
+      <damageAmountBase>9</damageAmountBase>
+      <armorPenetrationBlunt>0</armorPenetrationBlunt>
+      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+    </projectile>
+    <comps>
+      <li Class="CombatExtended.CompProperties_ExplosiveCE">
+        <damageAmountBase>20</damageAmountBase>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <explosiveRadius>1.9</explosiveRadius>
+        <explosionSound>MortarBomb_Explode</explosionSound>
+        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  <ThingDef>
+    <defName>XFMParmor_Black_Shield</defName>
+	  <label>shield barrier</label>
+	  <description>A barrier that blocks hostile attacks yet allow friendly fire to pass undisrupted. Shatters after absorbing too much damage.</description>
+	  <thingClass>MParmorLibrary.ShieldsBarrierNew</thingClass>
+    <graphicData>
+      <texPath>XFMParmor/MParmor/Black/barrier</texPath>
+      <drawSize>(9,9)</drawSize>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <category>Building</category>
+    <altitudeLayer>LayingPawn</altitudeLayer>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <size>(7,2)</size>
+    <blockWind>false</blockWind>
+    <useHitPoints>false</useHitPoints>
+    <building>
+      <isEdifice>false</isEdifice>
+    </building>
+    <statBases>
+      <MaxHitPoints>0</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+    <selectable>true</selectable>
+    <rotatable>true</rotatable>
+  </ThingDef>
+
+  <ThingDef ParentName="XFMParmor_MechanicalArmorWeapon">
+    <defName>XFMParmor_Weapon_Black</defName>
+	  <label>mechframe heavy machinegun</label>
+	  <description>A charged heavy machinegun feared for its impressive sustained firepower.</description>
+	  <techLevel>Spacer</techLevel>
+    <generateCommonality>0</generateCommonality>
+    <graphicData>
+      <texPath>XFMParmor/MParmor/Black/Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <statBases>
+      <Mass>4.6</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>0.84</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.55</AccuracyLong>
+      <RangedWeapon_Cooldown>0.75</RangedWeapon_Cooldown>
+    </statBases>
+    <thingSetMakerTags Inherit = "False"/>
+    <weaponTags Inherit = "False"/>
+    <weaponClasses Inherit = "False"/>
+    <verbs>
+      <li Class="CombatExtended.VerbPropertiesCE">
+        <verbClass>CombatExtended.Verb_ShootCE</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>XFMParmor_Weapon_Black_Bullet</defaultProjectile>
+        <warmupTime>0.75</warmupTime>
+        <range>47</range>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>9</burstShotCount>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li Class="CombatExtended.ToolCE">
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>35</power>
+        <cooldownTime>2.4</cooldownTime>
+        <armorPenetrationSharp>0</armorPenetrationSharp>
+        <armorPenetrationBlunt>15</armorPenetrationBlunt>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Black</mechanicalArmor>
+      </li>
+      <li Class="Tower_WeaponDrawFrame.CompProperties_WeaponDraw">
+        <rotOffset>
+          <north>
+            <offset>(0,0,0)</offset>
+          </north>
+          <south>
+            <offset>(-0.35,0.004,0)</offset>
+          </south>
+          <east>
+            <offset>(0,0.004,0)</offset>
+          </east>
+          <west>
+            <offset>(0,0.004,0)</offset>
+          </west>
+          <stand>
+            <offset>(0.01,0.01,-0.1)</offset>
+            <angle>-30</angle>
+          </stand>
+        </rotOffset>
+      </li>
+      <li Class="CombatExtended.CompProperties_AmmoUser">
+        <magazineSize>120</magazineSize>
+        <reloadTime>2.9</reloadTime>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseBulletCE">
+    <defName>XFMParmor_Weapon_Black_Bullet</defName>
+    <label>charge shot</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charge_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>19</damageAmountBase>
+      <speed>180</speed>
+      <armorPenetrationSharp>19.2</armorPenetrationSharp>
+      <armorPenetrationBlunt>65.26</armorPenetrationBlunt>
+    </projectile>
+  </ThingDef>
+
+
+</Defs>

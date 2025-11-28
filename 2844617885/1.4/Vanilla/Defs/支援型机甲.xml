@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="XFMParmor_MechanicalArmorCore">
+    <defName>XFMParmor_MechanicalArmorCore_Carrier</defName>
+    <thingClass>MParmorLibrary.MParmorCore_Carrier</thingClass>
+    <label>mechframe core: sparrow</label>
+    <description>The core of mechframe sparrow.</description>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Carrier</mechanicalArmor>
+        <AiClass>MParmorLibrary.MParmorT_AITracker_Carrier</AiClass>
+        <AiText>>Attacks hostiles with ranged attack.\n>If three drones are standby, use offensive order to assist in attacks.\n>If at least two drones are standby, when an ally is harmed by melee damage, dispatch drones to assist in melee attack with offensive order.\n>If at least two drones are standby, when an ally is harmed by ranged damage, dispatch drones to defend the ally with defensive order.\n>If harmed by melee damage, dispatch drones to assist in melee attack with offensive order.\n>If harmed by ranged damage, dispatch drones to defend self with defensive order.</AiText>
+      </li>
+      <li Class="MParmorLibrary.SkillSystem.CompProperties_Skills">
+        <skills>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_DispatchDrone_Defend</verbClass>
+              <label>defensive order</label>
+              <commandIcon>XFMParmor/MParmor/Carrier/skillA</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <targetable>true</targetable>
+              <onlyManualCast>True</onlyManualCast>
+              <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+                <canTargetSelf>true</canTargetSelf>
+              </targetParams>
+            </verb>
+            <noNeedCharge>true</noNeedCharge>
+            <energy>1</energy>
+            <id>DefenceMode</id>
+            <description>Dispatches drone to protect the target. The drone shields the target from hostile fire while allowing the protected target to fire uninterrupted.</description>
+          </li>
+          <li>
+            <verb>
+              <verbClass>MParmorLibrary.Verb_DispatchDrone_Attact</verbClass>
+              <label>aggresive order</label>
+              <commandIcon>XFMParmor/MParmor/Carrier/skillB</commandIcon>
+              <hasStandardCommand>true</hasStandardCommand>
+              <targetable>true</targetable>
+              <onlyManualCast>True</onlyManualCast>
+              <targetParams>
+                <canTargetLocations>true</canTargetLocations>
+              </targetParams>
+            </verb>
+            <noNeedCharge>true</noNeedCharge>
+            <energy>1</energy>
+            <id>AttactMode</id>
+            <description>Dispatches drone to attack the target. The drone's rotor blades can cut into enemy in close combat, disrupting them in the process.</description>
+          </li>
+        </skills>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="XFMParmor_MechanicalArmorWeapon">
+    <defName>XFMParmor_Weapon_Carrier</defName>
+    <label>mechframe light machinegun</label>
+    <description>Charged LMG linked to drones with fire coordinator chips, when the LMG fires, the drone's charge blaster fires too.</description>
+    <techLevel>Spacer</techLevel>
+    <generateCommonality>0</generateCommonality>
+    <graphicData>
+      <texPath>XFMParmor/MParmor/Carrier/Weapon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_ChargeRifle</soundInteract>
+    <statBases>
+      <Mass>4.6</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>0.84</AccuracyShort>
+      <AccuracyMedium>0.65</AccuracyMedium>
+      <AccuracyLong>0.55</AccuracyLong>
+      <RangedWeapon_Cooldown>1.50</RangedWeapon_Cooldown>
+    </statBases>
+    <thingSetMakerTags Inherit = "False"/>
+    <weaponTags Inherit = "False"/>
+    <weaponClasses Inherit = "False"/>
+    <verbs>
+      <li>
+        <verbClass>MParmorLibrary.Verb_ShootClustered</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>XFMParmor_Weapon_Carrier_Bullet</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>25.9</range>
+        <ticksBetweenBurstShots>9</ticksBetweenBurstShots>
+        <burstShotCount>4</burstShotCount>
+        <soundCast>Shot_ChargeRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>4</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>28</power>
+        <cooldownTime>2.8</cooldownTime>
+      </li>
+    </tools>
+    <comps>
+      <li Class="MParmorLibrary.CompProperties_MechanicalArmor">
+        <mechanicalArmor>MechanicalArmor_Carrier</mechanicalArmor>
+      </li>
+      <li Class="Tower_WeaponDrawFrame.CompProperties_WeaponDraw">
+        <rotOffset>
+          <north>
+            <offset>(0,0,0)</offset>
+          </north>
+          <south>
+            <offset>(-0.35,0.004,0)</offset>
+          </south>
+          <east>
+            <offset>(0,0.004,0)</offset>
+          </east>
+          <west>
+            <offset>(0,0.004,0)</offset>
+          </west>
+          <stand>
+            <offset>(0.01,0.01,-0.1)</offset>
+            <angle>-30</angle>
+          </stand>
+        </rotOffset>
+      </li>
+    </comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>XFMParmor_Weapon_Carrier_Bullet</defName>
+    <label>charge shot</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charge_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>12</damageAmountBase>
+      <!--13-->
+      <armorPenetrationBase>0.4</armorPenetrationBase>
+      <speed>120</speed>
+    </projectile>
+  </ThingDef>
+  
+</Defs>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  
+  <ThingDef ParentName="BasePawn">
+    <defName>XFMParmor_Drone_Carrier</defName>
+	  <label>mecha drone</label>
+	  <description>A quad drone manufactured by carrier mechframe's internal forge. Accepts certain simple commands and will return to carrier when battery depletes.</description>
+	  <thingClass>MParmorLibrary.Drone</thingClass>
+    <tools>
+      <li Class="CombatExtended.ToolCE">
+        <label>left blade</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>34</power>
+        <cooldownTime>1.60</cooldownTime>
+        <linkedBodyPartsGroup>LeftBlade</linkedBodyPartsGroup>
+        <armorPenetrationSharp>3.57</armorPenetrationSharp>
+        <armorPenetrationBlunt>5.4</armorPenetrationBlunt>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li Class="CombatExtended.ToolCE">
+        <label>right blade</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>28</power>
+        <cooldownTime>1.60</cooldownTime>
+        <linkedBodyPartsGroup>RightBlade</linkedBodyPartsGroup>
+        <armorPenetrationSharp>35</armorPenetrationSharp>
+        <armorPenetrationBlunt>25</armorPenetrationBlunt>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <statBases>
+      <PsychicSensitivity>0</PsychicSensitivity>
+      <ToxicResistance>100</ToxicResistance>
+      <Flammability>0</Flammability>
+      <MoveSpeed>15</MoveSpeed>
+      <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+      <ComfyTemperatureMax>250</ComfyTemperatureMax>
+      <MeatAmount>0</MeatAmount>
+      <ArmorRating_Heat>2.00</ArmorRating_Heat>
+      <ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+    </statBases>
+    <receivesSignals>true</receivesSignals>
+    <race>
+      <body>Scyther</body>
+      <baseHealthScale>0.5</baseHealthScale>
+      <gestationPeriodDays>9999</gestationPeriodDays>
+      <fleshType>Normal</fleshType>
+      <needsRest>false</needsRest>
+      <hasGenders>false</hasGenders>
+      <foodType>None</foodType>
+      <lifeExpectancy>2500</lifeExpectancy>
+      <bloodDef>Filth_MachineBits</bloodDef>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>XFMParmor_Drone_Carrier_ThinkTree</thinkTreeMain>
+      <baseBodySize>0.5</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+    </race>
+    <inspectorTabs Inherit="false">
+      <li>ITab_Pawn_Health</li>
+      <li>ITab_Pawn_Log</li>
+    </inspectorTabs>
+  </ThingDef>
+
+
+  <ThinkTreeDef>
+    <defName>XFMParmor_Drone_Carrier_ThinkTree</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_QueuedJob"/>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>LordDuty</treeDef>
+        </li>
+        <li Class="MParmorLibrary.ThinkNode_DroneState">
+          <subNodes>
+            
+            <!--Defend Mode-->
+            <li Class="ThinkNode_Priority">
+              <subNodes>
+                <li Class="MParmorLibrary.JobGiver_GotoOrFollowTarget"/>
+              </subNodes>
+            </li>
+            
+            <!--Attact Mode-->
+            <li Class="ThinkNode_Priority">
+              <subNodes>
+                <li Class="MParmorLibrary.JobGiver_AIFightEnemies_Drone">
+                  <targetAcquireRadius>61</targetAcquireRadius>
+                  <targetKeepRadius>79</targetKeepRadius>
+                  <needLOSToAcquireNonPawnTargets>false</needLOSToAcquireNonPawnTargets>
+                </li>
+              </subNodes>
+            </li>
+            
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_Idle">
+              <ticks>15</ticks>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="JobGiver_IdleError"/>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <PawnKindDef>
+    <defName>XFMParmor_Drone_Carrier</defName>
+    <label>drone</label>
+    <labelPlural>drone</labelPlural>
+    <race>XFMParmor_Drone_Carrier</race>
+    <defaultFactionType>XFMParmor_AntiMParmor</defaultFactionType>
+    <aiAvoidCover>true</aiAvoidCover>
+    <destroyGearOnDrop>true</destroyGearOnDrop>
+    <combatPower>0</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>XFMParmor/Pawns/Drone/Drone</texPath>
+          <shaderType>TransparentPostLight</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+  <HediffDef Name="XFMParmor_MissingBodyPart_NotInstalled">
+    <defName>XFMParmor_MissingBodyPart_NotInstalled</defName>
+	  <label>not installed</label>
+	  <labelNoun>not installed</labelNoun>
+	  <labelNounPretty>{1} is not installed</labelNounPretty>
+	  <description>This part is not installed yet.</description>
+    <hediffClass>MParmorLibrary.Hediff_MissingPart_NotInstalled</hediffClass>
+    <defaultLabelColor>(0.5, 0.5, 0.5)</defaultLabelColor>
+    <isBad>false</isBad>
+  </HediffDef>
+
+  <HediffDef ParentName="XFMParmor_MissingBodyPart_NotInstalled">
+    <defName>XFMParmor_MissingBodyPart_NotInstalled_Blade</defName>
+    <stages>
+      <li>
+        <disabledWorkTags>Violent</disabledWorkTags>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>
