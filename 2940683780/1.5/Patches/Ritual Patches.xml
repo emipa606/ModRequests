@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+<Operation Class="PatchOperationReplace">
+ <xpath>/Defs/RitualOutcomeEffectDef[defName="Conversion"]/comps</xpath>
+  <value>
+   <comps>
+    <li Class="RitualOutcomeComp_RoomStat">
+     <label>room impressiveness</label>
+     <statDef>Impressiveness</statDef>
+     <curve>
+      <points>
+       <li>0,  0</li>
+       <li>50,  0.1</li>
+       <li>100, 0.2</li>
+	   <li>150, 0.3</li>
+	   <li>200, 0.4</li>
+	   <li>250, 0.5</li>
+	  </points>
+     </curve>
+    </li>
+    <li Class="RitualOutcomeComp_ParticipantCount">
+     <label>participant count</label>
+     <curve>
+      <points>
+       <li>(1,  0.0)</li>
+       <li>(5,  0.25)</li>
+       <li>(10, 0.5)</li>
+      </points>
+     </curve>
+    </li>
+    <li Class="RitualOutcomeComp_PawnStatScaled">
+     <label>{PAWN_labelShort}'s social impact</label>
+     <labelAbstract>speaker's social impact</labelAbstract>
+     <roleId>moralist</roleId>
+     <statDef>SocialImpact</statDef>
+     <curve>
+      <points>
+       <li>(0.2,  0.0)</li>
+       <li>(0.5,  0.2)</li>
+       <li>(1.0, 0.3)</li>
+       <li>(1.5, 0.4)</li>
+	   <li>(2.0, 0.5)</li>
+	   <li>(2.5, 0.6)</li>
+      </points>
+     </curve>
+    </li>
+    <li Class="RitualOutcomeComp_PawnExpectations">
+     <roleId>convertee</roleId>
+     <label>{PAWN_labelShort}'s expectations</label>
+     <labelAbstract>convertee's expectations</labelAbstract>
+     <offsetForSlave>0</offsetForSlave>
+     <offsetPerExpectation>
+       <ExtremelyLow>0.3</ExtremelyLow>
+       <VeryLow>0.2</VeryLow>
+       <Low>1</Low>
+       <Moderate>0</Moderate>
+       <High>-0.1</High>
+       <SkyHigh>-0.1</SkyHigh>
+       <Noble>-0.2</Noble>
+       <Royal>-0.2</Royal>
+       <RoleElite>-0.3</RoleElite>
+       <RoleSupreme>-0.3</RoleSupreme>
+      </offsetPerExpectation>
+     </li>
+    </comps>
+   </value>
+  </Operation>
+   
+<Operation Class="PatchOperationReplace">
+ <xpath>/Defs/RitualOutcomeEffectDef[defName="Conversion"]/outcomeChances</xpath>
+  <value>
+    <outcomeChances>
+      <li>
+        <label>Terrible</label>
+        <chance>0.01</chance>
+        <ideoCertaintyOffset>0.2</ideoCertaintyOffset>
+        <description>The {0} was terrible! From the first word, it was a fruitless back-and-forth argument. It dragged on for a cringe-inducingly long time.</description>
+        <positivityIndex>-2</positivityIndex>
+      </li>
+      <li>
+        <label>Ineffective</label>
+        <chance>0.09</chance>
+        <ideoCertaintyOffset>0.12</ideoCertaintyOffset>
+        <description>The {0} was ineffective. Most of the arguments were unclear, and the convertee countered those that made sense.</description>
+        <positivityIndex>-1</positivityIndex>
+      </li>
+      <li>
+        <label>Effective</label>
+        <chance>0.6</chance>
+        <ideoCertaintyOffset>-0.5</ideoCertaintyOffset>
+        <memory>EffectiveConversion</memory>
+        <description>The {0} was effective. The speech not only delivered solid arguments and visibly swayed the convertee's thoughts, but kept the crowd entertained as well.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Masterful</label>
+        <chance>0.3</chance>
+        <ideoCertaintyOffset>-1</ideoCertaintyOffset>
+        <memory>MasterfulConversion</memory>
+        <description>The {0} was masterful! Old beliefs seemed to dissolve effortlessly and inevitably, and our true knowledge was accepted.</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+     </outcomeChances>
+    </value>
+   </Operation>
+
+<Operation Class="PatchOperationReplace">
+ <xpath>/Defs/RitualOutcomeEffectDef[defName="CelebrationSkyLanterns"]/comps</xpath>
+  <value>   
+    <comps>
+      <li Class="RitualOutcomeComp_NumParticipantsWithTag">
+        <label>participant count</label>
+        <tag>LaunchedSkyLantern</tag>
+        <curve>
+          <points>
+            <li>(1, 0.20)</li>
+            <li>(4, 0.5)</li>
+            <li>(7, 0.8)</li>
+            <li>(10, 1)</li>
+          </points>
+        </curve>
+      </li>
+	 </comps>
+	</value>
+  </Operation>
+
+<Operation Class="PatchOperationReplace">
+ <xpath>/Defs/RitualOutcomeEffectDef[defName="CelebrationSkyLanterns"]/outcomeChances</xpath>
+  <value>
+    <outcomeChances>
+      <li>
+        <label>Terrible</label>
+        <chance>0.01</chance>
+        <memory>TerribleSkyLanterns</memory>
+        <description>The {0} was terrible! People kept getting annoyed making the lanterns and they looked like garbage on the wind.</description>
+        <positivityIndex>-3</positivityIndex>
+      </li>
+      <li>
+        <label>Unimpressive</label>
+        <chance>0.09</chance>
+        <memory>UnimpressiveSkyLanterns</memory>
+        <description>The {0} was unimpressive. Lantern-making took too long and it all felt rather pointless.</description>
+        <positivityIndex>0</positivityIndex>
+      </li>
+      <li>
+        <label>Beautiful</label>
+        <chance>0.6</chance>
+        <memory>BeautifulSkyLanterns</memory>
+        <description>The {0} was beautiful. The drifting lanterns made everyone feel at peace.</description>
+        <potentialExtraOutcomeDesc>The skylanterns lifted high and bright. Friendly visitors might see them and arrive with a gift.</potentialExtraOutcomeDesc>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Unforgettable</label>
+        <chance>0.3</chance>
+        <memory>UnforgettableSkyLanterns</memory>
+        <description>The {0} was unforgettable! Making the lanterns was a time of laughter, and everyone's spirits rose with them.</description>
+        <potentialExtraOutcomeDesc>The skylanterns lifted high and bright. Friendly visitors might see them and arrive with a gift.</potentialExtraOutcomeDesc>
+        <positivityIndex>2</positivityIndex>
+      </li>
+     </outcomeChances>
+    </value>
+   </Operation>
+   
+<Operation Class="PatchOperationReplace">
+ <xpath>*/RitualOutcomeEffectDef[@Name="CelebrationPartyDance"]/comps</xpath>
+  <value>
+    <comps>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1,  0.1)</li>
+            <li>(3,  0.15)</li>
+            <li>(6,  0.3)</li>
+            <li>(10, 0.4)</li>
+          </points>
+        </curve>
+      </li>
+      <li Class="RitualOutcomeComp_RoomStat">
+        <label>room impressiveness</label>
+        <statDef>Impressiveness</statDef>
+        <curve>
+          <points>
+            <li>0,  0</li>
+            <li>50,  0.1</li>
+            <li>110, 0.2</li>
+			<li>180, 0.3</li>
+          </points>
+        </curve>
+      </li>
+      <li Class="RitualOutcomeComp_RolePresentNotSubstituted">
+        <roleId>leader</roleId>
+        <label>leader present</label>
+        <qualityOffset>0.2</qualityOffset>
+      </li>
+    </comps>
+   </value>
+  </Operation>
+    
+<Operation Class="PatchOperationReplace">
+ <xpath>*/RitualOutcomeEffectDef[@Name="CelebrationPartyDance"]/outcomeChances</xpath>
+  <value>	
+	<outcomeChances>
+      <li>
+        <label>Terrible</label>
+        <chance>0.01</chance>
+        <memory>TerribleParty</memory>
+        <description>The {0} was terrible! Awkward conversation, bad jokes, atrocious dancing, and dull music.</description>
+        <positivityIndex>-2</positivityIndex>
+      </li>
+      <li>
+        <label>Boring</label>
+        <chance>0.09</chance>
+        <memory>BoringParty</memory>
+        <description>The {0} was boring. Bad dancing and so-so music made the whole thing feel like a waste of time.</description>
+        <positivityIndex>-1</positivityIndex>
+      </li>
+      <li>
+        <label>Fun</label>
+        <chance>0.6</chance>
+        <memory>FunParty</memory>
+        <description>The {0} was fun. Everyone enjoyed the break from everyday life and got in some good dancing together.</description>
+        <potentialExtraOutcomeDesc>Everyone felt refreshed after their trance-like dancing experience. Participants will work faster for a while.</potentialExtraOutcomeDesc>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Unforgettable</label>
+        <chance>0.3</chance>
+        <memory>UnforgettableParty</memory>
+        <description>The {0} was unforgettable! The dancers forgot themselves in the music, and the experience brought everyone together.</description>
+        <potentialExtraOutcomeDesc>Everyone felt refreshed after their trance-like dancing experience. Participants will work faster for a while.</potentialExtraOutcomeDesc>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+   </value>
+  </Operation>
+
+<Operation Class="PatchOperationAdd">
+ <xpath>/Defs/RitualBehaviorDef[defName="DancePartyTech"]/roles</xpath>
+  <value>
+     <li Class="RitualRoleTag">
+        <label>DJ</label>
+        <tag>Leader</tag>
+        <id>leader</id>
+        <precept>IdeoRole_Leader</precept>
+        <required>False</required>
+        <substitutable>True</substitutable>
+        <maxCount>1</maxCount>
+        <countsAsParticipant>False</countsAsParticipant>
+        <allowChild>false</allowChild>
+        <mustBeAbleToReachTarget>True</mustBeAbleToReachTarget>
+      </li>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationReplace">
+ <xpath>/Defs/RitualOutcomeEffectDef[defName="Execution"]/outcomeChances</xpath>
+  <value>
+    <outcomeChances>
+      <li>
+        <label>Awkward</label>
+        <chance>0.1</chance>
+        <memory>AwkwardExecution</memory>
+        <positivityIndex>-1</positivityIndex>
+        <description>The {0} was awkward. The speech dragged on and when it came time to strike, the executioner slipped and barely recovered. None of it felt justified.</description>
+      </li>
+      <li>
+        <label>Satisfying</label>
+        <chance>0.6</chance>
+        <memory>SatisfyingExecution</memory>
+        <description>The {0} was satisfying. Everyone could feel that justice was being upheld.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Spectacular</label>
+        <chance>0.3</chance>
+        <memory>SpectacularExecution</memory>
+        <description>The {0} was spectacular! One smooth strike was all it took, and everyone felt a rush of justice and power.</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+  </value>
+</Operation>
+
+<Operation Class="PatchOperationReplace">
+ <xpath>/Defs/RitualOutcomeEffectDef[defName="Execution"]/comps</xpath>
+  <value>   
+   <comps>
+    <li Class="RitualOutcomeComp_ParticipantCount">
+    <label>participant count</label>
+      <curve>
+          <points>
+            <li>(1, 0.20)</li>
+            <li>(4, 0.5)</li>
+            <li>(7, 0.8)</li>
+            <li>(10, 1)</li>
+          </points>
+        </curve>
+      </li>
+      <li Class="RitualOutcomeComp_RoomStat">
+       <label>room impressiveness</label>
+       <statDef>Impressiveness</statDef>
+       <curve>
+        <points>
+         <li>0,  0</li>
+         <li>50,  0.1</li>
+         <li>100, 0.2</li>
+	     <li>150, 0.3</li>
+	     <li>200, 0.4</li>
+	     <li>250, 0.5</li>
+	    </points>
+       </curve>
+      </li>
+      <li Class="RitualOutcomeComp_RitualTargetDefs">
+        <defs>
+          <li>Ideogram</li>
+        </defs>
+        <allowAltars>true</allowAltars>
+        <autoApplyInClassicMode>true</autoApplyInClassicMode>
+        <label>started at altar or ideogram</label>
+        <qualityOffset>0.3</qualityOffset>
+        <expectedThingLabelTip>an altar or an ideogram</expectedThingLabelTip>
+      </li>
+    </comps>
+  </value>
+</Operation>
+
+</Patch>
