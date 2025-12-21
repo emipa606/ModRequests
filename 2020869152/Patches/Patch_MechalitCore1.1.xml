@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Mechalit Core 1.1</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <!--Patch for Players-->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/RoyalTitleDef[defName="Esquire" or defName="Knight" or defName="Praetor"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="DoubleBed"]</xpath>
+          <value>
+            <li>EliteDoubleBed</li>
+            <li>FirstClassBed</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/RoyalTitleDef[defName="Baron" or defName="Count"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="RoyalBed"]</xpath>
+          <value>
+            <li>FirstClassBed</li>
+          </value>
+        </li>
+        <!--Patch for NPCs-->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/RoyalTitleDef[@Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="RoyalBed"]</xpath>
+          <value>
+            <li>FirstClassBed</li>
+          </value>
+        </li>
+        <!--Checked for present Dresser and end table-->
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/RoyalTitleDef[defName="Knight" or defName="Praetor" or defName="Baron" or defName="Count"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="Dresser"]</xpath>
+          <nomatch Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+              <li Class="PatchOperationRemove">
+                <xpath>/Defs/RoyalTitleDef[defName="Knight" or defName="Praetor" or defName="Baron" or defName="Count"]/bedroomRequirements/li[@Class="RoomRequirement_Thing" and thingDef="Dresser"]</xpath>
+              </li>
+              <li Class="PatchOperationRemove">
+                <xpath>/Defs/RoyalTitleDef[@Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class="RoomRequirement_Thing" and thingDef="Dresser"]</xpath>
+              </li>
+              <li Class="PatchOperationAdd">
+                <xpath>/Defs/RoyalTitleDef[defName="Knight" or defName="Praetor" or defName="Baron" or defName="Count"]/bedroomRequirements</xpath>
+                <value>
+                  <li Class="RoomRequirement_ThingAnyOf">
+                    <things>
+                      <li>Dresser</li>
+                      <li>EliteDresserMeh</li>
+                    </things>
+                  </li>
+                </value>
+              </li>
+              <li Class="PatchOperationAdd">
+                <xpath>/Defs/RoyalTitleDef[@Name="BaseEmpireTitleNPC"]/bedroomRequirements</xpath>
+                <value>
+                  <li Class="RoomRequirement_ThingAnyOf">
+                    <things>
+                      <li>Dresser</li>
+                      <li>EliteDresserMeh</li>
+                    </things>
+                  </li>
+                </value>
+              </li>
+            </operations>
+          </nomatch>
+          <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+              <li Class="PatchOperationAdd">
+                <xpath>/Defs/RoyalTitleDef[defName="Knight" or defName="Praetor" or defName="Baron" or defName="Count"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="Dresser"]</xpath>
+                <value>
+                  <li>EliteDresserMeh</li>
+                </value>
+              </li>
+            </operations>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/RoyalTitleDef[@ParentName="BaseEmpireTitlePsycaster" and defName="Duke"]</xpath>
+          <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+              <li Class="PatchOperationAdd">
+                <xpath>/Defs/RoyalTitleDef[@ParentName="BaseEmpireTitlePsycaster" and defName="Duke" or defName="Consul" or defName="Stellarch" or defName="Emperor"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="RoyalBed"]</xpath>
+                <value>
+                  <li>FirstClassBed</li>
+                </value>
+              </li>
+              <li Class="PatchOperationConditional">
+                <xpath>/Defs/RoyalTitleDef[@ParentName="BaseEmpireTitlePsycaster" and defName="Duke" or defName="Consul" or defName="Stellarch" or defName="Emperor"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="Dresser"]</xpath>
+                <nomatch Class="PatchOperationSequence">
+                  <success>Always</success>
+                  <operations>
+                    <li Class="PatchOperationRemove">
+                      <xpath>/Defs/RoyalTitleDef[@ParentName="BaseEmpireTitlePsycaster" and defName="Duke" or defName="Consul" or defName="Stellarch" or defName="Emperor"]/bedroomRequirements/li[@Class="RoomRequirement_Thing" and thingDef="Dresser"]</xpath>
+                    </li>
+                    <li Class="PatchOperationAdd">
+                      <xpath>/Defs/RoyalTitleDef[@ParentName="BaseEmpireTitlePsycaster" and defName="Duke" or defName="Consul" or defName="Stellarch" or defName="Emperor"]/bedroomRequirements</xpath>
+                      <value>
+                        <li Class="RoomRequirement_ThingAnyOf">
+                          <things>
+                            <li>Dresser</li>
+                            <li>EliteDresserMeh</li>
+                          </things>
+                        </li>
+                      </value>
+                    </li>
+                  </operations>
+                </nomatch>
+                <match Class="PatchOperationSequence">
+                  <success>Always</success>
+                  <operations>
+                    <li Class="PatchOperationAdd">
+                      <xpath>/Defs/RoyalTitleDef[@ParentName="BaseEmpireTitlePsycaster" and defName="Duke" or defName="Consul" or defName="Stellarch" or defName="Emperor"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="Dresser"]</xpath>
+                      <value>
+                        <li>EliteDresserMeh</li>
+                      </value>
+                    </li>
+                  </operations>
+                </match>
+              </li>
+            </operations>
+          </match>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>
