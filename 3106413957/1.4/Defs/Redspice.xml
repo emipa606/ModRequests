@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<ThingDef ParentName="DrugBase">
+    <defName>SD_Redspice</defName>
+    <label>redspice</label>
+    <description>A spicy red powder made by grinding up bull's horns. It's tangy and sour, but it's real use is in removing the nauseating effects of hangovers, with a quick snort it can quickly nullify any sickness created by stoneborn alcohols. Barrels of redspice are often found inside of taverns and mead halls, especially after feasts.</description>
+    <descriptionHyperlinks>
+      <HediffDef>SD_RedspiceHigh</HediffDef>
+      <HediffDef>SD_RedspiceAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Redspice</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>0.90</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+      <MarketValue>36</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.70</joy>
+      <drugCategory>Medical</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>100</baseIngestTicks>
+      <ingestSound>Ingest_Snort</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Snort {0}</ingestCommandString>
+      <ingestReportString>Snorting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SD_RedspiceHigh</hediffDef>
+          <severity>1.0</severity>
+          <toleranceChemical>SD_RedspiceChem</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Food</need>
+          <offset>0.2</offset>
+          <toleranceChemical>SD_RedspiceChem</toleranceChemical>
+        </li>
+        <li Class="StonebornDelights.IngestionOutcomeDoer_RemoveHangover"/>
+      </outcomeDoers>
+      </ingestible>
+      <recipeMaker>
+        <researchPrerequisite>PsychiteRefining</researchPrerequisite>
+        <recipeUsers>
+          <li>DrugLab</li>
+        </recipeUsers>
+        <soundWorking>Recipe_Drug</soundWorking>
+      </recipeMaker>
+      <costList>
+        <SD_RawBullHorns>8</SD_RawBullHorns>
+      </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>SD_RedspiceChem</chemical>
+        <addictiveness>0.005</addictiveness>
+        <existingAddictionSeverityOffset>0.12</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+        <listOrder>200</listOrder>
+        <overdoseSeverityOffset>0.02~0.15</overdoseSeverityOffset>
+        <largeOverdoseChance>0</largeOverdoseChance>
+      </li>
+    </comps>
+</ThingDef> 
+
+    <HediffDef>
+        <defName>SD_RedspiceHigh</defName>
+        <hediffClass>Hediff_High</hediffClass>
+        <label>redspice high</label>
+        <labelNoun>a redspice high</labelNoun>
+        <description>Redspice flowing through the bloodstream and respritory system. Improves breathing and removes hangovers the user is suffering from.</description>
+        <defaultLabelColor>(1, 0.2, 0.2)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <maxSeverity>1.0</maxSeverity>
+        <isBad>false</isBad>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-4</severityPerDay>
+            <showHoursToRecover>true</showHoursToRecover>
+          </li>
+        </comps>
+          <stages>
+            <li>
+              <painOffset>0.10</painOffset>
+              <capMods>
+                <li>
+                  <capacity>Breathing</capacity>
+                  <offset>0.25</offset>
+                </li>
+              </capMods>
+            </li>
+          </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_RedspiceHighThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_RedspiceHigh</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <label>spiced up</label>
+            <description>Ooh boy, I can smell colors.</description>
+            <baseMoodEffect>5</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+
+  <ChemicalDef>
+    <defName>SD_RedspiceChem</defName>
+    <label>redspice</label>
+    <addictionHediff>SD_RedspiceAddiction</addictionHediff>
+    <geneOverdoseChanceFactorResist>0.4</geneOverdoseChanceFactorResist>
+    <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>SD_ChemicalNeedRedspice</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>redspice</label>
+    <description>Allan, please add details.</description>
+    <fallPerDay>0.4</fallPerDay>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>SD_RedspiceAddiction</defName>
+    <label>redspice hunger</label>
+    <description>A chemical addiction to redspice. Long-term presence of redspice has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of redspice, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>SD_ChemicalNeedRedspice</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.075</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <painFactor>1</painFactor>
+        <hungerRateFactorOffset>0.8</hungerRateFactorOffset>
+        <statOffsets>
+          <RestFallRateFactor>1.4</RestFallRateFactor>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_Food</mentalState>
+            <mtbDays>15</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SD_RedspiceWithdrawalThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SD_RedspiceAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>stuffy nose</label>
+        <description>I need something to clear my nose! I need redspice!</description>
+        <baseMoodEffect>-25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

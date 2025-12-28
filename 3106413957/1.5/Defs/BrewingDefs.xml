@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+<!-- Generic Chemical Def -->
+
+  <ChemicalDef>
+    <defName>SD_DwarvenDrink</defName>
+    <label>dwarven brews</label>
+    <addictionHediff>SD_DwarvenBrewAddiction</addictionHediff>
+    <toleranceHediff>SD_DwarvenBrewTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.11</onGeneratedAddictedToleranceChance>
+    <onGeneratedAddictedEvents>
+      <li>
+        <hediff>Cirrhosis</hediff>
+        <chance>0.25</chance>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>SD_Chemical_DwarvenDrink</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>dwarven brews</label>
+    <description>Because of an addiction to dwarven alcohols, this person needs to regularly consume them to avoid withdrawal symptoms.</description>
+    <listPriority>35</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>SD_DwarvenBrewTolerance</defName>
+    <label>dwarven brew tolerance</label>
+    <description>A built-up tolerance to all dwarven alcohols. The more severe this tolerance is, the more it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.016</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>SD_DwarvenDrink</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>SD_DwarvenBrewAddiction</defName>
+    <label>dwarven brew addiction</label>
+    <description>A chemical addiction to various dwarven brews. Their long-term presence has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>SD_Chemical_DwarvenDrink</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0245</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <socialFightChanceFactor>2.2</socialFightChanceFactor>
+        <statFactors>
+          <WorkSpeedGlobal>0.8</WorkSpeedGlobal>
+        </statFactors>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.6</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>SD_DwarvenBrewWithdrawalThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SD_DwarvenBrewAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>missing the kick</label>
+        <description>There's just nothing quite like a good ol' drink. I don't feel like doing anythin'..</description>
+        <baseMoodEffect>-32</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+<!-- Process Defs -->
+
+<ProcessorFramework.ProcessDef>
+  <defName>SD_ShroomaleBrewing</defName>
+  <thingDef>SD_ShroomAle</thingDef>
+  <ingredientFilter>
+    <thingDefs>
+      <li>SD_RawStoutcap</li>
+    </thingDefs>
+  </ingredientFilter>
+  <processDays>15</processDays> <!-- in days, a day is 60,000 ticks -->
+  <capacityFactor>0.5</capacityFactor>
+  <efficiency>0.5</efficiency>
+  <usesTemperature>true</usesTemperature>
+  <temperatureSafe>2~25</temperatureSafe>
+  <temperatureIdeal>7~13</temperatureIdeal>
+  <ruinedPerDegreePerHour>2.5</ruinedPerDegreePerHour> <!-- percent per degree per hour -->
+  <speedBelowSafe>0.4</speedBelowSafe>
+  <speedAboveSafe>1.0</speedAboveSafe>
+  <sunFactor>1.0~1.0</sunFactor>
+  <rainFactor>1.0~1.0</rainFactor>
+  <snowFactor>1.0~1.0</snowFactor>
+  <windFactor>1.0~1.0</windFactor>
+  <unfueledFactor>0.0</unfueledFactor>
+  <fuelUseFactor>1.0</fuelUseFactor>
+  <filledGraphicSuffix>_ale</filledGraphicSuffix>
+  <usesQuality>false</usesQuality>
+  <customLabel>Brewed</customLabel>
+  <destroyChance>0.0</destroyChance>
+  <bonusOutputs>
+    <SD_Fey>(0.1, 1)</SD_Fey>
+  </bonusOutputs>
+</ProcessorFramework.ProcessDef>
+
+<ProcessorFramework.ProcessDef>
+  <defName>SD_SweetwineBrewing</defName>
+  <thingDef>SD_Sweetwine</thingDef>
+  <ingredientFilter>
+    <thingDefs>
+      <li>ChunkGlimmer</li>
+    </thingDefs>
+  </ingredientFilter>
+  <processDays>30</processDays> <!-- in days, a day is 60,000 ticks -->
+  <capacityFactor>10</capacityFactor>
+  <efficiency>10</efficiency>
+  <usesTemperature>true</usesTemperature>
+  <temperatureSafe>10~44</temperatureSafe>
+  <temperatureIdeal>20~32</temperatureIdeal>
+  <ruinedPerDegreePerHour>3.5</ruinedPerDegreePerHour> <!-- percent per degree per hour -->
+  <speedBelowSafe>0.2</speedBelowSafe>
+  <speedAboveSafe>1.0</speedAboveSafe>
+  <sunFactor>1.0~1.0</sunFactor>
+  <rainFactor>1.0~1.0</rainFactor>
+  <snowFactor>1.0~1.0</snowFactor>
+  <windFactor>1.0~1.0</windFactor>
+  <unfueledFactor>0.0</unfueledFactor>
+  <fuelUseFactor>1.0</fuelUseFactor>
+  <filledGraphicSuffix>_wine</filledGraphicSuffix>
+  <usesQuality>false</usesQuality>
+  <customLabel>added</customLabel>
+  <destroyChance>0.0</destroyChance>
+  <bonusOutputs>
+    <SD_Fey>(0.1, 1)</SD_Fey>
+  </bonusOutputs>
+</ProcessorFramework.ProcessDef>
+
+<ProcessorFramework.ProcessDef>
+  <defName>SD_ElixirBrewing</defName>
+  <thingDef>SD_RageElixir</thingDef>
+  <ingredientFilter>
+    <thingDefs>
+      <li>SD_ElixirMush</li>
+    </thingDefs>
+  </ingredientFilter>
+  <processDays>15</processDays> <!-- in days, a day is 60,000 ticks -->
+  <capacityFactor>1</capacityFactor>
+  <efficiency>0.5</efficiency>
+  <usesTemperature>true</usesTemperature>
+  <temperatureSafe>0~24</temperatureSafe>
+  <temperatureIdeal>4~12</temperatureIdeal>
+  <ruinedPerDegreePerHour>2.5</ruinedPerDegreePerHour> <!-- percent per degree per hour -->
+  <speedBelowSafe>0.3</speedBelowSafe>
+  <speedAboveSafe>1.0</speedAboveSafe>
+  <sunFactor>1.0~1.0</sunFactor>
+  <rainFactor>1.0~1.0</rainFactor>
+  <snowFactor>1.0~1.0</snowFactor>
+  <windFactor>1.0~1.0</windFactor>
+  <unfueledFactor>0.0</unfueledFactor>
+  <fuelUseFactor>1.0</fuelUseFactor>
+  <filledGraphicSuffix>_elixir</filledGraphicSuffix>
+  <usesQuality>false</usesQuality>
+  <customLabel>added</customLabel>
+  <destroyChance>0.0</destroyChance>
+  <bonusOutputs>
+    <SD_Fey>(0.1, 1)</SD_Fey>
+  </bonusOutputs>
+</ProcessorFramework.ProcessDef>
+
+<ProcessorFramework.ProcessDef>
+  <defName>SD_LiquorBrewing</defName>
+  <thingDef>SD_ForgeLiquor</thingDef>
+  <ingredientFilter>
+    <thingDefs>
+      <li>SD_LiquorSmush</li>
+    </thingDefs>
+  </ingredientFilter>
+  <processDays>25</processDays> <!-- in days, a day is 60,000 ticks -->
+  <capacityFactor>3</capacityFactor>
+  <efficiency>1</efficiency>
+  <usesTemperature>true</usesTemperature>
+  <temperatureSafe>18~80</temperatureSafe>
+  <temperatureIdeal>22~40</temperatureIdeal>
+  <ruinedPerDegreePerHour>2.5</ruinedPerDegreePerHour> <!-- percent per degree per hour -->
+  <speedBelowSafe>0.3</speedBelowSafe>
+  <speedAboveSafe>1.0</speedAboveSafe>
+  <sunFactor>1.0~1.0</sunFactor>
+  <rainFactor>1.0~1.0</rainFactor>
+  <snowFactor>1.0~1.0</snowFactor>
+  <windFactor>1.0~1.0</windFactor>
+  <unfueledFactor>0.0</unfueledFactor>
+  <fuelUseFactor>1.0</fuelUseFactor>
+  <filledGraphicSuffix>_liquor</filledGraphicSuffix>
+  <usesQuality>false</usesQuality>
+  <customLabel>added</customLabel>
+  <destroyChance>0.0</destroyChance>
+  <bonusOutputs>
+    <SD_Fey>(0.1, 1)</SD_Fey>
+  </bonusOutputs>
+</ProcessorFramework.ProcessDef>
+
+<ProcessorFramework.ProcessDef>
+  <defName>SD_MeadBrewing</defName>
+  <thingDef>SD_HiveMead</thingDef>
+  <ingredientFilter>
+    <thingDefs>
+      <li>InsectJelly</li>
+    </thingDefs>
+  </ingredientFilter>
+  <processDays>18</processDays> <!-- in days, a day is 60,000 ticks -->
+  <capacityFactor>0.5</capacityFactor>
+  <efficiency>0.5</efficiency>
+  <usesTemperature>true</usesTemperature>
+  <temperatureSafe>10~32</temperatureSafe>
+  <temperatureIdeal>18~24</temperatureIdeal>
+  <ruinedPerDegreePerHour>2.5</ruinedPerDegreePerHour> <!-- percent per degree per hour -->
+  <speedBelowSafe>0.3</speedBelowSafe>
+  <speedAboveSafe>1.0</speedAboveSafe>
+  <sunFactor>1.0~1.0</sunFactor>
+  <rainFactor>1.0~1.0</rainFactor>
+  <snowFactor>1.0~1.0</snowFactor>
+  <windFactor>1.0~1.0</windFactor>
+  <unfueledFactor>0.0</unfueledFactor>
+  <fuelUseFactor>1.0</fuelUseFactor>
+  <filledGraphicSuffix>_mead</filledGraphicSuffix>
+  <usesQuality>false</usesQuality>
+  <customLabel>added</customLabel>
+  <destroyChance>0.0</destroyChance>
+  <bonusOutputs>
+    <SD_Fey>(0.1, 1)</SD_Fey>
+    <Filth_BloodInsect>(1, 1)</Filth_BloodInsect>
+  </bonusOutputs>
+</ProcessorFramework.ProcessDef>
+
+
+<!-- <ThingDef ParentName="BuildingBase">
+    <defName>SD_ShroomBrewKettle</defName>
+    <label>brewing kettle</label>
+    <description>A rustic brew kettle used to brew shroom ale.</description>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <graphicData>
+      <texPath>Things/Buildings/BrewKettle</texPath>
+	  <drawSize>4.1</drawSize>
+      <graphicClass>Graphic_Single</graphicClass>
+      <damageData>
+        <rect>(0.05,0.1,0.9,0.9)</rect>
+      </damageData>
+      <shadowData>
+        <volume>(0.75, 0.35, 0.33)</volume>
+      </shadowData>
+    </graphicData>
+	<size>(2,2)</size>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.45</fillPercent>
+    <pathCost>42</pathCost>
+    <statBases>
+      <WorkToBuild>1200</WorkToBuild>
+      <Mass>14</Mass>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0</Flammability>
+    </statBases>
+	    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+	  <comps>
+  <li Class="CompProperties_Forbiddable"/>
+  <li Class="CompProperties_Refuelable">
+    <fuelConsumptionRate>80.0</fuelConsumptionRate>
+    <fuelCapacity>60.0</fuelCapacity>
+    <fuelFilter>
+      <thingDefs>
+        <li>WoodLog</li>
+      </thingDefs>
+    </fuelFilter>
+    <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+    <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+  </li>
+  <li Class="ProcessorFramework.CompProperties_Processor">
+    <capacity>100</capacity>
+    <independentProcesses>false</independentProcesses>
+    <parallelProcesses>false</parallelProcesses>
+    <dropIngredients>false</dropIngredients>
+    <showProductIcon>false</showProductIcon>
+    <barOffset>(0.0, -0.7)</barOffset>
+    <barScale>(1.2, 1.2)</barScale>
+    <colorCoded>true</colorCoded>
+    <processes>
+      <li>SD_ShroomaleBrewing</li>
+    </processes>
+  </li>
+  </comps>
+  <tickerType>Rare</tickerType>
+  <rotatable>false</rotatable>
+	<designationCategory>Production</designationCategory>
+    <uiOrder>2790</uiOrder>
+    <building>
+      <buildingTags>
+        <li>Production</li>
+      </buildingTags>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+	<costStuffCount>75</costStuffCount>
+    <researchPrerequisites>
+	   <li>ShroomAleResearch</li>
+    </researchPrerequisites>
+    <thingCategories>
+      <li>BuildingsProduction</li>
+    </thingCategories>
+  </ThingDef>
+-->
+
+<ThingDef ParentName="BuildingBase">
+  <defName>SD_ShroomAleBarrel</defName>
+  <label>dwarven cask</label>
+  <description>A rustic sealed keg used to brew various stoneborn alcohols.</description>
+  <drawerType>MapMeshAndRealTime</drawerType>
+  <graphicData>
+    <texPath>Things/Buildings/AleBarrel/AleCask</texPath>
+    <drawSize>2</drawSize>
+    <graphicClass>Graphic_Multi</graphicClass>
+    <damageData>
+      <rect>(0.05,0.1,0.9,0.9)</rect>
+    </damageData>
+    <shadowData>
+      <volume>(0.75, 0.35, 0.33)</volume>
+    </shadowData>
+  </graphicData>
+<size>(2,2)</size>
+<costList>
+  <WoodLog>120</WoodLog>
+  <Steel>30</Steel>
+</costList>
+  <minifiedDef>MinifiedThing</minifiedDef>
+  <defaultPlacingRot>North</defaultPlacingRot>
+  <altitudeLayer>Building</altitudeLayer>
+  <passability>PassThroughOnly</passability>
+  <fillPercent>0.45</fillPercent>
+  <pathCost>70</pathCost>
+  <statBases>
+    <WorkToBuild>1500</WorkToBuild>
+    <Mass>28</Mass>
+    <MaxHitPoints>120</MaxHitPoints>
+    <Flammability>1</Flammability>
+  </statBases>
+  <comps>
+<li Class="CompProperties_Forbiddable"/>
+<li Class="ProcessorFramework.CompProperties_Processor">
+  <capacity>30</capacity>
+  <independentProcesses>false</independentProcesses>
+  <parallelProcesses>false</parallelProcesses>
+  <dropIngredients>false</dropIngredients>
+  <showProductIcon>false</showProductIcon>
+  <barOffset>(0.0, 0.45)</barOffset>
+  <barScale>(0.3, 6)</barScale>
+  <colorCoded>true</colorCoded>
+  <processes>
+    <li>SD_ShroomaleBrewing</li>
+    <li>SD_SweetwineBrewing</li>
+    <li>SD_ElixirBrewing</li>
+    <li>SD_LiquorBrewing</li>
+    <li>SD_MeadBrewing</li>
+  </processes>
+</li>
+</comps>
+<tickerType>Rare</tickerType>
+<rotatable>true</rotatable>
+<designationCategory>Production</designationCategory>
+  <uiOrder>2790</uiOrder>
+  <building>
+    <buildingTags>
+      <li>Production</li>
+    </buildingTags>
+    <destroySound>BuildingDestroyed_Wood_Small</destroySound>
+  </building>
+  <researchPrerequisites>
+   <li>SD_DwarvenBrewing</li>
+  </researchPrerequisites>
+  <thingCategories>
+    <li>BuildingsProduction</li>
+  </thingCategories>
+</ThingDef>
+
+</Defs>

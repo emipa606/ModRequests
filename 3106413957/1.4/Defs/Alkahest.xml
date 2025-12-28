@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ThingDef ParentName="DrugBase">
+        <defName>SD_Alkahest</defName>
+        <label>alkahest</label>
+        <description>A complex mix of various chemicals, mechanites and stimulants commonly used by high ranking stoneborn. It dramatically improves focus and mental capabilities, as well as almost nullifying the need for rest. Alkahest has no lasting effects with regular dosage, but withdrawals from it can be brutally mind-numbing due to the brain adapting without the constant stimulation.\n\nAfter the first dose, there is no way to get the mechanites out, ever.\n\nDue to its frequent use by aristocrats, the sickly green color it imparts on the veins of its users, and its difficulty to obtain, the nobility and even royalty have nicknamed the drug "Emperor's Venom." Many subtle plots and brazen acts of betrayal in the upper echelons of society have been solely dedicated to obtaining even a single syringe of Alkahest.</description>
+        <descriptionHyperlinks>
+          <HediffDef>SD_AlkahestHigh</HediffDef>
+          <HediffDef>SD_AlkahestAddiction</HediffDef>
+        </descriptionHyperlinks>
+        <graphicData>
+          <texPath>Things/Alkahest</texPath>
+          <graphicClass>Graphic_StackCount</graphicClass>
+          <drawSize>0.95</drawSize>
+        </graphicData>
+        <rotatable>false</rotatable>
+        <statBases>
+          <MarketValue>75</MarketValue>
+          <Mass>0.05</Mass>
+        </statBases>
+        <techLevel>Ultra</techLevel>
+        <minRewardCount>10</minRewardCount>
+        <ingestible>
+          <foodType>Processed</foodType>
+          <drugCategory>Medical</drugCategory>
+          <baseIngestTicks>220</baseIngestTicks>
+          <ingestSound>Ingest_Inject</ingestSound>
+          <ingestCommandString>Inject {0}</ingestCommandString>
+          <ingestReportString>Injecting {0}.</ingestReportString>
+          <outcomeDoers>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+                <hediffDef>SD_GreenVeins</hediffDef>
+                <severity>0.28</severity>
+            </li>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+              <hediffDef>SD_AlkahestHigh</hediffDef>
+              <severity>1</severity>
+            </li>
+            <li Class="IngestionOutcomeDoer_OffsetNeed">
+              <need>Rest</need>
+              <offset>0.75</offset>
+            </li>
+          </outcomeDoers>
+        </ingestible>
+        <comps>
+          <li Class="CompProperties_Drug">
+            <chemical>SD_Alkahest</chemical>
+            <addictiveness>1.00</addictiveness>
+            <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+            <needLevelOffset>0.9</needLevelOffset>
+            <isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+            <listOrder>1009</listOrder>
+          </li>
+        </comps>
+        <tradeTags>
+            <li>ExoticMisc</li>
+        </tradeTags>
+        <allowedArchonexusCount>12</allowedArchonexusCount>
+      </ThingDef>
+    
+      <HediffDef>
+        <defName>SD_AlkahestHigh</defName>
+        <label>alkahest</label>
+        <labelNoun>an alkahest high</labelNoun>
+        <description>Active alkahest mechanites in the body. They improve the brain's functions. However, if they are not regularly replenished with more injections of alkahest, they lose cohesion and confuse and lower mental capabilities.</description>
+        <hediffClass>Hediff_High</hediffClass>
+        <defaultLabelColor>(1,1,0.5)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <maxSeverity>1.0</maxSeverity>
+        <isBad>false</isBad>
+          <stages>
+            <li>
+              <statOffsets>
+                <RestFallRateFactor>-0.45</RestFallRateFactor>
+                <SocialImpact>0.70</SocialImpact>
+                <NegotiationAbility>0.20</NegotiationAbility>
+              </statOffsets>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <postFactor>1.15</postFactor>
+                </li>
+              </capMods>
+            </li>
+          </stages>
+      </HediffDef>
+      
+      <!-- Alkahest addiction -->
+      
+      <ChemicalDef>
+        <defName>SD_Alkahest</defName>
+        <label>alkahest</label>
+        <addictionHediff>SD_AlkahestAddiction</addictionHediff>
+        <canBinge>true</canBinge>
+        <generateAddictionGenes>false</generateAddictionGenes>
+      </ChemicalDef>
+      
+      <NeedDef ParentName="DrugAddictionNeedBase">
+        <defName>SD_Chemical_Alkahest</defName>
+        <needClass>Need_Chemical</needClass>
+        <label>alkahest</label>
+        <description>This person's body is enhanced by alkahest mechanites.\n\nWithout regular injections of alkahest, the mechanites will lose cohesion. If this happens, the user becomes dizzy, lost and confused.\n\nThis addiction never goes away.</description>
+        <listPriority>50</listPriority>
+        <fallPerDay>0.30</fallPerDay>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+      </NeedDef>
+      
+      <HediffDef ParentName="AddictionBase">
+        <defName>SD_AlkahestAddiction</defName>
+        <label>alkahest thirst</label>
+        <description>Alkahest mechanites in the body. Alkahest mechanites decohere over time; only regular doses of fresh alkahest can prevent this process.
+    \nWithout alkahest , the mechanite decoherence will reach a critical state, causing the victim to lose themselves.</description>
+        <hediffClass>Hediff_Addiction</hediffClass>
+        <causesNeed>SD_Chemical_Alkahest</causesNeed>
+        <everCurableByItem>false</everCurableByItem>
+        <stages>
+          <li>
+          </li>
+          <li>
+            <label>unquenched</label>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <setMax>0.8</setMax>
+              </li>   
+              <li>
+                <capacity>Talking</capacity>
+                <setMax>0.7</setMax>
+              </li>        
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.40</offset>
+              </li>
+              <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.50</offset>
+              </li>
+            </capMods>
+            <mentalStateGivers>
+              <li>
+                <mentalState>WanderConfused</mentalState>
+                <mtbDays>0.4</mtbDays>
+              </li>
+            </mentalStateGivers>
+          </li>
+        </stages>
+      </HediffDef>
+
+      <ThoughtDef>
+        <defName>SD_AlkahestWithdrawalThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_AlkahestAddiction</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <visible>false</visible>
+          </li>
+          <li>
+            <label>alkahest thirst</label>
+            <description>I need it.. I can't think.. I can't do anything....</description>
+            <baseMoodEffect>-10</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+
+      <HediffDef>
+        <defName>SD_GreenVeins</defName>
+        <defaultLabelColor>(0,1,0.2)</defaultLabelColor>
+        <hediffClass>HediffWithComps</hediffClass>
+        <label>green veins</label>
+        <description>Due to a constant intake of Alkahest, residual mechanites have built up against the vascular walls, coloring the veins with a rather unattractive bright green.</description>
+        <maxSeverity>1.0</maxSeverity>
+        <everCurableByItem>true</everCurableByItem>
+        <comps>
+            <li Class="HediffCompProperties_SeverityPerDay">
+                <severityPerDay>-0.15</severityPerDay>
+            </li>
+        </comps>
+        <stages>
+            <li>
+              <minSeverity>0.15</minSeverity>
+              <label>discreet</label>
+              <statOffsets>
+                <SocialImpact>-0.2</SocialImpact>
+              </statOffsets>
+            </li>
+            <li>
+              <minSeverity>0.50</minSeverity>
+              <label>visible</label>
+              <statOffsets>
+                <SocialImpact>-0.4</SocialImpact>
+              </statOffsets>
+            </li>
+            <li>
+              <minSeverity>0.75</minSeverity>
+              <label>prominent</label>
+              <statOffsets>
+                  <SocialImpact>-0.6</SocialImpact>
+                </statOffsets>
+            </li>
+        </stages>
+      </HediffDef>
+    
+</Defs>

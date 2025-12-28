@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ThingDef ParentName="DrugBase">
+        <defName>SD_RageElixir</defName>
+        <label>rage elixir</label>
+        <description>A chemical mix concocted by stoneborn chemists that fills the mind with images of anger and death, turning even the most peaceful people into raging maniacs that faun at the idea of murdering everyone around them.\n\The elixir has unique numbing properties that disconnect a large majority of pain receptors, allowing the users to stay in the battle longer, this and the decent healing effects of the solution create the perfect cocktail for melee warriors and berserkers alike, or a risky health boost for wounded soldiers.</description>
+        <descriptionHyperlinks>
+          <HediffDef>SD_ElixirHigh</HediffDef>
+          <HediffDef>SD_DwarvenBrewTolerance</HediffDef>
+          <HediffDef>SD_DwarvenBrewAddiction</HediffDef>
+          <HediffDef>SD_HeavyHangover</HediffDef>
+        </descriptionHyperlinks>
+        <graphicData>
+          <texPath>Things/RageElixir</texPath>
+          <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+        <rotatable>false</rotatable>
+        <statBases>
+          <WorkToMake>1000</WorkToMake>
+          <MarketValue>36</MarketValue>
+          <Mass>0.1</Mass>
+        </statBases>
+        <stackLimit>25</stackLimit>
+        <techLevel>Industrial</techLevel>
+        <ingestible>
+          <joyKind>Chemical</joyKind>
+          <joy>0.15</joy>
+          <drugCategory>Hard</drugCategory>
+          <foodType>Processed, Fluid</foodType>
+          <baseIngestTicks>80</baseIngestTicks>
+          <ingestSound>Ingest_Inject</ingestSound>
+          <ingestHoldOffsetStanding>
+            <northDefault>
+              <offset>(0.18,0,0)</offset>
+            </northDefault>
+          </ingestHoldOffsetStanding>
+          <ingestCommandString>Drink {0}</ingestCommandString>
+          <ingestReportString>Drinking {0}.</ingestReportString>
+          <useEatingSpeedStat>false</useEatingSpeedStat>
+          <chairSearchRadius>0</chairSearchRadius>
+          <outcomeDoers>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+              <hediffDef>SD_ElixirHigh</hediffDef>
+              <severity>0.20</severity>
+              <toleranceChemical>SD_DwarvenDrink</toleranceChemical>
+            </li>
+            <li Class="IngestionOutcomeDoer_OffsetNeed">
+              <need>Food</need>
+              <offset>0.4</offset>
+              <toleranceChemical>SD_DwarvenDrink</toleranceChemical>
+            </li>
+          </outcomeDoers>
+          </ingestible>
+        <comps>
+          <li Class="CompProperties_Drug">
+            <chemical>SD_DwarvenDrink</chemical>
+            <addictiveness>0.016</addictiveness>
+            <existingAddictionSeverityOffset>0.32</existingAddictionSeverityOffset>
+            <needLevelOffset>0.8</needLevelOffset>
+            <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+            <listOrder>200</listOrder>
+            <overdoseSeverityOffset>0.09~0.35</overdoseSeverityOffset>
+            <largeOverdoseChance>0.005</largeOverdoseChance>
+          </li>
+        </comps>
+      </ThingDef>
+      
+      <HediffDef>
+        <defName>SD_ElixirHigh</defName>
+        <hediffClass>Hediff_High</hediffClass>
+        <label>high on rage elixir</label>
+        <labelNoun>a rage elixir high</labelNoun>
+        <description>Rage elixir in the bloodstream. It fills the user's mind with gruesome imagery, but also enhances natural healing.</description>
+        <defaultLabelColor>(1,0,0.1)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <maxSeverity>1.0</maxSeverity>
+        <isBad>false</isBad>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-1.5</severityPerDay>
+            <showHoursToRecover>true</showHoursToRecover>
+          </li>
+          <li Class="StonebornDelights.HediffCompProperties_Hangover">
+            <hangover>SD_HeavyHangover</hangover>
+            <minHangoverStage>3</minHangoverStage>
+          </li>
+        </comps>
+          <stages>
+            <li>
+              <label>annoyed</label>
+              <minSeverity>0.1</minSeverity>
+              <vomitMtbDays>2</vomitMtbDays>
+              <painOffset>-0.2</painOffset>
+              <naturalHealingFactor>1.1</naturalHealingFactor>
+              <totalBleedFactor>0.95</totalBleedFactor>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.05</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>0.05</offset>
+                </li>
+              </capMods>
+              <mentalStateGivers>
+                <li>
+                  <mentalState>Berserk</mentalState>
+                  <mtbDays>20</mtbDays>
+                </li>
+              </mentalStateGivers>
+            </li>
+            <li>
+              <label>irate</label>
+              <minSeverity>0.3</minSeverity>
+              <vomitMtbDays>0.75</vomitMtbDays>
+              <statFactors>
+                <MeleeDamageFactor>1.05</MeleeDamageFactor>
+              </statFactors>
+              <painOffset>-0.3</painOffset>
+              <naturalHealingFactor>1.15</naturalHealingFactor>
+              <totalBleedFactor>0.90</totalBleedFactor>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.10</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>0.08</offset>
+                </li>
+              </capMods>
+              <mentalStateGivers>
+                <li>
+                  <mentalState>Berserk</mentalState>
+                  <mtbDays>15</mtbDays>
+                </li>
+              </mentalStateGivers>
+            </li>
+            <li>
+              <label>dangerous</label>
+              <minSeverity>0.6</minSeverity>
+              <vomitMtbDays>0.35</vomitMtbDays>
+              <statFactors>
+                <MeleeDamageFactor>1.1</MeleeDamageFactor>
+              </statFactors>
+              <painOffset>-0.4</painOffset>
+              <naturalHealingFactor>1.2</naturalHealingFactor>
+              <totalBleedFactor>0.80</totalBleedFactor>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.15</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>0.12</offset>
+                </li>
+              </capMods>
+              <mentalStateGivers>
+                <li>
+                  <mentalState>Berserk</mentalState>
+                  <mtbDays>10</mtbDays>
+                </li>
+              </mentalStateGivers>
+            </li>
+            <li>
+              <label>berserk</label>
+              <minSeverity>0.8</minSeverity>
+              <vomitMtbDays>0.2</vomitMtbDays>
+              <statFactors>
+                <MeleeDamageFactor>1.2</MeleeDamageFactor>
+              </statFactors>
+              <painOffset>-0.5</painOffset>
+              <naturalHealingFactor>1.2</naturalHealingFactor>
+              <totalBleedFactor>0.80</totalBleedFactor>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.20</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>0.15</offset>
+                </li>
+              </capMods>
+              <mentalStateGivers>
+                <li>
+                  <mentalState>Berserk</mentalState>
+                </li>
+              </mentalStateGivers>
+            </li>
+          </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_ElixirHighThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_ElixirHigh</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <label>seein' red</label>
+            <description>I feel like I could snap soon..</description>
+            <baseMoodEffect>8</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+
+    <!--
+
+      <ChemicalDef>
+        <defName>SD_Elixir</defName>
+        <label>rage elixir</label>
+        <addictionHediff>SD_ElixirAddiction</addictionHediff>
+        <geneOverdoseChanceFactorResist>0.5</geneOverdoseChanceFactorResist>
+        <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+      </ChemicalDef>
+      
+      <NeedDef ParentName="DrugAddictionNeedBase">
+        <defName>SD_Chemical_Elixir</defName>
+        <needClass>Need_Chemical</needClass>
+        <label>rage elixir</label>
+        <description>Because of a rage elixir addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+        <fallPerDay>0.455</fallPerDay>
+        <listPriority>45</listPriority>
+      </NeedDef>
+    
+      <HediffDef ParentName="AddictionBase">
+        <defName>SD_ElixirAddiction</defName>
+        <label>rage elixir addiction</label>
+        <description>A chemical addiction to rage. Long-term presence of go-juice has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+    \nWithout regular doses of go-juice, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+        <hediffClass>Hediff_Addiction</hediffClass>
+        <causesNeed>SD_Chemical_Elixir</causesNeed>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.065</severityPerDay>
+            <showDaysToRecover>true</showDaysToRecover>
+          </li>
+        </comps>
+        <stages>
+          <li>
+          </li>
+          <li>
+            <label>withdrawal</label>
+            <painFactor>1</painFactor>
+            <hungerRateFactorOffset>0.6</hungerRateFactorOffset>
+            <statOffsets>
+              <RestFallRateFactor>0.3</RestFallRateFactor>
+            </statOffsets>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>-0.20</offset>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.30</offset>
+              </li>
+              <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.10</offset>
+              </li>
+            </capMods>
+            <mentalStateGivers>
+              <li>
+                <mentalState>Binging_DrugExtreme</mentalState>
+                <mtbDays>40</mtbDays>
+              </li>
+              <li>
+                <mentalState>Binging_Food</mentalState>
+                <mtbDays>10</mtbDays>
+              </li>
+            </mentalStateGivers>
+          </li>
+        </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_ElixirWithdrawalThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_ElixirAddiction</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <visible>false</visible>
+          </li>
+          <li>
+            <label>rage elixir withdrawal</label>
+            <description>I feel so kind, too kind! It's like I can't be angry anymore.</description>
+            <baseMoodEffect>-20</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+    
+      <HediffDef ParentName="DrugToleranceBase">
+        <defName>SD_ElixirTolerance</defName>
+        <label>rage elixir tolerance</label>
+        <description>A built-up tolerance to rage elixir. The more severe this tolerance is, the more elixir it takes to get the same effect.</description>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.015</severityPerDay>
+          </li>
+          <li Class="HediffCompProperties_DrugEffectFactor">
+            <chemical>SD_Elixir</chemical>
+          </li>
+        </comps>
+        <hediffGivers>
+          <li Class="HediffGiver_RandomDrugEffect">
+            <hediff>ChemicalDamageModerate</hediff>
+            <severityToMtbDaysCurve>
+              <points>
+                <li>(0.45, 99999)</li>
+                <li>(0.5, 120)</li>
+                <li>(1, 90)</li>
+              </points>
+            </severityToMtbDaysCurve>
+            <partsToAffect>
+              <li>Brain</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </HediffDef>
+
+    -->
+
+    </Defs>

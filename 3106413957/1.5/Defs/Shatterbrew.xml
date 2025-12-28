@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <RecipeDef>
+        <defName>SD_Make_RawShatterbrew</defName>
+        <label>make raw shatterbrew</label>
+        <description>Mix stoutcap, vegetables, and meat into a very large pot of alcoholic stew.</description>
+        <jobString>Making raw shatterbrew.</jobString>
+        <workAmount>2500</workAmount>
+        <workSpeedStat>CookSpeed</workSpeedStat>
+        <effectWorking>Cook</effectWorking>
+        <soundWorking>Recipe_CookMeal</soundWorking>
+        <allowMixingIngredients>true</allowMixingIngredients>
+        <recipeUsers>
+            <li>Brewery</li>
+        </recipeUsers>
+        <ingredients>
+          <li>
+            <filter>
+              <categories>
+                <li>MeatRaw</li>
+              </categories>
+            </filter>
+            <count>10</count>
+          </li>
+          <li>
+            <filter>
+              <categories>
+                <li>PlantFoodRaw</li>
+              </categories>
+            </filter>
+            <count>10</count>
+          </li>
+          <li>
+            <filter>
+              <thingDefs>
+                <li>SD_RawStoutcap</li>
+              </thingDefs>
+            </filter>
+            <count>10</count>
+          </li>
+          <li>
+            <filter>
+                <categories>
+                  <li>StoneBlocks</li>
+                </categories>
+            </filter>
+            <count>5</count>
+          </li>
+        </ingredients>
+        <fixedIngredientFilter>
+          <categories>
+            <li>FoodRaw</li>
+            <li>StoneBlocks</li>
+          </categories>
+          <thingDefs>
+            <li>SD_RawStoutcap</li>
+          </thingDefs>
+        </fixedIngredientFilter>
+        <workSkill>Cooking</workSkill>
+        <products>
+          <SD_RawShatterbrew>1</SD_RawShatterbrew>
+        </products>
+        <displayPriority>1430</displayPriority>
+      </RecipeDef>
+
+    <ThingDef ParentName="ResourceBase">
+        <defName>SD_RawShatterbrew</defName>
+        <label>raw shatterbrew</label>
+        <description>An oversized alcoholic stew chock-full of meat, plant matter and stoutcap. It needs to be fermented for over a quadrum to be enjoyable, but when drank it functions as an entire buffet in a pot, which leaves you nicely fed, and quite tipsy. Stoneborn typically find pride in smashing the vessel after downing it's contents, hence the name, and shatterbrew drinking competitions are a common pastime in their fortresses. This specific urn isn't ready yet, and must be fermented more before being ingested.</description>
+        <graphicData>
+          <texPath>Things/Shatterbrew/Shatterbrew_fresh</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <drawSize>1.2</drawSize>
+        </graphicData>
+        <healthAffectsPrice>false</healthAffectsPrice>
+        <rotatable>false</rotatable>
+        <stackLimit>1</stackLimit>
+        <thingCategories>
+          <li>Drugs</li>
+        </thingCategories>
+        <statBases>
+          <WorkToMake>2500</WorkToMake>
+          <MarketValue>100</MarketValue>
+          <Mass>10</Mass>
+          <Flammability>0</Flammability>
+          <MaxHitPoints>120</MaxHitPoints>
+        </statBases>
+        <tickerType>Rare</tickerType>
+        <techLevel>Industrial</techLevel>
+        <comps>
+		   <li Class="VanillaCookingExpanded.CompProperties_MaturingAlcohol">
+				<daysToRotStart>18</daysToRotStart>
+				<rotDestroys>true</rotDestroys>
+				<maturingString>SD_ShatterFermenting</maturingString>
+				<maturingProperly>SD_ShatterFermentingCorrectly</maturingProperly>
+				<maturingSlowly>SD_ShatterCurrentlyRefrigerated</maturingSlowly>
+				<maturingStopped>SD_ShatterCurrentlyFrozen</maturingStopped>
+				<thingToTransformTo>SD_FermentedShatterbrew</thingToTransformTo>
+		  </li>
+        </comps>
+      </ThingDef>
+
+    <ThingDef ParentName="DrugBase">
+        <defName>SD_FermentedShatterbrew</defName>
+        <label>fermented shatterbrew</label>
+        <description>An oversized alcoholic stew chock-full of meat, plant matter and stoutcap. Fully fermented, and can be drank.</description>
+        <descriptionHyperlinks>
+          <HediffDef>SD_ShatterbrewHigh</HediffDef>
+          <HediffDef>SD_DwarvenBrewAddiction</HediffDef>
+        </descriptionHyperlinks>
+        <graphicData>
+          <texPath>Things/Shatterbrew/Shatterbrew_ready</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+          <drawSize>1.2</drawSize>
+        </graphicData>
+        <rotatable>false</rotatable>
+        <stackLimit>1</stackLimit>
+        <statBases>
+          <WorkToMake>2500</WorkToMake>
+          <MarketValue>100</MarketValue>
+          <Mass>10</Mass>
+        </statBases>
+        <techLevel>Industrial</techLevel>
+        <ingestible>
+          <joyKind>Chemical</joyKind>
+          <joy>0.20</joy>
+          <drugCategory>Hard</drugCategory>
+          <foodType>Processed, Fluid</foodType>
+          <baseIngestTicks>1000</baseIngestTicks>
+          <ingestSound>Ingest_Drink</ingestSound>
+          <ingestHoldOffsetStanding>
+            <northDefault>
+              <offset>(0.18,0,0)</offset>
+            </northDefault>
+          </ingestHoldOffsetStanding>
+          <ingestCommandString>Gulp {0}</ingestCommandString>
+          <ingestReportString>Gulping {0}.</ingestReportString>
+          <useEatingSpeedStat>true</useEatingSpeedStat>
+          <chairSearchRadius>0</chairSearchRadius>
+          <outcomeDoers>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+              <hediffDef>SD_ShatterbrewHigh</hediffDef>
+              <severity>1.0</severity>
+              <toleranceChemical>SD_DwarvenDrink</toleranceChemical>
+            </li>
+            <li Class="IngestionOutcomeDoer_OffsetNeed">
+              <need>Food</need>
+              <offset>1</offset>
+            </li>
+          </outcomeDoers>
+          </ingestible>
+        <comps>
+          <li Class="CompProperties_Drug">
+            <chemical>SD_DwarvenDrink</chemical>
+            <addictiveness>0</addictiveness>
+            <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+            <needLevelOffset>0.9</needLevelOffset>
+            <isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+            <listOrder>200</listOrder>
+            <overdoseSeverityOffset>0.02~0.15</overdoseSeverityOffset>
+            <largeOverdoseChance>0</largeOverdoseChance>
+          </li>
+        </comps>
+      </ThingDef>
+      
+      <HediffDef>
+        <defName>SD_ShatterbrewHigh</defName>
+        <hediffClass>Hediff_High</hediffClass>
+        <label>satiated by shatterbrew</label>
+        <labelNoun>a shatterbrew satiation</labelNoun>
+        <description>A stomach full of shatterbrew and a mind full of happy thoughts. Shatterbrew reduces appetite and fills the hunger meter, but the booze slows the imbiber down quite a bit.</description>
+        <defaultLabelColor>(0.8,0.9,0.9)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <maxSeverity>1.0</maxSeverity>
+        <isBad>false</isBad>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-1.1</severityPerDay>
+            <showHoursToRecover>true</showHoursToRecover>
+          </li>
+          <li Class="StonebornDelights.HediffCompProperties_Hangover">
+            <hangover>SD_LightHangover</hangover>
+            <minHangoverStage>2</minHangoverStage>
+          </li>
+        </comps>
+          <stages>
+            <li>
+              <label>fed</label>
+              <minSeverity>0.1</minSeverity>
+              <statFactors>
+                <MeleeDamageFactor>1.05</MeleeDamageFactor>
+              </statFactors>
+              <hungerRateFactorOffset>-0.1</hungerRateFactorOffset>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.5</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>-0.1</offset>
+                </li>
+              </capMods>
+            </li>
+            <li>
+              <label>full</label>
+              <minSeverity>0.4</minSeverity>
+              <statFactors>
+                <MeleeDamageFactor>1.1</MeleeDamageFactor>
+              </statFactors>
+              <hungerRateFactorOffset>-0.2</hungerRateFactorOffset>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.10</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>-0.2</offset>
+                </li>
+              </capMods>
+            </li>
+            <li>
+              <label>gorged</label>
+              <minSeverity>0.7</minSeverity>
+              <statFactors>
+                <MeleeDamageFactor>1.2</MeleeDamageFactor>
+              </statFactors>
+              <hungerRateFactorOffset>-0.4</hungerRateFactorOffset>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.15</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>-0.3</offset>
+                </li>
+              </capMods>
+            </li>
+          </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_ShatterbrewHighThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_ShatterbrewHigh</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <label>full and proud</label>
+            <description>I downed it all, you wusses!</description>
+            <baseMoodEffect>8</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+<!--
+      <ChemicalDef>
+        <defName>SD_ShatterChem</defName>
+        <label>shatterbrew</label>
+        <addictionHediff>SD_ShatterbrewAddiction</addictionHediff>
+        <geneOverdoseChanceFactorResist>0.5</geneOverdoseChanceFactorResist>
+        <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+      </ChemicalDef>
+      
+      <NeedDef ParentName="DrugAddictionNeedBase">
+        <defName>SD_Chemical_Shatterbrew</defName>
+        <needClass>Need_Chemical</needClass>
+        <label>shatterbrew need</label>
+        <description>Addiction to consuming shatterbrew</description>
+        <fallPerDay>0.505</fallPerDay>
+        <listPriority>45</listPriority>
+      </NeedDef>
+    
+      <HediffDef ParentName="AddictionBase">
+        <defName>SD_ShatterbrewAddiction</defName>
+        <label>shatterbrew hunger</label>
+        <description>An addiction to consuming shatterbrew, either from the miniscule alcohol content or a very misplaced sense of pride. The desire to consume shatterbrew is so powerful that the brain has developed a dependance on consuming copious amounts of stew. However, this addiction can be curbed after a period of not consuming shatterbrew. Make sure to keep a shatterbrew addict out of the larder in the meantime.</description>
+        <hediffClass>Hediff_Addiction</hediffClass>
+        <causesNeed>SD_Chemical_Shatterbrew</causesNeed>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.065</severityPerDay>
+            <showDaysToRecover>true</showDaysToRecover>
+          </li>
+        </comps>
+        <stages>
+          <li>
+          </li>
+          <li>
+            <label>withdrawal</label>
+            <painFactor>1</painFactor>
+            <hungerRateFactorOffset>0.6</hungerRateFactorOffset>
+            <statOffsets>
+              <RestFallRateFactor>0.3</RestFallRateFactor>
+            </statOffsets>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>-0.20</offset>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.30</offset>
+              </li>
+              <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.10</offset>
+              </li>
+            </capMods>
+            <mentalStateGivers>
+              <li>
+                <mentalState>Binging_DrugExtreme</mentalState>
+                <mtbDays>40</mtbDays>
+              </li>
+              <li>
+                <mentalState>Binging_Food</mentalState>
+                <mtbDays>10</mtbDays>
+              </li>
+            </mentalStateGivers>
+          </li>
+        </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_ShatterbrewWithdrawalThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_ShatterbrewAddiction</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <visible>false</visible>
+          </li>
+          <li>
+            <label>hungering for shatterbrew</label>
+            <description>I have a might hunger and nothing can fix it!</description>
+            <baseMoodEffect>-22</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+    
+      <HediffDef ParentName="DrugToleranceBase">
+        <defName>SD_ShatterbrewTolerance</defName>
+        <label>shatterbrew tolerance</label>
+        <description>A tolerance to consuming shatterbrew. Due to repeat use, the stomach expands so much that downing a giant jug full of stew leaves less of a mark on the consumer. This is great for winning a shatterbrew contest, but not so ideal for benefiting from the effects of shatterbrew.</description>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.030</severityPerDay>
+          </li>
+          <li Class="HediffCompProperties_DrugEffectFactor">
+            <chemical>SD_ShatterChem</chemical>
+          </li>
+        </comps>
+        <hediffGivers>
+          <li Class="HediffGiver_RandomDrugEffect">
+            <hediff>ChemicalDamageModerate</hediff>
+            <severityToMtbDaysCurve>
+              <points>
+                <li>(0.45, 99999)</li>
+                <li>(0.5, 120)</li>
+                <li>(1, 90)</li>
+              </points>
+            </severityToMtbDaysCurve>
+            <partsToAffect>
+              <li>Stomach</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </HediffDef>
+    -->
+    </Defs>

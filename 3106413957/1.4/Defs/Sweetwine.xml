@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>SD_Sweetwine</defName>
+    <label>sweetwine</label>
+    <description>A flavorful ale first homebrewed by stoneborn miners. Its ingredients make for a potent, intoxicating drink that's perfect for chasing down tavern fare. Many of its heaviest drinkers swear by their beard that it steadies their aim, usually while they slur over their own words.</description>
+    <descriptionHyperlinks>
+      <HediffDef>SD_SWHigh</HediffDef>
+      <HediffDef>SD_DwarvenBrewAddiction</HediffDef>
+      <HediffDef>SD_DwarvenBrewTolerance</HediffDef>
+      <HediffDef>SD_LightHangover</HediffDef>
+      <HediffDef>Cirrhosis</HediffDef>
+      <HediffDef>ChemicalDamageModerate</HediffDef>
+    </descriptionHyperlinks>
+    <possessionCount>2</possessionCount>
+    <graphicData>
+      <texPath>Things/Sweetwine</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <equippedAngleOffset>-150</equippedAngleOffset>
+    <rotatable>false</rotatable>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.3</DeteriorationRate>
+      <MarketValue>60</MarketValue>
+      <Mass>1</Mass>
+      <Flammability>0.2</Flammability>
+      <Nutrition>0.05</Nutrition>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.50</joy>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding/>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <tableDesired>true</tableDesired>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SD_SWHigh</hediffDef>
+          <severity>0.15</severity>
+          <toleranceChemical>SD_Glimmer</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SD_DwarvenBrewTolerance</hediffDef>
+          <severity>0.016</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+        <li Class="IngestionOutcomeDoer_OffsetNeed">
+          <need>Rest</need>
+          <offset>0.60</offset>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <equipmentType>Primary</equipmentType>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>SD_Glimmer</chemical>
+        <addictiveness>0.012</addictiveness>
+        <minToleranceToAddict>0.23</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.22</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+    </comps>
+    <weaponClasses>
+      <li>Melee</li>
+      <li>MeleeBlunt</li>
+    </weaponClasses>
+    <tools>
+      <li>
+        <label>bottle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>neck</label>
+        <capacities>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <allowedArchonexusCount>50</allowedArchonexusCount>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>SD_SWHigh</defName>
+    <label>sweetwine rush</label>
+    <labelNoun>drunkenness</labelNoun>
+    <description>Sweetwine's in the blood stream, it makes people real happy. That's all.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0.6,1)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Effecter">
+        <stateEffecter>Glimmering</stateEffecter>
+        <severityIndices>2~5</severityIndices>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.75</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+      <li Class="StonebornDelights.HediffCompProperties_Hangover">
+        <hangover>SD_HeavyHangover</hangover>
+        <minHangoverStage>3</minHangoverStage>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>warm</label>
+          <statFactors>
+            <RestFallRateFactor>0.9</RestFallRateFactor>
+          </statFactors>
+          <statOffsets>
+            <SocialImpact>0.10</SocialImpact>
+           </statOffsets>
+          <capMods>
+			      <li>
+			          <capacity>Moving</capacity>
+                <offset>0.2</offset>
+		        </li>
+          </capMods>
+        </li>
+		
+        <li>
+          <minSeverity>0.25</minSeverity>
+		  
+          <label>tipsy</label>
+          <statFactors>
+            <RestFallRateFactor>0.8</RestFallRateFactor>
+          </statFactors>
+          <statOffsets>
+            <SocialImpact>0.15</SocialImpact>
+           </statOffsets>
+          <capMods>
+			      <li>
+			          <capacity>Moving</capacity>
+                <offset>0.3</offset>
+		        </li>
+          </capMods>
+        </li>
+        <li>
+          <minSeverity>0.4</minSeverity>
+		  
+          <label>drunk</label>
+          <statFactors>
+            <RestFallRateFactor>0.7</RestFallRateFactor>
+          </statFactors>
+          <statOffsets>
+            <SocialImpact>0.20</SocialImpact>
+           </statOffsets>
+          <vomitMtbDays>0.25</vomitMtbDays>
+          <tale>Drunk</tale>
+		  
+            <capMods>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>0.4</offset>
+              </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.7</minSeverity>
+		  
+          <label>hammered</label>
+          <statFactors>
+            <RestFallRateFactor>0.6</RestFallRateFactor>
+          </statFactors>
+          <statOffsets>
+            <SocialImpact>0.25</SocialImpact>
+           </statOffsets>
+          <vomitMtbDays>0.40</vomitMtbDays>
+            <capMods>
+			      <li>
+			          <capacity>Moving</capacity>
+                <offset>0.5</offset>
+		        </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.9</minSeverity>
+          <label>blackout</label>
+          <painFactor>0.1</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.1</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>ChemicalDamageModerate</hediff>
+              <mtbDays>10</mtbDays>
+              <partsToAffect>
+                <li>Brain</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>
+  
+  <ThoughtDef>
+    <defName>SWInebriated</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SD_SWHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>zippy</label>
+        <description>Ok, this has some kick to it!</description>
+        <baseMoodEffect>14</baseMoodEffect>
+      </li>
+      <li>
+        <label>quite energetic</label>
+        <description>Ooh.. I could do this all day.</description>
+        <baseMoodEffect>18</baseMoodEffect>
+      </li>     
+      <li>
+        <label>sweet buzzed</label>
+        <description>Moore! Give me more!</description>
+        <baseMoodEffect>22</baseMoodEffect>
+      </li>
+      <li>
+        <label>hyperactive</label>
+        <description>Party all night long!</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>   
+    </stages>
+  </ThoughtDef>
+
+  <!-- Alcohol addiction -->
+  <!--
+  <ChemicalDef>
+    <defName>SD_SW</defName>
+    <label>sweetwine</label>
+    <addictionHediff>SD_SWAddiction</addictionHediff>
+    <toleranceHediff>SD_SWTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.12</onGeneratedAddictedToleranceChance>
+    <onGeneratedAddictedEvents>
+      <li>
+        <hediff>Cirrhosis</hediff>
+        <chance>0.15</chance>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>SD_Chemical_SW</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>sweetwine</label>
+    <description>Because of a sweetwine addiction, this person needs to regularly chug that sweet stuff to avoid withdrawal symptoms.</description>
+    <listPriority>35</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>SD_SWTolerance</defName>
+    <label>sweetwine tolerance</label>
+    <description>A built-up tolerance to sweetwine. The more severe this tolerance is, the more ale it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.016</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>SD_Glimmer</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Cirrhosis</hediff>
+        <severityToMtbDaysCurve>
+          <points>
+            <li>(0.45, 99999)</li>
+            <li>(0.5, 60)</li>
+            <li>(1, 45)</li>
+          </points>
+        </severityToMtbDaysCurve>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Carcinoma</hediff>
+        <severityToMtbDaysCurve>
+          <points>
+            <li>(0.45, 99999)</li>
+            <li>(0.5, 180)</li>
+            <li>(1, 150)</li>
+          </points>
+        </severityToMtbDaysCurve>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>SD_SWAddiction</defName>
+    <label>sweetwine addiction</label>
+    <description>A chemical addiction to sweetwine. Long-term intake of sweetwine has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of ale, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>SD_Chemical_SW</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0433</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <statFactors>
+          <RestFallRateFactor>1.4</RestFallRateFactor>
+        </statFactors>
+        <socialFightChanceFactor>2.5</socialFightChanceFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.2</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.4</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>-0.3</postFactor>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugMajor</mentalState>
+            <mtbDays>52</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>SD_SWWithdrawalThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SD_SWAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>ale withdrawal</label>
+        <description>I'm so tired.. so tired.. I feel like I can't do anything.</description>
+        <baseMoodEffect>-30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+-->
+</Defs>

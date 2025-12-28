@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="DrugBase">
+    <defName>SD_ShroomAle</defName>
+    <label>shroom ale</label>
+    <description>A flavorful ale first homebrewed by stoneborn miners. Its ingredients make for a potent, intoxicating drink that's perfect for chasing down tavern fare. Many of its heaviest drinkers swear by their beard that it steadies their aim, usually while they slur over their own words.</description>
+    <descriptionHyperlinks>
+      <HediffDef>SD_ShroomHigh</HediffDef>
+      <HediffDef>SD_DwarvenBrewTolerance</HediffDef>
+      <HediffDef>SD_DwarvenBrewAddiction</HediffDef>
+      <HediffDef>SD_LightHangover</HediffDef>
+      <HediffDef>Cirrhosis</HediffDef>
+      <HediffDef>ChemicalDamageModerate</HediffDef>
+    </descriptionHyperlinks>
+    <possessionCount>6</possessionCount>
+    <graphicData>
+      <texPath>Things/ShroomAle</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <equippedAngleOffset>-150</equippedAngleOffset>
+    <rotatable>false</rotatable>
+    <stackLimit>30</stackLimit>
+    <statBases>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <MarketValue>22</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0.5</Flammability>
+      <Nutrition>0.11</Nutrition>
+    </statBases>
+    <ingestible>
+      <foodType>Fluid, Processed, Liquor</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.19</joy>
+      <nurseable>true</nurseable>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Beer</ingestSound>
+      <ingestHoldOffsetStanding/>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>25</chairSearchRadius>
+      <canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+      <tableDesired>false</tableDesired>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SD_ShroomHigh</hediffDef>
+          <severity>0.15</severity>
+          <toleranceChemical>SD_DwarvenDrink</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>SD_DwarvenBrewTolerance</hediffDef>
+          <severity>0.016</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <equipmentType>Primary</equipmentType>
+    <techLevel>Neolithic</techLevel>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>SD_DwarvenDrink</chemical>
+        <addictiveness>0.012</addictiveness>
+        <minToleranceToAddict>0.23</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.22</existingAddictionSeverityOffset>
+        <needLevelOffset>0.6</needLevelOffset>
+        <listOrder>10</listOrder>
+      </li>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+    </comps>
+    <weaponClasses>
+      <li>Melee</li>
+      <li>MeleeBlunt</li>
+    </weaponClasses>
+    <tools>
+      <li>
+        <label>bottle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>neck</label>
+        <capacities>
+          <li>Poke</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <allowedArchonexusCount>50</allowedArchonexusCount>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>SD_ShroomHigh</defName>
+    <label>shroom ale high</label>
+    <labelNoun>drunkenness</labelNoun>
+    <description>Shroom ale is in the blood stream, it makes people happy, and buffs accuracy.</description>
+    <hediffClass>Hediff_High</hediffClass>
+    <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Effecter">
+        <stateEffecter>AleDrunk</stateEffecter>
+        <severityIndices>3~5</severityIndices>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.75</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+      <li Class="StonebornDelights.HediffCompProperties_Hangover">
+        <hangover>SD_LightHangover</hangover>
+        <minHangoverStage>3</minHangoverStage>
+      </li>
+    </comps>
+      <stages>
+        <li>
+          <label>warm</label>
+		  
+          <statOffsets>
+		  
+					<ShootingAccuracyPawn>2</ShootingAccuracyPawn>
+
+		   </statOffsets>	
+				
+          <socialFightChanceFactor>1.7</socialFightChanceFactor>
+            <capMods>
+              <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.02</offset>
+              </li>
+            </capMods>
+        </li>
+		
+        <li>
+          <minSeverity>0.25</minSeverity>
+		  
+          <label>tipsy</label>
+		  
+		    <statOffsets>
+			
+					<ShootingAccuracyPawn>4</ShootingAccuracyPawn>
+
+		    </statOffsets>	
+		  
+          <socialFightChanceFactor>2.7</socialFightChanceFactor>
+            <capMods>
+			   <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.05</offset>
+              </li>
+			  <li>
+			   <capacity>Moving</capacity>
+                <offset>-0.04</offset>
+		      </li>
+			  
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.4</minSeverity>
+		  
+          <label>drunk</label>
+		  
+		    <statOffsets>
+			
+					<ShootingAccuracyPawn>10</ShootingAccuracyPawn>
+
+		    </statOffsets>
+		  
+          <socialFightChanceFactor>4.0</socialFightChanceFactor>
+          <vomitMtbDays>0.45</vomitMtbDays>
+		  
+          <tale>Drunk</tale>
+		  
+            <capMods>
+              <li>
+                <capacity>Manipulation</capacity>
+                <postFactor>-0.25</postFactor>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.1</offset>
+              </li>
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.7</minSeverity>
+		  
+          <label>hammered</label>
+		  
+		  <statOffsets>
+			
+					<ShootingAccuracyPawn>15</ShootingAccuracyPawn>
+
+		    </statOffsets>	
+		  
+          <socialFightChanceFactor>4.7</socialFightChanceFactor>
+          <vomitMtbDays>0.45</vomitMtbDays>
+            <capMods>
+			   <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.32</offset>
+              </li>
+			  <li>
+			   <capacity>Moving</capacity>
+                <offset>-0.3</offset>
+		      </li>
+          
+            </capMods>
+        </li>
+        <li>
+          <minSeverity>0.9</minSeverity>
+          <label>blackout</label>
+          <painFactor>0.1</painFactor>
+          <capMods>
+            <li>
+              <capacity>Consciousness</capacity>
+              <setMax>0.1</setMax>
+            </li>
+          </capMods>
+          <hediffGivers>
+            <li Class="HediffGiver_Random">
+              <hediff>ChemicalDamageModerate</hediff>
+              <mtbDays>10</mtbDays>
+              <partsToAffect>
+                <li>Brain</li>
+              </partsToAffect>
+            </li>
+          </hediffGivers>
+        </li>
+      </stages>
+  </HediffDef>
+
+  
+  <ThoughtDef>
+    <defName>Inebriated</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SD_ShroomHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>ale warmth</label>
+        <description>I'm feeling a little bit energetic. That's good!</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+      <li>
+        <label>quite inebriated</label>
+        <description>I'm itchin' to fight something...</description>
+        <baseMoodEffect>12</baseMoodEffect>
+      </li>     
+      <li>
+        <label>drunk</label>
+        <description>I need'a gun! I need'a shoot something!</description>
+        <baseMoodEffect>18</baseMoodEffect>
+      </li>
+      <li>
+        <label>hammered</label>
+        <description>Wooo! Kill those damn insectoids! Pew pew!</description>
+        <baseMoodEffect>24</baseMoodEffect>
+      </li>   
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Alcohol addiction -->
+<!--
+  <ChemicalDef>
+    <defName>SD_Ale</defName>
+    <label>ale</label>
+    <addictionHediff>SD_AleAddiction</addictionHediff>
+    <toleranceHediff>SD_AleTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.4</onGeneratedAddictedToleranceChance>
+    <onGeneratedAddictedEvents>
+      <li>
+        <hediff>Cirrhosis</hediff>
+        <chance>0.15</chance>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </onGeneratedAddictedEvents>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>SD_Chemical_Ale</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>ale</label>
+    <description>Because of an ale addiction, this person needs to regularly consume ale to avoid withdrawal symptoms.</description>
+    <listPriority>35</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>SD_AleTolerance</defName>
+    <label>ale tolerance</label>
+    <description>A built-up tolerance to ale. The more severe this tolerance is, the more ale it takes to get the same effect.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.016</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>SD_Ale</chemical>
+      </li>
+    </comps>
+    <hediffGivers>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Cirrhosis</hediff>
+        <severityToMtbDaysCurve>
+          <points>
+            <li>(0.45, 99999)</li>
+            <li>(0.5, 60)</li>
+            <li>(1, 45)</li>
+          </points>
+        </severityToMtbDaysCurve>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+      <li Class="HediffGiver_RandomDrugEffect">
+        <hediff>Carcinoma</hediff>
+        <severityToMtbDaysCurve>
+          <points>
+            <li>(0.45, 99999)</li>
+            <li>(0.5, 180)</li>
+            <li>(1, 150)</li>
+          </points>
+        </severityToMtbDaysCurve>
+        <partsToAffect>
+          <li>Liver</li>
+        </partsToAffect>
+      </li>
+    </hediffGivers>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>SD_AleAddiction</defName>
+    <label>ale addiction</label>
+    <description>A chemical addiction to ale. Long-term presence of ale has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of ale, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <causesNeed>SD_Chemical_Ale</causesNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.0333</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>withdrawal</label>
+        <socialFightChanceFactor>2.0</socialFightChanceFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <postFactor>0.5</postFactor>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugMajor</mentalState>
+            <mtbDays>40</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>SD_AleWithdrawalThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>SD_AleAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>ale withdrawal</label>
+        <description>Feeling shaky. Everything pisses me off. I keep thinking of drinking.. and guns.</description>
+        <baseMoodEffect>-35</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+-->
+</Defs>

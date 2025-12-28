@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BaseFilth">
+    <defName>Filth_Glimmerquartz</defName>
+    <label>glimmer rubble</label>
+    <graphicData>
+      <texPath>Things/GlimmerMisc/GlimmerquartzFilth</texPath>
+    </graphicData>
+    <filth>
+      <disappearsInDays>45~50</disappearsInDays>
+      <cleaningWorkToReduceThickness>35</cleaningWorkToReduceThickness>
+    </filth>
+  </ThingDef>
+  
+
+    <ThingDef ParentName="RockBase">
+        <defName>SD_GlimmerquartzOre</defName>
+        <label>glimmerquartz</label>
+        <description>A bright, pinkish crystal. The sun filters through it, basking the ground around it in a beautiful pink.</description>
+        <graphicData>
+          <texPath>Things/GlimmerMisc/GlimmerquartzWalls/AtlasA</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <filthLeaving>Filth_Glimmerquartz</filthLeaving>
+        <statBases>
+          <MaxHitPoints>250</MaxHitPoints>
+        </statBases>
+        <building>
+         <isResourceRock>true</isResourceRock>
+          <mineableThing>ChunkGlimmer</mineableThing>
+          <mineableDropChance>0.25</mineableDropChance>
+          <mineableScatterCommonality>0.40</mineableScatterCommonality> <!-- SUGAAAAAAAAAHHHHHH -->
+          <mineableScatterLumpSizeRange>7~11</mineableScatterLumpSizeRange>
+        </building>
+      </ThingDef>
+
+
+      <ThingDef ParentName="ChunkBase">
+        <defName>ChunkGlimmer</defName>
+        <label>glimmerquartz chunk</label>
+        <description>A chunk of glimmer. Can be cut into valuable crystals.</description>
+        <graphicData>
+          <texPath>Things/GlimmerMisc/GlimmerquartzChunks</texPath>
+          <graphicClass>Graphic_Random</graphicClass>
+          <flipExtraRotation>80</flipExtraRotation>
+        </graphicData>
+        <thingCategories>
+          <li>StoneChunks</li>
+        </thingCategories>
+        <statBases>
+          <Mass>14</Mass>
+          <Beauty>0</Beauty>
+          <BeautyOutdoors>0</BeautyOutdoors>
+          <Cleanliness>-1</Cleanliness>
+        </statBases>
+        <soundDrop>ChunkRock_Drop</soundDrop>
+        <butcherProducts>
+          <SD_Glimmerquartz>20</SD_Glimmerquartz>
+        </butcherProducts>
+      </ThingDef>
+
+      <RecipeDef ParentName="MakeStoneBlocksBase">
+        <defName>Make_GlimmerCrystals</defName>
+        <label>cut up glimmerquartz chunks</label>
+        <description>Cuts glimmerquartz chunks into bite-size pieces.</description>
+        <ingredients>
+          <li>
+            <filter>
+              <thingDefs>
+                <li>ChunkGlimmer</li>
+              </thingDefs>
+            </filter>
+            <count>1</count>
+          </li>
+        </ingredients>
+        <fixedIngredientFilter>
+          <thingDefs>
+            <li>ChunkGlimmer</li>
+          </thingDefs>
+        </fixedIngredientFilter>
+        <products>
+          <SD_Glimmerquartz>20</SD_Glimmerquartz>
+        </products>
+      </RecipeDef>
+
+    <ThingDef ParentName="DrugBase">
+        <defName>SD_Glimmerquartz</defName>
+        <label>glimmerquartz</label>
+        <description>A small crystal of glimmerquartz, cut from a chunk to a more edible size. The chemical makeup of glimmerquartz makes it a highly potent stimulant that gives anyone who consumes it an feeling of euphoria and an overabundance of energy, so much so that the person would much prefer to run around and burn said energy rather than sit and do work. It is also a very pleasant sweetener, making it useful for certain stoneborn recipes. Entire stoneborn mining operations are dedicated to extracting these sugary crystals for consumption and processing.</description>
+        <descriptionHyperlinks>
+          <HediffDef>SD_GlimmerHigh</HediffDef>
+          <HediffDef>SD_GlimmerAddiction</HediffDef>
+        </descriptionHyperlinks>
+        <graphicData>
+          <texPath>Things/Glimmerquartz</texPath>
+          <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+        <rotatable>false</rotatable>
+        <statBases>
+          <MarketValue>10</MarketValue>
+          <Mass>0.1</Mass>
+        </statBases>
+        <deepCommonality>0.6</deepCommonality>
+        <deepCountPerPortion>8</deepCountPerPortion>
+        <deepLumpSizeRange>4~6</deepLumpSizeRange>
+        <techLevel>Industrial</techLevel>
+        <ingestible>
+          <joyKind>Chemical</joyKind>
+          <joy>0.70</joy>
+          <drugCategory>Hard</drugCategory>
+          <foodType>Processed</foodType>
+          <baseIngestTicks>80</baseIngestTicks>
+          <ingestSound>Meal_Eat</ingestSound>
+          <ingestHoldOffsetStanding>
+            <northDefault>
+              <offset>(0.18,0,0)</offset>
+            </northDefault>
+          </ingestHoldOffsetStanding>
+          <ingestCommandString>Chumble {0}</ingestCommandString>
+          <ingestReportString>Chumbling {0}.</ingestReportString>
+          <useEatingSpeedStat>false</useEatingSpeedStat>
+          <chairSearchRadius>0</chairSearchRadius>
+          <outcomeDoers>
+            <li Class="IngestionOutcomeDoer_GiveHediff">
+              <hediffDef>SD_GlimmerHigh</hediffDef>
+              <severity>1.0</severity>
+              <toleranceChemical>SD_Glimmer</toleranceChemical>
+            </li>
+            <li Class="IngestionOutcomeDoer_OffsetNeed">
+              <need>Food</need>
+              <offset>0.2</offset>
+              <toleranceChemical>SD_Glimmer</toleranceChemical>
+            </li>
+          </outcomeDoers>
+          </ingestible>
+        <comps>
+          <li Class="CompProperties_Drug">
+            <chemical>SD_Glimmer</chemical>
+            <addictiveness>0.025</addictiveness>
+            <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+            <needLevelOffset>0.9</needLevelOffset>
+            <isCombatEnhancingDrug>false</isCombatEnhancingDrug>
+            <listOrder>200</listOrder>
+            <overdoseSeverityOffset>0.09~0.25</overdoseSeverityOffset>
+            <largeOverdoseChance>0.002</largeOverdoseChance>
+          </li>
+        </comps>
+      </ThingDef>
+      
+      <HediffDef>
+        <defName>SD_GlimmerHigh</defName>
+        <hediffClass>Hediff_High</hediffClass>
+        <label>glimmer rush</label>
+        <labelNoun>a glimmer high</labelNoun>
+        <description>Glimmerquartz in the bloodstream. It boosts mood a great deal and increases movement speed, but lowers the motivation to work.</description>
+        <defaultLabelColor>(1,0.6,1)</defaultLabelColor>
+        <scenarioCanAdd>true</scenarioCanAdd>
+        <maxSeverity>1.0</maxSeverity>
+        <isBad>false</isBad>
+        <comps>
+          <li Class="HediffCompProperties_Effecter">
+            <stateEffecter>Glimmering</stateEffecter>
+            <severityIndices>0~1</severityIndices>
+          </li>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-2</severityPerDay>
+            <showHoursToRecover>true</showHoursToRecover>
+          </li>
+        </comps>
+          <stages>
+            <li>
+              <statFactors>
+                <RestFallRateFactor>0.8</RestFallRateFactor>
+                <WorkSpeedGlobal>0.8</WorkSpeedGlobal>
+              </statFactors>
+              <capMods>
+                <li>
+                  <capacity>Consciousness</capacity>
+                  <offset>0.10</offset>
+                </li>
+                <li>
+                  <capacity>Moving</capacity>
+                  <offset>0.25</offset> 
+                </li>
+              </capMods>
+            </li>
+          </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_GlimmerHighThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_GlimmerHigh</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <label>glimmer rush</label>
+            <description>Make way for the cart laaaads!</description>
+            <baseMoodEffect>25</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+
+      <ChemicalDef>
+        <defName>SD_Glimmer</defName>
+        <label>glimmer</label>
+        <addictionHediff>SD_GlimmerAddiction</addictionHediff>
+        <geneOverdoseChanceFactorResist>0.4</geneOverdoseChanceFactorResist>
+        <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+      </ChemicalDef>
+      
+      <NeedDef ParentName="DrugAddictionNeedBase">
+        <defName>SD_ChemicalNeedGlimmer</defName>
+        <needClass>Need_Chemical</needClass>
+        <label>glimmer</label>
+        <description>Because of a glimmerquartz addiction, this person needs to regularly consume the drug to avoid withdrawal symptoms.</description>
+        <fallPerDay>0.345</fallPerDay>
+        <listPriority>45</listPriority>
+      </NeedDef>
+    
+      <HediffDef ParentName="AddictionBase">
+        <defName>SD_GlimmerAddiction</defName>
+        <label>glimmer hunger</label>
+        <description>A chemical addiction to glimmerquartz. Long-term presence of glimmerquartz has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+    \nWithout regular doses of glimmerquartz, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+        <hediffClass>Hediff_Addiction</hediffClass>
+        <causesNeed>SD_ChemicalNeedGlimmer</causesNeed>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.065</severityPerDay>
+            <showDaysToRecover>true</showDaysToRecover>
+          </li>
+        </comps>
+        <stages>
+          <li>
+          </li>
+          <li>
+            <label>withdrawal</label>
+            <painFactor>1</painFactor>
+            <hungerRateFactorOffset>0.8</hungerRateFactorOffset>
+            <statOffsets>
+              <RestFallRateFactor>1.4</RestFallRateFactor>
+            </statOffsets>
+            <capMods>
+              <li>
+                <capacity>Consciousness</capacity>
+                <offset>-0.20</offset>
+              </li>
+              <li>
+                <capacity>Moving</capacity>
+                <offset>-0.20</offset>
+              </li>
+              <li>
+                <capacity>Manipulation</capacity>
+                <offset>-0.10</offset>
+              </li>
+            </capMods>
+            <mentalStateGivers>
+              <li>
+                <mentalState>Binging_Food</mentalState>
+                <mtbDays>15</mtbDays>
+              </li>
+            </mentalStateGivers>
+          </li>
+        </stages>
+      </HediffDef>
+      
+      <ThoughtDef>
+        <defName>SD_GlimmerWithdrawalThought</defName>
+        <workerClass>ThoughtWorker_Hediff</workerClass>
+        <hediff>SD_GlimmerAddiction</hediff>
+        <validWhileDespawned>true</validWhileDespawned>
+        <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+        <stages>
+          <li>
+            <visible>false</visible>
+          </li>
+          <li>
+            <label>glimmer withdrawal</label>
+            <description>I don't feel like myself.. I'm so tired.. </description>
+            <baseMoodEffect>-35</baseMoodEffect>
+          </li>
+        </stages>
+      </ThoughtDef>
+    
+      <HediffDef ParentName="DrugToleranceBase">
+        <defName>SD_GlimmerTolerance</defName>
+        <label>glimmer tolerance</label>
+        <description>A built-up tolerance to glimmerquartz. The more severe this tolerance is, the more glimmerquartz it takes to get the same effect.</description>
+        <comps>
+          <li Class="HediffCompProperties_SeverityPerDay">
+            <severityPerDay>-0.010</severityPerDay>
+          </li>
+          <li Class="HediffCompProperties_DrugEffectFactor">
+            <chemical>SD_Glimmer</chemical>
+          </li>
+        </comps>
+        <hediffGivers>
+          <li Class="HediffGiver_RandomDrugEffect">
+            <hediff>ChemicalDamageModerate</hediff>
+            <severityToMtbDaysCurve>
+              <points>
+                <li>(0.45, 99999)</li>
+                <li>(0.5, 120)</li>
+                <li>(1, 90)</li>
+              </points>
+            </severityToMtbDaysCurve>
+            <partsToAffect>
+              <li>Head</li>
+            </partsToAffect>
+          </li>
+        </hediffGivers>
+      </HediffDef>
+
+
+</Defs>
