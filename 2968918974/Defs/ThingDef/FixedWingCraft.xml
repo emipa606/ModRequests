@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--===== 机械伊蚊 =====-->
+  
+  <ThingDef ParentName="MYDE_AerocraftFramework_XmlParent">
+    <defName>AF_FWCraft_Mech_Mosquito</defName>
+    <label>mosquito</label>
+    <description>The mosquito is a light and small mechanoid capable of maneuvering through the air at very high speeds and launching strikes against targets. \n\nIn addition to using the on-board lightweight charge lance to snipe targets, the monomolecular blades mounted on the sides of its body also provide it with the ability to dive and harvest enemies' heads. This tough guy often out in clusters, and the swarm of obscured aircraft will put the air control firmly in the hands of the Mechanoid Hive.</description>
+	<thingClass>MYDE_AerocraftFramework.Building_Aerocraft_AsBaseThing</thingClass>
+    <uiIconPath>MosquitoBase</uiIconPath>
+    <graphicData>
+      <texPath>MosquitoBase</texPath>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+	<damageMultipliers>
+      <li>
+        <damageDef>EMP</damageDef>
+        <multiplier>0</multiplier>
+      </li>
+	  <li>
+        <damageDef>Stun</damageDef>
+        <multiplier>0</multiplier>
+      </li>
+    </damageMultipliers>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Mass>35</Mass>
+      <Beauty>15</Beauty>
+      <!--这个是精准度-->
+      <ShootingAccuracyTurret>1.00</ShootingAccuracyTurret>
+    </statBases>
+    <size>(3,3)</size>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <!--原版燃料-->
+      <li Class="CompProperties_Refuelable">
+        <!--<fuelLabel>Fuel</fuelLabel>-->
+        <!--<fuelGizmoLabel>Fuel</fuelGizmoLabel>-->
+        <outOfFuelMessage>Power Core</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>500</fuelCapacity>
+        <fuelMultiplier>1</fuelMultiplier>
+        <initialFuelPercent>0.1</initialFuelPercent>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <!--<fuelIconPath>UI/Overlays/Barrel</fuelIconPath>-->
+		<targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>500</initialConfigurableTargetFuelLevel>
+      </li>
+      <!--本体的渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Thing">
+        <!--是否渲染-->
+        <If_Draw_Base>True</If_Draw_Base>
+        <!--飞行的大小变化-->
+        <Draw_ScaleIncreaseFactor_WhenFlying>0.4</Draw_ScaleIncreaseFactor_WhenFlying>
+        <!--本体的图层大小+高度-->
+        <Draw_Base_TexturePath>MosquitoBase</Draw_Base_TexturePath>
+        <Draw_Base_Scale>2</Draw_Base_Scale>
+        <Draw_Base_ExtraAltitudeLayerNum>0.4</Draw_Base_ExtraAltitudeLayerNum>
+        <!--是否制作阴影+阴影最大最下长度+阴影角度-->
+        <If_NeedDrawAllShadow>True</If_NeedDrawAllShadow>
+        <!--是否制作本体阴影+大小+图层+透明度-->
+        <If_DrawShadow_Base>true</If_DrawShadow_Base>
+        <Draw_Shadow_Base_Scale>2</Draw_Shadow_Base_Scale>
+        <Draw_Shadow_Base_HeightFactor>4</Draw_Shadow_Base_HeightFactor>
+        <Draw_Shadow_Base_ExtraAltitudeLayerNum>-0.5</Draw_Shadow_Base_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Base_Transparency>0.5</Draw_Shadow_Base_Transparency>
+      </li>
+      <!--主武器渲染+阴影-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_Base_Weapon">
+        <!--枪械-->
+        <WeaponDef>MYDE_Mech_Mosquito_Lance</WeaponDef>
+        <!--是否渲染-->
+        <If_Draw_Gun>False</If_Draw_Gun>
+        <!--枪的图层高度-->
+        <Draw_Gun_Scale>2</Draw_Gun_Scale>
+        <Draw_Gun_ExtraAltitudeLayerNum>0.3</Draw_Gun_ExtraAltitudeLayerNum>
+        <!--是否制作枪械阴影+大小+图层+透明度-->
+        <If_DrawShadow_Gun>False</If_DrawShadow_Gun>
+        <Draw_Shadow_Gun_Scale>0.75</Draw_Shadow_Gun_Scale>
+        <Draw_Shadow_Gun_ExtraAltitudeLayerNum>-0.6</Draw_Shadow_Gun_ExtraAltitudeLayerNum>
+        <Draw_Shadow_Gun_Transparency>0.5</Draw_Shadow_Gun_Transparency>
+      </li>
+      <!--移动方式-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_MoveToTargetAndHover">
+        <!--碰撞检测的最大移动距离-->
+        <Check_CollideMoveRangeMax>10</Check_CollideMoveRangeMax>
+        <!--起飞需要的预热时间-->
+        <Move_WarmUpTickMax>2</Move_WarmUpTickMax>
+        <!--是否需要转向，False则省略飞行器转向过程-->
+        <If_NeedTurnWhenMoving>True</If_NeedTurnWhenMoving>
+        <!--是否是滑跃起飞-->
+        <If_NeedGlidingWhenTakeOff>True</If_NeedGlidingWhenTakeOff>
+        <Gliding_Range>20</Gliding_Range>
+        <GlidingTakeOffOrDownTickMax>120</GlidingTakeOffOrDownTickMax>
+        <!--最大移动速度+转向时的移动速度-->
+        <MoveSpeed_Max>0.30</MoveSpeed_Max>
+        <MoveSpeed_Turning>0.19</MoveSpeed_Turning>
+        <!--默认盘旋设置 True为开 False为关-->
+        <Default_HoverSet>True</Default_HoverSet>
+        <!--盘旋的文字+图标-->
+        <If_ShowHover_Icon>False</If_ShowHover_Icon>
+        <!--起飞降落的图标切换·文字+图标-->
+        <TakeOffAndLanding_Icon_On_Label>Take off</TakeOffAndLanding_Icon_On_Label>
+        <TakeOffAndLanding_Icon_Off_Label>Landing</TakeOffAndLanding_Icon_Off_Label>
+        <TakeOffAndLanding_Icon_Description>Switching between takeoff and landing, the “Dandelion” Rk-1 belongs to a fixed wing aerocraft and requires an unobstructed distance of more than 20 grids to launch and land. It can only attack during flight. After takeoff, move it with the right mouse button, right-click on Non-Player faction object to forcibly attack the target, right-click on our faction object to switch to follow mode.</TakeOffAndLanding_Icon_Description>
+        <TakeOffAndLanding_Icon_On_IconPath>AerocraftFramework/Icon/Up</TakeOffAndLanding_Icon_On_IconPath>
+        <TakeOffAndLanding_Icon_Off_IconPath>AerocraftFramework/Icon/Down</TakeOffAndLanding_Icon_Off_IconPath>
+        <!--盘旋的角速度+转向速度-->
+        <AngleChangePerTick_Hover>1.5</AngleChangePerTick_Hover>
+        <AngleChangePerTick_Turning>3</AngleChangePerTick_Turning>
+        <!--每Tick消耗燃料量 1 = 60燃料/秒 0.015 = 0.9燃料/秒-->
+        <FuelConsumePerTick>0</FuelConsumePerTick>
+      </li>
+      <!--摧毁自爆-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_DoExplosion_BySomeWays">
+        <!--被摧毁时是否自爆-->
+        <If_DoExplosion_WhenDestroy>True</If_DoExplosion_WhenDestroy>
+        <!--生命值归0的时候是否沿路径坠毁后自爆+坠毁距离-->
+        <If_Drop_WhenHitpointZero>True</If_Drop_WhenHitpointZero>
+        <Drop_Range>20</Drop_Range>
+        <!--这个是伤害，写多少就造成多少伤害，不是CompProperties_Explosive的乘数，其他的所有字段都跟原版的CompProperties_Explosive相同-->
+        <damageAmountBase>10</damageAmountBase>
+        <explosiveRadius>2.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+      </li>
+      <!--特效生成-->
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnFleck">
+        <!--生成的特效-->
+        <FleckDef>MYDE_AF_Fleck_HeatGlow_Intense</FleckDef>
+        <!--这个是播放特效的间隔-->
+        <Fleck_MakeFleckTickMax>1</Fleck_MakeFleckTickMax>
+        <!--这个是播放多少次特效-->
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>0</Fleck_MakeFleckNum_Max>
+        <!--这个是位置调整-->
+        <Fleck_Range_ToSetPosition>1.08</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>165</Fleck_Angle_ToSetPosition>
+        <!--这个是是否跟随飞行角度·用来制作尾焰-->
+        <Fleck_If_FollowBaseThingAngle>True</Fleck_If_FollowBaseThingAngle>
+        <!--这个是特效贴图旋转角度-->
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--这个是特效飞行方向-->
+        <!--<Fleck_Angle>-180~180</Fleck_Angle>-->
+        <Fleck_Angle>0</Fleck_Angle>
+        <!--这个是特效大小-->
+        <Fleck_Scale>1.2</Fleck_Scale>
+        <!--这个是特效飞行速度-->
+        <Fleck_Speed>2~3</Fleck_Speed>
+      </li>
+      <li Class="MYDE_AerocraftFramework.CompProperties_SpawnFleck">
+        <!--生成的特效-->
+        <FleckDef>MYDE_AF_Fleck_HeatGlow_Intense</FleckDef>
+        <!--这个是播放特效的间隔-->
+        <Fleck_MakeFleckTickMax>1</Fleck_MakeFleckTickMax>
+        <!--这个是播放多少次特效-->
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>0</Fleck_MakeFleckNum_Max>
+        <!--这个是位置调整-->
+        <Fleck_Range_ToSetPosition>1.08</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>52</Fleck_Angle_ToSetPosition>
+        <!--这个是是否跟随飞行角度·用来制作尾焰-->
+        <Fleck_If_FollowBaseThingAngle>True</Fleck_If_FollowBaseThingAngle>
+        <!--这个是特效贴图旋转角度-->
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--这个是特效飞行方向-->
+        <!--<Fleck_Angle>-180~180</Fleck_Angle>-->
+        <Fleck_Angle>0</Fleck_Angle>
+        <!--这个是特效大小-->
+        <Fleck_Scale>1.2</Fleck_Scale>
+        <!--这个是特效飞行速度-->
+        <Fleck_Speed>2~3</Fleck_Speed>
+      </li>
+	  <!--自动寻敌-->
+      <li Class="GD_AF.CompProperties_AutoFindTarget">
+        <!--这个是默认寻找位置-->
+        <Default_FindTargetSet>True</Default_FindTargetSet>
+        <!--寻找目标的间隔-->
+        <FindTargetTickMax>72</FindTargetTickMax>
+      </li>
+	  <!--接触伤害-->
+      <li Class="GD_AF.CompProperties_KnifeDamage">
+        <distance>1.5</distance>
+        <damageAmount>12</damageAmount>
+		<sound>MeleeHit_MonoSword</sound>
+      </li>
+	  <!-- 严重受损时播放特效 -->
+	  <li Class="GD_AF.CompProperties_FleckWhenDamaged">
+        <FleckDef>MicroSparksFast</FleckDef>
+        <Fleck_MakeFleckTickMax>1</Fleck_MakeFleckTickMax>
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>0</Fleck_MakeFleckNum_Max>
+        <Fleck_Range_ToSetPosition>0.24</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>180</Fleck_Angle_ToSetPosition>
+        <Fleck_If_FollowBaseThingAngle>True</Fleck_If_FollowBaseThingAngle>
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--<Fleck_Angle>-180~180</Fleck_Angle>-->
+        <Fleck_Angle>0</Fleck_Angle>
+        <Fleck_Scale>1.2</Fleck_Scale>
+        <Fleck_Speed>2~3</Fleck_Speed>
+      </li>
+	  <!-- 严重受损时播放特效 -->
+	  <li Class="GD_AF.CompProperties_FleckWhenDamaged">
+        <FleckDef>Smoke</FleckDef>
+        <Fleck_MakeFleckTickMax>1</Fleck_MakeFleckTickMax>
+        <Fleck_MakeFleckNum_Origin>1</Fleck_MakeFleckNum_Origin>
+        <Fleck_MakeFleckNum_Max>0</Fleck_MakeFleckNum_Max>
+        <Fleck_Range_ToSetPosition>0.24</Fleck_Range_ToSetPosition>
+        <Fleck_Angle_ToSetPosition>180</Fleck_Angle_ToSetPosition>
+        <Fleck_If_FollowBaseThingAngle>True</Fleck_If_FollowBaseThingAngle>
+        <Fleck_Rotation>-180~180</Fleck_Rotation>
+        <!--<Fleck_Angle>-180~180</Fleck_Angle>-->
+        <Fleck_Angle>0</Fleck_Angle>
+        <Fleck_Scale>1.2</Fleck_Scale>
+        <Fleck_Speed>2~3</Fleck_Speed>
+      </li>
+	</comps>
+	<building>
+		<soundAmbient>Gear_Ambient</soundAmbient>
+		<destroySound>BuildingDestroyed_Metal_Big</destroySound>
+	</building>
+	<killedLeavings>
+	  <Steel>35</Steel>
+	  <Plasteel>12</Plasteel>
+    </killedLeavings>
+  </ThingDef>
+
+	
+</Defs>
