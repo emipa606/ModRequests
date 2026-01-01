@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThingDef ParentName="BasePawn" Name="BaseArchonoid" Abstract="True">
+        <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+        <statBases>
+          <MarketValue>50000</MarketValue>
+          <PsychicSensitivity>1.5</PsychicSensitivity>
+          <ToxicResistance>1</ToxicResistance>
+          <Flammability>0</Flammability>
+          <ComfyTemperatureMin>-5000</ComfyTemperatureMin>
+          <ComfyTemperatureMax>5000</ComfyTemperatureMax>
+          <MeatAmount>0</MeatAmount>
+          <ArmorRating_Heat>5.00</ArmorRating_Heat>
+          <ToxicEnvironmentResistance MayRequire="Ludeon.RimWorld.Biotech">1</ToxicEnvironmentResistance>
+        </statBases>
+        <receivesSignals>true</receivesSignals>
+        <tradeability>None</tradeability>
+        <race>
+          <fleshType>DV_ArchonoidFlesh</fleshType>
+          <needsRest>false</needsRest>
+          <hasGenders>false</hasGenders>
+          <foodType>None</foodType>
+          <lifeExpectancy>50000</lifeExpectancy>
+          <bloodDef>DV_Filth_Ichor</bloodDef>
+          <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+          <soundCallIntervalFriendlyFactor>2</soundCallIntervalFriendlyFactor>
+          <thinkTreeConstant MayRequire="Ludeon.RimWorld.Biotech">MechConstant</thinkTreeConstant>
+        </race>
+        <comps>
+          <li Class="CompProperties_CanBeDormant" />
+          <li Class="CompProperties_WakeUpDormant">
+            <wakeUpOnDamage>true</wakeUpOnDamage>
+            <wakeUpCheckRadius>50</wakeUpCheckRadius>
+            <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
+          </li>
+        </comps>
+      </ThingDef>
+
+      <PawnKindDef Name="BaseArchonoidKind" Abstract="True">
+        <defaultFactionType>DV_Archocubening</defaultFactionType>
+        <aiAvoidCover>true</aiAvoidCover>
+        <destroyGearOnDrop>true</destroyGearOnDrop>
+        <canStrip>false</canStrip>
+        <minGenerationAge MayRequire="Ludeon.RimWorld.Biotech">1500</minGenerationAge>
+        <forceNormalGearQuality>true</forceNormalGearQuality>
+      </PawnKindDef>
+
+      <ThingDef Abstract="True" Name="ArchoCuboidBase" ParentName="BaseArchonoid">
+        <description>An unbelievably ancient, monolithic war machine fueled by the pure primal archorage of a dying archotech that archoskipped in this solar system. It's archoflesh is smooth and rough, concave from one point of view and convex on the other. The bright glowing lines which run across it's body are speculated to store some kind or archoenergy or archofluid which the archobeast utilizes to fuel itself, but some speculate it could also be fueled by powerful archo-vanometric process which extract energy directly from a separate quantum foam grid, exclusive to archoapproved archotech beasts. The monolith constantly emits powerful archopsychic soundwaves, hurting anyone in it's vicinity.</description>
+        <statBases>
+          <MoveSpeed>1.5</MoveSpeed>
+          <ArmorRating_Blunt>0.50</ArmorRating_Blunt>
+          <ArmorRating_Sharp>0.80</ArmorRating_Sharp>
+          <PsychicSensitivity>2</PsychicSensitivity>
+          <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">20</BandwidthCost>
+          <MechEnergyLossPerHP  MayRequire="Ludeon.RimWorld.Biotech">0</MechEnergyLossPerHP>
+        </statBases>
+        <tools>
+          <li>
+            <label>edge</label>
+            <capacities>
+              <li>Cut</li>
+            </capacities>
+            <power>18</power>
+            <cooldownTime>3.2</cooldownTime>
+            <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+            <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+          </li>
+        </tools>
+        <race>
+          <intelligence>ToolUser</intelligence>
+          <thinkTreeMain>Mechanoid</thinkTreeMain>
+          <body>DV_GiantOminousArchotechCube</body>
+          <baseBodySize>5</baseBodySize>
+          <baseHealthScale>6</baseHealthScale>
+          <lifeStageAges>
+            <li>
+              <def>DV_ArchonoidConstructed</def>
+              <minAge>0</minAge>
+              <soundWounded>Pawn_Mech_Centipede_Wounded</soundWounded>
+              <soundDeath>Pawn_Mech_Centipede_Death</soundDeath>
+              <soundCall>Pawn_Mech_Centipede_Call</soundCall>
+            </li>
+          </lifeStageAges>
+          <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+          <soundMeleeHitPawn>Pawn_Melee_MechanoidBash_HitPawn</soundMeleeHitPawn>
+          <soundMeleeHitBuilding>Pawn_Melee_MechanoidBash_HitBuilding</soundMeleeHitBuilding>
+          <soundMeleeMiss>Pawn_Melee_MechanoidBash_Miss</soundMeleeMiss>
+          <mechWeightClass>Heavy</mechWeightClass>
+        </race>
+        <comps>
+          <li Class="CompProperties_ProjectileInterceptor">
+            <radius>5</radius>
+            <interceptGroundProjectiles>true</interceptGroundProjectiles>
+            <color>(199, 205, 40)</color>
+            <reactivateEffect>BulletShieldGenerator_Reactivate</reactivateEffect>
+            <activeSound>CrashedShipPart_Ambience</activeSound>
+            <hitPoints>225</hitPoints>
+            <hitPointsRestoreInstantlyAfterCharge>true</hitPointsRestoreInstantlyAfterCharge>
+            <chargeDurationTicks>1800</chargeDurationTicks><!-- 30s -->
+            <rechargeHitPointsIntervalTicks>120</rechargeHitPointsIntervalTicks>
+            <minIdleAlpha>0.2</minIdleAlpha>
+            <drawWithNoSelection>True</drawWithNoSelection>
+            <disarmedByEmpForTicks>1000</disarmedByEmpForTicks>
+            <gizmoTipKey>ProjectileInterceptorTip</gizmoTipKey>
+          </li>
+        </comps>
+        <butcherProducts>
+          <DV_Archocompound>150</DV_Archocompound>
+          <DV_VanometricCore>1</DV_VanometricCore>
+          <BroadshieldCore MayRequire="Ludeon.Rimworld.Royalty">1</BroadshieldCore>
+        </butcherProducts>
+      </ThingDef>
+
+      <PawnKindDef Abstract="True" Name="ArchoCuboidKindBase" ParentName="BaseArchonoidKind">
+       <lifeStages>
+        <li>
+            <bodyGraphicData>
+              <texPath>Things/Pawn/Archonoid/Archocube</texPath>
+              <graphicClass>Graphic_Multi</graphicClass>
+              <drawSize>4</drawSize>
+              <shadowData>
+                <volume>(1, 1, 1)</volume>
+              </shadowData>
+            </bodyGraphicData>
+          </li>
+        </lifeStages>
+        <combatPower>500</combatPower>
+        <weaponMoney>9999~9999</weaponMoney>
+        <techHediffsChance MayRequire="Ludeon.RimWorld.Biotech">1</techHediffsChance>
+        <techHediffsMoney>9999~9999</techHediffsMoney>
+        <controlGroupPortraitZoom>0.65</controlGroupPortraitZoom>  
+      </PawnKindDef>
+
+      <ThingDef ParentName="ArchoCuboidBase">
+        <defName>DV_Archo_ArchocubeJumbler</defName>
+        <label>archocuboid</label>
+      </ThingDef>  
+    
+      <PawnKindDef ParentName="ArchoCuboidKindBase">
+        <defName>DV_Archo_ArchocubeJumbler</defName>
+        <label>archocuboid</label>
+        <race>DV_Archo_ArchocubeJumbler</race>
+        <weaponTags>
+          <li>ArchonoidRangedPulverizer</li>
+        </weaponTags>
+      </PawnKindDef>
+
+
+        <!-- Archovector base -->
+
+  <ThingDef ParentName="BaseArchonoid" Name="ArchovectorBase" Abstract="True">
+    <statBases>
+      <MoveSpeed>5.5</MoveSpeed>
+      <ArmorRating_Blunt>0.40</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.65</ArmorRating_Sharp>
+    </statBases>
+    <race>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Mechanoid</thinkTreeMain>
+      <baseBodySize>1.0</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>DV_ArchonoidConstructed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+    </race>
+    <butcherProducts>
+      <DV_Archocompound>50</DV_Archocompound>
+    </butcherProducts>
+  </ThingDef>
+
+  <!-- Archovector - fast mid-range shooter and swordsman -->
+  
+  <ThingDef Name="ArchovectorBlade" ParentName="ArchovectorBase">
+    <defName>DV_Archovector</defName>
+    <label>archovector</label>
+    <description>An archobeast taller and bigger than humans, their bodies are composed of 3 archopieces which archonnect through large flexible conduits. They have human-like hands capable of holding various different weapons, thus the archotech gods utilize them as the main footsoldiers of their archoforces. They are fast and tough, capable of surviving even orbital bombardments for long, thankfully they have a few weakpoints that when shot can make them rapidly lose ichor.</description>
+    <tools>
+      <li>
+        <label>left fist</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>false</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right fist</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>12.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>false</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>DV_HumanoidArchonoid</body>
+      <baseHealthScale>2.4</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+    </race>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseArchonoidKind">
+    <defName>DV_ArchovectorSwordsman</defName>
+    <label>archovector</label>
+    <race>DV_Archovector</race>
+    <combatPower>140</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Archonoid/Archovector</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.6</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>ArchonoidWeaponEqualizer</li>
+    </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="BaseArchonoidKind">
+    <defName>DV_ArchovectorGunner</defName>
+    <label>archovector</label>
+    <race>DV_Archovector</race>
+    <combatPower>200</combatPower>
+    <aiAvoidCover>false</aiAvoidCover>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Archonoid/Archovector</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.6</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>ArchonoidRangedBlaster</li>
+    </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
+
+  <!-- Archofractoid base -->
+
+  <ThingDef ParentName="BaseArchonoid" Name="ArchofractoidBase" Abstract="True">
+    <statBases>
+      <MoveSpeed>4.2</MoveSpeed>
+      <ArmorRating_Blunt>0.30</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.20</ArmorRating_Sharp>
+    </statBases>
+    <race>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Mechanoid</thinkTreeMain>
+      <baseBodySize>1.0</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>DV_ArchonoidConstructed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+    </race>
+    <butcherProducts>
+      <DV_Archocompound>25</DV_Archocompound>
+    </butcherProducts>
+  </ThingDef>
+
+  <!-- Archofractoid - close swarm unit -->
+  
+  <ThingDef Name="Archofractoid" ParentName="ArchofractoidBase">
+    <defName>DV_Archofractoid</defName>
+    <label>archofractoid</label>
+    <description>A stubby human-sized archobeast, durable and compact. Not too dissimilar in design from archovectors, the archofractoids are used as swarm troops for archoinvasions, as such they usually carry (archo)quantum pistols equipped with archobayonets. They're slower than archovectors but due to their smaller size can quickly overwhelm even the most prepared colonists.</description>
+    <tools>
+      <li>
+        <label>left fist</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>10.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right fist</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>10.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>DV_HumanoidArchonoid</body>
+      <baseHealthScale>1.6</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+    </race>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseArchonoidKind">
+    <defName>DV_ArchofractoidPistol</defName>
+    <label>archofractoid</label>
+    <race>DV_Archofractoid</race>
+    <combatPower>100</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Archonoid/Archofractoid</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.3</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>ArchonoidRangedPistol</li>
+    </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
+
+  <!-- Archotetral base -->
+
+  <ThingDef ParentName="BaseArchonoid" Name="ArchotetralBase" Abstract="True">
+    <statBases>
+      <MoveSpeed>4.5</MoveSpeed>
+      <ArmorRating_Blunt>0.55</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.70</ArmorRating_Sharp>
+    </statBases>
+    <race>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Mechanoid</thinkTreeMain>
+      <baseBodySize>1.3</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>DV_ArchonoidConstructed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Centipede_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centipede_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centipede_Call</soundCall>
+        </li>
+      </lifeStageAges>
+    </race>
+    <butcherProducts>
+      <DV_Archocompound>75</DV_Archocompound>
+    </butcherProducts>
+  </ThingDef>
+
+  <!-- Archotetral - the big boys -->
+  
+  <ThingDef Name="ArchotetralGeneral" ParentName="ArchotetralBase">
+    <defName>DV_Archotetral</defName>
+    <label>archotetral</label>
+    <description>An ominously large and bulky archobeast, much taller and bigger than humans, they're composed of 3 archopieces much like archovectors but have much more armor on their bodies and have tougher ichor conduits. They have large ape-like hands allowing them to hold a limited range of weapons while having much more weight to them, which lets them do well in melee even if unarmed, due to this prowess the archotech often utilize them as tactical leaders and as breaching squads for taking out settlements. They are slow and very tough and can survive sustained fire for up to an hour, as with other humanoid archonoids, they have a few weakpoints that when shot can make them rapidly lose ichor.</description>
+    <tools>
+      <li>
+        <label>left fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>17.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>false</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>right fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>17.0</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <alwaysTreatAsWeapon>false</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>DV_HumanoidArchonoid</body>
+      <baseHealthScale>2.8</baseHealthScale>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+    </race>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseArchonoidKind">
+    <defName>DV_ArchotetralGeneral</defName>
+    <label>archotetral</label>
+    <race>DV_Archotetral</race>
+    <combatPower>200</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Archonoid/Archotetral</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.8</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponMoney>9999~9999</weaponMoney>
+    <weaponTags>
+      <li>ArchonoidWeaponBoomer</li>
+      <li>ArchonoidWeaponDivisor</li>
+    </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+  </PawnKindDef>
+
+  
+    
+</Defs>
