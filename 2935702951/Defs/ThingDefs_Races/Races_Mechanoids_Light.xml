@@ -1,0 +1,387 @@
+<Defs>
+    <AbilityDef>
+    <defName>TF_throwgrenade</defName>
+    <label>bombardment</label>
+    <description>throw a HE grenade towards targeted area.</description>
+    <iconPath>UI/grenade</iconPath>
+    <cooldownTicksRange>120000</cooldownTicksRange>
+    <aiCanUse>true</aiCanUse>
+    <displayOrder>300</displayOrder>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>True</onlyManualCast>
+        <range>15.9</range>
+        <forcedMissRadius>0.5</forcedMissRadius>
+        <warmupTime>0.5</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>4</muzzleFlashScale>
+        <drawHighlightWithLineOfSight>true</drawHighlightWithLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>Proj_GrenadeHE</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+    </verbProperties>
+	<comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Proj_GrenadeHE</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+  <ThingDef Name="BaseHEGrenadeProjectile" ParentName="BaseGrenadeProjectile" Abstract="True">
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Grenade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <explosionRadius>1.9</explosionRadius >
+      <damageDef>HE</damageDef>
+      <explosionDelay>20</explosionDelay>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseHEGrenadeProjectile">
+    <defName>Proj_GrenadeHE</defName>
+    <label>HE grenade</label>
+  </ThingDef>
+
+	<ThingDef ParentName="LightMechanoid">
+      <defName>TF_Armed_Agrihand</defName>
+      <label>armed agrihand</label>
+      <description>An improved supply mechanoid derived from agrihand, its armor has been reinforced. Although it cannot carry supplies, it can throw hand grenades loaded in the cargo container in close range areas in emergency situations. When not in combat, it can also work like a gardening mechanoid.</description>
+      <tools>
+        <li>
+          <label>right blade</label>
+          <capacities>
+            <li>Cut</li>
+            <li>Stab</li>
+          </capacities>
+          <power>8</power>
+          <cooldownTime>2</cooldownTime>
+          <linkedBodyPartsGroup>RightBlade</linkedBodyPartsGroup>
+          <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+        </li>
+      </tools>
+      <statBases>
+        <PlantWorkSpeed>0.80</PlantWorkSpeed>
+		<ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+        <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+      </statBases>
+      <race>
+        <body>Mech_Agrihand</body>
+		<baseHealthScale>2</baseHealthScale>
+        <mechEnabledWorkTypes>
+          <li>PlantCutting</li>
+          <li>Growing</li>
+        </mechEnabledWorkTypes>
+        <mechWorkTypePriorities>
+          <PlantCutting>2</PlantCutting>
+        </mechWorkTypePriorities>
+        <lifeStageAges>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>0</minAge>
+            <soundWounded>Pawn_Mech_Agrihand_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Agrihand_Death</soundDeath>
+            <soundCall>Pawn_Mech_Agrihand_Call</soundCall>
+          </li>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>100</minAge>
+            <soundWounded>Pawn_Mech_Agrihand_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Agrihand_Death</soundDeath>
+            <soundCall>Pawn_Mech_Agrihand_Call</soundCall>
+          </li>
+        </lifeStageAges>
+      </race>
+    </ThingDef>
+    
+    <PawnKindDef ParentName="NonCombatLightMechanoidKind">
+      <defName>TF_Armed_Agrihand</defName>
+      <label>armed agrihand</label>
+      <race>TF_Armed_Agrihand</race>
+      <lifeStages>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/TF_armedagrihand/TF_AA</texPath>
+            <maskPath>Things/Pawn/Mechanoid/TF_armedagrihand/AllegianceOverlays/TF_AA</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.1</drawSize>
+          </bodyGraphicData>
+        </li>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/TF_armedagrihand/TF_AA</texPath>
+            <maskPath>Things/Pawn/Mechanoid/TF_armedagrihand/AllegianceOverlays/TF_AA</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.1</drawSize>
+          </bodyGraphicData>
+        </li>
+      </lifeStages>
+	  <abilities>
+        <li>TF_throwgrenade</li>
+      </abilities>	  
+    </PawnKindDef>
+	
+	<RecipeDef ParentName="HeavyMechanoidRecipe">
+    <defName>build_TF_Armed_Agrihand</defName>
+    <label>gestate armed agrihand</label>
+    <description>gestate an armed agrihand</description>
+	<gestationCycles>2</gestationCycles>
+	<researchPrerequisite>BasicMechtech</researchPrerequisite>
+	<ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>SubcoreBasic</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <TF_Armed_Agrihand>1</TF_Armed_Agrihand>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>TF_Armed_Agrihand</ThingDef>
+    </descriptionHyperlinks>
+  </RecipeDef>
+  
+  <ThingDef ParentName="LightMechanoid">
+      <defName>TF_Misc</defName>
+      <label>oddjob assister</label>
+      <description>A small work mechanoid, designed to handle various simple tasks such as cutting bricks and rolling cigarettes. To cope with hazardous work environments, it has also been reinforced with armor and the pneumatic hammer used for crushing rocks can also play a role in close combat.</description><!-- text_todo -->
+      <tools>
+        <li>
+          <label>pneumatic hammer</label>
+          <capacities>
+            <li>Cut</li>
+            <li>Stab</li>
+          </capacities>
+          <power>12</power>
+          <cooldownTime>2</cooldownTime>
+		  <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+          <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+        </li>
+      </tools>
+	  <statBases>
+        <FoodPoisonChance>0.001</FoodPoisonChance>
+		<ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+        <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+		<WorkSpeedGlobal>0.80</WorkSpeedGlobal>
+      </statBases>
+      <race>
+        <mechEnabledWorkTypes>
+          <li>Crafting</li>
+        </mechEnabledWorkTypes>
+        <lifeStageAges>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>0</minAge>
+            <soundWounded>Pawn_Mech_Fabricor_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Fabricor_Death</soundDeath>
+            <soundCall>Pawn_Mech_Fabricor_Call</soundCall>
+          </li>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>100</minAge>
+            <soundWounded>Pawn_Mech_Fabricor_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Fabricor_Death</soundDeath>
+            <soundCall>Pawn_Mech_Fabricor_Call</soundCall>
+          </li>
+        </lifeStageAges>
+      </race>
+    </ThingDef>
+    
+    <PawnKindDef ParentName="NonCombatLightMechanoidKind">
+      <defName>TF_Misc</defName>
+      <label>oddjob assister</label>
+      <race>TF_Misc</race>
+      <lifeStages>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/TF_misc/TF_MA</texPath>
+            <maskPath>Things/Pawn/Mechanoid/TF_misc/AllegianceOverlays/TF_MA</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.1</drawSize>
+          </bodyGraphicData>
+        </li>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/TF_misc/TF_MA</texPath>
+            <maskPath>Things/Pawn/Mechanoid/TF_misc/AllegianceOverlays/TF_MA</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.1</drawSize>
+          </bodyGraphicData>
+        </li>
+      </lifeStages>
+    </PawnKindDef>
+	
+	<RecipeDef ParentName="HeavyMechanoidRecipe">
+    <defName>build_TF_Misc</defName>
+    <label>gestate an oddjob assister</label>
+    <description>gestate an oddjob assister</description>
+	<gestationCycles>2</gestationCycles>
+	<researchPrerequisite>BasicMechtech</researchPrerequisite>
+	<ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>75</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>SubcoreBasic</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <TF_Misc>1</TF_Misc>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>TF_Misc</ThingDef>
+    </descriptionHyperlinks>
+  </RecipeDef>
+  
+  <ThingDef ParentName="LightMechanoid">
+      <defName>TF_ArmedLifter</defName>
+      <label>recon lifter</label>
+      <description>The reconnaissance carrier refitted from the abandoned kcco vanguard remains with a carrier can also use the internal space to load a combat machine because of the removal of the built-in energy weapons.</description>
+      <statBases>
+        <MoveSpeed>2.8</MoveSpeed>
+		<ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+        <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+      </statBases>
+      <race>
+        <mechEnabledWorkTypes>
+          <li>Hauling</li>
+        </mechEnabledWorkTypes>
+		<baseHealthScale>2</baseHealthScale>
+        <lifeStageAges>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>0</minAge>
+            <soundWounded>Pawn_Mech_Lifter_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Lifter_Death</soundDeath>
+            <soundCall>Pawn_Mech_Lifter_Call</soundCall>
+          </li>
+          <li>
+            <def>MechanoidFullyFormed</def>
+            <minAge>100</minAge>
+            <soundWounded>Pawn_Mech_Lifter_Wounded</soundWounded>
+            <soundDeath>Pawn_Mech_Lifter_Death</soundDeath>
+            <soundCall>Pawn_Mech_Lifter_Call</soundCall>
+          </li>
+        </lifeStageAges>
+      </race>
+	  <comps>
+      <li Class="CompProperties_MechCarrier">
+        <spawnPawnKind>Mech_WarUrchin</spawnPawnKind>
+        <fixedIngredient>Steel</fixedIngredient>
+        <costPerPawn>25</costPerPawn>
+        <startingIngredientCount>25</startingIngredientCount>
+        <maxIngredientCount>25</maxIngredientCount>
+        <spawnEffecter>WarqueenWarUrchinsSpawned</spawnEffecter>
+        <spawnedMechEffecter>WarUrchinSpawned</spawnedMechEffecter>
+        <attachSpawnedEffecter>true</attachSpawnedEffecter>
+        <attachSpawnedMechEffecter>true</attachSpawnedMechEffecter>
+      </li>
+    </comps>
+    </ThingDef>
+    
+    <PawnKindDef ParentName="NonCombatLightMechanoidKind">
+      <defName>TF_ArmedLifter</defName>
+      <label>recon lifter</label>
+      <race>TF_ArmedLifter</race>
+      <lifeStages>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/TF_reconlifter/TF_RL</texPath>
+            <maskPath>Things/Pawn/Mechanoid/TF_reconlifter/AllegianceOverlays/TF_RL</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.1</drawSize>
+          </bodyGraphicData>
+        </li>
+        <li>
+          <bodyGraphicData>
+            <texPath>Things/Pawn/Mechanoid/TF_reconlifter/TF_RL</texPath>
+            <maskPath>Things/Pawn/Mechanoid/TF_reconlifter/AllegianceOverlays/TF_RL</maskPath>
+            <shaderType>CutoutWithOverlay</shaderType>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>1.1</drawSize>
+          </bodyGraphicData>
+        </li>
+      </lifeStages>
+    </PawnKindDef>
+	
+	<RecipeDef ParentName="HeavyMechanoidRecipe">
+    <defName>build_TF_RL</defName>
+    <label>gestate recon lifter</label>
+    <description>gestate a recon lifter</description>
+	<gestationCycles>2</gestationCycles>
+	<researchPrerequisite>BasicMechtech</researchPrerequisite>
+	<ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>SubcoreBasic</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <products>
+      <TF_ArmedLifter>1</TF_ArmedLifter>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>TF_ArmedLifter</ThingDef>
+    </descriptionHyperlinks>
+  </RecipeDef>
+</Defs>

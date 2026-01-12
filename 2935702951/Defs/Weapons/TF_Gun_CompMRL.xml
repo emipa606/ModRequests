@@ -1,0 +1,143 @@
+<Defs>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>Gun_TF_CompMRL</defName>
+    <label>Experimental composite magnetic rail launcher</label>
+    <description>A composite multi-purpose weapon consisting of recycled mechanoid magnetic rails
+      combined with modified assault rifle, with two firing modes. In the burst firing state, the
+      use of orbital increment powder powered bullets greatly enhances the muzzle velocity and
+      increases the bullet's penetration power. In the launcher mode, small-sized LGIS missiles can
+      be cold-fired using the magnetic rail, increasing the firing speed, but after three shots, the
+      weapon will be damaged.</description>
+    <uiIconPath>Things/Weapon/Gun_CompMRL_Icon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Weapon/Gun_CompMRL</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>2.7</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <recipeMaker>
+      <researchPrerequisite>Fabrication</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <displayPriority>420</displayPriority>
+    </recipeMaker>
+    <thingSetMakerTags>
+      <li>RewardStandardQualitySuper</li>
+    </thingSetMakerTags>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>7</Mass>
+      <AccuracyTouch>1</AccuracyTouch>
+      <AccuracyShort>0.90</AccuracyShort>
+      <AccuracyMedium>0.72</AccuracyMedium>
+      <AccuracyLong>0.60</AccuracyLong>
+      <RangedWeapon_Cooldown>1.3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>45</Steel>
+      <Shell_HighExplosive>3</Shell_HighExplosive>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <verbs>
+      <li>
+        <verbClass>ExperimentalGear.Verb_ShootConsumeDurablility</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_MRL</defaultProjectile>
+        <warmupTime>1.3</warmupTime>
+        <range>34</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+        <soundCast>TF_MRL_fire</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="WeaponUtilityII.CompProperties_SecondaryVerb">
+        <verbProps>
+          <verbClass>Verb_Shoot</verbClass>
+          <forcedMissRadius>1.9</forcedMissRadius>
+          <hasStandardCommand>true</hasStandardCommand>
+          <defaultProjectile>Bullet_LGISMissile</defaultProjectile>
+          <warmupTime>2.5</warmupTime>
+          <range>58.9</range>
+          <soundCast>Shot_HellsphereCannonGun</soundCast>
+          <soundCastTail>GunTail_Heavy</soundCastTail>
+          <muzzleFlashScale>29</muzzleFlashScale>
+          <minRange>6.9</minRange>
+          <targetParams>
+            <canTargetLocations>true</canTargetLocations>
+            <canTargetPawns>true</canTargetPawns>
+          </targetParams>
+          <onlyManualCast>true</onlyManualCast>
+          <burstShotCount>1</burstShotCount>
+          <canGoWild>false</canGoWild>
+        </verbProps>
+        <mainWeaponLabel>AR</mainWeaponLabel>
+        <mainCommandIcon>UI/Mode_rifle</mainCommandIcon>
+        <secondaryWeaponLabel>Missile</secondaryWeaponLabel>
+        <secondaryCommandIcon>UI/Mode_missile</secondaryCommandIcon>
+        <description>Secondary Weapon</description>
+      </li>
+    </comps>
+    <weaponTags>
+      <li>SpacerGun</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>18</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>20</power>
+        <cooldownTime>3</cooldownTime>
+      </li>
+    </tools>
+    <modExtensions>
+      <li Class="ExperimentalGear.DurabilityCostExtension">
+        <cost>0.34</cost>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_MRL</defName>
+    <label>MRL bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>11</damageAmountBase>
+      <speed>90</speed>
+      <armorPenetrationBase>0.45</armorPenetrationBase>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_LGISMissile</defName>
+    <label>LGIS Missile</label>
+    <graphicData>
+      <texPath>Things/Weapon/Bullet_LGIS</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <thingClass>WeaponUtilityII.ProjectileMissile</thingClass>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <!-- Use default damage from explosion def -->
+      <explosionRadius>3.9</explosionRadius>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+</Defs>
