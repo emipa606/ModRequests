@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!--星光壁垒灵能-->
+<AbilityDef ParentName="PsycastBaseSkip">
+    <defName>OOAbility_StarShield</defName>
+    <label>Star Shield</label>
+    <description>Similar to bullet shield backpack.Shield lasts 30s.
+	For timing: the small magic array will disappear in turn between 20 and 15 seconds.
+	The big stars will disappear in 27 seconds.</description>
+    <level>6</level>
+    <iconPath>Things/OOAbility_StarShield_dun</iconPath>
+	<targetRequired>False</targetRequired>
+	<canUseAoeToGetTargets>False</canUseAoeToGetTargets>
+	<showPsycastEffects>False</showPsycastEffects>
+	<warmupStartSound>Psycast_Neuroquake_CastStart</warmupStartSound>
+    <warmupSound>Psycast_Neuroquake_CastLoop</warmupSound>
+    <warmupPreEndSound>Psycast_Neuroquake_CastEnd</warmupPreEndSound>
+    <warmupPreEndSoundSeconds>2</warmupPreEndSoundSeconds>
+    <statBases>
+      <Ability_EntropyGain>65</Ability_EntropyGain>
+      <Ability_PsyfocusCost>0.08</Ability_PsyfocusCost>
+	  <Ability_EffectRadius>5</Ability_EffectRadius>
+      <Ability_Duration>30</Ability_Duration>
+    </statBases>
+    <verbProperties>
+	  <warmupTime>15</warmupTime>
+	  <warmupEffecter>Effecter_OOAbility_StarShield</warmupEffecter>
+	  <drawAimPie>False</drawAimPie>
+      <requireLineOfSight>False</requireLineOfSight>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetHumans>false</canTargetHumans>
+        <canTargetMechs>false</canTargetMechs>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilitySpawn">
+        <thingDef>OOStarShield</thingDef>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">      
+        <fleckDef>BulletShieldAreaEffect</fleckDef>
+        <sound>Psycast_Skip_Exit</sound>
+      </li>
+	  <li Class="CompProperties_AbilityEffecterOnTarget">  <!--标记：此处可参考升壁，设置技能释放后的Effecter。-->
+        <effecterDef>Effecter_OOStarShieldAreaEffect</effecterDef>
+        <maintainForTicks>1800</maintainForTicks>
+      </li>
+    </comps>
+  </AbilityDef>
+
+
+	<!--星光壁垒-->
+ <ThingDef ParentName="EtherealThingBase">
+    <defName>OOStarShield</defName>
+    <label>Star Shield</label>
+    <thingClass>ThingWithComps</thingClass>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Ethereal/PsychicShieldRipples</texPath>
+      <shaderType>BulletShieldPsychic</shaderType>
+      <color>(180, 231, 237)</color>
+      <drawSize>9.9</drawSize>
+      <shaderParameters>
+        <_PulseInterval>0.5</_PulseInterval>
+        <_DistortionScale>0.5</_DistortionScale>
+        <_DistortionIntensity>0.15</_DistortionIntensity>
+        <_MinAlpha>0.1</_MinAlpha>
+        <_MaxAlpha>0.3</_MaxAlpha>
+        <_DistortionTex>/Things/Mote/SmokeTiled</_DistortionTex>
+      </shaderParameters>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_ProjectileInterceptor">
+        <radius>4.9</radius>
+        <interceptGroundProjectiles>true</interceptGroundProjectiles>
+        <interceptNonHostileProjectiles>true</interceptNonHostileProjectiles>
+		<interceptOutgoingProjectiles>false</interceptOutgoingProjectiles>
+        <color>(218,112,214)</color>
+        <minAlpha>0.2</minAlpha>
+        <interceptEffect>Effecter_OOStarShield_BlockedProjectile</interceptEffect>
+      </li>
+      <li Class="CompProperties_DestroyAfterDelay">
+        <delayTicks>1800</delayTicks>
+      </li>
+    </comps>
+  </ThingDef>
+  
+  
+    <!--护盾阻挡子弹-->
+   <EffecterDef>
+    <defName>Effecter_OOStarShield_BlockedProjectile</defName>
+    <children>
+	  <li>
+        <subEffecterClass>SubEffecter_SoundTriggered</subEffecterClass>
+        <soundDef>Interceptor_BlockProjectile</soundDef>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <fleckDef>Fleck_OOStarShield_BlockedProjectile</fleckDef>
+        <burstCount>1</burstCount>
+		<positionRadius>0.3</positionRadius>
+        <scale>0.3~1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+      </li>
+    </children>
+  </EffecterDef>
+  
+ <!--阻挡子弹的星星-->
+    <FleckDef ParentName="FleckGlowDistorted">
+    <defName>Fleck_OOStarShield_BlockedProjectile</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.05</fadeInTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <solidTime>0.05</solidTime>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_Star</texPath>
+      <shaderParameters>
+        <_distortionScrollSpeed>(0.2, 0.0, 0.0)</_distortionScrollSpeed>
+        <_distortionScale>0.1</_distortionScale>
+        <_distortionIntensity>0.1</_distortionIntensity>
+      </shaderParameters>
+      <drawSize>1</drawSize>
+    </graphicData>
+  </FleckDef>
+  
+   <!--展开的小魔法阵-->
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huan_kai</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+	  <fadeInTime>0.5</fadeInTime>			<!--淡入-->
+      <solidTime>2</solidTime>				<!--曝光-->
+	  <fadeOutTime>0.5</fadeOutTime>		<!--淡出-->
+	  <speedPerTime>-3.2</speedPerTime>      <!--减速，不会反向-->
+  </FleckDef>
+  
+
+   <!--持续旋转的小魔法阵-->
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huan_zhuan</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+
+      <solidTime>1.9</solidTime>				<!--曝光-->
+	  <fadeOutTime>1.0</fadeOutTime>		<!--淡出-->
+  </FleckDef>
+ 
+    <!--星链-->
+    <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_Star</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_Star</texPath>
+	  <drawSize>(1,1)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+	  <solidTime>2</solidTime>			 <!--需要计算，此次边长为7,2速度为3.6所以是2秒-->
+  </FleckDef>
+
+
+  <!--============ 画星星 ============-->
+  <EffecterDef>
+    <defName>Effecter_OOAbility_StarShield</defName>
+    <children>
+	 <!--展开的小魔法阵，五方向各一个-->
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>	 <!--不知道为什么触发式有时会放出两个，所以换成了持续式-->
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_kai</fleckDef>
+		<ticksBetweenMotes>60</ticksBetweenMotes>			 		 <!--循环播放的间隔-->
+		<maxMoteCount>1</maxMoteCount>				     	 		 <!--只需要一次-->
+        <speed>5</speed>											 <!--速度-->
+        <angle>0</angle>											 <!--角度-->
+		<rotationRate>180</rotationRate>							 <!--顺时针旋转速度，360是每秒一圈，负是逆时针-->
+        <absoluteAngle>true</absoluteAngle>					 		 <!--固定坐标方向，上方是0-->
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>	 <!--用到角度时需要-->
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_kai</fleckDef>
+		<ticksBetweenMotes>60</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+        <speed>5</speed>
+        <angle>72</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_kai</fleckDef>
+		<ticksBetweenMotes>60</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+        <speed>5</speed>
+        <angle>144</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_kai</fleckDef>
+		<ticksBetweenMotes>60</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+        <speed>5</speed>
+        <angle>216</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_kai</fleckDef>
+		<ticksBetweenMotes>60</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+        <speed>5</speed>
+        <angle>288</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  
+	<!--中断施法的图片会长时间滞留，故拆开重新加工-->
+	   <!--持续旋转的魔法阵-正上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_zhuan</fleckDef>
+        <positionOffset>(0,0,4)</positionOffset>               	
+		<initialDelayTicks>120</initialDelayTicks>   		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-左下-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_zhuan</fleckDef>
+        <positionOffset>(-2.35,0,-3.23)</positionOffset>           	
+		<initialDelayTicks>120</initialDelayTicks>   		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-右上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_zhuan</fleckDef>
+        <positionOffset>(3.8,0,1.23)</positionOffset>              	
+		<initialDelayTicks>120</initialDelayTicks>   		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-左上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_zhuan</fleckDef>
+        <positionOffset>(-3.8,0,1.23)</positionOffset>               	
+		<initialDelayTicks>120</initialDelayTicks>   		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-右下-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huan_zhuan</fleckDef>
+        <positionOffset>(2.35,0,-3.23)</positionOffset>          	
+		<initialDelayTicks>120</initialDelayTicks>   		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  
+	  <!--星链-正上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_Star</fleckDef>
+        <positionOffset>(0,0,4)</positionOffset>               	 <!--确定初始位置，需要计算获得-->
+		<initialDelayTicks>120</initialDelayTicks>   		     <!--延时启动-->
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+		<speed>3.6</speed>
+        <angle>198</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	    <!--星链-左下-->
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_Star</fleckDef>
+        <positionOffset>(-2.35,0,-3.23)</positionOffset>
+		<initialDelayTicks>240</initialDelayTicks>   
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+		<speed>3.6</speed>
+        <angle>54</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	   <!--星链-右上-->
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_Star</fleckDef>
+        <positionOffset>(3.8,0,1.23)</positionOffset>
+		<initialDelayTicks>360</initialDelayTicks>   
+		<rotationRate>180</rotationRate>
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+		<speed>3.6</speed>
+        <angle>270</angle>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	   <!--星链-左上-->
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_Star</fleckDef>
+        <positionOffset>(-3.8,0,1.23)</positionOffset>
+		<initialDelayTicks>480</initialDelayTicks>   
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+		<speed>3.6</speed>
+        <angle>126</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	    <!--星链-右下-->
+	  <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_Star</fleckDef>
+        <positionOffset>(2.35,0,-3.23)</positionOffset>
+		<initialDelayTicks>600</initialDelayTicks>   
+		<ticksBetweenMotes>10</ticksBetweenMotes>
+		<speed>3.6</speed>
+        <angle>342</angle>
+		<rotationRate>180</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+    </children>
+  </EffecterDef>
+ 
+  
+  <!--小魔法阵兼顾计时-->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huanA</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>			
+      <solidTime>10</solidTime>				
+	  <fadeOutTime>1</fadeOutTime>		 
+  </FleckDef>
+  
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huanB</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+      <solidTime>11</solidTime>
+	  <fadeOutTime>1</fadeOutTime>
+  </FleckDef>
+  
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huanC</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+      <solidTime>12</solidTime>
+	  <fadeOutTime>1</fadeOutTime>
+  </FleckDef>
+  
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huanD</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+      <solidTime>13</solidTime>
+	  <fadeOutTime>1</fadeOutTime>
+  </FleckDef>
+  
+   <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_huanE</defName>
+    <graphicData>
+      <texPath>Things/Fleck_OOAbility_huan</texPath>
+	  <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+      <solidTime>14</solidTime>
+	  <fadeOutTime>1</fadeOutTime>
+  </FleckDef>
+  
+    <!--旋转的大星星-->
+    <FleckDef ParentName="FleckBase_Thrown">
+    <defName>Fleck_OOAbility_StarShield_dun</defName>
+    <graphicData>
+      <texPath>Things/OOAbility_StarShield_dun</texPath>
+	  <drawSize>(1,1)</drawSize>
+    </graphicData>
+	  <altitudeLayer>MoteOverhead</altitudeLayer>
+	  <fadeInTime>0.5</fadeInTime>
+	  <solidTime>25</solidTime>
+	  <fadeOutTime>2</fadeOutTime>
+  </FleckDef>
+
+  <!--使用成功后的Effecter-->
+   <EffecterDef>
+    <defName>Effecter_OOStarShieldAreaEffect</defName>
+    <children>   
+	   <!--大星星旋转-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+        <scale>13</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_dun</fleckDef>
+		<rotationRate>-60</rotationRate>
+        <absoluteAngle>true</absoluteAngle>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  
+	  <!--持续旋转的魔法阵-正上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huanA</fleckDef>
+        <positionOffset>(0,0,4)</positionOffset>               	  		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-右上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huanB</fleckDef>
+        <positionOffset>(3.8,0,1.23)</positionOffset>              			    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-右下-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huanC</fleckDef>
+        <positionOffset>(2.35,0,-3.23)</positionOffset>          		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-左下-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huanD</fleckDef>
+        <positionOffset>(-2.35,0,-3.23)</positionOffset>           	 		    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  <!--持续旋转的魔法阵-左上-->
+	   <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <scale>1</scale>
+        <spawnLocType>OnSource</spawnLocType>
+        <fleckDef>Fleck_OOAbility_StarShield_huanE</fleckDef>
+        <positionOffset>(-3.8,0,1.23)</positionOffset>               			    
+		<ticksBetweenMotes>120</ticksBetweenMotes>
+		<maxMoteCount>1</maxMoteCount>
+		<rotationRate>180</rotationRate>
+		<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+	  
+    </children>
+  </EffecterDef>
+  
+  
+  
+</Defs>
