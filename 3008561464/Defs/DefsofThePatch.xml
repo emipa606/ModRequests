@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- the patch -->
+	<XmlExtensions.PatchDef Name="qwertypatchvanillaplantsexpandedtreefix" Abstract="True">
+		<parameters>
+			<li>defName1</li>
+		</parameters>
+		<apply>
+			<Operation Class="XmlExtensions.UseSetting">
+				<modId>VanillaExpanded.VPlantsE.TreeFix</modId>
+				<key>harvestAfterGrowthSetting</key>
+				<defaultValue>0.8</defaultValue>
+				<apply>
+					<Operation Class="PatchOperationReplace">
+						<xpath>/Defs/ThingDef[defName="{defName1}"]/plant/harvestAfterGrowth</xpath>
+						<value>
+							<harvestAfterGrowth>{harvestAfterGrowthSetting}</harvestAfterGrowth>
+						</value>
+					</Operation>
+				</apply>
+			</Operation>
+			
+			
+			<Operation Class="XmlExtensions.UseSetting">
+				<modId>VanillaExpanded.VPlantsE.TreeFix</modId>
+				<key>harvestAfterGrowthSetting</key>
+				<defaultValue>0.5</defaultValue>
+				<apply>
+					<Operation Class="PatchOperationAdd">
+						<xpath>/Defs/ThingDef[defName="{defName1}"]/plant</xpath>
+						<value>
+							<harvestMinGrowth>{harvestAfterGrowthSetting}</harvestMinGrowth>
+						</value>
+					</Operation>
+				</apply>
+			</Operation>
+			<Operation Class="XmlExtensions.PatchOperationMath">
+				<xpath>/Defs/ThingDef[defName="{defName1}"]/plant/harvestMinGrowth</xpath>
+				<value>1</value>
+				<operation>-2</operation>
+			</Operation>
+			<Operation Class="XmlExtensions.PatchOperationMath">
+				<xpath>/Defs/ThingDef[defName="{defName1}"]/plant/harvestMinGrowth</xpath>
+				<value>2</value>
+				<operation>/</operation>
+			</Operation>
+			<Operation Class="XmlExtensions.PatchOperationMath">
+				<xpath>/Defs/ThingDef[defName="{defName1}"]/plant/harvestMinGrowth</xpath>
+				<value>1</value>
+				<operation>-2</operation>
+			</Operation>
+
+
+			<Operation Class="XmlExtensions.UseSetting">
+				<modId>VanillaExpanded.VPlantsE.TreeFix</modId>
+				<key>harvestYieldSetting</key>
+				<defaultValue>1</defaultValue>
+				<apply>
+					<Operation Class="XmlExtensions.PatchOperationMath">
+						<xpath>/Defs/ThingDef[defName="{defName1}"]/plant/harvestYield</xpath>
+						<value>{harvestYieldSetting}</value>
+						<operation>*</operation>
+					</Operation>
+				</apply>
+			</Operation>
+		</apply>
+	</XmlExtensions.PatchDef>
+</Defs>
