@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+  <!-- Royalty need patches-->
+ <!-- <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>[lmgginspace] Repair bed</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/RoyalTitleDef[defName="Acolyte" or defName="Knight" or defName="Praetor" or defName="Baron" or defName="Count" or @Name="BaseEmpireTitleNPC"]/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"][disablingPrecepts/li="SlabBed_Preferred"]/things</xpath>
+          <value>
+            <li>LMGG_Thing_RepairTripleBed</li>
+			<li>LMGG_Thing_RepairQuadBed</li>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation> -->
+  
+	<!-- If any Royal Title requires a Royal Bed, it is also satisfied by Triple and Quad Repair Beds -This patch is better as it makes it "VFE-Empire" compatible (Code from "Polyamory Beds (Vanilla Edition)" by Meltup -->
+	<Operation Class="PatchOperationConditional" MayRequire="Ludeon.RimWorld.Royalty">
+		<xpath>Defs/RoyalTitleDef/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things[li="RoyalBed"]</xpath>
+		<match Class="PatchOperationInsert">
+			<xpath>Defs/RoyalTitleDef/bedroomRequirements/li[@Class="RoomRequirement_ThingAnyOf"]/things/li[text()="RoyalBed"]</xpath>
+			<order>Append</order>
+			<value>
+				<li>LMGG_Thing_RepairTripleBed</li>
+				<li>LMGG_Thing_RepairQuadBed</li>
+			</value>
+		</match>
+	</Operation>  
+  
+</Patch>
