@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <JobDef>
+    <defName>Creepers_Creep</defName>
+    <driverClass>Creepers.JobDrivers.Creep</driverClass>
+    <reportString>creeping</reportString>
+  </JobDef>
+  <SoundDef>
+    <defName>Creepers_Creeper_Hurt</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <volumeRange>20~28</volumeRange>
+        <pitchRange>0.8~1.1</pitchRange>
+        <distRange>0~50</distRange>
+        <sustainLoop>False</sustainLoop>
+        <grains>
+          <li Class="AudioGrain_Folder">
+            <clipFolderPath>Creepers/Creeper_Hurt</clipFolderPath>
+          </li>
+        </grains>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>Creepers_Creeper_Death</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <volumeRange>20~28</volumeRange>
+        <pitchRange>0.8~1.1</pitchRange>
+        <distRange>0~50</distRange>
+        <sustainLoop>False</sustainLoop>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Creepers/Creeper_death</clipPath>
+          </li>
+        </grains>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>Creepers_Creeper_Fuse</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <volumeRange>20~28</volumeRange>
+        <pitchRange>0.8~1.1</pitchRange>
+        <distRange>0~50</distRange>
+        <sustainLoop>False</sustainLoop>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Creepers/Creeper_fuse</clipPath>
+          </li>
+        </grains>
+      </li>
+    </subSounds>
+  </SoundDef>
+  <ThingDef ParentName="AnimalThingBase">
+    <defName>Creepers_Creeper</defName>
+    <label>creeper</label>
+    <statBases>
+      <MoveSpeed>3.5</MoveSpeed>
+    </statBases>
+    <race>
+      <body>QuadrupedAnimalWithHooves</body>
+      <baseHungerRate>0</baseHungerRate>
+      <hasGenders>false</hasGenders>
+      <thinkTreeMain>Creepers_ThinkTree_Creeper</thinkTreeMain>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+      <lifeStageAges>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>0</minAge>
+          <soundWounded>Creepers_Creeper_Hurt</soundWounded>
+          <soundDeath>Creepers_Creeper_Death</soundDeath>
+          <soundCall>Creepers_Creeper_Fuse</soundCall>
+          <soundAngry>Creepers_Creeper_Fuse</soundAngry>
+        </li>
+      </lifeStageAges>
+    </race>
+  </ThingDef>
+  <ThinkTreeDef>
+    <defName>Creepers_ThinkTree_Creeper</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_ConditionalMustKeepLyingDown">
+          <subNodes>
+            <li Class="JobGiver_KeepLyingDown"/>
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_QueuedJob"/>
+        <li Class="Creepers.JobGivers.Creep"/>
+        <li Class="ThinkNode_Tagger">
+          <tagToGive>Idle</tagToGive>
+          <subNodes>
+            <li Class="JobGiver_WanderAnywhere">
+              <maxDanger>Deadly</maxDanger>
+              <ticksBetweenWandersRange>120~240</ticksBetweenWandersRange>
+            </li>
+          </subNodes>
+        </li>
+        <li Class="JobGiver_IdleError"/>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>Creepers_CreeperPawnKind</defName>
+    <label>creeper</label>
+    <race>Creepers_Creeper</race>
+    <combatPower>200</combatPower>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Creepers/Creeper/Creeper</texPath>
+          <drawSize>1.2</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Creepers/Creeper/Creeper</texPath>
+          <drawSize>1.2</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  <IncidentDef>
+    <defName>Creepers_Herd</defName>
+    <label>creeper herd</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Creepers.IncidentWorkers.Herd</workerClass>
+    <baseChance>7</baseChance>
+    <category>ThreatBig</category>
+    <letterLabel>Creeper Herd</letterLabel>
+    <letterText>A herd of wandering creepers have entered the area!</letterText>
+    <letterDef>ThreatBig</letterDef>
+    <minThreatPoints>100</minThreatPoints>
+    <pointsScaleable>true</pointsScaleable>
+  </IncidentDef>
+</Defs>
