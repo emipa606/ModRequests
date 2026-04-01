@@ -1,0 +1,78 @@
+<CaravanActivities.CaravanActivityDef> Declare an activity def with this
+  <defName> give your activity a unique name to make sure it does not match any other activity defs
+  <label> label that will show in the gizmo list
+  <description> will display when hovering over gizmo
+  <biomes> Accepts a list of BiomeDefs to restrict activities to certain biomes, do not use if you want no restrictions
+  <features> Accepts a list of FeatureDefs to restrict activities to certain map features, do not use if you want no restrictions
+  <options> a list of OptionDefs for the player to choose from
+  <minPawnCount> minimum number of pawns required to perform activity
+  <icon> path to gizmo icon texture or can be a thingdef to use its ui icon
+  <mapIcon> path to map icon texture, defaults to an outpost
+  <cooldown> length in days for how long the tile should be on cooldown preventing activities
+  <road> bool - if true activity must be performed on a road, defaults to false
+  <river> bool - if true activity must be performed on a river, defaults to false
+  <nearFactionBase> bool - if true caravan must be next to a faction base to perform the activity, defaults to false
+  <allowedFactionTechLevel> list of TechLevels restricts faction bases from above to only be those with specified tech levels, defaults to no restriction
+</CaravanActivities.CaravanActivityDef>
+
+<CaravanActivities.OptionDef> Declare an option def with this
+  <defName> needed to differentiate and reference options in activity defs
+  <label> text that will display next to the radiobutton
+  <description> text that will display when hovering over option (some details such as required skill levels is automatically added to this)
+  <minSkillLevels> Set of SkillDefs and levels to represent the minimum skill level requirements for the option
+    <Mining>5</Mining>
+    <Construction>3</Construction>
+  </minSkillLevels>
+  <recSkillLevels> Set of SkillDefs and levels to represent the recommended skill levels for the option, this is used for outcome scaling (if enabled)
+    <Mining>10</Mining>
+    <Construction>8</Construction>
+  </recSkillLevels>
+  <requiredItems> list of items and counts that are required for the activity to occur
+    <Steel>10</Steel>
+  </requiredItems>
+  <boostItems> list of BoostItemDefs that will affect the risk and reward rate on outcomes depending on their specifics if the caravan has the items 
+    <li>WoodBoost</li>
+  </boostItems>
+  <negativeOutcomeChance> chance that a bad outcome will occur during the whole course of the activity
+  <requiredTimeInDays> number of days the activity takes
+  <itemMultiplier> multiplies items defined in outcomes by this amount, useful when reusing outcomeDefs for different yields
+  <goodOutcomes> list of good OutcomeDefs that can occur
+  <badOutcomes> list of bad OutcomeDefs that can occur
+<CaravanActivities.OptionDef>
+
+<CaravanActivities.OutcomeDef>
+  <defName> needed to differentiate and reference outcomes in option defs
+  <label> used as title of the outcome
+  <description> extra text to add a description for the outcome (details such as items are auto generated)
+  <skillScale> bool - if true items will scale with skill depending on recSkillLevels
+  <items> list of items and a count range that will be given to caravan if outcome is selected, can also use a ThingCategoryDef which it will then choose a random item from. also accepts a filter in the form of <contains:Meat>100~1000</<contains:Meat> to produce a random thing that contains the provided string in its defname.
+    <Uranium>50~100</Uranium>
+  </items>
+  <raid> RaidDef that defines the occurance of a raid upon outcome
+  <nearestFactionRelationshipChange> range of values that the nearest faction's relationship value will change by
+  <tilePollutionChange> range of values that the tile's pollution level will change by 
+  <endsActivity> bool - if true the activity will end when this outcome occurs (regardless of if the activity has reached its required days)
+  <colonistsInjured> range of values for number of colonists that get injured
+  <colonistsKilled>range of values for number of colonists that get killed
+  <changeIdeology> bool - whether the nearest faction gets its ideology changed to that of the player's
+</CaravanActivities.OutcomeDef>
+
+<CaravanActivities.RaidDef>
+  <defName> needed to differentiate and reference raids in outcome defs
+  <attacksCurrentLocation> bool - whether the raid will target the current caravan location or the player's base
+  <points> point value for the raid
+  <mechs> whether it is a raid by a mech cluster
+  <nearestFaction> bool - whether the faction selected for the raid should be the faction of the closest settlement
+  <faction> A FactionDef to determine which faction does the raid
+</CaravanActivities.RaidDef>
+
+<CaravanActivities.BoostItemDef>
+  <defName> needed to differentiate and reference boost items in option defs
+  <thing> ThingDef the thing that is needed
+  <count> the amount that is needed
+  <riskMultiplier> the number it multiplies the risk by
+  <itemMultiplier> the number it multiplies the outcome item count by
+  <pawnScale> bool - determine whether the number of boost items required scales with pawn count
+</CaravanActivities.BoostItemDef>
+
+
