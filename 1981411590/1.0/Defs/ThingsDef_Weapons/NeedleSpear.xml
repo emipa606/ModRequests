@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+<!--==================================== Needle Spear ====================================-->
+
+	<ThingDef ParentName="BaseMeleeWeapon_Blunt">
+		<defName>Clown_NeedleSpear</defName>
+		<label>Long Needle</label>
+		<description>Stick'em with the pointy end, sew deadly.</description>
+		<techLevel>Neolithic</techLevel>
+		<graphicData>
+			<texPath>Things/Items/NeedleSpear</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<soundInteract>Interact_Needle</soundInteract>
+		<stuffCategories>
+			<li>Metallic</li>
+		</stuffCategories>
+		<costStuffCount>75</costStuffCount>
+		<recipeMaker>
+			<recipeUsers>
+				<li>CraftingSpot</li>
+				<li>TableMachining</li>
+			</recipeUsers>
+			<researchPrerequisite>ClownResearch</researchPrerequisite>
+		</recipeMaker>
+		<weaponTags>
+			<li>ClownStuff</li>
+		</weaponTags>
+		<statBases>
+			<MaxHitPoints>150</MaxHitPoints>
+			<WorkToMake>1200</WorkToMake>
+			<Mass>2</Mass>
+		</statBases>
+		
+		<equippedStatOffsets>
+			<MeleeHitChance>.25</MeleeHitChance>
+			<MeleeDodgeChance>.15</MeleeDodgeChance>
+			<MeleeArmorPenetration>.15</MeleeArmorPenetration>
+		</equippedStatOffsets>
+
+		<tools>
+			<li>
+				<label>point</label>
+				<capacities>
+					<li>Needle_PointEnd</li>
+				</capacities>
+				<power>10</power>
+				<cooldownTime>2</cooldownTime>
+			</li>
+			<li>
+				<label>handle</label>
+				<capacities>
+					<li>Needle_EndHit</li>
+				</capacities>
+				<power>5.5</power>
+				<cooldownTime>1.5</cooldownTime>
+			</li>
+		</tools>
+	</ThingDef>
+	
+	<ToolCapacityDef>
+		<defName>Needle_PointEnd</defName>
+		<label>stabbing</label>
+	</ToolCapacityDef>
+
+	<ToolCapacityDef>
+		<defName>Needle_EndHit</defName>
+		<label>stunning</label>
+	</ToolCapacityDef>
+  
+  	<ManeuverDef>
+		<defName>Needle_PointyEnd</defName>
+		<requiredCapacity>Needle_PointEnd</requiredCapacity>
+		<verb>
+		<verbClass>Verb_MeleeAttackDamage</verbClass>
+		  <meleeDamageDef>NeedleDeep</meleeDamageDef>
+		  <soundCast>Hit_Needle</soundCast>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Poke_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Poke_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Poke_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Poke_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+
+	<ManeuverDef>
+		<defName>NeedleEnd_Hit</defName>
+		<requiredCapacity>Needle_EndHit</requiredCapacity>
+		<verb>
+			<verbClass>Verb_MeleeAttackDamage</verbClass>
+			<meleeDamageDef>NeedleDeep</meleeDamageDef>
+			<soundCast>Hit_Needle</soundCast>
+		</verb>
+		<logEntryDef>MeleeAttack</logEntryDef>
+		<combatLogRulesHit>Maneuver_Smash_MeleeHit</combatLogRulesHit>
+		<combatLogRulesDeflect>Maneuver_Smash_MeleeDeflect</combatLogRulesDeflect>
+		<combatLogRulesMiss>Maneuver_Smash_MeleeMiss</combatLogRulesMiss>
+		<combatLogRulesDodge>Maneuver_Smash_MeleeDodge</combatLogRulesDodge>
+	</ManeuverDef>
+	
+	<DamageDef>
+		<defName>NeedleDeep</defName>
+		<label>Needle</label>
+		<workerClass>DamageWorker_Stab</workerClass>
+		<externalViolence>true</externalViolence>
+		<deathMessage>{0} has been needled to death.</deathMessage>
+		<hediff>NeedlePierce</hediff>
+		<hediffSolid>NeedlePierce</hediffSolid>
+		<impactSoundType>Slice</impactSoundType>
+		<harmAllLayersUntilOutside>false</harmAllLayersUntilOutside>
+		<armorCategory>Sharp</armorCategory>
+		<buildingDamageFactor>1.5</buildingDamageFactor>
+		<stabChanceOfForcedInternal>1.5</stabChanceOfForcedInternal>
+		<overkillPctToDestroyPart>0.5~1.0</overkillPctToDestroyPart>
+	</DamageDef>
+	
+	<HediffDef ParentName="InjuryBase">
+		<defName>NeedlePierce</defName>
+		<label>needle pierce</label>
+		<labelNoun>a punchure wound</labelNoun>
+		<comps>
+			<li Class="HediffCompProperties_TendDuration">
+				<labelTendedWell>bandaged</labelTendedWell>
+				<labelTendedWellInner>sutured</labelTendedWellInner>
+				<labelSolidTendedWell>set</labelSolidTendedWell>
+			</li>
+			<li Class="HediffCompProperties_Infecter">
+				<infectionChance>0.25</infectionChance>
+			</li>
+			<li Class="HediffCompProperties_GetsPermanent">
+				<permanentLabel>needle hole</permanentLabel>
+			</li>
+		</comps>
+		<injuryProps>
+			<painPerSeverity>0.02</painPerSeverity>
+			<averagePainPerSeverityPermanent>0.008</averagePainPerSeverityPermanent>
+			<bleedRate>0.25</bleedRate>
+			<canMerge>false</canMerge>
+			<useRemovedLabel>true</useRemovedLabel>
+		</injuryProps>
+	</HediffDef>
+
+</Defs>
