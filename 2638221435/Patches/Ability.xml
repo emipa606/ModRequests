@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<!--======== Psychrometer ========-->
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Royalty</li>
+		</mods>
+		<match Class="PatchOperationReplace">
+			<xpath>*/AbilityDef[defName="Neuroquake"]</xpath>
+			<value>
+				<AbilityDef ParentName="PsycastBase">
+					<defName>Neuroquake</defName>
+					<label>neuroquake</label>
+					<description>Find a discontinuity in the psychic field and unfold it, releasing a massive amount of psychic energy. Every creature in range but outside of the safe, inner, circle will be driven violently insane. Casting this takes 12 seconds of meditation, and afterwards, the caster will go into a five-day psychic coma. The disturbing neuroquake echoes will inflict pain on everyone for many kilometers around, causing diplomatic consequences with all factions.</description>
+					<level>6</level>
+					<iconPath>UI/Abilities/Neuroquake</iconPath>
+					<hotKey>Misc12</hotKey>
+					<jobDef>CastAbilityOnThingUninterruptible</jobDef>
+					<targetRequired>False</targetRequired>
+					<canUseAoeToGetTargets>False</canUseAoeToGetTargets>
+					<showPsycastEffects>False</showPsycastEffects>
+					<showCastingProgressBar>True</showCastingProgressBar>
+					<warmupMote>Mote_WarmupNeuroquake</warmupMote>
+					<warmupStartSound>Psycast_Neuroquake_CastStart</warmupStartSound>
+					<warmupSound>Psycast_Neuroquake_CastLoop</warmupSound>
+					<warmupPreEndSound>Psycast_Neuroquake_CastEnd</warmupPreEndSound>
+					<warmupPreEndSoundSeconds>5</warmupPreEndSoundSeconds>
+					<statBases>
+						<Ability_PsyfocusCost>0.5</Ability_PsyfocusCost>
+						<Ability_EffectRadius>5.9</Ability_EffectRadius>
+						<Ability_Duration>2880</Ability_Duration>
+					</statBases>
+					<verbProperties>
+						<warmupTime>24</warmupTime>
+						<range>5.9</range>
+						<drawAimPie>False</drawAimPie>
+						<requireLineOfSight>False</requireLineOfSight>
+						<targetParams>
+							<canTargetSelf>True</canTargetSelf>
+						</targetParams>
+					</verbProperties>
+					<comps>
+						<li Class="CompProperties_AbilityNeuroquake">
+							<goodwillImpactForBerserk>-75</goodwillImpactForBerserk>
+							<goodwillImpactForNeuroquake>-10</goodwillImpactForNeuroquake>
+							<worldRangeTiles>4</worldRangeTiles>
+							<screenShakeIntensity>2</screenShakeIntensity>
+							<mentalStateRadius>9999</mentalStateRadius>
+						</li>
+						<li Class="CompProperties_AbilityGiveHediff">
+							<compClass>CompAbilityEffect_GiveHediff</compClass>
+							<hediffDef>PsychicComa</hediffDef>
+							<onlyApplyToSelf>True</onlyApplyToSelf>
+						</li>
+						<li Class="CompProperties_AbilityFleckOnTarget">
+							<fleckDef>PsychicApplyNeuroquake</fleckDef>
+							<sound>Psycast_Neuroquake_Effect</sound>
+						</li>
+					</comps>
+					<confirmationDialogText>If you use neuroquake, everyone in this region will feel the neuroquake echo, you will lose goodwill with every non-hostile faction.\n\nNeuroquake takes 12 seconds to cast, and cannot be interrupted. When complete, the caster will fall into a psychic coma for 5 days.\n\nEveryone in range except those in a small circle around the caster will be affected.\n\nDo you really want to cast neuroquake?</confirmationDialogText>
+				</AbilityDef>
+			</value>
+		</match>
+	</Operation>
+
+</Patch>
