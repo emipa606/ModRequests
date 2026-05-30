@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li></li>
+		</mods>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<li Class="XmlExtensions.OptionalPatch" MayRequire="imranfish.xmlextensions">
+					<modId>PrimitiveTools</modId>
+					<key>PrimitiveTools_Settings_Warn_About_Mods</key>
+					<defaultValue>true</defaultValue>
+					<caseTrue>
+						<Operation Class="PatchOperationSequence">
+							<operations>
+								<li Class="XmlExtensions.Log">
+									<text>Primitive Tools: Scan for duplicate functionality...</text>
+								</li>
+								
+								<li Class="PatchOperationFindMod">
+									<mods>
+									  <li>Skilled Stonecutting</li>
+									  <li>Skilled Stonecutting [1.3]</li>
+									  <li>Stonecutting Extended</li>
+									</mods>
+									<match Class="XmlExtensions.Log">
+										<warning>Skilled Stonecutting | Primitive Tools | These mods have duplicate functionality. Stonecutting skill added by both mods. It's safe to use together but unnecessary. Primitive tools does not add bulk recipes only the skill.</warning>
+									</match>
+								</li>
+								
+								<li Class="PatchOperationFindMod"> 
+									<mods>
+										<li>De-generalize Work</li>
+									</mods>
+									<match Class="XmlExtensions.Log">
+										<warning>De-generalize Work | Primitive Tools | These mods have duplicate functionality. Sculpting Speed, Smithing Speed, and Tailor Speed is added by both mods. It's safe to use together but unnecessary.</warning>
+									</match>
+								</li>
+							</operations>
+						</Operation>
+					</caseTrue>
+				</li>
+			</operations>
+		</nomatch>
+	</Operation>
+</Patch>

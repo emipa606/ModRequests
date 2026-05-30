@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+  <!--  =========================  Sculpting, Tailoring, Smithing  ======================================= -->
+		
+	<Operation Class="PatchOperationSequence">			
+      <operations>
+		<li Class="PatchOperationConditional">
+		  <xpath>Defs/StatDef[defName="SculptingSpeed" or defName="TailoringSpeed" or defName="SmithingSpeed"]</xpath>	
+            <nomatch Class="PatchOperationAdd">					
+		      <xpath>Defs</xpath>
+		        <value>
+			  	  <StatDef>
+					<defName>SculptingSpeed</defName>
+					<label>sculpting speed</label>
+					<description>The speed at which this person creates sculptures.\n\nThis stat only affects how fast sculptures are produced, not their quality. Quality is determined by the sculptor's artistic skill.</description>
+					<statFactors>
+						<li>GeneralLaborSpeed</li>
+					</statFactors>
+					<category>PawnWork</category>
+					<defaultBaseValue>1</defaultBaseValue>
+					<minValue>0.1</minValue>
+					<toStringStyle>PercentZero</toStringStyle>
+				  </StatDef>
+				  <StatDef>
+					<defName>TailoringSpeed</defName>
+					<label>tailoring speed</label>
+					<description>The speed at which this person makes clothes.\n\nThis stat only affects how fast clothes are produced, not their quality. Quality is determined by the tailor's crafting skill.</description>
+					<statFactors>
+						<li>GeneralLaborSpeed</li>
+					</statFactors>
+					<category>PawnWork</category>
+					<defaultBaseValue>1</defaultBaseValue>
+					<minValue>0.1</minValue>
+					<toStringStyle>PercentZero</toStringStyle>
+				  </StatDef>
+				  <StatDef>
+					<defName>SmithingSpeed</defName>
+					<label>smithing speed</label>
+					<description>Speed at which this person crafts weapons, machinery, and ammunition.\n\nThis stat only affects how fast items are produced, not their quality. Quality is determined by the crafter's skill.</description>
+					<statFactors>
+						<li>GeneralLaborSpeed</li>
+					</statFactors>
+					<category>PawnWork</category>
+					<defaultBaseValue>1</defaultBaseValue>
+					<minValue>0.1</minValue>
+					<toStringStyle>PercentZero</toStringStyle>
+				  </StatDef>
+		        </value>
+		   </nomatch>
+		</li>	
+      </operations>
+    </Operation>	
+		
+	<Operation Class="PatchOperationSequence">			
+      <operations>
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and (effectWorking="Smith" or effectWorking="Smelt" or effectWorking="Cook")]</xpath>
+			<match Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and (effectWorking="Smith" or effectWorking="Smelt" or effectWorking="Cook")]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>SmithingSpeed</workSpeedStat>
+				</value>
+			</match>	
+		</li>				
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and (effectWorking="Smith" or effectWorking="Smelt" or effectWorking="Cook")]</xpath>		
+			<match Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and (effectWorking="Smith" or effectWorking="Smelt" or effectWorking="Cook")]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>SmithingSpeed</workSpeedStat>
+				</value>
+			</match>
+		</li>
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and effectWorking="Tailor"]</xpath> 
+			<match Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and effectWorking="Tailor"]/workSpeedStat</xpath> 
+				<value>
+					<workSpeedStat>TailoringSpeed</workSpeedStat>
+				</value>
+			</match>
+		</li>	
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and effectWorking="Tailor"]</xpath> 
+			<match Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and effectWorking="Tailor"]/workSpeedStat</xpath> 
+				<value>
+					<workSpeedStat>TailoringSpeed</workSpeedStat>
+				</value>
+			</match>
+		</li>			
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and effectWorking="Sculpt"]</xpath>				
+			<match Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and effectWorking="Sculpt"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>SculptingSpeed</workSpeedStat>
+				</value>
+			</match>
+		</li>			
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and effectWorking="Sculpt"]</xpath>		
+			<match Class="PatchOperationReplace">
+				<xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and effectWorking="Sculpt"]/workSpeedStat</xpath>
+				<value>
+					<workSpeedStat>SculptingSpeed</workSpeedStat>
+				</value>
+			</match>
+		</li>
+	  </operations>
+	</Operation>
+	
+	<!--  =========================  Stonecutting  ======================================= -->
+			
+	<Operation Class="PatchOperationSequence">			
+      <operations>
+		<li Class="PatchOperationConditional">
+		  <xpath>Defs/StatDef[defName="StonecuttingSpeed"]</xpath>	
+            <nomatch Class="PatchOperationAdd">					
+		      <xpath>Defs</xpath>
+		        <value>
+				  <StatDef>
+					<defName>StonecuttingSpeed</defName>
+					<label>stonecutting speed</label>
+					<description>Speed at which this person cuts rough stone into blocks.</description>
+					<category>PawnWork</category>
+					<defaultBaseValue>1</defaultBaseValue>
+					<toStringStyle>PercentZero</toStringStyle>
+					<statFactors>
+					  <li>WorkSpeedGlobal</li>
+					</statFactors>
+					<skillNeedFactors>
+					  <li Class="SkillNeed_BaseBonus">
+						<skill>Crafting</skill>
+						<baseValue>0.8</baseValue>
+						<bonusPerLevel>0.075</bonusPerLevel>
+					  </li>
+					</skillNeedFactors>
+					<capacityFactors>
+				  	   <li>
+					     <capacity>Sight</capacity>
+						 <weight>0.3</weight>
+					   </li>
+					   <li>
+						 <capacity>Manipulation</capacity>
+						 <weight>0.9</weight>
+					   </li>
+					</capacityFactors>
+				  </StatDef>
+		        </value>
+		   </nomatch>	
+           <match Class="PatchOperationSequence">				
+			 <operations>
+			   <li Class="PatchOperationConditional">	
+				 <xpath>Defs/StatDef[defName="StonecuttingSpeed"]/skillNeedFactors</xpath>	
+					<nomatch Class="PatchOperationAdd">	
+					  <xpath>Defs/StatDef[defName="StonecuttingSpeed"]</xpath>
+						<value>
+						  <skillNeedFactors>
+							<li Class="SkillNeed_BaseBonus">
+							  <skill>Crafting</skill>
+							  <baseValue>0.8</baseValue>
+							  <bonusPerLevel>0.075</bonusPerLevel>
+							</li>
+						  </skillNeedFactors>
+						</value>
+					</nomatch>	
+			  </li>
+			   <li Class="PatchOperationConditional">	
+				 <xpath>Defs/StatDef[defName="StonecuttingSpeed"]/capacityFactors</xpath>	
+					<nomatch Class="PatchOperationAdd">	
+					  <xpath>Defs/StatDef[defName="StonecuttingSpeed"]</xpath>
+						<value>
+							<capacityFactors>
+								<li>
+									<capacity>Sight</capacity>
+									<weight>0.3</weight>
+									<max>1</max> <!-- un-limit -->
+								</li>
+								<li>
+									<capacity>Manipulation</capacity>
+									<weight>0.9</weight>
+								</li>
+							</capacityFactors>
+						</value>
+					</nomatch>	
+			  </li>				
+			 </operations>
+		   </match>	
+		</li>	
+      </operations>
+    </Operation>
+		
+	<Operation Class="PatchOperationSequence">			
+      <operations>
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/RecipeDef[@Name = "MakeStoneBlocksBase"]/workSkill</xpath>
+			<nomatch Class="PatchOperationAdd">
+				<xpath>Defs/RecipeDef[@Name = "MakeStoneBlocksBase"]</xpath>
+				<value>
+				  <workSkill>Crafting</workSkill>
+				</value>
+			</nomatch>	
+		</li>
+		<li Class="PatchOperationConditional">
+			<xpath>Defs/RecipeDef[@Name = "MakeStoneBlocksBase"]/workSkillLearnFactor</xpath>
+			<nomatch Class="PatchOperationAdd">
+				<xpath>Defs/RecipeDef[@Name = "MakeStoneBlocksBase"]</xpath>
+				<value>
+				  <workSkillLearnFactor>0.25</workSkillLearnFactor>
+				</value>
+			</nomatch>	
+		</li>
+		<li Class="PatchOperationReplace">
+		  <xpath>Defs/RecipeDef[@Name = "MakeStoneBlocksBase"]/workSpeedStat</xpath>
+			<value>
+				<workSpeedStat>StonecuttingSpeed</workSpeedStat>
+			</value>
+		</li>
+		<li Class="PatchOperationConditional">
+		  <xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and effectWorking="CutStone"]</xpath>
+			<match Class="PatchOperationReplace">
+			  <xpath>Defs/ThingDef/recipeMaker[workSpeedStat="GeneralLaborSpeed" and effectWorking="CutStone"]/workSpeedStat</xpath>
+				<value>
+				  <workSpeedStat>StonecuttingSpeed</workSpeedStat>
+				</value>
+			</match>
+		</li>
+		<li Class="PatchOperationReplace">
+		  <xpath>Defs/RecipeDef[workSpeedStat="GeneralLaborSpeed" and effectWorking="CutStone"]/workSpeedStat</xpath>
+			<value>
+			  <workSpeedStat>StonecuttingSpeed</workSpeedStat>
+			</value>
+		</li>
+	  </operations>
+	</Operation>
+	
+</Patch>	
