@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MealCooked">
+    <defName>MealOvercooked</defName>
+    <label>overcooked meal</label>
+    <description>A burnt meal kept over the heat a bit too long. Not as tasty or nutritious as other meals, but less likely to cause food poisoning.</description>
+    <graphicData>
+      <texPath>Things/Item/Meal/Overcooked</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <statBases>
+      <MarketValue>10</MarketValue>
+      <Nutrition>0.7</Nutrition>
+    </statBases>
+    <ingestible>
+      <preferability>MealAwful</preferability>
+      <ateEvent>AteOvercookedMeal</ateEvent>
+      <ingestEffect>EatVegetarian</ingestEffect>
+      <ingestSound>Meal_Eat</ingestSound>
+    </ingestible>
+  </ThingDef>
+  
+  <HistoryEventDef>
+    <defName>AteOvercookedMeal</defName>
+    <label>ate overcooked meal</label>
+  </HistoryEventDef>
+  
+  <IssueDef>
+    <defName>OvercookedMealEating</defName>
+    <label>overcooked meals</label>
+    <iconPath>UI/Issues/OvercookedMealEating</iconPath>
+  </IssueDef>
+  
+  <PreceptDef>
+    <defName>OvercookedMealEating_Disgusting</defName>
+    <issue>OvercookedMealEating</issue>
+    <label>undesirable</label>
+    <description>Overcooked meals are undesirable.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>100</displayOrderInIssue>
+    <defaultSelectionWeight>1</defaultSelectionWeight>
+    <classic>true</classic>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>AteOvercookedMeal</eventDef>
+        <thought>AteOvercookedMeal</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+  
+  <ThoughtDef>
+    <defName>AteOvercookedMeal</defName>
+    <durationDays>1</durationDays>
+    <nullifyingTraits>
+      <li>Ascetic</li>
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>ate overcooked meal</label>
+        <description>I had to eat a dry, overcooked meal. We really need to find a better cook!</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>
