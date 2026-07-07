@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>FRS_PR_Allegiance</defName>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <expireDaysRange>2</expireDaysRange>
+    <isRootSpecial>true</isRootSpecial>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Confirm allegiance</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <include>
+        <li>QuestHospitalityCommon</li>
+      </include>
+      <rulesStrings>
+        <li>questDescription->People's Republic has broadcasted a message for all loyal remaining forces to confirm allegiance. Do you?</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+ 
+        <li Class="QuestNode_RequireRoyalFavorFromFaction">
+          <faction>PR</faction>
+        </li>
+
+        <li Class="QuestNode_Set">
+          <name>royalFavorReward</name>
+          <value>8</value>
+        </li>
+
+        <li Class="QuestNode_GiveRoyalFavor">
+          <inSignal>Accepted</inSignal>
+          <giveToAccepter>true</giveToAccepter>
+          <faction>FRS_PR</faction>
+          <amount>$royalFavorReward</amount>
+        </li>
+
+        <li Class="QuestNode_ChangeFactionGoodwill">
+          <inSignal>Accepted</inSignal>
+          <faction>FRS_PR</faction>
+          <change>100</change>
+        </li>
+        
+        <li Class="QuestNode_Signal">
+          <inSignal>Accepted</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Success</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+        <li Class="QuestNode_SendSignals">
+          <outSignals>Accepted</outSignals>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>

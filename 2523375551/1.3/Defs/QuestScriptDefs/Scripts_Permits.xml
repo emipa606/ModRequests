@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<QuestScriptDef>
+		<defName>FRS_Permit_CallShuttle</defName>
+		<isRootSpecial>true</isRootSpecial>
+		<autoAccept>true</autoAccept>
+		<defaultHidden>true</defaultHidden>
+		<questDescriptionAndNameRules>
+			<rulesStrings>
+				<li>questName->Permit Shuttle</li>
+				<li>questDescription-></li>
+			</rulesStrings>
+		</questDescriptionAndNameRules>
+		<root Class="QuestNode_Sequence">
+			<nodes>
+
+				<li Class="QuestNode_Set">
+					<name>shuttleReturnDays</name>
+					<value>5</value>
+				</li>
+				<li Class="QuestNode_Set">
+					<name>goodwillChangeOnShuttleDestroyed</name>
+					<value>-25</value>
+				</li>
+				
+				<li Class="QuestNode_GenerateShuttle">
+					<permitShuttle>true</permitShuttle>
+					<storeAs>shuttle</storeAs>
+				</li>
+				
+				<!-- Generate the transport ship -->
+				<li Class="QuestNode_GenerateTransportShip">
+					<def>FRS_Ship_Shuttle</def>
+					<shipThing>$shuttle</shipThing>
+					<storeAs>pickUpShip</storeAs>
+				</li>
+
+				<!-- Add jobs -->
+				<li Class="QuestNode_AddShipJob_Arrive">
+					<transportShip>$pickUpShip</transportShip>
+					<shipJobStartMode>Instant</shipJobStartMode>
+				</li>
+				
+				<li Class="QuestNode_AddShipJob_Wait">
+					<jobDef>WaitTime</jobDef>
+					<ticks>$(60000 * $shuttleReturnDays)</ticks>
+					<transportShip>$pickUpShip</transportShip>
+				</li>
+				
+				<li Class="QuestNode_AddShipJob_FlyAway">
+					<transportShip>$pickUpShip</transportShip>
+				</li>
+
+				<!-- Send away on cleanup -->
+				<li Class="QuestNode_SendTransportShipAwayOnCleanup">
+					<transportShip>$pickUpShip</transportShip>
+					<unsatisfiedDropMode>All</unsatisfiedDropMode>
+				</li>
+
+				<li Class="QuestNode_InspectString">
+					<targets>$asker</targets>
+					<inspectString TKey="InspectStringDepartShuttle">Should depart on shuttle</inspectString>
+				</li>
+
+				<li Class="QuestNode_Letter">
+					<label TKey="LetterLabelPermitShuttleArrived">Shuttle arrived</label>
+					<text TKey="LetterTextPermitShuttleArrived">The shuttle called by [asker_nameDef] has arrived.\n\nIf you don't use the shuttle, it will return to [permitFaction_name] in [shuttleReturnDays] days.</text>
+					<lookTargets>$shuttle</lookTargets>
+				</li>
+
+				<!-- Shuttle is destroyed -->
+				<li Class="QuestNode_SignalActivable">
+					<inSignal>shuttle.Destroyed</inSignal>
+					<inSignalDisable>shuttle.SentSatisfied</inSignalDisable>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="QuestNode_ChangeFactionGoodwill">
+								<faction>$permitFaction</faction>
+								<change>$goodwillChangeOnShuttleDestroyed</change>
+								<reason TKey="GoodwillChangeReasonShuttleDestroyed">shuttle destroyed</reason>
+							</li>
+							<li Class="QuestNode_End"/>
+						</nodes>
+					</node>
+				</li>
+
+				<!-- Shuttle leaves on its own -->
+				<li Class="QuestNode_ShuttleLeaveDelay">
+					<delayTicks>$($shuttleReturnDays * 60000)</delayTicks>
+					<shuttle>$shuttle</shuttle>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelPermitShuttleLeft">Shuttle left</label>
+								<text TKey="LetterTextPermitShuttleLeft">The shuttle from [permitFaction_name] has departed after being made to wait for too long.</text>
+							</li>
+							<li Class="QuestNode_SendShuttleAway">
+								<shuttle>$shuttle</shuttle>
+								<dropEverything>true</dropEverything>
+							</li>
+							<li Class="QuestNode_End"/>
+						</nodes>
+					</node>
+				</li>
+
+				<!-- End if the shuttle has been sent. Always satisfied, since it does not require anything. -->
+				<li Class="QuestNode_Signal">
+					<inSignal>shuttle.SentSatisfied</inSignal>
+					<node Class="QuestNode_End"/>
+				</li>
+
+				<!-- End if the permit's faction becomes hostile -->
+				<li Class="QuestNode_Signal">
+					<inSignal>permitFaction.BecameHostileToPlayer</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="QuestNode_SendShuttleAway">
+								<shuttle>$shuttle</shuttle>
+								<dropEverything>true</dropEverything>
+							</li>
+							<li Class="QuestNode_End"/>
+						</nodes>
+					</node>
+				</li>
+
+			</nodes>
+		</root>
+	</QuestScriptDef>
+
+
+</Defs>

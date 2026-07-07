@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<QuestScriptDef>
+		<defName>FRS_ProduceItem</defName>
+		<defaultChallengeRating>1</defaultChallengeRating>
+		<canGiveRoyalFavor>true</canGiveRoyalFavor>
+		<isRootSpecial>true</isRootSpecial>
+		<questNameRules>
+			<rulesStrings>
+				<li>questName->[defToProduce_label] production plan</li>
+			</rulesStrings>
+		</questNameRules>
+		<questDescriptionRules>
+			<rulesStrings>
+				<li>questDescription->[askerFaction_name]
+					The Party has issued a new plan for equipment production. Meeting it will increase your standing in the Party, as well as help our struggle against imperialism.
+
+					To complete the plan, produce items according to the list:
+\n - [thingToProduceLabel]
+\n</li>
+			</rulesStrings>
+		</questDescriptionRules>
+		<root Class="QuestNode_Sequence">
+			<nodes>
+				<li Class="FalloutCore.QuestNode_GetFactionFromDef">
+					<factionDef>FRS_PR</factionDef>
+					<storeAs>askerFaction</storeAs>
+					<minimumGoodwillWithPlayer>10</minimumGoodwillWithPlayer>
+				</li>
+
+				<li Class="QuestNode_GetMap" />
+
+				<li Class="FalloutCore.QuestNode_GetThingPlayerCanProduce">
+					<storeProductionItemDefAs>defToProduce</storeProductionItemDefAs>
+					<storeProductionItemStuffAs>stuffToProduce</storeProductionItemStuffAs>
+					<storeProductionItemCountAs>countToProduce</storeProductionItemCountAs>
+					<storeProductionItemLabelAs>thingToProduceLabel</storeProductionItemLabelAs>
+					<thingDefTags>
+						<li>RedArmy</li>
+					</thingDefTags>
+					<thingStuffCandidates>
+						<li>Steel</li>
+						<li>WoodLog</li>
+					</thingStuffCandidates>
+					<totalMarketValuePerPlayerWealth>0.05~0.15</totalMarketValuePerPlayerWealth>
+				</li>
+
+				<li Class="QuestNode_ThingsProduced">
+					<def>$defToProduce</def>
+					<stuff>$stuffToProduce</stuff>
+					<count>$countToProduce</count>
+					<outSignalComplete>AllProduced</outSignalComplete>
+				</li>
+
+				<li Class="QuestNode_Signal">
+					<inSignal>AllProduced</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="FalloutCore.QuestNode_GenerateSpecifiedShuttle">
+								<shuttle>FRS_Shuttle</shuttle>
+								<requiredDef>$defToProduce</requiredDef>
+								<requiredStuff>$stuffToProduce</requiredStuff>
+								<requiredCount>$countToProduce</requiredCount>
+								<storeAs>shuttle</storeAs>
+							</li>
+							<li Class="QuestNode_SpawnSkyfaller">
+								<skyfallerDef>FRS_ShuttleIncoming</skyfallerDef>
+								<innerThings>$shuttle</innerThings>
+								<tryLandInShipLandingZone>True</tryLandInShipLandingZone>
+								<lookForSafeSpot>True</lookForSafeSpot>
+							</li>
+							<li Class="QuestNode_SendShuttleAwayOnCleanup">
+								<shuttle>$shuttle</shuttle>
+							</li>
+							<li Class="QuestNode_InspectString">
+								<targets>$laborers</targets>
+								<inspectString TKey="InspectStringDepartShuttle">Should depart on shuttle</inspectString>
+							</li>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelShuttleArrived">Shuttle arrived</label>
+								<text TKey="LetterTextShuttleArrivedForLaborers">A shuttle has arrived to collect the items.</text>
+								<lookTargets>$shuttle</lookTargets>
+							</li>
+							<li Class="QuestNode_ShuttleLeaveDelay">
+								<delayTicks>$(1*60000)</delayTicks>
+								<shuttle>$shuttle</shuttle>
+								<node Class="QuestNode_Sequence">
+									<nodes>
+										<li Class="QuestNode_SendShuttleAway">
+											<shuttle>$shuttle</shuttle>
+										</li>
+										<li Class="QuestNode_End"/>
+									</nodes>
+								</node>
+							</li>
+						</nodes>
+					</node>
+				</li>
+
+				<!-- Goodwill penalty for laborer killed or not on shuttle -->
+				<li Class="QuestNode_Set">
+					<name>goodwillPenaltyPawn</name>
+					<value>-12</value>
+				</li>
+				<!-- Goodwill penalty for shuttle destruction -->
+				<li Class="QuestNode_Set">
+					<name>goodwillChangeOnShuttleDestroyed</name>
+					<value>-25</value>
+				</li>
+
+				<!-- Departure shuttle is destroyed -->
+				<li Class="QuestNode_Signal">
+					<inSignal>shuttle.Destroyed</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<!--<li Class="QuestNode_ChangeFactionGoodwill">
+								<faction>$askerFaction</faction>
+								<change>$goodwillChangeOnShuttleDestroyed</change>
+							</li> -->
+							<li Class="QuestNode_End" />
+						</nodes>
+					</node>
+				</li>
+
+				<!-- Shuttle sent -->
+				<li Class="QuestNode_Signal">
+					<inSignal>shuttle.SentUnsatisfied</inSignal>
+					<node Class="QuestNode_End" />
+				</li>
+				<li Class="FalloutCore.QuestNode_SetRewards">
+					<inSignal>shuttle.SentSatisfied</inSignal>
+					<goodwillRange>10~20</goodwillRange>
+					<favorRange>10~20</favorRange>
+				</li>
+				<li Class="QuestNode_Signal">
+					<inSignal>shuttle.SentSatisfied</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="FalloutCore.QuestNode_FactionPointsChange">
+								<faction>$askerFaction</faction>
+								<points>5000</points>
+							</li>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelQuestProductionSuccess">Quest is finished: [resolvedQuestName]</label>
+								<text TKey="LetterTextQuestProductionSuccess">All produced.</text>
+							</li>
+							<li Class="QuestNode_End">
+								<outcome>Success</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+
+
+				<!-- End if the permit's faction becomes hostile -->
+				<li Class="QuestNode_Signal">
+					<inSignal>permitFaction.BecameHostileToPlayer</inSignal>
+					<node Class="QuestNode_End" />
+				</li>
+
+
+			</nodes>
+		</root>
+	</QuestScriptDef>
+</Defs>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<QuestScriptDef>
+		<defName>FRS_Scapegoat</defName>
+		<defaultChallengeRating>1</defaultChallengeRating>
+		<isRootSpecial>true</isRootSpecial>
+		<questNameRules>
+			<rulesStrings>
+				<li>questName->Scapegoat</li>
+			</rulesStrings>
+		</questNameRules>
+		<questDescriptionRules>
+			<rulesStrings>
+				<li>questDescription->[askerFaction_name] Scapegoat quest</li>
+			</rulesStrings>
+		</questDescriptionRules>
+		<root Class="QuestNode_Sequence">
+			<nodes>
+				<li Class="FalloutCore.QuestNode_GetFactionFromDef">
+					<factionDef>FRS_PR</factionDef>
+					<storeAs>askerFaction</storeAs>
+				</li>
+
+				<li Class="FalloutCore.QuestNode_SetScapegoat">
+					<setGoodwill>80</setGoodwill>
+					<factionRelation>Ally</factionRelation>
+					<faction>$askerFaction</faction>
+				</li>
+
+				<li Class="QuestNode_Signal">
+					<inSignal>ScapegoatSelected</inSignal>
+					<node Class="QuestNode_Sequence">
+						<nodes>
+							<li Class="QuestNode_Letter">
+								<label TKey="LetterLabelQuestScapegoatSelectedSuccess">Quest is finished: [resolvedQuestName]</label>
+								<text TKey="LetterTextQuestScapegoatSelectedSuccess">ScapegoatSelected.</text>
+							</li>
+							<li Class="QuestNode_End">
+								<outcome>Success</outcome>
+							</li>
+						</nodes>
+					</node>
+				</li>
+
+
+			</nodes>
+		</root>
+	</QuestScriptDef>
+</Defs>

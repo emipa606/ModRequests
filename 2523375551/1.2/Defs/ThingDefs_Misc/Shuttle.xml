@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef Name="FRS_ShuttleBase" ParentName="BuildingBase">
+    <defName>FRS_Shuttle</defName>
+    <label>red shuttle</label>
+    <description>A spacer-tech shuttle designed for transit between surface and orbit, or between moons of a planetary system.</description>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>Impassable</passability>
+    <fillPercent>1.0</fillPercent>
+    <size>(5,3)</size>
+    <graphicData>
+      <texPath>FRS/Things/Skyfaller/RedAirTransport</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(6,6)</drawSize>
+      <shadowData>
+        <volume>(4.1, 1.0, 1.8)</volume>
+        <offset>(0, 0, -0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1000</MaxHitPoints>
+      <Flammability>1</Flammability>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <killedLeavings>
+      <Steel>100</Steel>
+      <Plasteel>35</Plasteel>
+      <ChunkSlagSteel>4</ChunkSlagSteel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </killedLeavings>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <drawerType>MapMeshOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <uiIconScale>1.4</uiIconScale>
+    <building>
+      <claimable>false</claimable>
+      <soundAmbient>ShuttleIdle_Ambience</soundAmbient>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="FalloutCore.CompProperties_FRS_Shuttle" >
+        <skyfallerLeaving>FRS_ShuttleLeaving</skyfallerLeaving>
+      </li>
+      <li Class="CompProperties_Launchable">
+        <requireFuel>false</requireFuel>
+        <fixedLaunchDistanceMax>70</fixedLaunchDistanceMax>
+        <skyfallerLeaving>FRS_ShuttleLeaving</skyfallerLeaving>
+      </li>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>1000</massCapacity>
+        <max1PerGroup>true</max1PerGroup>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <showOverallStats>false</showOverallStats>
+        <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
+        <pawnExitSound>Shuttle_PawnExit</pawnExitSound>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="FRS_ShuttleBase">
+    <defName>FRS_ShuttleCrashed</defName>
+    <label>crashed red shuttle</label>
+    <graphicData>
+      <texPath>FRS/Things/Skyfaller/RedAirTransportCrushed</texPath>
+      <drawSize>(6,6)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Flammability>1</Flammability>
+    </statBases>
+    <comps Inherit="False"></comps>
+    <killedLeavings Inherit="False">
+      <Steel>4</Steel>
+      <Plasteel>7</Plasteel>
+      <ChunkSlagSteel>1</ChunkSlagSteel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </killedLeavings>
+    <costList>
+      <Steel>40</Steel>
+      <Plasteel>70</Plasteel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <building Inherit="False">
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <claimable>false</claimable>
+      <alwaysDeconstructible>true</alwaysDeconstructible>
+    </building>
+  </ThingDef>
+
+  <ThingDef Name="FRS_ShuttleSkyfallerBase" ParentName="SkyfallerBase" Abstract="True">
+    <size>(5,3)</size>
+    <graphicData>
+      <texPath>FRS/Things/Skyfaller/RedAirTransport</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(6,6)</drawSize>
+    </graphicData>
+    <skyfaller>
+      <movementType>Decelerate</movementType>
+      <shadow>Things/Skyfaller/SkyfallerShadowRectangle</shadow>
+      <shadowSize>(5.5,3.5)</shadowSize>
+      <motesPerCell>1</motesPerCell>
+    </skyfaller>
+  </ThingDef>
+
+  <ThingDef ParentName="FRS_ShuttleSkyfallerBase">
+    <defName>FRS_ShuttleIncoming</defName>
+    <label>shuttle (incoming)</label>
+    <thingClass>ShuttleIncoming</thingClass>
+    <skyfaller>
+      <anticipationSound>Shuttle_Landing</anticipationSound>
+      <anticipationSoundTicks>250</anticipationSoundTicks>
+      <ticksToImpactRange>200~250</ticksToImpactRange>
+      <angleCurve>
+        <points>
+          <li>(0,-60)</li>
+          <li>(1,-90)</li>
+        </points>
+      </angleCurve>
+      <rotationCurve>
+        <points>
+          <li>(0,30)</li>
+          <li>(0.5,5)</li>
+          <li>(0.9,-5)</li>
+          <li>(0.95,0)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,2.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+  </ThingDef>
+
+  <ThingDef ParentName="FRS_ShuttleSkyfallerBase">
+    <defName>FRS_ShuttleLeaving</defName>
+    <label>shuttle (leaving)</label>
+    <thingClass>FlyShipLeaving</thingClass>
+    <skyfaller>
+      <reversed>true</reversed>
+      <anticipationSound>Shuttle_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>-40~-15</ticksToImpactRange>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <shadow>Things/Skyfaller/SkyfallerShadowRectangle</shadow>
+      <shadowSize>(5.5,3.5)</shadowSize>
+      <motesPerCell>1</motesPerCell>
+      <angleCurve>
+        <points>
+          <li>(0,90)</li>
+          <li>(1,70)</li>
+        </points>
+      </angleCurve>
+      <rotationCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.15,10)</li>
+          <li>(0.5,-5)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.08,2)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0,0.2)</li>
+          <li>(0.4,0.7)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+  </ThingDef>
+
+  <ThingDef ParentName="FRS_ShuttleSkyfallerBase">
+    <defName>FRS_ShuttleCrashing</defName>
+    <label>shuttle (crashing)</label>
+    <thingClass>ShuttleIncoming</thingClass>
+    <size>(5,3)</size>
+    <skyfaller>
+      <ticksToImpactRange>150~200</ticksToImpactRange>
+      <movementType>ConstantSpeed</movementType>
+      <angleCurve>
+        <points>
+          <li>(0,-60)</li>
+          <li>(1,-90)</li>
+        </points>
+      </angleCurve>
+      <rotationCurve>
+        <points>
+          <li>(0,20)</li>
+          <li>(0.49,5)</li>
+          <li>(0.6,5)</li>
+          <li>(0.7,3)</li>
+          <li>(0.8,3)</li>
+          <li>(0.83,-4)</li>
+          <li>(0.9,3)</li>
+          <li>(0.95,-2)</li>
+          <li>(0.98,1)</li>
+          <li>(0.99,0)</li>
+        </points>
+      </rotationCurve>
+      <speed>0.8</speed>
+      <explosionRadius>3</explosionRadius>
+      <explosionDamage>Bomb</explosionDamage>
+      <cameraShake>1</cameraShake>
+      <metalShrapnelCountRange>
+        <min>6</min>
+        <max>10</max>
+      </metalShrapnelCountRange>
+      <rubbleShrapnelCountRange>
+        <min>300</min>
+        <max>400</max>
+      </rubbleShrapnelCountRange>
+      <shrapnelDistanceFactor>0.2</shrapnelDistanceFactor>
+    </skyfaller>
+  </ThingDef>
+  
+</Defs>
