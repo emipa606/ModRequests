@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!--=============== Base Shells ===============-->
+
+  <ThingDef Name="460mmCannonShellBase" ParentName="ResourceBase" Abstract="True">
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <tickerType>Normal</tickerType>
+    <stackLimit>100</stackLimit>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <MarketValue>5000</MarketValue>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <DeteriorationRate>0.2</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>460mmCannonShells</li>
+    </thingCategories>
+    <tradeTags>
+      <li>460mmCannonShells</li>
+    </tradeTags>
+  </ThingDef>
+
+  <ThingDef Name="MakeableYamatoCannonShellBase" ParentName="460mmCannonShellBase" Abstract="True">
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <workAmount>5000</workAmount>
+      <targetCountAdjustment>5</targetCountAdjustment>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+
+  <!--=============== 460mm Shell ===============-->
+
+  <ThingDef ParentName="MakeableYamatoCannonShellBase">
+    <defName>460mmCannonShell_HighExplosive</defName>
+    <label>46CM零式通常弹</label>
+    <description>46CM零式通常弹</description>
+    <graphicData>
+      <texPath>Things/Projectile/460HE</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>1</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.2</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>30~60</wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>460mmCannonBullet_Shell_HighExplosive</projectileWhenLoaded>
+    <costList>
+      <Steel>500</Steel>
+      <Chemfuel>300</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>460mmCannonBullet_Shell_HighExplosive</defName>
+    <label>46CM零式通常弹</label>
+    <graphicData>
+      <texPath>Things/Projectile/LargeShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Yamato460mmHEBullet</damageDef>
+      <speed>100</speed>
+      <explosionRadius>30</explosionRadius>
+      <flyOverhead>True</flyOverhead>
+	  <explosionDamageFalloff>true</explosionDamageFalloff>
+	  <explosionEffect>GiantExplosion</explosionEffect>
+	  <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+	  <soundExplode>Explosion_GiantBomb</soundExplode>
+	  <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+	  <soundAmbient>MortarRound_Ambient</soundAmbient>
+	  <postExplosionSpawnThingDef>Gas_Smoke</postExplosionSpawnThingDef>
+	  <postExplosionSpawnChance>0.4</postExplosionSpawnChance>     
+    </projectile>
+  </ThingDef>
+  
+  <!--=============== Type III Flame ===============-->
+
+  <ThingDef ParentName="MakeableYamatoCannonShellBase">
+    <defName>Type3_Flame</defName>
+    <label>46CM三式彈</label>
+    <description>46CM三式彈</description>
+    <graphicData>
+      <texPath>Things/Projectile/460type3</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+	<statBases>
+      <MaxHitPoints>10</MaxHitPoints>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>5</explosiveRadius>
+	    <preExplosionSpawnThingDef>Type3_Flame</preExplosionSpawnThingDef>
+        <preExplosionSpawnChance>0.0122</preExplosionSpawnChance>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <explosiveExpandPerStackcount>0</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>30~60</wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>Type3_Shell_Flame</projectileWhenLoaded>
+    <costList>
+      <Steel>200</Steel>
+      <Chemfuel>200</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>Type3_Shell_Flame</defName>
+    <label>46CM三式彈</label>
+    <graphicData>
+      <texPath>Things/Projectile/LargeShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <speed>60</speed>
+	  <damageAmountBase>100</damageAmountBase>
+      <explosionRadius>30</explosionRadius>
+	  <preExplosionSpawnThingDef>Type3_Flame</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.015</preExplosionSpawnChance>
+      <flyOverhead>True</flyOverhead>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarIncendiary_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+	  <ai_IsIncendiary>true</ai_IsIncendiary>
+	  <postExplosionSpawnThingDef>Shell_EMP</postExplosionSpawnThingDef>
+	  <postExplosionSpawnChance>0.01</postExplosionSpawnChance>
+    </projectile>
+  </ThingDef>
+  
+    <!--=============== Type I AP	===============-->
+
+  <ThingDef ParentName="MakeableYamatoCannonShellBase">
+    <defName>460mmCannonShell_AP</defName>
+    <label>46CM壹式彻甲弹</label>
+    <description>46CM壹式彻甲弹</description>
+    <graphicData>
+      <texPath>Things/Projectile/460AP</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>1</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.2</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>30~60</wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>460mmCannonBullet_Shell_AP</projectileWhenLoaded>
+    <costList>
+      <Steel>800</Steel>
+      <Chemfuel>300</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>460mmCannonBullet_Shell_AP</defName>
+    <label>46CM壹式彻甲弹</label>
+    <graphicData>
+      <texPath>Things/Projectile/LargeShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>Yamato460mmHEBullet</damageDef>
+      <speed>200</speed>
+      <explosionRadius>12</explosionRadius>
+	  <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+	  <preExplosionSpawnThingDef>Shell_AntigrainWarhead</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>1</preExplosionSpawnChance>
+      <flyOverhead>True</flyOverhead>
+	  <explosionEffect>GiantExplosion</explosionEffect>
+	  <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+	  <soundExplode>Explosion_GiantBomb</soundExplode>
+	  <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+	  <soundAmbient>MortarRound_Ambient</soundAmbient>    
+    </projectile>
+  </ThingDef>
+  
+    <!--=============== Type IV N2	===============-->
+
+<ThingDef Name="460mmCannonShellBaseSS" ParentName="ResourceBase" Abstract="True">
+    <soundInteract>Metal_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <tickerType>Normal</tickerType>
+    <stackLimit>100</stackLimit>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <MarketValue>5000</MarketValue>
+      <Mass>2</Mass>
+      <Flammability>1.0</Flammability>
+      <DeteriorationRate>0.2</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>460mmCannonShellsSS</li>
+    </thingCategories>
+    <tradeTags>
+      <li>460mmCannonShellsSS</li>
+    </tradeTags>
+  </ThingDef>
+
+  <ThingDef Name="MakeableYamatoCannonShellBaseSS" ParentName="460mmCannonShellBaseSS" Abstract="True">
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <effectWorking>Cook</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <workAmount>5000</workAmount>
+      <targetCountAdjustment>5</targetCountAdjustment>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+  
+  <ThingDef ParentName="MakeableYamatoCannonShellBaseSS">
+    <defName>460mmCannonShell_NS</defName>
+    <label>46CM四式反应弹</label>
+    <description>46CM四式反应弹</description>
+    <graphicData>
+      <texPath>Things/Projectile/460SS</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>100</explosiveRadius>
+        <explosiveDamageType>46NSS</explosiveDamageType>
+		<preExplosionSpawnThingDef>460mmCannonShell_NS</preExplosionSpawnThingDef>
+        <preExplosionSpawnChance>0.0001</preExplosionSpawnChance>
+        <explosiveExpandPerStackcount>0.2</explosiveExpandPerStackcount>
+        <startWickHitPointsPercent>0.7</startWickHitPointsPercent>
+        <wickTicks>30~60</wickTicks>
+      </li>
+    </comps>
+    <projectileWhenLoaded>460mmCannonBullet_Shell_NS</projectileWhenLoaded>
+    <costList>
+      <Steel>1000</Steel>
+      <Chemfuel>1000</Chemfuel>
+    </costList>
+  </ThingDef>
+  
+  <ThingDef ParentName="BaseBullet">
+    <defName>460mmCannonBullet_Shell_NS</defName>
+    <label>46CM四式反应弹</label>
+    <graphicData>
+      <texPath>Things/Projectile/LargeShell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <thingClass>Projectile_Explosive</thingClass>
+    <projectile>
+      <damageDef>46NSS</damageDef>
+      <speed>3000</speed>
+      <explosionRadius>100</explosionRadius>
+	  <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+	  <preExplosionSpawnThingDef>460mmCannonShell_NS</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.03</preExplosionSpawnChance>
+	  <preExplosionSpawnThingCount>50</preExplosionSpawnThingCount>
+      <flyOverhead>True</flyOverhead>
+	  <explosionEffect>GiantExplosion</explosionEffect>
+	  <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+	  <soundExplode>Explosion_GiantBomb</soundExplode>
+	  <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+	  <soundAmbient>MortarRound_Ambient</soundAmbient>    
+    </projectile>
+  </ThingDef>  
+</Defs>
