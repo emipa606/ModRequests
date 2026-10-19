@@ -1,0 +1,56 @@
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+		<mods>
+            <li>Medieval Overhaul</li>
+		</mods>
+        <match Class="PatchOperationSequence">
+        <operations>
+
+            <!-- Dry Fresh Dark Lumber -->
+            <li Class="PatchOperationAdd">
+                <xpath>Defs</xpath>
+                <value>
+                    <PipeSystem.ProcessDef>
+                        <defName>EW2_DryLumberDark</defName>
+                        <label>Dry elm lumber</label>
+                        <description>Leave dark lumber to dry.</description>
+                        <spawnOnInteractionCell>true</spawnOnInteractionCell>
+                        <labelOverride>Dry dark lumber</labelOverride>
+                        <priorityInBillList>0</priorityInBillList>
+                        <ingredients>
+                            <li>
+                                <thing>EW2_FreshLumberDark</thing>
+                                <countNeeded>75</countNeeded>
+                            </li>
+                        </ingredients>
+                        <ticks>36000</ticks>
+                        <results>
+                            <li>
+                                <thing>DankPyon_DarkWood</thing>
+                                <count>75</count>
+                            </li>
+                        </results>
+                        <autoExtract>false</autoExtract>
+                        <isRainDependingProcess>true</isRainDependingProcess>
+                        <temperatureRuinable>true</temperatureRuinable>
+                        <minSafeTemperature>0</minSafeTemperature>
+                        <maxSafeTemperature>40</maxSafeTemperature>
+                        <researchPrerequisites><li>EW2_Woodworking</li></researchPrerequisites>
+                    </PipeSystem.ProcessDef>
+                </value>
+            </li>
+
+            <!-- Adds drying recipe to drying spot/rack -->
+            <li Class="PatchOperationAdd">
+                <xpath>Defs/ThingDef[defName = "EW2_LumberDryingRack" or defName="EW2_LumberDryingSpot"]/comps/li["PipeSystem.CompProperties_AdvancedResourceProcessor"]/processes</xpath>
+                <value>
+                    <li>EW2_DryLumberDark</li>
+                </value>
+            </li>
+
+        </operations>
+        </match>
+    </Operation>
+
+</Patch>

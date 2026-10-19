@@ -1,0 +1,57 @@
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+		<mods>
+            <li>Ideology</li>
+		</mods>
+        <match Class="PatchOperationSequence">
+        <operations>
+
+            <!-- Dry Fresh Lumber -->
+            <li Class="PatchOperationAdd">
+                <xpath>Defs</xpath>
+                <value>
+                    <!-- Gaur Lumber -->
+                    <PipeSystem.ProcessDef>
+                        <defName>EW2_DryLumberGaur</defName>
+                        <label>Dry living lumber</label>
+                        <description>Leave living lumber to dry.</description>
+                        <spawnOnInteractionCell>true</spawnOnInteractionCell>
+                        <labelOverride>Dry living lumber</labelOverride>
+                        <priorityInBillList>0</priorityInBillList>
+                        <ingredients>
+                            <li>
+                                <thing>EW2_FreshLumberGaur</thing>
+                                <countNeeded>75</countNeeded>
+                            </li>
+                        </ingredients>
+                        <ticks>36000</ticks>
+                        <results>
+                            <li>
+                                <thing>WoodLumberGaur</thing>
+                                <count>75</count>
+                            </li>
+                        </results>
+                        <autoExtract>false</autoExtract>
+                        <isRainDependingProcess>true</isRainDependingProcess>
+                        <temperatureRuinable>true</temperatureRuinable>
+                        <minSafeTemperature>0</minSafeTemperature>
+                        <maxSafeTemperature>40</maxSafeTemperature>
+                        <researchPrerequisites><li>EW2_Woodworking</li></researchPrerequisites>
+                    </PipeSystem.ProcessDef>
+                </value>
+            </li>
+
+            <!-- Adds drying recipe to drying spot/rack -->
+            <li Class="PatchOperationAdd">
+                <xpath>Defs/ThingDef[defName = "EW2_LumberDryingRack" or defName="EW2_LumberDryingSpot"]/comps/li["PipeSystem.CompProperties_AdvancedResourceProcessor"]/processes</xpath>
+                <value>
+                    <li>EW2_DryLumberGaur</li>
+                </value>
+            </li>
+
+        </operations>
+        </match>
+    </Operation>
+
+</Patch>

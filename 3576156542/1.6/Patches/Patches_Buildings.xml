@@ -1,0 +1,186 @@
+<Patch>
+
+	<!-- Fence
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="Fence"]/stuffCategories</xpath>
+				<value>
+					<li>EW2_RawWoody</li>
+				</value>
+			</li>
+
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName="Fence"]/uiIconPathsStuff</xpath>
+				<value>
+					<li>
+						<appearance>EW2RawWoody</appearance>
+						<iconPath>Things/Building/Linked/FenceEW2RawWoody_MenuIcon</iconPath>
+					</li>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+	-->
+
+	<!-- Joy/Recreation -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Hoopstone Ring has its stuffCategory changed to RawWoody, so it can be made with logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "HorseshoesPin" or defName = "HoopstoneRing"]/stuffCategories/li[.="Woody"]</xpath>
+				<value>
+					<li>EW2_RawWoody</li>
+				</value>
+			</li>
+
+			<!-- Game of Ur has its stuffCategory changed to RawWoody, so it can be made with logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "GameOfUrBoard"]/stuffCategories/li[.="Woody"]</xpath>
+				<value>
+					<li>EW2_RawWoody</li>
+				</value>
+			</li>
+
+			<!-- Remove WoodLogs from the costList of Billiard and Poker tables -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName = "PokerTable" or defName = "BilliardsTable"]/costList/WoodLog</xpath>
+			</li>
+
+			<!-- Adjusts the costStuffCount of Poker Tables to make up for the removed WoodLogs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "PokerTable"]/costStuffCount</xpath>
+				<value>
+					<costStuffCount>75</costStuffCount>
+				</value>
+			</li>
+
+			<!-- Adjusts the costStuffCount of Billiards Tables to make up for the removed WoodLogs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "BilliardsTable"]/costStuffCount</xpath>
+				<value>
+					<costStuffCount>110</costStuffCount>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+	<!-- Furniture/Lighting -->
+	<!-- Torches -->
+	<Operation Class="PatchOperationSequence">
+			<operations>
+
+				<!-- Removes constructEffect from Torches so it doesn't produce an error when the costList is changed to a stuffCategory -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/ThingDef[@Name = "TorchBase"]/constructEffect</xpath>
+				</li>
+
+				<!-- Replaces their costList changed to the RawWoody stuffCategory, so they can me made with logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[@Name = "TorchBase"]/costList</xpath>
+					<value>
+						<stuffCategories>
+							<li>EW2_RawWoody</li>
+						</stuffCategories>
+						<costStuffCount>20</costStuffCount>
+					</value>
+				</li>
+
+			</operations>
+	</Operation>
+
+	<!-- Production -->
+	<!-- Butcher Table -->
+	<!-- First check if it has a costList -->
+	<Operation  Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName = "TableButcher"]/costList</xpath>
+
+		<!-- If it does... -->
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<!-- ...remove the costList -->
+				<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName = "TableButcher"]/costList</xpath>
+				</li>
+
+				<!-- Adjust the costStuffCount to make up for the removal of the dedicated WoodLog costList -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "TableButcher"]/costStuffCount</xpath>
+					<value>
+						<costStuffCount>95</costStuffCount>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Security -->
+	<!-- Spike Trap -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Changes Spike Trap stuffCategory to RawWoody, so it can be made with logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "TrapSpike"]/stuffCategories/li[.="Woody"]</xpath>
+				<value>
+					<li>EW2_RawWoody</li>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+	<!-- Temperature -->
+	<!-- Campfire -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Remove the constructEffect from Campires -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName = "Campfire"]/constructEffect</xpath>
+			</li>
+
+			<!-- Replace the Wood costList with RawWoody so they can be made with raw logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "Campfire"]/costList</xpath>
+				<value>
+					<stuffCategories>
+						<li>EW2_RawWoody</li>
+					</stuffCategories>
+					<costStuffCount>20</costStuffCount>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+	<!-- Passive Cooler -->
+	<Operation Class="PatchOperationSequence">
+			<operations>
+
+				<!-- Remove the constructEffect from Passive Coolers -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/ThingDef[defName = "PassiveCooler"]/constructEffect</xpath>
+				</li>
+
+				<!-- Replace the Wood costList with RawWoody so they can be made with raw logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "PassiveCooler"]/costList</xpath>
+					<value>
+						<stuffCategories>
+							<li>EW2_RawWoody</li>
+						</stuffCategories>
+						<costStuffCount>50</costStuffCount>
+					</value>
+				</li>
+
+			</operations>
+	</Operation>
+
+</Patch>

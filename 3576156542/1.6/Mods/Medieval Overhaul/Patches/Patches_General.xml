@@ -1,0 +1,417 @@
+<Patch>
+
+	<!-- DankPyon_RawWood has its label adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "DankPyon_RawWood"]/label</xpath>
+		<value>
+			<label>wood logs</label>
+		</value>
+	</Operation>
+
+	<!-- DankPyon_RawWood has its description adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "DankPyon_RawWood"]/description</xpath>
+		<value>
+			<description>Raw wood from tree-stumps or other fibrous plants such as fibercorn. Useful for building simple structures and weapons. It cannot be processed into lumber, but it is a good fuel for campfires and generators, and can be refined into chemfuel. In a pinch, a piece of wood can be used as a weapon or a leg.</description>
+		</value>
+	</Operation>
+
+	<!-- DankPyon_RawDarkWood has its label adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "DankPyon_RawDarkWood"]/label</xpath>
+		<value>
+			<label>dark wood logs</label>
+		</value>
+	</Operation>
+
+	<!-- WoodLog has its label adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "WoodLog"]/label</xpath>
+		<value>
+			<label>wood planks</label>
+		</value>
+	</Operation>
+
+	<!-- MO timber have their labels adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/RecipeDef[defName = "DankPyon_Make_TimberAny"]/label</xpath>
+		<value>
+			<label>make fresh lumber x2</label>
+		</value>
+	</Operation>
+
+	<!-- MO timber have their labels adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/RecipeDef[defName = "DankPyon_Make_TimberAny_Bulk"]/label</xpath>
+		<value>
+			<label>make fresh lumber x40</label>
+		</value>
+	</Operation>
+
+	<!-- MO timber have their labels adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/RecipeDef[defName = "DankPyon_Make_TimberAny_Bulkier"]/label</xpath>
+		<value>
+			<label>make fresh lumber x400</label>
+		</value>
+	</Operation>
+
+	<!-- MO timber have their labels adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/RecipeDef[defName = "DankPyon_Make_TimberAny_Tribal"]/label</xpath>
+		<value>
+			<label>make fresh lumber x2</label>
+		</value>
+	</Operation>
+
+	<!-- Removes MO raw wood from timber recipes -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/RecipeDef[defName = "DankPyon_Make_TimberAny_Tribal" or defName="DankPyon_Make_TimberAny" or defName="DankPyon_Make_TimberAny_Bulk" or defName="DankPyon_Make_TimberAny_Bulkier"]/fixedIngredientFilter</xpath>
+		<value>
+			<disallowedThingDefs>
+				<li>DankPyon_RawWood</li>
+			</disallowedThingDefs>
+		</value>
+	</Operation>
+
+	<!-- Removes MO raw wood from water/windmill processors -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ProcessorFramework.ProcessDef[defName = "DankPyon_WaterLumberMillProcess" or defName="DankPyon_LumberMillProcess"]/ingredientFilter</xpath>
+		<value>
+			<disallowedThingDefs>
+				<li>DankPyon_RawWood</li>
+			</disallowedThingDefs>
+		</value>
+	</Operation>
+
+	<!-- Adds dropdown designator to wood floors -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/TerrainDef[defName="WoodPlankFloor"]</xpath>
+		<value>
+			<designatorDropdown>EW2_WoodPlankFloors</designatorDropdown>
+		</value>
+	</Operation>
+
+	<!-- Adds dropdown designator to wooden bridges -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/TerrainDef[@Name="BridgeBase"]</xpath>
+		<value>
+			<designatorDropdown>EW2_WoodFoundations</designatorDropdown>
+		</value>
+	</Operation>
+
+	<!-- Adds dropdown designator to dark wood floors -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/TerrainDef[defName="DankPyon_DarkWoodPlankFloor"]</xpath>
+		<value>
+			<designatorDropdown>EW2_WoodPlankFloors</designatorDropdown>
+		</value>
+	</Operation>
+
+	<!-- Renames EW2 Woodworking research -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ResearchProjectDef[defName = "EW2_Woodworking"]/label</xpath>
+		<value>
+			<label>Primitive Woodworking</label>
+		</value>
+	</Operation>
+
+	<!-- Adds EW2 Fuelled Table Saw to MO timber WorkGiverDef -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/WorkGiverDef[defName = "DankPyon_DoBillsMakeTimber"]/fixedBillGiverDefs</xpath>
+		<value>
+			<li>EW2_FueledTableWoodworking</li>
+		</value>
+	</Operation>DankPyon_Lumber
+
+	<!-- Adds EW2 Fuelled Table Saw to MO timber RecipeDefs -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/RecipeDef[@Name = "DankPyon_MakeTimberBase"]/recipeUsers</xpath>
+		<value>
+			<li>EW2_FueledTableWoodworking</li>
+		</value>
+	</Operation>
+
+	<!-- Assign EW2 logs to MO trees -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Great Oak drops oak logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "DankPyon_GreatOak"]/plant/harvestedThingDef</xpath>
+				<value>
+					<harvestedThingDef>EW2_WoodLog_Oak</harvestedThingDef>
+				</value>
+			</li>
+
+			<!-- Great Fir drop pine logs. Technically I should make a new fir wood type, as fir differs from pine, however I am very tired of writing patches for MO at this point. -->
+             <li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName = "DankPyon_GreatFir"]/plant</xpath>
+				<value>
+					<harvestedThingDef>EW2_WoodLog_Pine</harvestedThingDef>
+				</value>
+			</li>
+
+			<!-- Great Willow drops willow logs -->
+            <li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef[defName = "DankPyon_GreatWillow"]/plant</xpath>
+				<value>
+					<harvestedThingDef>EW2_WoodLog_Willow</harvestedThingDef>
+				</value>
+			</li>
+
+		</operations>
+    </Operation>
+
+    <!-- Integrates EW2 lumber into MO's systems -->
+    <Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Replaces dark wood butchery output with fresh lumber -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "DankPyon_RawDarkWood"]/butcherProducts</xpath>
+				<value>
+					<butcherProducts>
+						<EW2_FreshLumberDark>2</EW2_FreshLumberDark>
+					</butcherProducts>
+                </value>
+			</li>
+
+		</operations>
+	</Operation>
+
+	<!-- Removes undeeded MO timber recipes -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/RecipeDef[defName = "DankPyon_Make_Timber" or defName = "DankPyon_Make_TimberBulk" or defName ="DankPyon_Make_TimberBulkExtra" or defName = "DankPyon_Make_TimberDark" or defName = "DankPyon_Make_TimberDarkBulk" or defName = "DankPyon_Make_TimberDarkBulkExtra" or defName = "DankPyon_Make_Timber_Tribal" or defName = "DankPyon_Make_TimberDark_Tribal"]</xpath>
+	</Operation>
+
+	<!-- Check for Royalty, if found add rustic anima floor -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Royalty</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<TerrainDef ParentName="DankPyon_Floor_RusticWoodFloorBase">
+							<defName>EW2_RusticFloorAnima</defName>
+							<label>rustic mystic wood floor</label>
+							<color>(173,208,195)</color>
+							<costList>
+								<WoodLumberAnima>3</WoodLumberAnima>
+							</costList>
+						</TerrainDef>
+					</value>
+
+				</li>
+
+				<!-- Replaces anima wood butchery output with correct number of logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "EW2_WoodLog_Anima"]/butcherProducts</xpath>
+					<value>
+						<butcherProducts>
+							<EW2_FreshLumberAnima>2</EW2_FreshLumberAnima>
+						</butcherProducts>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Check for Ideology, if found, add rustic gauranlen floor -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Ideology</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<TerrainDef ParentName="DankPyon_Floor_RusticWoodFloorBase">
+							<defName>EW2_RusticFloorGaur</defName>
+							<label>rustic living wood floor</label>
+							<color>(194,112,56)</color>
+							<costList>
+								<WoodLumberGaur>3</WoodLumberGaur>
+							</costList>
+						</TerrainDef>
+					</value>
+				</li>
+
+				<!-- Replaces gauranlen wood butchery output with correct number of logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "EW2_WoodLog_Gaur"]/butcherProducts</xpath>
+					<value>
+						<butcherProducts>
+							<EW2_FreshLumberGaur>2</EW2_FreshLumberGaur>
+						</butcherProducts>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Check for Biotech, if found, add rustic rotwood floor -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Biotech</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<TerrainDef ParentName="DankPyon_Floor_RusticWoodFloorBase">
+							<defName>EW2_RusticFloorRot</defName>
+							<label>rustic rotwood wood floor</label>
+							<color>(194,112,56)</color>
+							<costList>
+								<WoodLumberRot>3</WoodLumberRot>
+							</costList>
+						</TerrainDef>
+					</value>
+				</li>
+
+				<!-- Replaces rot wood butchery output with correct number of logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "EW2_WoodLog_Rot"]/butcherProducts</xpath>
+					<value>
+						<butcherProducts>
+							<EW2_FreshLumberRot>2</EW2_FreshLumberRot>
+						</butcherProducts>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+
+
+	<!-- Check for Odyssey, if found, add rustic archean floor -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Odyssey</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<TerrainDef ParentName="DankPyon_Floor_RusticWoodFloorBase">
+							<defName>EW2_RusticFloorArchean</defName>
+							<label>rustic archean wood floor</label>
+							<color>(214,224,137)</color>
+							<costList>
+								<WoodLumberArchean>3</WoodLumberArchean>
+							</costList>
+						</TerrainDef>
+					</value>
+				</li>
+
+				<!-- Replaces archean wood butchery output with correct number of logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "EW2_WoodLog_Archean"]/butcherProducts</xpath>
+					<value>
+						<butcherProducts>
+							<EW2_FreshLumberArchean>2</EW2_FreshLumberArchean>
+						</butcherProducts>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Check for ReGrowth 2, if found, add rustic elm floor and adjust elm butchery output -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>ReGrowth 2</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<li Class="PatchOperationAdd">
+					<xpath>Defs</xpath>
+					<value>
+						<TerrainDef ParentName="DankPyon_Floor_RusticWoodFloorBase">
+							<defName>EW2_RusticFloorElm</defName>
+							<label>rustic elm wood floor</label>
+							<color>(208,165,133)</color>
+							<costList>
+								<WoodLumberElm>3</WoodLumberElm>
+							</costList>
+						</TerrainDef>
+					</value>
+
+				</li>
+
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="EW2_WoodLog_Elm"]/butcherProducts</xpath>
+					<value>
+						<butcherProducts>
+							<EW2_FreshLumberElm>2</EW2_FreshLumberElm>
+						</butcherProducts>
+					</value>
+
+				</li>
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Check for VFE - Architect, if enabled, remove VFE "fake" rustic walnut, birch, and mahogany -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Furniture Expanded - Architect</li>
+		</mods>
+
+		<match Class="PatchOperationRemove">
+			<xpath>Defs/TerrainDef[defName = "DankPyon_Floor_RusticWoodFloor_Walnut" or defName = "DankPyon_Floor_RusticWoodFloor_Birch" or defName = "DankPyon_Floor_RusticWoodFloor_Mahogany"]</xpath>
+
+		</match>
+	</Operation>
+
+	<!-- Sound: Interact Sustainers Work -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/SoundDef[defName = "Recipe_MakeWoodPlanks_Electric"]/subSounds/li[grains/li[@Class="AudioGrain_Folder"]/clipFolderPath[.="Interact/Work/Construct/Wood/Wood_Saw_Circular"]]/volumeRange</xpath>
+				<value>
+					<volumeRange>8.2504~9.1252</volumeRange> <!-- Default: 10.2504~11.1252 -->
+				</value>
+			</li>
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/SoundDef[defName = "Recipe_MakeWoodPlanks_Electric"]/subSounds/li[grains/li[@Class="AudioGrain_Folder"]/clipFolderPath[.="Interact/Work/Construct/Circular_Saw/Saw_Circular_Cuts"]]/volumeRange</xpath>
+				<value>
+					<volumeRange>10~10</volumeRange> <!-- Default: 12~12 -->
+				</value>
+			</li>
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/SoundDef[defName = "Recipe_CircularSaw_Off"]/subSounds/li[grains/li[@Class="AudioGrain_Clip"]/clipPath[.="Interact/Work/Construct/Circular_Saw/Saw_Circular_Off/Wood_Saw_Circular_Off"]]/volumeRange</xpath>
+				<value>
+					<volumeRange>9~9</volumeRange> <!-- Default: 11~11 -->
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+</Patch>

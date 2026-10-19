@@ -1,0 +1,97 @@
+<Patch>
+
+	<!-- Joy/Recreation -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Game of Ur has its stuffCategory changed to RawWoody, so it can be made with logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "GameOfUrBoard"]/stuffCategories/li[.="Woody"]</xpath>
+				<value>
+					<li>DankPyon_RawWood</li>
+				</value>
+			</li>
+
+			<!-- Hoopstone Ring has its stuffCategory changed to DankPyon_RawWood, so it can be made with logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "HorseshoesPin" or defName = "HoopstoneRing"]/stuffCategories/li[.="Woody"]</xpath>
+				<value>
+					<li>DankPyon_RawWood</li>
+				</value>
+			</li>
+
+			<!-- Remove WoodLogs from the costList of Billiard and Poker tables -->
+			<li Class="PatchOperationRemove">
+				<xpath>Defs/ThingDef[defName = "PokerTable" or defName = "BilliardsTable"]/costList/WoodLog</xpath>
+			</li>
+
+			<!-- Adjusts the costStuffCount of Poker Tables to make up for the removed WoodLogs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "PokerTable"]/costStuffCount</xpath>
+				<value>
+					<costStuffCount>75</costStuffCount>
+				</value>
+			</li>
+
+			<!-- Adjusts the costStuffCount of Billiards Tables to make up for the removed WoodLogs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "BilliardsTable"]/costStuffCount</xpath>
+				<value>
+					<costStuffCount>110</costStuffCount>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+	<!-- Production -->
+	<!-- Butcher Table -->
+	<!-- First check if it has a costList -->
+	<Operation  Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName = "TableButcher"]/costList</xpath>
+
+		<!-- If it does... -->
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<!-- ...replace the costList with MO iron -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "TableButcher"]/costList</xpath>
+					<value>
+						<costList>
+							<DankPyon_IronIngot>10</DankPyon_IronIngot>
+						</costList>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Trestle -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName = "DankPyon_Trestle"]</xpath>
+		<value>
+			<costList>
+				<DankPyon_IronIngot>10</DankPyon_IronIngot>
+			</costList>
+		</value>
+	</Operation>
+
+	<!-- Security -->
+	<!-- Spike Trap -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Changes Spike Trap stuffCategory to DankPyon_RawWood, so it can be made with logs -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/ThingDef[defName = "TrapSpike"]/stuffCategories/li[.="Woody"]</xpath>
+				<value>
+					<li>DankPyon_RawWood</li>
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+</Patch>

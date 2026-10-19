@@ -1,0 +1,120 @@
+<Patch>
+
+	<!-- WoodLog has its basegame label adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "WoodLog"]/label</xpath>
+		<value>
+			<label>wood logs</label>
+		</value>
+	</Operation>
+
+	<!-- WoodLog has its description adjusted -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "WoodLog"]/description</xpath>
+		<value>
+			<description>Raw wood from tree-stumps or other fibrous plants such as fibercorn. Useful for building simple structures and weapons, it must be processed into fresh lumber and left to dry before becoming suitable for advanced projects. It is a good fuel for campfires and generators, and can be refined into chemfuel. In a pinch, a piece of wood can be used as a weapon or a leg.</description>
+		</value>
+	</Operation>
+
+	<!-- WoodLog has its basegame Woody category changed to EW2 RawWoody -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "WoodLog"]/stuffProps/categories/li[.="Woody"]</xpath>
+		<value>
+			<li>EW2_RawWoody</li>
+		</value>
+	</Operation>
+
+	<!-- WoodLog has its basegame ResourcesRaw category changed to EW2 WoodLog -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName = "WoodLog"]/thingCategories/li[.="ResourcesRaw"]</xpath>
+		<value>
+			<li>EW2_WoodLog</li>
+		</value>
+	</Operation>
+
+	<!-- WoodLogs can be processed into generic lumber -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName = "WoodLog"]</xpath>
+		<value>
+			<butcherProducts>
+				<EW2_FreshLumberGeneric>30</EW2_FreshLumberGeneric>
+			</butcherProducts>
+		</value>
+	</Operation>
+
+	<!-- Wood plank floors use lumber instead of raw wood -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TerrainDef[defName = "WoodPlankFloor"]/costList</xpath>
+		<value>
+			<costList>
+				<WoodLumberMixed>3</WoodLumberMixed>
+			</costList>
+		</value>
+	</Operation>
+
+	<!-- Wood foundations use lumber instead of raw wood -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TerrainDef[defName = "Bridge"]/costList</xpath>
+		<value>
+			<costList>
+				<WoodLumberMixed>12</WoodLumberMixed>
+			</costList>
+		</value>
+	</Operation>
+
+	<!-- Wood plank floor and foundation require EW2 Woodworking research -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/TerrainDef[defName = "WoodPlankFloor" or defName="Bridge"]</xpath>
+		<value>
+			<researchPrerequisites>
+				<li>EW2_Woodworking</li>
+			</researchPrerequisites>
+		</value>
+	</Operation>
+
+	<!-- Adds dropdown designator to wood floors -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/TerrainDef[defName="WoodPlankFloor"]</xpath>
+		<value>
+			<designatorDropdown>EW2_WoodPlankFloors</designatorDropdown>
+		</value>
+	</Operation>
+
+	<!-- Adds dropdown designator to wooden bridges -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/TerrainDef[@Name="BridgeBase"]</xpath>
+		<value>
+			<designatorDropdown>EW2_WoodFoundations</designatorDropdown>
+		</value>
+	</Operation>
+
+	<!-- Sound: Interact Sustainers Work -->
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/SoundDef[defName = "Recipe_MakeWoodPlanks_Electric"]/subSounds/li[grains/li[@Class="AudioGrain_Folder"]/clipFolderPath[.="Interact/Work/Construct/Wood/Wood_Saw_Circular"]]/volumeRange</xpath>
+				<value>
+					<volumeRange>8.2504~9.1252</volumeRange> <!-- Default: 10.2504~11.1252 -->
+				</value>
+			</li>
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/SoundDef[defName = "Recipe_MakeWoodPlanks_Electric"]/subSounds/li[grains/li[@Class="AudioGrain_Folder"]/clipFolderPath[.="Interact/Work/Construct/Circular_Saw/Saw_Circular_Cuts"]]/volumeRange</xpath>
+				<value>
+					<volumeRange>10~10</volumeRange> <!-- Default: 12~12 -->
+				</value>
+			</li>
+
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/SoundDef[defName = "Recipe_CircularSaw_Off"]/subSounds/li[grains/li[@Class="AudioGrain_Clip"]/clipPath[.="Interact/Work/Construct/Circular_Saw/Saw_Circular_Off/Wood_Saw_Circular_Off"]]/volumeRange</xpath>
+				<value>
+					<volumeRange>9~9</volumeRange> <!-- Default: 11~11 -->
+				</value>
+			</li>
+
+		</operations>
+	</Operation>
+
+</Patch>

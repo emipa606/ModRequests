@@ -1,0 +1,56 @@
+<Patch>
+
+    <Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Odyssey</li>
+		</mods>
+        <match Class="PatchOperationSequence">
+        <operations>
+
+            <!-- Dry Fresh Archean Lumber -->
+            <li Class="PatchOperationAdd">
+                <xpath>Defs</xpath>
+                <value>
+                    <PipeSystem.ProcessDef>
+                        <defName>EW2_DryLumberArchean</defName>
+                        <label>Dry archean lumber</label>
+                        <description>Leave archean lumber to dry.</description>
+                        <spawnOnInteractionCell>true</spawnOnInteractionCell>
+                        <labelOverride>Dry archean lumber</labelOverride>
+                        <priorityInBillList>0</priorityInBillList>
+                        <ingredients>
+                            <li>
+                                <thing>EW2_FreshLumberArchean</thing>
+                                <countNeeded>75</countNeeded>
+                            </li>
+                        </ingredients>
+                        <ticks>36000</ticks>
+                        <results>
+                            <li>
+                                <thing>WoodLumberArchean</thing>
+                                <count>75</count>
+                            </li>
+                        </results>
+                        <autoExtract>false</autoExtract>
+                        <isRainDependingProcess>true</isRainDependingProcess>
+                        <temperatureRuinable>true</temperatureRuinable>
+                        <minSafeTemperature>0</minSafeTemperature>
+                        <maxSafeTemperature>40</maxSafeTemperature>
+                        <researchPrerequisites><li>EW2_Woodworking</li></researchPrerequisites>
+                    </PipeSystem.ProcessDef>
+                </value>
+            </li>
+
+            <!-- Adds drying recipe to drying spot/rack -->
+            <li Class="PatchOperationAdd">
+                <xpath>Defs/ThingDef[defName = "EW2_LumberDryingRack" or defName="EW2_LumberDryingSpot"]/comps/li["PipeSystem.CompProperties_AdvancedResourceProcessor"]/processes</xpath>
+                <value>
+                    <li>EW2_DryLumberArchean</li>
+                </value>
+            </li>
+
+        </operations>
+        </match>
+    </Operation>
+
+</Patch>

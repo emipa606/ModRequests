@@ -1,0 +1,492 @@
+<Patch>
+
+	<!--Check for VFEA -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Furniture Expanded - Architect</li>
+		</mods>
+
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<!-- Log Walls uses logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName = "VFEArch_LogWall"]/costList</xpath>
+					<value>
+						<stuffCategories>
+							<li>DankPyon_RawWood</li>
+						</stuffCategories>
+						<costStuffCount>5</costStuffCount>
+					</value>
+				</li>
+
+				<!-- Wooden Parquet uses planks -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/TerrainDef[@Name = "VFEArch_WoodenParquetBase"]/costList</xpath>
+					<value>
+						<costList>
+							<WoodLog>12</WoodLog>
+						</costList>
+					</value>
+				</li>
+
+				<!-- Disable Walnut Floors -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/TerrainDef[defName = "VFEArch_WoodPlankFloorWalnut" or defName = "VFEArch_WoodenParquetWalnut"]</xpath>
+				</li>
+
+				<!-- Disable Birch Floors -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/TerrainDef[defName = "VFEArch_WoodPlankFloorBirch" or defName = "VFEArch_WoodenParquetBirch"]</xpath>
+				</li>
+
+				<!-- Disable Mahogany Floors -->
+				<li Class="PatchOperationRemove">
+					<xpath>Defs/TerrainDef[defName = "VFEArch_WoodPlankFloorMahogany" or defName = "VFEArch_WoodenParquetMahogany"]</xpath>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+
+	<!-- Check for VFEA -->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Vanilla Furniture Expanded - Architect</li>
+		</mods>
+
+		<!-- If found, check for Royalty -->
+		<match Class="PatchOperationFindMod">
+			<mods>
+				<li>Royalty</li>
+			</mods>
+
+			<match Class="PatchOperationSequence">
+				<operations>
+
+					<!-- Fine Wooden Floor uses planks -->
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/TerrainDef[defName = "VFEArch_FineWoodenFloor"]/costList</xpath>
+						<value>
+							<costList>
+								<WoodLog>20</WoodLog>
+							</costList>
+						</value>
+					</li>
+
+					<!-- Remove Fine Walnut/Birch/Mahogany floors -->
+					<li Class="PatchOperationRemove">
+						<xpath>Defs/TerrainDef[defName = "VFEArch_FineWoodenFloorWalnut" or defName = "VFEArch_FineWoodenFloorBirch" or defName = "VFEArch_FineWoodenFloorMahogany"]</xpath>
+					</li>
+
+					<!-- Add EW2 Woodtype Fine Floors -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs</xpath>
+						<value>
+
+							<!-- Anima Parquet is added here as it requires Royalty -->
+							<TerrainDef ParentName="VFEArch_WoodenParquetBase">
+								<defName>EW2_WoodenParquetAnima</defName>
+								<label>mystic parquet</label>
+								<color>(173,208,195)</color>
+								<costList Inherit="False">
+									<WoodLumberAnima>12</WoodLumberAnima>
+								</costList>
+								<pollutionShaderType MayRequire="Ludeon.RimWorld.Biotech">TerrainFadeRoughSoftLight</pollutionShaderType>
+								<pollutionOverlayTexturePath>Terrain/Surfaces/PollutionFloorSmooth</pollutionOverlayTexturePath>
+								<isPaintable>true</isPaintable>
+							</TerrainDef>
+
+							<!-- Fine Anima Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorAnima</defName>
+								<label>fine mystic floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(173,208,195)</color>
+								<costList>
+									<WoodLumberAnima>20</WoodLumberAnima>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Bamboo Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorBamboo</defName>
+								<label>fine bamboo floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(248,218,158)</color>
+								<costList>
+									<WoodLumberBamboo>20</WoodLumberBamboo>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Birch Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorBirch</defName>
+								<label>fine birch floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(251,217,172)</color>
+								<costList>
+									<WoodLumberBirch>20</WoodLumberBirch>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine (Black) Palm Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorPalm</defName>
+								<label>fine black palm floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(42,40,41)</color>
+								<costList>
+									<WoodLumberPalm>20</WoodLumberPalm>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Cecropia Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorCecropia</defName>
+								<label>fine cecropia floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(123,47,24)</color>
+								<costList>
+									<WoodLumberCecropia>20</WoodLumberCecropia>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Cocoawood Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorCocoa</defName>
+								<label>fine cocoawood floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(86,42,34)</color>
+								<costList>
+									<WoodLumberCocoa>20</WoodLumberCocoa>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Cypress Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorCypress</defName>
+								<label>fine cypress floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(233,207,175)</color>
+								<costList>
+									<WoodLumberCypress>20</WoodLumberCypress>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Drago Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorDrago</defName>
+								<label>fine drago floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(245,175,125)</color>
+								<costList>
+									<WoodLumberDrago>20</WoodLumberDrago>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Maple Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorMaple</defName>
+								<label>fine maple floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(211,186,159)</color>
+								<costList>
+									<WoodLumberMaple>20</WoodLumberMaple>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Oak Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorOak</defName>
+								<label>fine oak floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(181,137,88)</color>
+								<costList>
+									<WoodLumberOak>20</WoodLumberOak>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Pine Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorPine</defName>
+								<label>fine pine floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(241,190,133)</color>
+								<costList>
+									<WoodLumberPine>20</WoodLumberPine>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Poplar Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorPoplar</defName>
+								<label>fine poplar floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(207,174,129)</color>
+								<costList>
+									<WoodLumberPoplar>20</WoodLumberPoplar>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Shroomstalk Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorShroom</defName>
+								<label>fine shroomstalk floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(206,195,165)</color>
+								<costList>
+									<WoodLumberShroom>20</WoodLumberShroom>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Succulent Floor -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorSucculent</defName>
+								<label>fine succulent floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(120,86,51)</color>
+								<costList>
+									<WoodLumberSucculent>20</WoodLumberSucculent>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Teak Floors -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorTeak</defName>
+								<label>fine teak floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(120,86,51)</color>
+								<costList>
+									<WoodLumberTeak>20</WoodLumberTeak>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+
+							<!-- Fine Willow Floors -->
+							<TerrainDef ParentName="FloorBase">
+								<defName>EW2_FineWoodenFloorWillow</defName>
+								<label>fine willow floor</label>
+								<description>Beautiful wooden parquet, made with no compromises, for expressing economic status. Slow to construct.</description>
+								<texturePath>Terrains/FineWoodenFloor</texturePath>
+								<renderPrecedence>228</renderPrecedence>
+								<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+								<color>(239,194,113)</color>
+								<costList>
+									<WoodLumberWillow>20</WoodLumberWillow>
+								</costList>
+								<statBases>
+									<WorkToBuild>5000</WorkToBuild>
+									<Beauty>3</Beauty>
+									<Flammability>0.22</Flammability>
+								</statBases>
+								<tags>
+									<li>FineFloor</li>
+								</tags>
+								<constructEffect>ConstructWood</constructEffect>
+								<designatorDropdown>VFEArch_FineWoodenFloor</designatorDropdown>
+							</TerrainDef>
+	               
+						</value>
+					</li>
+
+				</operations>
+			</match>
+		</match>
+	</Operation>
+
+</Patch>
