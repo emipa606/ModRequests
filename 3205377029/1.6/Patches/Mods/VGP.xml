@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>VGP Vegetable Garden</li>
+		</mods>
+		<match Class="PatchOperationFindMod">
+            <mods>
+                <li>Expanded Woodworking</li>
+            </mods>
+        <match Class="PatchOperationSequence">
+    	<operations>
+            
+            <!-- 1 new type of wood: Ironwood.-->
+           
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/ThingDef[defName = "LumberMaple"]</xpath>
+				<order>Prepend</order>
+				<value>
+					<ThingDef ParentName="WoodLumberBase">
+						<defName>LumberIronwood</defName>
+						<label>ironwood lumber</label>
+						<description>Processed ironwood lumber. Ironwood is stronger and more beautiful then normal wood.</description>
+						<graphicData>
+							<color>(100,100,100)</color>
+						</graphicData>
+						<statBases>
+							<Mass>0.4</Mass>
+							<MarketValue>1.6</MarketValue>
+							<DeteriorationRate>4</DeteriorationRate>
+						</statBases>
+						<stuffProps>
+							<stuffAdjective>ironwood</stuffAdjective>
+							<commonality>0.01</commonality>
+							<color>(100,100,100)</color>
+							<statFactors>
+								<MaxHitPoints>0.75</MaxHitPoints>
+        						<Beauty>1.25</Beauty>
+        						<Flammability>0.75</Flammability>	
+        						<WorkToMake>1.25</WorkToMake>
+	   							<WorkToBuild>1.25</WorkToBuild>
+        						<DoorOpenSpeed>1.2</DoorOpenSpeed>
+								<MeleeWeapon_CooldownMultiplier>0.9</MeleeWeapon_CooldownMultiplier>
+							</statFactors>
+						</stuffProps>
+					</ThingDef>
+				</value>
+			</li>
+			<li Class="PatchOperationInsert">
+				<xpath>Defs/RecipeDef[defName = "MakeWoodLumberMaple"]</xpath>
+				<order>Prepend</order>
+				<value>
+					<RecipeDef ParentName="MakeWoodLumberBase">
+						<defName>MakeWoodLumberIronwood</defName>
+						<label>make ironwood lumber</label>
+						<description>Process raw ironwood logs into lumber for construction.</description>
+						<allowMixingIngredients>false</allowMixingIngredients>
+						<ingredients>
+							<li>
+								<filter>
+									<thingDefs>
+										<li>VG_IronWoodLog</li>
+									</thingDefs>
+								</filter>
+								<count>15</count>
+							</li>
+						</ingredients>
+						<fixedIngredientFilter>
+							<thingDefs>
+								<li>VG_IronWoodLog</li>
+							</thingDefs>
+						</fixedIngredientFilter>
+						<products>
+							<LumberIronwood>30</LumberIronwood>
+						</products>
+					</RecipeDef>
+				</value>
+			</li>
+			
+			<li Class="PatchOperationReplace">
+        		<xpath>/Defs/ThingDef[defName="VG_IronWoodLog"]/label</xpath>
+            	<value>
+                	<label>ironwood logs</label>
+            	</value>
+    		</li>
+			
+			<li Class="PatchOperationReplace">
+                <xpath>/Defs/TerrainDef[defName="IronwoodFloor"]/costList</xpath>
+                    <value>
+                    	<costList>
+							<LumberIronwood>4</LumberIronwood>
+						</costList>
+                    </value>
+            </li>
+           
+            <li Class="PatchOperationReplace">
+        		<xpath>/Defs/TerrainDef[defName="BambooFloor"]/costList</xpath>
+            	<value>
+                	<costList>
+						<LumberBamboo>4</LumberBamboo>
+					</costList>
+            	</value>
+    		</li>
+    		<li Class="PatchOperationReplace">
+            <xpath>/Defs/TerrainDef[defName="FineIronwoodFloor"]/costList/VG_IronWoodLog</xpath>
+                <value>
+					<LumberIronwood>20</LumberIronwood>
+                </value>
+        	</li>
+    		<li Class="PatchOperationReplace">
+        		<xpath>/Defs/ThingDef[defName="Bamboo" or defName="VG_IronWoodLog"]/thingCategories</xpath>
+            	<value>
+                	<thingCategories>
+						<li>WoodTypes</li>
+					</thingCategories>
+            	</value>
+    		 </li>
+    		 <li Class="PatchOperationAdd">
+				<xpath>Defs/ThingDef/comps/li[@Class="CompProperties_Refuelable" and fuelFilter/thingDefs/li[.="WoodLog_Maple"]]/fuelFilter/thingDefs</xpath>
+				<value>
+					<li>VG_IronWoodLog</li>
+				</value>
+			 </li>
+    		
+			    
+		</operations>
+		</match>
+		</match>
+	</Operation>
+	
+	
+	
+</Patch>

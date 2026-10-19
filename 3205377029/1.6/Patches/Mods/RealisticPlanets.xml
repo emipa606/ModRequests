@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <!-- Author: XeoNovaDan  Edited/Simplified by: Adventurer -->
+    
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Realistic Planets - Fan Update</li>
+			<li>Realistic Planets Continued [1.5]</li>
+			<li>Realistic Planets Continued</li>
+		</mods>
+		<match Class="PatchOperationFindMod">
+			<mods>
+				<li>VGP Xtra Trees and Flowers</li>
+			</mods>
+			<!-- Case: VGP Extra Trees and Flowers is active -->
+			<match Class="PatchOperationSequence">
+				<success>Always</success>
+				<operations>
+					<!-- DEPRECATED  Change yield and growDays to be identical to VGP's acacia trees (60 -> 12; 32.5 -> 15) - though this is debatable 
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ThingDef[defName="RRP_TreeAcacia"]/plant/harvestYield</xpath>
+						<value>
+							<harvestYield>12</harvestYield>
+						</value>
+					</li>
+					<li Class="PatchOperationReplace">
+						<xpath>Defs/ThingDef[defName="RRP_TreeAcacia"]/plant/growDays</xpath>
+						<value>
+							<growDays>15</growDays>
+						</value>
+					</li> -->
+					<li Class="PatchOperationAdd">
+						<xpath>Defs/ThingDef[defName="RRP_TreeAcacia"]/plant</xpath>
+						<value>
+							<harvestedThingDef>WoodLog_Acacia</harvestedThingDef>
+						</value>
+					</li>
+				</operations>
+			</match>
+                <!-- Case: Realistic Planets is active but VGP Extra Trees and Flowers isn't -->
+			<nomatch Class="PatchOperationAdd">
+                        <xpath>Defs/ThingDef[defName="RRP_TreeAcacia"]/plant</xpath>
+                        <value>
+					<harvestedThingDef>WoodLog_Acacia</harvestedThingDef>
+                        </value>
+                  </nomatch>
+            </match>
+    </Operation>
+
+
+<!-- thanks to klvlt -->
+<Operation Class="PatchOperationFindMod">
+<mods>
+<li>Realistic Planets - Fan Update</li>
+<li>Realistic Planets Continued [1.5]</li>
+<li>Realistic Planets Continued</li>
+</mods>
+<match Class="PatchOperationAdd">
+<xpath>Defs</xpath>
+<value>
+
+<!-- Acacia logs -->
+<ThingDef ParentName="WoodLogBase">
+<defName>WoodLog_Acacia</defName>
+<label>acacia logs</label>
+<description>Raw wood from an acacia tree. When processed it becomes useful for building structures, weapons, furniture and even simple prosthetics. Acacia is a very durable wood.</description>
+<graphicData>
+<color>(180,106,76)</color>
+</graphicData>
+<statBases>
+<Mass>0.6</Mass>
+<MarketValue>2</MarketValue>
+<DeteriorationRate>0.5</DeteriorationRate>
+</statBases>
+<stuffProps>
+<stuffAdjective>acacia</stuffAdjective>
+<commonality>0.2</commonality>
+<color>(180,106,76)</color>
+<statFactors>
+<MaxHitPoints>0.7</MaxHitPoints>
+<Beauty>2.4</Beauty>
+<WorkToMake>0.5</WorkToMake>
+<WorkToBuild>0.5</WorkToBuild>
+<DoorOpenSpeed>1.0</DoorOpenSpeed>
+</statFactors>
+</stuffProps>
+<butcherProducts>
+<LumberAcacia>30</LumberAcacia>
+</butcherProducts>
+</ThingDef>
+
+<!-- Acacia lumber -->
+<ThingDef ParentName="WoodLumberBase">
+<defName>LumberAcacia</defName>
+<label>acacia lumber</label>
+<description>Processed acacia lumber. Mostly useful for building long-lasting, simple structures and furniture. Acacia is a very durable wood.</description>
+<graphicData>
+<color>(180,106,76)</color>
+</graphicData>
+<statBases>
+<Mass>0.3</Mass>
+<MarketValue>4</MarketValue>
+<DeteriorationRate>1</DeteriorationRate>
+</statBases>
+<stuffProps>
+<stuffAdjective>acacia</stuffAdjective>
+<commonality>0.2</commonality>
+<color>(180,106,76)</color>
+<statFactors>
+<MaxHitPoints>0.7</MaxHitPoints>
+<Beauty>2.4</Beauty>
+<WorkToMake>0.5</WorkToMake>
+<WorkToBuild>0.5</WorkToBuild>
+<DoorOpenSpeed>1.0</DoorOpenSpeed>
+</statFactors>
+</stuffProps>
+</ThingDef>
+
+<!-- Acacia lumber recipe -->
+<RecipeDef ParentName="MakeWoodLumberBase">
+<defName>MakeWoodLumberAcacia</defName>
+<label>make acacia lumber</label>
+<description>Process raw acacia logs into lumber for construction.</description>
+<allowMixingIngredients>false</allowMixingIngredients>
+<ingredients>
+<li>
+<filter>
+<thingDefs>
+<li>WoodLog_Acacia</li>
+</thingDefs>
+</filter>
+<count>15</count>
+</li>
+</ingredients>
+<fixedIngredientFilter>
+<thingDefs>
+<li>WoodLog_Acacia</li>
+</thingDefs>
+</fixedIngredientFilter>
+<products>
+<LumberAcacia>30</LumberAcacia>
+</products>
+</RecipeDef>
+
+<!-- Acacia plank floor -->
+<TerrainDef ParentName="FloorBase">
+<defName>AcaciaPlankFloor</defName>
+<label>acacia floor</label>
+<renderPrecedence>250</renderPrecedence>
+<description>Acacia plank flooring for that warm, homey feeling. While it is quick to lay, it is also very flammable.</description>
+<texturePath>Terrain/Surfaces/WoodFloor</texturePath>
+<burnedDef>BurnedWoodPlankFloor</burnedDef>
+<color>(180,106,76)</color>
+<pollutionShaderType MayRequire="Ludeon.RimWorld.Biotech">TerrainFadeRoughSoftLight</pollutionShaderType>
+<pollutionOverlayTexturePath>Terrain/Surfaces/PollutionFloorSmooth</pollutionOverlayTexturePath>
+<isPaintable>true</isPaintable>
+<statBases>
+<WorkToBuild>85</WorkToBuild>
+<Flammability>0.22</Flammability>
+<Beauty>0</Beauty>
+</statBases>
+<costList>
+<LumberAcacia>3</LumberAcacia>
+</costList>
+<constructEffect>ConstructWood</constructEffect>
+<designationHotKey>Misc9</designationHotKey>
+<designatorDropdown>WoodPlankFloors</designatorDropdown>
+</TerrainDef>
+
+</value>
+</match>
+</Operation>
+
+</Patch>
