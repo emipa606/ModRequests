@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- ========================= Yautja - Equipment base ========================== -->
+  <ThingDef Name="RamRodRobotParts" ParentName="ArmorHelmetMakeableBase" Abstract="true">
+    <description>Advanced Robot Parts</description>
+  </ThingDef>
+  <HediffDef Name="RRY_SpecialGoodHeDiff" Abstract="True">
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.5, 0.5, 0.9)</defaultLabelColor>
+    <isBad>false</isBad>
+    <makesAlert>false</makesAlert>
+    <makesSickThought>false</makesSickThought>
+  </HediffDef>
+  <HediffDef ParentName="RRY_SpecialGoodHeDiff">
+    <defName>RRY_HeDiff_TurretIsOn</defName>
+    <label>Shoulder Cannon status</label>
+    <description>Shoulder Cannon status</description>
+    <labelNoun>a Shoulder Cannon</labelNoun>
+    <stages>
+      <li>
+        <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+    </comps>
+  </HediffDef>
+  <ThingDef Name="RRY_TurretBase" Abstract="True">
+    <tickerType>Normal</tickerType>
+    <category>Building</category>
+    <thingClass>Building</thingClass>
+    <useHitPoints>false</useHitPoints>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <selectable>false</selectable>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <repairEffect>Repair</repairEffect>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <filthLeaving>Filth_RubbleBuilding</filthLeaving>
+    <statBases>
+      <SellPriceFactor>0.00</SellPriceFactor>
+    </statBases>
+  </ThingDef>
+  <ThingDef ParentName="RRY_TurretBase">
+    <defName>RamRod_FaceTurret</defName>
+    <label>face-laser AI</label>
+    <description>A deadly face-laser that thinks independently from the pawn.</description>
+    <thingClass>FaceLaserTesting.Building_Turret_Shoulder</thingClass>
+    <!--
+	<thingClass>Building_TurretGun</thingClass>
+    -->
+    <graphicData>
+      <texPath>Things/Alpha</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stealable>false</stealable>
+    <rotatable>false</rotatable>
+    <selectable>false</selectable>
+    <statBases>
+      <ShootingAccuracyTurret>0.96</ShootingAccuracyTurret>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <comps>
+    </comps>
+    <passability>Standable</passability>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <building>
+      <ai_combatDangerous>false</ai_combatDangerous>
+      <turretGunDef>FaceCannonGun</turretGunDef>
+      <turretBurstCooldownTime>3.0</turretBurstCooldownTime>
+      <isInert>true</isInert>
+      <isEdifice>false</isEdifice>
+      <deconstructible>false</deconstructible>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>Buller_FaceLaser</defName>
+    <label>laser</label>
+    <graphicData>
+      <texPath>Effects/Laser</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(4,4)</drawSize>
+    </graphicData>
+    <projectile>
+      <speed>80</speed>
+      <damageAmountBase>15</damageAmountBase>
+      <damageDef>Burn</damageDef>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>FaceCannonGun</defName>
+    <label>face-laser</label>
+    <description>A simple automatic gun made to be mounted on a turret.</description>
+    <graphicData>
+      <texPath>Things/Alpha</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <menuHidden>true</menuHidden>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
+    <useHitPoints>false</useHitPoints>
+    <statBases>
+      <AccuracyTouch>0.65</AccuracyTouch>
+      <AccuracyShort>0.85</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.75</AccuracyLong>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+      <DeteriorationRate>0</DeteriorationRate>
+      <Mass>5</Mass>
+      <Flammability>0</Flammability>
+    </statBases>
+    <weaponTags Inherit="false">
+      <li>TurretGun</li>
+    </weaponTags>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Buller_FaceLaser</defaultProjectile>
+        <warmupTime>2</warmupTime>
+        <minRange>2.9</minRange>
+        <range>24.9</range>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>ChargeLance_Fire</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>18</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+  <ThingDef ParentName="RamRodRobotParts">
+    <defName>FaceLaserHelmet</defName>
+    <label>Assaultron Face Laser</label>
+    <description>This specially made helmet is designed for Assaultrons to allow them to devistate enemies while they close the gap to scrap.</description>
+    <graphicData>
+      <texPath>Things/Item/Health/HealthItem</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="FaceLaserTesting.CompProperties_EquippableTurret">
+        <TurretDef>RamRod_FaceTurret</TurretDef>
+        <OnByDefault>true</OnByDefault>
+      </li>
+    </comps>
+    <statBases>
+      <MarketValue>500</MarketValue>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToMake>5000</WorkToMake>
+      <ArmorRating_Blunt>0.01</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.01</ArmorRating_Sharp>
+      <ArmorRating_Heat>0.01</ArmorRating_Heat>
+      <Mass>1</Mass>
+    </statBases>
+    <equippedStatOffsets>
+    </equippedStatOffsets>
+    <costList>
+      <Plasteel>40</Plasteel>
+      <Uranium>15</Uranium>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>AssaultronResearch</researchPrerequisite>
+    </recipeMaker>
+    <apparel>
+      <bodyPartGroups>
+        <li>RoboticHead</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Alpha</wornGraphicPath>
+      <hatRenderedFrontOfFace>true</hatRenderedFrontOfFace>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <tags>
+        <li>AssaultronOnly</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <thingCategories>
+    </thingCategories>
+    <tradeTags>
+    </tradeTags>
+  </ThingDef>
+</Defs>

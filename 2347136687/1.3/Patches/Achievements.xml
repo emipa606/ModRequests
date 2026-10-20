@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/MainButtonDef[defName="Achievements"]</xpath>
+    <success>Always</success>
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs</xpath>
+          <value>
+            <AchievementsExpanded.AchievementTabDef>
+              <defName>Mlie_Continued</defName>
+              <label>Continued Mods</label>
+            </AchievementsExpanded.AchievementTabDef>
+          </value>
+        </li>
+        <li Class="PatchOperationConditional">
+          <success>Always</success>
+          <xpath>/Defs/AchievementsExpanded.AchievementDef[@Name="Mlie_AchievementParent"]</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs</xpath>
+            <value>
+              <AchievementsExpanded.AchievementDef Name="Mlie_AchievementParent" Abstract="true">
+                <bgtexPath>Achievements/AchievmentsBG</bgtexPath>
+                <tab>Mlie_Continued</tab>
+              </AchievementsExpanded.AchievementDef>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs</xpath>
+          <value>
+            <AchievementsExpanded.AchievementDef ParentName="Mlie_AchievementParent">
+              <defName>FRTRP_GeneralAtomics</defName>
+              <label>General Atomics</label>
+              <description>Have one Robotic colonist</description>
+              <tracker Class="Robots.RobotCurrentTracker">
+                <count>1</count>
+              </tracker>
+              <texPath>Achievements/FRTRP_GeneralAtomics</texPath>
+              <points>10</points>
+            </AchievementsExpanded.AchievementDef>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs</xpath>
+          <value>
+            <AchievementsExpanded.AchievementDef ParentName="Mlie_AchievementParent">
+              <defName>FRTRP_RobCoIndustries</defName>
+              <label>RobCo Industries</label>
+              <description>Have three Robotic colonist</description>
+              <tracker Class="Robots.RobotCurrentTracker">
+                <count>3</count>
+              </tracker>
+              <texPath>Achievements/FRTRP_RobCoIndustries</texPath>
+              <points>20</points>
+            </AchievementsExpanded.AchievementDef>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs</xpath>
+          <value>
+            <AchievementsExpanded.AchievementDef ParentName="Mlie_AchievementParent">
+              <defName>FRTRP_VaultTecCorporation</defName>
+              <label>Vault-Tec Corporation</label>
+              <description>Have ten Robotic colonist</description>
+              <tracker Class="Robots.RobotCurrentTracker">
+                <count>10</count>
+              </tracker>
+              <texPath>Achievements/FRTRP_VaultTecCorporation</texPath>
+              <points>50</points>
+            </AchievementsExpanded.AchievementDef>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs</xpath>
+          <value>
+            <IncidentDef>
+              <defName>FRTRP_RandomRobotJoinsTheColony</defName>
+              <label>Random Robot Joins the Colony</label>
+              <category>Misc</category>
+              <targetTags>
+                <li>Map_PlayerHome</li>
+              </targetTags>
+              <workerClass>Robots.IncidentWorker_RandomRobotJoin</workerClass>
+              <letterLabel>Robot joins: {PAWN_nameDef}</letterLabel>
+              <letterText>A {PAWN_title} named {PAWN_nameDef} has arrived and is joining the colony.\n\n[PAWN_pronoun] is willing to contribute, but will not leave voluntarily. If you don't want {PAWN_nameDef}, you can banish {PAWN_objective}, sell {PAWN_objective} into slavery, or simply kill {PAWN_objective}. However, your other colonists may find this disturbing.</letterText>
+              <baseChance>0</baseChance>
+            </IncidentDef>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs</xpath>
+          <value>
+            <AchievementsExpanded.Reward_MapIncident>
+              <defName>FRTRP_RandomRobotJoinsTheColony</defName>
+              <label>A Random Robot Joins</label>
+              <cost>150</cost>
+              <tab>Mlie_Continued</tab>
+              <incident>FRTRP_RandomRobotJoinsTheColony</incident>
+            </AchievementsExpanded.Reward_MapIncident>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>
