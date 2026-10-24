@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <HediffDef ParentName="InjuryBase">
+        <defName>Artemiish_SNGunshot</defName>
+        <label>gunshot</label>
+        <labelNoun>just a gunshot wound</labelNoun>
+        <description>Just a gunshot wound.</description>
+        <comps>
+			<li Class="SupernaturalWeapons.HediffCompProperties_Kill">
+				<effecterDef>Artemiish_RevolverEffecter</effecterDef>
+				<hediffDefs>
+					<li>Artemiish_SNKnifeHediff</li>
+					<li>DeathRefusal</li>
+				</hediffDefs>
+			</li>
+        </comps>
+        <injuryProps>
+            <painPerSeverity>0.0125</painPerSeverity>
+            <averagePainPerSeverityPermanent>0.00625</averagePainPerSeverityPermanent>
+            <bleedRate>0.06</bleedRate>
+            <canMerge>false</canMerge>
+		    <destroyedLabel>Shot off</destroyedLabel>
+            <destroyedOutLabel>Shot out</destroyedOutLabel>
+        </injuryProps>
+    </HediffDef>
+
+	<DamageDef Name="Bullet">
+        <defName>Artemiish_SNBullet</defName>
+        <label>bullet</label>
+        <workerClass>DamageWorker_AddInjury</workerClass>
+        <externalViolence>true</externalViolence>
+        <deathMessage>{0} has been shot to death.</deathMessage>
+        <hediff>Artemiish_SNGunshot</hediff>
+        <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+        <impactSoundType>Bullet</impactSoundType>
+        <armorCategory>Sharp</armorCategory>
+        <overkillPctToDestroyPart>2000</overkillPctToDestroyPart>
+        <isRanged>true</isRanged>
+        <makesAnimalsFlee>true</makesAnimalsFlee>
+    </DamageDef>
+
+    <ThingDef ParentName="BaseBullet">
+        <defName>Artemiish_SNBullet</defName>
+        <label>revolver silver bullet</label>
+        <graphicData>
+            <texPath>ArtemiishThings/Projectiles/TheRevolverProj</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+			<shaderType>TransparentPostLight</shaderType>
+        </graphicData>
+        <projectile>
+            <damageDef>Artemiish_SNBullet</damageDef>
+            <damageAmountBase>1</damageAmountBase>
+            <stoppingPower>5</stoppingPower>
+            <speed>60</speed>
+        </projectile>
+    </ThingDef>
+	
+    <ThingDef Name="Artemiish_SNRevolverBase" ParentName="BaseGun" Abstract="False">
+        <defName>Artemiish_SNRevolver</defName>
+        <label>the revolver</label>
+        <description>An ancient revolver design. This one has been modified to fire special silver bullets, without which, it's nothing more than a normal revolver.</description>
+		<descriptionHyperlinks><ThingDef>Artemiish_SNBulletAmmo</ThingDef></descriptionHyperlinks>
+        <graphicData>
+            <texPath>ArtemiishThings/Weapons/TheRevolver</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <uiIconScale>1.4</uiIconScale>
+        <soundInteract>Interact_Revolver</soundInteract>
+        <statBases>
+			<Flammability>0</Flammability>
+            <DeteriorationRate>0</DeteriorationRate>
+			<MarketValue>2200</MarketValue>
+            <Mass>1.4</Mass>
+            <AccuracyTouch>0.90</AccuracyTouch>
+            <AccuracyShort>0.85</AccuracyShort>
+            <AccuracyMedium>0.65</AccuracyMedium>
+            <AccuracyLong>0.55</AccuracyLong>
+            <RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown>
+        </statBases>
+		<tradeTags>
+			<li>Artemiish_Revolver</li>
+		</tradeTags>
+		<smeltable>false</smeltable>
+		<useHitPoints>false</useHitPoints>
+        <verbs>
+            <li>
+		        <label>Revolver</label>
+                <verbClass>Verb_Shoot</verbClass>
+                <hasStandardCommand>true</hasStandardCommand>
+                <defaultProjectile>Artemiish_SNBullet</defaultProjectile>
+                <warmupTime>0.3</warmupTime>
+                <range>25.9</range>
+                <soundCast>Shot_Revolver</soundCast>
+                <soundCastTail>GunTail_Light</soundCastTail>
+                <muzzleFlashScale>9</muzzleFlashScale>
+            </li>
+        </verbs>
+	    <comps>
+			   <li Class="MVCF.Comps.CompProperties_VerbProps">
+                    <compClass>MVCF.Comps.Comp_VerbProps</compClass>
+                    <verbProps>
+                        <li>
+                            <label>Revolver</label>
+                            <canBeToggled>false</canBeToggled>
+                            <comps>
+                                <li Class="MVCF.Reloading.Comps.VerbCompProperties_Reloadable">
+                                    <compClass>MVCF.Reloading.Comps.VerbComp_Reloadable</compClass>
+                                    <MaxShots>5</MaxShots>
+                                    <AmmoFilter>
+                                        <thingDefs>
+                                            <li>Artemiish_SNBulletAmmo</li>
+                                        </thingDefs>
+                                    </AmmoFilter>
+                                    <ItemsPerShot>1</ItemsPerShot>
+                                    <ReloadTimePerShot>1</ReloadTimePerShot>
+                                    <ReloadSound>Standard_Reload</ReloadSound>
+                                    <NewVerbClass>Verb_Shoot</NewVerbClass>
+                                </li>
+                            </comps>
+                        </li>
+                    </verbProps>
+                   </li>
+	    </comps>
+        <tools>
+            <li>
+                <label>grip</label>
+                <capacities>
+                    <li>Blunt</li>
+                </capacities>
+                <power>9</power>
+                <cooldownTime>2</cooldownTime>
+            </li>
+            <li>
+                <label>barrel</label>
+                <capacities>
+                    <li>Blunt</li>
+                    <li>Poke</li>
+                </capacities>
+                <power>9</power>
+                <cooldownTime>2</cooldownTime>
+            </li>
+        </tools>
+    </ThingDef>
+
+	<ThingDef ParentName="Artemiish_SNRevolverBase">
+		<defName>Artemiish_Fake_SNRevolver</defName>
+		<description>An ancient revolver design. This one has been modified to fire special silver bullets, without which, it's nothing more than a normal revolver. This version should only be used by the trader.</description>
+		<tradeTags Inherit="False"/>
+		<destroyOnDrop>true</destroyOnDrop>
+		<tradeability>None</tradeability>
+		<statBases>
+            <RangedWeapon_Cooldown>2</RangedWeapon_Cooldown>
+        </statBases>
+		<comps Inherit="False">
+			<li Class="CompProperties_Forbiddable"/>
+			<li>
+				<compClass>CompEquippable</compClass>
+			</li>
+		</comps>
+	</ThingDef>
+	
+    <ThingDef ParentName="ResourceBase">
+		<defName>Artemiish_SNBulletAmmo</defName>
+        <label>cursed silver bullets</label>
+        <description>Silver bullets that can only be fired by the gun know as The Revolver. It's said these bullets can kill anything almost permanently.</description>
+		<descriptionHyperlinks>
+			<ThingDef>Artemiish_SNRevolver</ThingDef>
+		    <ThingDef>Artemiish_SNBulletIngredient</ThingDef>
+		</descriptionHyperlinks>
+        <graphicData>
+            <texPath>ArtemiishThings/Weapons/TheRevolverAmmo</texPath>
+            <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+        <resourceReadoutPriority>Middle</resourceReadoutPriority>
+        <stackLimit>25</stackLimit>
+        <tradeNeverStack>true</tradeNeverStack>
+        <useHitPoints>false</useHitPoints>
+        <thingClass>ThingWithComps</thingClass>
+        <techLevel>Medieval</techLevel>
+        <statBases>
+			<Beauty>2</Beauty>
+			<MarketValue>900</MarketValue>
+            <Mass>0.5</Mass>
+        </statBases>
+    </ThingDef>
+	
+    <ThingDef ParentName="ResourceBase">
+		<defName>Artemiish_SNBulletIngredient</defName>
+        <label>silver bullets</label>
+        <description>Bullets made out of silver, in this state they won't do anything special.</description>
+		<descriptionHyperlinks><ThingDef>Artemiish_SNBulletAmmo</ThingDef></descriptionHyperlinks>
+        <graphicData>
+            <texPath>ArtemiishThings/Weapons/TheRevolverPreAmmo</texPath>
+            <graphicClass>Graphic_StackCount</graphicClass>
+        </graphicData>
+        <resourceReadoutPriority>Middle</resourceReadoutPriority>
+        <stackLimit>25</stackLimit>
+        <tradeNeverStack>true</tradeNeverStack>
+        <useHitPoints>false</useHitPoints>
+        <thingClass>ThingWithComps</thingClass>
+        <techLevel>Medieval</techLevel>
+        <statBases>
+			<Beauty>-2</Beauty>
+			<MarketValue>800</MarketValue>
+            <Mass>0.5</Mass>
+		    <WorkToMake>2000</WorkToMake>
+        </statBases>
+	    <costList>
+			<Shard>1</Shard>
+			<Silver>1</Silver>
+        </costList>
+        <recipeMaker>
+            <skillRequirements>
+                <Crafting>6</Crafting>
+            </skillRequirements>
+            <displayPriority>400</displayPriority>
+	        <recipeUsers>
+                <li>TableMachining</li>
+				<li>FueledSmithy</li>
+				<li>ElectricSmithy</li>
+            </recipeUsers>
+            <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+            <researchPrerequisite>Artemiish_RevolverResearch</researchPrerequisite>
+        </recipeMaker>
+    </ThingDef>
+
+</Defs>
