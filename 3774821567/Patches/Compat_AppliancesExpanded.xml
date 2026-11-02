@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================================
+       Compatibility: Appliances Expanded (scpchemfuel.appliances)
+       Maps AE's chemfuel-powered workbenches to the matching animated tool by appending
+       their defNames to existing tools' <workbenchDefs>. Gated behind PatchOperationFindMod
+       (matched on the mod's display NAME), so nothing touches our defs when AE isn't loaded.
+
+       AE's benches all use RecipeInheritanceExtension to inherit the vanilla recipe set from
+       the bench they mimic, so the same hand-tool that fits the vanilla bench fits the AE one.
+       No new JobToolDefs or sprites are needed — pure workbenchDefs appends.
+
+       Auto-covered WITHOUT a patch (left here as a note):
+         SCP_ChemDrill (chemfuel excavator) — its WorkGiver subclasses WorkGiver_DeepDrill, so it
+           issues the OperateDeepDrill job that JE_Tool_Auger already keys on.
+
+       Intentionally NO tool:
+         CA_ChemfuelCrematorium — cremation; vanilla ElectricCrematorium has no tool either.
+         CE_ChemfuelPot (soup pot) / CA_InfiniteDeepchemPumpjack — automated processors
+           (AdvancedResourceProcessor / DeepExtractor), no worker DoBill job to animate.
+
+       Conditional benches (CE_ChemfuelDeepFrier/Grill, CE_AirFryer, CA_ChemfuelStoveLarge,
+       CE_FueledSmithyLarge) only exist when VCE / VFE-Production is also active; listing their
+       defNames here is inert when those modules aren't loaded (plain-string bench match, same
+       as our Medieval Overhaul entries).
+
+       Bench -> tool:
+         chemfuel stove                       -> spoon (cook stir + steam)
+         chemfuel deep fryer / grill / air f. -> spoon  (VCE)
+         large chemfuel stove                 -> spoon  (VFE-Production)
+         chemfuel smithy                      -> bench welder + mask (tech-gated -> smith hammer pre-Electricity)
+         large chemfuel smithy                -> bench welder + mask  (VFE-Production)
+         chemfuel smelter                     -> glowing smelt rod
+       ============================================================================ -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Appliances Expanded</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <!-- Cooking: chemfuel stove (core), VCE deep fryer / grill / air fryer,
+             VFE-Production large chemfuel stove. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Spoon"]/workbenchDefs</xpath>
+          <value>
+            <li>CE_ChemfuelStove</li>
+            <li>CE_ChemfuelDeepFrier</li>
+            <li>CE_ChemfuelGrill</li>
+            <li>CE_AirFryer</li>
+            <li>CA_ChemfuelStoveLarge</li>
+          </value>
+        </li>
+
+        <!-- Smithing: chemfuel smithy (core) + VFE-Production large chemfuel smithy.
+             Both are fuel-fired, so the Electricity tech-gate shows a hammer & anvil
+             pre-Electricity and the bench welder + mask afterwards. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_BenchWelder"]/workbenchDefs</xpath>
+          <value>
+            <li>CA_ChemfuelSmithy</li>
+            <li>CE_FueledSmithyLarge</li>
+          </value>
+        </li>
+
+        <!-- Smelting: chemfuel smelter. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_SmeltRod"]/workbenchDefs</xpath>
+          <value>
+            <li>CA_ChemfuelSmelter</li>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

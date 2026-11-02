@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================================
+       Compatibility: Combat Extended (CETeam.CombatExtended)
+       Adds an animated "reloading press" tool for ammo work at CE's ammo/reloading
+       bench. Gated behind PatchOperationFindMod so it only registers when CE is
+       loaded — without CE the def never exists and never clutters the settings list.
+
+       NOTE: authored WITHOUT CE installed on this machine, so the exact bench defName
+       could not be verified at runtime. workbenchDefs below lists CE's likely ammo /
+       reloading bench defNames; the tool only animates at a bench whose def matches.
+       If it doesn't trigger with CE active, confirm the bench's defName and update
+       this list.
+       ============================================================================ -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Combat Extended</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs</xpath>
+      <value>
+        <JobEffects.JobToolDef>
+          <defName>JE_Tool_CE_ReloadPress</defName>
+          <handCount>1</handCount>
+          <handPosA>0.30</handPosA>
+          <jobDefs>
+            <li>DoBill</li>
+          </jobDefs>
+          <workbenchDefs>
+            <li>AmmoBench</li>
+            <li>CE_AmmoBench</li>
+            <li>ReloadingBench</li>
+            <li>CE_ReloadingBench</li>
+            <li>TableMachiningCE</li>
+          </workbenchDefs>
+          <texPath>Things/JobEffects/Tools/ReloadPress</texPath>
+          <!-- Crank: the press head is planted on the die and the lever handle is worked
+               around it, then snaps back to re-grip — reads as pulling a reloading press. -->
+          <swingStyle>Crank</swingStyle>
+          <scale>1.0</scale>
+          <reach>0.18</reach>
+          <period>0.9</period>
+          <windupAngle>70</windupAngle>
+          <strikeSound>JE_MetalTink</strikeSound>
+          <impactBitFleck>JE_StoneShard</impactBitFleck>
+          <impactBitCount>2</impactBitCount>
+          <impactBitSpeed>2~5</impactBitSpeed>
+          <impactBitScale>0.3~0.5</impactBitScale>
+          <impactSpread>60</impactSpread>
+        </JobEffects.JobToolDef>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

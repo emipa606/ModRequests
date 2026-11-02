@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================== SMITH =============================
+       Forge/smithing bench: glowing sparks, a hot heat shimmer, thrown
+       forge sparks and the ring of a hammer glint. Replaces the generic
+       stone-bit spray.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Smith"]/children</xpath>
+    <value>
+      <children>
+        <!-- hot anvil flash -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>YellowSparkFlash</fleckDef>
+          <chancePerTick>0.22</chancePerTick>
+          <scale>1.26~2.1</scale>
+          <positionRadius>0.4</positionRadius>
+        </li>
+        <!-- heat shimmer -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>HeatGlow_Intense</fleckDef>
+          <chancePerTick>0.06</chancePerTick>
+          <scale>0.63~1.05</scale>
+          <positionRadius>0.4</positionRadius>
+        </li>
+        <!-- thrown forge sparks -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <moteDef>Mote_SparkThrown</moteDef>
+          <chancePerTick>0.3</chancePerTick>
+          <burstCount>2~5</burstCount>
+          <scale>0.168~0.252</scale>
+          <airTime>0.1~0.2</airTime>
+          <rotationRate>-240~240</rotationRate>
+          <speed>7~24</speed>
+          <angle>0~360</angle>
+          <positionRadius>0.35</positionRadius>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================== SMELT =============================
+       Smelting/burning: heat glow, drifting smoke and sparks.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Smelt"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>HeatGlow</fleckDef>
+          <chancePerTick>0.08</chancePerTick>
+          <scale>0.84~1.4</scale>
+          <positionRadius>0.45</positionRadius>
+        </li>
+        <!-- rising smoke (explicit near-north column so it always rises up, not relying on the
+             engine's implicit velocityAngle=0 fallback) -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>Smoke</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.56~0.91</scale>
+          <positionRadius>0.4</positionRadius>
+          <angle>340~20</angle>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <speed>0.3~0.7</speed>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <moteDef>Mote_SparkThrown</moteDef>
+          <chancePerTick>0.2</chancePerTick>
+          <burstCount>1~3</burstCount>
+          <scale>0.154~0.224</scale>
+          <airTime>0.1~0.2</airTime>
+          <rotationRate>-200~200</rotationRate>
+          <speed>6~18</speed>
+          <angle>0~360</angle>
+          <positionRadius>0.35</positionRadius>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================== COOK ==============================
+       Cooking: rising steam plus the vanilla food bits.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Cook"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <moteDef>Mote_CookBit</moteDef>
+          <scale>0.21~0.49</scale>
+          <ticksBetweenMotes>20</ticksBetweenMotes>
+          <positionLerpFactor>0.6</positionLerpFactor>
+          <positionRadius>0.6</positionRadius>
+        </li>
+        <!-- rising steam -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>Smoke</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.42~0.7</scale>
+          <color>(235, 235, 235)</color>
+          <positionRadius>0.4</positionRadius>
+          <angle>340~20</angle>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <speed>0.4~0.9</speed>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================== TAILOR ============================
+       Tailoring: drifting fabric lint and a needle glint.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Tailor"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <fleckDef>DustPuff</fleckDef>
+          <scale>0.28~0.49</scale>
+          <ticksBetweenMotes>22</ticksBetweenMotes>
+          <color>(225, 218, 205)</color>
+          <positionRadius>0.55</positionRadius>
+          <speed>0.2~0.6</speed>
+          <rotationRate>-30~30</rotationRate>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================== SCULPT ============================
+       Sculpting: keep low ambient stone bits + dust + chisel glint. The
+       tumbling shards are now thrown by the BENCH CHISEL on each stab hit
+       (hit-synced), so the continuous shard spray was removed.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Sculpt"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <moteDef>Mote_StoneBit</moteDef>
+          <scale>0.21~0.49</scale>
+          <ticksBetweenMotes>18</ticksBetweenMotes>
+          <positionLerpFactor>0.6</positionLerpFactor>
+          <positionRadius>0.6</positionRadius>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustPuff</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.42~0.7</scale>
+          <positionRadius>0.45</positionRadius>
+          <speed>0.3~0.7</speed>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================= RESEARCH ===========================
+       Research bench: keep pages & air puffs, add faint thought glints.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Research"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+          <soundDef>Interact_Research</soundDef>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <burstCount>2~4</burstCount>
+          <positionRadius>0.5</positionRadius>
+          <scale>0.7~0.7</scale>
+          <ticksBetweenMotes>500</ticksBetweenMotes>
+          <positionLerpFactor>1</positionLerpFactor>
+          <fleckDef>AirPuff</fleckDef>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <spawnLocType>OnTarget</spawnLocType>
+          <positionRadius>0.5</positionRadius>
+          <scale>0.35</scale>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <ticksBetweenMotes>40</ticksBetweenMotes>
+          <positionLerpFactor>1</positionLerpFactor>
+          <fleckDef>ResearchPage</fleckDef>
+          <angle>0~360</angle>
+          <speed>5</speed>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+</Patch>

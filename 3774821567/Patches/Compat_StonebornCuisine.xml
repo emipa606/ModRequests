@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================================
+       Compatibility: Stoneborn - Cuisine (det.sbcuisine)
+       Maps the mod's two worker-operated cooking benches to the cooking spoon (stir +
+       rising steam) by appending them to JE_Tool_Spoon's <workbenchDefs>. Gated behind
+       PatchOperationFindMod (matched on the mod's display NAME), so nothing touches our
+       defs when the mod isn't loaded.
+
+       Worker benches (Building_WorkTable, Cooking-skill DoBill recipes):
+         SC_HotGrill  (hot grill)         -> grilling skewers & rockburgers
+         SC_PrepTable (preparation bench) -> preparing dough / fresh cheese
+
+       Skipped on purpose — every other Stoneborn building is an AUTOMATIC processor with
+       no continuous "working" toil for a colonist to animate over (the pawn only hauls
+       ingredients in): dwarven kiln, portable pot, archotech microwave (PipeSystem
+       AdvancedResourceProcessor), curing rack (Processor Framework), and the insectiary
+       (a passive jelly spawner).
+       ============================================================================ -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Stoneborn - Cuisine</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Spoon"]/workbenchDefs</xpath>
+      <value>
+        <li>SC_HotGrill</li>
+        <li>SC_PrepTable</li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

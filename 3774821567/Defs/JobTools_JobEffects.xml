@@ -1,0 +1,1837 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Animated tools drawn over working colonists. Textures are authored with the
+       grip at the texture center and the head pointing up (+Z). -->
+
+  <!-- Grave digging: building a grave is a FinishFrame job whose target frame is Frame_Grave.
+       Use the shovel (dig soil) instead of the generic construction tool. Listed FIRST so it
+       wins the FinishFrame match for graves; non-grave frames fail the workbenchDefs filter and
+       fall through to the material-matched build tools below (hammer = wood + roofs,
+       chisel + mallet = stone, welder = metal / machines). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_GraveShovel</defName>
+    <strikeSound>JE_ShovelScoop</strikeSound>
+    <idleScale>0.68</idleScale>
+    <handPosA>0.16</handPosA>
+    <handPosB>0.38</handPosB>
+    <jobDefs>
+      <li>FinishFrame</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>Frame_Grave</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Shovel</texPath>
+    <swingStyle>Dig</swingStyle>
+    <scale>1.1</scale>
+    <reach>0.14</reach>
+    <period>0.75</period>
+    <windupAngle>55</windupAngle>
+    <stabDistance>0.22</stabDistance>
+    <impactBitFleck>JE_SoilClod</impactBitFleck>
+    <impactBitCount>7</impactBitCount>
+    <impactBitSpeed>3~7</impactBitSpeed>
+    <impactBitScale>0.35~0.65</impactBitScale>
+    <impactSpread>80</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <restFleck>JE_ChipRest</restFleck>
+  </JobEffects.JobToolDef>
+
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Pickaxe</defName>
+    <idleScale>0.65</idleScale>
+    <handPosA>0.15</handPosA>
+    <handPosB>0.38</handPosB>
+    <flipHead>true</flipHead>
+    <headInterval>0.7</headInterval>
+    <headScale>0.49</headScale>
+    <jobDefs>
+      <li>Mine</li>
+    </jobDefs>
+    <syncToMineHit>true</syncToMineHit>
+    <motionBlur>false</motionBlur>
+    <!-- human moments: periodic brow wipe + the pick occasionally jams in the rock -->
+    <browWipe>true</browWipe>
+    <canStick>true</canStick>
+    <texPath>Things/JobEffects/Tools/Pickaxe</texPath>
+    <!-- RETEXTURE: shortened so the head's leading edge lands at the cell directly in front
+         (~1.0) instead of overshooting; pairs with strikeAngle 0 (dead-forward, no cant). -->
+    <scale>0.95</scale>
+    <reach>0.14</reach>
+    <period>0.5</period> <!-- ~20% slower chop (free-run at 2x+; at 1x the cadence is mine-hit synced) -->
+    <windupAngle>80</windupAngle>
+    <!-- Finish the downswing CANTED so the head's lower POINT comes to rest directly in front of
+         the pawn (on the forward line), rather than the haft lying flat with both points splayed
+         symmetrically above/below it. The double-head's tips sit ~32 deg off the haft axis, so the
+         haft cants ~32 deg at impact to swing the bottom tip onto the centreline. -32 = the bottom
+         tip leads (head tilts up-and-back, the lower point planted straight ahead). Flip the sign
+         if the TOP point comes forward instead. -->
+    <strikeAngle>-32</strikeAngle>
+    <followThroughAngle>18</followThroughAngle>
+    <impactBitFleck>JE_StoneShard</impactBitFleck>
+    <impactBitCount>7</impactBitCount>
+    <impactBitSpeed>6~14</impactBitSpeed>
+    <impactBitScale>0.385~0.665</impactBitScale>
+    <impactSpread>60</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <impactFlashFleck>SparkFlash</impactFlashFleck>
+    <!-- SparkFlash uses the additive MoteGlow shader, so its glow blooms ~half the scale in
+         EVERY direction. At 2.24 the bright halo ballooned a full cell PAST the pick head into
+         the dark (read as the impact "overextending"), no matter how far back impactTipOffset
+         pulled the CENTRE. Keep a tight spark that sits ON the pick point instead. -->
+    <impactFlashScale>1.0</impactFlashScale>
+    <!-- stone shards keep the original JE_StoneShard colour; no ChipPale tint or ground litter -->
+    <!-- the impact lands exactly on the pick's sharp point (measured off the sprite:
+         double-headed pick: the apex (head's leading edge, canvas top-centre ~y0.10) leads, so
+         the burst sits exactly on the tip where it bites the rock, directly in front) -->
+    <impactAtTip>true</impactAtTip>
+    <!-- Seat the burst on the pick's LOWER biting point (the tip that digs into the rock),
+         NOT on the haft axis. TipSpacePos: X = sprite-lateral (negative drops the spark to the
+         lower tip on screen; flipHead mirrors it so the same value lands the lower tip at every
+         facing). Y = distance along the haft toward the head: the two points hang BELOW the apex,
+         so they sit at ~0.72 of the haft (-0.28), not all the way out at the centre apex.
+         X eased -0.40 -> -0.24: -0.40 over-shot the burst down-and-out BELOW the painted point;
+         -0.24 lifts it up the canted head so it lands ON the bottom tip.
+         Y eased -0.28 -> -0.60: pull the burst back DOWN the haft toward the grip so it lands at
+         the ground-contact point (down-and-toward-the-pawn from the tip) the user marked, not up
+         on the bare pick point. -->
+    <impactTipOffset>(-0.24, -0.60)</impactTipOffset>
+    <!-- Draw-only lift: slide the whole pick up-and-back so the head's LOWER point comes to rest
+         exactly on the impact spark at the end of the swing, WITHOUT moving the spark (it is
+         re-anchored to the un-shifted strike pose in C#). x = lateral (flip-aware, +x pulls the
+         lower point back toward the pawn), y = fraction of haft length along the axis. Measured off
+         the screenshot at ~0.29 cell up / ~0.07 cell back; tune from here. -->
+    <strikeLift>(0.31, 0.04)</strikeLift>
+  </JobEffects.JobToolDef>
+
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Axe</defName>
+    <idleScale>0.62</idleScale> <!-- long haft: shrink so it doesn't hang past the feet when belted -->
+    <handPosA>0.16</handPosA>
+    <handPosB>0.38</handPosB>
+    <flipHead>true</flipHead>
+    <headInterval>0.7</headInterval>
+    <headScale>0.49</headScale>
+    <jobDefs>
+      <li>CutPlant</li>
+      <li>CutPlantDesignated</li>
+      <li>HarvestDesignated</li>
+      <li>Harvest</li>
+      <li>ExtractTree</li>
+    </jobDefs>
+    <treeOnly>true</treeOnly>
+    <motionBlur>false</motionBlur>
+    <browWipe>true</browWipe>
+    <texPath>Things/JobEffects/Tools/Axe</texPath>
+    <scale>1.2</scale>
+    <reach>0.16</reach>
+    <period>0.6</period> <!-- ~20% slower chop + swing-down -->
+    <strikeSound>JE_AxeChop</strikeSound>
+    <windupAngle>84</windupAngle>
+    <!-- Blade flares off the haft axis; cant the haft back at impact so the cutting edge lands on
+         the forward line and stops there (no swing-past). -->
+    <strikeAngle>-20</strikeAngle>
+    <followThroughAngle>20</followThroughAngle>
+    <!-- impact lands on the axe's cutting edge, now on the forward line -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(-0.34, -0.16)</impactTipOffset>
+    <impactBitFleck>JE_WoodChip</impactBitFleck>
+    <impactBitCount>6</impactBitCount>
+    <impactBitSpeed>5~11</impactBitSpeed>
+    <impactBitScale>0.385~0.665</impactBitScale>
+    <impactSpread>55</impactSpread>
+    <!-- wood chips keep the original JE_WoodChip texture colour (no trunk-colour tinting) -->
+    <materialTintBits>false</materialTintBits>
+    <!-- leaves shaken loose from the canopy, thrown on the SAME chop hit -->
+    <impactBitFleck2>JE_Leaf</impactBitFleck2>
+    <impactBitCount2>3</impactBitCount2>
+    <impactBitSpeed2>1.5~3.5</impactBitSpeed2>
+    <!-- leaf size reduced 20% (0.45~0.7 -> 0.36~0.56) -->
+    <impactBitScale2>0.36~0.56</impactBitScale2>
+    <impactSpread2>120</impactSpread2>
+    <seasonTintBits2>true</seasonTintBits2>
+    <!-- no settling ground litter for tree chopping (ChipPale not drawn on the ground) -->
+  </JobEffects.JobToolDef>
+
+  <!-- Construction hammer: building WOOD (and soft — fabric/leather upholstery tacking)
+       frames, plus roofing in both directions. Stone and metal frames fail the
+       frameStuffCategories filter and fall through to the build chisel / welder below. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Hammer</defName>
+    <handPosA>0.15</handPosA>
+    <handPosB>0.42</handPosB>
+    <jobDefs>
+      <li>FinishFrame</li>
+      <li>BuildRoof</li>
+      <li>RemoveRoof</li>
+    </jobDefs>
+    <!-- FinishFrame only; BuildRoof/RemoveRoof ignore this filter -->
+    <frameStuffCategories>
+      <li>Woody</li>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </frameStuffCategories>
+    <texPath>Things/JobEffects/Tools/Hammer</texPath>
+    <!-- RETEXTURE: new head is shorter in-canvas; bump scale to keep the visible tool size. -->
+    <scale>1.12</scale>
+    <reach>0.12</reach>
+    <period>0.4</period>
+    <windupAngle>54</windupAngle>
+    <!-- 0 = head strikes pointing straight forward and stops there (no swing-through overshoot) -->
+    <followThroughAngle>0</followThroughAngle>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <impactFlashFleck>SparkFlash</impactFlashFleck>
+    <impactFlashScale>1.82</impactFlashScale>
+    <!-- impact lands on the head's LEADING striking edge, dead-centred on the haft. Lateral is
+         0: for pure N/S facings dir.x~0, so the flip-sign in TipSpacePos was unstable and threw
+         any lateral offset to a random side (head appeared to overshoot the spark). Y=-0.10 seats
+         the burst at the head's leading metal edge (canvas-top of the block ~z0.90 along the
+         haft) where it actually contacts, consistent across N/E/S/W. -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.10)</impactTipOffset>
+    <!-- The head is mounted CROSSWISE, so at the strike its striking faces sit perpendicular to
+         the haft (above/below the haft line in the E/W profile). The spark above is on the haft
+         centreline (mid-head height); drop it ~a head-half-width straight down in world space so
+         it lands on the LOWER striking face — the part that actually contacts the work. -->
+    <impactDrop>0.30</impactDrop>
+  </JobEffects.JobToolDef>
+
+  <!-- Build chisel + mallet: building STONE frames — the mason's version of the bench-chisel
+       scene. The chisel stays planted against the masonry while the off-hand mallet raps its
+       butt; shards take the stone's own colour (materialTintBits). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_BuildChisel</defName>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>FinishFrame</li>
+    </jobDefs>
+    <frameStuffCategories>
+      <li>Stony</li>
+    </frameStuffCategories>
+    <texPath>Things/JobEffects/Tools/Chisel</texPath>
+    <malletTexPath>Things/JobEffects/Tools/Hammer</malletTexPath>
+    <malletScale>0.621</malletScale>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.85</scale>
+    <reach>0.16</reach>
+    <period>0.5</period>
+    <stabDistance>0.22</stabDistance>
+    <stabStrikePhase>0.5</stabStrikePhase>
+    <strikeSound>JE_ChiselTick</strikeSound>
+    <impactBitFleck>JE_StoneShard</impactBitFleck>
+    <impactBitCount>2</impactBitCount>
+    <impactBitSpeed>4~8</impactBitSpeed>
+    <impactBitScale>0.28~0.455</impactBitScale>
+    <impactSpread>65</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <materialTintBits>true</materialTintBits>
+    <!-- impact lands on the cutting tip at the end of the stab -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.08)</impactTipOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Welder: building METAL frames (plus unstuffed machine frames — steel-and-component
+       builds), every repair and breakdown fix. The colonist runs a weld bead along the work:
+       the electrode tip slowly traces a tight seam (Stir, small radius, barely any rotation)
+       while a blue-white arc flickers on the tip, sparks shower off the joint and a crackle
+       plays per bead cycle. The OFF hand holds a welding mask up over the face the whole time
+       (maskTexPath — face-anchored in DrawTool; draws UNDER the body, mask and arms included,
+       when the pawn faces north). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Welder</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- welding mask + torch always in front (except north) -->
+    <!-- Tech-gate: welding needs power. Until the Electricity research is finished, metal /
+         unstuffed-frame construction (and repairs) are swapped to the hammer animation. -->
+    <requiresElectricity>true</requiresElectricity>
+    <preElectricityTool>JE_Tool_Hammer</preElectricityTool>
+    <handCount>1</handCount>
+    <handPosA>0.16</handPosA>
+    <jobDefs>
+      <li>FinishFrame</li>
+      <li>Repair</li>
+      <li>FixBrokenDownBuilding</li>
+      <!-- Biotech: cutting a shut-down mech apart for resources. Not a FinishFrame, so it
+           bypasses the frameStuffCategories filter below; beadOnTarget plants the arc on the
+           mech and the welding mask covers the face — the welder/mask the user asked for. -->
+      <li>DisassembleMech</li>
+    </jobDefs>
+    <!-- FinishFrame only; Repair / FixBrokenDownBuilding ignore this filter.
+         "None" = unstuffed frames (machines, powered buildings — welder work). -->
+    <frameStuffCategories>
+      <li>Metallic</li>
+      <li>None</li>
+    </frameStuffCategories>
+    <texPath>Things/JobEffects/Tools/Welder</texPath>
+    <!-- Straight, vertical welder for the front-on / back-on (north/south) views; the 3/4 torch
+         (texPath) stays for the east/west profile. -->
+    <texPathNorthSouth>Things/JobEffects/Tools/WelderStraight</texPathNorthSouth>
+    <maskTexPath>Things/JobEffects/Tools/WeldingMask</maskTexPath>
+    <maskTexPathEast>Things/JobEffects/Tools/WeldingMaskEast</maskTexPathEast>
+    <maskTexPathWest>Things/JobEffects/Tools/WeldingMaskWest</maskTexPathWest>
+    <maskTexPathNorth>Things/JobEffects/Tools/WeldingMaskNorth</maskTexPathNorth>
+    <!-- RETEXTURE: new mask art is shorter/lower in-canvas; bump so it still covers the face. -->
+    <maskScale>1.18</maskScale>
+    <!-- east/west profile reads slimmer; +15% over maskScale -->
+    <maskScaleProfile>1.176</maskScaleProfile>
+    <swingStyle>Stir</swingStyle>
+    <scale>0.92</scale>
+    <reach>0.22</reach>
+    <period>1.15</period>
+    <windupAngle>4</windupAngle>
+    <stirRadius>0.07</stirRadius>
+    <!-- electrode tip planted on the weld point; the pawn makes slight angle corrections
+         from the handle end instead of waving the whole tool -->
+    <tipPlanted>true</tipPlanted>
+    <!-- plant the bead ON the worked structure: re-aim at the target's nearest occupied cell
+         and extend the grip so the tip (plus arc flash + spark shower) sits on top of the
+         building / frame sprite — fixed reach left it welding thin air on diagonal work and
+         on big buildings whose center is cells away -->
+    <beadOnTarget>true</beadOnTarget>
+    <!-- blue-white arc flicker right on the electrode tip -->
+    <tipGlowFleck>JE_ArcFlash</tipGlowFleck>
+    <tipGlowInterval>0.13</tipGlowInterval>
+    <tipGlowScale>0.8</tipGlowScale>
+    <tipGlowOffset>(0.12, -0.22)</tipGlowOffset>
+    <!-- straight front/back welder art has a CENTRED electrode: drop the profile torch's lateral
+         shift (which threw the glow off to the left) and back off a touch less along the haft
+         since the straight tip reaches nearly the canvas edge -->
+    <tipGlowOffsetNorthSouth>(0, -0.07)</tipGlowOffsetNorthSouth>
+    <tipEmberFleck>JE_WeldSpark</tipEmberFleck>
+    <!-- constant spark shower straight off the electrode tip: an ember burst on every
+         tipGlow tick (~0.13s) instead of the old 40%-chance single ember -->
+    <tipEmberChance>1.0</tipEmberChance>
+    <tipEmberCount>3</tipEmberCount>
+    <!-- once per bead cycle: a dense shower of tiny, fast sparks off the joint -->
+    <impactBitFleck>JE_WeldSpark</impactBitFleck>
+    <impactBitCount>18</impactBitCount>
+    <impactBitSpeed>8~16</impactBitSpeed>
+    <impactBitScale>0.15~0.3</impactBitScale>
+    <impactSpread>150</impactSpread>
+    <impactFlashFleck>JE_ArcFlash</impactFlashFleck>
+    <impactFlashScale>1.7</impactFlashScale>
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0.12, -0.22)</impactTipOffset>
+    <impactTipOffsetNorthSouth>(0, -0.07)</impactTipOffsetNorthSouth>
+    <!-- holster: torch tucks nearly upright at the hip -->
+    <idleScale>0.7</idleScale>
+    <idleAngle>165</idleAngle>
+  </JobEffects.JobToolDef>
+
+  <!-- Bench welder: the same welder + mask rig for DoBill smithing at the vanilla smithies.
+       (The smith hammer + tongs scene is now Medieval Overhaul-only — see JE_Tool_SmithHammer.) -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_BenchWelder</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- welding mask + torch always in front (except north) -->
+    <!-- Tech-gate: pre-Electricity, smithing at the forge uses a hammer & anvil (reuses the
+         JE_Tool_SmithHammer animation) instead of the welder. -->
+    <requiresElectricity>true</requiresElectricity>
+    <preElectricityTool>JE_Tool_SmithHammer</preElectricityTool>
+    <handCount>1</handCount>
+    <handPosA>0.16</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>FueledSmithy</li>
+      <li>ElectricSmithy</li>
+      <!-- Anomaly DLC: shaping bioferrite is hot electromagnetic work — same welder + mask rig.
+           Plain string, inert when Anomaly isn't installed (the bench just never appears). -->
+      <li>BioferriteShaper</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Welder</texPath>
+    <!-- Straight, vertical welder for the front-on / back-on (north/south) views; the 3/4 torch
+         (texPath) stays for the east/west profile. -->
+    <texPathNorthSouth>Things/JobEffects/Tools/WelderStraight</texPathNorthSouth>
+    <maskTexPath>Things/JobEffects/Tools/WeldingMask</maskTexPath>
+    <maskTexPathEast>Things/JobEffects/Tools/WeldingMaskEast</maskTexPathEast>
+    <maskTexPathWest>Things/JobEffects/Tools/WeldingMaskWest</maskTexPathWest>
+    <maskTexPathNorth>Things/JobEffects/Tools/WeldingMaskNorth</maskTexPathNorth>
+    <!-- RETEXTURE: new mask art is shorter/lower in-canvas; bump so it still covers the face. -->
+    <maskScale>1.18</maskScale>
+    <!-- east/west profile reads slimmer; +15% over maskScale -->
+    <maskScaleProfile>1.176</maskScaleProfile>
+    <swingStyle>Stir</swingStyle>
+    <scale>0.92</scale>
+    <reach>0.22</reach>
+    <period>1.15</period>
+    <windupAngle>4</windupAngle>
+    <stirRadius>0.07</stirRadius>
+    <tipPlanted>true</tipPlanted>
+    <!-- the smithy's "Smith" effecter sprays its stone-bit sparks from the worker's feet; cut
+         them and let our electrode-tip sparks (below) carry the weld -->
+    <suppressWorkMotes>true</suppressWorkMotes>
+    <tipGlowFleck>JE_ArcFlash</tipGlowFleck>
+    <tipGlowInterval>0.13</tipGlowInterval>
+    <tipGlowScale>0.8</tipGlowScale>
+    <tipGlowOffset>(0.12, -0.22)</tipGlowOffset>
+    <!-- straight front/back welder art has a CENTRED electrode: drop the lateral shift -->
+    <tipGlowOffsetNorthSouth>(0, -0.07)</tipGlowOffsetNorthSouth>
+    <tipEmberFleck>JE_WeldSpark</tipEmberFleck>
+    <tipEmberChance>1.0</tipEmberChance>
+    <tipEmberCount>3</tipEmberCount>
+    <impactBitFleck>JE_WeldSpark</impactBitFleck>
+    <impactBitCount>18</impactBitCount>
+    <impactBitSpeed>8~16</impactBitSpeed>
+    <impactBitScale>0.15~0.3</impactBitScale>
+    <impactSpread>150</impactSpread>
+    <impactFlashFleck>JE_ArcFlash</impactFlashFleck>
+    <impactFlashScale>1.7</impactFlashScale>
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0.12, -0.22)</impactTipOffset>
+    <impactTipOffsetNorthSouth>(0, -0.07)</impactTipOffsetNorthSouth>
+    <idleScale>0.7</idleScale>
+    <idleAngle>165</idleAngle>
+  </JobEffects.JobToolDef>
+
+  <!-- Sickle: harvesting / cutting non-tree plants (crops, bushes). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Sickle</defName>
+    <handPosA>0.16</handPosA>
+    <handPosB>0.36</handPosB>
+    <jobDefs>
+      <li>CutPlant</li>
+      <li>CutPlantDesignated</li>
+      <li>HarvestDesignated</li>
+      <li>Harvest</li>
+    </jobDefs>
+    <nonTreeOnly>true</nonTreeOnly>
+    <texPath>Things/JobEffects/Tools/Sickle</texPath>
+    <swingStyle>Sweep</swingStyle>
+    <scale>1.0</scale>
+    <reach>0.18</reach>
+    <period>0.66</period>
+    <windupAngle>74</windupAngle>
+    <strikeSound>JE_SickleSwish</strikeSound>
+    <impactBitFleck>JE_Leaf</impactBitFleck>
+    <impactBitCount>6</impactBitCount>
+    <impactBitSpeed>2~5</impactBitSpeed>
+    <impactBitScale>0.35~0.56</impactBitScale>
+    <impactSpread>95</impactSpread>
+    <seasonTintBits>true</seasonTintBits>
+  </JobEffects.JobToolDef>
+
+  <!-- Crowbar: deconstructing buildings. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Crowbar</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <strikeSound>JE_CrowbarPry</strikeSound>
+    <!-- long pry bar: shrink the holster so it sits in the same band as the axe/shovel and
+         doesn't hang past the feet when belted -->
+    <idleScale>0.68</idleScale>
+    <handPosA>0.18</handPosA>
+    <handPosB>0.45</handPosB>
+    <jobDefs>
+      <li>Deconstruct</li>
+      <li>DeconstructForBlueprint</li>
+      <li>Uninstall</li>
+      <!-- ripping up smoothed/tile floors and bridge foundations: the pry bar levers them up.
+           Both target a cell (not a Thing), so they bypass every Thing/material gate. -->
+      <li>RemoveFloor</li>
+      <li>RemoveFoundation</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Crowbar</texPath>
+    <swingStyle>Pry</swingStyle>
+    <scale>1.05</scale>
+    <reach>0.1</reach>
+    <period>0.8</period>
+    <windupAngle>42</windupAngle>
+    <impactBitFleck>JE_StoneShard</impactBitFleck>
+    <impactBitCount>3</impactBitCount>
+    <impactBitSpeed>4~9</impactBitSpeed>
+    <impactBitScale>0.35~0.595</impactBitScale>
+    <impactSpread>85</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <impactFlashFleck>SparkFlash</impactFlashFleck>
+    <impactFlashScale>1.3</impactFlashScale>
+    <!-- stone shards keep the original JE_StoneShard colour; no ChipPale tint or ground litter -->
+    <!-- impact lands on the hooked claw that's planted against the building -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(-0.16, -0.10)</impactTipOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Chisel: smoothing stone walls & floors. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Chisel</defName>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>SmoothWall</li>
+      <li>SmoothFloor</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Chisel</texPath>
+    <!-- Chisel-and-mallet: the chisel is held PLANTED against the rock while a small hand
+         hammer (the off hand) winds back and raps its butt on each strike. -->
+    <malletTexPath>Things/JobEffects/Tools/Hammer</malletTexPath>
+    <malletScale>0.621</malletScale>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.85</scale>
+    <reach>0.14</reach>
+    <period>0.5</period>
+    <stabDistance>0.24</stabDistance>
+    <stabStrikePhase>0.45</stabStrikePhase>
+    <strikeSound>JE_ChiselTick</strikeSound>
+    <impactBitFleck>JE_StoneShard</impactBitFleck>
+    <impactBitCount>3</impactBitCount>
+    <impactBitSpeed>4~9</impactBitSpeed>
+    <impactBitScale>0.28~0.49</impactBitScale>
+    <impactSpread>65</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <impactFlashFleck>SparkFlash</impactFlashFleck>
+    <impactFlashScale>1.26</impactFlashScale>
+    <!-- stone shards keep the original JE_StoneShard colour; no ChipPale tint or ground litter -->
+    <!-- impact lands on the cutting tip at the end of the stab -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.08)</impactTipOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Broom: cleaning filth. Side-to-side sweep, no impact. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Broom</defName>
+    <strikeSound>JE_BroomSwish</strikeSound>
+    <idleScale>0.70</idleScale>
+    <handPosA>0.14</handPosA>
+    <handPosB>0.40</handPosB>
+    <jobDefs>
+      <li>Clean</li>
+      <li>ClearSnow</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Broom</texPath>
+    <swingStyle>Sweep</swingStyle>
+    <scale>1.2</scale>
+    <reach>0.1</reach>
+    <period>0.7</period>
+    <windupAngle>34</windupAngle>
+    <!-- a dust puff kicked up at the broom head on every stroke -->
+    <impactDustFleck>DustPuff</impactDustFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Trowel: sowing seeds. Digs into the soil, kicking up dirt. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Trowel</defName>
+    <strikeSound>JE_TrowelScoop</strikeSound>
+    <handCount>1</handCount>
+    <handPosA>0.28</handPosA>
+    <jobDefs>
+      <li>Sow</li>
+      <li>PlantSeed</li>
+      <li>Replant</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Trowel</texPath>
+    <swingStyle>Dig</swingStyle>
+    <scale>0.8</scale>
+    <reach>0.14</reach>
+    <!-- Seed basket carried in the OFF hand: the colonist holds a forage basket at the hip
+         while the trowel digs. Per body-facing placement keeps it at the hip at all four
+         angles (tucked under the body when facing north); the off hand grips the handle. -->
+    <offhandTexPath>Things/JobEffects/Tools/ForageBasket</offhandTexPath>
+    <offhandScale>0.6</offhandScale>
+    <offhandLateral>0.24</offhandLateral>
+    <offhandForward>0.06</offhandForward>
+    <offhandDrop>0.14</offhandDrop>
+    <offhandForwardProfile>0.16</offhandForwardProfile>
+    <offhandDropProfile>0.16</offhandDropProfile>
+    <offhandGripRaise>0.30</offhandGripRaise>
+    <period>0.85</period>
+    <windupAngle>55</windupAngle>
+    <stabDistance>0.22</stabDistance>
+    <impactBitFleck>JE_SoilClod</impactBitFleck>
+    <impactBitCount>4</impactBitCount>
+    <impactBitSpeed>2~5</impactBitSpeed>
+    <impactBitScale>0.3~0.5</impactBitScale>
+    <impactSpread>75</impactSpread>
+    <!-- seed grains scattered on the SAME dig hit -->
+    <impactBitFleck2>JE_Seed</impactBitFleck2>
+    <impactBitCount2>4</impactBitCount2>
+    <impactBitSpeed2>3~6</impactBitSpeed2>
+    <impactBitScale2>0.35~0.56</impactBitScale2>
+    <impactSpread2>80</impactSpread2>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <!-- impact lands on the trowel blade digging into the soil -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.04)</impactTipOffset>
+    <restFleck>JE_ChipRest</restFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Smithing hammer + tongs: Medieval Overhaul benches ONLY (the vanilla smithies now use
+       the bench welder). The bench names below are plain strings matched against the workbench
+       def, so listing MO's defNames here is inert when MO isn't installed — the tool simply
+       never matches. NEVER leave this list empty: an empty <workbenchDefs> means "match ANY
+       workbench", which would hijack every DoBill. Reuses the hammer sprite. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_SmithHammer</defName>
+    <strikeSound>JE_AnvilTing</strikeSound>
+    <handPosA>0.15</handPosA>
+    <handPosB>0.42</handPosB>
+    <headInterval>0.7</headInterval>
+    <headScale>0.49</headScale>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>DankPyon_Anvil</li>
+      <li>DankPyon_Workbench</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Hammer</texPath>
+    <scale>1.08</scale>
+    <reach>0.12</reach>
+    <period>0.4</period>
+    <windupAngle>52</windupAngle>
+    <followThroughAngle>14</followThroughAngle>
+    <impactFlashFleck>YellowSparkFlash</impactFlashFleck>
+    <impactFlashScale>1.68</impactFlashScale>
+    <restFleck>JE_EmberRest</restFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Bench chisel: DoBill at sculpting / stonecutting tables. Reuses the chisel sprite. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_BenchChisel</defName>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>TableSculpting</li>
+      <li>TableStonecutter</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Chisel</texPath>
+    <malletTexPath>Things/JobEffects/Tools/Hammer</malletTexPath>
+    <malletScale>0.621</malletScale>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.85</scale>
+    <reach>0.12</reach>
+    <period>0.5</period>
+    <stabDistance>0.22</stabDistance>
+    <stabStrikePhase>0.5</stabStrikePhase>
+    <strikeSound>JE_ChiselTick</strikeSound>
+    <!-- Lock the mallet rap onto this bench's recipe work sound (stonecutting chink / sculpt scrape). -->
+    <syncToBenchSound>true</syncToBenchSound>
+    <impactBitFleck>JE_StoneShard</impactBitFleck>
+    <impactBitCount>2</impactBitCount>
+    <impactBitSpeed>4~8</impactBitSpeed>
+    <impactBitScale>0.28~0.455</impactBitScale>
+    <impactSpread>65</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <!-- impact lands on the cutting tip at the end of the stab; no ChipPale ground litter -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.08)</impactTipOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Wooden spoon: cooking / making meals. DoBill at stoves & campfire. Stirs in a circle. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Spoon</defName>
+    <handCount>1</handCount>
+    <handPosA>0.20</handPosA>
+    <headFleck>JE_Steam</headFleck>
+    <headInterval>0.9</headInterval>
+    <headScale>0.7</headScale>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+      <li>Campfire</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Spoon</texPath>
+    <swingStyle>Stir</swingStyle>
+    <!-- Cook's stir: wrist-pivoting spoon tracing an ellipse in the pot, uneven lap speed,
+         a rest at the rim, a direction reversal, and a double tap to knock the spoon clean.
+         period = the whole macro-cycle. -->
+    <stirVaried>true</stirVaried>
+    <scale>0.85</scale>
+    <reach>0.14</reach>
+    <period>7.0</period>
+    <windupAngle>12</windupAngle>
+    <stirRadius>0.14</stirRadius>
+  </JobEffects.JobToolDef>
+
+  <!-- Sewing needle: tailoring. DoBill at tailoring benches. Quick stabbing thrust. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Needle</defName>
+    <handCount>1</handCount>
+    <handPosA>0.32</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>HandTailoringBench</li>
+      <li>ElectricTailoringBench</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Needle</texPath>
+    <swingStyle>Stab</swingStyle>
+    <!-- Sewing: each stitch comes in from a slightly different angle and spot. -->
+    <stabVaried>true</stabVaried>
+    <!-- RETEXTURE: new needle sprite is thicker/longer in-canvas; shrink so it reads as a needle. -->
+    <scale>0.6</scale>
+    <reach>0.12</reach>
+    <period>0.32</period>
+    <stabDistance>0.26</stabDistance>
+  </JobEffects.JobToolDef>
+
+  <!-- Hot metal rod: smelting. DoBill at the electric smelter. Slow hover with a glowing tip. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_SmeltRod</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <!-- long rod: shrink the holster into the long-haft band so the hot end doesn't dangle to the feet -->
+    <idleScale>0.70</idleScale>
+    <!-- one hand on the rod — the second (front) hand read as clutter -->
+    <handCount>1</handCount>
+    <handPosA>0.16</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>ElectricSmelter</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/SmeltRod</texPath>
+    <swingStyle>Stir</swingStyle>
+    <!-- deliberate plunge: dip the rod into the melt, hold, withdraw, repeat (no fast stirring) -->
+    <stirPlunge>true</stirPlunge>
+    <plungeForward>0.34</plungeForward>
+    <plungeDown>0.10</plungeDown>
+    <scale>1.0</scale>
+    <reach>0.14</reach>
+    <period>5.5</period>
+    <windupAngle>5</windupAngle>
+    <!-- every 4th plunge bottoms out with a burst of steam off the hot end -->
+    <quenchEvery>4</quenchEvery>
+    <!-- heat glow centred on the rod's glowing end (sprite has padding above it) -->
+    <tipGlowOffset>(0, -0.17)</tipGlowOffset>
+    <tipGlowFleck>HeatGlow_Intense</tipGlowFleck>
+    <tipGlowInterval>0.16</tipGlowInterval>
+    <tipGlowScale>0.91</tipGlowScale>
+    <tipEmberFleck>MicroSparksFast</tipEmberFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Butcher cleaver: butchering at the butcher table / spot. Cleaver sprite + a Chop swing
+       (lift up, drive down fast onto the carcass — like the axe) that throws meat bits and bone
+       dust. DefName kept as JE_Tool_Cleaver so the Medieval Overhaul compat patch keeps resolving it. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Cleaver</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <!-- the wet meat-chop comes from vanilla (the chop is synced to land on it); this adds
+         the low "chock" of the blade burying into the block at the same instant -->
+    <strikeSound>JE_CleaverThunk</strikeSound>
+    <handCount>1</handCount>
+    <handPosA>0.20</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>TableButcher</li>
+      <li>ButcherSpot</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Cleaver</texPath>
+    <!-- asymmetric blade: flip the head with facing like the axe/pickaxe so the cleaver faces the
+         same way as our other tools -->
+    <flipHead>true</flipHead>
+    <!-- RETEXTURE: new cleaver blade is bigger in-canvas; trim scale to match the old footprint. -->
+    <swingStyle>Chop</swingStyle>
+    <scale>0.78</scale>
+    <reach>0.14</reach>
+    <!-- quick, repeated butchering chops; at normal-and-up speed the chop is timed off the real
+         butchering hit sound (each meat-chop grain), so the blade lands on the audible hit.
+         period is the free-run fallback (paused / no sound yet). -->
+    <period>0.42</period>
+    <syncToButcherHit>true</syncToButcherHit>
+    <windupAngle>66</windupAngle>
+    <!-- The cutting edge runs down one side of the blade, offset from the sprite's centre axis.
+         strikeAngle cants the blade so the leading cutting TIP (lower-front corner of the edge,
+         not the sprite top-centre) is what settles on the forward line and stops there. Sign is
+         negative because flipHead mirrors the blade to the other side. -->
+    <strikeAngle>-16</strikeAngle>
+    <followThroughAngle>14</followThroughAngle>
+    <!-- blood sprays from the MIDDLE of the impacting blade edge: -0.13 lateral (edge side),
+         -0.30 down the haft from the sprite tip ≈ the centre of the cutting edge. -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(-0.13, -0.30)</impactTipOffset>
+    <!-- proper blood droplets (no StoneShard-sprite chips, no bone-dust shards) -->
+    <impactBitFleck>JE_BloodDrop</impactBitFleck>
+    <impactBitCount>6</impactBitCount>
+    <impactBitSpeed>2~6</impactBitSpeed>
+    <impactBitScale>0.3~0.55</impactBitScale>
+    <impactSpread>70</impactSpread>
+  </JobEffects.JobToolDef>
+
+  <!-- Metalworking chisel: machining table & fabrication bench. Reuses the chisel sprite. Metal sparks. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_MetalChisel</defName>
+    <strikeSound>JE_MetalTink</strikeSound>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>TableMachining</li>
+      <li>FabricationBench</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Chisel</texPath>
+    <malletTexPath>Things/JobEffects/Tools/Hammer</malletTexPath>
+    <malletScale>0.621</malletScale>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.85</scale>
+    <reach>0.12</reach>
+    <period>0.5</period>
+    <stabDistance>0.2</stabDistance>
+    <stabStrikePhase>0.5</stabStrikePhase>
+    <!-- Lock the mallet rap onto this bench's recipe work sound (machining loop / fab whir). -->
+    <syncToBenchSound>true</syncToBenchSound>
+    <impactBitFleck>MicroSparksFast</impactBitFleck>
+    <impactBitCount>3</impactBitCount>
+    <impactBitSpeed>5~11</impactBitSpeed>
+    <impactBitScale>0.5~0.9</impactBitScale>
+    <impactSpread>60</impactSpread>
+    <impactFlashFleck>YellowSparkFlash</impactFlashFleck>
+    <impactFlashScale>1.4</impactFlashScale>
+    <!-- impact lands on the cutting tip at the end of the stab -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.08)</impactTipOffset>
+    <restFleck>JE_EmberRest</restFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Drug-lab flask: making drugs at the drug lab. The colonist holds a full Erlenmeyer flask
+       (TestTubeA1) upright, then slowly pours it out — tilting fully inverted at the bill's
+       halfway point, where it swaps to the empty flask (TestTubeA2) — and rights it back upright
+       and empty by completion. The pour is paced off the live DoBill work, so it tracks the real
+       craft time. Light green chemical fumes rise off the work. While the flask is tipped over to
+       pour, caustic acid droplets (JE_AcidDrip) dribble out of the mouth and a faint blue acid
+       vapor (JE_AcidSmoke) curls up off the pour. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_DrugSpoon</defName>
+    <label>drug flask</label>
+    <handCount>1</handCount>
+    <handPosA>0.18</handPosA>
+    <headFleck>JE_Fume</headFleck>
+    <headInterval>0.9</headInterval>
+    <headScale>0.6</headScale>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>DrugLab</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/TestTubeA1</texPath>
+    <swingStyle>Hold</swingStyle>
+    <holdPour>true</holdPour>
+    <pourEmptyTexPath>Things/JobEffects/Tools/TestTubeA2</pourEmptyTexPath>
+    <pourMaxTilt>170</pourMaxTilt>
+    <pourGripFrac>0.68</pourGripFrac>
+    <pourPeak>0.72</pourPeak>
+    <pourDripFleck>JE_AcidDrip</pourDripFleck>
+    <pourSmokeFleck>JE_AcidSmoke</pourSmokeFleck>
+    <pourEmitInterval>0.16</pourEmitInterval>
+    <scale>0.85</scale>
+    <reach>0.16</reach>
+  </JobEffects.JobToolDef>
+
+  <!-- Brewing paddle: making wort at the brewery. Reuses the spoon sprite. Rising steam. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_BrewSpoon</defName>
+    <handCount>1</handCount>
+    <handPosA>0.20</handPosA>
+    <headFleck>JE_Steam</headFleck>
+    <headInterval>0.95</headInterval>
+    <headScale>0.7</headScale>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>Brewery</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Spoon</texPath>
+    <swingStyle>Stir</swingStyle>
+    <!-- cook's-stir macro; slightly longer period than the stove so crews desync -->
+    <stirVaried>true</stirVaried>
+    <scale>0.9</scale>
+    <reach>0.14</reach>
+    <period>6.4</period>
+    <windupAngle>12</windupAngle>
+    <stirRadius>0.14</stirRadius>
+  </JobEffects.JobToolDef>
+
+  <!-- Slaughter knife: killing animals in the field. Quick stabbing thrust, meat bits fly. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Knife</defName>
+    <handCount>1</handCount>
+    <handPosA>0.22</handPosA>
+    <jobDefs>
+      <li>Slaughter</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Knife</texPath>
+    <swingStyle>Stab</swingStyle>
+    <!-- single-edged blade authored point-up: flip across the haft when horizontal so the
+         cutting edge faces DOWN at the E/W profiles instead of riding upside-down. -->
+    <flipEdgeProfile>true</flipEdgeProfile>
+    <scale>0.85</scale>
+    <!-- grip held tight to the body: a near-zero base reach plus a SHORT thrust keeps the blade
+         from floating out off the pawn at the stab peak (peak grip = reach + stabDistance). -->
+    <reach>0.02</reach>
+    <period>0.46</period>
+    <stabDistance>0.16</stabDistance>
+    <!-- blood bursts from the VERY TIP of the blade at full extension -->
+    <impactAtTip>true</impactAtTip>
+    <impactBitFleck>JE_MeatBit</impactBitFleck>
+    <impactBitCount>6</impactBitCount>
+    <impactBitSpeed>3~8</impactBitSpeed>
+    <impactBitScale>0.3~0.55</impactBitScale>
+    <impactSpread>75</impactSpread>
+  </JobEffects.JobToolDef>
+
+  <!-- Shears: shearing wool off animals. The two-frame snip carries the animation — the blades
+       open (texPath) on the windup and snap CLOSED (strikeTexPath) right on the strike, where the
+       JE_ShearSnip sound and JE_WoolTuft flecks already land. Quick period = rapid snip-snip. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Shears</defName>
+    <handCount>1</handCount>
+    <handPosA>0.28</handPosA>
+    <jobDefs>
+      <li>Shear</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Shears</texPath>
+    <strikeTexPath>Things/JobEffects/Tools/Shears_Closed</strikeTexPath>
+    <swingStyle>Chop</swingStyle>
+    <scale>0.8</scale>
+    <reach>0.15</reach>
+    <period>0.34</period>
+    <strikeSound>JE_ShearSnip</strikeSound>
+    <windupAngle>20</windupAngle>
+    <followThroughAngle>6</followThroughAngle>
+    <impactBitFleck>JE_WoolTuft</impactBitFleck>
+    <impactBitCount>4</impactBitCount>
+    <impactBitSpeed>1~3</impactBitSpeed>
+    <impactBitScale>0.4~0.7</impactBitScale>
+    <impactSpread>110</impactSpread>
+  </JobEffects.JobToolDef>
+
+  <!-- Feeding bowl: taming an animal. The colonist holds a wide food bowl OUT in both hands
+       toward the animal and gently presents it — a slow coaxing offer that eases the bowl a
+       little closer to the animal and draws it back, with a soft bob, as if enticing it to
+       approach and eat. Held screen-upright (the bowl never spins to point at the animal);
+       both hands cup its lower side edges. No swing / impact / sound — a calm, passive pose.
+       noHolster: nothing is carried in vanilla, so the bowl shows only during the taming work. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_FeedingBowl</defName>
+    <label>feeding bowl</label>
+    <handCount>2</handCount>
+    <!-- one hand cupping each lower side edge of the bowl (just inboard of the outer rim) -->
+    <handPosA>0.06</handPosA>
+    <handPosB>0.94</handPosB>
+    <jobDefs>
+      <li>Tame</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/FeedingBowl</texPath>
+    <swingStyle>Hold</swingStyle>
+    <holdOffer>true</holdOffer>
+    <!-- bowl is wider than tall; cup the lower body near the rim/base -->
+    <bookGripHalfWidth>0.40</bookGripHalfWidth>
+    <bookGripDrop>0.12</bookGripDrop>
+    <scale>0.8</scale>
+    <reach>0.22</reach>
+    <!-- extra reach toward the animal at the peak of the coaxing present -->
+    <offerReach>0.12</offerReach>
+    <!-- presented a touch low (animals are on the ground) -->
+    <holdRaise>-0.04</holdRaise>
+    <!-- slow, calm coaxing cycle -->
+    <period>2.8</period>
+    <!-- nothing carried in vanilla; show only during the active tame -->
+    <noHolster>true</noHolster>
+  </JobEffects.JobToolDef>
+
+  <!-- Fishing rod (Odyssey Fish job): the colonist stands at the shore and fishes the water cell
+       (job target A) they face. The rod is held OUT in both hands over the water, the long blank
+       rising up-and-out toward the fishing spot; the angler patiently works the lure with a slow
+       continuous up/down sweep of the rod tip and a quick "set the hook" twitch once per cycle,
+       plus a gentle bob + sway. The whole rod pivots about the rear (lower) hand at the butt so the
+       tip is what sweeps. This adds no impact debris/sound — just the held, working pose. Carried
+       tucked at the hip (holster) while walking to the shore. Both the vanilla Odyssey Fishing
+       effecter and Vanilla Fishing Expanded attach their OWN rod mote to the angler; while this
+       tool is active those competing rod motes are suppressed in code (SubEffecter_Sprayer.MakeMote
+       prefix), so exactly one rod — our animated one — ever shows. VFE's mech rods are left intact
+       (this is humanlike-only). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_FishingRod</defName>
+    <label>fishing rod</label>
+    <handCount>2</handCount>
+    <!-- rear (main) hand low at the butt; front (off) hand up at the reel/foregrip -->
+    <handPosA>0.16</handPosA>
+    <handPosB>0.82</handPosB>
+    <jobDefs>
+      <li>Fish</li>
+      <!-- Vanilla Fishing Expanded's own fishing job (used when Odyssey is NOT active). Harmless
+           when VFE isn't loaded — the lookup just never matches a job by this name. The competing
+           VFE rod mote is suppressed in code so only our animated rod shows. -->
+      <li>VCEF_FishJob</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/FishingRod</texPath>
+    <swingStyle>Hold</swingStyle>
+    <holdFishing>true</holdFishing>
+    <scale>1.1</scale>
+    <reach>0.18</reach>
+    <!-- base lean of the rod from vertical toward the water (tip up-and-out over the spot) -->
+    <holdAngleOffset>50</holdAngleOffset>
+    <holdRaise>0</holdRaise>
+    <!-- working-the-lure cycle: a slow tip sweep with a set-the-hook twitch every ~4s -->
+    <period>4.0</period>
+    <jigSweep>6</jigSweep>
+    <jigTwitch>22</jigTwitch>
+    <!-- long rod: shrink the holster into the long-haft band so the tip doesn't drag past the feet -->
+    <idleScale>0.62</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Paintbrush: painting buildings & floors (and removing paint). Smooth stroke, paint specks. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Paintbrush</defName>
+    <handCount>1</handCount>
+    <handPosA>0.32</handPosA>
+    <jobDefs>
+      <li>PaintBuilding</li>
+      <li>PaintFloor</li>
+      <li>RemovePaintBuilding</li>
+      <li>RemovePaintFloor</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Paintbrush</texPath>
+    <swingStyle>Sweep</swingStyle>
+    <scale>0.82</scale>
+    <reach>0.14</reach>
+    <period>0.7</period>
+    <windupAngle>30</windupAngle>
+    <impactBitFleck>JE_PaintDrop</impactBitFleck>
+    <impactBitCount>2</impactBitCount>
+    <impactBitSpeed>2~5</impactBitSpeed>
+    <impactBitScale>0.3~0.5</impactBitScale>
+    <impactSpread>90</impactSpread>
+  </JobEffects.JobToolDef>
+
+  <!-- Fire extinguisher: putting out fires. Held forward, nozzle aimed at the flames; each
+       discharge pulse kicks the tank back (recoil) and shoots a forward cone of white
+       extinguisher mist out of the nozzle, with a slower cloud billowing over the fire. One
+       puff per cycle == one little burst per tick of firefighting. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_FireExtinguisher</defName>
+    <label>Fire extinguisher</label>
+    <!-- Tech-gate: pre-Electricity, fires are beaten out with a broom (the broom animation)
+         instead of a modern fire extinguisher. -->
+    <requiresElectricity>true</requiresElectricity>
+    <preElectricityTool>JE_Tool_Broom</preElectricityTool>
+    <handCount>2</handCount>
+    <!-- Held upright; both hands grip the tank body stacked along its axis: A = lower hand on the
+         silver band (frac ~0.42), B = upper hand at the neck/top of the red tank (frac ~0.74).
+         Hands render at the normal (SMYH-native) scale, same as every other tool. -->
+    <handPosA>0.42</handPosA>
+    <handPosB>0.74</handPosB>
+    <handScale>1.0</handScale>
+    <jobDefs>
+      <li>BeatFire</li>
+      <!-- the manual right-click "extinguish fires nearby" order uses its own job def (1.6);
+           it beats fires through the same Verb_BeatFire, so the puff sync works unchanged -->
+      <li>ExtinguishFiresNearby</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/FireExtinguisher</texPath>
+    <swingStyle>Spray</swingStyle>
+    <scale>1.0</scale>
+    <reach>0.30</reach>
+    <period>0.55</period>
+    <!-- job-start pose: the off hand yanks the safety pin out before the first burst -->
+    <strikeSound>JE_ExtinguisherHiss</strikeSound>
+    <!-- Tank is authored vertical (tank down, horn up). The default idleAngle (150 = nearly
+         straight down) flips it horn-down/upside-down when holstered, so override to a small
+         upright lean so it tucks at the hip the right way up. The default grip anchor (made
+         for head-down tools) pushes an upright tank UP the torso — zero it and drop the belt
+         line so the tank sits down on the hip. -->
+    <idleAngle>18</idleAngle>
+    <idleGripAnchor>0</idleGripAnchor>
+    <idleBeltDrop>-0.30</idleBeltDrop>
+    <!-- Big, near-white foam burst out of the funnel — ~3x the flecks, ~2x the spread/travel. -->
+    <impactBitFleck>JE_ExtinguisherMist</impactBitFleck>
+    <impactBitCount>24</impactBitCount>
+    <impactBitSpeed>4~8</impactBitSpeed>
+    <impactBitScale>0.7~1.1</impactBitScale>
+    <impactSpread>34</impactSpread>
+    <!-- Thicker foam clumps that billow out over the fire (lags behind the jet). -->
+    <impactBitFleck2>JE_ExtinguisherCloud</impactBitFleck2>
+    <impactBitCount2>12</impactBitCount2>
+    <impactBitSpeed2>2.5~5</impactBitSpeed2>
+    <impactBitScale2>1.0~1.5</impactBitScale2>
+    <impactSpread2>48</impactSpread2>
+  </JobEffects.JobToolDef>
+
+  <!-- Medicine kit: tending wounds. Frame-animated first-aid kit that opens once, then held
+       open until the job ends. Replaces the vanilla medicine sprite. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_MedicineKit</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <handCount>2</handCount>
+    <handPosA>0.12</handPosA>
+    <handPosB>0.88</handPosB>
+    <jobDefs>
+      <li>TendPatient</li>
+    </jobDefs>
+    <!-- Default kit handles every tend EXCEPT herbal medicine (herbal bundle) and glitterworld
+         medicine (the glitterworld kit covers that). -->
+    <forbidMedicineDefs>
+      <li>MedicineHerbal</li>
+      <li>MedicineUltratech</li>
+    </forbidMedicineDefs>
+    <!-- Vanilla already draws the carried medicine en route and would double-draw under a holster,
+         so the kit shows only during the active tend — never carried to the job, never hip-fading after. -->
+    <noHolster>true</noHolster>
+    <texPath>Things/JobEffects/Tools/MedicineKit/tile001</texPath>
+    <frameTexPaths>
+      <li>Things/JobEffects/Tools/MedicineKit/tile001</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile002</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile003</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile004</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile005</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile006</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile007</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile008</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile009</li>
+      <li>Things/JobEffects/Tools/MedicineKit/tile010</li>
+    </frameTexPaths>
+    <!-- After the kit pops open (frameTexPaths above), it empties out over the rest of the tend:
+         these 6 frames go from a full open box (deplete01, matching tile010) down to an empty box
+         (deplete06), selected by the tend job's live progress so the last frame lands exactly as
+         the job finishes. -->
+    <depletionTexPaths>
+      <li>Things/JobEffects/Tools/MedicineKit/deplete01</li>
+      <li>Things/JobEffects/Tools/MedicineKit/deplete02</li>
+      <li>Things/JobEffects/Tools/MedicineKit/deplete03</li>
+      <li>Things/JobEffects/Tools/MedicineKit/deplete04</li>
+      <li>Things/JobEffects/Tools/MedicineKit/deplete05</li>
+      <li>Things/JobEffects/Tools/MedicineKit/deplete06</li>
+    </depletionTexPaths>
+    <frameDuration>0.12</frameDuration>
+    <swingStyle>Hold</swingStyle>
+    <scale>1.0</scale>
+    <handScale>1.0</handScale>
+    <reach>0.22</reach>
+    <period>999</period>
+    <holdAngleOffset>0</holdAngleOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Herbal medicine: tending wounds with herbal medicine specifically. A bundle of healroot
+       leaves wrapped in cloth that animates open across 10 frames, then freezes on the final
+       full-bouquet frame and is held until the job ends. Hides the vanilla herbal medicine box
+       (handled by the carried-medicine render patch). Gated to TendPatient where the medicine
+       in targetB is MedicineHerbal. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_HerbalMedicine</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <handCount>2</handCount>
+    <handPosA>0.12</handPosA>
+    <handPosB>0.88</handPosB>
+    <jobDefs>
+      <li>TendPatient</li>
+    </jobDefs>
+    <requireMedicineDef>MedicineHerbal</requireMedicineDef>
+    <noHolster>true</noHolster>
+    <texPath>Things/JobEffects/Tools/HerbalMedicine/herbal01</texPath>
+    <frameTexPaths>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal01</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal02</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal03</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal04</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal05</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal06</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal07</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal08</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal09</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/herbal10</li>
+    </frameTexPaths>
+    <!-- After the bundle blooms open (frameTexPaths above), it slowly empties out across the rest
+         of the tend: these 4 frames go from a full bundle (deplete01, matching herbal10) down to a
+         near-empty flat wrapper (deplete04), selected by the tend job's live progress so the last
+         frame lands exactly as the job finishes. -->
+    <depletionTexPaths>
+      <li>Things/JobEffects/Tools/HerbalMedicine/deplete01</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/deplete02</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/deplete03</li>
+      <li>Things/JobEffects/Tools/HerbalMedicine/deplete04</li>
+    </depletionTexPaths>
+    <!-- New healroot-bloom frames are each bounding-box cropped (varying size), so draw them
+         aspect-correct + reference-scaled to stay centered and undistorted across the bloom. -->
+    <aspectCorrectFrames>true</aspectCorrectFrames>
+    <frameDuration>0.12</frameDuration>
+    <swingStyle>Hold</swingStyle>
+    <scale>0.95</scale>
+    <handScale>1.0</handScale>
+    <reach>0.22</reach>
+    <period>999</period>
+    <holdAngleOffset>0</holdAngleOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Glitterworld medicine: tending wounds with glitterworld medicine specifically. A sleek
+       ultra-tech first-aid case that animates open across 10 frames, then EMPTIES its contents
+       out across the rest of the tend (depletionTexPaths) so the last (empty) frame lands as the
+       job finishes. Hides the vanilla glitterworld medicine box
+       (handled by the carried-medicine render patch). Gated to TendPatient where the medicine in
+       targetB is MedicineUltratech. Held in both SMYH hands. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_GlitterMedicineKit</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <handCount>2</handCount>
+    <handPosA>0.12</handPosA>
+    <handPosB>0.88</handPosB>
+    <jobDefs>
+      <li>TendPatient</li>
+    </jobDefs>
+    <requireMedicineDef>MedicineUltratech</requireMedicineDef>
+    <noHolster>true</noHolster>
+    <texPath>Things/JobEffects/Tools/GlitterMedicineKit/frame01</texPath>
+    <frameTexPaths>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame01</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame02</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame03</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame04</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame05</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame06</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame07</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame08</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame09</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/frame10</li>
+    </frameTexPaths>
+    <!-- After the case finishes opening (frameTexPaths above), it empties out across the rest of
+         the tend: these 6 frames go from a fully-stocked tray (deplete01) down to a bare empty
+         case (deplete06), selected by the tend job's live progress so the last frame lands exactly
+         as the job finishes. -->
+    <depletionTexPaths>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/deplete01</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/deplete02</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/deplete03</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/deplete04</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/deplete05</li>
+      <li>Things/JobEffects/Tools/GlitterMedicineKit/deplete06</li>
+    </depletionTexPaths>
+    <frameDuration>0.12</frameDuration>
+    <swingStyle>Hold</swingStyle>
+    <scale>0.9</scale>
+    <handScale>1.0</handScale>
+    <reach>0.22</reach>
+    <period>999</period>
+    <holdAngleOffset>0</holdAngleOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Research "thinking": no prop at all. The researcher occasionally lifts a hand and
+       scratches their head while idea lightbulbs pop overhead. Scratch never draws a sprite,
+       so there is no texPath (the def name still appears in the per-tool settings list). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Notepad</defName>
+    <label>head scratch (research)</label>
+    <handCount>1</handCount>
+    <handPosA>0.5</handPosA>
+    <headFleck>JE_Lightbulb</headFleck>
+    <headInterval>2.8</headInterval>
+    <headScale>0.7</headScale>
+    <jobDefs>
+      <li>Research</li>
+    </jobDefs>
+    <swingStyle>Scratch</swingStyle>
+    <scale>0.8</scale>
+    <reach>0.14</reach>
+    <period>7</period>
+  </JobEffects.JobToolDef>
+
+  <!-- Hand auger: operating the deep drill. Fast tiny rattle, continuous stone-dust plume + chips. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Auger</defName>
+    <strikeSound>JE_AugerChatter</strikeSound>
+    <handPosA>0.14</handPosA>
+    <handPosB>0.46</handPosB>
+    <jobDefs>
+      <li>OperateDeepDrill</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Auger</texPath>
+    <swingStyle>Stab</swingStyle>
+    <scale>1.0</scale>
+    <reach>0.14</reach>
+    <period>0.16</period>
+    <stabDistance>0.1</stabDistance>
+    <tipGlowFleck>DustPuff</tipGlowFleck>
+    <tipGlowInterval>0.1</tipGlowInterval>
+    <tipGlowScale>0.7</tipGlowScale>
+    <!-- no StoneShard chips off the drill — just the continuous dust plume -->
+  </JobEffects.JobToolDef>
+
+  <!-- Torch: igniting things. Slow hold; flame flickers and embers rise from the tip. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Torch</defName>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>Ignite</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Torch</texPath>
+    <swingStyle>Stir</swingStyle>
+    <scale>0.95</scale>
+    <reach>0.16</reach>
+    <period>1.4</period>
+    <windupAngle>10</windupAngle>
+    <stirRadius>0.09</stirRadius>
+    <!-- waved in a figure-8 rather than a circle, embers trailing -->
+    <stirFigure8>true</stirFigure8>
+    <!-- fire effects centred on the flame heart (new art's flame sits higher in-canvas) -->
+    <tipGlowOffset>(0, -0.15)</tipGlowOffset>
+    <tipGlowFleck>HeatGlow_Intense</tipGlowFleck>
+    <tipGlowInterval>0.14</tipGlowInterval>
+    <tipGlowScale>0.85</tipGlowScale>
+    <tipEmberFleck>MicroSparksFast</tipEmberFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Shovel: filling in / grave digging. Heavy chopping dig, flings soil clods. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Shovel</defName>
+    <strikeSound>JE_ShovelScoop</strikeSound>
+    <idleScale>0.68</idleScale>
+    <handPosA>0.16</handPosA>
+    <handPosB>0.38</handPosB>
+    <jobDefs>
+      <li>FillIn</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Shovel</texPath>
+    <swingStyle>Dig</swingStyle>
+    <scale>1.1</scale>
+    <reach>0.14</reach>
+    <period>0.75</period>
+    <windupAngle>55</windupAngle>
+    <stabDistance>0.22</stabDistance>
+    <impactBitFleck>JE_SoilClod</impactBitFleck>
+    <impactBitCount>7</impactBitCount>
+    <impactBitSpeed>3~7</impactBitSpeed>
+    <impactBitScale>0.35~0.65</impactBitScale>
+    <impactSpread>80</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <restFleck>JE_ChipRest</restFleck>
+  </JobEffects.JobToolDef>
+
+  <!-- Handheld hacking device: hacking comms/terminals/mechhives. Electric-blue sparks + glyphs. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_HackDevice</defName>
+    <alwaysInFront>true</alwaysInFront>  <!-- always in front (except north) -->
+    <handCount>1</handCount>
+    <handPosA>0.32</handPosA>
+    <headFleck>JE_Glyph</headFleck>
+    <headInterval>1.2</headInterval>
+    <headScale>0.6</headScale>
+    <jobDefs>
+      <li>Hack</li>
+      <!-- Anomaly study work reuses the handheld-device gesture (HackDevice.png): studying
+           studiable things/entities, analyzing items at the analyzer, and investigating the
+           monolith. Plain jobDef strings, inert when Anomaly isn't installed. -->
+      <li>StudyInteract</li>
+      <li>StudyItem</li>
+      <li>AnalyzeItem</li>
+      <li>InvestigateMonolith</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/HackDevice</texPath>
+    <swingStyle>Stir</swingStyle>
+    <scale>0.85</scale>
+    <reach>0.15</reach>
+    <period>0.6</period>
+    <windupAngle>8</windupAngle>
+    <stirRadius>0.05</stirRadius>
+    <!-- RETEXTURE: the new device sits ~0.23 lower in its canvas, so the geometric tip (canvas
+         top) is empty padding; pull the hack sparks down onto the device's top edge. -->
+    <tipGlowOffset>(0, -0.25)</tipGlowOffset>
+    <tipGlowFleck>JE_HackSpark</tipGlowFleck>
+    <tipGlowInterval>0.18</tipGlowInterval>
+    <tipGlowScale>0.6</tipGlowScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Wrench: maintaining mechs (Biotech). Short wrenching twist; oil drips + a spark flash. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Wrench</defName>
+    <handCount>1</handCount>
+    <!-- RETEXTURE: the new wrench is double-ended (a head at BOTH ends). Grip HIGH up the shaft,
+         near the far (top) jaw. In the Crank pose tip = the head pinned on the bolt and grip sits
+         up the shaft toward the far jaw, so handPosA lerps grip->tip: positive drags the hand DOWN
+         toward the bolt, negative lifts it UP past the grip toward the top jaw. -->
+    <handPosA>-0.7</handPosA>
+    <jobDefs>
+      <li>Maintain</li>
+      <!-- RepairMech moved to JE_Tool_Screwdriver below — the wrench keeps routine Maintain.
+           RepairMechRemote is a channeled at-range ability — left off on purpose. -->
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Wrench</texPath>
+    <swingStyle>Crank</swingStyle>
+    <scale>0.9</scale>
+    <reach>0.16</reach>
+    <!-- Pin the upper jaw THROAT on the bolt (sprite throat ≈ col 133 / row 48 of 256) so the
+         contact head stays planted through the turn instead of swinging out to the side. -->
+    <crankHeadDepth>0.32</crankHeadDepth>
+    <crankHeadLateral>0.02</crankHeadLateral>
+    <period>0.85</period>
+    <impactBitFleck>JE_OilDrip</impactBitFleck>
+    <impactBitCount>4</impactBitCount>
+    <impactBitSpeed>2~5</impactBitSpeed>
+    <impactBitScale>0.3~0.55</impactBitScale>
+    <impactSpread>80</impactSpread>
+    <impactFlashFleck>YellowSparkFlash</impactFlashFleck>
+    <impactFlashScale>1.3</impactFlashScale>
+    <!-- Crank tip is the wrench head planted on the bolt; anchor the burst there. -->
+    <impactAtTip>true</impactAtTip>
+  </JobEffects.JobToolDef>
+
+  <!-- Screwdriver: repairing a damaged mech (Biotech RepairMech). One-handed; the blade tip is
+       planted on the mech and the handle twists back and forth in a gentle, subtle turn (a small
+       Crank sweep, not the wrench's hard pull) — reads as patiently driving screws on the chassis.
+       A faint spark glints on each turn. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Screwdriver</defName>
+    <handCount>1</handCount>
+    <jobDefs>
+      <li>RepairMech</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Screwdriver</texPath>
+    <swingStyle>Crank</swingStyle>
+    <scale>0.8</scale>
+    <reach>0.16</reach>
+    <!-- Subtle twist: small back-and-forth turn instead of the wrench's 85 deg wrench-pull. -->
+    <crankSweepAngle>40</crankSweepAngle>
+    <!-- Pin the BLADE TIP (near the canvas top edge, ~7% down) on the screw so it stays planted
+         through the turn. -->
+    <crankHeadDepth>0.43</crankHeadDepth>
+    <crankHeadLateral>0</crankHeadLateral>
+    <!-- One hand cupped on the orange handle, below the computed mid-shaft grip. -->
+    <handPosA>-0.4</handPosA>
+    <!-- Steady, unhurried turns. -->
+    <period>0.7</period>
+    <!-- Faint metallic spark glint on each turn; no flung debris (subtle precision work). -->
+    <impactFlashFleck>YellowSparkFlash</impactFlashFleck>
+    <impactFlashScale>0.9</impactFlashScale>
+    <impactAtTip>true</impactAtTip>
+    <idleScale>0.8</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Gene syringe: editing genes at the gene assembler (Biotech CreateXenogerm — the colonist
+       works the assembler's console to build a xenogerm). One-handed; held forward and pressed in
+       slow, deliberate injections into the work, with a soft teal bead of glowing genetic serum
+       hanging at the needle tip the whole time. No impact debris/sound — it's clean console work. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_GeneSyringe</defName>
+    <handCount>1</handCount>
+    <!-- grip on the finger-flanges / lower barrel (sprite is authored needle-up, plunger at the
+         bottom = grip end), ~0.30 up the haft from the plunger toward the needle -->
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>CreateXenogerm</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/GeneSyringe</texPath>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.8</scale>
+    <reach>0.14</reach>
+    <!-- slow, careful press (not the rapid sewing stab) -->
+    <period>1.4</period>
+    <stabDistance>0.12</stabDistance>
+    <!-- glowing teal serum bead riding the needle point throughout the job -->
+    <tipGlowFleck>JE_GeneWisp</tipGlowFleck>
+    <tipGlowInterval>0.28</tipGlowInterval>
+    <tipGlowScale>0.5</tipGlowScale>
+    <!-- needle point sits ~6% below the canvas top (sprite has padding above the tip); pull the
+         glow down the haft onto the actual needle point -->
+    <tipGlowOffset>(0, -0.06)</tipGlowOffset>
+    <idleScale>0.75</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Bonesaw: extracting skulls (Ideology). Fast back-and-forth sawing; bone dust + gore. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Bonesaw</defName>
+    <strikeSound>JE_BonesawRasp</strikeSound>
+    <handCount>1</handCount>
+    <handPosA>0.22</handPosA>
+    <jobDefs>
+      <li>ExtractSkull</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Bonesaw</texPath>
+    <swingStyle>Saw</swingStyle>
+    <scale>0.95</scale>
+    <reach>0.15</reach>
+    <period>0.5</period>
+    <sawStrokes>4</sawStrokes>
+    <sawAmplitude>0.13</sawAmplitude>
+    <!-- no StoneShard-sprite debris (meat bits / bone dust reuse that sprite) — clean saw -->
+  </JobEffects.JobToolDef>
+
+  <!-- ===== Surgery (DoBill on a patient pawn under a Bill_Medical) ===== -->
+
+  <!-- Surgical bonesaw: amputations & body-part removals. Reuses the bonesaw sprite. Listed
+       BEFORE the scalpel so amputations claim the saw; every other operation falls through to
+       the keyword-less scalpel below. Fast back-and-forth sawing throws gore + bone dust. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_SurgicalSaw</defName>
+    <strikeSound>JE_BonesawRasp</strikeSound>
+    <handCount>1</handCount>
+    <handPosA>0.22</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <surgeryOnly>true</surgeryOnly>
+    <recipeNameKeywords>
+      <li>RemoveBodyPart</li>
+      <li>Amputate</li>
+      <li>Dismember</li>
+    </recipeNameKeywords>
+    <texPath>Things/JobEffects/Tools/Bonesaw</texPath>
+    <swingStyle>Saw</swingStyle>
+    <scale>0.95</scale>
+    <reach>0.15</reach>
+    <period>0.58</period>
+    <sawStrokes>4</sawStrokes>
+    <sawAmplitude>0.12</sawAmplitude>
+    <!-- no StoneShard-sprite debris (matches the skull-extraction bonesaw) -->
+  </JobEffects.JobToolDef>
+
+  <!-- Scalpel: catch-all for every other operation (installs, transplants, excisions,
+       administering, etc.). No recipe keywords = matches any surgery the saw didn't claim.
+       Slow, precise stabs; a faint blood mist + a soft heal glint over the incision. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Scalpel</defName>
+    <handCount>1</handCount>
+    <handPosA>0.24</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <surgeryOnly>true</surgeryOnly>
+    <texPath>Things/JobEffects/Tools/Scalpel</texPath>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.78</scale>
+    <reach>0.16</reach>
+    <period>0.55</period>
+    <stabDistance>0.2</stabDistance>
+    <impactBitFleck>JE_MeatBit</impactBitFleck>
+    <impactBitCount>2</impactBitCount>
+    <impactBitSpeed>1~3</impactBitSpeed>
+    <impactBitScale>0.22~0.4</impactBitScale>
+    <impactSpread>90</impactSpread>
+    <tipGlowScale>0.35</tipGlowScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Shell/clip: rearming turrets. Quick loading thrust with a brass glint. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Shell</defName>
+    <strikeSound>JE_ShellClunk</strikeSound>
+    <handCount>1</handCount>
+    <!-- RETEXTURE: the new shell sprite fills only the lower half of its canvas, so grip lower. -->
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>RearmTurret</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Shell</texPath>
+    <swingStyle>Load</swingStyle>
+    <scale>1.2</scale>
+    <reach>0.1</reach>
+    <period>0.7</period>
+    <stabDistance>0.5</stabDistance>
+    <!-- Holster: the shell is authored UPRIGHT with its content in the lower half of the canvas,
+         so the default head-down 150 / grip-anchor 0.30 (made for centered point-up tools) seats
+         it rotated and floating. Hold it upright at the hip like the extinguisher tank: small lean,
+         grip anchor zeroed so it isn't shoved up the torso, and trimmed a touch from the oversized
+         1.02 default footprint. -->
+    <idleAngle>14</idleAngle>
+    <idleGripAnchor>0</idleGripAnchor>
+    <idleScale>0.7</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- ============================================================
+       Recreation / learning / faith tools (joy + Biotech jobs).
+       These are held/idle poses (no swinging hit), so they carry no impact debris;
+       north-facing pawns tuck them under the body via the engine's SetDrawAltitudes.
+       ============================================================ -->
+
+  <!-- Musical instrument: a colonist plays an instrument (piano/harp/drum — all furniture, so
+       we draw a small held recorder + music notes rising overhead rather than a clashing piano). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Instrument</defName>
+    <handCount>2</handCount>
+    <handPosA>0.30</handPosA>
+    <handPosB>0.62</handPosB>
+    <jobDefs>
+      <li>Play_MusicalInstrument</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Flute</texPath>
+    <swingStyle>Hold</swingStyle>
+    <!-- recorder played to the lips: the mouthpiece (sprite top) pins to the mouth, the barrel
+         hangs down and angles OUT to the playing side so the face stays clear -->
+    <holdVertical>true</holdVertical>
+    <holdMouthAnchor>true</holdMouthAnchor>
+    <scale>0.6</scale>
+    <reach>0.12</reach>
+    <!-- mouthpiece sits centred ON the lips now (C# anchors the painted mouthpiece, drives
+         the pose off the clean body facing); height baked in C#, these are fine-tune nudges -->
+    <holdRaise>0</holdRaise>
+    <holdLateral>0</holdLateral>
+    <holdAngleOffset>-24</holdAngleOffset>
+    <period>2.5</period>
+    <idleScale>0.7</idleScale>
+    <headFleck>JE_MusicNote</headFleck>
+    <headInterval>0.9</headInterval>
+    <headScale>0.9</headScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Child's crayon: floor-drawing (Biotech). A small one-handed crayon scribbling little
+       circles on the floor in front of the child. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Crayon</defName>
+    <handCount>1</handCount>
+    <handPosA>0.36</handPosA>
+    <jobDefs>
+      <li>Floordrawing</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Crayon</texPath>
+    <swingStyle>Stir</swingStyle>
+    <scale>0.55</scale>
+    <reach>0.16</reach>
+    <period>0.7</period>
+    <stirRadius>0.09</stirRadius>
+    <idleScale>0.85</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Teaching book: a tutor giving a lesson (Biotech school). The teacher holds a WIDE open
+       book (TeachersBook) up in both hands and lifts it to read aloud, lowers it, repeat
+       (Read style). The sprite is a landscape open book filling almost the full canvas
+       (painted x 0.05..0.945, bottom corners near y 0.85), so the two-hand grip corners sit
+       out near the book's own lower side-edges. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_TeachingBook</defName>
+    <handCount>2</handCount>
+    <!-- one hand near each lower side-edge of the open book -->
+    <handPosA>0.1</handPosA>
+    <handPosB>0.9</handPosB>
+    <jobDefs>
+      <li>Lessongiving</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/TeachersBook</texPath>
+    <swingStyle>Read</swingStyle>
+    <!-- Wide open book: hands grip the lower corners. Painted half-width is ~0.465 of canvas;
+         land the fists just inboard of the outer cover edges (0.44) at the bottom corners. -->
+    <bookGripHalfWidth>0.44</bookGripHalfWidth>
+    <bookGripDrop>0.29</bookGripDrop>
+    <scale>0.85</scale>
+    <reach>0.2</reach>
+    <holdRaise>0.0</holdRaise>
+    <period>5</period>
+    <idleScale>0.8</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Spyglass: looking through the telescope / stargazing. Held up toward the sky (Hold). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Spyglass</defName>
+    <handCount>1</handCount>
+    <handPosA>0.10</handPosA>
+    <handPosB>0.40</handPosB>
+    <jobDefs>
+      <li>UseTelescope</li>
+      <li>Skygaze</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Spyglass</texPath>
+    <swingStyle>Hold</swingStyle>
+    <!-- eyepiece (small end) pinned to the eye, barrel rising up to the sky; one hand on the eyepiece end -->
+    <holdEyeAnchor>true</holdEyeAnchor>
+    <scale>0.85</scale>
+    <reach>0.12</reach>
+    <holdRaise>0</holdRaise>
+    <!-- eyepiece pinned at the eye; the barrel cants well over toward the look side so it points
+         up-and-out at a shallow ~25 deg above horizontal (held to the eye, sighting outward)
+         rather than rising near-vertical off the head -->
+    <holdAngleOffset>65</holdAngleOffset>
+    <idleScale>0.7</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Prayer beads / rosary: meditation / prayer (Royalty / Ideology). Per-facing art:
+       facing S/N shows a symmetric necklace (RosaryB) held up with a hand on each side of the
+       strands; facing E/W shows a coiled loop (RosaryA) cupped low in both clasped hands. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_PrayerBeads</defName>
+    <handCount>2</handCount>
+    <handPosA>0.12</handPosA>
+    <handPosB>0.88</handPosB>
+    <jobDefs>
+      <li>Pray</li>
+      <li>Meditate</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/RosaryB</texPath>
+    <texPathProfile>Things/JobEffects/Tools/RosaryA</texPathProfile>
+    <holdRosary>true</holdRosary>
+    <swingStyle>Hold</swingStyle>
+    <scale>0.55</scale>
+    <reach>0.16</reach>
+    <!-- Held much lower than chest height: dropped to belly / clasped-hands level. -->
+    <holdRaise>-0.32</holdRaise>
+    <period>3</period>
+    <idleScale>0.85</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- ============================================================
+       Anomaly bench tools (DoBill). Bench defNames are plain strings matched against the
+       workbench def, so listing Anomaly-only benches here is inert when Anomaly isn't installed —
+       the tool simply never matches. Both reuse existing mod art (no new textures/sounds).
+       ============================================================ -->
+
+  <!-- Bioferrite shaper: DoBill shaping bioferrite at the Anomaly bioferrite shaper. Reuses the
+       chisel + mallet sprite and the planted-chisel stab animation (the mason's bench scene). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_BioferriteChisel</defName>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>BioferriteShaper</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Chisel</texPath>
+    <malletTexPath>Things/JobEffects/Tools/Hammer</malletTexPath>
+    <malletScale>0.621</malletScale>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.85</scale>
+    <reach>0.12</reach>
+    <period>0.5</period>
+    <stabDistance>0.22</stabDistance>
+    <stabStrikePhase>0.5</stabStrikePhase>
+    <strikeSound>JE_ChiselTick</strikeSound>
+    <!-- Lock the mallet rap onto the bioferrite shaper's recipe work sound. -->
+    <syncToBenchSound>true</syncToBenchSound>
+    <impactBitFleck>JE_StoneShard</impactBitFleck>
+    <impactBitCount>2</impactBitCount>
+    <impactBitSpeed>4~8</impactBitSpeed>
+    <impactBitScale>0.28~0.455</impactBitScale>
+    <impactSpread>65</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <!-- impact lands on the cutting tip at the end of the stab -->
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.08)</impactTipOffset>
+  </JobEffects.JobToolDef>
+
+  <!-- Serum centrifuge: DoBill brewing serums at the Anomaly serum centrifuge. Reuses the spoon
+       sprite + cook's-stir animation, with rising chemical fume (same JE_Fume as the drug lab). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_SerumSpoon</defName>
+    <handCount>1</handCount>
+    <handPosA>0.20</handPosA>
+    <headFleck>JE_Fume</headFleck>
+    <headInterval>0.9</headInterval>
+    <headScale>0.6</headScale>
+    <jobDefs>
+      <li>DoBill</li>
+    </jobDefs>
+    <workbenchDefs>
+      <li>SerumCentrifuge</li>
+    </workbenchDefs>
+    <texPath>Things/JobEffects/Tools/Spoon</texPath>
+    <swingStyle>Stir</swingStyle>
+    <stirVaried>true</stirVaried>
+    <scale>0.9</scale>
+    <reach>0.14</reach>
+    <period>6.4</period>
+    <windupAngle>12</windupAngle>
+    <stirRadius>0.14</stirRadius>
+  </JobEffects.JobToolDef>
+
+  <!-- ============================================================
+       Childcare props (Biotech). Held/idle poses (no swinging hit), so no impact debris;
+       north-facing pawns tuck them under the body via the engine's SetDrawAltitudes.
+       ============================================================ -->
+
+  <!-- Baby bottle (Biotech BottleFeedBaby): an adult cradles the baby and tips the bottle to feed
+       it. The baby is CARRIED, so the pose anchors to the carer's BODY facing — held low and forward
+       toward the cradle — and the bottle tilts nipple-down with a gentle feeding rock. A little heart
+       floats up. One hand holds the bottle body; the forearm reaches to it (adult body type). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_BabyBottle</defName>
+    <label>baby bottle</label>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>BottleFeedBaby</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/BabyBottle</texPath>
+    <swingStyle>Hold</swingStyle>
+    <holdBottle>true</holdBottle>
+    <!-- tilt the bottle nipple-down toward the cradled baby; pivot ~42% up (the hand on the body) -->
+    <holdAngleOffset>140</holdAngleOffset>
+    <pourGripFrac>0.42</pourGripFrac>
+    <scale>0.55</scale>
+    <reach>0.20</reach>
+    <!-- held low, where the baby is cradled -->
+    <holdRaise>-0.10</holdRaise>
+    <!-- slow, gentle feeding rock -->
+    <period>2.6</period>
+    <!-- a soft heart rising while feeding -->
+    <headFleck>JE_Heart</headFleck>
+    <headInterval>1.7</headInterval>
+    <headScale>0.55</headScale>
+    <!-- holster sits upright at the hip (bottle authored nipple-up; the default head-down angle
+         would flip it upside down, like the extinguisher / shell) -->
+    <idleAngle>16</idleAngle>
+    <idleGripAnchor>0</idleGripAnchor>
+    <idleBeltDrop>-0.10</idleBeltDrop>
+    <idleScale>0.7</idleScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Baby rattle (Biotech BabyPlay): a baby being played with grips the rattle and waves it in
+       quick swelling bursts — the star-ball head whips side to side, pivoting about the handle, then
+       a short rest — with musical notes tinkling overhead. One of two random "baby toy" variants
+       (variantGroup JE_BabyToy, shared with the plush): each play session randomly grabs one. Shown
+       only during active play (noHolster); no grip hands on the tiny baby, but a CHILD holding it
+       (gallery/lineup) gets the full hand+forearm grip (noHandsBabyOnly). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_ToyRattle</defName>
+    <label>rattle</label>
+    <variantGroup>JE_BabyToy</variantGroup>
+    <noHandsBabyOnly>true</noHandsBabyOnly>
+    <noHolster>true</noHolster>
+    <jobDefs>
+      <li>BabyPlay</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/ToyRattle</texPath>
+    <swingStyle>Hold</swingStyle>
+    <holdToy>true</holdToy>
+    <toyMotion>shake</toyMotion>
+    <scale>0.5</scale>
+    <reach>0.14</reach>
+    <!-- Held out in a hand: dropped off the face and nudged to the holding-hand side so the
+         finger-loop sits around the chest and the ball rides at face height instead of over the head. -->
+    <holdRaise>-0.12</holdRaise>
+    <holdLateral>0.10</holdLateral>
+    <!-- shake-burst-then-pause cadence (one burst + rest per period) -->
+    <period>1.1</period>
+    <headFleck>JE_MusicNote</headFleck>
+    <headInterval>0.9</headInterval>
+    <headScale>0.6</headScale>
+  </JobEffects.JobToolDef>
+
+  <!-- Plush toy (Biotech BabyPlay): a baby being played with hugs a stuffed creature to its chest
+       with a soft bounce, a slow rock and a gentle squash, hearts drifting up. The second random
+       "baby toy" variant (variantGroup JE_BabyToy). Shown only during active play (noHolster); no
+       grip hands on the tiny baby, but a CHILD holding it (gallery/lineup) gets the full hand+forearm
+       grip cupping the plush (noHandsBabyOnly). -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_ToyPlush</defName>
+    <label>plush toy</label>
+    <variantGroup>JE_BabyToy</variantGroup>
+    <noHandsBabyOnly>true</noHandsBabyOnly>
+    <noHolster>true</noHolster>
+    <jobDefs>
+      <li>BabyPlay</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/ToyPlush</texPath>
+    <swingStyle>Hold</swingStyle>
+    <holdToy>true</holdToy>
+    <toyMotion>cuddle</toyMotion>
+    <!-- plush is wide; cup the lower sides (grip/tip only used if hands are ever enabled) -->
+    <bookGripHalfWidth>0.30</bookGripHalfWidth>
+    <bookGripDrop>0.18</bookGripDrop>
+    <scale>0.55</scale>
+    <reach>0.12</reach>
+    <!-- cradle it low against the chest/belly, not up over the face (holdRaise lowers the
+         plush AND the cupping grip hands together, and is body-scaled onto the child) -->
+    <holdRaise>-0.15</holdRaise>
+    <period>3.0</period>
+    <headFleck>JE_Heart</headFleck>
+    <headInterval>1.6</headInterval>
+    <headScale>0.55</headScale>
+  </JobEffects.JobToolDef>
+
+</Defs>

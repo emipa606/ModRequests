@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ============================================================= -->
+  <!--  Job Effects — custom particle flecks                         -->
+  <!--  All inherit Core's FleckBase_Thrown (FleckSystemThrown) so   -->
+  <!--  they support angle/speed/rotationRate/arch.                  -->
+  <!--                                                               -->
+  <!--  SIZE CONVENTION: chunky thrown debris (wood chips, stone     -->
+  <!--  shards, soil clods, leaves, meat/blood/bone, wool, oil) OMIT -->
+  <!--  <drawSize>, so they all share the same 1.0 base and the      -->
+  <!--  per-tool <impactBitScale> alone sets on-screen size. Do NOT  -->
+  <!--  add <drawSize>0.5</drawSize> back to these — that halves them -->
+  <!--  vs. the rest. Fine specks (seed, paint, salt, sweat, pin,    -->
+  <!--  gene wisp, thread) and smoke/icon/spark flecks keep their    -->
+  <!--  own drawSize on purpose.                                     -->
+  <!-- ============================================================= -->
+
+  <!-- Sharp wood splinter — chopping trees, woodworking, wood construction.
+       Three random chip shapes (plank / twig / curled shaving): the fleck system
+       seeds GetGraphicData() from a stable per-fleck hash, so each chip picks one
+       at random and a single strike throws a mix. Parent is FleckBase_RandomGraphic_Thrown
+       (NOT FleckBase_Thrown) — the latter inherits a <graphicData> that GetGraphicData
+       returns first, which would silently shadow <randomGraphics>. -->
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>JE_WoodChip</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Mote/JobEffects/WoodChip1</texPath>
+        <shaderType>Transparent</shaderType>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Mote/JobEffects/WoodChip2</texPath>
+        <shaderType>Transparent</shaderType>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Mote/JobEffects/WoodChip3</texPath>
+        <shaderType>Transparent</shaderType>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.03</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.3</fadeOutTime>
+    <archHeight>0.18~0.45</archHeight>
+    <archDuration>0.55</archDuration>
+    <speedPerTime>-22</speedPerTime>
+  </FleckDef>
+
+  <!-- Three angular grey rock shapes — mining, stonecutting, sculpting. Each shard picks one at
+       random (the fleck system seeds GetGraphicData() from a stable per-fleck hash), so a single
+       strike throws a mix; arcs and falls. Parent is FleckBase_RandomGraphic_Thrown (NOT
+       FleckBase_Thrown) — the latter inherits a <graphicData> that GetGraphicData returns first,
+       which would silently shadow <randomGraphics>. The meat/soil/bone flecks below still point at
+       the single StoneShard sprite via their own <graphicData> (tinted), so they're unaffected. -->
+  <FleckDef ParentName="FleckBase_RandomGraphic_Thrown">
+    <defName>JE_StoneShard</defName>
+    <randomGraphics>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Mote/JobEffects/StoneShard</texPath>
+        <shaderType>Transparent</shaderType>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Mote/JobEffects/Stone1</texPath>
+        <shaderType>Transparent</shaderType>
+      </li>
+      <li>
+        <graphicClass>Graphic_Fleck</graphicClass>
+        <texPath>Things/Mote/JobEffects/Stone2</texPath>
+        <shaderType>Transparent</shaderType>
+      </li>
+    </randomGraphics>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.45</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <archHeight>0.25~0.6</archHeight>
+    <archDuration>0.6</archDuration>
+    <speedPerTime>-14</speedPerTime>
+  </FleckDef>
+
+  <!-- Green leaf — flutters and drifts down. Tree felling and plant harvest. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Leaf</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Leaf</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <solidTime>1.1</solidTime>
+    <fadeOutTime>0.8</fadeOutTime>
+    <archHeight>0.15~0.4</archHeight>
+    <archDuration>1.4</archDuration>
+    <speedPerTime>-1.5</speedPerTime>
+  </FleckDef>
+
+  <!-- Small seed/grain — sowing. Quick scatter. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Seed</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Seed</texPath>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <archHeight>0.2~0.45</archHeight>
+    <archDuration>0.55</archDuration>
+    <speedPerTime>-10</speedPerTime>
+  </FleckDef>
+
+
+  <!-- Lightbulb "idea" icon for research breakthroughs. Rises and fades. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Lightbulb</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Lightbulb</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.15</fadeInTime>
+    <solidTime>0.9</solidTime>
+    <fadeOutTime>0.6</fadeOutTime>
+    <speedPerTime>-0.3</speedPerTime>
+  </FleckDef>
+
+  <!-- Musical note rising from a colonist playing an instrument. Soft glowing, drifts upward. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_MusicNote</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/MusicNote</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.2</fadeInTime>
+    <solidTime>1.1</solidTime>
+    <fadeOutTime>0.8</fadeOutTime>
+    <speedPerTime>-0.2</speedPerTime>
+  </FleckDef>
+
+  <!-- Steam/heat wisp — rises from cooking pots and hot work. Soft white, short-lived. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Steam</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(235, 240, 245, 140)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.15</fadeInTime>
+    <solidTime>0.5</solidTime>
+    <fadeOutTime>0.8</fadeOutTime>
+    <growthRate>0.6</growthRate>
+    <speedPerTime>-0.5</speedPerTime>
+  </FleckDef>
+
+  <!-- Dark-red meat/gristle chunk thrown off the block while butchering. Reuses the shard sprite. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_MeatBit</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/StoneShard</texPath>
+      <color>(120, 30, 28)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.4</solidTime>
+    <fadeOutTime>0.25</fadeOutTime>
+    <archHeight>0.15~0.4</archHeight>
+    <archDuration>0.5</archDuration>
+    <speedPerTime>-16</speedPerTime>
+  </FleckDef>
+
+  <!-- Small brown soil clod tossed up when digging with the trowel. Reuses the shard sprite. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_SoilClod</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/StoneShard</texPath>
+      <color>(94, 70, 45)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.25</fadeOutTime>
+    <archHeight>0.12~0.35</archHeight>
+    <archDuration>0.45</archDuration>
+    <speedPerTime>-14</speedPerTime>
+  </FleckDef>
+
+  <!-- Sickly-green chemical fume rising off the drug lab. Reuses Core's smoke sprite, tinted. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Fume</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(150, 200, 90, 130)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.2</fadeInTime>
+    <solidTime>0.6</solidTime>
+    <fadeOutTime>0.9</fadeOutTime>
+    <growthRate>0.5</growthRate>
+    <speedPerTime>-0.5</speedPerTime>
+  </FleckDef>
+
+  <!-- Acid droplet dribbling out of the inverted flask mouth at the drug lab. Caustic yellow-green,
+       reuses the mod's round paint-drop sprite; arcs down and falls. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_AcidDrip</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(160, 205, 60, 235)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.28</solidTime>
+    <fadeOutTime>0.22</fadeOutTime>
+    <archHeight>0.05~0.16</archHeight>
+    <archDuration>0.45</archDuration>
+    <speedPerTime>-9</speedPerTime>
+  </FleckDef>
+
+  <!-- Faint sky-blue acid vapor curling up off the pour. Reuses Core's smoke sprite, lightly
+       blue-tinted, grows and rises slowly like the chemical fume. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_AcidSmoke</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(150, 195, 232, 120)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.2</fadeInTime>
+    <solidTime>0.5</solidTime>
+    <fadeOutTime>0.95</fadeOutTime>
+    <growthRate>0.55</growthRate>
+    <speedPerTime>-0.5</speedPerTime>
+  </FleckDef>
+
+  <!-- Soft white wool tuft — flicked off while shearing. Floats and drifts down slowly. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_WoolTuft</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/WoolTuft</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <solidTime>1.0</solidTime>
+    <fadeOutTime>0.9</fadeOutTime>
+    <archHeight>0.1~0.3</archHeight>
+    <archDuration>1.6</archDuration>
+    <speedPerTime>-1.2</speedPerTime>
+  </FleckDef>
+
+  <!-- Paint speck flicked off the brush. Tinted blue; reuses the paint-drop sprite. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_PaintDrop</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(70, 140, 200)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.3</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <archHeight>0.1~0.3</archHeight>
+    <archDuration>0.5</archDuration>
+    <speedPerTime>-12</speedPerTime>
+  </FleckDef>
+
+  <!-- Sewing thread wisp: little strands that fly up from the needle point, arc over, and drift
+       back down under light gravity. Slightly larger than before so they read at a glance. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Thread</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Thread</texPath>
+      <color>(238, 232, 220, 225)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.08</fadeInTime>
+    <solidTime>0.75</solidTime>
+    <fadeOutTime>0.85</fadeOutTime>
+    <speedPerTime>-0.7</speedPerTime>
+    <acceleration>(0.0, -2.0, 0.0)</acceleration>
+  </FleckDef>
+
+  <!-- Sewing thread snip: a larger strand left at the impact site where the needle pierced the
+       fabric. No velocity — it just sits on the workbench and fades slowly. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_ThreadSnip</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Thread</texPath>
+      <color>(238, 232, 220, 210)</color>
+      <drawSize>0.75</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <solidTime>1.7</solidTime>
+    <fadeOutTime>1.3</fadeOutTime>
+  </FleckDef>
+
+  <!-- Dark smoke puff smothered out of the fire as the blanket smacks it. Grey, billows out and up. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_SmokePuff</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(64, 62, 60, 165)</color>
+      <drawSize>0.6</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.08</fadeInTime>
+    <solidTime>0.45</solidTime>
+    <fadeOutTime>0.95</fadeOutTime>
+    <growthRate>0.5</growthRate>
+    <speedPerTime>-2.2</speedPerTime>
+  </FleckDef>
+
+  <!-- Pale gust of air beaten off the fire blanket. Reuses Core smoke, near-white, expands fast. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Gust</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(245, 245, 240, 90)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.05</fadeInTime>
+    <solidTime>0.18</solidTime>
+    <fadeOutTime>0.45</fadeOutTime>
+    <growthRate>1.4</growthRate>
+    <speedPerTime>-3</speedPerTime>
+  </FleckDef>
+
+  <!-- Fire-extinguisher foam jet: a small, dense, almost-white foam droplet out of the funnel.
+       Barely expands and slows quickly so the discharge stays a tight cluster, not a smoke cloud. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_ExtinguisherMist</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(255, 255, 255, 235)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.03</fadeInTime>
+    <solidTime>0.22</solidTime>
+    <fadeOutTime>0.4</fadeOutTime>
+    <growthRate>1.4</growthRate>
+    <speedPerTime>-5</speedPerTime>
+  </FleckDef>
+
+  <!-- Fire-extinguisher foam clump: solid near-white BUBBLE blobs (custom foam sprite, not the wispy
+       Smoke mote) that dump onto the flames and smother them. High opacity + a longer solid hold so
+       the foam reads as a thick wet clump piling up, then slowly fades. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_ExtinguisherCloud</defName>
+    <graphicData>
+      <texPath>Things/JobEffects/Effects/Foam</texPath>
+      <color>(255, 255, 255, 115)</color>
+      <drawSize>0.6</drawSize>
+      <!-- TransparentPostLight = Fire's own render pass. A plain Transparent fleck draws in an
+           EARLIER queue than the flames, so altitude can't put it on top; matching Fire's shader
+           puts the foam in the same pass where the higher MetaOverlays altitude finally wins. -->
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
+    <!-- MetaOverlays is the topmost altitude layer (above Fire's PawnState); combined with the
+         post-light shader above, the foam draws ON TOP of the flames. -->
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.04</fadeInTime>
+    <solidTime>0.7</solidTime>
+    <!-- Fade twice as slow as before (was 0.85). -->
+    <fadeOutTime>1.7</fadeOutTime>
+    <!-- Start a bit smaller (drawSize 0.6) and expand outward as the foam piles/spreads. -->
+    <growthRate>0.9</growthRate>
+    <speedPerTime>-5</speedPerTime>
+  </FleckDef>
+
+  <!-- Fire-extinguisher ember gust: a glowing ember knocked loose and flung across the tile when the
+       foam clump lands. Short-lived orange spark that bursts radially outward, decelerates hard, and
+       fades — the foam disturbance scattering the fire's embers before smothering it. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_ExtinguisherEmber</defName>
+    <graphicData>
+      <texPath>Things/Mote/SparkThrown</texPath>
+      <color>(255, 150, 60)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.12</solidTime>
+    <fadeOutTime>0.35</fadeOutTime>
+    <growthRate>-0.4</growthRate>
+    <speedPerTime>-7</speedPerTime>
+  </FleckDef>
+
+  <!-- Welding spark: a tiny white-hot bit spat off the weld joint — thrown in dense, fast
+       showers (impactBitFleck) and as single embers off the arc (tipEmberFleck). Small
+       drawSize + gentle deceleration + longer fade = pinprick sparks that streak well clear
+       of the joint before dying. Reuses Core's thrown-spark sprite, near-white. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_WeldSpark</defName>
+    <graphicData>
+      <texPath>Things/Mote/SparkThrown</texPath>
+      <color>(255, 248, 200)</color>
+      <drawSize>0.45</drawSize>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.01</fadeInTime>
+    <solidTime>0.22</solidTime>
+    <fadeOutTime>0.5</fadeOutTime>
+    <archHeight>0.05~0.2</archHeight>
+    <archDuration>0.35</archDuration>
+    <growthRate>-0.2</growthRate>
+    <speedPerTime>-3</speedPerTime>
+  </FleckDef>
+
+  <!-- Welding-arc flash: the blue-white flicker right on the electrode tip while the bead
+       runs. Very short-lived; spawned on the tipGlow cadence plus a bigger one per strike. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_ArcFlash</defName>
+    <graphicData>
+      <texPath>Things/Mote/YellowSparkFlash</texPath>
+      <color>(190, 225, 255)</color>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.01</fadeInTime>
+    <solidTime>0.04</solidTime>
+    <fadeOutTime>0.08</fadeOutTime>
+  </FleckDef>
+
+  <!-- Electric-blue spark off a hacking device. Reuses the sparkle sprite, tinted, glowing. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_HackSpark</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(110, 200, 255)</color>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.12</solidTime>
+    <fadeOutTime>0.25</fadeOutTime>
+    <archHeight>0.05~0.2</archHeight>
+    <archDuration>0.4</archDuration>
+    <speedPerTime>-8</speedPerTime>
+  </FleckDef>
+
+  <!-- Floating digital glyph ("10") rising off a hack. Glows; drifts up and fades. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Glyph</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Glyph</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.15</fadeInTime>
+    <solidTime>0.7</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+    <speedPerTime>-0.25</speedPerTime>
+  </FleckDef>
+
+  <!-- Soft teal "gene" wisp — a glowing bead of genetic serum that hangs at the gene syringe's
+       needle while editing genes at the gene assembler, then drifts up and fades. Reuses Core's
+       smoke sprite, tinted cyan-teal, glowing. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_GeneWisp</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(95, 215, 205, 150)</color>
+      <drawSize>0.45</drawSize>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+    <growthRate>0.25</growthRate>
+    <speedPerTime>-0.6</speedPerTime>
+  </FleckDef>
+
+  <!-- Dark oil droplet flung off a wrench during mech maintenance. Reuses the paint-drop sprite. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_OilDrip</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(38, 36, 32)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <archHeight>0.08~0.25</archHeight>
+    <archDuration>0.5</archDuration>
+    <speedPerTime>-10</speedPerTime>
+  </FleckDef>
+
+  <!-- Sweat droplet flicked off during the brow wipe. Pale blue-white paint-drop sprite. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_SweatDrop</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(205, 228, 250, 220)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.2</solidTime>
+    <fadeOutTime>0.25</fadeOutTime>
+    <archHeight>0.15~0.3</archHeight>
+    <archDuration>0.35</archDuration>
+    <speedPerTime>-6</speedPerTime>
+  </FleckDef>
+
+  <!-- Tiny white seasoning grain sprinkled from the cook's pinch. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_SaltGrain</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(245, 245, 240, 235)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.01</fadeInTime>
+    <solidTime>0.25</solidTime>
+    <fadeOutTime>0.15</fadeOutTime>
+    <speedPerTime>-2</speedPerTime>
+  </FleckDef>
+
+  <!-- Little grey safety pin flicked off the extinguisher at job start. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_PinBit</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(150, 152, 158)</color>
+      <drawSize>0.5</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <archHeight>0.2~0.35</archHeight>
+    <archDuration>0.4</archDuration>
+    <speedPerTime>-7</speedPerTime>
+  </FleckDef>
+
+  <!-- Round dark-red blood droplet — cleaver butchering spray. Reuses the paint-drop sprite
+       (an actual droplet shape, NOT the angular StoneShard). Arcs and falls like a fluid fling. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_BloodDrop</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/PaintDrop</texPath>
+      <color>(115, 22, 20)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.3</fadeOutTime>
+    <archHeight>0.2~0.45</archHeight>
+    <archDuration>0.5</archDuration>
+    <speedPerTime>-10</speedPerTime>
+  </FleckDef>
+
+  <!-- Pale bone dust kicked up by the bonesaw. Reuses the shard sprite, off-white. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_BoneDust</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/StoneShard</texPath>
+      <color>(228, 220, 200)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.4</solidTime>
+    <fadeOutTime>0.3</fadeOutTime>
+    <archHeight>0.1~0.3</archHeight>
+    <archDuration>0.5</archDuration>
+    <speedPerTime>-12</speedPerTime>
+  </FleckDef>
+
+  <!-- Near-white leaf, drifts down. Tinted per-fleck by season (spring green … autumn amber). -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_LeafPale</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/LeafPale</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.1</fadeInTime>
+    <solidTime>1.1</solidTime>
+    <fadeOutTime>0.8</fadeOutTime>
+    <archHeight>0.15~0.4</archHeight>
+    <archDuration>1.4</archDuration>
+    <speedPerTime>-1.5</speedPerTime>
+  </FleckDef>
+
+  <!-- Canopy-fall leaf (tinted base): shaken from a tree's crown and fluttering all the way to the
+       ground. Long-lived with gentle damping so it actually descends; a wide slow arch reads as the
+       lateral sway of a falling leaf. Used by the axe (tree felling) only; crops keep the thrown JE_Leaf. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_LeafFall</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Leaf</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.15</fadeInTime>
+    <solidTime>2.2</solidTime>
+    <fadeOutTime>1.1</fadeOutTime>
+    <archHeight>0.2~0.5</archHeight>
+    <archDuration>1.6</archDuration>
+    <speedPerTime>-0.25</speedPerTime>
+  </FleckDef>
+
+  <!-- Near-white canopy-fall leaf, tinted per-fleck to the tree's real foliage colour. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_LeafFallPale</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/LeafPale</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.15</fadeInTime>
+    <solidTime>2.2</solidTime>
+    <fadeOutTime>1.1</fadeOutTime>
+    <archHeight>0.2~0.5</archHeight>
+    <archDuration>1.6</archDuration>
+    <speedPerTime>-0.25</speedPerTime>
+  </FleckDef>
+
+  <!-- Near-white angular chip, arcs and falls. Tinted per-fleck to the worked material. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_ChipPale</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/ChipPale</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>0.45</solidTime>
+    <fadeOutTime>0.2</fadeOutTime>
+    <archHeight>0.25~0.6</archHeight>
+    <archDuration>0.6</archDuration>
+    <speedPerTime>-14</speedPerTime>
+  </FleckDef>
+
+  <!-- Near-white wood splinter, arcs and falls. Tinted per-fleck to the felled tree's trunk colour
+       (oak tan, pine amber, teak dark-brown, …). Same physics as JE_WoodChip. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_WoodChipPale</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/WoodChipPale</texPath>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.03</fadeInTime>
+    <solidTime>0.35</solidTime>
+    <fadeOutTime>0.3</fadeOutTime>
+    <archHeight>0.18~0.45</archHeight>
+    <archDuration>0.55</archDuration>
+    <speedPerTime>-22</speedPerTime>
+  </FleckDef>
+
+  <!-- Settling ember — lands by hot tools, glows warm, cools and shrinks away. Under-pawn. -->
+  <FleckDef ParentName="FleckBase">
+    <defName>JE_EmberRest</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <color>(255, 140, 50)</color>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>Filth</altitudeLayer>
+    <fadeInTime>0.08</fadeInTime>
+    <solidTime>1.4</solidTime>
+    <fadeOutTime>1.3</fadeOutTime>
+    <growthRate>-0.45</growthRate>
+  </FleckDef>
+
+  <!-- Pink heart rising off a colonist feeding/cuddling a baby. Soft glow, drifts up and fades. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>JE_Heart</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/Heart</texPath>
+      <drawSize>0.5</drawSize>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <fadeInTime>0.2</fadeInTime>
+    <solidTime>0.9</solidTime>
+    <fadeOutTime>0.7</fadeOutTime>
+    <speedPerTime>-0.2</speedPerTime>
+  </FleckDef>
+
+  <!-- Settled chip/grit — lands by wood/stone tools, lies on the ground, fades out. Under-pawn. -->
+  <FleckDef ParentName="FleckBase">
+    <defName>JE_ChipRest</defName>
+    <graphicData>
+      <texPath>Things/Mote/JobEffects/ChipPale</texPath>
+      <color>(176, 176, 176)</color>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <altitudeLayer>Filth</altitudeLayer>
+    <fadeInTime>0.05</fadeInTime>
+    <solidTime>2.6</solidTime>
+    <fadeOutTime>1.5</fadeOutTime>
+  </FleckDef>
+
+</Defs>

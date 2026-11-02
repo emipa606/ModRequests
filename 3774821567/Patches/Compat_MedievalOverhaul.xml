@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================================
+       Compatibility: Medieval Overhaul (DankPyon.Medieval.Overhaul)
+       Maps MO's workbenches to the right animated tool. All ops are gated behind
+       PatchOperationFindMod so nothing touches our defs when MO isn't loaded.
+
+       Two parts:
+         1) Append MO bench defNames to existing tools' <workbenchDefs>.
+         2) Add a handful of MO-only JobToolDefs that reuse existing sprites for
+            benches with no good existing match (timber sawing, bench mining,
+            digging spot, book scribing). These only exist when MO is active, so
+            they won't clutter the per-tool settings list without MO.
+
+       Skipped on purpose (no sensible swinging hand-tool): well, water spot,
+       spinning wheel, apiary, slop/ragout/fondue pots (auto-processors),
+       cleaning bench. Research bench/spot already work — the Notepad tool keys
+       off the vanilla Research job, not the bench def.
+       ============================================================================ -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Medieval Overhaul</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <!-- ===== Existing tools: extend <workbenchDefs> ===== -->
+
+        <!-- Cooking: stir with rising steam. Ovens, grill, soup pot, the
+             millstone (grain/sugar grinding is a Cooking-skill bill), and the
+             rustic hearth (cooks meals over the fire). -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Spoon"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_StoneOven</li>
+            <li>DankPyon_StoneOvenLarge</li>
+            <li>DankPyon_Grill</li>
+            <li>DankPyon_StewPot</li>
+            <li>DankPyon_Millstone</li>
+            <li>DankPyon_RusticHearth</li>
+          </value>
+        </li>
+
+        <!-- Butchering: cleaver chop, meat bits. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Cleaver"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_ButchersBlock</li>
+          </value>
+        </li>
+
+        <!-- Stonecutting: bench chisel, stone shards. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_BenchChisel"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_StonecuttingSpot</li>
+          </value>
+        </li>
+
+        <!-- Smithing (anvil + general workbench): no patch needed — JE_Tool_SmithHammer is
+             now MO-only and ships with DankPyon_Anvil / DankPyon_Workbench baked into its
+             <workbenchDefs> in the base defs (plain strings, inert without MO). -->
+
+        <!-- Smelting: glowing rod. Furnace (smelt ore/scrap, make charcoal/tar). -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_SmeltRod"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_Furnace</li>
+          </value>
+        </li>
+
+        <!-- Alchemy: drug stir rod with chemical fumes. Alchemy bench plus the
+             herb table (grinding herbs/ingredients — apothecary grind motion). -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_DrugSpoon"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_AlchemyBench</li>
+            <li>DankPyon_HerbTable</li>
+          </value>
+        </li>
+
+        <!-- Jewelry: fine metal chisel, sparks. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_MetalChisel"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_JewelryBench</li>
+          </value>
+        </li>
+
+        <!-- Mending: sewing needle (mend apparel/weapon/armor). MO mending uses its OWN job
+             (DankPyon_DoBillMending via WorkGiver_DoMending), NOT vanilla DoBill, so the bench
+             mapping below is not enough on its own — the needle must also list that job. Its
+             targetA is the mending bench, so the workbenchDefs filter still scopes it to the
+             MendingBench. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Needle"]/workbenchDefs</xpath>
+          <value>
+            <li>DankPyon_MendingBench</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Needle"]/jobDefs</xpath>
+          <value>
+            <li>DankPyon_DoBillMending</li>
+          </value>
+        </li>
+
+        <!-- ===== New MO-only tools (reuse existing sprites) ===== -->
+
+        <!-- Timber sawing: table saw & trestle turn raw wood into timber. Reuse
+             the axe sprite as a hatchet hewing wood; throws wood chips. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_TimberAxe</defName>
+              <idleScale>0.62</idleScale>
+              <handPosA>0.16</handPosA>
+              <handPosB>0.38</handPosB>
+              <flipHead>true</flipHead>
+              <headInterval>0.8</headInterval>
+              <headScale>0.49</headScale>
+              <jobDefs>
+                <li>DoBill</li>
+              </jobDefs>
+              <workbenchDefs>
+                <li>DankPyon_SawTable</li>
+                <li>DankPyon_Trestle</li>
+              </workbenchDefs>
+              <texPath>Things/JobEffects/Tools/Axe</texPath>
+              <swingStyle>Chop</swingStyle>
+              <scale>1.15</scale>
+              <reach>0.14</reach>
+              <period>0.5</period>
+              <!-- Lock the chop onto the recipe's saw-stroke sound (Recipe_MakeWoodPlanks_Hand,
+                   used by both SawTable and Trestle): one axe chop per saw stroke instead of
+                   a free-running clock that drifts out of sync with the work. -->
+              <syncToBenchSound>true</syncToBenchSound>
+              <windupAngle>64</windupAngle>
+              <followThroughAngle>18</followThroughAngle>
+              <impactBitFleck>JE_WoodChip</impactBitFleck>
+              <impactBitCount>4</impactBitCount>
+              <impactBitSpeed>5~11</impactBitSpeed>
+              <impactBitScale>0.385~0.665</impactBitScale>
+              <impactSpread>55</impactSpread>
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+        <!-- Bench mining: mining spot & mine shaft produce stone/ore via bills.
+             Reuse the pickaxe sprite; material-tinted stone shards. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_BenchPick</defName>
+              <idleScale>0.65</idleScale>
+              <handPosA>0.15</handPosA>
+              <handPosB>0.38</handPosB>
+              <flipHead>true</flipHead>
+              <headInterval>0.7</headInterval>
+              <headScale>0.49</headScale>
+              <jobDefs>
+                <li>DoBill</li>
+              </jobDefs>
+              <workbenchDefs>
+                <li>DankPyon_MiningSpot</li>
+                <li>DankPyon_MineShaft</li>
+              </workbenchDefs>
+              <texPath>Things/JobEffects/Tools/Pickaxe</texPath>
+              <swingStyle>Chop</swingStyle>
+              <scale>1.15</scale>
+              <reach>0.14</reach>
+              <period>0.46</period>
+              <windupAngle>64</windupAngle>
+              <followThroughAngle>18</followThroughAngle>
+              <strikeSound>PickHit</strikeSound>
+              <impactBitFleck>JE_StoneShard</impactBitFleck>
+              <impactBitCount>5</impactBitCount>
+              <impactBitSpeed>6~14</impactBitSpeed>
+              <impactBitScale>0.385~0.665</impactBitScale>
+              <impactSpread>60</impactSpread>
+              <impactDustFleck>DustPuff</impactDustFleck>
+              <impactFlashFleck>SparkFlash</impactFlashFleck>
+              <impactFlashScale>2.24</impactFlashScale>
+              <!-- stone shards keep the original JE_StoneShard colour; no ChipPale tint or ground litter -->
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+        <!-- Digging spot: dirt/sand/clay gathered via bills. Reuse the shovel
+             sprite; soil clods. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_BenchShovel</defName>
+              <idleScale>0.68</idleScale>
+              <handPosA>0.16</handPosA>
+              <handPosB>0.38</handPosB>
+              <jobDefs>
+                <li>DoBill</li>
+              </jobDefs>
+              <workbenchDefs>
+                <li>DankPyon_DiggingSpot</li>
+              </workbenchDefs>
+              <texPath>Things/JobEffects/Tools/Shovel</texPath>
+              <swingStyle>Dig</swingStyle>
+              <scale>1.1</scale>
+              <reach>0.14</reach>
+              <period>0.75</period>
+              <windupAngle>55</windupAngle>
+              <stabDistance>0.22</stabDistance>
+              <impactBitFleck>JE_SoilClod</impactBitFleck>
+              <impactBitCount>5</impactBitCount>
+              <impactBitSpeed>3~7</impactBitSpeed>
+              <impactBitScale>0.35~0.65</impactBitScale>
+              <impactSpread>80</impactSpread>
+              <impactDustFleck>DustPuff</impactDustFleck>
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+        <!-- Book scribe table: writing books. Composing reads as the same head-scratch
+             "thinking" pose as research, with idea lightbulbs popping overhead — no quill or
+             paper prop is drawn (Scratch never draws a sprite). -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_Quill</defName>
+              <handCount>1</handCount>
+              <handPosA>0.5</handPosA>
+              <headFleck>JE_Lightbulb</headFleck>
+              <headInterval>2.8</headInterval>
+              <headScale>0.7</headScale>
+              <jobDefs>
+                <li>DoBill</li>
+              </jobDefs>
+              <workbenchDefs>
+                <li>DankPyon_Book_ScribeTable</li>
+              </workbenchDefs>
+              <swingStyle>Scratch</swingStyle>
+              <scale>0.8</scale>
+              <reach>0.14</reach>
+              <period>7</period>
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+        <!-- Spinning wheel: drop spindle. Spinning wool/flax into thread & cloth at the dedicated
+             spinning-wheel building (the spin recipes also run at the vanilla tailoring benches,
+             which share the bench with tailoring — those keep the needle; only the dedicated
+             SpinningWheel maps to the spindle). A slow continuous twirl works the fiber; no
+             impact/debris — the motion alone reads as spinning. Medieval-appropriate. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_Spindle</defName>
+              <handCount>1</handCount>
+              <handPosA>0.34</handPosA>
+              <jobDefs>
+                <li>DoBill</li>
+              </jobDefs>
+              <workbenchDefs>
+                <li>DankPyon_SpinningWheel</li>
+              </workbenchDefs>
+              <texPath>Things/JobEffects/Tools/Spindle</texPath>
+              <swingStyle>Stir</swingStyle>
+              <scale>0.7</scale>
+              <reach>0.14</reach>
+              <period>2.6</period>
+              <windupAngle>8</windupAngle>
+              <stirRadius>0.09</stirRadius>
+              <idleScale>0.72</idleScale>
+              <idleAngle>150</idleAngle>
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+        <!-- Tanning rack: hide scraper / fleshing knife. Scraping flesh & hair off a stretched
+             hide — a one-handed draw-scrape while the off hand presses the hide flat (braceOffHand),
+             throwing a few small scraps. Medieval-appropriate. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_HideScraper</defName>
+              <handCount>1</handCount>
+              <handPosA>0.22</handPosA>
+              <braceOffHand>true</braceOffHand>
+              <jobDefs>
+                <li>DoBill</li>
+              </jobDefs>
+              <workbenchDefs>
+                <li>DankPyon_TanningRack</li>
+              </workbenchDefs>
+              <texPath>Things/JobEffects/Tools/HideScraper</texPath>
+              <swingStyle>Sweep</swingStyle>
+              <scale>0.9</scale>
+              <reach>0.14</reach>
+              <period>0.6</period>
+              <windupAngle>24</windupAngle>
+              <impactBitFleck>JE_SoilClod</impactBitFleck>
+              <impactBitCount>2</impactBitCount>
+              <impactBitSpeed>2~5</impactBitSpeed>
+              <impactBitScale>0.25~0.45</impactBitScale>
+              <impactSpread>90</impactSpread>
+              <idleScale>0.72</idleScale>
+              <idleAngle>150</idleAngle>
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+        <!-- Plowing soil: field hoe. MO's "plow soil" (Growing-skill FinishFrame on the
+             DankPyon_PlowedSoil TerrainDef) otherwise matches NO tool, because every material
+             build tool excludes terrain frames. buildTerrainDefs claims exactly that build — a
+             two-handed chop into the earth flinging soil clods. Medieval-appropriate. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <JobEffects.JobToolDef>
+              <defName>JE_Tool_MO_Hoe</defName>
+              <handCount>2</handCount>
+              <handPosA>0.16</handPosA>
+              <handPosB>0.38</handPosB>
+              <flipHead>true</flipHead>
+              <jobDefs>
+                <li>FinishFrame</li>
+              </jobDefs>
+              <buildTerrainDefs>
+                <li>DankPyon_PlowedSoil</li>
+              </buildTerrainDefs>
+              <texPath>Things/JobEffects/Tools/Hoe</texPath>
+              <swingStyle>Chop</swingStyle>
+              <scale>1.15</scale>
+              <reach>0.2</reach>
+              <period>0.72</period>
+              <windupAngle>58</windupAngle>
+              <followThroughAngle>16</followThroughAngle>
+              <strikeSound>JE_ShovelScoop</strikeSound>
+              <impactBitFleck>JE_SoilClod</impactBitFleck>
+              <impactBitCount>5</impactBitCount>
+              <impactBitSpeed>3~7</impactBitSpeed>
+              <impactBitScale>0.35~0.65</impactBitScale>
+              <impactSpread>80</impactSpread>
+              <impactDustFleck>DustPuff</impactDustFleck>
+              <restFleck>JE_ChipRest</restFleck>
+              <idleScale>0.64</idleScale>
+            </JobEffects.JobToolDef>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ========================= CONSTRUCT METAL ========================
+       Continuous build effecter for metal frames. Lean into a welding
+       look: bright welder flash, a cone of thrown sparks, a soft heat
+       glow, settling dust and an occasional tool glint.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="ConstructMetal"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+          <soundDef>Interact_ConstructMetal</soundDef>
+        </li>
+        <!-- settling work dust -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustPuff</fleckDef>
+          <chancePerTick>0.035</chancePerTick>
+          <scale>0.63~0.91</scale>
+          <rotationRate>-60~60</rotationRate>
+          <speed>0.6~1.8</speed>
+        </li>
+        <!-- welder flash -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>SparkFlash</fleckDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.49</positionLerpFactor>
+          <chancePerTick>0.28</chancePerTick>
+          <scale>1.75~2.66</scale>
+        </li>
+        <!-- yellow-hot core flash -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>YellowSparkFlash</fleckDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.49</positionLerpFactor>
+          <chancePerTick>0.16</chancePerTick>
+          <scale>1.12~1.82</scale>
+        </li>
+        <!-- soft heat shimmer -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>HeatGlow_Intense</fleckDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.49</positionLerpFactor>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.56~0.98</scale>
+        </li>
+        <!-- cone of thrown sparks bouncing off the work -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <moteDef>Mote_SparkThrown</moteDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.49</positionLerpFactor>
+          <chancePerTick>0.3</chancePerTick>
+          <burstCount>2~4</burstCount>
+          <scale>0.168~0.252</scale>
+          <airTime>0.08~0.18</airTime>
+          <rotationRate>-240~240</rotationRate>
+          <speed>7.2~26</speed>
+          <angle>120~240</angle>
+          <positionRadius>0.02</positionRadius>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ========================= CONSTRUCT WOOD =========================
+       Sawing/hammering wood: tan sawdust, flying wood splinters and a
+       few vanilla wood bits.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="ConstructWood"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+          <soundDef>Interact_ConstructWood</soundDef>
+        </li>
+        <!-- tan sawdust haze -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustPuff</fleckDef>
+          <chancePerTick>0.06</chancePerTick>
+          <scale>0.56~0.84</scale>
+          <color>(202, 168, 112)</color>
+          <rotationRate>-50~50</rotationRate>
+          <speed>0.5~1.4</speed>
+        </li>
+        <!-- flying wood splinters -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>JE_WoodChip</fleckDef>
+          <chancePerTick>0.12</chancePerTick>
+          <burstCount>1~3</burstCount>
+          <scale>0.35~0.63</scale>
+          <positionRadius>0.25</positionRadius>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <angle>120~240</angle>
+          <speed>5~11</speed>
+          <rotation>0~360</rotation>
+          <rotationRate>-220~220</rotationRate>
+        </li>
+        <!-- chunkier vanilla wood bits -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>HarvestWood</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.35~0.49</scale>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <angle>-30~30</angle>
+          <speed>4~6</speed>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ========================= CONSTRUCT DIRT =========================
+       Packing earth/sandbags: heavier dust and arcing dirt clods.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="ConstructDirt"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+          <soundDef>Interact_ConstructDirt</soundDef>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustPuffThick</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.7~1.05</scale>
+          <rotationRate>-50~50</rotationRate>
+          <speed>0.5~1.5</speed>
+        </li>
+        <!-- arcing dirt clods -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DirtBitsArching</fleckDef>
+          <spawnLocType>BetweenPositions</spawnLocType>
+          <chancePerTick>0.08</chancePerTick>
+          <burstCount>1~3</burstCount>
+          <scale>0.35~0.49</scale>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <angle>0~360</angle>
+          <speed>4~7</speed>
+        </li>
+        <!-- low scattered grit -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DirtBits</fleckDef>
+          <spawnLocType>BetweenPositions</spawnLocType>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.28~0.42</scale>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <angle>0~360</angle>
+          <speed>5</speed>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================ ROOF WORK ===========================
+       Building/removing roof: dust and the odd falling chip overhead.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="RoofWork"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustPuff</fleckDef>
+          <chancePerTick>0.09</chancePerTick>
+          <scale>0.63~0.98</scale>
+          <rotationRate>-60~60</rotationRate>
+          <speed>0.6~1.8</speed>
+        </li>
+        <!-- falling debris -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>JE_WoodChip</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.28~0.49</scale>
+          <positionRadius>0.45</positionRadius>
+          <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+          <angle>160~200</angle>
+          <speed>2~5</speed>
+          <rotation>0~360</rotation>
+          <rotationRate>-160~160</rotationRate>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================== REPAIR ============================
+       Patching damaged buildings: denser welding sparks + tool glints.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Repair"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+          <soundDef>Interact_Repair</soundDef>
+          <ticksBeforeSustainerStart>35</ticksBeforeSustainerStart>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>SparkFlash</fleckDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.49</positionLerpFactor>
+          <chancePerTick>0.24</chancePerTick>
+          <scale>1.75~2.45</scale>
+        </li>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <moteDef>Mote_SparkThrown</moteDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.49</positionLerpFactor>
+          <chancePerTick>0.24</chancePerTick>
+          <burstCount>1~3</burstCount>
+          <scale>0.168~0.238</scale>
+          <airTime>0.08~0.16</airTime>
+          <rotationRate>-240~240</rotationRate>
+          <speed>7.2~24</speed>
+          <angle>135~225</angle>
+          <positionRadius>0.02</positionRadius>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+</Patch>

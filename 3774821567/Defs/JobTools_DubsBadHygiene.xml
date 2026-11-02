@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ============================================================================
+       Dubs Bad Hygiene (Dubwise.DubsBadHygiene) compatibility — NEW TOOLS.
+       Three hand tools for DBH's custom hygiene/sanitation work jobs. Like the Medieval
+       Overhaul smith-hammer scene, these tools are defined INLINE here rather than in a
+       gated Patches/ file: jobDefs is matched by defName STRING at runtime, so when DBH
+       is not installed the job names below simply never resolve and the tool stays inert
+       (it never draws, exactly like the DLC-gated tools). No PatchOperationFindMod needed.
+
+       Building / deconstructing / cleaning-filth around DBH fixtures already fires the
+       vanilla hammer / welder / crowbar / broom (those bind to FinishFrame / Deconstruct /
+       Clean), so no extra mapping is needed for them — only DBH's bespoke jobs get tools.
+
+       Tool -> DBH jobs:
+         scrub brush (sponge) -> washPatient (covers WorkGiver washPatient + washChild +
+                                 prisoner wash, all of which issue the washPatient job) and
+                                 cleanBedpan
+         plunger              -> clearBlockage (JobDriver_FixBlockage)
+         muck scoop           -> emptySeptictank, emptyLatrine, RemoveSewage
+       ============================================================================ -->
+
+  <!-- Scrub brush / sponge: a doctor/warden sponges down a dirty or sick patient (and washes
+       babies / prisoners), or scrubs out a soiled bedpan. One-handed side-to-side scrub; the
+       off hand braces flat on the patient (or the bedpan) with a small synced bob. Soap-suds
+       only, no debris. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_ScrubBrush</defName>
+    <handCount>1</handCount>
+    <handPosA>0.30</handPosA>
+    <jobDefs>
+      <li>washPatient</li>
+      <li>cleanBedpan</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/ScrubBrush</texPath>
+    <swingStyle>Sweep</swingStyle>
+    <scale>0.72</scale>
+    <reach>0.14</reach>
+    <period>0.55</period>
+    <windupAngle>26</windupAngle>
+    <!-- off hand steadies the patient / holds the bedpan while the sponge scrubs -->
+    <braceOffHand>true</braceOffHand>
+    <idleScale>0.78</idleScale>
+    <idleAngle>150</idleAngle>
+  </JobEffects.JobToolDef>
+
+  <!-- Plunger: unclogging a blocked DBH pipe / floor drain (clearBlockage). Held in both
+       hands and worked with quick down-thrusts onto the blockage; a small puff/splash and a
+       little dislodged gunk pop off the cup on each plunge. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_Plunger</defName>
+    <handCount>2</handCount>
+    <handPosA>0.16</handPosA>
+    <handPosB>0.40</handPosB>
+    <jobDefs>
+      <li>clearBlockage</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/Plunger</texPath>
+    <swingStyle>Stab</swingStyle>
+    <scale>0.95</scale>
+    <reach>0.12</reach>
+    <period>0.5</period>
+    <stabDistance>0.26</stabDistance>
+    <stabStrikePhase>0.32</stabStrikePhase>
+    <!-- dislodged gunk + a splash puff at the cup -->
+    <impactBitFleck>JE_SoilClod</impactBitFleck>
+    <impactBitCount>4</impactBitCount>
+    <impactBitSpeed>3~7</impactBitSpeed>
+    <impactBitScale>0.3~0.55</impactBitScale>
+    <impactSpread>70</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <impactAtTip>true</impactAtTip>
+    <impactTipOffset>(0, -0.04)</impactTipOffset>
+    <idleScale>0.78</idleScale>
+    <idleAngle>160</idleAngle>
+  </JobEffects.JobToolDef>
+
+  <!-- Muck scoop / sewage scoop: mucking sewage out of a septic tank or pit latrine, and
+       scooping up spilled sewage filth (emptySeptictank / emptyLatrine / RemoveSewage).
+       Two-handed scoop-and-lift dig; brown muck clods fling off each scoop. -->
+  <JobEffects.JobToolDef>
+    <defName>JE_Tool_MuckScoop</defName>
+    <handCount>2</handCount>
+    <handPosA>0.16</handPosA>
+    <handPosB>0.38</handPosB>
+    <jobDefs>
+      <li>emptySeptictank</li>
+      <li>emptyLatrine</li>
+      <li>RemoveSewage</li>
+    </jobDefs>
+    <texPath>Things/JobEffects/Tools/MuckScoop</texPath>
+    <swingStyle>Dig</swingStyle>
+    <scale>1.05</scale>
+    <reach>0.14</reach>
+    <period>0.85</period>
+    <windupAngle>52</windupAngle>
+    <stabDistance>0.22</stabDistance>
+    <impactBitFleck>JE_SoilClod</impactBitFleck>
+    <impactBitCount>7</impactBitCount>
+    <impactBitSpeed>3~7</impactBitSpeed>
+    <impactBitScale>0.35~0.65</impactBitScale>
+    <impactSpread>80</impactSpread>
+    <impactDustFleck>DustPuff</impactDustFleck>
+    <restFleck>JE_ChipRest</restFleck>
+    <idleScale>0.68</idleScale>
+    <idleAngle>150</idleAngle>
+  </JobEffects.JobToolDef>
+
+</Defs>

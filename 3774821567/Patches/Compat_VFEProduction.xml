@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================================================================
+       Compatibility: Vanilla Furniture Expanded - Production (VanillaExpanded.VFEProduction)
+       Maps VFE-P's "large"/electric/fueled workbenches to the matching animated tool by
+       appending their defNames to existing tools' <workbenchDefs>. Every op is gated behind
+       PatchOperationFindMod (matched on the mod's display NAME — PatchOperationFindMod uses
+       ModLister.HasActiveModWithName), so nothing touches our defs when VFE-P isn't loaded.
+
+       These benches are all Building_WorkTable(_HeatPush) that inherit the vanilla recipe set
+       via VEF's RecipeInheritanceExtension, so the same hand-tool that fits the vanilla bench
+       fits the VFE-P one. No new JobToolDefs or sprites are needed — pure workbenchDefs appends.
+
+       Bench -> tool:
+         large stove                  -> spoon (cook stir + steam)
+         large tailoring table        -> sewing needle
+         large machining table        -> metalworking chisel
+         assembly (component) bench   -> metalworking chisel (= vanilla FabricationBench)
+         large electric smithy        -> bench welder + mask
+         electric butcher             -> cleaver chop
+         electric drug lab            -> drug-lab pour flask
+         fueled smelter               -> glowing smelt rod
+         electric stonecutter's table -> bench chisel + mallet
+       ============================================================================ -->
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Furniture Expanded - Production</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <!-- Cooking: large stove. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Spoon"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableStoveLarge</li>
+          </value>
+        </li>
+
+        <!-- Tailoring: large tailoring table. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Needle"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableTailorLarge</li>
+          </value>
+        </li>
+
+        <!-- Machining / fabrication: large machining table + assembly (component) bench. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_MetalChisel"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableMachiningLarge</li>
+            <li>VFE_ComponentFabricationBench</li>
+          </value>
+        </li>
+
+        <!-- Smithing: large electric smithy (bench welder + mask, like the vanilla smithies). -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_BenchWelder"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableSmithyLarge</li>
+          </value>
+        </li>
+
+        <!-- Butchering: electric butcher. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_Cleaver"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableButcherElectric</li>
+          </value>
+        </li>
+
+        <!-- Drugs: electric drug lab. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_DrugSpoon"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableDrugLabElectric</li>
+          </value>
+        </li>
+
+        <!-- Smelting: fueled smelter. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_SmeltRod"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_FueledSmelter</li>
+          </value>
+        </li>
+
+        <!-- Stonecutting: electric stonecutter's table. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/JobEffects.JobToolDef[defName="JE_Tool_BenchChisel"]/workbenchDefs</xpath>
+          <value>
+            <li>VFE_TableStonecutterElectric</li>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

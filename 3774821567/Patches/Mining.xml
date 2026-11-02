@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- ============================== MINE ==============================
+       The flying stone shards, impact flash and dust are now emitted by the
+       animated PICKAXE on each visual strike (hit-synced). The effecter keeps
+       only the pick-strike SOUND (triggered on the real mining hit) — tools
+       can't play sound. This avoids double stone-shard bursts at two cadences.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Mine"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SoundTriggered</subEffecterClass>
+          <soundDef>PickHit</soundDef>
+        </li>
+        <!-- a little rock dust on the real strike (subtle; grounds the hit and still shows
+             something if animated tools are disabled). The thrown shards come from the pickaxe. -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+          <fleckDef>DustPuffThick</fleckDef>
+          <spawnLocType>BetweenTouchingCells</spawnLocType>
+          <positionLerpFactor>0.5</positionLerpFactor>
+          <burstCount>1~2</burstCount>
+          <scale>0.7~1.05</scale>
+          <rotationRate>-40~40</rotationRate>
+          <speed>0.4~1.2</speed>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================== DRILL =============================
+       Continuous effecter (deep drill). Add grinding dust, intermittent
+       sparks where the bit bites, and the occasional stone chip.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="Drill"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+          <soundDef>Interact_Drill</soundDef>
+        </li>
+        <!-- rising grind dust -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustSlow</fleckDef>
+          <ticksBetweenMotes>45</ticksBetweenMotes>
+          <scale>1.12~1.54</scale>
+          <rotationRate>-5~5</rotationRate>
+          <angle>30~60</angle>
+          <speed>0.4~0.9</speed>
+        </li>
+        <!-- bit sparks -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>SparkFlash</fleckDef>
+          <chancePerTick>0.08</chancePerTick>
+          <scale>1.05~1.75</scale>
+          <positionRadius>0.35</positionRadius>
+        </li>
+        <!-- thrown stone chips are now emitted by the AUGER's drilling tip (see JobToolDef) -->
+      </children>
+    </value>
+  </Operation>
+
+  <!-- ============================ CUT STONE ===========================
+       Stonecutting recipe bench. Vanilla just spits a generic StoneBit.
+       Add real shards, grinding dust, a chisel spark and a tool glint.
+  -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/EffecterDef[defName="CutStone"]/children</xpath>
+    <value>
+      <children>
+        <li>
+          <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+          <moteDef>Mote_StoneBit</moteDef>
+          <scale>0.21~0.49</scale>
+          <ticksBetweenMotes>14</ticksBetweenMotes>
+          <positionLerpFactor>0.6</positionLerpFactor>
+          <positionRadius>0.6</positionRadius>
+        </li>
+        <!-- tumbling shards are now thrown by the BENCH CHISEL on each stab hit (hit-synced) -->
+        <!-- fine grinding dust -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>DustPuff</fleckDef>
+          <chancePerTick>0.07</chancePerTick>
+          <scale>0.49~0.77</scale>
+          <positionRadius>0.5</positionRadius>
+          <speed>0.3~0.8</speed>
+        </li>
+        <!-- chisel spark -->
+        <li>
+          <subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+          <fleckDef>SparkFlash</fleckDef>
+          <chancePerTick>0.05</chancePerTick>
+          <scale>0.84~1.4</scale>
+          <positionRadius>0.4</positionRadius>
+        </li>
+      </children>
+    </value>
+  </Operation>
+
+</Patch>
