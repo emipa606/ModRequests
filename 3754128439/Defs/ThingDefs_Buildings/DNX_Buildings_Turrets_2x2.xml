@@ -1,0 +1,641 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<ThingDef ParentName="DNX_BaseTurret3x3Heavy">
+    <defName>DNX_Turret_Vanguard20mmSuppressiveCannon</defName>
+    <label>Vanguard 20mm suppressive cannon turret</label>
+    <description>A 20mm suppressive cannon turret with an escalating efficiency cycle. Sustained fire accelerates the weapon, but pushing it too far overheats the system and forces a short shutdown.</description>
+    <thingClass>DNX.Building_VanguardSuppressiveCannon</thingClass>
+    <uiIconPath>Things/Building/Security/DNX_Vanguard20mmSuppressiveCannon_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_GeminiGatlingTurret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <damageData>
+        <rect>(0.15,0.15,0.7,0.7)</rect>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+      <WorkToBuild>7600</WorkToBuild>
+      <Mass>78</Mass>
+      <Flammability>0.5</Flammability>
+      <Beauty>-24</Beauty>
+    </statBases>
+    <costList>
+      <Steel>460</Steel>
+      <ComponentIndustrial>14</ComponentIndustrial>
+      <Plasteel>45</Plasteel>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_HighCycleWeaponEngineering</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_Vanguard20mmSuppressiveCannon</turretGunDef>
+      <turretBurstWarmupTime>1.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>1.5</turretBurstCooldownTime>
+      <turretTopDrawSize>6.5</turretTopDrawSize>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>760</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_FireControlReceiver">
+        <accuracyOffset>0.04</accuracyOffset>
+      </li>
+      <li Class="DNX.CompProperties_AimingExtensionReceiver"/>
+      <li Class="DNX.CompProperties_HighSpeedBeltReceiver"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>20mm suppressive ammunition</fuelLabel>
+        <fuelGizmoLabel>20mm suppressive ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>20mm suppressive ammunition depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>350</fuelCapacity>
+        <fuelMultiplier>1.8</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>10</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+      <li Class="DNX.CompProperties_VanguardEfficiency">
+        <threshold>0.30</threshold>
+        <efficiencyGainPerShot>0.018</efficiencyGainPerShot>
+        <efficiencyDecayPerTick>0.00012</efficiencyDecayPerTick>
+        <cooldownFactorAtThreshold>0.05</cooldownFactorAtThreshold>
+        <cooldownFactorAtMax>0.05</cooldownFactorAtMax>
+        <burstIntervalFactorAtMax>0.34</burstIntervalFactorAtMax>
+        <overheatTicksMin>420</overheatTicksMin>
+        <overheatTicksMax>600</overheatTicksMax>
+        <overheatMoteIntervalTicks>10</overheatMoteIntervalTicks>
+        <overheatVentSmokeMote>DNX_Mote_VanguardWhiteVentSmoke</overheatVentSmokeMote>
+        <overheatVentDurationTicks>120</overheatVentDurationTicks>
+        <overheatVentIntervalTicks>3</overheatVentIntervalTicks>
+        <overheatVentSideOffset>1.25</overheatVentSideOffset>
+        <overheatVentForwardJitter>0.35</overheatVentForwardJitter>
+        <overheatVentSpeedMin>1.35</overheatVentSpeedMin>
+        <overheatVentSpeedMax>1.75</overheatVentSpeedMax>
+        <overheatVentSmokeScaleMin>2.2</overheatVentSmokeScaleMin>
+        <overheatVentSmokeScaleMax>3.0</overheatVentSmokeScaleMax>
+      </li>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>DNX_HighSpeedBeltFeeder</li>
+        </linkableFacilities>
+      </li>
+    </comps>
+    <placeWorkers Inherit="True">
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_Turret_GeminiGatling</defName>
+    <label>Gemini gatling turret</label>
+    <description>A twin gatling turret that pours dense rifle-caliber fire over a short period.</description>
+    <uiIconPath>Things/Building/Security/DNX_GeminiGatlingTurret_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_GeminiGatlingTurret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>420</MaxHitPoints>
+      <WorkToBuild>4200</WorkToBuild>
+      <Mass>35</Mass>
+      <Flammability>0.7</Flammability>
+      <Beauty>-15</Beauty>
+    </statBases>
+    <costList>
+      <Steel>220</Steel>
+      <Plasteel>20</Plasteel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_MediumCaliberAutomatedWeapons</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_GeminiGatling</turretGunDef>
+      <turretBurstWarmupTime>1.8</turretBurstWarmupTime>
+      <turretBurstCooldownTime>2.8</turretBurstCooldownTime>
+      <turretTopDrawSize>3.3</turretTopDrawSize>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>420</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_FireControlReceiver">
+        <accuracyOffset>0.04</accuracyOffset>
+      </li>
+      <li Class="DNX.CompProperties_AimingExtensionReceiver"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>gatling ammunition</fuelLabel>
+        <fuelGizmoLabel>gatling ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>gatling ammunition depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>500</fuelCapacity>
+        <fuelMultiplier>5</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>30</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+    <designationHotKey>Misc12</designationHotKey>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_Turret_SentinelHMGFour</defName>
+    <label>Sentinel HMG-4 armored machine gun turret</label>
+    <description>A heavily armored machine gun turret with exceptional durability and steady close-to-medium suppression.</description>
+    <pathCost>70</pathCost>
+    <fillPercent>0.65</fillPercent>
+    <uiIconPath>Things/Building/Security/DNX_SentinelHMG4Turret_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_SentinelHMG4Turret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1200</MaxHitPoints>
+      <WorkToBuild>6200</WorkToBuild>
+      <Mass>68</Mass>
+      <Flammability>0.45</Flammability>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <costList>
+      <Steel>360</Steel>
+      <Plasteel>20</Plasteel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_MediumCaliberAutomatedWeapons</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_SentinelHMGFour</turretGunDef>
+      <turretBurstWarmupTime>0.8</turretBurstWarmupTime>
+      <turretBurstCooldownTime>3.5</turretBurstCooldownTime>
+      <turretTopDrawSize>3.0</turretTopDrawSize>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>460</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_FireControlReceiver">
+        <accuracyOffset>0.04</accuracyOffset>
+      </li>
+      <li Class="DNX.CompProperties_AimingExtensionReceiver"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>HMG ammunition</fuelLabel>
+        <fuelGizmoLabel>HMG ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>HMG ammunition depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>400</fuelCapacity>
+        <fuelMultiplier>4</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>8</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_Turret_AvengerTwinCannon</defName>
+    <label>Avenger twin autocannon turret</label>
+    <description>An experimental twin autocannon turret with medium-rate cannon fire and manually launched guided missiles.</description>
+    <uiIconPath>Things/Building/Security/DNX_AvengerTwinCannonTurret_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_GeminiGatlingTurret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>520</MaxHitPoints>
+      <WorkToBuild>5200</WorkToBuild>
+      <Mass>42</Mass>
+      <Flammability>0.7</Flammability>
+      <Beauty>-18</Beauty>
+    </statBases>
+    <costList>
+      <Steel>280</Steel>
+      <Plasteel>20</Plasteel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_MediumCaliberAutomatedWeapons</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_AvengerTwinCannon</turretGunDef>
+      <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
+      <turretBurstCooldownTime>3.6</turretBurstCooldownTime>
+      <turretTopDrawSize>3.3</turretTopDrawSize>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>520</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_FireControlReceiver">
+        <accuracyOffset>0.04</accuracyOffset>
+      </li>
+      <li Class="DNX.CompProperties_AimingExtensionReceiver"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>autocannon ammunition</fuelLabel>
+        <fuelGizmoLabel>autocannon ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>autocannon ammunition depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>150</fuelCapacity>
+        <fuelMultiplier>1.5</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>6</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+      <li Class="DNX.CompProperties_SecondaryRefuelable">
+        <saveKey>avengerMissileReserve</saveKey>
+        <fuelLabel>missile reserve</fuelLabel>
+        <fuelGizmoLabel>missile reserve</fuelGizmoLabel>
+        <outOfFuelMessage>missile reserve depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>2</fuelCapacity>
+        <fuelMultiplier>0.02</fuelMultiplier>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Item/Resource/Chemfuel</fuelIconPath>
+      </li>
+      <li Class="DNX.CompProperties_ManualMissileLauncher">
+        <projectileDef>DNX_Projectile_AvengerMissile</projectileDef>
+        <range>45</range>
+        <commandLabel>Launch missile</commandLabel>
+        <commandDesc>Manually select a target and launch a curved missile.</commandDesc>
+        <iconPath>UI/DNX/Commands/Launch</iconPath>
+        <launchSound>InfernoCannon_Fire</launchSound>
+        <refuelableFuelLabel>missile reserve</refuelableFuelLabel>
+        <autoScanIntervalTicks>60</autoScanIntervalTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_Turret_ShowerGrenadeSupport</defName>
+    <label>Shower grenade support system</label>
+    <description>An experimental twin grenade support turret that fires arcing HE grenades and can manually launch smoke, EMP, and stun utility grenades.</description>
+    <uiIconPath>Things/Building/Security/DNX_ShowerGrenadeSupportTurret_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_SentinelHMG4Turret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>520</MaxHitPoints>
+      <WorkToBuild>5000</WorkToBuild>
+      <Mass>46</Mass>
+      <Flammability>0.7</Flammability>
+      <Beauty>-18</Beauty>
+    </statBases>
+    <costList>
+      <Steel>300</Steel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_AutomatedGrenadeProjectionSystems</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_ShowerGrenadeSupport</turretGunDef>
+      <turretBurstWarmupTime>0.6</turretBurstWarmupTime>
+      <turretBurstCooldownTime>5.0</turretBurstCooldownTime>
+      <turretTopDrawSize>3.3</turretTopDrawSize>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>480</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_FireControlReceiver">
+        <accuracyOffset>0.04</accuracyOffset>
+      </li>
+      <li Class="DNX.CompProperties_AimingExtensionReceiver"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>grenade reserve</fuelLabel>
+        <fuelGizmoLabel>grenade reserve</fuelGizmoLabel>
+        <outOfFuelMessage>grenade reserve depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>60</fuelCapacity>
+        <fuelMultiplier>0.6</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>2</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+      <li Class="DNX.CompProperties_SpecialGrenadeLauncher">
+        <range>30</range>
+        <cooldownTicks>600</cooldownTicks>
+        <ammoCost>1</ammoCost>
+        <refuelableFuelLabel>grenade reserve</refuelableFuelLabel>
+        <smokeProjectileDef>DNX_Projectile_ShowerSmokeGrenade</smokeProjectileDef>
+        <empProjectileDef>DNX_Projectile_ShowerEMPGrenade</empProjectileDef>
+        <stunProjectileDef>DNX_Projectile_ShowerStunGrenade</stunProjectileDef>
+        <launchSound>ThrowGrenade</launchSound>
+      </li>
+    </comps>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_TacticalMarkerTower</defName>
+    <label>tactical marker tower</label>
+    <description>A fire-control marking tower that locks hostile targets, reveals invisible enemies, exposes weakpoints, and increases their chance to be hit. It is especially useful when building layered defensive positions.</description>
+    <thingClass>DNX.Building_TacticalMarkerTower</thingClass>
+    <uiIconPath>Things/Building/Security/DNX_TacticalMarkerTower_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_SentinelHMG4Turret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>420</MaxHitPoints>
+      <WorkToBuild>4200</WorkToBuild>
+      <Mass>32</Mass>
+      <Flammability>0.6</Flammability>
+      <Beauty>-12</Beauty>
+    </statBases>
+    <costList>
+      <Steel>220</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+      <Plasteel>20</Plasteel>
+    </costList>
+    <building>
+      <ai_combatDangerous>true</ai_combatDangerous>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>360</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <placeWorkers Inherit="False">
+      <li>DNX.PlaceWorker_ShowDNXTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>DNX_TargetIdentification</li>
+    </researchPrerequisites>
+    <modExtensions>
+      <li Class="DNX.TacticalMarkerTowerExtension">
+        <range>34.9</range>
+        <scanIntervalTicks>45</scanIntervalTicks>
+        <visualIntervalTicks>72</visualIntervalTicks>
+        <hediffRefreshTicks>120</hediffRefreshTicks>
+        <requiresLineOfSight>true</requiresLineOfSight>
+        <topTexPath>Things/Building/Security/DNX_TacticalMarkerTower_Top</topTexPath>
+        <topDrawSize>3.1</topDrawSize>
+        <hediffDef>DNX_WeakpointExposed</hediffDef>
+        <maxTargets>1</maxTargets>
+        <preferUnmarkedTargets>true</preferUnmarkedTargets>
+        <markedMote>DNX_Mote_TacticalMarked</markedMote>
+        <towerMoteOffset>0.15</towerMoteOffset>
+        <visualScale>1</visualScale>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_Turret_WatcherLongRangePrecision</defName>
+    <label>Watcher long-range precision turret</label>
+    <description>The Watcher is an experimental smart-projectile turret at the edge of current weapons technology, built to engage distant, high-value, and high-threat targets. After a brief analysis cycle, it fires three high-precision smart rounds in rapid succession, delivering a fast and concentrated pinpoint strike. Even moving targets or enemies relying on cover struggle to fully escape its ballistic correction. The tradeoff is just as clear: its specialized ammunition is expensive, and the complex guidance mechanisms require advanced components for upkeep, so the Watcher is poorly suited to wasting firepower on ordinary enemies.\n\nProcurement once asked why every shot had to be a three-round burst.\nThe engineer replied, "The first confirms the prediction, the second corrects the error, and the third makes sure the first two do not look wasted."\nAfter that, procurement requested that all ammunition unit costs be removed from the report.</description>
+    <thingClass>DNX.Building_WatcherPrecisionTurret</thingClass>
+    <uiIconPath>Things/Building/Security/DNX_WatcherLongRangePrecisionTurret_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_SentinelHMG4Turret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>520</MaxHitPoints>
+      <WorkToBuild>6200</WorkToBuild>
+      <Mass>42</Mass>
+      <Flammability>0.55</Flammability>
+      <Beauty>-16</Beauty>
+    </statBases>
+    <costList>
+      <Steel>280</Steel>
+      <Plasteel>40</Plasteel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_AdvancedTargetIdentification</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_WatcherLongRangePrecisionTurret</turretGunDef>
+      <turretBurstWarmupTime>3.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>1.8</turretBurstCooldownTime>
+      <turretTopDrawSize>3.3</turretTopDrawSize>
+      <ai_combatDangerous>true</ai_combatDangerous>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>720</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_WarmupBeamVisual">
+        <beamTexPath>Effects/Mote/DNX_RailgunBeam</beamTexPath>
+        <beamWidth>0.40</beamWidth>
+        <muzzleOffset>(0,1.25)</muzzleOffset>
+        <targetOffset>0.05</targetOffset>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Watcher precision rounds</fuelLabel>
+        <fuelGizmoLabel>Watcher precision rounds</fuelGizmoLabel>
+        <outOfFuelMessage>Watcher precision rounds depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>90</fuelCapacity>
+        <fuelMultiplier>30</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>3</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>UI/Overlays/Barrel</fuelIconPath>
+      </li>
+    </comps>
+  </ThingDef>
+
+<ThingDef ParentName="DNX_BaseTurret2x2">
+    <defName>DNX_Turret_FlatheadRocketTurret</defName>
+    <label>Flathead rocket turret</label>
+    <description>A compact 2x2 rocket turret that launches short salvos of high-explosive fly-overhead rockets against targets beyond close range.</description>
+    <uiIconPath>Things/Building/Security/DNX_FlatheadRocketTurret_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_SentinelHMG4Turret_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>540</MaxHitPoints>
+      <WorkToBuild>5600</WorkToBuild>
+      <Mass>54</Mass>
+      <Flammability>0.6</Flammability>
+      <Beauty>-20</Beauty>
+    </statBases>
+    <costList>
+      <Steel>320</Steel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+      <Plasteel>30</Plasteel>
+    </costList>
+    <researchPrerequisites>
+      <li>DNX_RocketPropelledAmmunition</li>
+    </researchPrerequisites>
+    <building>
+      <turretGunDef>DNX_Gun_FlatheadRocketTurret</turretGunDef>
+      <turretBurstWarmupTime>1.1</turretBurstWarmupTime>
+      <turretBurstCooldownTime>8.0</turretBurstCooldownTime>
+      <turretTopDrawSize>3.0</turretTopDrawSize>
+    </building>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>620</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="DNX.CompProperties_FireControlReceiver">
+        <accuracyOffset>0.04</accuracyOffset>
+      </li>
+      <li Class="DNX.CompProperties_AimingExtensionReceiver"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>Flathead rockets</fuelLabel>
+        <fuelGizmoLabel>Flathead rockets</fuelGizmoLabel>
+        <outOfFuelMessage>Flathead rockets depleted</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>36</fuelCapacity>
+        <fuelMultiplier>0.36</fuelMultiplier>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>4</minimumFueledThreshold>
+        <factorByDifficulty>false</factorByDifficulty>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <fuelIconPath>Things/Item/Resource/Chemfuel</fuelIconPath>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

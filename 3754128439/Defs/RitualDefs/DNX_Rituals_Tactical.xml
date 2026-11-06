@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <RitualObligationTargetFilterDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>DNX_TacticalSimulationTableTarget</defName>
+    <workerClass>RitualObligationTargetWorker_ThingDef</workerClass>
+    <thingDefs>
+      <li>DNX_TacticalSimulationTable</li>
+    </thingDefs>
+  </RitualObligationTargetFilterDef>
+
+  <RitualOutcomeEffectDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>DNX_TacticalSimulationOutcome</defName>
+    <description>Participants receive a temporary tactical simulation hediff, improving aiming speed, shooting accuracy, and movement speed.</description>
+    <workerClass>DNX.RitualOutcomeEffectWorker_TacticalSimulation</workerClass>
+    <startingQuality>2.0</startingQuality>
+    <maxQuality>3.0</maxQuality>
+    <givesDevelopmentPoints>false</givesDevelopmentPoints>
+    <allowAttachableOutcome>false</allowAttachableOutcome>
+    <comps>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1, -0.1)</li>
+            <li>(4, 0.0)</li>
+            <li>(8, 0.1)</li>
+          </points>
+        </curve>
+      </li>
+    </comps>
+    <outcomeChances>
+      <li>
+        <label>confused</label>
+        <chance>0.05</chance>
+        <description>The {0} was confused. The simulation was completed, but the tactical picture was muddled and hard to apply.</description>
+        <positivityIndex>-1</positivityIndex>
+      </li>
+      <li>
+        <label>useful</label>
+        <chance>0.25</chance>
+        <description>The {0} was useful. Participants left with a clearer sense of fields of fire and fallback routes.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>precise</label>
+        <chance>0.55</chance>
+        <description>The {0} was precise. Participants coordinated target lanes, movement timings, and firing discipline.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>brilliant</label>
+        <chance>0.15</chance>
+        <description>The {0} was brilliant. The colony's defenders moved through the simulated battle plan with practiced confidence.</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+  </RitualOutcomeEffectDef>
+
+  <RitualPatternDef ParentName="CelebrationPartyChat" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>DNX_TacticalSimulationRitual</defName>
+    <shortDescOverride>tactical simulation</shortDescOverride>
+    <descOverride>A defensive planning ritual. Participants gather around a tactical simulation table to review threat vectors, firing arcs, and movement plans.</descOverride>
+    <beginRitualOverride>Begin tactical simulation</beginRitualOverride>
+    <iconPathOverride>Things/Building/Misc/DNX_TacticalSimulationTable</iconPathOverride>
+    <canStartAnytime>true</canStartAnytime>
+    <alwaysStartAnytime>true</alwaysStartAnytime>
+    <ritualObligationTargetFilter>DNX_TacticalSimulationTableTarget</ritualObligationTargetFilter>
+    <ritualBehavior>CelebrationTree</ritualBehavior>
+    <ritualOutcomeEffect>DNX_TacticalSimulationOutcome</ritualOutcomeEffect>
+    <ritualOnlyForIdeoMembers>false</ritualOnlyForIdeoMembers>
+    <playsIdeoMusic>false</playsIdeoMusic>
+    <tags Inherit="False">
+      <li>DNX_TacticalSimulation</li>
+    </tags>
+    <patternGroupTag>DNX_TacticalSimulation</patternGroupTag>
+  </RitualPatternDef>
+
+  <PreceptDef ParentName="FestivalBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>DNX_TacticalSimulationPrecept</defName>
+    <label>tactical simulation</label>
+    <description>A defensive planning ritual where participants gather around a tactical simulation table and review battle plans.</description>
+    <iconPath>Things/Building/Misc/DNX_TacticalSimulationTable</iconPath>
+    <ritualPatternBase>DNX_TacticalSimulationRitual</ritualPatternBase>
+    <visible>false</visible>
+    <classic>true</classic>
+    <usesIdeoVisualEffects>false</usesIdeoVisualEffects>
+    <canGenerateAsSpecialPrecept>false</canGenerateAsSpecialPrecept>
+    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+    <receivesExpectationsQualityOffset>true</receivesExpectationsQualityOffset>
+    <selectionWeight>0.25</selectionWeight>
+  </PreceptDef>
+
+</Defs>

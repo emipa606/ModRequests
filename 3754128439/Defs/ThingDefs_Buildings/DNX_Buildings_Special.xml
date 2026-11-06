@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<ThingDef ParentName="BuildingBase" Class="DNX.ThingDef_DirectionalShieldGenerator">
+    <defName>DNX_DirectionalShieldGenerator</defName>
+    <label>directional shield generator</label>
+    <description>An experimental one-way defensive shield generator. It projects a short forward shield wall that absorbs incoming non-overhead projectiles until its shield charge collapses.</description>
+    <thingClass>DNX.Building_DirectionalShieldGenerator</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <fillPercent>0.45</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <selectable>true</selectable>
+    <size>(1,1)</size>
+    <tickerType>Normal</tickerType>
+    <rotatable>true</rotatable>
+    <designationCategory>Security</designationCategory>
+    <uiIconPath>Things/Building/Security/DNX_DirectionalShieldGenerator</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_DirectionalShieldGenerator</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.8,0.35,0.8)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>4800</WorkToBuild>
+      <Mass>35</Mass>
+      <Flammability>0.4</Flammability>
+      <Beauty>-8</Beauty>
+    </statBases>
+    <costList>
+      <Steel>180</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>650</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3.5</glowRadius>
+        <glowColor>(120,210,255,0)</glowColor>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>DNX.PlaceWorker_DirectionalShieldGenerator</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>DNX_DirectionalEnergyBarriers</li>
+    </researchPrerequisites>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <shieldMaxHp>500</shieldMaxHp>
+    <shieldRechargePerTick>0.08</shieldRechargePerTick>
+    <shieldWidth>5</shieldWidth>
+    <shieldDepth>2</shieldDepth>
+    <shieldTexPath>Effects/Shield/DNX_DirectionalShield_Field</shieldTexPath>
+    <shieldCooldownTicks>1200</shieldCooldownTicks>
+  </ThingDef>
+
+<ThingDef ParentName="BuildingBase">
+    <defName>DNX_SonicShockEmitter</defName>
+    <label>sonic shock emitter</label>
+    <description>An experimental defensive device. When manually activated, it releases a spreading shock pulse that briefly stuns creatures in range, then forces itself into breakdown until repaired.</description>
+    <thingClass>Building</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>20</pathCost>
+    <fillPercent>0.35</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <selectable>true</selectable>
+    <size>(1,1)</size>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <designationCategory>Security</designationCategory>
+    <uiIconPath>Things/Building/Security/DNX_SonicShockEmitter_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_SonicShockEmitter</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.35,0.6,0.35)</volume>
+        <offset>(0,0,-0.05)</offset>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>240</MaxHitPoints>
+      <WorkToBuild>3600</WorkToBuild>
+      <Mass>22</Mass>
+      <Flammability>0.5</Flammability>
+      <Beauty>-6</Beauty>
+    </statBases>
+    <costList>
+      <Steel>120</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>350</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="DNX.CompProperties_SonicShockEmitter">
+        <radius>6</radius>
+        <stunTicks>300</stunTicks>
+        <commandLabel>Activate shock pulse</commandLabel>
+        <commandDesc>Release a sonic shock pulse with radius 6, stunning pawns in range for 5 seconds. The device breaks down after activation and must be repaired before reuse.</commandDesc>
+        <iconPath>UI/DNX/Commands/SonicShockPulse</iconPath>
+        <fleckDef>ShockwaveFast</fleckDef>
+        <fleckScale>0.06</fleckScale>
+        <soundDef>PsychicPulseGlobal</soundDef>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>DNX_SonicSuppressionTechnology</li>
+    </researchPrerequisites>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+  </ThingDef>
+
+<ThingDef ParentName="BuildingBase">
+    <defName>DNX_MaintenanceArm</defName>
+    <label>maintenance arm</label>
+    <description>An automated maintenance arm that scans nearby friendly buildings, extends a repair manipulator, restores damaged structures over time, and sprays firefoam at flames within its maintenance range.</description>
+    <thingClass>DNX.Building_MaintenanceArm</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.55</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <selectable>true</selectable>
+    <size>(2,2)</size>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <designationCategory>Security</designationCategory>
+    <uiIconPath>Things/Building/Security/DNX_MaintenanceArm_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_MaintenanceArm_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>360</MaxHitPoints>
+      <WorkToBuild>3600</WorkToBuild>
+      <Mass>28</Mass>
+      <Flammability>0.55</Flammability>
+      <Beauty>-8</Beauty>
+    </statBases>
+    <costList>
+      <Steel>160</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>260</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <placeWorkers>
+      <li>DNX.PlaceWorker_ShowDNXTurretRadius</li>
+    </placeWorkers>
+    <researchPrerequisites>
+      <li>DNX_AutomatedFieldEngineering</li>
+    </researchPrerequisites>
+    <modExtensions>
+      <li Class="DNX.MaintenanceArmExtension">
+        <range>8.5</range>
+        <scanIntervalTicks>60</scanIntervalTicks>
+        <turnSpeedDegreesPerTick>2.5</turnSpeedDegreesPerTick>
+        <extendSpeedPerTick>0.08</extendSpeedPerTick>
+        <retractSpeedPerTick>0.10</retractSpeedPerTick>
+        <repairPerSecond>15</repairPerSecond>
+        <topTexPath>Things/Building/Security/DNX_MaintenanceArm_Top</topTexPath>
+        <armTexPath>Effects/Mote/Repair_Arm</armTexPath>
+        <clawTexPath>Effects/Mote/Repair_Claw</clawTexPath>
+        <foamProjectileDef>Proj_Foam</foamProjectileDef>
+        <foamShotIntervalTicks>8</foamShotIntervalTicks>
+        <foamShotsPerTarget>16</foamShotsPerTarget>
+        <topDrawSize>3.1</topDrawSize>
+        <armWidth>1.02</armWidth>
+        <armSegmentLength>1.44</armSegmentLength>
+        <clawDrawSize>2.1</clawDrawSize>
+      </li>
+    </modExtensions>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+  </ThingDef>
+
+<ThingDef ParentName="BuildingBase">
+    <defName>DNX_TacticalNuclearMissileSilo</defName>
+    <label>tactical nuclear missile silo</label>
+    <description>A strategic defensive network weapon platform capable of launching a tactical nuclear missile at any point on the current map.</description>
+    <thingClass>DNX.Building_TacticalNuclearMissileSilo</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>80</pathCost>
+    <fillPercent>0.65</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <selectable>true</selectable>
+    <size>(5,5)</size>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <uiIconPath>Things/Building/Security/DNX_TacticalNuclearMissileSilo</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_TacticalNuclearMissileSilo</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(5,5)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>2500</MaxHitPoints>
+      <WorkToBuild>42000</WorkToBuild>
+      <Mass>1200</Mass>
+      <Flammability>0.1</Flammability>
+      <Beauty>-30</Beauty>
+    </statBases>
+    <costList>
+      <Steel>1200</Steel>
+      <Plasteel>350</Plasteel>
+      <Uranium>180</Uranium>
+      <ComponentSpacer>12</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>6000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Breakdownable"/>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+  </ThingDef>
+
+<ThingDef ParentName="BuildingBase">
+    <defName>DNX_EDD</defName>
+    <label>EDD</label>
+    <description>EDD mounted, let them come.</description>
+    <thingClass>DNX.Building_EDD</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <category>Building</category>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>0</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <castEdgeShadows>false</castEdgeShadows>
+    <selectable>true</selectable>
+    <size>(1,1)</size>
+    <tickerType>Normal</tickerType>
+    <rotatable>true</rotatable>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsSecurity</li>
+    </thingCategories>
+    <designationCategory>Security</designationCategory>
+    <uiIconPath>Things/Building/Security/DNX_EDD_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Security/DNX_EDD</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
+      <drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
+      <drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
+      <drawOffsetEast>(0.9,0,0)</drawOffsetEast>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <WorkToBuild>900</WorkToBuild>
+      <Mass>4</Mass>
+      <Flammability>0.7</Flammability>
+      <Beauty>-6</Beauty>
+      <TrapSpringChance>1.0</TrapSpringChance>
+    </statBases>
+    <costList>
+      <Steel>30</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <building>
+      <isEdifice>false</isEdifice>
+      <isAttachment>true</isAttachment>
+      <expandHomeArea>false</expandHomeArea>
+      <ai_chillDestination>false</ai_chillDestination>
+      <trapPeacefulWildAnimalsSpringChanceFactor>0</trapPeacefulWildAnimalsSpringChanceFactor>
+    </building>
+    <placeWorkers>
+      <li>Placeworker_AttachedToWall</li>
+      <li>DNX.PlaceWorker_EDDTriggerRange</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded IsNull="True"/>
+    <constructEffect>ConstructMetal</constructEffect>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <constructionSkillPrerequisite>3</constructionSkillPrerequisite>
+    <researchPrerequisites>
+      <li>DNX_EDDTripMine</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>
+
