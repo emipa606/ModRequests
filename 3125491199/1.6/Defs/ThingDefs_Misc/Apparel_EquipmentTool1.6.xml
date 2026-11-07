@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Bace -->
+
+  <ThingDef ParentName="ApparelNoQualityBase" Name="BaseEDF_BeaconPack" Abstract="True">
+    <tradeability>Sellable</tradeability>
+    <graphicData>
+      <texPath>Things/Apparel/Equipment/EDF_BeaconGunB</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.3</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>10000</WorkToMake>
+      <Mass>2</Mass>
+      <Flammability>0.2</Flammability>
+      <EquipDelay>3</EquipDelay>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.1</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <scoreOffset>4</scoreOffset>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Arms</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags Inherit="False">
+        <li>EDF</li>
+      </tags>
+        <defaultOutfitTags Inherit="False">
+          <li>EDF</li>
+        </defaultOutfitTags>
+    </apparel>
+  </ThingDef>
+
+  <!-- Flare Gun -->
+
+  <ThingDef ParentName="BaseEDF_BeaconPack">
+    <defName>EDF_FlareGun</defName>
+    <label>Flare Gun</label>
+    <description>A special gun that ejects disposable lights. Useful for searching in dark places. It is only for lighting and cannot be used like a flash bang.</description>
+    <graphicData>
+      <texPath>Things/Apparel/Equipment/EDF_BeaconGunA</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.3</drawSize>
+    </graphicData>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>15</maxCharges>
+        <ammoDef>Steel</ammoDef>
+        <ammoCountPerCharge>3</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+        <soundReload>Standard_Reload</soundReload>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_LaunchProjectileStatic</verbClass>
+        <label>deploy light</label>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Proj_EDFMinilight</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>12.9</range>
+        <burstShotCount>1</burstShotCount>
+        <onlyManualCast>True</onlyManualCast>
+        <targetable>true</targetable>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+        <soundCast>ThrowGrenade</soundCast>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <researchPrerequisite>EDF_TI</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>12</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>EDF_FabricBench</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Proj_EDFMinilight</defName>
+    <label>Mini light</label>
+    <thingClass>Projectile_SpawnsThing</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/EDF_LPB</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <projectile>
+      <speed>65</speed>
+      <spawnsThingDef>EDF_Minilight</spawnsThingDef>
+      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
+    </projectile>
+  </ThingDef>
+
+  <!-- MechBeacon Gun -->
+
+  <ThingDef ParentName="BaseEDF_BeaconPack">
+    <defName>EDF_Mech_BeaconPackA</defName>
+    <label>MechBeacon Gun(NixA)</label>
+    <description>A special gun that ejects a coordinate beacon, which can be used to request EDF to drop a combat mech. In this request plan, three Nix-A Combat Frame is deployed near the beacon landing point.</description>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <EDF_Credit>180</EDF_Credit>
+    </costList>
+    <comps>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>3</maxCharges>
+        <ammoDef>EDF_Credit</ammoDef>
+        <ammoCountPerCharge>60</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+        <soundReload>Standard_Reload</soundReload>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_LaunchProjectileStatic</verbClass>
+        <label>deploy Beacon</label>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Proj_EDFMechBeaconA</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>12.9</range>
+        <burstShotCount>1</burstShotCount>
+        <onlyManualCast>True</onlyManualCast>
+        <targetable>true</targetable>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+        <soundCast>ThrowGrenade</soundCast>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <researchPrerequisite>EDF_RequestI</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>12</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>EDF_FabricBench</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Proj_EDFMechBeaconA</defName>
+    <label>EDF MechBeacon</label>
+    <thingClass>Projectile_SpawnsThing</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/EDF_LPBII</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <projectile>
+      <speed>65</speed>
+      <spawnsThingDef>EDF_MechBeacon_A</spawnsThingDef>
+      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseEDF_BeaconPack">
+    <defName>EDF_Mech_BeaconPackB</defName>
+    <label>MechBeacon Gun(NixB)</label>
+    <description>A special gun that ejects a coordinate beacon, which can be used to request EDF to drop a combat mech. In this request plan, three Nix-B Combat Frame is deployed near the beacon landing point.</description>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <EDF_Credit>180</EDF_Credit>
+    </costList>
+    <comps>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>3</maxCharges>
+        <ammoDef>EDF_Credit</ammoDef>
+        <ammoCountPerCharge>60</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+        <soundReload>Standard_Reload</soundReload>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_LaunchProjectileStatic</verbClass>
+        <label>deploy Beacon</label>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Proj_EDFMechBeaconB</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>12.9</range>
+        <burstShotCount>1</burstShotCount>
+        <onlyManualCast>True</onlyManualCast>
+        <targetable>true</targetable>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+        <soundCast>ThrowGrenade</soundCast>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <researchPrerequisite>EDF_RequestI</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>12</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>EDF_FabricBench</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Proj_EDFMechBeaconB</defName>
+    <label>EDF MechBeacon</label>
+    <thingClass>Projectile_SpawnsThing</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/EDF_LPBII</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <projectile>
+      <speed>65</speed>
+      <spawnsThingDef>EDF_MechBeacon_B</spawnsThingDef>
+      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
+    </projectile>
+  </ThingDef>
+
+
+  <ThingDef ParentName="BaseEDF_BeaconPack">
+    <defName>EDF_Mech_BeaconPackC</defName>
+    <label>BeaconGun(Swarm)</label>
+    <description>A special gun that ejects a beacon with coordinates, which can be used to request EDF to drop a combat mech. With this request plan, a number of small mechas are deployed near the beacon landing point.</description>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <EDF_Credit>180</EDF_Credit>
+    </costList>
+    <comps>
+      <li Class="CompProperties_ApparelReloadable">
+        <maxCharges>3</maxCharges>
+        <ammoDef>EDF_Credit</ammoDef>
+        <ammoCountPerCharge>60</ammoCountPerCharge>
+        <baseReloadTicks>60</baseReloadTicks>
+        <soundReload>Standard_Reload</soundReload>
+        <hotKey>Misc4</hotKey>
+        <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_LaunchProjectileStatic</verbClass>
+        <label>deploy Beacon</label>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Proj_EDFMechBeaconC</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>12.9</range>
+        <burstShotCount>1</burstShotCount>
+        <onlyManualCast>True</onlyManualCast>
+        <targetable>true</targetable>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+        <soundCast>ThrowGrenade</soundCast>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <researchPrerequisite>EDF_RequestI</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>12</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>EDF_FabricBench</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>Proj_EDFMechBeaconC</defName>
+    <label>EDF MechBeacon</label>
+    <thingClass>Projectile_SpawnsThing</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/EDF_LPBII</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1</drawSize>
+    </graphicData>
+    <projectile>
+      <speed>65</speed>
+      <spawnsThingDef>EDF_MechBeacon_C</spawnsThingDef>
+      <tryAdjacentFreeSpaces>true</tryAdjacentFreeSpaces>
+    </projectile>
+  </ThingDef>
+
+  <!-- Mech Beacon -->
+
+    <ThingDef ParentName="BuildingBase" Name="BaseEDF_MechBeacon" Abstract="True">
+    <graphicData>	
+      <texPath>Things/Building/EDF_MiniBeacon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2)</drawSize>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <castEdgeShadows>False</castEdgeShadows>
+    <passability>PassThroughOnly</passability>
+    <blockWind>false</blockWind>
+    <fillPercent>0.1</fillPercent>
+    <pathCost>20</pathCost>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <repairEffect>ConstructMetal</repairEffect>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>10</WorkToBuild>
+      <Mass>1</Mass>
+      <Flammability>0</Flammability>
+      <Beauty>0</Beauty>
+    </statBases>
+    <building>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+    <size>(1,1)</size>
+    <costList></costList>
+  </ThingDef>
+
+    <ThingDef ParentName="BaseEDF_MechBeacon">
+    <defName>EDF_MechBeacon_A</defName>
+    <label>EDF MechBeacon</label>
+    <description>A beacon to mark the descent point. After transmitting a signal, it destroys itself in a short period of time.</description>
+    <comps>
+      <li Class="CompProperties_Initiatable" />
+      <li Class="CompProperties_PawnSpawnOnWakeup">
+        <points>1500</points>
+        <dropInPods>True</dropInPods>
+        <pawnSpawnRadius>1</pawnSpawnRadius>
+        <spawnablePawnKinds>
+          <li>Mech_EDF_NixInstant_A</li>
+        </spawnablePawnKinds>
+        <spawnSound>OrbitalTargeter_Fire</spawnSound>
+        <lordJob>LordJob_MechanoidsDefend</lordJob>
+        <shouldJoinParentLord>true</shouldJoinParentLord>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>30</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+    <ThingDef ParentName="BaseEDF_MechBeacon">
+    <defName>EDF_MechBeacon_B</defName>
+    <label>EDF MechBeacon</label>
+    <description>A beacon to mark the descent point. After transmitting a signal, it destroys itself in a short period of time.</description>
+    <comps>
+      <li Class="CompProperties_Initiatable" />
+      <li Class="CompProperties_PawnSpawnOnWakeup">
+        <points>1500</points>
+        <dropInPods>True</dropInPods>
+        <pawnSpawnRadius>1</pawnSpawnRadius>
+        <spawnablePawnKinds>
+          <li>Mech_EDF_NixInstant_B</li>
+        </spawnablePawnKinds>
+        <spawnSound>OrbitalTargeter_Fire</spawnSound>
+        <lordJob>LordJob_MechanoidsDefend</lordJob>
+        <shouldJoinParentLord>true</shouldJoinParentLord>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>30</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+    <ThingDef ParentName="BaseEDF_MechBeacon">
+    <defName>EDF_MechBeacon_C</defName>
+    <label>EDF MechBeacon</label>
+    <description>A beacon to mark the descent point. After transmitting a signal, it destroys itself in a short period of time.</description>
+    <comps>
+      <li Class="CompProperties_Initiatable" />
+      <li Class="CompProperties_PawnSpawnOnWakeup">
+        <points>200</points>
+        <dropInPods>True</dropInPods>
+        <pawnSpawnRadius>1</pawnSpawnRadius>
+        <spawnablePawnKinds>
+          <li>Mech_EDF_PatrollerInstant</li>
+        </spawnablePawnKinds>
+        <spawnSound>OrbitalTargeter_Fire</spawnSound>
+        <lordJob>LordJob_MechanoidsDefend</lordJob>
+        <shouldJoinParentLord>true</shouldJoinParentLord>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>30</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Mini light -->
+
+    <ThingDef ParentName="BaseEDF_MechBeacon">
+    <defName>EDF_Minilight</defName>
+    <label>EDF disposable light</label>
+    <description>A small light that emits light from an internal power source. Destroys itself when power is lost.</description>
+    <graphicData>	
+      <texPath>Things/Building/EDF_Minilight</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2)</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(255,117,108,0)</glowColor>
+      </li>
+      <li Class="CompProperties_Lifespan">
+        <lifespanTicks>48000</lifespanTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

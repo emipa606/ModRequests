@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ================================== EDF ====================================-->
+
+  <!-- Robot Bomb -->
+
+  <ThingDef ParentName="BasePawn" Name="BaseDroneEDF" Abstract="True">
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <statBases>
+      <MarketValue>1200</MarketValue>
+      <PsychicSensitivity>0</PsychicSensitivity>
+      <MoveSpeed>4.2</MoveSpeed>
+      <ToxicResistance>1</ToxicResistance>
+      <Flammability>0</Flammability>
+      <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+      <ComfyTemperatureMax>250</ComfyTemperatureMax>
+      <MeatAmount>0</MeatAmount>
+      <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+      <WorkSpeedGlobal MayRequire="Ludeon.RimWorld.Biotech">0.5</WorkSpeedGlobal>
+      <VacuumResistance>1</VacuumResistance>
+    </statBases>
+    <receivesSignals>true</receivesSignals>
+    <tradeability>None</tradeability>
+    <race>
+      <alwaysAwake>true</alwaysAwake>
+      <fleshType>Drone</fleshType>
+      <needsRest>false</needsRest>
+      <hasGenders>false</hasGenders>
+      <hasCorpse>false</hasCorpse>
+      <foodType>None</foodType>
+      <lifeExpectancy>2500</lifeExpectancy>
+      <bloodDef>Filth_MachineBits</bloodDef>
+      <disableIgniteVerb>true</disableIgniteVerb>
+      <trainability>None</trainability>
+      <nameGenerator MayRequire="Ludeon.RimWorld.Biotech">NamerMech</nameGenerator>
+      <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+      <soundCallIntervalFriendlyFactor>2</soundCallIntervalFriendlyFactor>
+      <thinkTreeConstant>SentryDroneConstant</thinkTreeConstant>
+      <hideTrainingTab>true</hideTrainingTab>
+      <body>Drone</body>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Drone</thinkTreeMain>
+      <canFlyInVacuum>true</canFlyInVacuum>
+    </race>
+    <killedLeavings>
+      <Filth_MachineBits>4</Filth_MachineBits>
+    </killedLeavings>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseDroneEDF">
+    <defName>Mech_EDF_PatrollerC</defName>
+    <label>Robot Bomb</label>
+    <description>Small self-propelled bombs operated by EDF. It is detonated by approaching the enemy.
+The EDF originally prohibited the possession and development of drone weapons, but seems to have changed its mind after the invaders attacked.</description>
+    <statBases>
+      <MarketValue>200</MarketValue>
+      <MoveSpeed>5</MoveSpeed>
+      <ArmorRating_Sharp>0.27</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.34</ArmorRating_Blunt>
+      <ArmorRating_Heat>2.00</ArmorRating_Heat>
+      <PsychicSensitivity>0.0</PsychicSensitivity>
+      <ToxicResistance>1</ToxicResistance>
+      <Flammability>0</Flammability>
+      <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+      <WorkSpeedGlobal MayRequire="Ludeon.RimWorld.Biotech">0.5</WorkSpeedGlobal>
+      <VacuumResistance>1</VacuumResistance>
+    </statBases>
+    <tools>
+      <li>
+        <label>bamper</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5.0</power>
+        <cooldownTime>1.5</cooldownTime>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+    <race>
+      <alwaysAwake>true</alwaysAwake>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeConstant>SentryDroneConstant</thinkTreeConstant>
+      <thinkTreeMain>Drone</thinkTreeMain>
+      <hideTrainingTab>true</hideTrainingTab>
+      <body>Lancer</body>
+      <baseBodySize>0.2</baseBodySize>
+      <baseHealthScale>0.8</baseHealthScale>
+      <mechWeightClass>Light</mechWeightClass>
+      <canFlyInVacuum>true</canFlyInVacuum>
+      <nameGenerator MayRequire="Ludeon.RimWorld.Biotech">NamerMech</nameGenerator>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding_Metal</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+    </race>
+    <comps>
+      <li Class="CompProperties_MechPowerCell">
+        <totalPowerTicks>5000</totalPowerTicks>
+        <labelOverride>Battery power</labelOverride>
+        <showGizmoOnNonPlayerControlled>true</showGizmoOnNonPlayerControlled>
+      </li>
+      <li Class="CompProperties_HunterDrone">
+        <explosionRadius>3.1</explosionRadius>
+        <explosionDamageType>EDF_Bomb</explosionDamageType>
+        <explosionDamageAmount>50</explosionDamageAmount>
+      </li>
+    </comps>
+    <butcherProducts>
+      <Steel>15</Steel>
+    </butcherProducts>
+  </ThingDef>
+
+  <PawnKindDef ParentName="BaseDroneKind">
+    <defName>Mech_Patroller_C</defName>
+    <label>Robot Bomb</label>
+    <race>Mech_EDF_PatrollerC</race>
+    <combatPower>30</combatPower>
+    <defaultFactionType>EDF_corps</defaultFactionType>
+    <allowInMechClusters>false</allowInMechClusters>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/EDF_Patroller/EDF_Patroller</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.1</drawSize>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+</Defs>
