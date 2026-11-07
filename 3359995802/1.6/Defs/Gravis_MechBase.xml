@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+  <!-- this is the def of module slot, allowing you to make your own customizable frame system with/without sharing slot with other mech frame type, walker gear framework provied a preset slots in contents, but you can make your own too. -->
+  <Exosuit.SlotDef>
+    <defName>Gravis_Core</defName>
+    <label>Heavy Combat Frame Gravis</label>
+    <description>Boarding exoskeleton platform developed by EDF.</description>
+    <supportedSlots>
+      <li>ArmLeft</li>
+      <li>ArmRight</li>
+    </supportedSlots>
+    <uiPriority>0</uiPriority> 
+    <isCoreFrame>true</isCoreFrame>
+  </Exosuit.SlotDef>
+
+  <!-- wreckage is an optional building that will hold pilot and modules after a frame got destroyed. --> 
+  <ThingDef ParentName="BuildingBase">
+    <defName>Gravis_Disabled</defName>
+    <label>wreckage</label>
+    <description>a destroyed Gravis, can restore some useful resource.</description>
+    <thingClass>Exosuit.Building_Wreckage</thingClass>
+    <graphicData>
+      <texPath>Things/ExoSuit_Gravis/Gravis_Disabled</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.5,2.5)</drawSize>
+      <damageData>
+        <rect>(0.2,0,0.6,0.1)</rect>
+      </damageData>
+    </graphicData>
+    <canOverlapZones>false</canOverlapZones>
+    <altitudeLayer>Building</altitudeLayer>
+    <useHitPoints>true</useHitPoints>
+    <fillPercent>0.75</fillPercent>
+    <size>(2,2)</size>
+    <pathCost>100</pathCost>
+    <passability>PassThroughOnly</passability>
+    <surfaceType>Item</surfaceType>
+    <costList>
+      <Steel>750</Steel>
+      <Uranium>40</Uranium>
+      <ComponentIndustrial>20</ComponentIndustrial>
+      <ComponentSpacer>3</ComponentSpacer>   
+    </costList>
+    <statBases>
+      <MaxHitPoints>700</MaxHitPoints>
+    </statBases>
+    <selectable>true</selectable>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0.25</resourcesFractionWhenDeconstructed>
+  </ThingDef>
+
+  <!-- module, this is how you move / manufact, store and repair a mecha suit and mecha part-->
+  <ThingDef ParentName="ModuleItemBase">
+    <defName>Gravis_Module</defName>
+    <label>Heavy Combat Frame Gravis(Module)</label>
+    <description>The Gravis-type combat frame is an early combat exoskeleton, characterized by heavy armor and heavy armament designed for urban warfare. It is a little sluggish due to its outdated drivetrain, but its armor is superior to that of the Nix model.</description>
+    <descriptionHyperlinks>
+      <ThingDef>Gravis_Core</ThingDef>
+    </descriptionHyperlinks>
+    <smeltProducts>
+      <Steel>500</Steel>
+      <Uranium>60</Uranium>
+    </smeltProducts>
+    <butcherProducts>
+      <Steel>300</Steel>
+      <Uranium>80</Uranium>
+      <ChunkSlagSteel>6</ChunkSlagSteel>
+      <ComponentIndustrial>10</ComponentIndustrial>
+    </butcherProducts>
+    <costList>
+      <Steel>850</Steel>
+      <Uranium>120</Uranium>
+      <ComponentIndustrial>18</ComponentIndustrial>
+      <ComponentSpacer>3</ComponentSpacer>
+    </costList>
+    <graphicData>
+      <texPath>Item/Nix_ModuleB</texPath>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>650</MaxHitPoints>
+      <Mass>120</Mass> <!-- mass does matters-->
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="Exosuit.CompProperties_ExosuitModule">
+        <EquipedThingDef>Gravis_Core</EquipedThingDef>
+        <occupiedSlots>
+          <li>Gravis_Core</li>
+        </occupiedSlots>
+      </li>
+    </comps>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <researchPrerequisites>
+        <li>Nix_Core</li>
+      </researchPrerequisites>
+      <effectWorking>Repair</effectWorking>
+      <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+      <workAmount>80000</workAmount>
+      <soundWorking>Recipe_Machining</soundWorking>
+    </recipeMaker>
+    <colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+          <only>(175, 140, 90)</only>
+        </li>
+      </options>
+    </colorGenerator>
+  </ThingDef>
+
+  <!-- apparel-->
+  <ThingDef ParentName="ModuleApparelCore">
+    <defName>Gravis_Core</defName>
+    <label>Heavy Combat Frame Gravis</label>
+    <description>The Gravis-type combat frame is an early combat exoskeleton, characterized by heavy armor and heavy armament designed for urban warfare. It is a little sluggish due to its outdated drivetrain, but its armor is superior to that of the Nix model.</description>
+    <thingClass>Exosuit.Exosuit_Core</thingClass> <!-- important, only core part need this -->
+    <uiIconPath>Things/ExoSuit_Gravis/Gravis_south</uiIconPath>
+    <graphicData>
+      <texPath>Things/ExoSuit_Gravis/Gravis</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <Mass>100</Mass>
+      <MoveSpeed>2.5</MoveSpeed>
+      <ArmorRating_Sharp>1.45</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.20</ArmorRating_Blunt>
+      <ArmorRating_Heat>1.00</ArmorRating_Heat>
+      <Insulation_Cold>40</Insulation_Cold>
+      <Insulation_Heat>30</Insulation_Heat>
+    </statBases>
+    <equippedStatOffsets>
+      <IncomingDamageFactor>-0.2</IncomingDamageFactor>
+      <CarryingCapacity>600</CarryingCapacity>
+      <Flammability>-1</Flammability>
+      <PsychicSensitivity>-0.5</PsychicSensitivity>
+      <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+      <MedicalTendSpeed>-1</MedicalTendSpeed>
+      <MeleeDodgeChance>-1</MeleeDodgeChance>
+      <WorkSpeedGlobal>-0.25</WorkSpeedGlobal>
+    </equippedStatOffsets>
+    <apparel>
+      <wornGraphicPath>Things/ExoSuit_Gravis/Gravis</wornGraphicPath>
+      <useWornGraphicMask>true</useWornGraphicMask>
+      <parentTagDef>WGApparelBody</parentTagDef>
+      <drawData>
+        <scale>1.9</scale>
+        <dataNorth>
+          <layer>5</layer>
+        </dataNorth>
+        <dataSouth>
+          <layer>5</layer>
+        </dataSouth>
+      </drawData>
+    </apparel>
+    <comps>
+      <li Class="Exosuit.CompProperties_ExosuitModule">
+        <ItemDef>Gravis_Module</ItemDef>
+        <occupiedSlots>
+          <li>Gravis_Core</li>
+        </occupiedSlots>
+      </li>
+      <li Class="CompProperties_Styleable" />
+    </comps>
+    <modExtensions>
+      <li Class="Exosuit.ExosuitExt">
+        <wreckageOverride>Gravis_Disabled</wreckageOverride>
+      </li>
+      <li MayRequire="oskarpotocki.vanillafactionsexpanded.core" Class="VEF.Apparels.ApparelExtension">
+        <pawnCapacityMinLevels>
+          <li>
+            <capacity>Moving</capacity>
+            <minLevel>0.8</minLevel>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <minLevel>0.8</minLevel>
+          </li>
+        </pawnCapacityMinLevels>
+      </li>
+      <li Class="Exosuit.ApparelRenderOffsets">
+        <headData>
+          <dataWest>
+            <offset>(0,0,0)</offset>
+          </dataWest>
+          <dataEast>
+            <offset>(0,0,0)</offset>
+          </dataEast>
+          <dataSouth>
+            <offset>(0,0,0)</offset>
+          </dataSouth>
+        </headData>
+        <headHideFor>
+          <li>0</li>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </headHideFor>
+        <rootData>
+          <defaultData>
+            <offset>(0,0,0.35)</offset>
+          </defaultData>
+        </rootData>
+      </li>
+    </modExtensions>
+  </ThingDef>
+</Defs>	

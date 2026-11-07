@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+
+  <!-- this is the def of module slot, allowing you to make your own customizable frame system with/without sharing slot with other mech frame type, walker gear framework provied a preset slots in contents, but you can make your own too. -->
+  <WalkerGear.SlotDef>
+    <defName>Nix_Core</defName>
+    <label>Combat Frame Nix</label>
+    <description>Boarding exoskeleton platform developed by EDF.</description>
+    <supportedSlots>
+      <li>ArmLeft</li>
+      <li>ArmRight</li>
+    </supportedSlots>
+    <uiPriority>0</uiPriority> 
+    <isCoreFrame>true</isCoreFrame>
+  </WalkerGear.SlotDef>
+
+  <!-- wreckage is an optional building that will hold pilot and modules after a frame got destroyed. --> 
+  <ThingDef ParentName="BuildingBase">
+    <defName>Nix_Disabled</defName>
+    <label>wreckage</label>
+    <description>a destroyed Nix, can restore some useful resource.</description>
+    <thingClass>WalkerGear.Building_Wreckage</thingClass>
+    <graphicData>
+      <texPath>Things/ExoSuit_Nix/Nix_Disabled</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.5,2.5)</drawSize>
+      <damageData>
+        <rect>(0.2,0,0.6,0.1)</rect>
+      </damageData>
+    </graphicData>
+    <canOverlapZones>false</canOverlapZones>
+    <altitudeLayer>Building</altitudeLayer>
+    <useHitPoints>true</useHitPoints>
+    <fillPercent>0.75</fillPercent>
+    <size>(2,2)</size>
+    <pathCost>100</pathCost>
+    <passability>PassThroughOnly</passability>
+    <surfaceType>Item</surfaceType>
+    <costList>
+      <Steel>500</Steel>
+      <Uranium>50</Uranium>
+      <ComponentIndustrial>25</ComponentIndustrial>
+      <ComponentSpacer>5</ComponentSpacer>   
+    </costList>
+    <statBases>
+      <MaxHitPoints>700</MaxHitPoints>
+    </statBases>
+    <selectable>true</selectable>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <resourcesFractionWhenDeconstructed>0.25</resourcesFractionWhenDeconstructed>
+  </ThingDef>
+
+  <!-- module, this is how you move / manufact, store and repair a mecha suit and mecha part-->
+  <ThingDef ParentName="ModuleItemBase">
+    <defName>Nix_Module</defName>
+    <label>Combat Frame Nix(Module)</label>
+    <description>The Nix-type combat frame was designed as the successor to the Gravis-type heavy combat frame and was long a mainstay in the EDF's bipedal weapons category, mainly for its nimble movements and versatility.</description>
+    <descriptionHyperlinks>
+      <ThingDef>Nix_Core</ThingDef>
+    </descriptionHyperlinks>
+    <smeltProducts>
+      <Steel>450</Steel>
+      <Uranium>50</Uranium>
+    </smeltProducts>
+    <butcherProducts>
+      <Steel>200</Steel>
+      <Uranium>75</Uranium>
+      <ChunkSlagSteel>6</ChunkSlagSteel>
+      <ComponentIndustrial>15</ComponentIndustrial>
+    </butcherProducts>
+    <costList>
+      <Steel>800</Steel>
+      <Uranium>100</Uranium>
+      <ComponentIndustrial>25</ComponentIndustrial>
+      <ComponentSpacer>5</ComponentSpacer>
+    </costList>
+    <graphicData>
+      <texPath>Item/Nix_ModuleA</texPath>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Mass>100</Mass> <!-- mass does matters-->
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="WalkerGear.CompProperties_WalkerComponent">
+        <EquipedThingDef>Nix_Core</EquipedThingDef>
+        <slots>
+          <li>Nix_Core</li>
+        </slots>
+      </li>
+    </comps>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <researchPrerequisites>
+        <li>Nix_Core</li>
+      </researchPrerequisites>
+      <effectWorking>Repair</effectWorking>
+      <unfinishedThingDef>UnfinishedComponent</unfinishedThingDef>
+      <workAmount>80000</workAmount>
+      <soundWorking>Recipe_Machining</soundWorking>
+    </recipeMaker>
+    <colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+          <only>(120, 180, 230)</only>
+        </li>
+      </options>
+    </colorGenerator>
+  </ThingDef>
+
+  <!-- apparel-->
+  <ThingDef ParentName="ModuleApparelBase">
+    <defName>Nix_Core</defName>
+    <label>Combat Frame Nix</label>
+    <description>The Nix-type combat frame was designed as the successor to the Gravis-type heavy combat frame and was long a mainstay in the EDF's bipedal weapons category, mainly for its nimble movements and versatility.</description>
+    <thingClass>WalkerGear.WalkerGear_Core</thingClass> <!-- important, only core part need this -->
+    <uiIconPath>Things/ExoSuit_Nix/Nix_south</uiIconPath>
+    <graphicData>
+      <texPath>Things/ExoSuit_Nix/Nix</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <Mass>100</Mass>
+      <MoveSpeed>4.0</MoveSpeed>
+      <ArmorRating_Sharp>1.20</ArmorRating_Sharp>
+      <ArmorRating_Blunt>1.00</ArmorRating_Blunt>
+      <ArmorRating_Heat>1.00</ArmorRating_Heat>
+      <Insulation_Cold>40</Insulation_Cold>
+      <Insulation_Heat>30</Insulation_Heat>
+    </statBases>
+    <equippedStatOffsets>
+      <CarryingCapacity>500</CarryingCapacity>
+      <Flammability>-1</Flammability>
+      <PsychicSensitivity>-0.5</PsychicSensitivity>
+      <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+      <MedicalTendSpeed>-1</MedicalTendSpeed>
+      <MeleeDodgeChance>-1</MeleeDodgeChance>
+      <WorkSpeedGlobal>-0.25</WorkSpeedGlobal>
+    </equippedStatOffsets>
+    <apparel>
+      <wornGraphicPath>Things/ExoSuit_Nix/Nix</wornGraphicPath>
+      <useWornGraphicMask>true</useWornGraphicMask>
+      <parentTagDef>WGApparelBody</parentTagDef>
+      <drawData>
+        <scale>1.8</scale>
+        <dataNorth>
+          <layer>5</layer>
+        </dataNorth>
+        <dataSouth>
+          <layer>5</layer>
+        </dataSouth>
+      </drawData>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+        <li>Feet</li>
+        <li>Hands</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <renderSkipFlags>
+          <li>Head</li>
+          <li>Body</li>
+      </renderSkipFlags>
+    </apparel>
+    <comps>
+      <li Class="WalkerGear.CompProperties_WalkerComponent">
+        <ItemDef>Nix_Module</ItemDef>
+        <slots>
+          <li>Nix_Core</li>
+        </slots>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="WalkerGear.BuildingWreckageExtension">
+        <building>Nix_Disabled</building>
+      </li>
+      <li Class="VFECore.ApparelDrawPosExtension">
+          <isUnifiedApparel>true</isUnifiedApparel>
+          <showBodyInBedAlways>true</showBodyInBedAlways>
+      </li>
+      <li Class="VFECore.ApparelExtension">
+        <pawnCapacityMinLevels>
+          <li>
+            <capacity>Moving</capacity>
+            <minLevel>0.8</minLevel>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <minLevel>0.8</minLevel>
+          </li>
+        </pawnCapacityMinLevels>
+      </li>
+      <li Class="WalkerGear.ApparelRenderOffsets">
+        <headData>
+          <dataWest>
+            <offset>(0,0,0)</offset>
+          </dataWest>
+          <dataEast>
+            <offset>(0,0,0)</offset>
+          </dataEast>
+          <dataSouth>
+            <offset>(0,0,0)</offset>
+          </dataSouth>
+        </headData>
+        <headHideFor>
+          <li>0</li>
+          <li>1</li>
+          <li>3</li>
+        </headHideFor>
+        <rootData>
+          <defaultData>
+            <offset>(0,0,0.35)</offset>
+          </defaultData>
+        </rootData>
+      </li>
+    </modExtensions>
+  </ThingDef>
+</Defs>	
