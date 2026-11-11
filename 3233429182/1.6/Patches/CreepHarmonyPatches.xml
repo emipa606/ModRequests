@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+<!-- Summer Child age replacement with Harmony-->
+
+<Operation Class="PatchOperationSequence">
+  <operations>
+	<li MayRequire="Ludeon.RimWorld.Biotech" Class="PatchOperationReplace">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="SummerChild"]/minGenerationAge</xpath>
+	  <value>
+		<minGenerationAge>7</minGenerationAge>
+	  </value>
+	</li>
+
+    <li MayRequire="Ludeon.RimWorld.Biotech" Class="PatchOperationReplace">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="SummerChild"]/maxGenerationAge</xpath>
+	  <value>
+		<maxGenerationAge>12</maxGenerationAge>
+	  </value>
+    </li>
+  </operations>
+</Operation>
+
+<!-- Timeless One age replacement with textual and apparel fixes -->
+
+<Operation Class="PatchOperationSequence">
+  <operations>
+	<li MayRequire="Ludeon.RimWorld.Biotech" Class="PatchOperationReplace">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="TimelessOne"]/minGenerationAge</xpath>
+	  <value>
+		<minGenerationAge>10</minGenerationAge>
+	  </value>
+	</li>
+	
+	<li MayRequire="Ludeon.RimWorld.Biotech" Class="PatchOperationReplace">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="TimelessOne"]/letterLabel</xpath>
+	  <value>
+		<letterLabel>An adolescent is approaching the colony. {PAWN_pronoun} has a strange air of confidence around {PAWN_objective}.</letterLabel>
+	  </value>
+	</li>
+	
+	<li MayRequire="Ludeon.RimWorld.Biotech" Class="PatchOperationRemove">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="TimelessOne"]/apparelRequired</xpath> <!-- Not removing this makes them spawn naked sometimes -->
+	</li>
+	
+	<li MayRequire="Ludeon.RimWorld.Biotech" Class="PatchOperationAdd">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="TimelessOne"]</xpath> <!-- This method of assigning apparel throws a non-visible error every time, but it's the simplest way I found to ensure the creep doesn't spawn naked.-->
+	<value>
+	<fixedInventory>
+      <Apparel_BasicShirt>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Apparel_BasicShirt>
+	  <Apparel_Pants>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Apparel_Pants>
+	  <Apparel_KidPants>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Apparel_KidPants>
+	  <Apparel_KidShirt>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Apparel_KidShirt>
+    </fixedInventory>
+	</value>
+    </li>
+  </operations>
+</Operation>
+
+<!-- Vanilla creep body types mod extension patch -->
+
+<Operation Class="PatchOperationAddModExtension">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="CreepDrifter" or defName="TimelessOne" or defName="LeatheryStranger" or defName="DealMaker" or defName="LoneGenius" or defName="Blindhealer" or defName="CultEscapee" or defName="DarkScholar"]</xpath>
+	<value>
+        <li Class="IntegratedCreepJoiners.CreepJoinerFormKindDefModExtension">
+          <bodyTypesMale>Hulk, Male, Thin, Fat</bodyTypesMale>
+          <bodyTypesFemale>Hulk, Female, Thin, Fat</bodyTypesFemale>
+        </li>  
+	</value>
+</Operation>
+</Patch>

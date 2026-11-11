@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+<!-- Exclusions -->
+
+<Operation Class="PatchOperationAdd">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="CreepDrifter" or defName="TimelessOne" or defName="LeatheryStranger" or defName="DealMaker" or defName="LoneGenius" or defName="Blindhealer"]</xpath>
+	  <value>
+			<excludes>
+				<li>CraftsmanBenefit</li>
+				<li>GourmandBenefit</li>
+			</excludes>
+	  </value>
+</Operation>
+
+<Operation Class="PatchOperationAdd">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="CultEscapee" or defName="DarkScholar"]/excludes</xpath>
+	  <value>
+				<li>CraftsmanBenefit</li>
+				<li>GourmandBenefit</li>
+	  </value>
+</Operation>
+
+<!-- Workaround to let the Gourmand eat twisted meat -->
+
+<Operation Class="PatchOperationAdd">
+	<xpath>Defs/ThoughtDef[defName="AteTwistedMeat"]/nullifyingHediffs</xpath>
+	<value>
+      <li>GourmandLikesTwistedMeat</li>
+	</value>
+</Operation>
+
+<!-- Patching MayRequires in sequence for DLC -->
+
+<Operation Class="PatchOperationSequence">
+  <operations>
+  <!-- Giving Blind Healer a blindfold -->
+	<li MayRequire="Ludeon.RimWorld.Ideology" Class="PatchOperationAdd">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="Blindhealer"]/fixedInventory</xpath>
+	  <value>
+		<Apparel_Blindfold MayRequire="Ludeon.RimWorld.Ideology">
+			<stuff>Cloth</stuff>
+        </Apparel_Blindfold>
+	  </value>
+	</li>
+
+   <!-- Giving Lone Genius a neurocalculator -->
+	<li MayRequire="Ludeon.RimWorld.Royalty" Class="PatchOperationAdd">
+	<xpath>Defs/CreepJoinerFormKindDef[defName="LoneGenius"]</xpath>
+	  <value>
+		<techHediffsRequired>
+			<li>Neurocalculator</li>
+		</techHediffsRequired>
+	  </value>
+	</li>
+	
+	<!-- Ability Cooldown sharing. It's a bit annoying to have to include-->
+	<li MayRequire="Ludeon.RimWorld.Ideology" Class="PatchOperationAdd">
+	<xpath>Defs/AbilityDef[defName="BerserkTrance"]</xpath>
+	<value>
+		<groupDef>BerserkTranceGroup</groupDef>
+	</value>
+	</li>
+  </operations>
+</Operation>
+
+</Patch>

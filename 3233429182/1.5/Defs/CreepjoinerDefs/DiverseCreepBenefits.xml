@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+<!-- Old Soldier -->
+
+  <CreepJoinerBenefitDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>OldSoldierBenefit</defName>
+    <label>marksman command</label>
+    <letterExtra>{PAWN_nameDef} is an experienced combatant and will likely be valuable for the defense of the colony. However, if {PAWN_pronoun} turns on you, {PAWN_pronoun} would be a dangerous enemy.</letterExtra>
+    <abilities>
+      <li>MarksmanCommand</li>
+    </abilities>
+    <weight>0.5</weight>
+  </CreepJoinerBenefitDef>
+  
+<!-- Master Craftsman -->
+
+  <CreepJoinerBenefitDef>
+    <defName>CraftsmanBenefit</defName>
+    <label>the craftsman</label>
+    <letterExtra>{PAWN_nameDef} is an exceptional craftsman, despite {PAWN_possessive} heavy disability. While {PAWN_possessive} abilities would be useful now, replacing {PAWN_possessive} arms and legs may be necessary eventually.</letterExtra>
+	<skills>
+      <Construction>20</Construction>
+      <Crafting>20</Crafting>
+    </skills>
+	<traits>
+      <MasterCraftsmanTrait/>
+    </traits>
+    <weight>0.5</weight>
+  </CreepJoinerBenefitDef>
+
+<!-- BerserkTrance -->
+
+  <CreepJoinerBenefitDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>ManOfBladesBenefit</defName>
+    <label>berserk trance</label>
+    <letterExtra>{PAWN_nameDef} appears passive for now, but {PAWN_pronoun} could potentially be highly dangerous. There is an ideological rage hiding behind his expression.</letterExtra>
+    <traits>
+      <Nerves>1</Nerves>
+    </traits>    
+	<abilities>
+      <li>BerserkTrance</li>
+    </abilities>
+    <weight>0.5</weight>
+  </CreepJoinerBenefitDef>
+  
+  <AbilityGroupDef MayRequire="Ludeon.RimWorld.Ideology"> <!-- Required to ensure having two berserk trances (if a melee specialist too) puts both abilities on cooldown. No idea why marksman command doesn't need this.-->
+    <defName>BerserkTranceGroup</defName>
+    <cooldownTicks>180000</cooldownTicks>
+    <sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+  </AbilityGroupDef>
+
+  <!-- Cannibal Gourmand -->
+
+  <CreepJoinerBenefitDef>
+    <defName>GourmandBenefit</defName>
+    <label>the gourmand</label>
+    <letterExtra>{PAWN_nameDef} claims to be one of the best chefs on the entire planet. {PAWN_pronoun} insists {PAWN_possessive} journey to create the most unique flavors stayed within the mundane.</letterExtra>
+	<skills>
+      <Cooking>20</Cooking>
+    </skills>
+	<traits>
+      <MasterCookTrait/>
+    </traits>
+	<hediffs>
+      <li>GourmandLikesTwistedMeat</li>
+    </hediffs>
+    <weight>0.5</weight>
+  </CreepJoinerBenefitDef>
+  
+   <HediffDef ParentName="DiseaseBase">
+    <defName>GourmandLikesTwistedMeat</defName>
+    <label>Twisted Digestion</label>
+    <description>This person has a unique relationship with their food.</description>
+    <isBad>false</isBad>
+  </HediffDef>
+
+  <!-- Bioferrite Body -->
+  
+   <CreepJoinerBenefitDef>
+    <defName>BioferriteBodyBenefit</defName>
+    <label>bioferrite body</label>
+    <letterExtra>{PAWN_nameDef} has had multiple body parts replaced. The modifications resemble bionics, but seem to operate through psychic phenomena. It is unlikely these parts can be transplanted to another.</letterExtra>
+	<hediffs>
+      <li>CreepBioferriteArm</li>
+      <li>CreepBioferriteLeg</li>
+      <li>CreepBioferriteEye</li>
+      <li>CreepPsychicDrive</li>
+    </hediffs>
+    <weight>0.5</weight>
+  </CreepJoinerBenefitDef>
+  
+    <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CreepBioferriteArm</defName>
+    <label>bioferrite arm</label>
+    <labelNoun>a bioferrite arm</labelNoun>
+    <description>A bioferrite arm. The metal is a brackish grey and sparks crackle between multiple loose segments. The limb is held together psychically. If removed, it will likely crumble apart. It is better than a biological arm in almost every way.</description>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+          <li>
+            <label>fist</label>
+            <capacities>
+              <li>Blunt</li>
+            </capacities>
+            <power>12</power>
+            <cooldownTime>2</cooldownTime>
+            <soundMeleeHit>MeleeHit_BionicPunch</soundMeleeHit>
+            <soundMeleeMiss>MeleeMiss_BionicPunch</soundMeleeMiss>
+          </li>
+        </tools>
+      </li>
+    </comps>
+    <spawnThingOnRemoved>Bioferrite</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.25</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <defaultInstallPart>Shoulder</defaultInstallPart>
+  </HediffDef>
+  
+    <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CreepBioferriteLeg</defName>
+    <label>bioferrite leg</label>
+    <labelNoun>a bioferrite leg</labelNoun>
+    <description>A bioferrite leg. The metal is a brackish grey and sparks crackle between multiple loose segments. The limb is held together psychically. If removed, it will likely crumble apart. It is better than a biological leg in almost every way.</description>
+    <spawnThingOnRemoved>Bioferrite</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.25</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <defaultInstallPart>Leg</defaultInstallPart>
+  </HediffDef>
+  
+    <HediffDef ParentName="AddedBodyPartBase">
+    <defName>CreepBioferriteEye</defName>
+    <label>bioferrite eye</label>
+    <labelNoun>a bioferrite eye</labelNoun>
+    <description>A bioferrite eye. The metal is a brackish grey and sparks crackle between multiple loose segments. The eye interacts with the user's brain through a psychic link. If removed, it will likely crumble apart. It is better than a biological eye in almost every way.</description>
+    <spawnThingOnRemoved>Bioferrite</spawnThingOnRemoved>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.25</partEfficiency>
+      <betterThanNatural>true</betterThanNatural>
+    </addedPartProps>
+    <renderNodeProperties>
+      <li Class="PawnRenderNodeProperties_Eye">
+        <workerClass>PawnRenderNodeWorker_HediffEye</workerClass>
+        <texPath>Things/Pawn/Wounds/BioferriteEye</texPath>
+        <parentTagDef>Head</parentTagDef>
+        <drawSize>0.15</drawSize>
+        <drawData>
+          <defaultData>
+            <layer>56</layer>
+            <offset>(0, 0, -0.25)</offset>
+          </defaultData>
+          <dataWest>
+            <flip>true</flip>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+    <defaultInstallPart>Eye</defaultInstallPart>
+  </HediffDef>
+  
+    <HediffDef>
+    <defName>CreepPsychicDrive</defName>
+    <label>psychic drive</label>
+    <description>This person has a psychic link to some distant archotech engine. This link increases their capabilities in all areas, but at some unknown cost.</description>
+    <isBad>false</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <overrideLabel>psychic drive</overrideLabel>
+        <minSeverity>0</minSeverity>
+        <painFactor>0.8</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.10</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Gauranlen Connector -->
+  <!--
+   <CreepJoinerBenefitDef>
+    <defName>CreepGauranlenPawn</defName>
+    <label>gauranlen specialist</label>
+    <letterExtra>{PAWN_nameDef} has a special fixation on Gauranlen trees. {PAWN_pronoun} desires to connect with one.</letterExtra>
+	<traits>
+      <CreepGauranlenConnector/>
+    </traits>
+	<skills>
+      <Plants>10~12</Plants>
+    </skills>
+	
+    <weight>0.5</weight>
+  </CreepJoinerBenefitDef>
+-->
+  <!-- The meat man -->
+  <!--
+    <CreepJoinerBenefitDef>
+    <defName>TheMeatManBenefit</defName>
+    <label>the meat man</label>
+    <letterExtra>MEAT</letterExtra>
+	<hediffs>
+      <li>TheMeatManBenefitHediff</li>
+    </hediffs>
+  </CreepJoinerBenefitDef>
+  
+  <HediffDef>
+    <defName>TheMeatManBenefitHediff</defName>
+    <label>the meat man</label>
+    <description>MEAT.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="CompProperties_Spawner">
+        <thingToSpawn>Twisted_Meat</thingToSpawn>
+        <spawnCount>40</spawnCount>
+        <spawnIntervalRange>120000</spawnIntervalRange>
+        <writeTimeLeftToSpawn>true</writeTimeLeftToSpawn>
+        <showMessageIfOwned>true</showMessageIfOwned>
+      </li>
+    </comps>
+	<isBad>false</isBad>
+  </HediffDef>
+-->
+</Defs>
