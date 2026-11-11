@@ -1,0 +1,146 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_PenoxycylineImplant</defName>
+		<label>drug-implant (Penoxycyline)</label>
+		<description>A synthesizer, encoded to produce Penoxycyline from nutrients the user eats. The user will need to eat more to sustain themselves as a consequence. 
+
+Uniquely, the brain is able to accept the constant presence of the drug rather quickly once it is in the pawn, but during the surgery process, the user’s immune system will be compromised, guaranteeing the Flu once it is inserted. What’s more, the synthesizer takes a toil on the immune system while it is preparing the first dose of Penoxycyline, which may lead to death if the infection is not treated well.
+
+Once the first dose is released (which occurs almost right after the body has developed an immunity to the Flu), the synthesizer begins to assist the immune system with a constant supply of Penoxycyline. This completely prevents some common diseases that the user could get, and assists with any diseases that the pawn doesn’t have immunity to. 
+
+Grants the user the effects of Penoxycyline permanently, and improves immunity gain.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_PenoxycylineImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<Penoxycyline>10</Penoxycyline>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisites>
+				<li>PenoxycylineProduction</li>
+			</researchPrerequisites>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+	
+	<!-- <HediffDef> -->
+		<!-- <defName>DI_PenoxycylineImplant_Penalty</defName> -->
+		<!-- <label>Flu Penalty</label> -->
+		<!-- <description>Overdrive mode for d-implant(Luciferium)</description> -->
+		<!-- <hediffClass>HediffWithComps</hediffClass> -->
+		<!-- <initialSeverity>0.001</initialSeverity> -->
+		<!-- <minSeverity>0.001</minSeverity> -->
+		<!-- <isBad>false</isBad> -->
+		<!-- <comps> -->
+		<!-- </comps> -->
+		<!-- <stages> -->
+			<!-- <li> -->
+				<!-- <becomeVisible>true</becomeVisible> -->
+				<!-- <statOffsets> -->
+					<!-- <ImmunityGainSpeed>-0.50</ImmunityGainSpeed> -->
+				<!-- </statOffsets> -->
+			<!-- </li> -->
+		<!-- </stages> -->
+	<!-- </HediffDef> -->
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_PenoxycylineImplant</defName>
+		<label>d-implant (Penoxycyline)</label>
+		<description>A synthesizer, encoded to produce Penoxycyline from nutrients the user eats. The user will need to eat more to sustain themselves as a consequence. 
+
+Uniquely, the brain is able to accept the constant presence of the drug rather quickly once it is in the pawn, but during the surgery process, the user’s immune system will be compromised, guaranteeing the Flu once it is inserted. What’s more, the synthesizer takes a toil on the immune system while it is preparing the first dose of Penoxycyline, which may lead to death if the infection is not treated well.
+
+Once the first dose is released (which occurs almost right after the body has developed an immunity to the Flu), the synthesizer begins to assist the immune system with a constant supply of Penoxycyline. This completely prevents some common diseases that the user could get, and assists with any diseases that the pawn doesn’t have immunity to. 
+
+Grants the user the effects of Penoxycyline permanently, and improves immunity gain.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_PenoxycylineImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<spawnThingOnRemoved>DI_PenoxycylineImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="DrugImplant.HediffCompProperties_ImmuneToHediff">
+				<immuneTo>
+					<li>Flu</li>
+					<li>Plague</li>
+					<li>Malaria</li>
+					<li>SleepingSickness</li>
+					<li MayRequire="ludeon.rimworld.anomaly">OrganDecay</li>
+				</immuneTo>
+				<checkInterval>250</checkInterval>
+			</li>
+			<li>
+				<compClass>DrugImplant.HediffComp_SeverityTracker</compClass>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.01</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>		
+					<ImmunityGainSpeed>-0.50</ImmunityGainSpeed>					
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>1</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>					
+				</statOffsets>
+				<statFactors>
+					<ImmunityGainSpeed>1.20</ImmunityGainSpeed>
+				</statFactors>
+			</li>			
+		</stages>
+	</HediffDef>
+	
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_PenoxycylineImplant</defName>
+		<label>install d-implant(Penoxycyline)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_PenoxycylineImplant</ThingDef>
+			<HediffDef>DI_PenoxycylineImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(Penoxycyline).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_PenoxycylineImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_PenoxycylineImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_PenoxycylineImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>

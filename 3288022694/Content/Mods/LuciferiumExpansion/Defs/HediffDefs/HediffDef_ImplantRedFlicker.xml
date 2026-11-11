@@ -1,0 +1,283 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_RedFlickerImplant</defName>
+		<label>drug-implant (Red-Flicker)</label>
+		<description>An implant, encoded to produce Red-Flicker from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function. Without fuel required to keep the implant from overheating, the user will end up exhausted and hungrier quicker than usual, but otherwise not injured. Once implanted, the pawn will require Lucifierium to sustain themselves.
+
+Once adapted, the implant, using special sensors, oversees the consumption and optimization of Compressed Scarlet Sludge by other implants requiring it, saving some resources. 
+
+If there is a dangerous level of Compressed Scarlet Sludge detected, however, the implant immediately shifts to producing Red-Flicker to drain the excess sludge, and imparting the benefits to the user.
+
+When installed, the user’s other implants that also require Compressed Scarlet Sludge will become more efficient with this implant. Should the user have an excess, they will benefit from the effects of Red-Flicker until they drop to a reasonable amount.
+
+If the user takes Red-Flicker directly, the implant will overclock itself, providing both benefits for a limited time.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_RedFlickerImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<USH_RedFlicker>10</USH_RedFlicker>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisite>RedFlickerRes</researchPrerequisite>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+		
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_RedFlickerImplant</defName>
+		<label>d-implant (Red-Flicker)</label>
+		<description>An implant, encoded to produce Red-Flicker from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function. Without fuel required to keep the implant from overheating, the user will end up exhausted and hungrier quicker than usual, but otherwise not injured. Once implanted, the pawn will require Lucifierium to sustain themselves.
+
+Once adapted, the implant, using special sensors, oversees the consumption and optimization of Compressed Scarlet Sludge by other implants requiring it, saving some resources. 
+
+If there is a dangerous level of Compressed Scarlet Sludge detected, however, the implant immediately shifts to producing Red-Flicker to drain the excess sludge, and imparting the benefits to the user.
+
+When installed, the user’s other implants that also require Compressed Scarlet Sludge will become more efficient with this implant. Should the user have an excess, they will benefit from the effects of Red-Flicker until they drop to a reasonable amount.
+
+If the user takes Red-Flicker directly, the implant will overclock itself, providing both benefits for a limited time.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_RedFlickerImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1.2</maxSeverity>
+		<causesNeed>DI_ScarletSludgeNeed</causesNeed>
+		<spawnThingOnRemoved>DI_RedFlickerImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityPerDayWithLimit">
+				<severityPerDay>0.05</severityPerDay>
+				<stopAtSeverity>0.5</stopAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityAtNeedLevel">
+				<needToSeverity>
+					<li>
+						<needLevel>0.00</needLevel>
+						<severity>0.50</severity>
+					</li>
+					<li>
+						<needLevel>0.01</needLevel>
+						<severity>0.7</severity>
+					</li>
+					<li>
+						<needLevel>0.7</needLevel>
+						<severity>1.00</severity>
+					</li>
+				</needToSeverity>
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<checkInterval>300</checkInterval>
+				<activeAtSeverity>0.5</activeAtSeverity>
+				<deactiveAtSeverity>1.2</deactiveAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityTrackerMk2">
+				<maxSeverity>0.5</maxSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_ChangeNeedAtSeverityMultiple">
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<activeAtSeverity>1</activeAtSeverity>
+				<severitySets>
+					<li>
+						<severity>0.7</severity>
+						<percentPerDay>0.1176470588235294</percentPerDay>
+					</li>
+					<li>
+						<severity>1.0</severity>
+						<percentPerDay>0.30</percentPerDay>
+					</li>
+					<li>
+						<severity>1.2</severity>
+						<percentPerDay>0.0</percentPerDay>
+					</li>
+				</severitySets>
+			</li>
+			<li>
+				<compClass>DrugImplantLuciferiumExpansion.HediffComp_RedFlickerOD</compClass>
+			</li>
+			<li>
+				<compClass>DrugImplantLuciferiumExpansion.HediffComp_SendLetter</compClass>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>penalty</label>
+				<minSeverity>0.01</minSeverity>
+				<restFallFactor>1.3</restFallFactor>
+				<hungerRateFactor>1.5</hungerRateFactor>
+				<painFactor>1.2</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-0.20</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.20</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.20</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.20</offset>
+					</li>
+				</capMods>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>LuciferiumAddiction</hediff>
+						<mtbDays>0.01</mtbDays>
+					</li>
+				</hediffGivers>
+				<statOffsets />
+				<statFactors>
+				</statFactors>
+			</li>
+			<li>
+				<label>burnt-out</label>
+				<minSeverity>0.5</minSeverity>
+				<restFallFactor>1.8</restFallFactor>
+				<hungerRateFactor>1.2</hungerRateFactor>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.10</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.10</offset>
+					</li>
+				</capMods>
+			</li>	
+			<li>
+				<label>active-moderate</label>
+				<minSeverity>0.7</minSeverity>
+				<statOffsets>
+					<DI_SludgeDrainMul>-0.15</DI_SludgeDrainMul>
+				</statOffsets>
+			</li>
+			<li>
+				<label>active-full</label>
+				<minSeverity>1.0</minSeverity>
+				<painFactor>0.80</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.40</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.60</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>1.0</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>0.10</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>0.40</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>0.20</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.35</offset>
+					</li>
+				</capMods>
+				<statOffsets />
+				<statFactors />
+			</li>
+			<li>
+				<label>overdrive</label>
+				<minSeverity>1.2</minSeverity>
+				<painFactor>0.80</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.40</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.60</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>1.0</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>0.10</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>0.40</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>0.20</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.35</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_SludgeDrainMul>-0.15</DI_SludgeDrainMul>
+				</statOffsets>
+			</li>			
+		</stages>
+	</HediffDef>
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_RedFlickerImplant</defName>
+		<label>install d-implant(Red-Flicker)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_RedFlickerImplant</ThingDef>
+			<HediffDef>DI_RedFlickerImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(Red-Flicker).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_RedFlickerImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_RedFlickerImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_RedFlickerImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>

@@ -1,0 +1,357 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_SaltSmellyImplant</defName>
+		<label>drug-implant (Scarlet Salt)</label>
+		<description>An unique implant, encoded to produce Scarlet Smelling Salts from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function; but it won’t cause any problems if it isn’t fueled.
+
+Once adapted, the implant produces and releases mechanites that hover around the lungs, forcing them to expand and remain open. 
+They have the side effect of tainting some of the air that the user breathes with a red misty fog. It doesn’t harm the user.
+
+However, once there is enough built up, the user can exhale all of it out in a big cloud of Scarlet Mist. The mist makes it impossible for targeting systems to lock onto those within the mist, and very hard for others to hit targets. If it is breathed back in, it can cause complications to those who are not already used to the effects of Luciferium.
+
+As long as the user has enough Compressed Scarlet Sludge, they will gain a minor statistical improvement across all fields. The user may use Compressed Scarlet Sludge stored to breathe out Scarlet Mist, covering the nearby area with a gas equivalent to that of Smoke. When it is inhaled, however, both by those with and without an addiction to Luciferium, they will receive various effects.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_SaltSmellyImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<USH_ScarlettSmellingSalts>10</USH_ScarlettSmellingSalts>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisite>ScarletSmellingSaltsRes</researchPrerequisite>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>DI_SaltSpray</defName>
+		<label>Scarlet Smelling Salts smoke</label>
+		<description>salt smoke</description>
+		<size>(1,1)</size>
+		<passability>Standable</passability>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<stealable>false</stealable>
+		<fillPercent>0</fillPercent>
+		<pathCost>0</pathCost>
+		<useHitPoints>false</useHitPoints>
+		<rotatable>false</rotatable>
+		<tradeability>None</tradeability>
+		<canScatterOver>false</canScatterOver>
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<allowedArchonexusCount>0</allowedArchonexusCount>
+		<relicChance>0</relicChance>
+		<generateCommonality>0</generateCommonality>
+		<generateAllowChance>0</generateAllowChance>
+		<canLoadIntoCaravan>false</canLoadIntoCaravan>
+		<tickerType>Normal</tickerType>
+		<specialDisplayRadius>3.9</specialDisplayRadius>
+		<statBases>
+			<Flammability>0</Flammability>
+			<Mass>0</Mass>
+			<MarketValue>0</MarketValue>
+			<WorkToBuild>0</WorkToBuild>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Mote/SparkFlash</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+		</graphicData>
+		<comps>
+			<li Class="CompProperties_Effecter">
+				<effecterDef>DI_RedSmokeEffect</effecterDef>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.CompProperties_GiveHediffSmellingSalt">
+				<radius>3.9</radius>
+				<interval>250</interval>
+				<buff>DI_SaltBuff</buff>
+				<debuff>DI_SaltDebuff</debuff>
+			</li>
+			<li Class="CompProperties_DestroyAfterDelay">
+				<delayTicks>2500</delayTicks>
+				<destroyMode>KillFinalize</destroyMode>
+				<countdownLabel>Burnout in</countdownLabel>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<EffecterDef>
+		<defName>DI_RedSmokeEffect</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+				<moteDef>USH_RedSmokeMote</moteDef>
+				<ticksBetweenMotes>30</ticksBetweenMotes>
+				<scale>6.35~9.45</scale>
+				<absoluteAngle>true</absoluteAngle>
+				<!-- <angle>30~70</angle> -->
+				<speed>0.18~0.3</speed>
+			</li>
+		</children>
+	</EffecterDef>
+	
+	<AbilityDef ParentName="AbilityTouchBase">
+		<defName>DI_SaltSprayAbility</defName>
+		<label>spawn scarlet mist</label>
+		<description>pick up stuff</description>
+		<iconPath>Things/Mote/USH_RedSmoke</iconPath>
+		<cooldownTicksRange>7500</cooldownTicksRange>
+		<showPsycastEffects>false</showPsycastEffects>
+		<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<drawAimPie>true</drawAimPie>
+			<warmupTime>1</warmupTime>
+			<range>-1</range>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>				
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="CompProperties_AbilitySpawn">
+				<thingDef>DI_SaltSpray</thingDef>
+				<allowOnBuildings>true</allowOnBuildings>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.CompProperties_AbilityScaletSludgeDrain">
+				<drainAmount>0.3</drainAmount>
+			</li>
+		</comps>
+	</AbilityDef>
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_SaltSmellyImplant</defName>
+		<label>d-implant (Scarlet Salt)</label>
+		<description>An unique implant, encoded to produce Scarlet Smelling Salts from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function; but it won’t cause any problems if it isn’t fueled.
+
+Once adapted, the implant produces and releases mechanites that hover around the lungs, forcing them to expand and remain open. 
+They have the side effect of tainting some of the air that the user breathes with a red misty fog. It doesn’t harm the user.
+
+However, once there is enough built up, the user can exhale all of it out in a big cloud of Scarlet Mist. The mist makes it impossible for targeting systems to lock onto those within the mist, and very hard for others to hit targets. If it is breathed back in, it can cause complications to those who are not already used to the effects of Luciferium.
+
+As long as the user has enough Compressed Scarlet Sludge, they will gain a minor statistical improvement across all fields. The user may use Compressed Scarlet Sludge stored to breathe out Scarlet Mist, covering the nearby area with a gas equivalent to that of Smoke. When it is inhaled, however, both by those with and without an addiction to Luciferium, they will receive various effects.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_SaltSmellyImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<causesNeed>DI_ScarletSludgeNeed</causesNeed>
+		<spawnThingOnRemoved>DI_SaltSmellyImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="HediffCompProperties_GiveAbility">
+				<abilityDef>DI_SaltSprayAbility</abilityDef>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityPerDayWithLimit">
+				<severityPerDay>0.0714285714285714</severityPerDay>
+				<stopAtSeverity>0.5</stopAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityTrackerMk2">
+				<maxSeverity>0.5</maxSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityAtNeedLevel">
+				<needToSeverity>
+					<li>
+						<needLevel>0.00</needLevel>
+						<severity>0.50</severity>
+					</li>
+					<li>
+						<needLevel>0.01</needLevel>
+						<severity>1.0</severity>
+					</li>
+				</needToSeverity>
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<checkInterval>300</checkInterval>
+				<activeAtSeverity>0.5</activeAtSeverity>
+				<deactiveAtSeverity>1.2</deactiveAtSeverity>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.01</minSeverity>
+				<painFactor>1.5</painFactor>
+				<capMods>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.30</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>-0.25</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>-0.25</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>0.5</minSeverity>
+			</li>
+			<li>
+				<minSeverity>1.0</minSeverity>
+				<painFactor>0.95</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.10</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.15</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>0.05</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>DI_SaltDebuff</defName>
+		<label>hinder by scarlet smoke</label>
+		<labelNoun>a scarlet smelling salts smoke affecting pawn</labelNoun>
+		<description>Scarlet mechanites temporarily hinder the body.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<maxSeverity>0.1</maxSeverity>
+		<initialSeverity>0.01</initialSeverity>
+		<isBad>true</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-2.0</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>1.5</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<setMax>0.50</setMax>
+					</li>
+				</capMods>
+				<statFactors>
+					<MeleeHitChance>0.25</MeleeHitChance>
+					<ShootingAccuracyPawn>0.5</ShootingAccuracyPawn>
+				</statFactors>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>DI_SaltBuff</defName>
+		<label>buff by scarlet smoke</label>
+		<labelNoun>a scarlet smelling salts smoke affecting pawn</labelNoun>
+		<description>Scarlet mechanites temporarily enhancing the body.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<maxSeverity>0.1</maxSeverity>
+		<initialSeverity>0.01</initialSeverity>
+		<isBad>true</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-2.0</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<painFactor>0.75</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.25</offset>
+					</li>
+				</capMods>
+				<statFactors>
+					<MeleeHitChance>0.25</MeleeHitChance>
+					<ShootingAccuracyPawn>0.5</ShootingAccuracyPawn>
+				</statFactors>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>DI_SaltMistInside</defName>
+		<label>scarlet smoke</label>
+		<labelNoun>a scarlet smelling salts smoke affecting pawn</labelNoun>
+		<description>Scarlet mechanites temporarily enhancing the body.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+		<maxSeverity>0.1</maxSeverity>
+		<initialSeverity>0.01</initialSeverity>
+		<isBad>true</isBad>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-2.0</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<statFactors>
+					<MeleeDamageFactor>1.5</MeleeDamageFactor>
+					<IncomingDamageFactor>0.5</IncomingDamageFactor>
+				</statFactors>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_SaltSmellyImplant</defName>
+		<label>install d-implant(Scarlet Salt)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_SaltSmellyImplant</ThingDef>
+			<HediffDef>DI_SaltSmellyImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(Last Wish).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_SaltSmellyImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_SaltSmellyImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_SaltSmellyImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>

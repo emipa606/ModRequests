@@ -1,0 +1,215 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_ScarletEyeImplant</defName>
+		<label>drug-implant (Scarlet-Eye)</label>
+		<description>An implant, encoded to produce Scarlet-Eye from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function; but it won’t cause any problems if it isn’t fueled.
+
+Once adapted, the implant produces and releases a special compound that goes to the eyes and arms, strengthening muscle memory and hand-to-eye coordination. The compound, while based off of mechanites from Luciferium, don’t burn out the same way. Side effects include the reddening of the iris.
+
+As long as the user has enough Compressed Scarlet Sludge, they will gain a substantial increase to their vision, as well as a minor improvement to other aspects. The more Compressed Scarlet Sludge stored, the better the compound functions, giving the pawn increased weapon range with ranged weapons.
+
+If the user takes Scarlet-Eye directly, it will cause damage to the eyes, but overclock the implant, providing the maximum benefit for a limited time.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_ScarletEyeImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<USH_ScarletEye>10</USH_ScarletEye>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisite>ScarlettRefining</researchPrerequisite>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+		
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_ScarletEyeImplant</defName>
+		<label>d-implant (Scarlet-Eye)</label>
+		<description>An implant, encoded to produce Scarlet-Eye from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function; but it won’t cause any problems if it isn’t fueled.
+
+Once adapted, the implant produces and releases a special compound that goes to the eyes and arms, strengthening muscle memory and hand-to-eye coordination. The compound, while based off of mechanites from Luciferium, don’t burn out the same way. Side effects include the reddening of the iris.
+
+As long as the user has enough Compressed Scarlet Sludge, they will gain a substantial increase to their vision, as well as a minor improvement to other aspects. The more Compressed Scarlet Sludge stored, the better the compound functions, giving the pawn increased weapon range with ranged weapons.
+
+If the user takes Scarlet-Eye directly, it will cause damage to the eyes, but overclock the implant, providing the maximum benefit for a limited time.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_ScarletEyeImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1.2</maxSeverity>
+		<causesNeed>DI_ScarletSludgeNeed</causesNeed>
+		<spawnThingOnRemoved>DI_ScarletEyeImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityPerDayWithLimit">
+				<severityPerDay>0.07</severityPerDay>
+				<stopAtSeverity>0.5</stopAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityAtNeedLevel">
+				<needToSeverity>
+					<li>
+						<needLevel>0.00</needLevel>
+						<severity>0.50</severity>
+					</li>
+					<li>
+						<needLevel>0.01</needLevel>
+						<severity>1.00</severity>
+					</li>
+				</needToSeverity>
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<checkInterval>300</checkInterval>
+				<activeAtSeverity>0.5</activeAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityTrackerMk2">
+				<maxSeverity>0.5</maxSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SludgeDrain">
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<percentPerDay>-0.075</percentPerDay>
+				<activeAtSeverity>0.5</activeAtSeverity>
+				<statMultiplier>DI_SludgeDrainMul</statMultiplier>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_ScarletEyeStatPerSludge">
+				<statDef>VEF_VerbRangeFactor</statDef>
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<curve>
+					<points>
+						<li>(0.00, 1.00)</li>
+						<li>(0.24, 1.00)</li>
+						<li>(0.25, 1.25)</li>
+						<li>(0.5, 1.50)</li>
+						<li>(0.75, 1.75)</li>
+						<li>(1.00, 2.00)</li>
+					</points>
+				</curve>
+			</li>
+			<li>
+				<compClass>DrugImplantLuciferiumExpansion.HediffComp_ScarletEyeOD</compClass>
+			</li>
+			<li>
+				<compClass>DrugImplantLuciferiumExpansion.HediffComp_SendLetter</compClass>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<label>penalty</label>
+				<minSeverity>0.01</minSeverity>
+				<disabledWorkTags>Intellectual</disabledWorkTags>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>-2.00</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.25</offset>
+					</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.10</offset>
+					</li>
+				</capMods>
+				<statOffsets />
+			</li>
+			<li>
+				<label>inactive</label>
+				<minSeverity>0.5</minSeverity>
+			</li>	
+			<li>
+				<label>active</label>
+				<minSeverity>1.0</minSeverity>
+				<painFactor>0.95</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.50</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.075</offset>
+					</li>
+				</capMods>
+				<statOffsets />
+				<statFactors>
+					<VEF_VerbRangeFactor>1.00</VEF_VerbRangeFactor>
+				</statFactors>
+			</li>
+			<li>
+				<label>active</label>
+				<minSeverity>1.2</minSeverity>
+				<painFactor>0.95</painFactor>
+				<capMods>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.50</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>0.075</offset>
+					</li>
+				</capMods>
+				<statOffsets />
+				<statFactors>
+					<VEF_VerbRangeFactor>2.00</VEF_VerbRangeFactor>
+				</statFactors>
+			</li>			
+		</stages>
+	</HediffDef>
+	
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_ScarletEyeImplant</defName>
+		<label>install d-implant(scarlet-eye)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_ScarletEyeImplant</ThingDef>
+			<HediffDef>DI_ScarletEyeImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(Scarlet-Eye).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_ScarletEyeImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_ScarletEyeImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_ScarletEyeImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>

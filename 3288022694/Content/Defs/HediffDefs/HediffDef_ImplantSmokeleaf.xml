@@ -1,0 +1,307 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_SmokeleafImplant</defName>
+		<label>drug-implant (Smokeleaf)</label>
+		<description>A synthesizer, encoded to produce Smokeleaf from nutrients the user eats. The user will need to eat more to sustain themselves as a consequence. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted.
+
+Once adapted, the synthesizer builds up a dose of Smokeleaf. Some of it is allowed to enter into the bloodstream, making the user slightly happier without impacting their senses. Upon the implant detecting that the user is acting irregularly, the implant releases this built-up dose in an attempt to calm the user down, though it isn’t entirely fool-proof. Upon entering a Mental Break, the user will either completely nullify it, or enter a less severe Mental Break, quickly recovering. 
+
+There is a cooldown period of a few days between uses of the implant. Also, since the user isn’t able to properly release their stress, it won’t provide the pawn with Catharsis should it trigger.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_SmokeleafImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<SmokeleafJoint>10</SmokeleafJoint>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisites>
+				<li>PsychoidBrewing</li>
+			</researchPrerequisites>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+	
+	<HediffDef>
+		<defName>DI_SmokeleafImplant_Timer</defName>
+		<label>Stone Dose(Cooldown)</label>
+		<description>If the user enters a Mental Break while a Stone Dose is available, it will be either negated entirely, or weakened.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>0.001</initialSeverity>
+		<minSeverity>0.001</minSeverity>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<disappearsAfterTicks>180000</disappearsAfterTicks>
+				<showRemainingTime>true</showRemainingTime>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_SmokeleafImplant</defName>
+		<label>d-implant (Smokeleaf)</label>
+		<description>A synthesizer, encoded to produce Smokeleaf from nutrients the user eats. The user will need to eat more to sustain themselves as a consequence. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted.
+
+Once adapted, the synthesizer builds up a dose of Smokeleaf. Some of it is allowed to enter into the bloodstream, making the user slightly happier without impacting their senses. Upon the implant detecting that the user is acting irregularly, the implant releases this built-up dose in an attempt to calm the user down, though it isn’t entirely fool-proof. Upon entering a Mental Break, the user will either completely nullify it, or enter a less severe Mental Break, quickly recovering. 
+
+There is a cooldown period of a few days between uses of the implant. Also, since the user isn’t able to properly release their stress, it won’t provide the pawn with Catharsis should it trigger.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_SmokeleafImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<spawnThingOnRemoved>DI_SmokeleafImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>0.2</severityPerDay>
+			</li>
+			<li Class="DrugImplant.HediffCompProperties_ConvertMentalBreak">
+				<mentalStateOptions>
+					<li>Wander_Sad</li>
+					<li>WanderConfused</li>
+					<li>Wander_OwnRoom</li>
+				</mentalStateOptions>
+				<bonusThought>ImplantSmokeleafHighBreakBonus</bonusThought>
+				<timer>DI_SmokeleafImplant_Timer</timer>
+			</li>
+			<li>
+				<compClass>DrugImplant.HediffComp_SeverityTracker</compClass>
+			</li>
+			<li Class="DrugImplant.HediffCompProperties_DrugGeneTracker" MayRequire="ludeon.rimworld.biotech">
+				<resistanceGeneDef>AddictionResistant_Smokeleaf</resistanceGeneDef>
+				<immuneGeneDef>AddictionImmune_Smokeleaf</immuneGeneDef>
+				<dependencyGeneDef>ChemicalDependency_Smokeleaf</dependencyGeneDef>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.01</minSeverity>
+				<hungerRateFactor>2.5</hungerRateFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.20</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<MentalBreakThreshold>0.30</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.10</minSeverity>
+				<hungerRateFactor>2.5</hungerRateFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.16</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<MentalBreakThreshold>0.24</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.20</minSeverity>
+				<hungerRateFactor>2.5</hungerRateFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.12</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<MentalBreakThreshold>0.18</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.30</minSeverity>
+				<hungerRateFactor>2.5</hungerRateFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.08</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<MentalBreakThreshold>0.12</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.40</minSeverity>
+				<hungerRateFactor>2.5</hungerRateFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.04</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<MentalBreakThreshold>0.06</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.50</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<MentalBreakThreshold>0</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.60</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.70</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.80</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.90</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>1.00</minSeverity>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<ThoughtDef>
+		<defName>ImplantSmokeleafHigh</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>DI_SmokeleafImplant</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<stages>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<visible>false</visible>
+			</li>
+			<li>
+				<label>Mellowed</label>
+				<description>Everything’s cool, man.</description>
+				<baseMoodEffect>2</baseMoodEffect>
+			</li>
+			<li>
+				<label>Mellowed</label>
+				<description>Everything’s cool, man.</description>
+				<baseMoodEffect>2</baseMoodEffect>
+			</li>
+			<li>
+				<label>Mellowed</label>
+				<description>Everything’s cool, man.</description>
+				<baseMoodEffect>2</baseMoodEffect>
+			</li>
+			<li>
+				<label>Mellowed</label>
+				<description>Everything’s cool, man.</description>
+				<baseMoodEffect>2</baseMoodEffect>
+			</li>
+			<li>
+				<label>Mellowed</label>
+				<description>Everything’s cool, man.</description>
+				<baseMoodEffect>2</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>ImplantSmokeleafHighBreakBonus</defName>
+		<durationDays>3</durationDays>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<stages>
+			<li>
+				<label>catharsis</label>
+				<description>It felt good to finally unbottle my feelings.</description>
+				<baseMoodEffect>8</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_SmokeleafImplant</defName>
+		<label>install d-implant(Smokeleaf)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_SmokeleafImplant</ThingDef>
+			<HediffDef>DI_SmokeleafImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(Smokeleaf).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_SmokeleafImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_SmokeleafImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_SmokeleafImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>

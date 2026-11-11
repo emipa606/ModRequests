@@ -1,0 +1,176 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_LifterImplant</defName>
+		<label>drug-implant (lifter)</label>
+		<description>An implant, encoded to produce Lifter from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function; but it won’t cause any problems if it isn’t fueled.
+
+Once adapted, the implant produces and releases special mechanites that enter the bloodstream, optimizing the body slightly. While the mechanites are weak, they also don’t burn out like the mechanites from Luciferium, and are made to work synergistically with them. This can cause the side-effect of reducing the burnout rate of the mechanites from Luciferium in high quantities.
+
+As long as the user has enough Compressed Scarlet Sludge, they will gain a light statistical increase. If they have over 50% of their need filled, they will also lose cohesion slower, extending the amount of time each dose of Lucifierium gives.</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_LifterImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<USH_Lifter>10</USH_Lifter>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisite>ScarlettRefining</researchPrerequisite>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+		
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_LifterImplant</defName>
+		<label>d-implant (Lifter)</label>
+		<description>An implant, encoded to produce Lifter from Compressed Scarlet Sludge. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted. What’s more, the implant must be fueled manually with Compressed Scarlet Sludge in order to properly function; but it won’t cause any problems if it isn’t fueled.
+
+Once adapted, the implant produces and releases special mechanites that enter the bloodstream, optimizing the body slightly. While the mechanites are weak, they also don’t burn out like the mechanites from Luciferium, and are made to work synergistically with them. This can cause the side-effect of reducing the burnout rate of the mechanites from Luciferium in high quantities.
+
+As long as the user has enough Compressed Scarlet Sludge, they will gain a light statistical increase. If they have over 50% of their need filled, they will also lose cohesion slower, extending the amount of time each dose of Lucifierium gives.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_LifterImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<causesNeed>DI_ScarletSludgeNeed</causesNeed>
+		<spawnThingOnRemoved>DI_LifterImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityPerDayWithLimit">
+				<severityPerDay>0.1</severityPerDay>
+				<stopAtSeverity>0.5</stopAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityAtNeedLevel">
+				<needToSeverity>
+					<li>
+						<needLevel>0.00</needLevel>
+						<severity>0.51</severity>
+					</li>
+					<li>
+						<needLevel>0.5</needLevel>
+						<severity>1.00</severity>
+					</li>
+				</needToSeverity>
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<checkInterval>300</checkInterval>
+				<activeAtSeverity>0.5</activeAtSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SeverityTrackerMk2">
+				<maxSeverity>0.5</maxSeverity>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_ChangeNeedAtSeverity">
+				<needDef>Chemical_Luciferium</needDef>
+				<percentPerDay>-0.03</percentPerDay>
+				<activeAtSeverity>0.49</activeAtSeverity>
+				<activeWhenBelowThreshold>true</activeWhenBelowThreshold>
+			</li>
+			<li Class="DrugImplantLuciferiumExpansion.HediffCompProperties_SludgeDrain">
+				<needDef>DI_ScarletSludgeNeed</needDef>
+				<percentPerDay>-0.025</percentPerDay>
+				<activeAtSeverity>0.5</activeAtSeverity>
+				<statMultiplier>DI_SludgeDrainMul</statMultiplier>
+			</li>
+			<li>
+				<compClass>DrugImplantLuciferiumExpansion.HediffComp_SendLetter</compClass>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.01</minSeverity>
+				<painFactor>1.5</painFactor>
+				<capMods />
+				<statOffsets />
+			</li>
+			<li>
+				<minSeverity>0.5</minSeverity>
+				<painFactor>0.95</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<!-- <DI_ImplantCount>1</DI_ImplantCount> -->
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.95</RestFallRateFactor>
+				</statFactors>
+			</li>
+			<li>
+				<minSeverity>0.9</minSeverity>
+				<painFactor>0.95</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<!-- <DI_ImplantCount>1</DI_ImplantCount> -->
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.95</RestFallRateFactor>
+				</statFactors>
+			</li>			
+		</stages>
+	</HediffDef>
+	
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_LifterImplant</defName>
+		<label>install d-implant(lifter)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_LifterImplant</ThingDef>
+			<HediffDef>DI_LifterImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(Lifter).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_LifterImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_LifterImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_LifterImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>

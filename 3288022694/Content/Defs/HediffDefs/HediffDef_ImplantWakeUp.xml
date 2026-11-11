@@ -1,0 +1,474 @@
+<Defs>
+
+	<ThingDef ParentName="DrugImplantThingMakeableBase">
+		<defName>DI_WakeUpImplant</defName>
+		<label>drug-implant (WakeUp)</label>
+		<description>An implant, encoded to produce Wake-up from nutrients the user eats. The user will need to eat more to sustain themselves as a consequence. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted.
+
+Once adapted, the implant pumps a lesser dose of Wake-up into the bloodstream at all times, giving the user some of the effects of Wake-up at all times. When Wake-up is ingested by the user, the implant releases nanites that deconstruct the drug when the heart is about to give out, protecting the user at the cost of losing the high. Grants the user some of the effects of Wake-up permanently without risk of addiction, and disables the ability to get a heart attack from using Wake-up</description>
+		<descriptionHyperlinks>
+			<RecipeDef>InstallDI_WakeUpImplant</RecipeDef>
+		</descriptionHyperlinks>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Item/Health/HealthItem</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.80</drawSize>
+			<color>(189,169,118)</color>
+		</graphicData>
+		<statBases>
+			<MarketValue>400</MarketValue>
+		</statBases>
+		<costList>
+			<WakeUp>10</WakeUp>
+			<DI_BaseImplantPart>1</DI_BaseImplantPart>
+		</costList>
+		<recipeMaker>
+			<recipeUsers Inherit="False">
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisites>
+				<li>WakeUpProduction</li>
+			</researchPrerequisites>
+		</recipeMaker>
+		<thingCategories>
+			<li>BodyParts</li>
+		</thingCategories>
+	</ThingDef>
+	
+	<HediffDef>
+		<defName>DI_WakeUpImplant_DisabledNeedRest</defName>
+		<label>Flu Penalty</label>
+		<description>. . .</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<initialSeverity>0.001</initialSeverity>
+		<minSeverity>0.001</minSeverity>
+		<isBad>false</isBad>
+		<disablesNeeds>
+			<li>Rest</li>
+		</disablesNeeds>
+		<comps>
+		</comps>
+		<stages>
+			<li>
+				<becomeVisible>False</becomeVisible>
+				<statOffsets>
+					<ImmunityGainSpeed>-0.50</ImmunityGainSpeed>
+				</statOffsets>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef ParentName="ImplantHediffBase">
+		<defName>DI_WakeUpImplant</defName>
+		<label>d-implant (WakeUp)</label>
+		<description>A synthesizer, encoded to produce Wake-up from nutrients the user eats. The user will need to eat more to sustain themselves as a consequence. The brain requires time to neurologically adapt to the constant presence of the drug, causing complications until the brain has adapted.
+
+Once adapted, the synthesizer produces a lesser dose of Wake-up and pumps it into the bloodstream, giving the user some of the effects of Wake-up at all times without risk of addiction. 
+
+When Wake-up is ingested by the user, the synthesizer is able to reconstruct the drug into nanites that target and destroy toxins in the brain at a rate faster than the body generates. This allows the user to stay awake for as long as they are high without the need of sleep.
+
+Grants the user some of the effects of Wake-up permanently without risk of addiction, and as long as the user is high on Wake-up, suppresses their need for sleep completely.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_WakeUpImplant</ThingDef>
+		</descriptionHyperlinks>
+		<initialSeverity>0.01</initialSeverity>
+		<minSeverity>0.01</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<spawnThingOnRemoved>DI_WakeUpImplant</spawnThingOnRemoved>
+		<comps>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>0.1666666666666667</severityPerDay>
+			</li>
+			<li Class="DrugImplant.HediffCompProperties_ResetNeed">
+				<needDef>Rest</needDef>
+				<chance>0.5</chance>
+			</li>
+			<li>
+				<compClass>DrugImplant.HediffComp_SeverityTracker</compClass>
+			</li>
+			<li>
+				<compClass>DrugImplant.HediffComp_SuperWakey</compClass>
+			</li>
+			<li Class="DrugImplant.HediffCompProperties_DrugGeneTracker" MayRequire="ludeon.rimworld.biotech">
+				<resistanceGeneDef>AddictionResistant_WakeUp</resistanceGeneDef>
+				<immuneGeneDef>AddictionImmune_WakeUp</immuneGeneDef>
+				<dependencyGeneDef>ChemicalDependency_WakeUp</dependencyGeneDef>
+			</li>
+		</comps>
+		<stages>
+			<li>
+				<minSeverity>0.01</minSeverity>
+				<hungerRateFactor>1.5</hungerRateFactor>
+				<socialFightChanceFactor>2.0</socialFightChanceFactor>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.30</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.50</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.25</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<RestFallRateFactor>1.0</RestFallRateFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.1</minSeverity>
+				<hungerRateFactor>1.5</hungerRateFactor>
+				<socialFightChanceFactor>2.0</socialFightChanceFactor>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.24</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.40</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.20</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<RestFallRateFactor>1.0</RestFallRateFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.2</minSeverity>
+				<hungerRateFactor>1.5</hungerRateFactor>
+				<socialFightChanceFactor>2.0</socialFightChanceFactor>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.18</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.30</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.15</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<RestFallRateFactor>1.0</RestFallRateFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.3</minSeverity>
+				<hungerRateFactor>1.5</hungerRateFactor>
+				<socialFightChanceFactor>2.0</socialFightChanceFactor>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.12</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.20</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.10</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<RestFallRateFactor>1.0</RestFallRateFactor>
+				</statOffsets>
+			</li>	
+			<li>
+				<minSeverity>0.4</minSeverity>
+				<hungerRateFactor>1.5</hungerRateFactor>
+				<socialFightChanceFactor>2.0</socialFightChanceFactor>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>-0.06</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.10</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.05</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<RestFallRateFactor>1.0</RestFallRateFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.5</minSeverity>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.00</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.00</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.00</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<WorkSpeedGlobal>0.0</WorkSpeedGlobal>
+					<MeditationFocusGain MayRequire="ludeon.rimworld.royalty">0.0</MeditationFocusGain>
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>1.0</RestFallRateFactor>
+				</statFactors>
+			</li>	
+			<li>
+				<minSeverity>0.6</minSeverity>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.02</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.01</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.02</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<WorkSpeedGlobal>0.04</WorkSpeedGlobal>
+					<MeditationFocusGain MayRequire="ludeon.rimworld.royalty">0.04</MeditationFocusGain>
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.98</RestFallRateFactor>
+				</statFactors>
+			</li>
+			<li>
+				<minSeverity>0.7</minSeverity>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.04</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.02</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.08</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<WorkSpeedGlobal>0.12</WorkSpeedGlobal>
+					<MeditationFocusGain MayRequire="ludeon.rimworld.royalty">0.08</MeditationFocusGain>
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.96</RestFallRateFactor>
+				</statFactors>
+			</li>
+			<li>
+				<minSeverity>0.8</minSeverity>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.06</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.03</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.06</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<WorkSpeedGlobal>0.12</WorkSpeedGlobal>
+					<MeditationFocusGain MayRequire="ludeon.rimworld.royalty">0.12</MeditationFocusGain>
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.94</RestFallRateFactor>
+				</statFactors>
+			</li>
+			<li>
+				<minSeverity>0.9</minSeverity>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.08</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.04</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.08</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<WorkSpeedGlobal>0.16</WorkSpeedGlobal>
+					<MeditationFocusGain MayRequire="ludeon.rimworld.royalty">0.16</MeditationFocusGain>
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.92</RestFallRateFactor>
+				</statFactors>
+			</li>
+			<li>
+				<minSeverity>1.0</minSeverity>
+				<painFactor>1</painFactor>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.1</offset>
+					</li>
+				</capMods>
+				<statOffsets>
+					<DI_ImplantCount>1</DI_ImplantCount>
+					<WorkSpeedGlobal>0.2</WorkSpeedGlobal>
+					<MeditationFocusGain MayRequire="ludeon.rimworld.royalty">0.2</MeditationFocusGain>
+				</statOffsets>
+				<statFactors>
+					<RestFallRateFactor>0.9</RestFallRateFactor>
+				</statFactors>
+			</li>		
+		</stages>
+	</HediffDef>
+	
+	<!-- <ThoughtDef> -->
+		<!-- <defName>ImplantWakeUpHigh</defName> -->
+		<!-- <workerClass>ThoughtWorker_Hediff</workerClass> -->
+		<!-- <hediff>DI_WakeUpImplant</hediff> -->
+		<!-- <validWhileDespawned>true</validWhileDespawned> -->
+		<!-- <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter> -->
+		<!-- <stages> -->
+			<!-- <li> -->
+				<!-- <label>wake-up withdrawal</label> -->
+				<!-- <description>I feel all fuzzy and unfocused. And I'm so tired.</description> -->
+				<!-- <baseMoodEffect>-22</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>wake-up withdrawal</label> -->
+				<!-- <description>I feel all fuzzy and unfocused. And I'm so tired.</description> -->
+				<!-- <baseMoodEffect>-20</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>wake-up withdrawal</label> -->
+				<!-- <description>I feel all fuzzy and unfocused. And I'm so tired.</description> -->
+				<!-- <baseMoodEffect>-15</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>wake-up withdrawal</label> -->
+				<!-- <description>I feel all fuzzy and unfocused. And I'm so tired.</description> -->
+				<!-- <baseMoodEffect>-10</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>wake-up withdrawal</label> -->
+				<!-- <description>I feel all fuzzy and unfocused. And I'm so tired.</description> -->
+				<!-- <baseMoodEffect>-7</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>high on WakeUp</label> -->
+				<!-- <description>Feeling pumped! Let's do this!</description> -->
+				<!-- <baseMoodEffect>1</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>high on WakeUp</label> -->
+				<!-- <description>Feeling pumped! Let's do this!</description> -->
+				<!-- <baseMoodEffect>5</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>high on WakeUp</label> -->
+				<!-- <description>Feeling pumped! Let's do this!</description> -->
+				<!-- <baseMoodEffect>9</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>high on WakeUp</label> -->
+				<!-- <description>Feeling pumped! Let's do this!</description> -->
+				<!-- <baseMoodEffect>13</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>high on WakeUp</label> -->
+				<!-- <description>Feeling pumped! Let's do this!</description> -->
+				<!-- <baseMoodEffect>17</baseMoodEffect> -->
+			<!-- </li> -->
+			<!-- <li> -->
+				<!-- <label>high on WakeUp</label> -->
+				<!-- <description>Feeling pumped! Let's do this!</description> -->
+				<!-- <baseMoodEffect>20</baseMoodEffect> -->
+			<!-- </li> -->
+		<!-- </stages> -->
+	<!-- </ThoughtDef> -->
+	
+	<RecipeDef ParentName="SurgeryInstallImplantBase">
+		<defName>InstallDI_WakeUpImplant</defName>
+		<label>install d-implant(WakeUp)</label>
+		<description>Install a d-implant.</description>
+		<descriptionHyperlinks>
+			<ThingDef>DI_WakeUpImplant</ThingDef>
+			<HediffDef>DI_WakeUpImplant</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing d-implant(WakeUp).</jobString>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>DI_WakeUpImplant</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>DI_WakeUpImplant</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Brain</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>DI_WakeUpImplant</addsHediff>
+	</RecipeDef>
+
+</Defs>
