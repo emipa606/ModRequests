@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+<Operation Class="PatchOperationSequence">
+  <operations>
+
+<!-- Anti-furskin gene. Currently bugged due to how gene overlapping works -->
+
+	<li Class="PatchOperationAdd">
+	<xpath>Defs/GeneDef[defName="Furskin"]/exclusionTags</xpath>
+	  <value>
+           <li>GM_Fur</li>
+	  </value>
+    </li>
+	
+	<li Class="PatchOperationReplace">
+	<xpath>Defs/GeneDef[defName="Furskin"]/description</xpath>
+	  <value>
+		<description>Carriers of this gene grow thick fur all over their body, which protects them from cold temperatures. If butchered, this fur can be acquired.</description>
+	  </value>
+    </li>
+	
+	<li Class="PatchOperationAdd">
+	<xpath>Defs/GeneDef[defName="Furskin"]/beardTagFilter/tags</xpath>
+	<value>
+		<li>NoBeard</li>
+	</value>
+	</li>
+
+<!-- Cat ear patch -->
+    <li Class="PatchOperationReplace">
+	<xpath>Defs/GeneDef[defName="Ears_Cat"]/iconPath</xpath>
+	  <value>
+        <iconPath>UI/Icons/Genes/GM_Ears_Cat</iconPath>
+	  </value>
+    </li>
+
+    <li Class="PatchOperationReplace">
+	<xpath>Defs/GeneDef[defName="Ears_Cat"]/renderNodeProperties/li/colorType</xpath>
+	  <value>    
+	    <colorType>Hair</colorType>
+	  </value>
+    </li>
+	
+	<li Class="PatchOperationReplace">
+	<xpath>Defs/GeneDef[defName="Ears_Cat"]/renderNodeProperties/li/useSkinShader</xpath>
+	  <value>    
+	      <useSkinShader>false</useSkinShader>
+	  </value>
+    </li>
+	
+<!-- Nonsenescent exclusion patch -->
+	
+	<li Class="PatchOperationAdd">
+	<xpath>Defs/GeneDef[defName="Ageless"]</xpath>
+	  <value>
+		<exclusionTags>
+			<li>Pawn_Aging</li>
+		</exclusionTags>
+	  </value>
+	</li>
+
+<!-- Strong stomach incompatible with robust digestion -->
+
+	<li Class="PatchOperationConditional">
+		<success>Always</success>
+		<xpath>/Defs/GeneDef[defName = "StrongStomach"]/exclusionTags</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>/Defs/GeneDef[defName = "StrongStomach"]</xpath>
+			<value>
+				<exclusionTags>
+					<li>GM_Stomach</li>
+				</exclusionTags>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/GeneDef[defName = "StrongStomach"]/exclusionTags</xpath>
+			<value>
+				<li>GM_Stomach</li>
+			</value>
+		</match>
+	</li>
+	
+	<li Class="PatchOperationConditional">
+		<success>Always</success>
+		<xpath>/Defs/GeneDef[defName = "RobustDigestion"]/exclusionTags</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>/Defs/GeneDef[defName = "RobustDigestion"]</xpath>
+			<value>
+				<exclusionTags>
+					<li>GM_Stomach</li>
+				</exclusionTags>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/GeneDef[defName = "RobustDigestion"]/exclusionTags</xpath>
+			<value>
+				<li>GM_Stomach</li>
+			</value>
+		</match>
+	</li>
+
+<!-- Blind exclusions -->
+	
+	<li Class="PatchOperationConditional">
+		<success>Always</success>
+		<xpath>/Defs/GeneDef[defName = "DarkVision"]/exclusionTags</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>/Defs/GeneDef[defName = "DarkVision"]</xpath>
+			<value>
+				<exclusionTags>
+					<li>GM_BlindDarkvision</li>
+				</exclusionTags>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/GeneDef[defName = "DarkVision"]/exclusionTags</xpath>
+			<value>
+				<li>GM_BlindDarkvision</li>
+			</value>
+		</match>
+	</li>
+	
+	<li Class="PatchOperationAdd">
+	<xpath>Defs/GeneDef[defName="Nearsighted"]/exclusionTags</xpath>
+	  <value>
+          <li>GM_BlindNearsighted</li>
+	  </value>
+    </li>
+
+</operations>
+</Operation>
+
+<!-- Nullifying genes thought disabler -->
+
+<Operation Class="PatchOperationSequence">
+  <operations>
+
+	<li Class="PatchOperationAdd"> <!-- Blind people don't mind darkness -->
+	<xpath>Defs/ThoughtDef[defName="EnvironmentDark"]/nullifyingGenes</xpath>
+	  <value>
+        <li>GM_Blind</li>
+	  </value>
+    </li>
+
+<!-- Comfortably nude people don't care about nudist precepts. Commented out because that gene is currently commented out. -->
+<!--
+	<li MayRequire="Ludeon.Rimworld.Ideology" Class="PatchOperationAdd">
+	<xpath>Defs/ThoughtDef[defName="GroinUncovered_Disapproved_Male"]/nullifyingGenes</xpath>
+	  <value>
+        <li>GM_Nude</li>
+	  </value>
+    </li>
+	<li MayRequire="Ludeon.Rimworld.Ideology" Class="PatchOperationAdd">
+	<xpath>Defs/ThoughtDef[defName="GroinOrChestUncovered_Disapproved_Male"]/nullifyingGenes</xpath>
+	  <value>
+        <li>GM_Nude</li>
+	  </value>
+    </li>
+	<li MayRequire="Ludeon.Rimworld.Ideology" Class="PatchOperationAdd">
+	<xpath>Defs/ThoughtDef[defName="GroinChestOrHairUncovered_Disapproved_Male"]/nullifyingGenes</xpath>
+	  <value>
+        <li>GM_Nude</li>
+	  </value>
+    </li>
+	<li MayRequire="Ludeon.Rimworld.Ideology" Class="PatchOperationAdd">
+	<xpath>Defs/ThoughtDef[defName="GroinChestHairOrFaceUncovered_Disapproved_Male"]/nullifyingGenes</xpath>
+	  <value>
+        <li>GM_Nude</li>
+	  </value>
+    </li>
+	<li Class="PatchOperationAdd">
+	<xpath>Defs/ThoughtDef[defName="Naked"]/nullifyingGenes</xpath>
+	  <value>
+        <li>GM_Nude</li>
+	  </value>
+    </li>
+-->
+
+<!-- Mute people don't care about the loss of their tongue -->
+
+	<li Class="PatchOperationConditional">
+		<success>Always</success>
+		<xpath>/Defs/ThoughtDef[defName = "MissingTongue"]/nullifyingGenes</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>/Defs/ThoughtDef[defName = "MissingTongue"]</xpath>
+			<value>
+				<nullifyingGenes>
+					<li>GM_Mute</li>
+				</nullifyingGenes>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/ThoughtDef[defName = "MissingTongue"]/nullifyingGenes</xpath>
+			<value>
+				<li>GM_Mute</li>
+			</value>
+		</match>
+	</li>
+
+</operations>
+</Operation>
+
+</Patch>
