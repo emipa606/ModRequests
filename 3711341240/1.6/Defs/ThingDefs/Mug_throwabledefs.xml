@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <DamageDef>
+    <defName>MUG_DamageC4Blast</defName>
+    <label>C4 blast</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <harmsHealth>true</harmsHealth>
+    <makesBlood>true</makesBlood>
+    <canInterruptJobs>true</canInterruptJobs>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+    <buildingDamageFactor>15</buildingDamageFactor>
+    <buildingDamageFactorImpassable>5</buildingDamageFactorImpassable>
+    <isExplosive>true</isExplosive>
+    <hasForcefulImpact>true</hasForcefulImpact>
+    <hediff>Shredded</hediff>
+    <hediffSkin>Shredded</hediffSkin>
+    <hediffSolid>Crack</hediffSolid>
+    <armorCategory>Sharp</armorCategory>
+    <soundExplosion>Explosion_Bomb</soundExplosion>
+    <explosionCellFleck>ExplosionFlash</explosionCellFleck>
+    <explosionColorCenter>(1, 0.95, 0.8, 1)</explosionColorCenter>
+    <explosionColorEdge>(1, 0.5, 0.15, 1)</explosionColorEdge>
+    <explosionHeatEnergyPerCell>30</explosionHeatEnergyPerCell>
+    <defaultDamage>200</defaultDamage>
+    <defaultArmorPenetration>1.6</defaultArmorPenetration>
+  </DamageDef>
+
+
+  <!-- 破片手雷 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_FragGrenade</defName>
+    <label>frag grenade</label>
+    <thingClass>More_Useful_Grenade.Projectile_FragGrenade</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_FragGrenade_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>65</damageAmountBase>
+      <explosionRadius>1.5</explosionRadius>
+      <speed>26</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <explosionDelay>45</explosionDelay>
+      <soundExplode>Explosion_Bomb</soundExplode>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>MUG_Proj_Fragment</defName>
+    <label>fragment</label>
+    <thingClass>More_Useful_Grenade.Projectile_Fragment</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.6</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Cut</damageDef>
+      <damageAmountBase>6</damageAmountBase>
+      <armorPenetrationBase>0.30</armorPenetrationBase>
+      <speed>50</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_FragGrenade</defName>
+    <label>frag grenade</label>
+    <description>A fairly standard fragmentation grenade. Upon detonation, alongside the basic explosive shockwave, it scatters a lethal spray of sharp shrapnel in all directions, further expanding its kill zone.
+
+The flying shrapnel makes it highly effective at clearing out unarmored or lightly armored targets, but it falls short against heavily armored foes.
+
+"A shotgun can turn you into a sieve, and so can this."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_FragGrenade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.5</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw frag grenade</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowFromInventory</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>true</violent>
+        <targetable>true</targetable>
+        <range>19.9</range>
+        <forcedMissRadius>1.5</forcedMissRadius>
+        <warmupTime>0.7</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>5</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_FragGrenade</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <!-- C4 炸药 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_C4Explosive</defName>
+    <label>C4 charge</label>
+    <thingClass>More_Useful_Grenade.Projectile_C4Explosive</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_C4Explosive_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>MUG_DamageC4Blast</damageDef>
+      <damageAmountBase>200</damageAmountBase>
+      <armorPenetrationBase>1.6</armorPenetrationBase>
+      <explosionRadius>2.5</explosionRadius>
+      <speed>26</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <soundExplode>Explosion_Bomb</soundExplode>
+      <explosionDelay>240</explosionDelay>
+      <explosionDamageFalloff>false</explosionDamageFalloff>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_C4Explosive</defName>
+    <label>C4 explosive</label>
+    <description>A specially modified block of highly volatile plastic explosive with staggering power and devastating destructive force against structures. To ensure the user's safety, its delayed fuse has been extended.
+
+Its special adhesive casing allows it not only to stick to walls for directional breaching, but also to attach directly to mobile units if hit when thrown, detonating after a delay for extra lethal effect.
+
+"The only connection it has to C4 is its appearance. Classics never go out of style."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_C4Explosive</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.8</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw C4</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowFromInventory</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>true</violent>
+        <targetable>true</targetable>
+        <range>18.9</range>
+        <forcedMissRadius>1.0</forcedMissRadius>
+        <warmupTime>0.8</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>5</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_C4Explosive</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+  <!-- 震撼弹 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_Flashbang</defName>
+    <label>flashbang grenade</label>
+    <thingClass>More_Useful_Grenade.Projectile_Flashbang</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_Flashbang_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Stun</damageDef>
+      <damageAmountBase>0</damageAmountBase>
+      <explosionRadius>2.5</explosionRadius>
+      <speed>26</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <soundExplode>Explosion_Bomb</soundExplode>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_Flashbang</defName>
+    <label>flashbang grenade</label>
+    <description>A non-lethal throwable used for tactical suppression. Detonating on impact, it releases a blinding flash and a deafening roar, instantly incapacitating organic beings within its blast radius.
+
+The intense shock effect causes widespread stunning and forcibly interrupts enemy actions. Because it relies entirely on sensory overload and deals no physical damage, it is completely useless against mechanoids.
+
+"Organics get stunned, mechanoids don't. That's how we screen for robot spies around here."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_Flashbang</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.4</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw flashbang</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowFromInventory</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>true</violent>
+        <targetable>true</targetable>
+        <range>22.9</range>
+        <forcedMissRadius>1.0</forcedMissRadius>
+        <warmupTime>0.7</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>5</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_Flashbang</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+
+ <!-- 重力陷阱 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_GravityTrap</defName>
+    <label>gravity trap charge</label>
+    <thingClass>More_Useful_Grenade.Projectile_GravityTrap</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_GravityTrap_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>EMP</damageDef>
+      <damageAmountBase>0</damageAmountBase>
+      <explosionRadius>7</explosionRadius>
+      <speed>26</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <soundExplode>Explosion_EMP</soundExplode>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+ 
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_GravityTrap</defName>
+    <label>gravity trap</label>
+    <description>A tactical device with an advanced built-in gravity generator. Upon landing, it instantly creates a localized, intense gravitational field, dragging any unit that steps into the area firmly to the ground.
+ 
+Within this extremely dense gravity well, the movement speed of all units is drastically reduced, and the use of any psychic abilities is severely disrupted.
+ 
+"It involves some reality-editing tech, but the margins here are too narrow to write it down."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_GravityTrap</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.6</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw gravity trap</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowFromInventory</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>true</violent>
+        <targetable>true</targetable>
+        <range>27.9</range>
+        <forcedMissRadius>1.0</forcedMissRadius>
+        <warmupTime>0.9</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>5</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_GravityTrap</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+ 
+ 
+  <!-- 治疗烟雾弹 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_HealingSmoke</defName>
+    <label>healing smoke canister</label>
+    <thingClass>More_Useful_Grenade.Projectile_HealingSmoke</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_HealingSmoke_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Smoke</damageDef>
+      <damageAmountBase>0</damageAmountBase>
+      <explosionRadius>3.5</explosionRadius>
+      <speed>26</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <soundExplode>Explosion_Smoke</soundExplode>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+ 
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_HealingSmoke</defName>
+    <label>healing smoke grenade</label>
+    <description>A specialized smoke canister filled with aerosolized medical gel and micro-mechanites. Upon detonation, it releases a dense cloud of healing smoke that provides rapid, automatic mending to lifeforms enveloped within.
+ 
+The healing field automatically prioritizes the most severe wounds on a victim, while the thick smokescreen effectively blocks the line of sight for automated turrets.
+ 
+"It cannot regenerate missing limbs, it really can't."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_HealingSmoke</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.4</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw healing smoke</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowFromInventory</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>false</violent>
+        <targetable>true</targetable>
+        <range>22.9</range>
+        <forcedMissRadius>1.0</forcedMissRadius>
+        <warmupTime>0.9</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>3</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_HealingSmoke</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+ 
+ 
+  <!-- 铝热剂 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_ThermiteGrenade</defName>
+    <label>thermite grenade</label>
+    <thingClass>More_Useful_Grenade.Projectile_MUG_Thermite</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_ThermiteGrenade_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <explosionRadius>2.5</explosionRadius>
+      <speed>30</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <soundExplode>Explosion_Flame</soundExplode>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+ 
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_ThermiteGrenade</defName>
+    <label>thermite grenade</label>
+    <description>A dangerously modified thermite incendiary grenade. It ignites upon impact, creating a scorching zone of molten metal.
+ 
+Unlike standard incendiary weapons, it inflicts a continuous, high-frequency extreme temperature burn. The astonishing adhering heat possesses an armor penetration that ignores most defenses, rapidly melting through enemy plating and flesh alike.
+ 
+"An efficient means of carbon-based lifeform eradication."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_ThermiteGrenade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.6</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw thermite grenade</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowFromInventory</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>true</violent>
+        <targetable>true</targetable>
+        <range>19.9</range>
+        <forcedMissRadius>0.5</forcedMissRadius>
+        <warmupTime>0.7</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>5</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_ThermiteGrenade</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <!-- 烟雾弹 弹体 -->
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>MUG_Proj_SmokeGrenade</defName>
+    <label>smoke grenade</label>
+    <thingClass>More_Useful_Grenade.Projectile_SmokeGrenade</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/MUG_SmokeGrenade_Projectile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>0.5</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Smoke</damageDef>
+      <damageAmountBase>0</damageAmountBase>
+      <explosionRadius>1.5</explosionRadius>
+      <speed>26</speed>
+      <arcHeightFactor>2.0</arcHeightFactor>
+      <shadowSize>0.4</shadowSize>
+      <soundExplode>Explosion_Smoke</soundExplode>
+      <spinRate>5</spinRate>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="MUG_ThrowableBase">
+    <defName>MUG_Smoke</defName>
+    <label>"Nightfall" smoke grenade</label>
+    <description>A specially modified smoke grenade. Upon detonation, it releases a wide, rectangular wall of dense black smoke that obscures line of sight much more effectively than conventional smoke devices.
+
+This massive, instantly generated smoke screen can immediately divide the battlefield, providing crucial tactical concealment and reliably neutralizing the threat of enemy automated turrets.
+
+"The squid just inked."</description>
+    <graphicData>
+      <texPath>Things/Item/MUG_SmokeGrenade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Mass>0.4</Mass>
+    </statBases>
+    <verbs>
+      <li>
+        <label>throw smoke grenade</label>
+        <verbClass>More_Useful_Grenade.Verb_ThrowSmoke</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <onlyManualCast>true</onlyManualCast>
+        <violent>false</violent>
+        <targetable>true</targetable>
+        <range>24.9</range>
+        <forcedMissRadius>1.0</forcedMissRadius>
+        <warmupTime>0.7</warmupTime>
+        <burstShotCount>1</burstShotCount>
+        <canGoWild>false</canGoWild>
+        <noiseRadius>3</noiseRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <defaultProjectile>MUG_Proj_SmokeGrenade</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+  </ThingDef>
+
+</Defs>
