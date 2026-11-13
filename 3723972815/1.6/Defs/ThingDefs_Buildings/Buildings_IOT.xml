@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>RimIOT_Cable</defName>
+        <label>IOT cable</label>
+        <description>An invisible data cable used to connect IOT network buildings. It does NOT transmit power — you still need vanilla conduits for electricity.\n\nEach online cable in the network adds 10W to the total power draw, which is shared evenly among all powered nodes.\n\n"Through classical mechanics, quantum mechanics, general relativity, macro-reality editing, aetheric particle theory, and theories there simply isn't room to write down here... anyway, items can now be transmitted through it just like electricity."</description>
+        <thingClass>Building</thingClass>
+        <category>Building</category>
+        <altitudeLayer>FloorEmplacement</altitudeLayer>
+        <passability>Standable</passability>
+        <pathCost>0</pathCost>
+        <clearBuildingArea>false</clearBuildingArea>
+        <rotatable>false</rotatable>
+        <selectable>true</selectable>
+        <drawerType>MapMeshOnly</drawerType>
+        <drawStyleCategory>Conduits</drawStyleCategory>
+        <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+        <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+        <noRightClickDraftAttack>true</noRightClickDraftAttack>
+        <building>
+            <isEdifice>false</isEdifice>
+            <isInert>true</isInert>
+            <ai_chillDestination>false</ai_chillDestination>
+            <ai_neverTrashThis>true</ai_neverTrashThis>
+            <isTargetable>false</isTargetable>
+            <expandHomeArea>false</expandHomeArea>
+            <canBeDamagedByAttacks>false</canBeDamagedByAttacks>
+            <canLandGravshipOn>true</canLandGravshipOn>
+            <canConstructInCorner>true</canConstructInCorner>
+            <blueprintGraphicData>
+                <texPath>Things/Building/Linked/PowerConduit_Blueprint_Atlas</texPath>
+            </blueprintGraphicData>
+        </building>
+        <graphicData>
+            <texPath>Things/Building/Linked/PowerConduit_Atlas</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <linkType>Transmitter</linkType>
+            <linkFlags>
+                <li>PowerConduit</li>
+            </linkFlags>
+            <color>(0,0,0,0)</color>
+            <shaderType>Transparent</shaderType>
+            <damageData>
+                <rect>(0,0.35,1,0.3)</rect>
+            </damageData>
+        </graphicData>
+        <costList>
+            <Steel>4</Steel>
+            <ComponentIndustrial>1</ComponentIndustrial>
+        </costList>
+        <statBases>
+            <MaxHitPoints>100</MaxHitPoints>
+            <WorkToBuild>280</WorkToBuild>
+            <Flammability>0</Flammability>
+            <Beauty>0</Beauty>
+        </statBases>
+        <comps>
+            <li Class="RimIOT.CompProperties_NetworkNode">
+                <role>Cable</role>
+            </li>
+        </comps>
+        <designationCategory>RimIOT_Category</designationCategory>
+        <researchPrerequisites>
+            <li>Electricity</li>
+        </researchPrerequisites>
+        <uiIconPath>Things/Building/Linked/HiddenConduit_MenuIcon</uiIconPath>
+    </ThingDef>
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>RimIOT_InputConnector</defName>
+        <label>IOT input connector</label>
+        <description>A floor-level connector that registers the storage container (like a shelf) or stockpile zone above it and connects it to the IOT network.\n\nOnly one input connector is allowed within a 1-tile radius, and a single container can only be linked to one input connector within a network.\n\nConsumes 100W base power plus an additional 10W for each online cable in the network (shared among all powered nodes).\n\n"Setting up multiple networks within the same container may lead to negative effects including, but not limited to, the Big Rip, Heat Death, and Vacuum Decay. In severe cases, it might even cause lines of red text to appear on your screen."</description>
+        <thingClass>Building</thingClass>
+        <category>Building</category>
+        <altitudeLayer>FloorCoverings</altitudeLayer>
+        <passability>Standable</passability>
+        <pathCost>0</pathCost>
+        <clearBuildingArea>false</clearBuildingArea>
+        <rotatable>false</rotatable>
+        <selectable>true</selectable>
+        <drawerType>MapMeshOnly</drawerType>
+        <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+        <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+        <noRightClickDraftAttack>true</noRightClickDraftAttack>
+        <building>
+            <isEdifice>false</isEdifice>
+            <isInert>true</isInert>
+            <ai_chillDestination>false</ai_chillDestination>
+            <canLandGravshipOn>true</canLandGravshipOn>
+        </building>
+        <graphicData>
+            <texPath>Things/Building/RimIOT/InputConnector/RimIOT_InputConnector</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <damageData>
+                <rect>(0.2,0.2,0.6,0.6)</rect>
+                <enabled>false</enabled>
+            </damageData>
+        </graphicData>
+        <costList>
+            <Steel>50</Steel>
+            <ComponentIndustrial>5</ComponentIndustrial>
+            <ComponentSpacer>2</ComponentSpacer>
+        </costList>
+        <statBases>
+            <MaxHitPoints>100</MaxHitPoints>
+            <WorkToBuild>200</WorkToBuild>
+            <Flammability>0.5</Flammability>
+        </statBases>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>100</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable" />
+            <li Class="RimIOT.CompProperties_NetworkNode">
+                <role>InputConnector</role>
+            </li>
+            <li Class="RimIOT.CompProperties_InterfacePower">
+                <baseDraw>100</baseDraw>
+                <drawPerCable>10</drawPerCable>
+            </li>
+        </comps>
+        <placeWorkers>
+            <li>RimIOT.PlaceWorker_InputConnectorExclusion</li>
+        </placeWorkers>
+        <designationCategory>RimIOT_Category</designationCategory>
+        <researchPrerequisites>
+            <li>Electricity</li>
+        </researchPrerequisites>
+        <uiIconPath>Things/Building/RimIOT/InputConnector/RimIOT_InputConnector_UI</uiIconPath>
+    </ThingDef>
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>RimIOT_Interface</defName>
+        <label>IOT interface terminal</label>
+        <description>A wall-mounted terminal interface that allows colonists to deposit and withdraw items from the IOT storage network. Items deposited here are rapidly transferred to the best available container in the network.\n\nConsumes 100W base power plus an additional 10W for each online cable in the network (shared among all powered nodes).\n\n"Properly arrange their locations and network assignments, and you can grab your breakfast from hundreds of meters away without leaving your bed. But if you just wire every network together, you might have to search the armory for your morning meal."</description>
+        <thingClass>RimIOT.Building_Interface</thingClass>
+        <category>Building</category>
+        <altitudeLayer>BuildingOnTop</altitudeLayer>
+        <passability>Standable</passability>
+        <pathCost>0</pathCost>
+        <fillPercent>0.2</fillPercent>
+        <rotatable>true</rotatable>
+        <selectable>true</selectable>
+        <drawerType>MapMeshOnly</drawerType>
+        <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+        <terrainAffordanceNeeded IsNull="True" />
+        <noRightClickDraftAttack>true</noRightClickDraftAttack>
+        <building>
+            <isEdifice>false</isEdifice>
+            <isAttachment>true</isAttachment>
+        </building>
+        <graphicData>
+            <texPath>Things/Building/RimIOT/Interface/RimIOT_Interface</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
+            <drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
+            <drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
+            <drawOffsetEast>(0.9,0,0)</drawOffsetEast>
+            <damageData>
+                <rect>(0.2,0.2,0.6,0.6)</rect>
+                <enabled>false</enabled>
+            </damageData>
+        </graphicData>
+        <costList>
+            <Steel>50</Steel>
+            <ComponentIndustrial>5</ComponentIndustrial>
+            <ComponentSpacer>2</ComponentSpacer>
+        </costList>
+        <statBases>
+            <MaxHitPoints>80</MaxHitPoints>
+            <WorkToBuild>400</WorkToBuild>
+            <Flammability>0.5</Flammability>
+            <Mass>5</Mass>
+        </statBases>
+        <comps>
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>100</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable" />
+            <li Class="RimIOT.CompProperties_NetworkNode">
+                <role>Interface</role>
+            </li>
+            <li Class="RimIOT.CompProperties_InterfacePower">
+                <baseDraw>100</baseDraw>
+                <drawPerCable>10</drawPerCable>
+            </li>
+        </comps>
+        <placeWorkers>
+            <li>Placeworker_AttachedToWall</li>
+        </placeWorkers>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <overrideMinifiedRot>North</overrideMinifiedRot>
+        <thingCategories>
+            <li>BuildingsMisc</li>
+        </thingCategories>
+        <designationCategory>RimIOT_Category</designationCategory>
+        <researchPrerequisites>
+            <li>Electricity</li>
+        </researchPrerequisites>
+        <uiIconPath>Things/Building/RimIOT/Interface/RimIOT_Interface_UI</uiIconPath>
+    </ThingDef>
+
+</Defs>
