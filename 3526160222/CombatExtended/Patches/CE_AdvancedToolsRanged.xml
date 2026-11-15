@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- ==================== 1. Patch the Projectile ==================== -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="nailGunNail"]</xpath>
+    <value>
+      <thingClass>CombatExtended.BulletCE</thingClass>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="nailGunNail"]/projectile</xpath>
+    <value>
+      <projectile Class="CombatExtended.ProjectilePropertiesCE">
+        <damageDef>Bullet</damageDef>
+        <damageAmountBase>4</damageAmountBase>
+        <armorPenetrationSharp>3</armorPenetrationSharp>
+        <armorPenetrationBlunt>0.5</armorPenetrationBlunt>
+        <speed>45</speed>
+      </projectile>
+    </value>
+  </Operation>
+
+  <!-- ==================== 2. Patch the Weapon Stats ==================== -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="AdvancedTool_NailGun"]/statBases</xpath>
+    <value>
+      <Bulk>5</Bulk>
+      <Mass>2.0</Mass>
+      <SwayFactor>2.5</SwayFactor>
+      <ShotSpread>0.30</ShotSpread>
+      <SightsEfficiency>0.4</SightsEfficiency>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="AdvancedTool_NailGun"]/weaponTags</xpath>
+    <value>
+      <li>CE_OneHandedWeapon</li>
+    </value>
+  </Operation>
+
+  <!-- ==================== 3. Patch the Verb ==================== -->
+  <!-- Switch to Verb_ShootCE. By NOT adding CompAmmoUser, it stays infinite ammo. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="AdvancedTool_NailGun"]/verbs</xpath>
+    <value>
+      <verbs>
+        <li Class="CombatExtended.VerbPropertiesCE">
+          <verbClass>CombatExtended.Verb_ShootCE</verbClass>
+          <hasStandardCommand>true</hasStandardCommand>
+          <defaultProjectile>nailGunNail</defaultProjectile>
+          <warmupTime>0.4</warmupTime>
+          <range>15</range>
+          <burstShotCount>6</burstShotCount>
+          <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+          <soundCast>Interact_BeatFire</soundCast>
+          <muzzleFlashScale>1</muzzleFlashScale>
+          <recoilAmount>3.0</recoilAmount>
+        </li>
+      </verbs>
+    </value>
+  </Operation>
+
+  <!-- ==================== 4. Patch Melee Tools ==================== -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="AdvancedTool_NailGun"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>limb</label>
+          <capacities>
+            <li>Poke</li>
+            <li>Stab</li>
+          </capacities>
+          <power>5</power>
+          <cooldownTime>0.8</cooldownTime>
+          <armorPenetrationSharp>4</armorPenetrationSharp>
+          <armorPenetrationBlunt>0.5</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Muzzle</linkedBodyPartsGroup>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+</Patch>
