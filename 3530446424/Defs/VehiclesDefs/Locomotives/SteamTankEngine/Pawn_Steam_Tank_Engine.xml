@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<Vehicles.RetextureDef>
+		<defName>TOTR_Tank_Engine_Chemfuel_Retexture</defName>
+		<graphicData>
+            <texPath>Things/Vehicles/Rail/Locomotives/S060/s060_chemfuel</texPath>
+            <graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+            <shaderType>CutoutComplexPattern</shaderType>
+            <drawSize>(5,7)</drawSize>
+			<drawOffsetWest>(0,0,0.75)</drawOffsetWest>
+            <drawOffsetEast>(0,0,0.75)</drawOffsetEast>
+			<color>(75, 75, 75)</color>
+        </graphicData>
+	</Vehicles.RetextureDef>
+	<Vehicles.RetextureDef>
+		<defName>TOTR_Tank_Engine_Coal_Retexture</defName>
+		<graphicData>
+            <texPath>Things/Vehicles/Rail/Locomotives/S060/s060</texPath>
+            <graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+            <shaderType>CutoutComplexPattern</shaderType>
+            <drawSize>(5,7)</drawSize>
+			<drawOffsetWest>(0,0,0.75)</drawOffsetWest>
+            <drawOffsetEast>(0,0,0.75)</drawOffsetEast>
+			<color>(75, 75, 75)</color>
+        </graphicData>
+	</Vehicles.RetextureDef>
+	<Vehicles.RetextureDef>
+		<defName>TOTR_Tank_Engine_Wood_Retexture</defName>
+		<graphicData>
+            <texPath>Things/Vehicles/Rail/Locomotives/S060/s060_wood</texPath>
+            <graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+            <shaderType>CutoutComplexPattern</shaderType>
+            <drawSize>(5,7)</drawSize>
+			<drawOffsetWest>(0,0,0.75)</drawOffsetWest>
+            <drawOffsetEast>(0,0,0.75)</drawOffsetEast>
+			<color>(75, 75, 75)</color>
+        </graphicData>
+	</Vehicles.RetextureDef>
+    <Vehicles.VehicleDef ParentName="VehiclePawn_Railroad">
+        <defName>TOTR_Tank_Engine_Chemfuel</defName>
+        <label>Tommy 0-6-0T</label>
+        <description>A small steam locomotive with the water tank and fuel bunker mounted on the frame, eliminating the need for a separate tender. The Tommy 0-6-0T is primarily used for railyard shunting and light journeys. \n\n&lt;color=#bb8f04&gt;Crew:&lt;/color&gt; Engineer x2, Passenger x1\n&lt;color=#bb8f04&gt;Fuel type:&lt;/color&gt; Chemfuel</description>
+
+        <graphicData>
+            <texPath>Things/Vehicles/Rail/Locomotives/S060/s060</texPath>
+            <graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+            <shaderType>CutoutComplexPattern</shaderType>
+            <drawSize>(5,7)</drawSize>
+			<drawOffsetWest>(0,0,0.75)</drawOffsetWest>
+            <drawOffsetEast>(0,0,0.75)</drawOffsetEast>
+			<color>(75, 75, 75)</color>
+        </graphicData>
+
+        <fillPercent>0.2</fillPercent>
+
+        <buildDef>TOTR_Tank_Engine_Chemfuel_Blueprint</buildDef>
+
+        <size>(3,7)</size>
+
+        <statBases>
+            <ArmorRating_Blunt>1.0</ArmorRating_Blunt>
+            <ArmorRating_Sharp>1.0</ArmorRating_Sharp>
+			<ArmorRating_Heat>1.0</ArmorRating_Heat>
+            <Flammability>0</Flammability>
+            <MarketValue>2000</MarketValue>
+        </statBases>
+
+        <!-- <soundOneShotsOnEvent Inherit = "False">
+            <li>
+                <key>DraftOn</key>
+                <value>SRTS_Trains_Sound_Steam_Train_Leaving</value>
+            </li>
+            <li>
+                <key>DraftOff</key>
+                <value>SRTS_Trains_Sound_Steam_Train_Incoming</value>
+            </li>
+        </soundOneShotsOnEvent> -->
+
+        <vehicleStats>
+            <Mass>750</Mass>
+            <MoveSpeed>10</MoveSpeed>
+            <CargoCapacity>75</CargoCapacity>
+            <RepairRate>0.3</RepairRate>
+            <!-- <AccelerationRate>0.02</AccelerationRate> -->
+        </vehicleStats>
+
+        <race>
+			<baseBodySize>3.5</baseBodySize>
+		</race>
+
+        <properties>
+            <roles>
+                <li>
+					<key>engineer</key>
+					<label>Engineer</label>
+					<slots>2</slots>
+					<slotsToOperate>1</slotsToOperate>
+					
+					<handlingTypes>
+						<li>Movement</li>
+					</handlingTypes>
+					
+					<hitbox>
+						<cells>
+							<li>(0, -2)</li>
+							<li>(1, -2)</li>
+						</cells>
+					</hitbox>
+				</li>
+				<li>
+					<key>passenger</key>
+					<label>Passenger</label>
+					<slots>1</slots>
+					
+					<hitbox>
+						<cells>
+							<li>(0, -2)</li>
+							<li>(1, -2)</li>
+						</cells>
+					</hitbox>
+				</li>
+            </roles>
+        </properties>
+
+        <components>
+			<li>
+				<key>Boiler</key>
+				<label>Boiler</label>
+				<health>50</health>
+				<priorityStatEfficiency>true</priorityStatEfficiency>
+				<depth>External</depth>
+				
+				<reactors>
+					<li Class = "Vehicles.Reactor_Explosive">
+						<indicator>VF_Explosive</indicator>
+						<chance>0.25</chance>
+						<maxHealth>0.2</maxHealth>
+						<radius>3</radius>
+						<damageDef>Flame</damageDef>
+					</li>
+				</reactors>
+				
+				<hitbox>
+					<side>Back</side>
+				</hitbox>
+
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+				</armor>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>DriveWheels</key>
+				<label>DriveWheels</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+				</armor>
+				
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<cells>
+						<li>(0, 2)</li>
+					</cells>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>Axle Boxes</key>
+				<label>Axle Boxes</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+				</armor>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<cells>
+						<li>(1, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>Smokestack</key>
+				<label>Smokestack</label>
+				<health>20</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+				</armor>
+				
+				<hitbox>
+					<cells>
+						<li>(0, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>RightCylinder</key>
+				<label>Right Cylinder</label>
+				<health>20</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<cells>
+						<li>(1, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>LeftCylinder</key>
+				<label>Left Cylinder</label>
+				<health>20</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<cells>
+						<li>(1, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>LeftCouplingRods</key>
+				<label>Left Coupling Rods</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<side>Left</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>RightCouplingRods</key>
+				<label>Right Coupling Rods</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<side>Right</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>FrontCoupler</key>
+				<label>Front Coupler</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Front</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>RearCoupler</key>
+				<label>Rear Coupler</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Back</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>Gauges</key>
+				<label>Gauges</label>
+				<health>20</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>Reverser</key>
+				<label>Reverser</label>
+				<health>20</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>Regulator</key>
+				<label>Regulator</label>
+				<health>20</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>BrakePipe</key>
+				<label>BrakePipe</label>
+				<health>20</health>
+				<depth>External</depth>
+			</li>
+			<li>
+				<key>Cab</key>
+				<label>Cab</label>
+				<health>45</health>
+				<depth>External</depth>
+			</li>
+		</components>
+
+        <comps>
+            <li Class="Vehicles.CompProperties_FueledTravel">
+				<fuelType>Chemfuel</fuelType>
+				<leakDef>Filth_Fuel</leakDef>
+				<fuelConsumptionRate>10</fuelConsumptionRate>
+				<fuelCapacity>800</fuelCapacity>
+                <fuelConsumptionCondition>Drafted</fuelConsumptionCondition>
+			</li>
+			<li Class="TrainsOfTheRim.TrainVehicleCompProperties">
+				<isLocomotive>true</isLocomotive>
+				<isRailroadVehicle>true</isRailroadVehicle>
+				<alternateTextures>
+					<li>TOTR_Tank_Engine_Chemfuel_Retexture</li>
+					<li>TOTR_Tank_Engine_Wood_Retexture</li>
+					<li>TOTR_Tank_Engine_Coal_Retexture</li>
+				</alternateTextures>
+			</li>
+        </comps>
+    </Vehicles.VehicleDef>
+	<Vehicles.VehicleDef ParentName="VehiclePawn_Railroad">
+        <defName>TOTR_Tank_Engine_Wood</defName>
+        <label>Tommy 0-6-0T</label>
+        <description>A small steam locomotive with the water tank and fuel bunker mounted on the frame, eliminating the need for a separate tender. The Tommy 0-6-0T is primarily used for railyard shunting and light journeys. \n\n&lt;color=#bb8f04&gt;Crew:&lt;/color&gt; Engineer x2, Passenger x1\n&lt;color=#bb8f04&gt;Fuel type:&lt;/color&gt; Wood</description>
+
+        <graphicData>
+            <texPath>Things/Vehicles/Rail/Locomotives/S060/s060_wood</texPath>
+            <graphicClass>Vehicles.Graphic_Vehicle</graphicClass>
+            <shaderType>CutoutComplexPattern</shaderType>
+            <drawSize>(5,7)</drawSize>
+			<drawOffsetWest>(0,0,0.75)</drawOffsetWest>
+            <drawOffsetEast>(0,0,0.75)</drawOffsetEast>
+			<color>(75, 75, 75)</color>
+        </graphicData>
+
+        <fillPercent>0.2</fillPercent>
+
+        <buildDef>TOTR_Tank_Engine_Wood_Blueprint</buildDef>
+
+        <size>(3,7)</size>
+
+        <statBases>
+            <ArmorRating_Blunt>1.0</ArmorRating_Blunt>
+            <ArmorRating_Sharp>1.0</ArmorRating_Sharp>
+			<ArmorRating_Heat>1.0</ArmorRating_Heat>
+            <Flammability>0</Flammability>
+            <MarketValue>2000</MarketValue>
+        </statBases>
+
+        <!-- <soundOneShotsOnEvent Inherit = "False">
+            <li>
+                <key>DraftOn</key>
+                <value>SRTS_Trains_Sound_Steam_Train_Leaving</value>
+            </li>
+            <li>
+                <key>DraftOff</key>
+                <value>SRTS_Trains_Sound_Steam_Train_Incoming</value>
+            </li>
+        </soundOneShotsOnEvent> -->
+
+        <vehicleStats>
+            <Mass>750</Mass>
+            <MoveSpeed>10</MoveSpeed>
+            <CargoCapacity>75</CargoCapacity>
+            <RepairRate>0.3</RepairRate>
+            <!-- <AccelerationRate>0.02</AccelerationRate> -->
+        </vehicleStats>
+
+        <!-- <soundSustainersOnEvent>
+			<li>
+				<start>IgnitionOn</start>
+				<stop>IgnitionOff</stop>
+				<value>VVE_VehicleEngineCar</value>
+			</li>
+		</soundSustainersOnEvent> -->
+
+        <race>
+			<baseBodySize>3.5</baseBodySize>
+		</race>
+
+        <properties>
+            <roles>
+                <li>
+					<key>engineer</key>
+					<label>Engineer</label>
+					<slots>2</slots>
+					<slotsToOperate>1</slotsToOperate>
+					
+					<handlingTypes>
+						<li>Movement</li>
+					</handlingTypes>
+					
+					<hitbox>
+						<cells>
+							<li>(0, -2)</li>
+							<li>(1, -2)</li>
+						</cells>
+					</hitbox>
+				</li>
+				<li>
+					<key>passenger</key>
+					<label>Passenger</label>
+					<slots>1</slots>
+					
+					<hitbox>
+						<cells>
+							<li>(0, -2)</li>
+							<li>(1, -2)</li>
+						</cells>
+					</hitbox>
+				</li>
+            </roles>
+        </properties>
+
+        <components>
+			<li>
+				<key>Boiler</key>
+				<label>Boiler</label>
+				<health>50</health>
+				<priorityStatEfficiency>true</priorityStatEfficiency>
+				<depth>External</depth>
+				
+				<reactors>
+					<li Class = "Vehicles.Reactor_Explosive">
+						<indicator>VF_Explosive</indicator>
+						<chance>0.25</chance>
+						<maxHealth>0.2</maxHealth>
+						<radius>3</radius>
+						<damageDef>Flame</damageDef>
+					</li>
+				</reactors>
+				
+				<hitbox>
+					<side>Back</side>
+				</hitbox>
+
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+				</armor>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>DriveWheels</key>
+				<label>DriveWheels</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+				</armor>
+				
+				<tags>
+					<li>Wheel</li>
+				</tags>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<cells>
+						<li>(0, 2)</li>
+					</cells>
+				</hitbox>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+			</li>
+			<li>
+				<key>Axle Boxes</key>
+				<label>Axle Boxes</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+				</armor>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<fallthrough>false</fallthrough>
+					<cells>
+						<li>(1, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>Smokestack</key>
+				<label>Smokestack</label>
+				<health>20</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+
+				<armor>
+					<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+				</armor>
+				
+				<hitbox>
+					<cells>
+						<li>(0, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>RightCylinder</key>
+				<label>Right Cylinder</label>
+				<health>20</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<cells>
+						<li>(1, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>LeftCylinder</key>
+				<label>Left Cylinder</label>
+				<health>20</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<cells>
+						<li>(1, 2)</li>
+					</cells>
+				</hitbox>
+			</li>
+			<li>
+				<key>LeftCouplingRods</key>
+				<label>Left Coupling Rods</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<side>Left</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>RightCouplingRods</key>
+				<label>Right Coupling Rods</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<categories>
+					<li>MoveSpeed</li>
+				</categories>
+				
+				<hitbox>
+					<side>Right</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>FrontCoupler</key>
+				<label>Front Coupler</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Front</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>RearCoupler</key>
+				<label>Rear Coupler</label>
+				<health>30</health>
+				<depth>External</depth>
+				
+				<hitbox>
+					<side>Back</side>
+				</hitbox>
+			</li>
+			<li>
+				<key>Gauges</key>
+				<label>Gauges</label>
+				<health>20</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>Reverser</key>
+				<label>Reverser</label>
+				<health>20</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>Regulator</key>
+				<label>Regulator</label>
+				<health>20</health>
+				<depth>Internal</depth>
+			</li>
+			<li>
+				<key>BrakePipe</key>
+				<label>BrakePipe</label>
+				<health>20</health>
+				<depth>External</depth>
+			</li>
+			<li>
+				<key>Cab</key>
+				<label>Cab</label>
+				<health>45</health>
+				<depth>External</depth>
+			</li>
+		</components>
+
+        <comps>
+            <li Class="Vehicles.CompProperties_FueledTravel">
+				<fuelType>WoodLog</fuelType>
+				<leakDef>Filth_Fuel</leakDef>
+				<moteDisplayed>WoodLog</moteDisplayed>
+				<fuelConsumptionRate>24</fuelConsumptionRate>
+				<fuelCapacity>800</fuelCapacity>
+                <fuelConsumptionCondition>Drafted</fuelConsumptionCondition>
+			</li>
+			<li Class="TrainsOfTheRim.TrainVehicleCompProperties">
+				<isLocomotive>true</isLocomotive>
+				<isRailroadVehicle>true</isRailroadVehicle>
+				<alternateTextures>
+					<li>TOTR_Tank_Engine_Chemfuel_Retexture</li>
+					<li>TOTR_Tank_Engine_Wood_Retexture</li>
+					<li>TOTR_Tank_Engine_Coal_Retexture</li>
+				</alternateTextures>
+			</li>
+        </comps>
+    </Vehicles.VehicleDef>
+</Defs>
